@@ -4,13 +4,13 @@
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http://schemas.xmlsoap.org/ws/2003/05/partner-link/" 
+       uri = "http://schemas.xmlsoap.org/ws/2004/03/partner-link/" 
        class = "org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage"
        genModel = "src/model/partnerlinktype.genmodel"/> 
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http://schemas.xmlsoap.org/ws/2003/03/business-process/" 
+       uri = "http://schemas.xmlsoap.org/ws/2004/03/business-process/" 
        class = "org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage"
        genModel = "src/model/messageproperties.genmodel"/> 
   </extension>
@@ -27,7 +27,7 @@
    <extension
          point="org.eclipse.wst.wsdl.extensibilityElementFactories">
 		<extensibilityElementFactory
-     	namespace="%bpel.services.messagePropertiesNamespace2004"
+     	namespace="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
      	class="org.eclipse.bpel.model.messageproperties.util.MessagepropertiesExtensibilityElementFactory"/>   
    </extension>
 
@@ -36,7 +36,7 @@
    <extension
          point="org.eclipse.wst.wsdl.extensibilityElementFactories">
 		<extensibilityElementFactory
-     	namespace="%bpel.services.partnerLinkTypeNamespace2004"
+     	namespace="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"
      	class="org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeExtensibilityElementFactory"/>   
    </extension>
 
