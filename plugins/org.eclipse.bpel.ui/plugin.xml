@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension-point id="hoverHelpers" name="%HOVERHELP_HELPER_NAME"/>
+   <extension-point id="expressionEditors" name="%EXPRESSION_LANGUAGE_EDITORS_NAME"/>
+   <extension-point id="actions" name="Actions" schema="schema/actions.exsd"/>
+   <extension-point id="modelListener" name="Model Listener" schema="schema/modelListener.exsd"/>
+
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="%BPEL_EDITOR_NAME"
+            icon="./icons/obj16/bpel.gif"
+            extensions="bpel"
+            contributorClass="org.eclipse.bpel.ui.BPELActionBarContributor"
+            class="org.eclipse.bpel.ui.BPELEditor"
+            id="org.eclipse.bpel.ui.bpeleditor">
+      </editor>
+   </extension>
+
+   <extension
+         point="org.eclipse.bpel.common.ui.embeddedEditors">
+      <editor
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="org.eclipse.bpel.ui.editors.TextEditor"
+            name=""
+            id="org.eclipse.bpel.ui.editors.TextEditor">
+             <!-- TODO: remove the name="" in the future -->
+      </editor>
+   </extension>
+   
+   <extension
+         point="org.eclipse.bpel.ui.expressionEditors">
+      <editor
+            label="%XPATH_LABEL"
+            class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
+            name=""
+            expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
+             <!-- TODO: remove the name="" in the future -->
+      </editor>
+   </extension>
+
+<!-- Markers -->
+   <extension
+         id="uiMarker"
+         name="%UI_MARKER_LABEL"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.bpel.common.ui.graphicalMarker"/>
+      <attribute name="propertyID"/>
+      <attribute name="image"/>
+      <attribute name="overlayImageTopLeft"/>
+      <attribute name="overlayImageTopRight"/>
+      <attribute name="overlayImageBottomLeft"/>
+      <attribute name="overlayImageBottomRight"/>
+      <attribute name="color"/>
+      <attribute name="anchorPoint"/>
+      <attribute name="distance"/>
+      <attribute name="priority"/>
+      <attribute name="order"/>
+      <attribute name="active"/>
+      <attribute name="installed"/>
+   </extension>
+
+<!-- Markers used in expression editors. -->
+   <extension
+         id="uiExpressionProblemMarker"
+         name="Expression Problem Marker"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.bpel.common.ui.textMarker"/>
+      <persistent value="true"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="%PREFERENCE_PAGE"
+            class="org.eclipse.bpel.ui.preferences.BPELPreferencePage"
+            id="org.eclipse.bpel.ui.preferences">
+      </page>
+   </extension>
+
+  <extension
+        point="org.eclipse.wst.common.ui.properties.propertyContributor">
+     <propertyContributor
+           contributorId="org.eclipse.bpel.ui.bpeleditor"
+           typeMapper="org.eclipse.bpel.ui.properties.TypeMapper"
+           labelProvider="org.eclipse.bpel.ui.properties.PropertiesLabelProvider">
+     	<propertyCategory category="description"/>
+     	<propertyCategory category="implementation"/>
+     	<propertyCategory category="environment"/>
+     	<!-- Advanced is empty but can be used by extensions -->
+     	<propertyCategory category="advanced"/>
+     </propertyContributor>
+     <propertyContributor
+           contributorId="org.eclipse.bpel.ui.bpelSpecEditor"
+           typeMapper="org.eclipse.bpel.ui.properties.TypeMapper"
+           labelProvider="org.eclipse.bpel.ui.properties.PropertiesLabelProvider">
+     	<propertyCategory category="description"/>
+     	<propertyCategory category="implementation"/>
+     	<propertyCategory category="environment"/>
+     	<!-- Advanced is empty but can be used by extensions -->
+     	<propertyCategory category="advanced"/>
+     </propertyContributor>
+  </extension>
+
+  <extension point="org.eclipse.wst.common.ui.properties.propertyTabs">
+     <propertyTabs contributorId="org.eclipse.bpel.ui.bpeleditor">
+        <propertyTab
+              label="%DETAILS_PAGES_DESCRIPTION_LABEL"
+              category="description"
+              id="org.eclipse.bpel.ui.tabs.description"/>
+        <propertyTab
+              label="%DETAILS_PAGES_DETAILS_LABEL"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.details"/>
+        <propertyTab
+               label="%DETAILS_PAGES_COMPENSATION_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.details"
+               id="org.eclipse.bpel.ui.tabs.compensation"/>
+        <propertyTab
+               label="%DETAILS_PAGES_REPEAT_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.details"
+               id="org.eclipse.bpel.ui.tabs.repeat"/>
+        <propertyTab
+               label="%DETAILS_PAGES_JOIN_BEHAVIOUR_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.details"
+               id="org.eclipse.bpel.ui.tabs.joinBehaviour"/>
+        <propertyTab
+               label="%DETAILS_PAGES_CORRELATION_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.joinBehaviour"
+               id="org.eclipse.bpel.ui.tabs.correlation"/>
+        <propertyTab
+              label="%DETAILS_PAGES_IMPORTS_LABEL"
+              afterTab="org.eclipse.bpel.ui.tabs.details"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.imports"/>
+        <propertyTab
+              label="%DETAILS_PAGES_EXPIRATION_LABEL"
+              afterTab="org.eclipse.bpel.ui.tabs.details"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.expiration"/>
+     </propertyTabs>
+
+     <propertyTabs contributorId="org.eclipse.bpel.ui.bpelSpecEditor">
+        <propertyTab
+              label="%DETAILS_PAGES_DESCRIPTION_LABEL"
+              category="description"
+              id="org.eclipse.bpel.ui.tabs.description"/>
+        <propertyTab
+              label="%DETAILS_PAGES_DETAILS_LABEL"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.details"/>
+        <propertyTab
+               label="%DETAILS_PAGES_COMPENSATION_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.details"
+               id="org.eclipse.bpel.ui.tabs.compensation"/>
+        <propertyTab
+               label="%DETAILS_PAGES_REPEAT_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.details"
+               id="org.eclipse.bpel.ui.tabs.repeat"/>
+        <propertyTab
+               label="%DETAILS_PAGES_JOIN_BEHAVIOUR_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.details"
+               id="org.eclipse.bpel.ui.tabs.joinBehaviour"/>
+        <propertyTab
+               label="%DETAILS_PAGES_CORRELATION_LABEL"
+               category="implementation"
+               afterTab="org.eclipse.bpel.ui.tabs.joinBehaviour"
+               id="org.eclipse.bpel.ui.tabs.correlation"/>
+        <propertyTab
+              label="%DETAILS_PAGES_IMPORTS_LABEL"
+              afterTab="org.eclipse.bpel.ui.tabs.details"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.imports"/>
+        <propertyTab
+              label="%DETAILS_PAGES_EXPIRATION_LABEL"
+              afterTab="org.eclipse.bpel.ui.tabs.details"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.expiration"/>
+     </propertyTabs>
+  </extension>
+
+  <extension point="org.eclipse.wst.common.ui.properties.propertySections">
+     <propertySections contributorId="org.eclipse.bpel.ui.bpeleditor">
+        <propertySection
+              class="org.eclipse.bpel.ui.properties.ActionImplementationSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.ActionImplementationSection">
+           <input type="org.eclipse.bpel.Empty"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.description"
+               class="org.eclipse.bpel.ui.properties.NameSection"
+               id="org.eclipse.bpel.ui.sections.Name">
+            <input type="org.eclipse.bpel.model.Activity"/>
+            <input type="org.eclipse.wst.wsdl.ExtensibilityElement"/>
+            <input type="org.eclipse.bpel.model.Variable"/>
+            <input type="org.eclipse.bpel.model.CorrelationSet"/>
+            <input type="org.eclipse.bpel.model.PartnerLink"/>
+            <input type="org.eclipse.bpel.model.Process"/>
+            <input type="org.eclipse.bpel.model.Link"/>
+        </propertySection>
+        <propertySection
+               afterSection="org.eclipse.bpel.ui.sections.Name"
+               tab="org.eclipse.bpel.ui.tabs.description"
+               class="org.eclipse.bpel.ui.properties.NamespaceSection"
+               id="org.eclipse.bpel.ui.sections.Namespace">
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.AttributesSection"
+               id="org.eclipse.bpel.ui.sections.Attributes">
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.imports"
+               class="org.eclipse.bpel.ui.properties.ImportsSection"
+               id="org.eclipse.bpel.ui.sections.Imports">
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               afterSection="org.eclipse.bpel.ui.sections.JoinCondition"
+               tab="org.eclipse.bpel.ui.tabs.joinBehaviour"
+               class="org.eclipse.bpel.ui.properties.JoinFailureSection"
+               id="org.eclipse.bpel.ui.sections.JoinFailure">
+            <input type="org.eclipse.bpel.model.Activity"/>
+            <input type="org.eclipse.wst.wsdl.ExtensibilityElement"/>
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.VariableTypeSection"
+               id="org.eclipse.bpel.ui.sections.VariableImpl">
+            <input type="org.eclipse.bpel.model.Variable"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CorrSetImplSection"
+               id="org.eclipse.bpel.ui.sections.CorrSetImpl">
+            <input type="org.eclipse.bpel.model.CorrelationSet"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.correlation"
+               class="org.eclipse.bpel.ui.properties.CorrelationSection"
+               id="org.eclipse.bpel.ui.sections.Correlation">
+            <input type="org.eclipse.bpel.model.Invoke"/>
+            <input type="org.eclipse.bpel.model.OnMessage"/>
+            <input type="org.eclipse.bpel.model.OnEvent"/>
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Reply"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ScopeImplSection"
+               id="org.eclipse.bpel.ui.sections.ScopeImpl">
+            <input type="org.eclipse.bpel.model.Scope"/>
+        </propertySection>
+        <propertySection
+              afterSection="org.eclipse.bpel.ui.sections.InvokeImpl"
+              class="org.eclipse.bpel.ui.properties.CreateInstanceSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.CreateInstance">
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Pick"/>
+        </propertySection>
+        <propertySection
+              class="org.eclipse.bpel.ui.properties.InvokeImplSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.InvokeImpl">
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Invoke"/>
+            <input type="org.eclipse.bpel.model.Reply"/>
+            <input type="org.eclipse.bpel.model.OnMessage"/>
+            <input type="org.eclipse.bpel.model.OnEvent"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.PartnerLinkImplSection"
+               id="org.eclipse.bpel.ui.sections.PartnerLinkImpl">
+            <input type="org.eclipse.bpel.model.PartnerLink"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CompensateImplSection"
+               id="org.eclipse.bpel.ui.sections.CompensateImpl">
+            <input type="org.eclipse.bpel.model.Compensate"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CatchAllSection"
+               id="org.eclipse.bpel.ui.sections.CatchAll">
+            <input type="org.eclipse.bpel.model.CatchAll"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.FaultCatchNameSection"
+               id="org.eclipse.bpel.ui.sections.FaultCatchName">
+            <input type="org.eclipse.bpel.model.Catch"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.FaultThrowNameSection"
+               id="org.eclipse.bpel.ui.sections.FaultThrowName">
+            <input type="org.eclipse.bpel.model.Throw"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.OtherwiseConditionSection"
+               id="org.eclipse.bpel.ui.sections.OtherwiseCondition">
+            <input type="org.eclipse.bpel.model.Otherwise"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.joinBehaviour"
+               class="org.eclipse.bpel.ui.properties.JoinConditionSection"
+               id="org.eclipse.bpel.ui.sections.JoinCondition">
+            <input type="org.eclipse.bpel.model.Activity"/>
+            <input type="org.eclipse.wst.wsdl.ExtensibilityElement"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.WhileConditionSection"
+               id="org.eclipse.bpel.ui.sections.WhileCondition">
+            <input type="org.eclipse.bpel.model.While"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CaseConditionSection"
+               id="org.eclipse.bpel.ui.sections.CaseCondition">
+            <input type="org.eclipse.bpel.model.Case"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.TransitionConditionSection"
+               id="org.eclipse.bpel.ui.sections.TransitionCondition">
+            <input type="org.eclipse.bpel.model.Link"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.WaitConditionSection"
+               id="org.eclipse.bpel.ui.sections.WaitCondition">
+            <input type="org.eclipse.bpel.model.Wait"/>
+            <input type="org.eclipse.bpel.model.OnAlarm"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.repeat"
+               class="org.eclipse.bpel.ui.properties.RepeatingAlarmConditionSection"
+               id="org.eclipse.bpel.ui.sections.RepeatingAlarmCondition">
+            <input type="org.eclipse.bpel.model.OnAlarm"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.AssignImplSection"
+               id="org.eclipse.bpel.ui.sections.AssignImpl">
+            <input type="org.eclipse.bpel.model.Assign"/>
+        </propertySection>
+     </propertySections>
+
+     <propertySections contributorId="org.eclipse.bpel.ui.bpelSpecEditor">
+        <propertySection
+              class="org.eclipse.bpel.ui.properties.ActionImplementationSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.ActionImplementationSection">
+           <input type="org.eclipse.bpel.model.Empty"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.description"
+               class="org.eclipse.bpel.ui.properties.NameSection"
+               id="org.eclipse.bpel.ui.sections.Name">
+            <input type="org.eclipse.bpel.model.Activity"/>
+            <input type="org.eclipse.wst.wsdl.ExtensibilityElement"/>
+            <input type="org.eclipse.bpel.model.Variable"/>
+            <input type="org.eclipse.bpel.model.CorrelationSet"/>
+            <input type="org.eclipse.bpel.model.PartnerLink"/>
+            <input type="org.eclipse.bpel.model.Process"/>
+            <input type="org.eclipse.bpel.model.Link"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.AttributesSection"
+               id="org.eclipse.bpel.ui.sections.Attributes">
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.imports"
+               class="org.eclipse.bpel.ui.properties.ImportsSection"
+               id="org.eclipse.bpel.ui.sections.Imports">
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               afterSection="org.eclipse.bpel.ui.sections.JoinCondition"
+               tab="org.eclipse.bpel.ui.tabs.joinBehaviour"
+               class="org.eclipse.bpel.ui.properties.JoinFailureSection"
+               id="org.eclipse.bpel.ui.sections.JoinFailure">
+            <input type="org.eclipse.bpel.model.Activity"/>
+            <input type="org.eclipse.wst.wsdl.ExtensibilityElement"/>
+            <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.VariableTypeSection"
+               id="org.eclipse.bpel.ui.sections.VariableImpl">
+            <input type="org.eclipse.bpel.model.Variable"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CorrSetImplSection"
+               id="org.eclipse.bpel.ui.sections.CorrSetImpl">
+            <input type="org.eclipse.bpel.model.CorrelationSet"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.correlation"
+               class="org.eclipse.bpel.ui.properties.CorrelationSection"
+               id="org.eclipse.bpel.ui.sections.Correlation">
+            <input type="org.eclipse.bpel.model.Invoke"/>
+            <input type="org.eclipse.bpel.model.OnMessage"/>
+            <input type="org.eclipse.bpel.model.OnEvent"/>
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Reply"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ScopeImplSection"
+               id="org.eclipse.bpel.ui.sections.ScopeImpl">
+            <input type="org.eclipse.bpel.model.Scope"/>
+        </propertySection>
+        <propertySection
+              afterSection="org.eclipse.bpel.ui.sections.InvokeImpl"
+              class="org.eclipse.bpel.ui.properties.CreateInstanceSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.CreateInstance">
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Pick"/>
+        </propertySection>
+        <propertySection
+              class="org.eclipse.bpel.ui.properties.InvokeImplSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.InvokeImpl">
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Invoke"/>
+            <input type="org.eclipse.bpel.model.Reply"/>
+            <input type="org.eclipse.bpel.model.OnMessage"/>
+            <input type="org.eclipse.bpel.model.OnEvent"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.PartnerLinkImplSection"
+               id="org.eclipse.bpel.ui.sections.PartnerLinkImpl">
+            <input type="org.eclipse.bpel.model.PartnerLink"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CompensateImplSection"
+               id="org.eclipse.bpel.ui.sections.CompensateImpl">
+            <input type="org.eclipse.bpel.model.Compensate"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CatchAllSection"
+               id="org.eclipse.bpel.ui.sections.CatchAll">
+            <input type="org.eclipse.bpel.model.CatchAll"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.FaultCatchNameSection"
+               id="org.eclipse.bpel.ui.sections.FaultCatchName">
+            <input type="org.eclipse.bpel.model.Catch"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.FaultThrowNameSection"
+               id="org.eclipse.bpel.ui.sections.FaultThrowName">
+            <input type="org.eclipse.bpel.model.Throw"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.OtherwiseConditionSection"
+               id="org.eclipse.bpel.ui.sections.OtherwiseCondition">
+            <input type="org.eclipse.bpel.model.Otherwise"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.joinBehaviour"
+               class="org.eclipse.bpel.ui.properties.JoinConditionSection"
+               id="org.eclipse.bpel.ui.sections.JoinCondition">
+            <input type="org.eclipse.bpel.model.Activity"/>
+            <input type="org.eclipse.wst.wsdl.ExtensibilityElement"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.WhileConditionSection"
+               id="org.eclipse.bpel.ui.sections.WhileCondition">
+            <input type="org.eclipse.bpel.model.While"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CaseConditionSection"
+               id="org.eclipse.bpel.ui.sections.CaseCondition">
+            <input type="org.eclipse.bpel.model.Case"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.TransitionConditionSection"
+               id="org.eclipse.bpel.ui.sections.TransitionCondition">
+            <input type="org.eclipse.bpel.model.Link"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.WaitConditionSection"
+               id="org.eclipse.bpel.ui.sections.WaitCondition">
+            <input type="org.eclipse.bpel.model.Wait"/>
+            <input type="org.eclipse.bpel.model.OnAlarm"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.repeat"
+               class="org.eclipse.bpel.ui.properties.RepeatingAlarmConditionSection"
+               id="org.eclipse.bpel.ui.sections.RepeatingAlarmCondition">
+            <input type="org.eclipse.bpel.model.OnAlarm"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.AssignImplSection"
+               id="org.eclipse.bpel.ui.sections.AssignImpl">
+            <input type="org.eclipse.bpel.model.Assign"/>
+        </propertySection>
+        <propertySection
+              afterSection="org.eclipse.bpel.ui.sections.Attributes"
+              class="org.eclipse.bpel.ui.properties.SpecCompliantSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.SpecCompliant">
+           <input type="org.eclipse.bpel.model.Process"/>
+        </propertySection>
+     </propertySections>
+  </extension>
+
+  <extension
+        point="org.eclipse.bpel.ui.actions">
+     <category
+           name="%BASIC_ACTIONS"
+           id="org.eclipse.bpel.ui.actions.category.basic"/>
+     <action
+           class="org.eclipse.bpel.ui.bpelactions.SimpleAction"
+           specCompliant="true"
+           categoryId="org.eclipse.bpel.ui.actions.category.basic"
+           id="org.eclipse.bpel.ui.action.empty"/>
+     <action
+           class="org.eclipse.bpel.ui.bpelactions.InvokeAction"
+           specCompliant="true"
+           categoryId="org.eclipse.bpel.ui.actions.category.basic"
+           id="org.eclipse.bpel.ui.action.invoke"/>
+     <action
+           class="org.eclipse.bpel.ui.bpelactions.ReceiveAction"
+           specCompliant="true"
+           categoryId="org.eclipse.bpel.ui.actions.category.basic"
+           id="org.eclipse.bpel.ui.action.receive"/>
+     <action
+           class="org.eclipse.bpel.ui.bpelactions.ReplyAction"
+           specCompliant="true"
+           categoryId="org.eclipse.bpel.ui.actions.category.basic"
+           id="org.eclipse.bpel.ui.action.reply"/>
+     <action
+           class="org.eclipse.bpel.ui.bpelactions.AssignAction"
+           specCompliant="true"
+           categoryId="org.eclipse.bpel.ui.actions.category.basic"
+           id="org.eclipse.bpel.ui.action.assign"/>
+  </extension>
+
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///org/eclipse/bpel/ui/uiextensionmodel.ecore"
+            class="org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage">
+      </package>
+   </extension>
+
+</plugin>

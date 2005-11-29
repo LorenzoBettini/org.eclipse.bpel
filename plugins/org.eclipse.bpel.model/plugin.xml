@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://schemas.xmlsoap.org/ws/2003/05/partner-link/" 
+       class = "org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage"
+       genModel = "src/model/partnerlinktype.genmodel"/> 
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://schemas.xmlsoap.org/ws/2003/03/business-process/" 
+       class = "org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage"
+       genModel = "src/model/messageproperties.genmodel"/> 
+  </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///org/eclipse/bpel/model/bpel.ecore"
+            class="org.eclipse.bpel.model.BPELPackage">
+      </package>
+   </extension>
+
+   <!-- Register the ExtensibilityElementFactory for each supported namespace. -->
+   <!-- Keep this in sync with the manual registrations in PackageImpl.init(). -->
+   <extension
+         point="org.eclipse.wst.wsdl.extensibilityElementFactories">
+		<extensibilityElementFactory
+     	namespace="%bpel.services.messagePropertiesNamespace2004"
+     	class="org.eclipse.bpel.model.messageproperties.util.MessagepropertiesExtensibilityElementFactory"/>   
+   </extension>
+
+   <!-- Register the ExtensibilityElementFactory for each supported namespace. -->
+   <!-- Keep this in sync with the manual registrations in PackageImpl.init(). -->
+   <extension
+         point="org.eclipse.wst.wsdl.extensibilityElementFactories">
+		<extensibilityElementFactory
+     	namespace="%bpel.services.partnerLinkTypeNamespace2004"
+     	class="org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeExtensibilityElementFactory"/>   
+   </extension>
+
+   <extension-point id="extensions_reordering" name="Reordering of extensibility element list"/>
+
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="bpel"
+            class="org.eclipse.bpel.model.resource.BPELResourceFactoryImpl">
+      </parser>
+   </extension>
+
+
+</plugin>
+

@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BPEL Model
+Bundle-SymbolicName: org.eclipse.bpel.model; singleton:=true
+Bundle-Version: 0.0.1
+Bundle-Activator: org.eclipse.bpel.model.BPELPlugin$Implementation
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd,
+ org.eclipse.wst.wsdl,
+ org.wsdl4j,
+ org.apache.xerces
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.bpel.model,
+ org.eclipse.bpel.model.extensions,
+ org.eclipse.bpel.model.messageproperties,
+ org.eclipse.bpel.model.messageproperties.util,
+ org.eclipse.bpel.model.partnerlinktype,
+ org.eclipse.bpel.model.partnerlinktype.util,
+ org.eclipse.bpel.model.proxy,
+ org.eclipse.bpel.model.reordering,
+ org.eclipse.bpel.model.reordering.extensions,
+ org.eclipse.bpel.model.resource,
+ org.eclipse.bpel.model.terms,
+ org.eclipse.bpel.model.util

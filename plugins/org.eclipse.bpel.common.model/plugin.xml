@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="modelMarker"
+         name="%MODEL_MARKER_NAME"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.marker">
+      </super>
+      <attribute
+            name="org.eclipse.bpel.common.model.modelMarker.objectId">
+      </attribute>
+   </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///extensionmodel.ecore" 
+       class = "org.eclipse.bpel.common.extension.model.ExtensionmodelPackage"
+       genModel = "src/model/extensionmodel.genmodel" /> 
+  </extension>
+
+</plugin>
+

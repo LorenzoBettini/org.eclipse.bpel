@@ -1,0 +1,294 @@
+/**
+ * <copyright>
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ * </copyright>
+ *
+ * $Id: CopyImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ */
+package org.eclipse.bpel.model.impl;
+
+import java.util.Collection;
+
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.To;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
+
+import org.w3c.dom.Element;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Copy</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getTo <em>To</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getFrom <em>From</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class CopyImpl extends ExtensibleElementImpl implements Copy {
+	/**
+	 * The cached value of the '{@link #getTo() <em>To</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTo()
+	 * @generated
+	 * @ordered
+	 */
+	protected To to = null;
+
+	/**
+	 * The cached value of the '{@link #getFrom() <em>From</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFrom()
+	 * @generated
+	 * @ordered
+	 */
+	protected From from = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected CopyImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EClass eStaticClass() {
+		return BPELPackage.eINSTANCE.getCopy();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public To getTo() {
+		return to;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTo(To newTo, NotificationChain msgs) {
+		To oldTo = to;
+		to = newTo;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__TO, oldTo, newTo);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTo(To newTo) {
+		if (newTo != to) {
+			NotificationChain msgs = null;
+			if (to != null)
+				msgs = ((InternalEObject)to).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__TO, null, msgs);
+			if (newTo != null)
+				msgs = ((InternalEObject)newTo).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__TO, null, msgs);
+			msgs = basicSetTo(newTo, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__TO, newTo, newTo));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public From getFrom() {
+		return from;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFrom(From newFrom, NotificationChain msgs) {
+		From oldFrom = from;
+		from = newFrom;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__FROM, oldFrom, newFrom);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFrom(From newFrom) {
+		if (newFrom != from) {
+			NotificationChain msgs = null;
+			if (from != null)
+				msgs = ((InternalEObject)from).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__FROM, null, msgs);
+			if (newFrom != null)
+				msgs = ((InternalEObject)newFrom).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__FROM, null, msgs);
+			msgs = basicSetFrom(newFrom, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__FROM, newFrom, newFrom));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.COPY__TO:
+					return basicSetTo(null, msgs);
+				case BPELPackage.COPY__FROM:
+					return basicSetFrom(null, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
+				return getDocumentationElement();
+			case BPELPackage.COPY__ELEMENT:
+				return getElement();
+			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
+				return getEExtensibilityElements();
+			case BPELPackage.COPY__TO:
+				return getTo();
+			case BPELPackage.COPY__FROM:
+				return getFrom();
+		}
+		return eDynamicGet(eFeature, resolve);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(EStructuralFeature eFeature, Object newValue) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
+				setDocumentationElement((Element)newValue);
+				return;
+			case BPELPackage.COPY__ELEMENT:
+				setElement((Element)newValue);
+				return;
+			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.COPY__TO:
+				setTo((To)newValue);
+				return;
+			case BPELPackage.COPY__FROM:
+				setFrom((From)newValue);
+				return;
+		}
+		eDynamicSet(eFeature, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(EStructuralFeature eFeature) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
+				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.COPY__ELEMENT:
+				setElement(ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				return;
+			case BPELPackage.COPY__TO:
+				setTo((To)null);
+				return;
+			case BPELPackage.COPY__FROM:
+				setFrom((From)null);
+				return;
+		}
+		eDynamicUnset(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(EStructuralFeature eFeature) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
+				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
+			case BPELPackage.COPY__ELEMENT:
+				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
+			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
+				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.COPY__TO:
+				return to != null;
+			case BPELPackage.COPY__FROM:
+				return from != null;
+		}
+		return eDynamicIsSet(eFeature);
+	}
+
+} //CopyImpl
