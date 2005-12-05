@@ -830,7 +830,7 @@ public class BPELReader {
 		for (int i=0; i < extensionElements.getLength(); i++) {
 			Element extensionElement = (Element)extensionElements.item(i);
 			Extension extension = xml2Extension(extensionElement);
-			extensions.getExtensions().add(extension);
+			extensions.getChildren().add(extension);
 		}
 		
 		xml2ExtensibleElement(extensions, extensionsElement);

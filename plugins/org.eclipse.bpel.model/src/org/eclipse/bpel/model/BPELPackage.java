@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.3 2005/12/05 20:51:54 james Exp $
+ * $Id: BPELPackage.java,v 1.4 2005/12/05 21:04:32 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -4563,13 +4563,13 @@ public interface BPELPackage extends EPackage{
 	int EXTENSIONS__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
 
 	/**
-	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXTENSIONS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+	int EXTENSIONS__CHILDREN = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Extensions</em>' class.
@@ -6692,15 +6692,15 @@ public interface BPELPackage extends EPackage{
 	EClass getExtensions();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.bpel.model.Extensions#getExtensions <em>Extensions</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.bpel.model.Extensions#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Extensions</em>'.
-	 * @see org.eclipse.bpel.model.Extensions#getExtensions()
+	 * @return the meta object for the containment reference list '<em>Children</em>'.
+	 * @see org.eclipse.bpel.model.Extensions#getChildren()
 	 * @see #getExtensions()
 	 * @generated
 	 */
-	EReference getExtensions_Extensions();
+	EReference getExtensions_Children();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

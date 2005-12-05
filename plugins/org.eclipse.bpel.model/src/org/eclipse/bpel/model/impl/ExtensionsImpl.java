@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionsImpl.java,v 1.1 2005/12/05 20:06:58 james Exp $
+ * $Id: ExtensionsImpl.java,v 1.2 2005/12/05 21:04:32 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.bpel.model.impl.ExtensionsImpl#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ExtensionsImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,14 +42,14 @@ import org.w3c.dom.Element;
  */
 public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions {
 	/**
-	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference list.
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getExtensions()
+	 * @see #getChildren()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList extensions = null;
+	protected EList children = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,11 +74,11 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getExtensions() {
-		if (extensions == null) {
-			extensions = new EObjectContainmentEList(Extension.class, this, BPELPackage.EXTENSIONS__EXTENSIONS);
+	public EList getChildren() {
+		if (children == null) {
+			children = new EObjectContainmentEList(Extension.class, this, BPELPackage.EXTENSIONS__CHILDREN);
 		}
-		return extensions;
+		return children;
 	}
 
 	/**
@@ -91,8 +91,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.EXTENSIONS__EXTENSIONS:
-					return ((InternalEList)getExtensions()).basicRemove(otherEnd, msgs);
+				case BPELPackage.EXTENSIONS__CHILDREN:
+					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -113,8 +113,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 				return getElement();
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
-			case BPELPackage.EXTENSIONS__EXTENSIONS:
-				return getExtensions();
+			case BPELPackage.EXTENSIONS__CHILDREN:
+				return getChildren();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -136,9 +136,9 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
 				return;
-			case BPELPackage.EXTENSIONS__EXTENSIONS:
-				getExtensions().clear();
-				getExtensions().addAll((Collection)newValue);
+			case BPELPackage.EXTENSIONS__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -160,8 +160,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
-			case BPELPackage.EXTENSIONS__EXTENSIONS:
-				getExtensions().clear();
+			case BPELPackage.EXTENSIONS__CHILDREN:
+				getChildren().clear();
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -180,8 +180,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.EXTENSIONS__EXTENSIONS:
-				return extensions != null && !extensions.isEmpty();
+			case BPELPackage.EXTENSIONS__CHILDREN:
+				return children != null && !children.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

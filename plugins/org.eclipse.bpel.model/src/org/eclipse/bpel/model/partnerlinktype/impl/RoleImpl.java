@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.1 2005/11/29 18:50:27 james Exp $
+ * $Id: RoleImpl.java,v 1.2 2005/12/05 21:04:32 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -18,11 +18,13 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeConstants;
+import org.eclipse.bpel.model.util.BPELServicesUtility;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EAttribute;
@@ -107,16 +109,21 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 		return PartnerlinktypePackage.eINSTANCE.getRole();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getID() {
-		// TODO: implement this method to return the 'ID' attribute
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
+     * @customized
+     */
+	public String getID()
+    {
+	    String id = ID_EDEFAULT;
+	    PartnerLinkType plt = (PartnerLinkType) eContainer();
+	    if (plt != null)
+	    {
+	        id = BPELServicesUtility.getIdForNestedNamedObject(plt.getID(), this, getName());
+	    }
+	    return id;
+    }
 
 	/**
 	 * <!-- begin-user-doc -->

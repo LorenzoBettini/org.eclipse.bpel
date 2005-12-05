@@ -634,7 +634,7 @@ public class BPELWriter {
 	protected Element extensions2XML(Extensions extensions) {
 		Element extensionsElement = createBPELElement("extensions");
 
-		Iterator it = extensions.getExtensions().iterator();
+		Iterator it = extensions.getChildren().iterator();
 		while (it.hasNext()) {
 			Extension extension = (Extension)it.next();
 			extensionsElement.appendChild(extension2XML(extension));			

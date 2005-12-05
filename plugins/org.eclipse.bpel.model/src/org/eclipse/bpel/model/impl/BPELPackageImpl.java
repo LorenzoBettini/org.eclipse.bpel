@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.3 2005/12/05 20:51:55 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.4 2005/12/05 21:04:32 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -2341,7 +2341,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExtensions_Extensions() {
+	public EReference getExtensions_Children() {
 		return (EReference)extensionsEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -2640,7 +2640,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(serviceRefEClass, SERVICE_REF__VALUE);
 
 		extensionsEClass = createEClass(EXTENSIONS);
-		createEReference(extensionsEClass, EXTENSIONS__EXTENSIONS);
+		createEReference(extensionsEClass, EXTENSIONS__CHILDREN);
 
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
@@ -2981,7 +2981,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEAttribute(getServiceRef_Value(), theEcorePackage.getEJavaObject(), "value", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(extensionsEClass, Extensions.class, "Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExtensions_Extensions(), this.getExtension(), null, "extensions", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExtensions_Children(), this.getExtension(), null, "children", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");
