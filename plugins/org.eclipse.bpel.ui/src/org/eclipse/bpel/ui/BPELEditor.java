@@ -777,8 +777,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 					// ---
 					
 					def.getEImports().clear();
-					WSDLImportHelper.addAllImportsAndNamespaces(def,
-						getEditModelClient().getPrimaryResourceInfo().getFile());
+					// JM: Disable this for now - it causes a stack dump
+//					WSDLImportHelper.addAllImportsAndNamespaces(def,
+//						getEditModelClient().getPrimaryResourceInfo().getFile());
 					// This doesn't seem to introduce an updateElement automatically,
 					// so do it manually now, so that RolePortTypes (for example) who
 					// are affected by the new namespace will know about it.
@@ -794,13 +795,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 		} finally {
 			// restore correlationSets, partnerLinks and variables if we removed them above
-			if (sets.getChildren().isEmpty()) {
+			if (sets != null && sets.getChildren().isEmpty()) {
 				process.setCorrelationSets(sets);
 			}
-			if (links.getChildren().isEmpty()) {
+			if (links != null && links.getChildren().isEmpty()) {
 				process.setPartnerLinks(links);
 			}
-			if (variables.getChildren().isEmpty()) {
+			if (variables != null && variables.getChildren().isEmpty()) {
 				process.setVariables(variables);
 			}
 			for (Iterator iter = process.eAllContents(); iter.hasNext();) {
