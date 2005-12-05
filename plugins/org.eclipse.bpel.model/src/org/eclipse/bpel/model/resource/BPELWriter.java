@@ -48,6 +48,8 @@ import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
@@ -433,6 +435,9 @@ public class BPELWriter {
 		if (process.getCorrelationSets() != null)
 			processElement.appendChild(correlationSets2XML(process.getCorrelationSets()));
 		
+		if (process.getExtensions() != null)
+			processElement.appendChild(extensions2XML(process.getExtensions()));
+
 		if (process.getFaultHandlers() != null) 
 			processElement.appendChild(faultHandlers2XML(process.getFaultHandlers()));
 		
@@ -624,6 +629,37 @@ public class BPELWriter {
 		extensibleElement2XML(variable,variableElement);
 		
 		return variableElement;
+	}
+
+	protected Element extensions2XML(Extensions extensions) {
+		Element extensionsElement = createBPELElement("extensions");
+
+		Iterator it = extensions.getExtensions().iterator();
+		while (it.hasNext()) {
+			Extension extension = (Extension)it.next();
+			extensionsElement.appendChild(extension2XML(extension));			
+		}
+
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(extensions, extensionsElement);	
+		extensibleElement2XML(extensions, extensionsElement);
+		
+		return extensionsElement;
+	}
+
+	protected Element extension2XML(Extension extension) {
+		Element extensionElement = createBPELElement("extension");
+		if (extension.getNamespace() != null) {
+			extensionElement.setAttribute("namespace", extension.getNamespace());
+		}
+		if (extension.isSetMustUnderstand()) {
+			extensionElement.setAttribute("mustUnderstand", BPELUtils.boolean2XML(extension.getMustUnderstand()));
+		}		
+		
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(extension, extensionElement);			
+		extensibleElement2XML(extension, extensionElement);
+		return extensionElement;
 	}
 
 	protected Element correlationSets2XML(CorrelationSets correlationSets) {

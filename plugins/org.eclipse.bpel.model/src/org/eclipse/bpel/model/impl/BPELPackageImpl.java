@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.2 2005/12/05 20:06:58 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -36,6 +36,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
@@ -478,6 +479,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass extensionsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum correlationPatternEEnum = null;
 
 	/**
@@ -687,7 +695,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Extensions() {
-		return (EReference)processEClass.getEStructuralFeatures().get(11);
+		return (EReference)processEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
@@ -696,7 +704,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_EventHandlers() {
-		return (EReference)processEClass.getEStructuralFeatures().get(12);
+		return (EReference)processEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -705,7 +713,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_CorrelationSets() {
-		return (EReference)processEClass.getEStructuralFeatures().get(13);
+		return (EReference)processEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -714,7 +722,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Imports() {
-		return (EReference)processEClass.getEStructuralFeatures().get(14);
+		return (EReference)processEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -1433,7 +1441,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExtension_Type() {
+	public EAttribute getExtension_MustUnderstand() {
 		return (EAttribute)extensionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -2315,6 +2323,24 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExtensions() {
+		return extensionsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExtensions_Extensions() {
+		return (EReference)extensionsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2368,10 +2394,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(processEClass, PROCESS__VARIABLES);
 		createEReference(processEClass, PROCESS__ACTIVITY);
 		createEReference(processEClass, PROCESS__FAULT_HANDLERS);
-		createEReference(processEClass, PROCESS__EXTENSIONS);
 		createEReference(processEClass, PROCESS__EVENT_HANDLERS);
 		createEReference(processEClass, PROCESS__CORRELATION_SETS);
 		createEReference(processEClass, PROCESS__IMPORTS);
+		createEReference(processEClass, PROCESS__EXTENSIONS);
 
 		partnerLinkEClass = createEClass(PARTNER_LINK);
 		createEAttribute(partnerLinkEClass, PARTNER_LINK__NAME);
@@ -2475,7 +2501,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		extensionEClass = createEClass(EXTENSION);
 		createEAttribute(extensionEClass, EXTENSION__NAMESPACE);
-		createEAttribute(extensionEClass, EXTENSION__TYPE);
+		createEAttribute(extensionEClass, EXTENSION__MUST_UNDERSTAND);
 
 		scopeEClass = createEClass(SCOPE);
 		createEAttribute(scopeEClass, SCOPE__ISOLATED);
@@ -2603,6 +2629,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(serviceRefEClass, SERVICE_REF__REFERENCE_SCHEME);
 		createEAttribute(serviceRefEClass, SERVICE_REF__VALUE);
 
+		extensionsEClass = createEClass(EXTENSIONS);
+		createEReference(extensionsEClass, EXTENSIONS__EXTENSIONS);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -2664,6 +2693,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		onAlarmEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		assignEClass.getESuperTypes().add(this.getActivity());
 		copyEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		extensionEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		scopeEClass.getESuperTypes().add(this.getActivity());
 		compensateEClass.getESuperTypes().add(this.getActivity());
 		compensationHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
@@ -2689,6 +2719,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		onEventEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
 		conditionEClass.getESuperTypes().add(this.getExpression());
+		extensionsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2703,10 +2734,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getProcess_Variables(), this.getVariables(), null, "variables", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Activity(), this.getActivity(), null, "activity", null, 1, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_FaultHandlers(), this.getFaultHandler(), null, "faultHandlers", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Extensions(), this.getExtension(), null, "extensions", null, 0, -1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_EventHandlers(), this.getEventHandler(), null, "eventHandlers", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Imports(), this.getImport(), null, "imports", null, 0, -1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcess_Extensions(), this.getExtensions(), null, "extensions", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(partnerLinkEClass, PartnerLink.class, "PartnerLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPartnerLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2810,7 +2841,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(extensionEClass, Extension.class, "Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExtension_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExtension_Type(), ecorePackage.getEString(), "type", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExtension_MustUnderstand(), ecorePackage.getEBooleanObject(), "mustUnderstand", "false", 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(scopeEClass, Scope.class, "Scope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getScope_Isolated(), ecorePackage.getEBooleanObject(), "isolated", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2937,6 +2968,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(serviceRefEClass, ServiceRef.class, "ServiceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getServiceRef_ReferenceScheme(), ecorePackage.getEString(), "referenceScheme", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceRef_Value(), theEcorePackage.getEJavaObject(), "value", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(extensionsEClass, Extensions.class, "Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExtensions_Extensions(), this.getExtension(), null, "extensions", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

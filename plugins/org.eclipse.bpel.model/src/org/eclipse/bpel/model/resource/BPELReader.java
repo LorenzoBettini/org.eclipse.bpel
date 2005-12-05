@@ -46,6 +46,8 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
@@ -707,6 +709,11 @@ public class BPELReader {
 		if (correlationSetsElement != null)
 			process.setCorrelationSets(xml2CorrelationSets(correlationSetsElement));
 			 
+		// Handle Extensions Element
+		Element extensionsElement = getBPELChildElementByLocalName(processElement, "extensions");
+		if (extensionsElement != null)
+			process.setExtensions(xml2Extensions(extensionsElement));
+
 		// Handle FaultHandler element
 		setFaultHandler(processElement, process);
 		
@@ -810,6 +817,27 @@ public class BPELReader {
 		return correlationSets;
 	}
 
+	protected Extensions xml2Extensions(Element extensionsElement) {
+		if (!extensionsElement.getLocalName().equals("extensions"))
+			return null;
+			
+		Extensions extensions = BPELFactory.eINSTANCE.createExtensions();
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(extensions, extensionsElement);		
+		
+		BPELNodeList extensionElements = getBPELChildElementsByLocalName(extensionsElement, "extension");
+		for (int i=0; i < extensionElements.getLength(); i++) {
+			Element extensionElement = (Element)extensionElements.item(i);
+			Extension extension = xml2Extension(extensionElement);
+			extensions.getExtensions().add(extension);
+		}
+		
+		xml2ExtensibleElement(extensions, extensionsElement);
+		
+		return extensions;
+	}
+
 	/**
 	 * Converts an XML compensationHandler element to a BPEL CompensationHandler object.
 	 */
@@ -847,6 +875,30 @@ public class BPELReader {
 		xml2ExtensibleElement(correlationSet, correlationSetElement);
 
 		return correlationSet;
+	}
+
+	/**
+	 * Converts an XML extension element to a BPEL Extension object.
+	 */
+	protected Extension xml2Extension(Element extensionElement) {
+		Extension extension = BPELFactory.eINSTANCE.createExtension();
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(extension, extensionElement);		
+		
+		if (extensionElement == null) return extension;
+		
+		// Set namespace
+		if (extensionElement.hasAttribute("namespace"))	
+			extension.setNamespace(extensionElement.getAttribute("namespace"));
+		
+		// Set mustUnderstand
+		if (extensionElement.hasAttribute("mustUnderstand"))
+			extension.setMustUnderstand(new Boolean(extensionElement.getAttribute("mustUnderstand").equals("yes")));
+		
+		xml2ExtensibleElement(extension, extensionElement);
+
+		return extension;
 	}
 
 	/**

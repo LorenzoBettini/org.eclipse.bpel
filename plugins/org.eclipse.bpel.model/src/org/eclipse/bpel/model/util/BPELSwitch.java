@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.1 2005/11/29 18:50:28 james Exp $
+ * $Id: BPELSwitch.java,v 1.2 2005/12/05 20:06:58 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -37,6 +37,7 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
@@ -364,6 +365,8 @@ public class BPELSwitch {
 			case BPELPackage.EXTENSION: {
 				Extension extension = (Extension)theEObject;
 				Object result = caseExtension(extension);
+				if (result == null) result = caseExtensibleElement(extension);
+				if (result == null) result = caseWSDLElement(extension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -597,6 +600,14 @@ public class BPELSwitch {
 			case BPELPackage.SERVICE_REF: {
 				ServiceRef serviceRef = (ServiceRef)theEObject;
 				Object result = caseServiceRef(serviceRef);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.EXTENSIONS: {
+				Extensions extensions = (Extensions)theEObject;
+				Object result = caseExtensions(extensions);
+				if (result == null) result = caseExtensibleElement(extensions);
+				if (result == null) result = caseWSDLElement(extensions);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1411,6 +1422,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseServiceRef(ServiceRef object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Extensions</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Extensions</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseExtensions(Extensions object) {
 		return null;
 	}
 

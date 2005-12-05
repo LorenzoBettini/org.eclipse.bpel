@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: Process.java,v 1.2 2005/12/05 20:06:58 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -45,10 +45,10 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  *   <li>{@link org.eclipse.bpel.model.Process#getVariables <em>Variables</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getActivity <em>Activity</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getFaultHandlers <em>Fault Handlers</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getEventHandlers <em>Event Handlers</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}</li>
  * </ul>
  * </p>
  *
@@ -482,20 +482,30 @@ public interface Process extends ExtensibleElement{
 	void setFaultHandlers(FaultHandler value);
 
 	/**
-	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.bpel.model.Extension}.
+	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Extensions</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Extensions</em>' containment reference list.
+	 * @return the value of the '<em>Extensions</em>' containment reference.
+	 * @see #setExtensions(Extensions)
 	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_Extensions()
-	 * @model type="org.eclipse.bpel.model.Extension" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getExtensions();
+	Extensions getExtensions();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Extensions</em>' containment reference.
+	 * @see #getExtensions()
+	 * @generated
+	 */
+	void setExtensions(Extensions value);
 
 	/**
 	 * Returns the value of the '<em><b>Event Handlers</b></em>' containment reference.

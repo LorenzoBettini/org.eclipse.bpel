@@ -40,14 +40,14 @@
         eType="#//Activity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="faultHandlers" eType="#//FaultHandler"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
-        eType="#//Extension" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eventHandlers" eType="#//EventHandler"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlationSets" eType="#//CorrelationSets"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
         eType="#//Import" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" eType="#//Extensions"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PartnerLink" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -252,9 +252,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//From"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Extension">
+  <eClassifiers xsi:type="ecore:EClass" name="Extension" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mustUnderstand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Scope" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -453,5 +454,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="ServiceRef">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceScheme" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Extensions" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+        eType="#//Extension" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

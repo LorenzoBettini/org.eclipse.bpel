@@ -10,11 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Extension.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Extension.java,v 1.2 2005/12/05 20:06:58 james Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Extension#getNamespace <em>Namespace</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Extension#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Extension#getMustUnderstand <em>Must Understand</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Extension extends EObject {
+public interface Extension extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Namespace</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -61,29 +61,57 @@ public interface Extension extends EObject {
 	void setNamespace(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * Returns the value of the '<em><b>Must Understand</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Must Understand</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Type</em>' attribute.
-	 * @see #setType(String)
-	 * @see org.eclipse.bpel.model.BPELPackage#getExtension_Type()
-	 * @model
+	 * @return the value of the '<em>Must Understand</em>' attribute.
+	 * @see #isSetMustUnderstand()
+	 * @see #unsetMustUnderstand()
+	 * @see #setMustUnderstand(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getExtension_MustUnderstand()
+	 * @model default="false" unsettable="true"
 	 * @generated
 	 */
-	String getType();
+	Boolean getMustUnderstand();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.Extension#getType <em>Type</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Extension#getMustUnderstand <em>Must Understand</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' attribute.
-	 * @see #getType()
+	 * @param value the new value of the '<em>Must Understand</em>' attribute.
+	 * @see #isSetMustUnderstand()
+	 * @see #unsetMustUnderstand()
+	 * @see #getMustUnderstand()
 	 * @generated
 	 */
-	void setType(String value);
+	void setMustUnderstand(Boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.Extension#getMustUnderstand <em>Must Understand</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetMustUnderstand()
+	 * @see #getMustUnderstand()
+	 * @see #setMustUnderstand(Boolean)
+	 * @generated
+	 */
+	void unsetMustUnderstand();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Extension#getMustUnderstand <em>Must Understand</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Must Understand</em>' attribute is set.
+	 * @see #unsetMustUnderstand()
+	 * @see #getMustUnderstand()
+	 * @see #setMustUnderstand(Boolean)
+	 * @generated
+	 */
+	boolean isSetMustUnderstand();
 
 } // Extension

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: BPELPackage.java,v 1.2 2005/12/05 20:06:58 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -207,22 +207,13 @@ public interface BPELPackage extends EPackage{
 	int PROCESS__FAULT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
-	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROCESS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
-
-	/**
 	 * The feature id for the '<em><b>Event Handlers</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__EVENT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 12;
+	int PROCESS__EVENT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Correlation Sets</b></em>' containment reference.
@@ -231,7 +222,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__CORRELATION_SETS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 13;
+	int PROCESS__CORRELATION_SETS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Imports</b></em>' containment reference list.
@@ -240,7 +231,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__IMPORTS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
+	int PROCESS__IMPORTS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 13;
+
+	/**
+	 * The feature id for the '<em><b>Extensions</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of structural features of the '<em>Process</em>' class.
@@ -2418,22 +2418,49 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION = 24;
 
 	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXTENSION__NAMESPACE = 0;
+	int EXTENSION__NAMESPACE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Must Understand</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXTENSION__TYPE = 1;
+	int EXTENSION__MUST_UNDERSTAND = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Extension</em>' class.
@@ -2442,7 +2469,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int EXTENSION_FEATURE_COUNT = 2;
+	int EXTENSION_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ScopeImpl <em>Scope</em>}' class.
@@ -4490,6 +4517,61 @@ public interface BPELPackage extends EPackage{
 	int SERVICE_REF_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExtensionsImpl <em>Extensions</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ExtensionsImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensions()
+	 * @generated
+	 */
+	int EXTENSIONS = 54;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSIONS__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSIONS__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSIONS__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSIONS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Extensions</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSIONS_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4497,7 +4579,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 54;
+	int CORRELATION_PATTERN = 55;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -4507,7 +4589,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 55;
+	int ENDPOINT_REFERENCE_ROLE = 56;
 
 
 	/**
@@ -4642,10 +4724,10 @@ public interface BPELPackage extends EPackage{
 	EReference getProcess_FaultHandlers();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Extensions</em>'.
+	 * @return the meta object for the containment reference '<em>Extensions</em>'.
 	 * @see org.eclipse.bpel.model.Process#getExtensions()
 	 * @see #getProcess()
 	 * @generated
@@ -5531,15 +5613,15 @@ public interface BPELPackage extends EPackage{
 	EAttribute getExtension_Namespace();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Extension#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Extension#getMustUnderstand <em>Must Understand</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see org.eclipse.bpel.model.Extension#getType()
+	 * @return the meta object for the attribute '<em>Must Understand</em>'.
+	 * @see org.eclipse.bpel.model.Extension#getMustUnderstand()
 	 * @see #getExtension()
 	 * @generated
 	 */
-	EAttribute getExtension_Type();
+	EAttribute getExtension_MustUnderstand();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Scope <em>Scope</em>}'.
@@ -6578,6 +6660,27 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EAttribute getServiceRef_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Extensions <em>Extensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Extensions</em>'.
+	 * @see org.eclipse.bpel.model.Extensions
+	 * @generated
+	 */
+	EClass getExtensions();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.bpel.model.Extensions#getExtensions <em>Extensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Extensions</em>'.
+	 * @see org.eclipse.bpel.model.Extensions#getExtensions()
+	 * @see #getExtensions()
+	 * @generated
+	 */
+	EReference getExtensions_Extensions();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

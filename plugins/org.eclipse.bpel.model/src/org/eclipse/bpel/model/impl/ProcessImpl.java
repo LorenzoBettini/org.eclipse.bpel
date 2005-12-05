@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: ProcessImpl.java,v 1.2 2005/12/05 20:06:58 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,7 +22,7 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.EventHandler;
-import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -57,10 +57,10 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getActivity <em>Activity</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getFaultHandlers <em>Fault Handlers</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getEventHandlers <em>Event Handlers</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExtensions <em>Extensions</em>}</li>
  * </ul>
  * </p>
  *
@@ -293,16 +293,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	protected FaultHandler faultHandlers = null;
 
 	/**
-	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtensions()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList extensions = null;
-
-	/**
 	 * The cached value of the '{@link #getEventHandlers() <em>Event Handlers</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -331,6 +321,16 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @ordered
 	 */
 	protected EList imports = null;
+
+	/**
+	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExtensions()
+	 * @generated
+	 * @ordered
+	 */
+	protected Extensions extensions = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -799,11 +799,42 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getExtensions() {
-		if (extensions == null) {
-			extensions = new EObjectContainmentEList(Extension.class, this, BPELPackage.PROCESS__EXTENSIONS);
-		}
+	public Extensions getExtensions() {
 		return extensions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetExtensions(Extensions newExtensions, NotificationChain msgs) {
+		Extensions oldExtensions = extensions;
+		extensions = newExtensions;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXTENSIONS, oldExtensions, newExtensions);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExtensions(Extensions newExtensions) {
+		if (newExtensions != extensions) {
+			NotificationChain msgs = null;
+			if (extensions != null)
+				msgs = ((InternalEObject)extensions).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EXTENSIONS, null, msgs);
+			if (newExtensions != null)
+				msgs = ((InternalEObject)newExtensions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EXTENSIONS, null, msgs);
+			msgs = basicSetExtensions(newExtensions, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXTENSIONS, newExtensions, newExtensions));
 	}
 
 	/**
@@ -922,14 +953,14 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 					return basicSetActivity(null, msgs);
 				case BPELPackage.PROCESS__FAULT_HANDLERS:
 					return basicSetFaultHandlers(null, msgs);
-				case BPELPackage.PROCESS__EXTENSIONS:
-					return ((InternalEList)getExtensions()).basicRemove(otherEnd, msgs);
 				case BPELPackage.PROCESS__EVENT_HANDLERS:
 					return basicSetEventHandlers(null, msgs);
 				case BPELPackage.PROCESS__CORRELATION_SETS:
 					return basicSetCorrelationSets(null, msgs);
 				case BPELPackage.PROCESS__IMPORTS:
 					return ((InternalEList)getImports()).basicRemove(otherEnd, msgs);
+				case BPELPackage.PROCESS__EXTENSIONS:
+					return basicSetExtensions(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -972,14 +1003,14 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return getActivity();
 			case BPELPackage.PROCESS__FAULT_HANDLERS:
 				return getFaultHandlers();
-			case BPELPackage.PROCESS__EXTENSIONS:
-				return getExtensions();
 			case BPELPackage.PROCESS__EVENT_HANDLERS:
 				return getEventHandlers();
 			case BPELPackage.PROCESS__CORRELATION_SETS:
 				return getCorrelationSets();
 			case BPELPackage.PROCESS__IMPORTS:
 				return getImports();
+			case BPELPackage.PROCESS__EXTENSIONS:
+				return getExtensions();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -1034,10 +1065,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__FAULT_HANDLERS:
 				setFaultHandlers((FaultHandler)newValue);
 				return;
-			case BPELPackage.PROCESS__EXTENSIONS:
-				getExtensions().clear();
-				getExtensions().addAll((Collection)newValue);
-				return;
 			case BPELPackage.PROCESS__EVENT_HANDLERS:
 				setEventHandlers((EventHandler)newValue);
 				return;
@@ -1047,6 +1074,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__IMPORTS:
 				getImports().clear();
 				getImports().addAll((Collection)newValue);
+				return;
+			case BPELPackage.PROCESS__EXTENSIONS:
+				setExtensions((Extensions)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -1101,9 +1131,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__FAULT_HANDLERS:
 				setFaultHandlers((FaultHandler)null);
 				return;
-			case BPELPackage.PROCESS__EXTENSIONS:
-				getExtensions().clear();
-				return;
 			case BPELPackage.PROCESS__EVENT_HANDLERS:
 				setEventHandlers((EventHandler)null);
 				return;
@@ -1112,6 +1139,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return;
 			case BPELPackage.PROCESS__IMPORTS:
 				getImports().clear();
+				return;
+			case BPELPackage.PROCESS__EXTENSIONS:
+				setExtensions((Extensions)null);
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -1152,14 +1182,14 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return activity != null;
 			case BPELPackage.PROCESS__FAULT_HANDLERS:
 				return faultHandlers != null;
-			case BPELPackage.PROCESS__EXTENSIONS:
-				return extensions != null && !extensions.isEmpty();
 			case BPELPackage.PROCESS__EVENT_HANDLERS:
 				return eventHandlers != null;
 			case BPELPackage.PROCESS__CORRELATION_SETS:
 				return correlationSets != null;
 			case BPELPackage.PROCESS__IMPORTS:
 				return imports != null && !imports.isEmpty();
+			case BPELPackage.PROCESS__EXTENSIONS:
+				return extensions != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}
