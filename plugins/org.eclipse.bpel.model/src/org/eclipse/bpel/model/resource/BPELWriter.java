@@ -865,6 +865,11 @@ public class BPELWriter {
 		if (_catch.getFaultMessageType() != null) {
 			catchElement.setAttribute("faultMessageType", bpelNamespacePrefixManager.qNameToString(_catch, _catch.getFaultMessageType().getQName()));
 		}
+		if (_catch.getFaultElement() != null) {
+			XSDElementDeclaration element = _catch.getFaultElement();
+			QName qname = new QName(element.getTargetNamespace(), element.getName());
+			catchElement.setAttribute("faultElement", bpelNamespacePrefixManager.qNameToString(_catch, qname));
+		}
 		if (_catch.getActivity() != null) {
 			catchElement.appendChild(activity2XML(_catch.getActivity()));  // might be a compensate activity
 		}		

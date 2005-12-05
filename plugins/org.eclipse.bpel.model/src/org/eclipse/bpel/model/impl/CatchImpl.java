@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: CatchImpl.java,v 1.2 2005/12/05 20:51:55 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -38,6 +38,8 @@ import org.eclipse.wst.wsdl.Message;
 
 import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 
+import org.eclipse.xsd.XSDElementDeclaration;
+
 import org.w3c.dom.Element;
 
 /**
@@ -51,6 +53,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.CatchImpl#getFaultVariable <em>Fault Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.CatchImpl#getActivity <em>Activity</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.CatchImpl#getFaultMessageType <em>Fault Message Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.CatchImpl#getFaultElement <em>Fault Element</em>}</li>
  * </ul>
  * </p>
  *
@@ -106,6 +109,16 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @ordered
 	 */
 	protected Message faultMessageType = null;
+
+	/**
+	 * The cached value of the '{@link #getFaultElement() <em>Fault Element</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFaultElement()
+	 * @generated
+	 * @ordered
+	 */
+	protected XSDElementDeclaration faultElement = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -280,6 +293,51 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @customized
+	 */
+	public XSDElementDeclaration getFaultElement() {
+		if (faultVariable != null && faultVariable instanceof Variable) {
+			return ((Variable)faultVariable).getXSDElement();
+		}
+		if (faultElement != null && faultElement.eIsProxy()) {
+			XSDElementDeclaration oldFaultElement = faultElement;
+			faultElement = (XSDElementDeclaration)eResolveProxy((InternalEObject)faultElement);
+			if (faultElement != oldFaultElement) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.CATCH__FAULT_ELEMENT, oldFaultElement, faultElement));
+			}
+		}
+		return faultElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public XSDElementDeclaration basicGetFaultElement() {
+		return faultElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @customized
+	 */
+	public void setFaultElement(XSDElementDeclaration newFaultElement) {
+		Variable variable = getFaultVariable();
+		if (variable != null && variable instanceof Variable) {
+			((Variable)variable).setXSDElement(newFaultElement);
+		}
+		XSDElementDeclaration oldFaultElement = faultElement;
+		faultElement = newFaultElement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__FAULT_ELEMENT, oldFaultElement, faultElement));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
@@ -320,6 +378,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
 				if (resolve) return getFaultMessageType();
 				return basicGetFaultMessageType();
+			case BPELPackage.CATCH__FAULT_ELEMENT:
+				if (resolve) return getFaultElement();
+				return basicGetFaultElement();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -353,6 +414,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
 				setFaultMessageType((Message)newValue);
 				return;
+			case BPELPackage.CATCH__FAULT_ELEMENT:
+				setFaultElement((XSDElementDeclaration)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -385,6 +449,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
 				setFaultMessageType((Message)null);
 				return;
+			case BPELPackage.CATCH__FAULT_ELEMENT:
+				setFaultElement((XSDElementDeclaration)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -410,6 +477,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 				return activity != null;
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
 				return faultMessageType != null;
+			case BPELPackage.CATCH__FAULT_ELEMENT:
+				return faultElement != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -1076,6 +1076,12 @@ public class BPELReader {
 			_catch.setFaultMessageType(messageType);
 		}
 
+		if (catchElement.hasAttribute("faultElement")) {
+			QName qName = BPELUtils.createAttributeValue(catchElement,"faultElement");
+			XSDElementDeclaration element = new XSDElementDeclarationProxy(resource.getURI(), qName);
+			_catch.setFaultElement(element);
+		}
+
 		// Set Activities		
 		NodeList catchElements = catchElement.getChildNodes();
         

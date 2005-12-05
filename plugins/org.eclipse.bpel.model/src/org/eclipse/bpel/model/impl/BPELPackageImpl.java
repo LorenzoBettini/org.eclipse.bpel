@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.3 2005/12/05 20:51:55 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -993,6 +993,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getCatch_FaultMessageType() {
 		return (EReference)catchEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCatch_FaultElement() {
+		return (EReference)catchEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2435,6 +2444,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(catchEClass, CATCH__FAULT_VARIABLE);
 		createEReference(catchEClass, CATCH__ACTIVITY);
 		createEReference(catchEClass, CATCH__FAULT_MESSAGE_TYPE);
+		createEReference(catchEClass, CATCH__FAULT_ELEMENT);
 
 		replyEClass = createEClass(REPLY);
 		createEAttribute(replyEClass, REPLY__FAULT_NAME);
@@ -2664,8 +2674,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
 		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI);
 		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI);
-		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		XSDPackageImpl theXSDPackage = (XSDPackageImpl)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
+		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add supertypes to classes
 		processEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
@@ -2775,6 +2785,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getCatch_FaultVariable(), this.getVariable(), null, "faultVariable", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCatch_Activity(), this.getActivity(), null, "activity", null, 1, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCatch_FaultMessageType(), theWSDLPackage.getMessage(), null, "faultMessageType", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCatch_FaultElement(), theXSDPackage.getXSDElementDeclaration(), null, "faultElement", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(replyEClass, Reply.class, "Reply", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReply_FaultName(), theWSDLPackage.getQName(), "faultName", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

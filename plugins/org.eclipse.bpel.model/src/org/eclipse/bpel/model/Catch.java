@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Catch.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: Catch.java,v 1.2 2005/12/05 20:51:54 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -18,6 +18,8 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
+
+import org.eclipse.xsd.XSDElementDeclaration;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +33,7 @@ import org.eclipse.wst.wsdl.Message;
  *   <li>{@link org.eclipse.bpel.model.Catch#getFaultVariable <em>Fault Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Catch#getActivity <em>Activity</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Catch#getFaultMessageType <em>Fault Message Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Catch#getFaultElement <em>Fault Element</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,7 +41,7 @@ import org.eclipse.wst.wsdl.Message;
  * @model
  * @generated
  */
-public interface Catch extends ExtensibleElement {
+public interface Catch extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>Fault Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -142,5 +145,31 @@ public interface Catch extends ExtensibleElement {
 	 * @generated
 	 */
 	void setFaultMessageType(Message value);
+
+	/**
+	 * Returns the value of the '<em><b>Fault Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Fault Element</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Fault Element</em>' reference.
+	 * @see #setFaultElement(XSDElementDeclaration)
+	 * @see org.eclipse.bpel.model.BPELPackage#getCatch_FaultElement()
+	 * @model
+	 * @generated
+	 */
+	XSDElementDeclaration getFaultElement();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Catch#getFaultElement <em>Fault Element</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Fault Element</em>' reference.
+	 * @see #getFaultElement()
+	 * @generated
+	 */
+	void setFaultElement(XSDElementDeclaration value);
 
 } // Catch

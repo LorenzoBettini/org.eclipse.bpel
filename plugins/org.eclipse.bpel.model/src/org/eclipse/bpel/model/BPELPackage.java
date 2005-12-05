@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: BPELPackage.java,v 1.3 2005/12/05 20:51:54 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -962,13 +962,22 @@ public interface BPELPackage extends EPackage{
 	int CATCH__FAULT_MESSAGE_TYPE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Fault Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CATCH__FAULT_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Catch</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CATCH_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
+	int CATCH_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ReplyImpl <em>Reply</em>}' class.
@@ -5089,6 +5098,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getCatch_FaultMessageType();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Catch#getFaultElement <em>Fault Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Fault Element</em>'.
+	 * @see org.eclipse.bpel.model.Catch#getFaultElement()
+	 * @see #getCatch()
+	 * @generated
+	 */
+	EReference getCatch_FaultElement();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Reply <em>Reply</em>}'.
