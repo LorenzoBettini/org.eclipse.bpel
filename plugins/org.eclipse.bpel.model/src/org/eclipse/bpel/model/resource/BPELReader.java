@@ -52,6 +52,7 @@ import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -80,6 +81,7 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -779,6 +781,7 @@ public class BPELReader {
 		xml2ExtensibleElement(variables, variablesElement);
 		
 		// Move variables that are extensibility elements to the list of children
+		// JM: What is this supposed to accomplish?
 		List toBeMoved = new BasicEList();
 		for (Iterator iter = variables.getExtensibilityElements().iterator(); iter.hasNext();) {
 			ExtensibilityElement element = (ExtensibilityElement) iter.next();
@@ -1548,6 +1551,17 @@ public class BPELReader {
 		// Set activity
 		onMessage.setActivity(getChildActivity(onMessageElement));
 
+		// Set the FromPart
+		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(onMessageElement, "fromPart");
+		Iterator it = fromPartElements.iterator();
+		while (it.hasNext()) {
+			Element fromPartElement = (Element)it.next();
+			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
+				FromPart fromPart = xml2FromPart(fromPartElement);
+				onMessage.getFromPart().add(fromPart);
+			}
+		}		
+
 		xml2ExtensibleElement(onMessage, onMessageElement);
 				
 		return onMessage;
@@ -1570,6 +1584,17 @@ public class BPELReader {
 		// Set activity
 		onEvent.setActivity(getChildActivity(onEventElement));
 
+		// Set the FromPart
+		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(onEventElement, "fromPart");
+		Iterator it = fromPartElements.iterator();
+		while (it.hasNext()) {
+			Element fromPartElement = (Element)it.next();
+			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
+				FromPart fromPart = xml2FromPart(fromPartElement);
+				onEvent.getFromPart().add(fromPart);
+			}
+		}		
+		
 		xml2ExtensibleElement(onEvent, onEventElement);
 				
 		return onEvent;
@@ -2034,6 +2059,57 @@ public class BPELReader {
 	}
 
 	/**
+	 * Converts an XML toPart element to a BPEL ToPart object.
+	 */
+	protected ToPart xml2ToPart(Element toPartElement) {
+		ToPart toPart = BPELFactory.eINSTANCE.createToPart();
+        if (toPartElement == null) return toPart;
+
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(toPart, toPartElement);
+
+		// Handle part attribute
+		if (toPartElement.hasAttribute("part")) 
+			toPart.setPart(toPartElement.getAttribute("part"));
+
+		// Handle from-spec
+        Element fromElement = getBPELChildElementByLocalName(toPartElement, "from");
+        if (fromElement != null) {
+            From from = BPELFactory.eINSTANCE.createFrom();
+            xml2From(from, fromElement); 
+            toPart.setFrom(from);
+        }
+        
+        
+		return toPart;
+	}
+
+	/**
+	 * Converts an XML fromPart element to a BPEL FromPart object.
+	 */
+	protected FromPart xml2FromPart(Element fromPartElement) {
+		FromPart fromPart = BPELFactory.eINSTANCE.createFromPart();
+        if (fromPartElement == null) return fromPart;
+
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(fromPart, fromPartElement);
+
+		// Handle part attribute
+		if (fromPartElement.hasAttribute("part")) 
+			fromPart.setPart(fromPartElement.getAttribute("part"));
+
+		// Handle to-spec
+		Element toElement = getBPELChildElementByLocalName(fromPartElement, "to");
+        if (toElement != null) {
+            To to = BPELFactory.eINSTANCE.createTo();
+            xml2To(to, toElement); 
+            fromPart.setTo(to);
+        }
+        
+		return fromPart;
+	}
+
+	/**
 	 * Converts an XML "to" element to a BPEL To object.
 	 */
 	protected void xml2To(To to, Element toElement) {
@@ -2359,6 +2435,27 @@ public class BPELReader {
 			invoke.setFaultHandler(faultHandler);
 		}
 
+		// Set the ToPart
+		BPELNodeList toPartElements = getBPELChildElementsByLocalName(invokeElement, "toPart");
+		Iterator it = toPartElements.iterator();
+		while (it.hasNext()) {
+			Element toPartElement = (Element)it.next();
+			if (BPELUtils.isBPELNamespace(toPartElement.getNamespaceURI())) {
+				ToPart toPart = xml2ToPart(toPartElement);
+				invoke.getToPart().add(toPart);
+			}
+		}
+
+		// Set the FromPart
+		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(invokeElement, "fromPart");
+		it = fromPartElements.iterator();
+		while (it.hasNext()) {
+			Element fromPartElement = (Element)it.next();
+			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
+				FromPart fromPart = xml2FromPart(fromPartElement);
+				invoke.getFromPart().add(fromPart);
+			}
+		}		
 		return invoke;
 	}
 
@@ -2379,6 +2476,18 @@ public class BPELReader {
 			reply.setFaultName(qName);
 		}
 
+		// Set the ToPart
+		BPELNodeList toPartElements = getBPELChildElementsByLocalName(replyElement, "toPart");
+		Iterator it = toPartElements.iterator();
+		while (it.hasNext()) {
+			Element toPartElement = (Element)it.next();
+			if (BPELUtils.isBPELNamespace(toPartElement.getNamespaceURI())) {
+				ToPart toPart = xml2ToPart(toPartElement);
+				reply.getToPart().add(toPart);
+			}
+		}
+
+		
 		return reply;		
 	}
      
@@ -2395,11 +2504,21 @@ public class BPELReader {
 		setOperationParms(receiveElement, receive, BPELPackage.eINSTANCE.getReceive_Variable(), null, null, BPELPackage.eINSTANCE.getPartnerActivity_PartnerLink());
 
 		// Set createInstance
-		
 		if (receiveElement.hasAttribute("createInstance")) {		           
 			String createInstance = receiveElement.getAttribute("createInstance");
 			receive.setCreateInstance(new Boolean(createInstance.equals("yes")));
 		}
+
+		// Set the FromPart
+		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(receiveElement, "fromPart");
+		Iterator it = fromPartElements.iterator();
+		while (it.hasNext()) {
+			Element fromPartElement = (Element)it.next();
+			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
+				FromPart fromPart = xml2FromPart(fromPartElement);
+				receive.getFromPart().add(fromPart);
+			}
+		}		
 		
 		return receive;
 	}

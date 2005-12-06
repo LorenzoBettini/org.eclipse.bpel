@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: ReceiveImpl.java,v 1.2 2005/12/06 02:05:31 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,16 +18,21 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 import org.w3c.dom.Element;
@@ -41,6 +46,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getCreateInstance <em>Create Instance</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -85,6 +91,16 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * @ordered
 	 */
 	protected Variable variable = null;
+
+	/**
+	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFromPart()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList fromPart = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -193,6 +209,18 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getFromPart() {
+		if (fromPart == null) {
+			fromPart = new EObjectResolvingEList(FromPart.class, this, BPELPackage.RECEIVE__FROM_PART);
+		}
+		return fromPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.RECEIVE__DOCUMENTATION_ELEMENT:
@@ -225,6 +253,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__VARIABLE:
 				if (resolve) return getVariable();
 				return basicGetVariable();
+			case BPELPackage.RECEIVE__FROM_PART:
+				return getFromPart();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -276,6 +306,10 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__VARIABLE:
 				setVariable((Variable)newValue);
 				return;
+			case BPELPackage.RECEIVE__FROM_PART:
+				getFromPart().clear();
+				getFromPart().addAll((Collection)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -326,6 +360,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__VARIABLE:
 				setVariable((Variable)null);
 				return;
+			case BPELPackage.RECEIVE__FROM_PART:
+				getFromPart().clear();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -363,6 +400,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 				return isSetCreateInstance();
 			case BPELPackage.RECEIVE__VARIABLE:
 				return variable != null;
+			case BPELPackage.RECEIVE__FROM_PART:
+				return fromPart != null && !fromPart.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -10,10 +10,12 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Invoke.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Invoke.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,6 +34,8 @@ package org.eclipse.bpel.model;
  *   <li>{@link org.eclipse.bpel.model.Invoke#getInputVariable <em>Input Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Invoke#getCompensationHandler <em>Compensation Handler</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Invoke#getFaultHandler <em>Fault Handler</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Invoke#getToPart <em>To Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Invoke#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,7 +43,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface Invoke extends PartnerActivity {
+public interface Invoke extends PartnerActivity{
 	/**
 	 * Returns the value of the '<em><b>Output Variable</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -143,5 +147,37 @@ public interface Invoke extends PartnerActivity {
 	 * @generated
 	 */
 	void setFaultHandler(FaultHandler value);
+
+	/**
+	 * Returns the value of the '<em><b>To Part</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.bpel.model.ToPart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>To Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>To Part</em>' reference list.
+	 * @see org.eclipse.bpel.model.BPELPackage#getInvoke_ToPart()
+	 * @model type="org.eclipse.bpel.model.ToPart"
+	 * @generated
+	 */
+	EList getToPart();
+
+	/**
+	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>From Part</em>' reference list.
+	 * @see org.eclipse.bpel.model.BPELPackage#getInvoke_FromPart()
+	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @generated
+	 */
+	EList getFromPart();
 
 } // Invoke

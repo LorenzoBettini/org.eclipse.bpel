@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.5 2005/12/06 00:33:48 james Exp $
+ * $Id: BPELPackage.java,v 1.6 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -807,13 +807,31 @@ public interface BPELPackage extends EPackage{
 	int INVOKE__FAULT_HANDLER = PARTNER_ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>To Part</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE__TO_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>From Part</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE__FROM_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Invoke</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INVOKE_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 4;
+	int INVOKE_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.LinkImpl <em>Link</em>}' class.
@@ -1107,13 +1125,22 @@ public interface BPELPackage extends EPackage{
 	int REPLY__VARIABLE = PARTNER_ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>To Part</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REPLY__TO_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Reply</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REPLY_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
+	int REPLY_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ReceiveImpl <em>Receive</em>}' class.
@@ -1243,13 +1270,22 @@ public interface BPELPackage extends EPackage{
 	int RECEIVE__VARIABLE = PARTNER_ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>From Part</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECEIVE__FROM_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Receive</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RECEIVE_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
+	int RECEIVE_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.TerminateImpl <em>Terminate</em>}' class.
@@ -3117,13 +3153,22 @@ public interface BPELPackage extends EPackage{
 	int ON_MESSAGE__OPERATION = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>From Part</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ON_MESSAGE__FROM_PART = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>On Message</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ON_MESSAGE_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
+	int ON_MESSAGE_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExpressionImpl <em>Expression</em>}' class.
@@ -4177,13 +4222,22 @@ public interface BPELPackage extends EPackage{
 	int ON_EVENT__MESSAGE_TYPE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>From Part</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ON_EVENT__FROM_PART = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>On Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ON_EVENT_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
+	int ON_EVENT_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ImportImpl <em>Import</em>}' class.
@@ -4663,6 +4717,80 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION_ACTIVITY_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.FromPartImpl <em>From Part</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.FromPartImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFromPart()
+	 * @generated
+	 */
+	int FROM_PART = 56;
+
+	/**
+	 * The feature id for the '<em><b>Part</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART__PART = 0;
+
+	/**
+	 * The feature id for the '<em><b>To</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART__TO = 1;
+
+	/**
+	 * The number of structural features of the '<em>From Part</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ToPartImpl <em>To Part</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ToPartImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getToPart()
+	 * @generated
+	 */
+	int TO_PART = 57;
+
+	/**
+	 * The feature id for the '<em><b>Part</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART__PART = 0;
+
+	/**
+	 * The feature id for the '<em><b>From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART__FROM = 1;
+
+	/**
+	 * The number of structural features of the '<em>To Part</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4670,7 +4798,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 56;
+	int CORRELATION_PATTERN = 58;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -4680,7 +4808,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 57;
+	int ENDPOINT_REFERENCE_ROLE = 59;
 
 
 	/**
@@ -5085,6 +5213,28 @@ public interface BPELPackage extends EPackage{
 	EReference getInvoke_FaultHandler();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.Invoke#getToPart <em>To Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>To Part</em>'.
+	 * @see org.eclipse.bpel.model.Invoke#getToPart()
+	 * @see #getInvoke()
+	 * @generated
+	 */
+	EReference getInvoke_ToPart();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.Invoke#getFromPart <em>From Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>From Part</em>'.
+	 * @see org.eclipse.bpel.model.Invoke#getFromPart()
+	 * @see #getInvoke()
+	 * @generated
+	 */
+	EReference getInvoke_FromPart();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Link <em>Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5225,6 +5375,17 @@ public interface BPELPackage extends EPackage{
 	EReference getReply_Variable();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.Reply#getToPart <em>To Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>To Part</em>'.
+	 * @see org.eclipse.bpel.model.Reply#getToPart()
+	 * @see #getReply()
+	 * @generated
+	 */
+	EReference getReply_ToPart();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.PartnerActivity <em>Partner Activity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5309,6 +5470,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getReceive_Variable();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.Receive#getFromPart <em>From Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>From Part</em>'.
+	 * @see org.eclipse.bpel.model.Receive#getFromPart()
+	 * @see #getReceive()
+	 * @generated
+	 */
+	EReference getReceive_FromPart();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Terminate <em>Terminate</em>}'.
@@ -6094,6 +6266,17 @@ public interface BPELPackage extends EPackage{
 	EReference getOnMessage_Operation();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.OnMessage#getFromPart <em>From Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>From Part</em>'.
+	 * @see org.eclipse.bpel.model.OnMessage#getFromPart()
+	 * @see #getOnMessage()
+	 * @generated
+	 */
+	EReference getOnMessage_FromPart();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Expression <em>Expression</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6584,6 +6767,17 @@ public interface BPELPackage extends EPackage{
 	EReference getOnEvent_MessageType();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.OnEvent#getFromPart <em>From Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>From Part</em>'.
+	 * @see org.eclipse.bpel.model.OnEvent#getFromPart()
+	 * @see #getOnEvent()
+	 * @generated
+	 */
+	EReference getOnEvent_FromPart();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Import <em>Import</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6793,6 +6987,70 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EClass getExtensionActivity();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.FromPart <em>From Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>From Part</em>'.
+	 * @see org.eclipse.bpel.model.FromPart
+	 * @generated
+	 */
+	EClass getFromPart();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.FromPart#getPart <em>Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part</em>'.
+	 * @see org.eclipse.bpel.model.FromPart#getPart()
+	 * @see #getFromPart()
+	 * @generated
+	 */
+	EAttribute getFromPart_Part();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.FromPart#getTo <em>To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>To</em>'.
+	 * @see org.eclipse.bpel.model.FromPart#getTo()
+	 * @see #getFromPart()
+	 * @generated
+	 */
+	EReference getFromPart_To();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.ToPart <em>To Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>To Part</em>'.
+	 * @see org.eclipse.bpel.model.ToPart
+	 * @generated
+	 */
+	EClass getToPart();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.ToPart#getPart <em>Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part</em>'.
+	 * @see org.eclipse.bpel.model.ToPart#getPart()
+	 * @see #getToPart()
+	 * @generated
+	 */
+	EAttribute getToPart_Part();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.ToPart#getFrom <em>From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From</em>'.
+	 * @see org.eclipse.bpel.model.ToPart#getFrom()
+	 * @see #getToPart()
+	 * @generated
+	 */
+	EReference getToPart_From();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

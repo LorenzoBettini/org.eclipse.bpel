@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.3 2005/12/06 00:33:48 james Exp $
+ * $Id: BPELFactory.java,v 1.4 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -536,6 +536,24 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	ExtensionActivity createExtensionActivity();
+
+	/**
+	 * Returns a new object of class '<em>From Part</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>From Part</em>'.
+	 * @generated
+	 */
+	FromPart createFromPart();
+
+	/**
+	 * Returns a new object of class '<em>To Part</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>To Part</em>'.
+	 * @generated
+	 */
+	ToPart createToPart();
 
 	/**
 	 * Returns the package supported by this factory.

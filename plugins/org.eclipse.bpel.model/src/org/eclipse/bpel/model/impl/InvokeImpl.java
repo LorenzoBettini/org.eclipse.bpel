@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: InvokeImpl.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,17 +20,22 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
@@ -47,6 +52,8 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getInputVariable <em>Input Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getCompensationHandler <em>Compensation Handler</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getFaultHandler <em>Fault Handler</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getToPart <em>To Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,6 +99,26 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @ordered
 	 */
 	protected FaultHandler faultHandler = null;
+
+	/**
+	 * The cached value of the '{@link #getToPart() <em>To Part</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getToPart()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList toPart = null;
+
+	/**
+	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFromPart()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList fromPart = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -278,6 +305,30 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getToPart() {
+		if (toPart == null) {
+			toPart = new EObjectResolvingEList(ToPart.class, this, BPELPackage.INVOKE__TO_PART);
+		}
+		return toPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getFromPart() {
+		if (fromPart == null) {
+			fromPart = new EObjectResolvingEList(FromPart.class, this, BPELPackage.INVOKE__FROM_PART);
+		}
+		return fromPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -342,6 +393,10 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 				return getCompensationHandler();
 			case BPELPackage.INVOKE__FAULT_HANDLER:
 				return getFaultHandler();
+			case BPELPackage.INVOKE__TO_PART:
+				return getToPart();
+			case BPELPackage.INVOKE__FROM_PART:
+				return getFromPart();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -399,6 +454,14 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			case BPELPackage.INVOKE__FAULT_HANDLER:
 				setFaultHandler((FaultHandler)newValue);
 				return;
+			case BPELPackage.INVOKE__TO_PART:
+				getToPart().clear();
+				getToPart().addAll((Collection)newValue);
+				return;
+			case BPELPackage.INVOKE__FROM_PART:
+				getFromPart().clear();
+				getFromPart().addAll((Collection)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -455,6 +518,12 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			case BPELPackage.INVOKE__FAULT_HANDLER:
 				setFaultHandler((FaultHandler)null);
 				return;
+			case BPELPackage.INVOKE__TO_PART:
+				getToPart().clear();
+				return;
+			case BPELPackage.INVOKE__FROM_PART:
+				getFromPart().clear();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -496,6 +565,10 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 				return compensationHandler != null;
 			case BPELPackage.INVOKE__FAULT_HANDLER:
 				return faultHandler != null;
+			case BPELPackage.INVOKE__TO_PART:
+				return toPart != null && !toPart.isEmpty();
+			case BPELPackage.INVOKE__FROM_PART:
+				return fromPart != null && !fromPart.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

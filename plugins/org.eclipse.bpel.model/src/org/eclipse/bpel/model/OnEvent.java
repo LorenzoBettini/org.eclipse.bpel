@@ -10,9 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: OnEvent.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
@@ -34,6 +36,7 @@ import org.eclipse.wst.wsdl.PortType;
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getOperation <em>Operation</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getPortType <em>Port Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getMessageType <em>Message Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.OnEvent#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -41,7 +44,7 @@ import org.eclipse.wst.wsdl.PortType;
  * @model
  * @generated
  */
-public interface OnEvent extends ExtensibleElement {
+public interface OnEvent extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -223,5 +226,21 @@ public interface OnEvent extends ExtensibleElement {
 	 * @generated
 	 */
 	void setMessageType(Message value);
+
+	/**
+	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>From Part</em>' reference list.
+	 * @see org.eclipse.bpel.model.BPELPackage#getOnEvent_FromPart()
+	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @generated
+	 */
+	EList getFromPart();
 
 } // OnEvent

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: OnMessageImpl.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
@@ -29,12 +30,15 @@ import org.eclipse.bpel.model.proxy.OperationProxy;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.wst.wsdl.Operation;
@@ -57,6 +61,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.OnMessageImpl#getPartnerLink <em>Partner Link</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnMessageImpl#getCorrelations <em>Correlations</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnMessageImpl#getOperation <em>Operation</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.OnMessageImpl#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -122,6 +127,16 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @ordered
 	 */
 	protected Operation operation = null;
+
+	/**
+	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFromPart()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList fromPart = null;
 
     /**
      * The deserialized value of the operation name.
@@ -426,6 +441,18 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__OPERATION, oldOperation, operation));
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getFromPart() {
+		if (fromPart == null) {
+			fromPart = new EObjectResolvingEList(FromPart.class, this, BPELPackage.ON_MESSAGE__FROM_PART);
+		}
+		return fromPart;
+	}
+
     /**
      * Set the deserialized value of the operation name.
      * @customized
@@ -484,6 +511,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 			case BPELPackage.ON_MESSAGE__OPERATION:
 				if (resolve) return getOperation();
 				return basicGetOperation();
+			case BPELPackage.ON_MESSAGE__FROM_PART:
+				return getFromPart();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -523,6 +552,10 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 			case BPELPackage.ON_MESSAGE__OPERATION:
 				setOperation((Operation)newValue);
 				return;
+			case BPELPackage.ON_MESSAGE__FROM_PART:
+				getFromPart().clear();
+				getFromPart().addAll((Collection)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -561,6 +594,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 			case BPELPackage.ON_MESSAGE__OPERATION:
 				setOperation((Operation)null);
 				return;
+			case BPELPackage.ON_MESSAGE__FROM_PART:
+				getFromPart().clear();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -590,6 +626,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 				return correlations != null;
 			case BPELPackage.ON_MESSAGE__OPERATION:
 				return operation != null;
+			case BPELPackage.ON_MESSAGE__FROM_PART:
+				return fromPart != null && !fromPart.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

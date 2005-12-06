@@ -101,6 +101,10 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="faultHandler" eType="#//FaultHandler"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toPart" upperBound="-1"
+        eType="#//ToPart"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
+        eType="#//FromPart"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -127,6 +131,8 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//QName"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toPart" upperBound="-1"
+        eType="#//ToPart"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PartnerActivity" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" lowerBound="1"
@@ -146,6 +152,8 @@
         defaultValueLiteral="false" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
         eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
+        eType="#//FromPart"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Terminate" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -337,6 +345,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
         eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
+        eType="#//FromPart"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibilityElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
@@ -430,6 +440,8 @@
         eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//PortType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" lowerBound="1"
         eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
+        eType="#//FromPart"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Import">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -461,4 +473,12 @@
         eType="#//Extension" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtensionActivity" eSuperTypes="#//Activity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FromPart">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//To"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ToPart">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
+  </eClassifiers>
 </ecore:EPackage>

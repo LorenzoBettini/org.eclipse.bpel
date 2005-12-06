@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.3 2005/12/06 00:33:48 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.4 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -40,6 +40,7 @@ import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -67,6 +68,7 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -302,6 +304,12 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseExtensionActivity(ExtensionActivity object) {
 				return createExtensionActivityAdapter();
+			}
+			public Object caseFromPart(FromPart object) {
+				return createFromPartAdapter();
+			}
+			public Object caseToPart(ToPart object) {
+				return createToPartAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1117,6 +1125,34 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createExtensionActivityAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.FromPart <em>From Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.FromPart
+	 * @generated
+	 */
+	public Adapter createFromPartAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ToPart <em>To Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.ToPart
+	 * @generated
+	 */
+	public Adapter createToPartAdapter() {
 		return null;
 	}
 

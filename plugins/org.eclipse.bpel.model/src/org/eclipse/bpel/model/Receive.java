@@ -10,10 +10,12 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Receive.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Receive.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,6 +35,7 @@ package org.eclipse.bpel.model;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Receive#getCreateInstance <em>Create Instance</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Receive#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Receive#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -40,7 +43,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface Receive extends PartnerActivity {
+public interface Receive extends PartnerActivity{
 	/**
 	 * Returns the value of the '<em><b>Create Instance</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
@@ -120,5 +123,21 @@ public interface Receive extends PartnerActivity {
 	 * @generated
 	 */
 	void setVariable(Variable value);
+
+	/**
+	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>From Part</em>' reference list.
+	 * @see org.eclipse.bpel.model.BPELPackage#getReceive_FromPart()
+	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @generated
+	 */
+	EList getFromPart();
 
 } // Receive

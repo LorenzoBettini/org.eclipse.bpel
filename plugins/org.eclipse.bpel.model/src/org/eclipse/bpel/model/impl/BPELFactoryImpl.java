@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.3 2005/12/06 00:33:48 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.4 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -41,6 +41,7 @@ import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -68,6 +69,7 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -158,6 +160,8 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.SERVICE_REF: return createServiceRef();
 			case BPELPackage.EXTENSIONS: return createExtensions();
 			case BPELPackage.EXTENSION_ACTIVITY: return createExtensionActivity();
+			case BPELPackage.FROM_PART: return createFromPart();
+			case BPELPackage.TO_PART: return createToPart();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -753,6 +757,26 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public ExtensionActivity createExtensionActivity() {
 		ExtensionActivityImpl extensionActivity = new ExtensionActivityImpl();
 		return extensionActivity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FromPart createFromPart() {
+		FromPartImpl fromPart = new FromPartImpl();
+		return fromPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ToPart createToPart() {
+		ToPartImpl toPart = new ToPartImpl();
+		return toPart;
 	}
 
 	/**

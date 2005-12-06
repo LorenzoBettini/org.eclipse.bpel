@@ -10,11 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Reply.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Reply.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import javax.xml.namespace.QName;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +36,7 @@ import javax.xml.namespace.QName;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Reply#getFaultName <em>Fault Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Reply#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Reply#getToPart <em>To Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -41,7 +44,7 @@ import javax.xml.namespace.QName;
  * @model
  * @generated
  */
-public interface Reply extends PartnerActivity, Activity {
+public interface Reply extends PartnerActivity, Activity{
 	/**
 	 * Returns the value of the '<em><b>Fault Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -93,5 +96,21 @@ public interface Reply extends PartnerActivity, Activity {
 	 * @generated
 	 */
 	void setVariable(Variable value);
+
+	/**
+	 * Returns the value of the '<em><b>To Part</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.bpel.model.ToPart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>To Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>To Part</em>' reference list.
+	 * @see org.eclipse.bpel.model.BPELPackage#getReply_ToPart()
+	 * @model type="org.eclipse.bpel.model.ToPart"
+	 * @generated
+	 */
+	EList getToPart();
 
 } // Reply

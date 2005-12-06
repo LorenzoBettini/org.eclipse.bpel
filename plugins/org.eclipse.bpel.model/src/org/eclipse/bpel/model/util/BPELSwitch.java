@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.3 2005/12/06 00:33:48 james Exp $
+ * $Id: BPELSwitch.java,v 1.4 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -42,6 +42,7 @@ import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -69,6 +70,7 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -618,6 +620,18 @@ public class BPELSwitch {
 				if (result == null) result = caseActivity(extensionActivity);
 				if (result == null) result = caseExtensibleElement(extensionActivity);
 				if (result == null) result = caseWSDLElement(extensionActivity);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.FROM_PART: {
+				FromPart fromPart = (FromPart)theEObject;
+				Object result = caseFromPart(fromPart);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.TO_PART: {
+				ToPart toPart = (ToPart)theEObject;
+				Object result = caseToPart(toPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1462,6 +1476,36 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseExtensionActivity(ExtensionActivity object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>From Part</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>From Part</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseFromPart(FromPart object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>To Part</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>To Part</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseToPart(ToPart object) {
 		return null;
 	}
 

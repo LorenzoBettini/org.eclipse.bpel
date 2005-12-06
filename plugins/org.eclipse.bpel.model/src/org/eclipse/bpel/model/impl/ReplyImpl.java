@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: ReplyImpl.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,12 +24,17 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 import org.w3c.dom.Element;
@@ -43,6 +48,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getFaultName <em>Fault Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getToPart <em>To Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,6 +84,16 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * @ordered
 	 */
 	protected Variable variable = null;
+
+	/**
+	 * The cached value of the '{@link #getToPart() <em>To Part</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getToPart()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList toPart = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -161,6 +177,18 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getToPart() {
+		if (toPart == null) {
+			toPart = new EObjectResolvingEList(ToPart.class, this, BPELPackage.REPLY__TO_PART);
+		}
+		return toPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.REPLY__DOCUMENTATION_ELEMENT:
@@ -193,6 +221,8 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 			case BPELPackage.REPLY__VARIABLE:
 				if (resolve) return getVariable();
 				return basicGetVariable();
+			case BPELPackage.REPLY__TO_PART:
+				return getToPart();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -244,6 +274,10 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 			case BPELPackage.REPLY__VARIABLE:
 				setVariable((Variable)newValue);
 				return;
+			case BPELPackage.REPLY__TO_PART:
+				getToPart().clear();
+				getToPart().addAll((Collection)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -294,6 +328,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 			case BPELPackage.REPLY__VARIABLE:
 				setVariable((Variable)null);
 				return;
+			case BPELPackage.REPLY__TO_PART:
+				getToPart().clear();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -331,6 +368,8 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.REPLY__VARIABLE:
 				return variable != null;
+			case BPELPackage.REPLY__TO_PART:
+				return toPart != null && !toPart.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -10,9 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessage.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: OnMessage.java,v 1.2 2005/12/06 02:05:30 james Exp $
  */
 package org.eclipse.bpel.model;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Operation;
@@ -36,6 +38,7 @@ import org.eclipse.wst.wsdl.PortType;
  *   <li>{@link org.eclipse.bpel.model.OnMessage#getPartnerLink <em>Partner Link</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnMessage#getCorrelations <em>Correlations</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnMessage#getOperation <em>Operation</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.OnMessage#getFromPart <em>From Part</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,7 +46,7 @@ import org.eclipse.wst.wsdl.PortType;
  * @model
  * @generated
  */
-public interface OnMessage extends ExtensibleElement {
+public interface OnMessage extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>Variable</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -199,5 +202,21 @@ public interface OnMessage extends ExtensibleElement {
 	 * @generated
 	 */
 	void setOperation(Operation value);
+
+	/**
+	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>From Part</em>' reference list.
+	 * @see org.eclipse.bpel.model.BPELPackage#getOnMessage_FromPart()
+	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @generated
+	 */
+	EList getFromPart();
 
 } // OnMessage
