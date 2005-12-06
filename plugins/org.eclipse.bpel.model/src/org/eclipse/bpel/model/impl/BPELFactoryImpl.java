@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.3 2005/12/06 00:33:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -36,6 +36,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -156,6 +157,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.QUERY: return createQuery();
 			case BPELPackage.SERVICE_REF: return createServiceRef();
 			case BPELPackage.EXTENSIONS: return createExtensions();
+			case BPELPackage.EXTENSION_ACTIVITY: return createExtensionActivity();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -741,6 +743,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Extensions createExtensions() {
 		ExtensionsImpl extensions = new ExtensionsImpl();
 		return extensions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExtensionActivity createExtensionActivity() {
+		ExtensionActivityImpl extensionActivity = new ExtensionActivityImpl();
+		return extensionActivity;
 	}
 
 	/**

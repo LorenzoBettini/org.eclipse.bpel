@@ -47,6 +47,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -1150,6 +1151,8 @@ public class BPELReader {
      		activity = xml2Compensate(activityElement);
      	} else if (localName.equals("rethrow")) {
      		activity = xml2Rethrow(activityElement);
+     	} else if (localName.equals("extensionActivity")) {
+     		activity = xml2ExtensionActivity(activityElement);
      	} else {
      		return null;
      	}
@@ -1890,7 +1893,7 @@ public class BPELReader {
 	}
 
 	/**
-	 * Converts an XML empty element to a BPEL Rethrow object.
+	 * Converts an XML rethrow element to a BPEL Rethrow object.
 	 */
 	protected Activity xml2Rethrow(Element rethrowElement) {
 		Rethrow rethrow = BPELFactory.eINSTANCE.createRethrow();
@@ -1900,6 +1903,18 @@ public class BPELReader {
     	return rethrow;
 	}
 
+	/**
+	 * Converts an XML extensionactivity element to a BPEL ExtensionActivity object.
+	 */
+	protected Activity xml2ExtensionActivity(Element extensionActivityElement) {
+		ExtensionActivity extensionActivity = BPELFactory.eINSTANCE.createExtensionActivity();
+		
+		setStandardAttributes(extensionActivityElement, extensionActivity);
+		 
+    	return extensionActivity;
+	}
+
+	
 	/**
 	 * Converts an XML wait element to a BPEL Wait object.
 	 */

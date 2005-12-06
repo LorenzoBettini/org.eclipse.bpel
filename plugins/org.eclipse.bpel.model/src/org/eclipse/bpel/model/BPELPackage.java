@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.4 2005/12/05 21:04:32 james Exp $
+ * $Id: BPELPackage.java,v 1.5 2005/12/06 00:33:48 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -4581,6 +4581,88 @@ public interface BPELPackage extends EPackage{
 	int EXTENSIONS_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExtensionActivityImpl <em>Extension Activity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ExtensionActivityImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensionActivity()
+	 * @generated
+	 */
+	int EXTENSION_ACTIVITY = 55;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The number of structural features of the '<em>Extension Activity</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_ACTIVITY_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4588,7 +4670,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 55;
+	int CORRELATION_PATTERN = 56;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -4598,7 +4680,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 56;
+	int ENDPOINT_REFERENCE_ROLE = 57;
 
 
 	/**
@@ -6701,6 +6783,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getExtensions_Children();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.ExtensionActivity <em>Extension Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Extension Activity</em>'.
+	 * @see org.eclipse.bpel.model.ExtensionActivity
+	 * @generated
+	 */
+	EClass getExtensionActivity();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

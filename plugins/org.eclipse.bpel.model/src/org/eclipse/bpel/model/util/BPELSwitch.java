@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: BPELSwitch.java,v 1.3 2005/12/06 00:33:48 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -37,6 +37,7 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -608,6 +609,15 @@ public class BPELSwitch {
 				Object result = caseExtensions(extensions);
 				if (result == null) result = caseExtensibleElement(extensions);
 				if (result == null) result = caseWSDLElement(extensions);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.EXTENSION_ACTIVITY: {
+				ExtensionActivity extensionActivity = (ExtensionActivity)theEObject;
+				Object result = caseExtensionActivity(extensionActivity);
+				if (result == null) result = caseActivity(extensionActivity);
+				if (result == null) result = caseExtensibleElement(extensionActivity);
+				if (result == null) result = caseWSDLElement(extensionActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1437,6 +1447,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseExtensions(Extensions object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Extension Activity</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Extension Activity</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseExtensionActivity(ExtensionActivity object) {
 		return null;
 	}
 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.3 2005/12/06 00:33:48 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -35,6 +35,7 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -298,6 +299,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseExtensions(Extensions object) {
 				return createExtensionsAdapter();
+			}
+			public Object caseExtensionActivity(ExtensionActivity object) {
+				return createExtensionActivityAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1099,6 +1103,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createExtensionsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ExtensionActivity <em>Extension Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.ExtensionActivity
+	 * @generated
+	 */
+	public Adapter createExtensionActivityAdapter() {
 		return null;
 	}
 

@@ -49,6 +49,7 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -825,6 +826,8 @@ public class BPELWriter {
 			activityElement = compensate2XML(activity);
 		else if (activity instanceof Rethrow)
 			activityElement = rethrow2XML(activity);
+		else if (activity instanceof ExtensionActivity)
+			activityElement = extensionActivity2XML(activity);
 		else
 			return null;
 
@@ -901,6 +904,11 @@ public class BPELWriter {
 
 	protected Element rethrow2XML(Activity activity) {
 		Element activityElement = createBPELElement("rethrow");
+		return activityElement;
+	}
+
+	protected Element extensionActivity2XML(Activity activity) {
+		Element activityElement = createBPELElement("activityExtension");
 		return activityElement;
 	}
 

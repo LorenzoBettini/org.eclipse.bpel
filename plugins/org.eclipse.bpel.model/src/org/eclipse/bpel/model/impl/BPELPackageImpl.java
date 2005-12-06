@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.4 2005/12/05 21:04:32 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.5 2005/12/06 00:33:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -36,6 +36,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -480,6 +481,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass extensionsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass extensionActivityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2350,6 +2358,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExtensionActivity() {
+		return extensionActivityEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2642,6 +2659,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensionsEClass = createEClass(EXTENSIONS);
 		createEReference(extensionsEClass, EXTENSIONS__CHILDREN);
 
+		extensionActivityEClass = createEClass(EXTENSION_ACTIVITY);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -2730,6 +2749,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		rethrowEClass.getESuperTypes().add(this.getActivity());
 		conditionEClass.getESuperTypes().add(this.getExpression());
 		extensionsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2982,6 +3002,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(extensionsEClass, Extensions.class, "Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExtensions_Children(), this.getExtension(), null, "children", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(extensionActivityEClass, ExtensionActivity.class, "ExtensionActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");
