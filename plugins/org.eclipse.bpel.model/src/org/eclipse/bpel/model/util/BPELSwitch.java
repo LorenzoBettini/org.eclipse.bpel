@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.4 2005/12/06 02:05:30 james Exp $
+ * $Id: BPELSwitch.java,v 1.5 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -50,6 +50,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
@@ -632,6 +633,15 @@ public class BPELSwitch {
 			case BPELPackage.TO_PART: {
 				ToPart toPart = (ToPart)theEObject;
 				Object result = caseToPart(toPart);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.OPAQUE_ACTIVITY: {
+				OpaqueActivity opaqueActivity = (OpaqueActivity)theEObject;
+				Object result = caseOpaqueActivity(opaqueActivity);
+				if (result == null) result = caseActivity(opaqueActivity);
+				if (result == null) result = caseExtensibleElement(opaqueActivity);
+				if (result == null) result = caseWSDLElement(opaqueActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1506,6 +1516,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseToPart(ToPart object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Opaque Activity</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Opaque Activity</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseOpaqueActivity(OpaqueActivity object) {
 		return null;
 	}
 

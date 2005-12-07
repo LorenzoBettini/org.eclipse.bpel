@@ -60,6 +60,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
@@ -1156,6 +1157,8 @@ public class BPELReader {
      		activity = xml2Rethrow(activityElement);
      	} else if (localName.equals("extensionActivity")) {
      		activity = xml2ExtensionActivity(activityElement);
+     	} else if (localName.equals("opaqueActivity")) {
+     		activity = xml2OpaqueActivity(activityElement);
      	} else {
      		return null;
      	}
@@ -1807,9 +1810,14 @@ public class BPELReader {
     	
 		if (expressionElement == null) return expression;
 
+		// Set expressionLanguage
 		if (expressionElement.hasAttribute("expressionLanguage")) {
-			// Set expressionLanguage
 			expression.setExpressionLanguage(expressionElement.getAttribute("expressionLanguage"));
+		}
+
+		// Set opaque
+		if (expressionElement.hasAttribute("opaque")) {
+			expression.setOpaque(new Boolean(expressionElement.getAttribute("opaque").equals("yes")));
 		}
 		
 		// Determine whether or not there is an element in the child list.
@@ -1915,6 +1923,17 @@ public class BPELReader {
 		setStandardAttributes(emptyElement, empty);
 		 
     	return empty;
+	}
+
+	/**
+	 * Converts an XML opaqueActivity element to a BPEL OpaqueActivity object.
+	 */
+	protected Activity xml2OpaqueActivity(Element opaqueActivityElement) {
+		OpaqueActivity opaqueActivity = BPELFactory.eINSTANCE.createOpaqueActivity();
+		
+		setStandardAttributes(opaqueActivityElement, opaqueActivity);
+		 
+    	return opaqueActivity;
 	}
 
 	/**

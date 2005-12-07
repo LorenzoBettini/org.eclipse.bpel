@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Expression.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Expression.java,v 1.2 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -26,6 +26,7 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Expression#getBody <em>Body</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Expression#getExpressionLanguage <em>Expression Language</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Expression#getOpaque <em>Opaque</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,7 +34,7 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  * @model
  * @generated
  */
-public interface Expression extends ExtensibilityElement {
+public interface Expression extends ExtensibilityElement{
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -112,5 +113,58 @@ public interface Expression extends ExtensibilityElement {
 	 * @generated
 	 */
 	boolean isSetExpressionLanguage();
+
+	/**
+	 * Returns the value of the '<em><b>Opaque</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Opaque</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Opaque</em>' attribute.
+	 * @see #isSetOpaque()
+	 * @see #unsetOpaque()
+	 * @see #setOpaque(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getExpression_Opaque()
+	 * @model unsettable="true"
+	 * @generated
+	 */
+	Boolean getOpaque();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Expression#getOpaque <em>Opaque</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Opaque</em>' attribute.
+	 * @see #isSetOpaque()
+	 * @see #unsetOpaque()
+	 * @see #getOpaque()
+	 * @generated
+	 */
+	void setOpaque(Boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.Expression#getOpaque <em>Opaque</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetOpaque()
+	 * @see #getOpaque()
+	 * @see #setOpaque(Boolean)
+	 * @generated
+	 */
+	void unsetOpaque();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Expression#getOpaque <em>Opaque</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Opaque</em>' attribute is set.
+	 * @see #unsetOpaque()
+	 * @see #getOpaque()
+	 * @see #setOpaque(Boolean)
+	 * @generated
+	 */
+	boolean isSetOpaque();
 
 } // Expression

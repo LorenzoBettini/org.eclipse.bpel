@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.6 2005/12/06 02:05:31 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.7 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -49,6 +49,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
@@ -504,6 +505,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass toPartEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass opaqueActivityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1861,6 +1869,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getExpression_Opaque() {
+		return (EAttribute)expressionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBooleanExpression() {
 		return booleanExpressionEClass;
 	}
@@ -2491,6 +2508,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getOpaqueActivity() {
+		return opaqueActivityEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2702,6 +2728,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		expressionEClass = createEClass(EXPRESSION);
 		createEAttribute(expressionEClass, EXPRESSION__BODY);
 		createEAttribute(expressionEClass, EXPRESSION__EXPRESSION_LANGUAGE);
+		createEAttribute(expressionEClass, EXPRESSION__OPAQUE);
 
 		booleanExpressionEClass = createEClass(BOOLEAN_EXPRESSION);
 
@@ -2799,6 +2826,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(toPartEClass, TO_PART__PART);
 		createEReference(toPartEClass, TO_PART__FROM);
 
+		opaqueActivityEClass = createEClass(OPAQUE_ACTIVITY);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -2888,6 +2917,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		conditionEClass.getESuperTypes().add(this.getExpression());
 		extensionsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
+		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3060,6 +3090,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExpression_Body(), theEcorePackage.getEJavaObject(), "body", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpression_ExpressionLanguage(), ecorePackage.getEString(), "expressionLanguage", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpression_Opaque(), theEcorePackage.getEBooleanObject(), "opaque", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(booleanExpressionEClass, BooleanExpression.class, "BooleanExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -3156,6 +3187,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(toPartEClass, ToPart.class, "ToPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getToPart_Part(), theEcorePackage.getEString(), "part", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getToPart_From(), this.getFrom(), null, "from", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(opaqueActivityEClass, OpaqueActivity.class, "OpaqueActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

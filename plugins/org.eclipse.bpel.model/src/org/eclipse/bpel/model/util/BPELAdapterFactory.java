@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.4 2005/12/06 02:05:30 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.5 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -48,6 +48,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
@@ -310,6 +311,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseToPart(ToPart object) {
 				return createToPartAdapter();
+			}
+			public Object caseOpaqueActivity(OpaqueActivity object) {
+				return createOpaqueActivityAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1153,6 +1157,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createToPartAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.OpaqueActivity <em>Opaque Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.OpaqueActivity
+	 * @generated
+	 */
+	public Adapter createOpaqueActivityAdapter() {
 		return null;
 	}
 

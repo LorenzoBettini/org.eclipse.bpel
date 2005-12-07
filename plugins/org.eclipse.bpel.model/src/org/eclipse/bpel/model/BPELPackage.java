@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.6 2005/12/06 02:05:30 james Exp $
+ * $Id: BPELPackage.java,v 1.7 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -3235,13 +3235,22 @@ public interface BPELPackage extends EPackage{
 	int EXPRESSION__EXPRESSION_LANGUAGE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Opaque</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION__OPAQUE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FEATURE_COUNT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
+	int EXPRESSION_FEATURE_COUNT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.BooleanExpressionImpl <em>Boolean Expression</em>}' class.
@@ -3306,6 +3315,15 @@ public interface BPELPackage extends EPackage{
 	 * @ordered
 	 */
 	int BOOLEAN_EXPRESSION__EXPRESSION_LANGUAGE = EXPRESSION__EXPRESSION_LANGUAGE;
+
+	/**
+	 * The feature id for the '<em><b>Opaque</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXPRESSION__OPAQUE = EXPRESSION__OPAQUE;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Expression</em>' class.
@@ -4432,6 +4450,15 @@ public interface BPELPackage extends EPackage{
 	int CONDITION__EXPRESSION_LANGUAGE = EXPRESSION__EXPRESSION_LANGUAGE;
 
 	/**
+	 * The feature id for the '<em><b>Opaque</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__OPAQUE = EXPRESSION__OPAQUE;
+
+	/**
 	 * The number of structural features of the '<em>Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4791,6 +4818,88 @@ public interface BPELPackage extends EPackage{
 	int TO_PART_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.OpaqueActivityImpl <em>Opaque Activity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.OpaqueActivityImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOpaqueActivity()
+	 * @generated
+	 */
+	int OPAQUE_ACTIVITY = 58;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The number of structural features of the '<em>Opaque Activity</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPAQUE_ACTIVITY_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4798,7 +4907,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 58;
+	int CORRELATION_PATTERN = 59;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -4808,7 +4917,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 59;
+	int ENDPOINT_REFERENCE_ROLE = 60;
 
 
 	/**
@@ -6309,6 +6418,17 @@ public interface BPELPackage extends EPackage{
 	EAttribute getExpression_ExpressionLanguage();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Expression#getOpaque <em>Opaque</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Opaque</em>'.
+	 * @see org.eclipse.bpel.model.Expression#getOpaque()
+	 * @see #getExpression()
+	 * @generated
+	 */
+	EAttribute getExpression_Opaque();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.BooleanExpression <em>Boolean Expression</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7051,6 +7171,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getToPart_From();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.OpaqueActivity <em>Opaque Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Opaque Activity</em>'.
+	 * @see org.eclipse.bpel.model.OpaqueActivity
+	 * @generated
+	 */
+	EClass getOpaqueActivity();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

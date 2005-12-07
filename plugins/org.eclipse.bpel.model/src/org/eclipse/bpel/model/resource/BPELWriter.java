@@ -62,6 +62,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -867,6 +868,8 @@ public class BPELWriter {
 			activityElement = rethrow2XML(activity);
 		else if (activity instanceof ExtensionActivity)
 			activityElement = extensionActivity2XML(activity);
+		else if (activity instanceof OpaqueActivity)
+			activityElement = opaqueActivity2XML(activity);
 		else
 			return null;
 
@@ -938,6 +941,11 @@ public class BPELWriter {
 
 	protected Element empty2XML(Activity activity) {
 		Element activityElement = createBPELElement("empty");
+		return activityElement;
+	}
+
+	protected Element opaqueActivity2XML(Activity activity) {
+		Element activityElement = createBPELElement("opaqueActivity");
 		return activityElement;
 	}
 
@@ -1325,6 +1333,9 @@ public class BPELWriter {
 		
 		if (expression.getExpressionLanguage() != null) {
 			expressionElement.setAttribute("expressionLanguage", expression.getExpressionLanguage());
+		}
+		if (expression.getOpaque() != null) {
+			expressionElement.setAttribute("opaque", BPELUtils.boolean2XML(expression.getOpaque()));
 		}
 		if (expression.getBody() != null) {
 			Object body = expression.getBody();

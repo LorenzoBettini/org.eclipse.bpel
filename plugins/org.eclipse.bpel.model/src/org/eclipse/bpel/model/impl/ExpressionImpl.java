@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: ExpressionImpl.java,v 1.2 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -39,6 +39,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.ExpressionImpl#getBody <em>Body</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ExpressionImpl#getExpressionLanguage <em>Expression Language</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ExpressionImpl#getOpaque <em>Opaque</em>}</li>
  * </ul>
  * </p>
  *
@@ -93,6 +94,35 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * @ordered
 	 */
 	protected boolean expressionLanguageESet = false;
+
+	/**
+	 * The default value of the '{@link #getOpaque() <em>Opaque</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOpaque()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean OPAQUE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getOpaque() <em>Opaque</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOpaque()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean opaque = OPAQUE_EDEFAULT;
+
+	/**
+	 * This is true if the Opaque attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean opaqueESet = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -184,6 +214,52 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getOpaque() {
+		return opaque;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOpaque(Boolean newOpaque) {
+		Boolean oldOpaque = opaque;
+		opaque = newOpaque;
+		boolean oldOpaqueESet = opaqueESet;
+		opaqueESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXPRESSION__OPAQUE, oldOpaque, opaque, !oldOpaqueESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetOpaque() {
+		Boolean oldOpaque = opaque;
+		boolean oldOpaqueESet = opaqueESet;
+		opaque = OPAQUE_EDEFAULT;
+		opaqueESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXPRESSION__OPAQUE, oldOpaque, OPAQUE_EDEFAULT, oldOpaqueESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetOpaque() {
+		return opaqueESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.EXPRESSION__DOCUMENTATION_ELEMENT:
@@ -198,6 +274,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 				return getBody();
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
 				return getExpressionLanguage();
+			case BPELPackage.EXPRESSION__OPAQUE:
+				return getOpaque();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -226,6 +304,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 				return;
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
 				setExpressionLanguage((String)newValue);
+				return;
+			case BPELPackage.EXPRESSION__OPAQUE:
+				setOpaque((Boolean)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -256,6 +337,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
 				unsetExpressionLanguage();
 				return;
+			case BPELPackage.EXPRESSION__OPAQUE:
+				unsetOpaque();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -279,6 +363,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
 				return isSetExpressionLanguage();
+			case BPELPackage.EXPRESSION__OPAQUE:
+				return isSetOpaque();
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -296,6 +382,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 		result.append(body);
 		result.append(", expressionLanguage: ");
 		if (expressionLanguageESet) result.append(expressionLanguage); else result.append("<unset>");
+		result.append(", opaque: ");
+		if (opaqueESet) result.append(opaque); else result.append("<unset>");
 		result.append(')');
 		return result.toString();
 	}

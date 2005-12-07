@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.4 2005/12/06 02:05:30 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.5 2005/12/07 14:58:09 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -49,6 +49,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
@@ -162,6 +163,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.EXTENSION_ACTIVITY: return createExtensionActivity();
 			case BPELPackage.FROM_PART: return createFromPart();
 			case BPELPackage.TO_PART: return createToPart();
+			case BPELPackage.OPAQUE_ACTIVITY: return createOpaqueActivity();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -777,6 +779,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public ToPart createToPart() {
 		ToPartImpl toPart = new ToPartImpl();
 		return toPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OpaqueActivity createOpaqueActivity() {
+		OpaqueActivityImpl opaqueActivity = new OpaqueActivityImpl();
+		return opaqueActivity;
 	}
 
 	/**
