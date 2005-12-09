@@ -149,7 +149,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
         eType="#//FromPart"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Terminate" eSuperTypes="#//Activity">
+  <eClassifiers xsi:type="ecore:EClass" name="Exit" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="When executed, immediately terminates the business process."/>
     </eAnnotations>

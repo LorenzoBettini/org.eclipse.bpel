@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.10 2005/12/09 18:45:56 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.11 2005/12/09 19:02:57 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
@@ -69,7 +70,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -178,13 +178,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass receiveEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass terminateEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -479,6 +472,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass serviceRefEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass exitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1176,15 +1176,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getReceive_FromPart() {
 		return (EReference)receiveEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getTerminate() {
-		return terminateEClass;
 	}
 
 	/**
@@ -2434,6 +2425,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExit() {
+		return exitEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExtensions() {
 		return extensionsEClass;
 	}
@@ -2709,8 +2709,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(receiveEClass, RECEIVE__VARIABLE);
 		createEReference(receiveEClass, RECEIVE__FROM_PART);
 
-		terminateEClass = createEClass(TERMINATE);
-
 		throwEClass = createEClass(THROW);
 		createEAttribute(throwEClass, THROW__FAULT_NAME);
 		createEReference(throwEClass, THROW__FAULT_VARIABLE);
@@ -2891,6 +2889,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(serviceRefEClass, SERVICE_REF__REFERENCE_SCHEME);
 		createEAttribute(serviceRefEClass, SERVICE_REF__VALUE);
 
+		exitEClass = createEClass(EXIT);
+
 		extensionsEClass = createEClass(EXTENSIONS);
 		createEReference(extensionsEClass, EXTENSIONS__CHILDREN);
 
@@ -2964,7 +2964,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		replyEClass.getESuperTypes().add(this.getActivity());
 		partnerActivityEClass.getESuperTypes().add(this.getActivity());
 		receiveEClass.getESuperTypes().add(this.getPartnerActivity());
-		terminateEClass.getESuperTypes().add(this.getActivity());
 		throwEClass.getESuperTypes().add(this.getActivity());
 		waitEClass.getESuperTypes().add(this.getActivity());
 		emptyEClass.getESuperTypes().add(this.getActivity());
@@ -3003,6 +3002,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		onEventEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
 		conditionEClass.getESuperTypes().add(this.getExpression());
+		exitEClass.getESuperTypes().add(this.getActivity());
 		extensionsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
@@ -3081,8 +3081,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEAttribute(getReceive_CreateInstance(), ecorePackage.getEBooleanObject(), "createInstance", "false", 0, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReceive_Variable(), this.getVariable(), null, "variable", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReceive_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(terminateEClass, Terminate.class, "Terminate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(throwEClass, Throw.class, "Throw", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getThrow_FaultName(), theWSDLPackage.getQName(), "faultName", null, 0, 1, Throw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3263,6 +3261,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(serviceRefEClass, ServiceRef.class, "ServiceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getServiceRef_ReferenceScheme(), ecorePackage.getEString(), "referenceScheme", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceRef_Value(), theEcorePackage.getEJavaObject(), "value", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(exitEClass, Exit.class, "Exit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(extensionsEClass, Extensions.class, "Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExtensions_Children(), this.getExtension(), null, "children", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

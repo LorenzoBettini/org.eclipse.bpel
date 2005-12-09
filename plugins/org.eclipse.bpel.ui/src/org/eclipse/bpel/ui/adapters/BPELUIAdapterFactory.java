@@ -40,7 +40,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	ReceiveAdapter receiveAdapter;
 	ReplyAdapter replyAdapter;
 	ScopeAdapter scopeAdapter;
-	TerminateAdapter terminateAdapter;
+	ExitAdapter exitAdapter;
 	ThrowAdapter throwAdapter;
 	WaitAdapter waitAdapter;
 	CorrelationSetAdapter correlationSetAdapter;
@@ -202,12 +202,6 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		}		
 		return scopeAdapter;
 	}
-	public Adapter createTerminateAdapter() {
-		if (terminateAdapter == null) {
-			terminateAdapter = new TerminateAdapter();	
-		}		
-		return terminateAdapter;
-	}
 	public Adapter createThrowAdapter() {
 		if (throwAdapter == null) {
 			throwAdapter = new ThrowAdapter();	
@@ -285,6 +279,13 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return rethrowAdapter;
 	}	
 	
+	public Adapter createExitAdapter() {
+		if (exitAdapter == null) {
+			exitAdapter = new ExitAdapter();	
+		}		
+		return exitAdapter;
+	}
+
 	// Anyone creating a new adapter factory needs these three methods verbatim.
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);

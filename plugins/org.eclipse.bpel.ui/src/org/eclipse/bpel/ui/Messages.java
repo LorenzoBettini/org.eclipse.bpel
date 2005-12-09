@@ -77,8 +77,8 @@ public final class Messages extends NLS {
 	public static String BPELEditor_Sequence_24;
 	public static String BPELEditor_Switch_17;
 	public static String BPELEditor_Switch_18;
-	public static String BPELEditor_Terminate_26;
-	public static String BPELEditor_Terminate_27;
+	public static String BPELEditor_Exit_26;
+	public static String BPELEditor_Exit_27;
 	public static String BPELEditor_Throw_28;
 	public static String BPELEditor_Throw_29;
 	public static String BPELEditor_Top_Control_Group_37;

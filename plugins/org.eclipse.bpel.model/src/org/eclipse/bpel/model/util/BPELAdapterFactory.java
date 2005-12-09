@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.7 2005/12/09 18:45:56 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.8 2005/12/09 19:02:57 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -33,6 +33,7 @@ import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
@@ -68,7 +69,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -172,9 +172,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseReceive(Receive object) {
 				return createReceiveAdapter();
-			}
-			public Object caseTerminate(Terminate object) {
-				return createTerminateAdapter();
 			}
 			public Object caseThrow(Throw object) {
 				return createThrowAdapter();
@@ -301,6 +298,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseServiceRef(ServiceRef object) {
 				return createServiceRefAdapter();
+			}
+			public Object caseExit(Exit object) {
+				return createExitAdapter();
 			}
 			public Object caseExtensions(Extensions object) {
 				return createExtensionsAdapter();
@@ -507,20 +507,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReceiveAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Terminate <em>Terminate</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.Terminate
-	 * @generated
-	 */
-	public Adapter createTerminateAdapter() {
 		return null;
 	}
 
@@ -1109,6 +1095,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createServiceRefAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Exit <em>Exit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Exit
+	 * @generated
+	 */
+	public Adapter createExitAdapter() {
 		return null;
 	}
 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.7 2005/12/09 18:45:56 james Exp $
+ * $Id: BPELFactory.java,v 1.8 2005/12/09 19:02:57 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -131,15 +131,6 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	Receive createReceive();
-
-	/**
-	 * Returns a new object of class '<em>Terminate</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Terminate</em>'.
-	 * @generated
-	 */
-	Terminate createTerminate();
 
 	/**
 	 * Returns a new object of class '<em>Throw</em>'.
@@ -518,6 +509,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	ServiceRef createServiceRef();
+
+	/**
+	 * Returns a new object of class '<em>Exit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Exit</em>'.
+	 * @generated
+	 */
+	Exit createExit();
 
 	/**
 	 * Returns a new object of class '<em>Extensions</em>'.

@@ -10,5 +10,5 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-public class TerminateAdapter extends ActivityAdapter {
+public class ExitAdapter extends ActivityAdapter {
 }

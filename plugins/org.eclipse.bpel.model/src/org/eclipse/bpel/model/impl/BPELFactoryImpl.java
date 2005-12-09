@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.7 2005/12/09 18:45:56 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.8 2005/12/09 19:02:57 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
@@ -69,7 +70,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -118,7 +118,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.REPLY: return createReply();
 			case BPELPackage.PARTNER_ACTIVITY: return createPartnerActivity();
 			case BPELPackage.RECEIVE: return createReceive();
-			case BPELPackage.TERMINATE: return createTerminate();
 			case BPELPackage.THROW: return createThrow();
 			case BPELPackage.WAIT: return createWait();
 			case BPELPackage.EMPTY: return createEmpty();
@@ -161,6 +160,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.SOURCES: return createSources();
 			case BPELPackage.QUERY: return createQuery();
 			case BPELPackage.SERVICE_REF: return createServiceRef();
+			case BPELPackage.EXIT: return createExit();
 			case BPELPackage.EXTENSIONS: return createExtensions();
 			case BPELPackage.EXTENSION_ACTIVITY: return createExtensionActivity();
 			case BPELPackage.FROM_PART: return createFromPart();
@@ -313,16 +313,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Receive createReceive() {
 		ReceiveImpl receive = new ReceiveImpl();
 		return receive;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Terminate createTerminate() {
-		TerminateImpl terminate = new TerminateImpl();
-		return terminate;
 	}
 
 	/**
@@ -743,6 +733,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public ServiceRef createServiceRef() {
 		ServiceRefImpl serviceRef = new ServiceRefImpl();
 		return serviceRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Exit createExit() {
+		ExitImpl exit = new ExitImpl();
+		return exit;
 	}
 
 	/**

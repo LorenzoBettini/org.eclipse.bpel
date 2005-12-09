@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.7 2005/12/09 18:45:56 james Exp $
+ * $Id: BPELSwitch.java,v 1.8 2005/12/09 19:02:57 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -35,6 +35,7 @@ import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
@@ -70,7 +71,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -251,15 +251,6 @@ public class BPELSwitch {
 				if (result == null) result = caseActivity(receive);
 				if (result == null) result = caseExtensibleElement(receive);
 				if (result == null) result = caseWSDLElement(receive);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case BPELPackage.TERMINATE: {
-				Terminate terminate = (Terminate)theEObject;
-				Object result = caseTerminate(terminate);
-				if (result == null) result = caseActivity(terminate);
-				if (result == null) result = caseExtensibleElement(terminate);
-				if (result == null) result = caseWSDLElement(terminate);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -609,6 +600,15 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case BPELPackage.EXIT: {
+				Exit exit = (Exit)theEObject;
+				Object result = caseExit(exit);
+				if (result == null) result = caseActivity(exit);
+				if (result == null) result = caseExtensibleElement(exit);
+				if (result == null) result = caseWSDLElement(exit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case BPELPackage.EXTENSIONS: {
 				Extensions extensions = (Extensions)theEObject;
 				Object result = caseExtensions(extensions);
@@ -831,21 +831,6 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseReceive(Receive object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Terminate</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Terminate</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseTerminate(Terminate object) {
 		return null;
 	}
 
@@ -1476,6 +1461,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseServiceRef(ServiceRef object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Exit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Exit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseExit(Exit object) {
 		return null;
 	}
 

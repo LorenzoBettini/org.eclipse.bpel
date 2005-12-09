@@ -47,6 +47,7 @@ import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
@@ -82,7 +83,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -848,8 +848,8 @@ public class BPELWriter {
 			activityElement = wait2XML(activity);
 		else if (activity instanceof Throw)
 			activityElement = throw2XML(activity);
-		else if (activity instanceof Terminate)
-			activityElement = terminate2XML(activity);
+		else if (activity instanceof Exit)
+			activityElement = exit2XML(activity);
 		else if (activity instanceof Flow)
 			activityElement = flow2XML(activity);
 		else if (activity instanceof Switch)
@@ -1248,8 +1248,8 @@ public class BPELWriter {
 		return activityElement;
 	}
 
-	protected Element terminate2XML(Activity activity) {
-		Element activityElement = createBPELElement("terminate");
+	protected Element exit2XML(Activity activity) {
+		Element activityElement = createBPELElement("exit");
 		return activityElement;
 	}
 

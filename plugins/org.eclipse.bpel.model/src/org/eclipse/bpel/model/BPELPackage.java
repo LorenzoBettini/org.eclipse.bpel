@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.10 2005/12/09 18:45:56 james Exp $
+ * $Id: BPELPackage.java,v 1.11 2005/12/09 19:02:57 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -1279,88 +1279,6 @@ public interface BPELPackage extends EPackage{
 	int RECEIVE_FEATURE_COUNT = PARTNER_ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.TerminateImpl <em>Terminate</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.TerminateImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTerminate()
-	 * @generated
-	 */
-	int TERMINATE = 11;
-
-	/**
-	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__ELEMENT = ACTIVITY__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__NAME = ACTIVITY__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
-
-	/**
-	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__TARGETS = ACTIVITY__TARGETS;
-
-	/**
-	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE__SOURCES = ACTIVITY__SOURCES;
-
-	/**
-	 * The number of structural features of the '<em>Terminate</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TERMINATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ThrowImpl <em>Throw</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1368,7 +1286,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getThrow()
 	 * @generated
 	 */
-	int THROW = 12;
+	int THROW = 11;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1468,7 +1386,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getWait()
 	 * @generated
 	 */
-	int WAIT = 13;
+	int WAIT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1568,7 +1486,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEmpty()
 	 * @generated
 	 */
-	int EMPTY = 14;
+	int EMPTY = 13;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1650,7 +1568,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSequence()
 	 * @generated
 	 */
-	int SEQUENCE = 15;
+	int SEQUENCE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1741,7 +1659,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSwitch()
 	 * @generated
 	 */
-	int SWITCH = 16;
+	int SWITCH = 15;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1841,7 +1759,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCase()
 	 * @generated
 	 */
-	int CASE = 17;
+	int CASE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1905,7 +1823,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getWhile()
 	 * @generated
 	 */
-	int WHILE = 18;
+	int WHILE = 17;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2005,7 +1923,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getPick()
 	 * @generated
 	 */
-	int PICK = 19;
+	int PICK = 18;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2114,7 +2032,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFlow()
 	 * @generated
 	 */
-	int FLOW = 20;
+	int FLOW = 19;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2214,7 +2132,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOnAlarm()
 	 * @generated
 	 */
-	int ON_ALARM = 21;
+	int ON_ALARM = 20;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2296,7 +2214,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getAssign()
 	 * @generated
 	 */
-	int ASSIGN = 22;
+	int ASSIGN = 21;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2387,7 +2305,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCopy()
 	 * @generated
 	 */
-	int COPY = 23;
+	int COPY = 22;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2451,7 +2369,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtension()
 	 * @generated
 	 */
-	int EXTENSION = 24;
+	int EXTENSION = 23;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2515,7 +2433,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getScope()
 	 * @generated
 	 */
-	int SCOPE = 25;
+	int SCOPE = 24;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2669,7 +2587,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensate()
 	 * @generated
 	 */
-	int COMPENSATE = 26;
+	int COMPENSATE = 25;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2760,7 +2678,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensationHandler()
 	 * @generated
 	 */
-	int COMPENSATION_HANDLER = 27;
+	int COMPENSATION_HANDLER = 26;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2815,7 +2733,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTo()
 	 * @generated
 	 */
-	int TO = 28;
+	int TO = 27;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -2906,7 +2824,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFrom()
 	 * @generated
 	 */
-	int FROM = 29;
+	int FROM = 28;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3060,7 +2978,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOnMessage()
 	 * @generated
 	 */
-	int ON_MESSAGE = 30;
+	int ON_MESSAGE = 29;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3169,7 +3087,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExpression()
 	 * @generated
 	 */
-	int EXPRESSION = 31;
+	int EXPRESSION = 30;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3251,7 +3169,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getBooleanExpression()
 	 * @generated
 	 */
-	int BOOLEAN_EXPRESSION = 32;
+	int BOOLEAN_EXPRESSION = 31;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3333,7 +3251,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelation()
 	 * @generated
 	 */
-	int CORRELATION = 33;
+	int CORRELATION = 32;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3406,7 +3324,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEventHandler()
 	 * @generated
 	 */
-	int EVENT_HANDLER = 34;
+	int EVENT_HANDLER = 33;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3470,7 +3388,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSource()
 	 * @generated
 	 */
-	int SOURCE = 35;
+	int SOURCE = 34;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3543,7 +3461,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTarget()
 	 * @generated
 	 */
-	int TARGET = 36;
+	int TARGET = 35;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3607,7 +3525,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getPartnerLinks()
 	 * @generated
 	 */
-	int PARTNER_LINKS = 37;
+	int PARTNER_LINKS = 36;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3662,7 +3580,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getVariables()
 	 * @generated
 	 */
-	int VARIABLES = 38;
+	int VARIABLES = 37;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3717,7 +3635,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationSets()
 	 * @generated
 	 */
-	int CORRELATION_SETS = 39;
+	int CORRELATION_SETS = 38;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3772,7 +3690,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getLinks()
 	 * @generated
 	 */
-	int LINKS = 40;
+	int LINKS = 39;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3827,7 +3745,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCatchAll()
 	 * @generated
 	 */
-	int CATCH_ALL = 41;
+	int CATCH_ALL = 40;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3882,7 +3800,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelations()
 	 * @generated
 	 */
-	int CORRELATIONS = 42;
+	int CORRELATIONS = 41;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3937,7 +3855,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getVariable()
 	 * @generated
 	 */
-	int VARIABLE = 43;
+	int VARIABLE = 42;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4019,7 +3937,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOtherwise()
 	 * @generated
 	 */
-	int OTHERWISE = 44;
+	int OTHERWISE = 43;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4074,7 +3992,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getUnknownExtensibilityAttribute()
 	 * @generated
 	 */
-	int UNKNOWN_EXTENSIBILITY_ATTRIBUTE = 45;
+	int UNKNOWN_EXTENSIBILITY_ATTRIBUTE = 44;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4138,7 +4056,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOnEvent()
 	 * @generated
 	 */
-	int ON_EVENT = 46;
+	int ON_EVENT = 45;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4256,7 +4174,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getImport()
 	 * @generated
 	 */
-	int IMPORT = 47;
+	int IMPORT = 46;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' attribute.
@@ -4302,7 +4220,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getRethrow()
 	 * @generated
 	 */
-	int RETHROW = 48;
+	int RETHROW = 47;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4384,7 +4302,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCondition()
 	 * @generated
 	 */
-	int CONDITION = 49;
+	int CONDITION = 48;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4466,7 +4384,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTargets()
 	 * @generated
 	 */
-	int TARGETS = 50;
+	int TARGETS = 49;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -4503,7 +4421,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSources()
 	 * @generated
 	 */
-	int SOURCES = 51;
+	int SOURCES = 50;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -4531,7 +4449,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getQuery()
 	 * @generated
 	 */
-	int QUERY = 52;
+	int QUERY = 51;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -4568,7 +4486,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getServiceRef()
 	 * @generated
 	 */
-	int SERVICE_REF = 53;
+	int SERVICE_REF = 52;
 
 	/**
 	 * The feature id for the '<em><b>Reference Scheme</b></em>' attribute.
@@ -4596,6 +4514,88 @@ public interface BPELPackage extends EPackage{
 	 * @ordered
 	 */
 	int SERVICE_REF_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExitImpl <em>Exit</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ExitImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExit()
+	 * @generated
+	 */
+	int EXIT = 53;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The number of structural features of the '<em>Exit</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExtensionsImpl <em>Extensions</em>}' class.
@@ -5788,16 +5788,6 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getReceive_FromPart();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Terminate <em>Terminate</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Terminate</em>'.
-	 * @see org.eclipse.bpel.model.Terminate
-	 * @generated
-	 */
-	EClass getTerminate();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Throw <em>Throw</em>}'.
@@ -7274,6 +7264,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EAttribute getServiceRef_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Exit <em>Exit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Exit</em>'.
+	 * @see org.eclipse.bpel.model.Exit
+	 * @generated
+	 */
+	EClass getExit();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Extensions <em>Extensions</em>}'.

@@ -65,8 +65,8 @@ public interface IBPELUIConstants {
 	public final String ICON_SEQUENCE_32 = "obj20/sequence.png"; //$NON-NLS-1$
 	public final String ICON_SWITCH_16 = "obj16/switch.gif"; //$NON-NLS-1$
 	public final String ICON_SWITCH_32 = "obj20/switch.png"; //$NON-NLS-1$
-	public final String ICON_TERMINATE_16 = "obj16/terminate.gif"; //$NON-NLS-1$
-	public final String ICON_TERMINATE_32 = "obj20/terminate.png"; //$NON-NLS-1$
+	public final String ICON_EXIT_16 = "obj16/exit.gif"; //$NON-NLS-1$
+	public final String ICON_EXIT_32 = "obj20/exit.png"; //$NON-NLS-1$
 	public final String ICON_THROW_16 = "obj16/throw.gif"; //$NON-NLS-1$
 	public final String ICON_THROW_32 = "obj20/throw.png"; //$NON-NLS-1$
 	public final String ICON_RETHROW_16 = "obj16/rethrow.gif"; //$NON-NLS-1$

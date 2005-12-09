@@ -45,6 +45,7 @@ import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
@@ -81,7 +82,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.Terminate;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -1133,8 +1133,8 @@ public class BPELReader {
       		activity = xml2Assign(activityElement);
      	} else if (localName.equals("throw")) {
       		activity = xml2Throw(activityElement);
-     	} else if (localName.equals("terminate")) {
-      		activity = xml2Terminate(activityElement);
+     	} else if (localName.equals("exit")) {
+      		activity = xml2Exit(activityElement);
      	} else if (localName.equals("wait")) {
       		activity = xml2Wait(activityElement);
      	} else if (localName.equals("empty")) {
@@ -1996,19 +1996,19 @@ public class BPELReader {
 	}
 
 	/**
-	 * Converts an XML terminate element to a BPEL Terminate object.
+	 * Converts an XML exit element to a BPEL Exit object.
 	 */
-	protected Activity xml2Terminate(Element terminateElement) {
-    	Terminate terminate = BPELFactory.eINSTANCE.createTerminate();
+	protected Activity xml2Exit(Element exitElement) {
+    	Exit exit = BPELFactory.eINSTANCE.createExit();
 
-		Attr name = terminateElement.getAttributeNode("name");
+		Attr name = exitElement.getAttributeNode("name");
 		
 		if (name != null && name.getSpecified())
-			terminate.setName(name.getValue());
+			exit.setName(name.getValue());
 		
-		setStandardAttributes(terminateElement, terminate);
+		setStandardAttributes(exitElement, exit);
 			
-		return terminate;
+		return exit;
 	}
 
 	/**

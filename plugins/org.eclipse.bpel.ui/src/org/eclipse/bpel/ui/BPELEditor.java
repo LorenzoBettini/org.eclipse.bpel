@@ -492,9 +492,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 		PaletteCategory faultCategory = new PaletteCategory("Faults"); //$NON-NLS-1$
 		faultCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Terminate_26, 
-			Messages.BPELEditor_Terminate_27, 
-			provider.getFactoryFor(bpelPackage.getTerminate())));
+			Messages.BPELEditor_Exit_26, 
+			Messages.BPELEditor_Exit_27, 
+			provider.getFactoryFor(bpelPackage.getExit())));
 		faultCategory.add(new BPELCreationToolEntry(
 			Messages.BPELEditor_Throw_28, 
 			Messages.BPELEditor_Throw_29, 

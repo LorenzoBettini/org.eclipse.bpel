@@ -52,7 +52,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		BPELPackage.eINSTANCE.getPick(),
 		BPELPackage.eINSTANCE.getScope(),
 		BPELPackage.eINSTANCE.getSwitch(),
-		BPELPackage.eINSTANCE.getTerminate(),
+		BPELPackage.eINSTANCE.getExit(),
 		BPELPackage.eINSTANCE.getThrow(),
 		BPELPackage.eINSTANCE.getRethrow(),
 		BPELPackage.eINSTANCE.getCompensate(),
