@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.8 2005/12/09 19:02:57 james Exp $
+ * $Id: BPELFactory.java,v 1.9 2005/12/09 19:22:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -581,6 +581,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	RepeatUntil createRepeatUntil();
+
+	/**
+	 * Returns a new object of class '<em>Termination Handler</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Termination Handler</em>'.
+	 * @generated
+	 */
+	TerminationHandler createTerminationHandler();
 
 	/**
 	 * Returns the package supported by this factory.

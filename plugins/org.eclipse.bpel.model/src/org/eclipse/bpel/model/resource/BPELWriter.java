@@ -83,6 +83,7 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -810,6 +811,20 @@ public class BPELWriter {
 		bpelNamespacePrefixManager.serializePrefixes(compensationHandler, compensationHandlerElement);			
 		extensibleElement2XML(compensationHandler, compensationHandlerElement);
 		return compensationHandlerElement;
+	}
+
+	protected Element terminationHandler2XML(TerminationHandler terminationHandler) {
+		Element terminationHandlerElement = createBPELElement("terminationHandler");
+		
+		if (terminationHandler.getActivity() != null) {
+			Element activityElement = activity2XML(terminationHandler.getActivity());
+			terminationHandlerElement.appendChild(activityElement);
+		}
+
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(terminationHandler, terminationHandlerElement);
+		extensibleElement2XML(terminationHandler, terminationHandlerElement);
+		return terminationHandlerElement;
 	}
 
 	protected Element eventHandler2XML(EventHandler eventHandler) {
@@ -1585,6 +1600,8 @@ public class BPELWriter {
 			activityElement.appendChild(faultHandlers2XML(scope.getFaultHandlers()));
 		if (scope.getCompensationHandler() != null )
 			activityElement.appendChild(compensationHandler2XML(scope.getCompensationHandler()));
+		if (scope.getTerminationHandler() != null )
+			activityElement.appendChild(terminationHandler2XML(scope.getTerminationHandler()));
 		if (scope.getEventHandlers() != null)
 			activityElement.appendChild(eventHandler2XML(scope.getEventHandlers()));
 		if (scope.getActivity() != null )

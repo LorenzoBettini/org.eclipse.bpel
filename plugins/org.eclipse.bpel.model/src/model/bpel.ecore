@@ -280,6 +280,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLinks" eType="#//PartnerLinks"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminationHandler" eType="#//TerminationHandler"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Compensate" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -493,5 +494,8 @@
         eType="#//Activity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
         eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TerminationHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"/>
   </eClassifiers>
 </ecore:EPackage>

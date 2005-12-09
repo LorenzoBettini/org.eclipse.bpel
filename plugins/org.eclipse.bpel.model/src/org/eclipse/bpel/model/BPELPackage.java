@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.11 2005/12/09 19:02:57 james Exp $
+ * $Id: BPELPackage.java,v 1.12 2005/12/09 19:22:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -2571,13 +2571,22 @@ public interface BPELPackage extends EPackage{
 	int SCOPE__PARTNER_LINKS = ACTIVITY_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Termination Handler</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCOPE__TERMINATION_HANDLER = ACTIVITY_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Scope</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 8;
+	int SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompensateImpl <em>Compensate</em>}' class.
@@ -5109,6 +5118,61 @@ public interface BPELPackage extends EPackage{
 	int REPEAT_UNTIL_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.TerminationHandlerImpl <em>Termination Handler</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.TerminationHandlerImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTerminationHandler()
+	 * @generated
+	 */
+	int TERMINATION_HANDLER = 61;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TERMINATION_HANDLER__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TERMINATION_HANDLER__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Activity</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TERMINATION_HANDLER__ACTIVITY = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Termination Handler</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TERMINATION_HANDLER_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5116,7 +5180,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 61;
+	int CORRELATION_PATTERN = 62;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -5126,7 +5190,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 62;
+	int ENDPOINT_REFERENCE_ROLE = 63;
 
 
 	/**
@@ -6291,6 +6355,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getScope_PartnerLinks();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Termination Handler</em>'.
+	 * @see org.eclipse.bpel.model.Scope#getTerminationHandler()
+	 * @see #getScope()
+	 * @generated
+	 */
+	EReference getScope_TerminationHandler();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Compensate <em>Compensate</em>}'.
@@ -7465,6 +7540,27 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getRepeatUntil_Condition();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.TerminationHandler <em>Termination Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Termination Handler</em>'.
+	 * @see org.eclipse.bpel.model.TerminationHandler
+	 * @generated
+	 */
+	EClass getTerminationHandler();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.TerminationHandler#getActivity <em>Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Activity</em>'.
+	 * @see org.eclipse.bpel.model.TerminationHandler#getActivity()
+	 * @see #getTerminationHandler()
+	 * @generated
+	 */
+	EReference getTerminationHandler_Activity();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

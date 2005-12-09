@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.8 2005/12/09 19:02:57 james Exp $
+ * $Id: BPELSwitch.java,v 1.9 2005/12/09 19:22:30 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -71,6 +71,7 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -662,6 +663,14 @@ public class BPELSwitch {
 				if (result == null) result = caseActivity(repeatUntil);
 				if (result == null) result = caseExtensibleElement(repeatUntil);
 				if (result == null) result = caseWSDLElement(repeatUntil);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.TERMINATION_HANDLER: {
+				TerminationHandler terminationHandler = (TerminationHandler)theEObject;
+				Object result = caseTerminationHandler(terminationHandler);
+				if (result == null) result = caseExtensibleElement(terminationHandler);
+				if (result == null) result = caseWSDLElement(terminationHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1581,6 +1590,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseRepeatUntil(RepeatUntil object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Termination Handler</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Termination Handler</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseTerminationHandler(TerminationHandler object) {
 		return null;
 	}
 

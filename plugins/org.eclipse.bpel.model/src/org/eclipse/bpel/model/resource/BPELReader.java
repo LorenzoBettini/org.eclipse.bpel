@@ -82,6 +82,7 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -1342,6 +1343,13 @@ public class BPELReader {
 		// Handle CompensationHandler element
 		setCompensationHandler(scopeElement, scope);
 		
+		// Handler TerminationHandler element
+		Element terminationHandlerElement = getBPELChildElementByLocalName(scopeElement, "terminationHandler");
+		if (terminationHandlerElement != null) {
+			TerminationHandler terminationHandler = xml2TerminationHandler(terminationHandlerElement);
+			scope.setTerminationHandler(terminationHandler);
+		}
+		
 		// Handler EventHandler element
 		setEventHandler(scopeElement, scope);
 		
@@ -1680,6 +1688,22 @@ public class BPELReader {
         setStandardAttributes(whileElement, _while);
 		
 		return _while;
+	}
+
+	/**
+	 * Converts an XML terminationHandler element to a BPEL TerminationHandler object.
+	 */
+	protected TerminationHandler xml2TerminationHandler(Element terminationHandlerElement) {
+		TerminationHandler terminationHandler = BPELFactory.eINSTANCE.createTerminationHandler();
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(terminationHandler, terminationHandlerElement);
+		
+		terminationHandler.setActivity(getChildActivity(terminationHandlerElement));
+
+		xml2ExtensibleElement(terminationHandler, terminationHandlerElement); 
+
+		return terminationHandler;
 	}
 
 	/**

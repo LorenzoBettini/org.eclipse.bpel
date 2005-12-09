@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Scope.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: Scope.java,v 1.2 2005/12/09 19:22:30 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -35,6 +35,7 @@ package org.eclipse.bpel.model;
  *   <li>{@link org.eclipse.bpel.model.Scope#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Scope#getEventHandlers <em>Event Handlers</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Scope#getPartnerLinks <em>Partner Links</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}</li>
  * </ul>
  * </p>
  *
@@ -278,5 +279,31 @@ public interface Scope extends Activity{
 	 * @generated
 	 */
 	void setPartnerLinks(PartnerLinks value);
+
+	/**
+	 * Returns the value of the '<em><b>Termination Handler</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Termination Handler</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Termination Handler</em>' reference.
+	 * @see #setTerminationHandler(TerminationHandler)
+	 * @see org.eclipse.bpel.model.BPELPackage#getScope_TerminationHandler()
+	 * @model
+	 * @generated
+	 */
+	TerminationHandler getTerminationHandler();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Termination Handler</em>' reference.
+	 * @see #getTerminationHandler()
+	 * @generated
+	 */
+	void setTerminationHandler(TerminationHandler value);
 
 } // Scope

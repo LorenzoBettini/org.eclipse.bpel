@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: ScopeImpl.java,v 1.2 2005/12/09 19:22:30 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -26,6 +26,7 @@ import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -51,6 +52,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ScopeImpl#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ScopeImpl#getEventHandlers <em>Event Handlers</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ScopeImpl#getPartnerLinks <em>Partner Links</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ScopeImpl#getTerminationHandler <em>Termination Handler</em>}</li>
  * </ul>
  * </p>
  *
@@ -155,6 +157,16 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @ordered
 	 */
 	protected PartnerLinks partnerLinks = null;
+
+	/**
+	 * The cached value of the '{@link #getTerminationHandler() <em>Termination Handler</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTerminationHandler()
+	 * @generated
+	 * @ordered
+	 */
+	protected TerminationHandler terminationHandler = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -526,6 +538,44 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TerminationHandler getTerminationHandler() {
+		if (terminationHandler != null && terminationHandler.eIsProxy()) {
+			TerminationHandler oldTerminationHandler = terminationHandler;
+			terminationHandler = (TerminationHandler)eResolveProxy((InternalEObject)terminationHandler);
+			if (terminationHandler != oldTerminationHandler) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.SCOPE__TERMINATION_HANDLER, oldTerminationHandler, terminationHandler));
+			}
+		}
+		return terminationHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TerminationHandler basicGetTerminationHandler() {
+		return terminationHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTerminationHandler(TerminationHandler newTerminationHandler) {
+		TerminationHandler oldTerminationHandler = terminationHandler;
+		terminationHandler = newTerminationHandler;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SCOPE__TERMINATION_HANDLER, oldTerminationHandler, terminationHandler));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -593,6 +643,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 				return getEventHandlers();
 			case BPELPackage.SCOPE__PARTNER_LINKS:
 				return getPartnerLinks();
+			case BPELPackage.SCOPE__TERMINATION_HANDLER:
+				if (resolve) return getTerminationHandler();
+				return basicGetTerminationHandler();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -650,6 +703,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__PARTNER_LINKS:
 				setPartnerLinks((PartnerLinks)newValue);
 				return;
+			case BPELPackage.SCOPE__TERMINATION_HANDLER:
+				setTerminationHandler((TerminationHandler)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -706,6 +762,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__PARTNER_LINKS:
 				setPartnerLinks((PartnerLinks)null);
 				return;
+			case BPELPackage.SCOPE__TERMINATION_HANDLER:
+				setTerminationHandler((TerminationHandler)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -747,6 +806,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 				return eventHandlers != null;
 			case BPELPackage.SCOPE__PARTNER_LINKS:
 				return partnerLinks != null;
+			case BPELPackage.SCOPE__TERMINATION_HANDLER:
+				return terminationHandler != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.8 2005/12/09 19:02:57 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.9 2005/12/09 19:22:30 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -70,6 +70,7 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -168,6 +169,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.OPAQUE_ACTIVITY: return createOpaqueActivity();
 			case BPELPackage.FOR_EACH: return createForEach();
 			case BPELPackage.REPEAT_UNTIL: return createRepeatUntil();
+			case BPELPackage.TERMINATION_HANDLER: return createTerminationHandler();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -813,6 +815,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public RepeatUntil createRepeatUntil() {
 		RepeatUntilImpl repeatUntil = new RepeatUntilImpl();
 		return repeatUntil;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TerminationHandler createTerminationHandler() {
+		TerminationHandlerImpl terminationHandler = new TerminationHandlerImpl();
+		return terminationHandler;
 	}
 
 	/**
