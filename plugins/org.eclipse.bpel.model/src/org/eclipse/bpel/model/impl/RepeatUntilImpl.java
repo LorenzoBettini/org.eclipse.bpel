@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RepeatUntilImpl.java,v 1.1 2005/12/09 18:45:56 james Exp $
+ * $Id: RepeatUntilImpl.java,v 1.2 2005/12/09 21:01:02 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -54,7 +54,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	protected Activity activity = null;
 
 	/**
-	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' reference.
+	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getCondition()
@@ -130,14 +130,6 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * @generated
 	 */
 	public Condition getCondition() {
-		if (condition != null && condition.eIsProxy()) {
-			Condition oldCondition = condition;
-			condition = (Condition)eResolveProxy((InternalEObject)condition);
-			if (condition != oldCondition) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.REPEAT_UNTIL__CONDITION, oldCondition, condition));
-			}
-		}
 		return condition;
 	}
 
@@ -146,8 +138,14 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Condition basicGetCondition() {
-		return condition;
+	public NotificationChain basicSetCondition(Condition newCondition, NotificationChain msgs) {
+		Condition oldCondition = condition;
+		condition = newCondition;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.REPEAT_UNTIL__CONDITION, oldCondition, newCondition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -156,10 +154,17 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * @generated
 	 */
 	public void setCondition(Condition newCondition) {
-		Condition oldCondition = condition;
-		condition = newCondition;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.REPEAT_UNTIL__CONDITION, oldCondition, condition));
+		if (newCondition != condition) {
+			NotificationChain msgs = null;
+			if (condition != null)
+				msgs = ((InternalEObject)condition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.REPEAT_UNTIL__CONDITION, null, msgs);
+			if (newCondition != null)
+				msgs = ((InternalEObject)newCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.REPEAT_UNTIL__CONDITION, null, msgs);
+			msgs = basicSetCondition(newCondition, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.REPEAT_UNTIL__CONDITION, newCondition, newCondition));
 	}
 
 	/**
@@ -178,6 +183,8 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 					return basicSetSources(null, msgs);
 				case BPELPackage.REPEAT_UNTIL__ACTIVITY:
 					return basicSetActivity(null, msgs);
+				case BPELPackage.REPEAT_UNTIL__CONDITION:
+					return basicSetCondition(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -209,8 +216,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
 				return getActivity();
 			case BPELPackage.REPEAT_UNTIL__CONDITION:
-				if (resolve) return getCondition();
-				return basicGetCondition();
+				return getCondition();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}

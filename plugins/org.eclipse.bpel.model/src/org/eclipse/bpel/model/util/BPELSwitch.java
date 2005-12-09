@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.10 2005/12/09 19:47:52 james Exp $
+ * $Id: BPELSwitch.java,v 1.11 2005/12/09 21:01:01 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -33,6 +33,8 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
@@ -45,6 +47,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -72,6 +75,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -681,6 +685,39 @@ public class BPELSwitch {
 				if (result == null) result = caseActivity(validateXML);
 				if (result == null) result = caseExtensibleElement(validateXML);
 				if (result == null) result = caseWSDLElement(validateXML);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.IF: {
+				If if_ = (If)theEObject;
+				Object result = caseIf(if_);
+				if (result == null) result = caseActivity(if_);
+				if (result == null) result = caseExtensibleElement(if_);
+				if (result == null) result = caseWSDLElement(if_);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.THEN: {
+				Then then = (Then)theEObject;
+				Object result = caseThen(then);
+				if (result == null) result = caseExtensibleElement(then);
+				if (result == null) result = caseWSDLElement(then);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.ELSE_IF: {
+				ElseIf elseIf = (ElseIf)theEObject;
+				Object result = caseElseIf(elseIf);
+				if (result == null) result = caseExtensibleElement(elseIf);
+				if (result == null) result = caseWSDLElement(elseIf);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.ELSE: {
+				Else else_ = (Else)theEObject;
+				Object result = caseElse(else_);
+				if (result == null) result = caseExtensibleElement(else_);
+				if (result == null) result = caseWSDLElement(else_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1630,6 +1667,66 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseValidateXML(ValidateXML object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>If</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>If</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseIf(If object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Then</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Then</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseThen(Then object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Else If</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Else If</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseElseIf(ElseIf object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Else</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Else</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseElse(Else object) {
 		return null;
 	}
 

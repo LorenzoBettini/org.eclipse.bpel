@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.10 2005/12/09 19:47:52 james Exp $
+ * $Id: BPELFactory.java,v 1.11 2005/12/09 21:01:02 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -599,6 +599,42 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	ValidateXML createValidateXML();
+
+	/**
+	 * Returns a new object of class '<em>If</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>If</em>'.
+	 * @generated
+	 */
+	If createIf();
+
+	/**
+	 * Returns a new object of class '<em>Then</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Then</em>'.
+	 * @generated
+	 */
+	Then createThen();
+
+	/**
+	 * Returns a new object of class '<em>Else If</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Else If</em>'.
+	 * @generated
+	 */
+	ElseIf createElseIf();
+
+	/**
+	 * Returns a new object of class '<em>Else</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Else</em>'.
+	 * @generated
+	 */
+	Else createElse();
 
 	/**
 	 * Returns the package supported by this factory.

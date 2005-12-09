@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.14 2005/12/09 19:47:52 james Exp $
+ * $Id: BPELPackage.java,v 1.15 2005/12/09 21:01:01 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -5118,7 +5118,7 @@ public interface BPELPackage extends EPackage{
 	int REPEAT_UNTIL__ACTIVITY = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Condition</b></em>' reference.
+	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5173,7 +5173,7 @@ public interface BPELPackage extends EPackage{
 	int TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
 
 	/**
-	 * The feature id for the '<em><b>Activity</b></em>' reference.
+	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5273,6 +5273,298 @@ public interface BPELPackage extends EPackage{
 	int VALIDATE_XML_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.IfImpl <em>If</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.IfImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getIf()
+	 * @generated
+	 */
+	int IF = 63;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__CONDITION = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Then</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__THEN = ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Else If</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__ELSE_IF = ACTIVITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Else</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF__ELSE = ACTIVITY_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>If</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ThenImpl <em>Then</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ThenImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getThen()
+	 * @generated
+	 */
+	int THEN = 64;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THEN__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THEN__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THEN__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THEN__ACTIVITY = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Then</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THEN_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ElseIfImpl <em>Else If</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ElseIfImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElseIf()
+	 * @generated
+	 */
+	int ELSE_IF = 65;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_IF__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_IF__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_IF__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_IF__CONDITION = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_IF__ACTIVITY = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Else If</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_IF_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ElseImpl <em>Else</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ElseImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElse()
+	 * @generated
+	 */
+	int ELSE = 66;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE__ACTIVITY = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Else</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELSE_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5280,7 +5572,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 63;
+	int CORRELATION_PATTERN = 67;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -5290,7 +5582,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 64;
+	int ENDPOINT_REFERENCE_ROLE = 68;
 
 
 	/**
@@ -7653,10 +7945,10 @@ public interface BPELPackage extends EPackage{
 	EReference getRepeatUntil_Activity();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.RepeatUntil#getCondition <em>Condition</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.RepeatUntil#getCondition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Condition</em>'.
+	 * @return the meta object for the containment reference '<em>Condition</em>'.
 	 * @see org.eclipse.bpel.model.RepeatUntil#getCondition()
 	 * @see #getRepeatUntil()
 	 * @generated
@@ -7674,10 +7966,10 @@ public interface BPELPackage extends EPackage{
 	EClass getTerminationHandler();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.TerminationHandler#getActivity <em>Activity</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.TerminationHandler#getActivity <em>Activity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Activity</em>'.
+	 * @return the meta object for the containment reference '<em>Activity</em>'.
 	 * @see org.eclipse.bpel.model.TerminationHandler#getActivity()
 	 * @see #getTerminationHandler()
 	 * @generated
@@ -7693,6 +7985,134 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EClass getValidateXML();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.If <em>If</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>If</em>'.
+	 * @see org.eclipse.bpel.model.If
+	 * @generated
+	 */
+	EClass getIf();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.If#getCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Condition</em>'.
+	 * @see org.eclipse.bpel.model.If#getCondition()
+	 * @see #getIf()
+	 * @generated
+	 */
+	EReference getIf_Condition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.If#getThen <em>Then</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Then</em>'.
+	 * @see org.eclipse.bpel.model.If#getThen()
+	 * @see #getIf()
+	 * @generated
+	 */
+	EReference getIf_Then();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.bpel.model.If#getElseIf <em>Else If</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Else If</em>'.
+	 * @see org.eclipse.bpel.model.If#getElseIf()
+	 * @see #getIf()
+	 * @generated
+	 */
+	EReference getIf_ElseIf();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.If#getElse <em>Else</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Else</em>'.
+	 * @see org.eclipse.bpel.model.If#getElse()
+	 * @see #getIf()
+	 * @generated
+	 */
+	EReference getIf_Else();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Then <em>Then</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Then</em>'.
+	 * @see org.eclipse.bpel.model.Then
+	 * @generated
+	 */
+	EClass getThen();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Then#getActivity <em>Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Activity</em>'.
+	 * @see org.eclipse.bpel.model.Then#getActivity()
+	 * @see #getThen()
+	 * @generated
+	 */
+	EReference getThen_Activity();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.ElseIf <em>Else If</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Else If</em>'.
+	 * @see org.eclipse.bpel.model.ElseIf
+	 * @generated
+	 */
+	EClass getElseIf();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ElseIf#getCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Condition</em>'.
+	 * @see org.eclipse.bpel.model.ElseIf#getCondition()
+	 * @see #getElseIf()
+	 * @generated
+	 */
+	EReference getElseIf_Condition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ElseIf#getActivity <em>Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Activity</em>'.
+	 * @see org.eclipse.bpel.model.ElseIf#getActivity()
+	 * @see #getElseIf()
+	 * @generated
+	 */
+	EReference getElseIf_Activity();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Else <em>Else</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Else</em>'.
+	 * @see org.eclipse.bpel.model.Else
+	 * @generated
+	 */
+	EClass getElse();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Else#getActivity <em>Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Activity</em>'.
+	 * @see org.eclipse.bpel.model.Else#getActivity()
+	 * @see #getElse()
+	 * @generated
+	 */
+	EReference getElse_Activity();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

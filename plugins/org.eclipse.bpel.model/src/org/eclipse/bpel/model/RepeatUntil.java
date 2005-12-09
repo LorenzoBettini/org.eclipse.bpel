@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RepeatUntil.java,v 1.1 2005/12/09 18:45:56 james Exp $
+ * $Id: RepeatUntil.java,v 1.2 2005/12/09 21:01:02 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -24,7 +24,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface RepeatUntil extends Activity {
+public interface RepeatUntil extends Activity{
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -52,26 +52,26 @@ public interface RepeatUntil extends Activity {
 	void setActivity(Activity value);
 
 	/**
-	 * Returns the value of the '<em><b>Condition</b></em>' reference.
+	 * Returns the value of the '<em><b>Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Condition</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Condition</em>' reference.
+	 * @return the value of the '<em>Condition</em>' containment reference.
 	 * @see #setCondition(Condition)
 	 * @see org.eclipse.bpel.model.BPELPackage#getRepeatUntil_Condition()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Condition getCondition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.RepeatUntil#getCondition <em>Condition</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.RepeatUntil#getCondition <em>Condition</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Condition</em>' reference.
+	 * @param value the new value of the '<em>Condition</em>' containment reference.
 	 * @see #getCondition()
 	 * @generated
 	 */

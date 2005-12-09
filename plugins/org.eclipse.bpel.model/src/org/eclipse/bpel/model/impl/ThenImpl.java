@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TerminationHandlerImpl.java,v 1.2 2005/12/09 21:01:02 james Exp $
+ * $Id: ThenImpl.java,v 1.1 2005/12/09 21:01:02 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -10,10 +10,9 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
@@ -21,27 +20,28 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 
 import org.w3c.dom.Element;
 
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Termination Handler</b></em>'.
+ * An implementation of the model object '<em><b>Then</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.bpel.model.impl.TerminationHandlerImpl#getActivity <em>Activity</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ThenImpl#getActivity <em>Activity</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class TerminationHandlerImpl extends ExtensibleElementImpl implements TerminationHandler {
+public class ThenImpl extends ExtensibleElementImpl implements Then {
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -57,7 +57,7 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TerminationHandlerImpl() {
+	protected ThenImpl() {
 		super();
 	}
 
@@ -67,7 +67,7 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getTerminationHandler();
+		return BPELPackage.eINSTANCE.getThen();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.TERMINATION_HANDLER__ACTIVITY, oldActivity, newActivity);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.THEN__ACTIVITY, oldActivity, newActivity);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -103,14 +103,14 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TERMINATION_HANDLER__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.THEN__ACTIVITY, null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TERMINATION_HANDLER__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.THEN__ACTIVITY, null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TERMINATION_HANDLER__ACTIVITY, newActivity, newActivity));
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.THEN__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -121,9 +121,9 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS:
+				case BPELPackage.THEN__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+				case BPELPackage.THEN__ACTIVITY:
 					return basicSetActivity(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
@@ -139,13 +139,13 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TERMINATION_HANDLER__DOCUMENTATION_ELEMENT:
+			case BPELPackage.THEN__DOCUMENTATION_ELEMENT:
 				return getDocumentationElement();
-			case BPELPackage.TERMINATION_HANDLER__ELEMENT:
+			case BPELPackage.THEN__ELEMENT:
 				return getElement();
-			case BPELPackage.TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.THEN__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			case BPELPackage.THEN__ACTIVITY:
 				return getActivity();
 		}
 		return eDynamicGet(eFeature, resolve);
@@ -158,17 +158,17 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TERMINATION_HANDLER__DOCUMENTATION_ELEMENT:
+			case BPELPackage.THEN__DOCUMENTATION_ELEMENT:
 				setDocumentationElement((Element)newValue);
 				return;
-			case BPELPackage.TERMINATION_HANDLER__ELEMENT:
+			case BPELPackage.THEN__ELEMENT:
 				setElement((Element)newValue);
 				return;
-			case BPELPackage.TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.THEN__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
 				return;
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			case BPELPackage.THEN__ACTIVITY:
 				setActivity((Activity)newValue);
 				return;
 		}
@@ -182,16 +182,16 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TERMINATION_HANDLER__DOCUMENTATION_ELEMENT:
+			case BPELPackage.THEN__DOCUMENTATION_ELEMENT:
 				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
 				return;
-			case BPELPackage.TERMINATION_HANDLER__ELEMENT:
+			case BPELPackage.THEN__ELEMENT:
 				setElement(ELEMENT_EDEFAULT);
 				return;
-			case BPELPackage.TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.THEN__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			case BPELPackage.THEN__ACTIVITY:
 				setActivity((Activity)null);
 				return;
 		}
@@ -205,16 +205,16 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements Ter
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TERMINATION_HANDLER__DOCUMENTATION_ELEMENT:
+			case BPELPackage.THEN__DOCUMENTATION_ELEMENT:
 				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.TERMINATION_HANDLER__ELEMENT:
+			case BPELPackage.THEN__ELEMENT:
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.TERMINATION_HANDLER__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.THEN__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			case BPELPackage.THEN__ACTIVITY:
 				return activity != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}
 
-} //TerminationHandlerImpl
+} //ThenImpl

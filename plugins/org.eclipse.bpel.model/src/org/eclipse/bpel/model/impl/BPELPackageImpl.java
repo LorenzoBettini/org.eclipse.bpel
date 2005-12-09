@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.14 2005/12/09 19:47:52 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.15 2005/12/09 21:01:02 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -31,6 +31,8 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
@@ -44,6 +46,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -71,6 +74,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -544,6 +548,34 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass validateXMLEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ifEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass thenEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass elseIfEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass elseEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2666,6 +2698,114 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIf() {
+		return ifEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIf_Condition() {
+		return (EReference)ifEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIf_Then() {
+		return (EReference)ifEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIf_ElseIf() {
+		return (EReference)ifEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIf_Else() {
+		return (EReference)ifEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getThen() {
+		return thenEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getThen_Activity() {
+		return (EReference)thenEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getElseIf() {
+		return elseIfEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getElseIf_Condition() {
+		return (EReference)elseIfEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getElseIf_Activity() {
+		return (EReference)elseIfEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getElse() {
+		return elseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getElse_Activity() {
+		return (EReference)elseEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2994,6 +3134,22 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		validateXMLEClass = createEClass(VALIDATE_XML);
 
+		ifEClass = createEClass(IF);
+		createEReference(ifEClass, IF__CONDITION);
+		createEReference(ifEClass, IF__THEN);
+		createEReference(ifEClass, IF__ELSE_IF);
+		createEReference(ifEClass, IF__ELSE);
+
+		thenEClass = createEClass(THEN);
+		createEReference(thenEClass, THEN__ACTIVITY);
+
+		elseIfEClass = createEClass(ELSE_IF);
+		createEReference(elseIfEClass, ELSE_IF__CONDITION);
+		createEReference(elseIfEClass, ELSE_IF__ACTIVITY);
+
+		elseEClass = createEClass(ELSE);
+		createEReference(elseEClass, ELSE__ACTIVITY);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -3088,6 +3244,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
 		terminationHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		validateXMLEClass.getESuperTypes().add(this.getActivity());
+		ifEClass.getESuperTypes().add(this.getActivity());
+		thenEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		elseIfEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		elseEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3370,12 +3530,28 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(repeatUntilEClass, RepeatUntil.class, "RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRepeatUntil_Activity(), this.getActivity(), null, "activity", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRepeatUntil_Condition(), this.getCondition(), null, "condition", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRepeatUntil_Condition(), this.getCondition(), null, "condition", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(terminationHandlerEClass, TerminationHandler.class, "TerminationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTerminationHandler_Activity(), this.getActivity(), null, "activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTerminationHandler_Activity(), this.getActivity(), null, "activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(validateXMLEClass, ValidateXML.class, "ValidateXML", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(ifEClass, If.class, "If", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIf_Then(), this.getThen(), null, "then", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIf_ElseIf(), this.getElseIf(), null, "elseIf", null, 0, -1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIf_Else(), this.getElse(), null, "else", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(thenEClass, Then.class, "Then", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getThen_Activity(), this.getActivity(), null, "activity", null, 1, 1, Then.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(elseIfEClass, ElseIf.class, "ElseIf", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getElseIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getElseIf_Activity(), this.getActivity(), null, "activity", null, 1, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(elseEClass, Else.class, "Else", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getElse_Activity(), this.getActivity(), null, "activity", null, 1, 1, Else.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

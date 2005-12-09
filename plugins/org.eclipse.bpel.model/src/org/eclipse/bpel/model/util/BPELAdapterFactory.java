@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.10 2005/12/09 19:47:52 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.11 2005/12/09 21:01:01 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -31,6 +31,8 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
@@ -43,6 +45,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -70,6 +73,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -330,6 +334,18 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseValidateXML(ValidateXML object) {
 				return createValidateXMLAdapter();
+			}
+			public Object caseIf(If object) {
+				return createIfAdapter();
+			}
+			public Object caseThen(Then object) {
+				return createThenAdapter();
+			}
+			public Object caseElseIf(ElseIf object) {
+				return createElseIfAdapter();
+			}
+			public Object caseElse(Else object) {
+				return createElseAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1243,6 +1259,62 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createValidateXMLAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.If <em>If</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.If
+	 * @generated
+	 */
+	public Adapter createIfAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Then <em>Then</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Then
+	 * @generated
+	 */
+	public Adapter createThenAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ElseIf <em>Else If</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.ElseIf
+	 * @generated
+	 */
+	public Adapter createElseIfAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Else <em>Else</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Else
+	 * @generated
+	 */
+	public Adapter createElseAdapter() {
 		return null;
 	}
 

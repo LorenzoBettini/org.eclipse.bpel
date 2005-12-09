@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.10 2005/12/09 19:47:52 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.11 2005/12/09 21:01:02 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -31,6 +31,8 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
@@ -44,6 +46,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -71,6 +74,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -172,6 +176,10 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.REPEAT_UNTIL: return createRepeatUntil();
 			case BPELPackage.TERMINATION_HANDLER: return createTerminationHandler();
 			case BPELPackage.VALIDATE_XML: return createValidateXML();
+			case BPELPackage.IF: return createIf();
+			case BPELPackage.THEN: return createThen();
+			case BPELPackage.ELSE_IF: return createElseIf();
+			case BPELPackage.ELSE: return createElse();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -837,6 +845,46 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public ValidateXML createValidateXML() {
 		ValidateXMLImpl validateXML = new ValidateXMLImpl();
 		return validateXML;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public If createIf() {
+		IfImpl if_ = new IfImpl();
+		return if_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Then createThen() {
+		ThenImpl then = new ThenImpl();
+		return then;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ElseIf createElseIf() {
+		ElseIfImpl elseIf = new ElseIfImpl();
+		return elseIf;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Else createElse() {
+		ElseImpl else_ = new ElseImpl();
+		return else_;
 	}
 
 	/**

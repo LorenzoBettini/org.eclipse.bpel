@@ -42,6 +42,8 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
@@ -55,6 +57,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -83,6 +86,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -1148,6 +1152,8 @@ public class BPELReader {
       		activity = xml2Sequence(activityElement);
      	} else if (localName.equals("switch")) {
      		activity = xml2Switch(activityElement);
+     	} else if (localName.equals("if")) {
+     		activity = xml2If(activityElement);
      	} else if (localName.equals("while")) {
      		activity = xml2While(activityElement);
      	} else if (localName.equals("pick")) {
@@ -1743,6 +1749,49 @@ public class BPELReader {
 	}
 
 	/**
+	 * Converts an XML if element to a BPEL If object.
+	 */
+	protected Activity xml2If(Element ifElement) {
+		If _if = BPELFactory.eINSTANCE.createIf();
+		if (ifElement == null) return _if;
+
+		// Handle condition element
+		Element conditionElement = getBPELChildElementByLocalName(ifElement, "condition");
+		if (conditionElement != null) {
+			Condition condition = xml2Condition(conditionElement);
+			_if.setCondition(condition);
+		}
+		
+		// Handle then element
+		Element thenElement = getBPELChildElementByLocalName(ifElement, "then");
+		if (thenElement != null) {
+			Then then = xml2Then(thenElement);
+			_if.setThen(then);
+		}
+		
+		// Handle elseif
+		NodeList elseifElements = getBPELChildElementsByLocalName(ifElement, "elseif");
+                 
+		if (elseifElements != null && elseifElements.getLength() > 0) {
+           for (int i = 0; i < elseifElements.getLength(); i++) {			
+				ElseIf elseIf = xml2ElseIf((Element)elseifElements.item(i)); 
+				_if.getElseIf().add(elseIf);
+           }
+        }
+
+		// Handle else
+		Element elseElement = getBPELChildElementByLocalName(ifElement, "else");
+		if (elseElement != null) {
+			Else _else = xml2Else(elseElement);
+			_if.setElse(_else);
+		}
+		
+		setStandardAttributes(ifElement, _if);
+		
+		return _if;		
+	}
+
+	/**
 	 * Converts an XML case element to a BPEL Case object.
 	 */
 	protected Case xml2Case(Element caseElement) {
@@ -1769,6 +1818,33 @@ public class BPELReader {
 		xml2ExtensibleElement(_case,caseElement);
 			  
 		return _case;
+	}
+
+	/**
+	 * Converts an XML elseIf element to a BPEL ElseIf object.
+	 */
+	protected ElseIf xml2ElseIf(Element elseIfElement) {
+		ElseIf elseIf = BPELFactory.eINSTANCE.createElseIf();
+    	
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(elseIf, elseIfElement);
+    	
+		if (elseIfElement == null) return elseIf;
+
+		// Handle condition element
+		Element conditionElement = getBPELChildElementByLocalName(elseIfElement, "condition");
+		if (conditionElement != null) {
+			Condition condition = xml2Condition(conditionElement);
+			elseIf.setCondition(condition);
+		}
+
+		// Set activity
+		Activity activity = getChildActivity(elseIfElement);
+		if (activity != null) {
+			elseIf.setActivity(activity);
+		}
+		
+		return elseIf;
 	}
 
 	/**
@@ -1911,6 +1987,30 @@ public class BPELReader {
 		xml2ExtensibleElement(otherwise, otherwiseElement);
 		
 		return otherwise;
+	}
+
+	protected Else xml2Else(Element elseElement) {
+		Else _else = BPELFactory.eINSTANCE.createElse();
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(_else, elseElement);
+		
+		Activity activity = getChildActivity(elseElement);
+		_else.setActivity(activity);
+		
+		return _else;
+	}
+
+	protected Then xml2Then(Element thenElement) {
+		Then then = BPELFactory.eINSTANCE.createThen();
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(then, thenElement);
+		
+		Activity activity = getChildActivity(thenElement);
+		then.setActivity(activity);
+		
+		return then;
 	}
 
 	/**

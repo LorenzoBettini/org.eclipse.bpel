@@ -45,6 +45,8 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
@@ -57,6 +59,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
@@ -84,6 +87,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -872,6 +876,8 @@ public class BPELWriter {
 			activityElement = flow2XML(activity);
 		else if (activity instanceof Switch)
 			activityElement = switch2XML(activity);
+		else if (activity instanceof If)
+			activityElement = if2XML(activity);
 		else if (activity instanceof While)
 			activityElement = while2XML(activity);
 		else if (activity instanceof Sequence)
@@ -1358,6 +1364,45 @@ public class BPELWriter {
 		return activityElement;
 	}
 
+	protected Element if2XML(Activity activity) {
+		If _if = (If)activity;
+		Element activityElement = createBPELElement("if");
+		
+		if (_if.getCondition() != null) {
+			activityElement.appendChild(expression2XML(_if.getCondition(), "condition"));
+		}
+		Then then = _if.getThen();
+		if (then != null) {
+			Element thenElement = then2XML(then);
+			activityElement.appendChild(thenElement);
+		}
+		
+		List elseIfs = _if.getElseIf();
+		if (!elseIfs.isEmpty()) {
+			for (Iterator i = elseIfs.iterator(); i.hasNext();) {
+				ElseIf elseIf = (ElseIf)i.next();
+				Element elseIfElement = createBPELElement("elseif");
+				activityElement.appendChild(elseIfElement);
+				if (elseIf.getCondition() != null) {
+					elseIfElement.appendChild(expression2XML(elseIf.getCondition(), "condition"));
+				}
+				if (elseIf.getActivity() != null) {
+					elseIfElement.appendChild(activity2XML(elseIf.getActivity()));
+				}			
+				// serialize local namespace prefixes to XML
+				bpelNamespacePrefixManager.serializePrefixes(elseIf, elseIfElement);						
+				extensibleElement2XML(elseIf, elseIfElement);
+			}
+		}
+		Else _else = _if.getElse(); 
+		if (_else != null) {
+			Element elseElement = else2XML(_else);
+			activityElement.appendChild(elseElement);
+		}
+		
+		return activityElement;
+	}
+
 	protected Element otherwise2XML(Otherwise otherwise) {
 		Element otherwiseElement = createBPELElement("otherwise");
 		if (otherwise.getActivity() != null) {
@@ -1369,6 +1414,32 @@ public class BPELWriter {
 		extensibleElement2XML(otherwise, otherwiseElement);
 		
 		return otherwiseElement;
+	}
+	
+	protected Element else2XML(Else _else) {
+		Element elseElement = createBPELElement("else");
+		if (_else.getActivity() != null) {
+			Element activityElement = activity2XML(_else.getActivity());
+			elseElement.appendChild(activityElement);
+		}
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(_else, elseElement);			
+		extensibleElement2XML(_else, elseElement);
+		
+		return elseElement;
+	}
+	
+	protected Element then2XML(Then then) {
+		Element thenElement = createBPELElement("then");
+		if (then.getActivity() != null) {
+			Element activityElement = activity2XML(then.getActivity());
+			thenElement.appendChild(activityElement);
+		}
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(then, thenElement);			
+		extensibleElement2XML(then, thenElement);
+		
+		return thenElement;
 	}
 	
 	protected Element while2XML(Activity activity) {
