@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.9 2005/12/09 19:22:30 james Exp $
+ * $Id: BPELFactory.java,v 1.10 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -590,6 +590,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	TerminationHandler createTerminationHandler();
+
+	/**
+	 * Returns a new object of class '<em>Validate XML</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Validate XML</em>'.
+	 * @generated
+	 */
+	ValidateXML createValidateXML();
 
 	/**
 	 * Returns the package supported by this factory.

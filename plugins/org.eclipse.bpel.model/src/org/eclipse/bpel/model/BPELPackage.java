@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.13 2005/12/09 19:30:43 james Exp $
+ * $Id: BPELPackage.java,v 1.14 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -2298,13 +2298,22 @@ public interface BPELPackage extends EPackage{
 	int ASSIGN__COPY = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Validate XML</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGN__VALIDATE_XML = ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Assign</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSIGN_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
+	int ASSIGN_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CopyImpl <em>Copy</em>}' class.
@@ -5182,6 +5191,88 @@ public interface BPELPackage extends EPackage{
 	int TERMINATION_HANDLER_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateXMLImpl <em>Validate XML</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ValidateXMLImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidateXML()
+	 * @generated
+	 */
+	int VALIDATE_XML = 62;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The number of structural features of the '<em>Validate XML</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_XML_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5189,7 +5280,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 62;
+	int CORRELATION_PATTERN = 63;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -5199,7 +5290,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 63;
+	int ENDPOINT_REFERENCE_ROLE = 64;
 
 
 	/**
@@ -6213,6 +6304,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getAssign_Copy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Assign#getValidateXML <em>Validate XML</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Validate XML</em>'.
+	 * @see org.eclipse.bpel.model.Assign#getValidateXML()
+	 * @see #getAssign()
+	 * @generated
+	 */
+	EAttribute getAssign_ValidateXML();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Copy <em>Copy</em>}'.
@@ -7581,6 +7683,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getTerminationHandler_Activity();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.ValidateXML <em>Validate XML</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Validate XML</em>'.
+	 * @see org.eclipse.bpel.model.ValidateXML
+	 * @generated
+	 */
+	EClass getValidateXML();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

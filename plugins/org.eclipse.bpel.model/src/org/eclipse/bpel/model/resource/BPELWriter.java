@@ -87,6 +87,7 @@ import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ValidateXML;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -891,6 +892,8 @@ public class BPELWriter {
 			activityElement = forEach2XML(activity);
 		else if (activity instanceof RepeatUntil)
 			activityElement = repeatUntil2XML(activity);
+		else if (activity instanceof ValidateXML)
+			activityElement = validateXML2XML(activity);
 		else
 			return null;
 
@@ -997,6 +1000,11 @@ public class BPELWriter {
 		return activityElement;
 	}
 
+	protected Element validateXML2XML(Activity activity) {
+		Element activityElement = createBPELElement("validateXML");
+		return activityElement;
+	}
+
 	protected Element extensionActivity2XML(Activity activity) {
 		Element activityElement = createBPELElement("activityExtension");
 		return activityElement;
@@ -1094,12 +1102,17 @@ public class BPELWriter {
 	}
 
 	protected Element assign2XML(Activity activity) {
+		Assign assign = (Assign)activity;
 		Element activityElement = createBPELElement("assign");
-		List copies = ((Assign)activity).getCopy();
-		if( !copies.isEmpty() ){
-			for( Iterator i=copies.iterator(); i.hasNext(); ){
-				Copy copy = (Copy) i.next();
-				activityElement.appendChild( copy2XML(copy) );				
+		
+		if (assign.getValidateXML() != null)
+			activityElement.setAttribute("validateXML", BPELUtils.boolean2XML(assign.getValidateXML()));
+		
+		List copies = assign.getCopy();
+		if (!copies.isEmpty()) {
+			for (Iterator i = copies.iterator(); i.hasNext();) {
+				Copy copy = (Copy)i.next();
+				activityElement.appendChild(copy2XML(copy));				
 			}
 		}
 		return activityElement;

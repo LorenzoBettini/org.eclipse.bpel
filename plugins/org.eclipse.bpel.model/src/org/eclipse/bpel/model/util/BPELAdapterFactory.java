@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.9 2005/12/09 19:22:30 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.10 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -74,6 +74,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
+import org.eclipse.bpel.model.ValidateXML;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -326,6 +327,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseTerminationHandler(TerminationHandler object) {
 				return createTerminationHandlerAdapter();
+			}
+			public Object caseValidateXML(ValidateXML object) {
+				return createValidateXMLAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1225,6 +1229,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTerminationHandlerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ValidateXML <em>Validate XML</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.ValidateXML
+	 * @generated
+	 */
+	public Adapter createValidateXMLAdapter() {
 		return null;
 	}
 

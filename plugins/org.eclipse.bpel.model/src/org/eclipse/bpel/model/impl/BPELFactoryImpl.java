@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.9 2005/12/09 19:22:30 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.10 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -75,6 +75,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
+import org.eclipse.bpel.model.ValidateXML;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -170,6 +171,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.FOR_EACH: return createForEach();
 			case BPELPackage.REPEAT_UNTIL: return createRepeatUntil();
 			case BPELPackage.TERMINATION_HANDLER: return createTerminationHandler();
+			case BPELPackage.VALIDATE_XML: return createValidateXML();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -825,6 +827,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public TerminationHandler createTerminationHandler() {
 		TerminationHandlerImpl terminationHandler = new TerminationHandlerImpl();
 		return terminationHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ValidateXML createValidateXML() {
+		ValidateXMLImpl validateXML = new ValidateXMLImpl();
+		return validateXML;
 	}
 
 	/**

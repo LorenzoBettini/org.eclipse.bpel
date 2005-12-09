@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: AssignImpl.java,v 1.2 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,11 +21,14 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.w3c.dom.Element;
@@ -38,6 +41,7 @@ import org.w3c.dom.Element;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.AssignImpl#getCopy <em>Copy</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.AssignImpl#getValidateXML <em>Validate XML</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,6 +57,26 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	 * @ordered
 	 */
 	protected EList copy = null;
+
+	/**
+	 * The default value of the '{@link #getValidateXML() <em>Validate XML</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getValidateXML()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean VALIDATE_XML_EDEFAULT = Boolean.FALSE;
+
+	/**
+	 * The cached value of the '{@link #getValidateXML() <em>Validate XML</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getValidateXML()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean validateXML = VALIDATE_XML_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -82,6 +106,27 @@ public class AssignImpl extends ActivityImpl implements Assign {
 			copy = new EObjectContainmentEList(Copy.class, this, BPELPackage.ASSIGN__COPY);
 		}
 		return copy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getValidateXML() {
+		return validateXML;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setValidateXML(Boolean newValidateXML) {
+		Boolean oldValidateXML = validateXML;
+		validateXML = newValidateXML;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ASSIGN__VALIDATE_XML, oldValidateXML, validateXML));
 	}
 
 	/**
@@ -130,6 +175,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				return getSources();
 			case BPELPackage.ASSIGN__COPY:
 				return getCopy();
+			case BPELPackage.ASSIGN__VALIDATE_XML:
+				return getValidateXML();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -167,6 +214,9 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				getCopy().clear();
 				getCopy().addAll((Collection)newValue);
 				return;
+			case BPELPackage.ASSIGN__VALIDATE_XML:
+				setValidateXML((Boolean)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -202,6 +252,9 @@ public class AssignImpl extends ActivityImpl implements Assign {
 			case BPELPackage.ASSIGN__COPY:
 				getCopy().clear();
 				return;
+			case BPELPackage.ASSIGN__VALIDATE_XML:
+				setValidateXML(VALIDATE_XML_EDEFAULT);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -229,8 +282,25 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				return sources != null;
 			case BPELPackage.ASSIGN__COPY:
 				return copy != null && !copy.isEmpty();
+			case BPELPackage.ASSIGN__VALIDATE_XML:
+				return VALIDATE_XML_EDEFAULT == null ? validateXML != null : !VALIDATE_XML_EDEFAULT.equals(validateXML);
 		}
 		return eDynamicIsSet(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (validateXML: ");
+		result.append(validateXML);
+		result.append(')');
+		return result.toString();
 	}
 
 } //AssignImpl

@@ -86,6 +86,7 @@ import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ValidateXML;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -1167,6 +1168,8 @@ public class BPELReader {
      		activity = xml2ForEach(activityElement);
      	} else if (localName.equals("repeatUntil")) {
      		activity = xml2RepeatUntil(activityElement);
+     	} else if (localName.equals("validateXML")) {
+     		activity = xml2ValidateXML(activityElement);
      	} else {
      		return null;
      	}
@@ -1968,6 +1971,17 @@ public class BPELReader {
 	}
 
 	/**
+	 * Converts an XML valdateXML element to a BPEL ValidateXML object.
+	 */
+	protected Activity xml2ValidateXML(Element validateXMLElement) {
+		ValidateXML validateXML = BPELFactory.eINSTANCE.createValidateXML();
+		
+		setStandardAttributes(validateXMLElement, validateXML);
+		 
+    	return validateXML;
+	}
+
+	/**
 	 * Converts an XML rethrow element to a BPEL Rethrow object.
 	 */
 	protected Activity xml2Rethrow(Element rethrowElement) {
@@ -2068,7 +2082,10 @@ public class BPELReader {
 		Assign assign = BPELFactory.eINSTANCE.createAssign();
 		if (assignElement == null) return assign;
         
-        List copies = getBPELChildElementsByLocalName(assignElement, "copy");
+		if (assignElement.hasAttribute("validateXML"))
+			assign.setValidateXML(new Boolean(assignElement.getAttribute("validateXML").equals("yes")));
+
+		List copies = getBPELChildElementsByLocalName(assignElement, "copy");
         for (int i = 0; i < copies.size(); i++) {
             Copy copy = xml2Copy((Element) copies.get(i));
             assign.getCopy().add(copy);

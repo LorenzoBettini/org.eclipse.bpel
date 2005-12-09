@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.9 2005/12/09 19:22:30 james Exp $
+ * $Id: BPELSwitch.java,v 1.10 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -76,6 +76,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
+import org.eclipse.bpel.model.ValidateXML;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -671,6 +672,15 @@ public class BPELSwitch {
 				Object result = caseTerminationHandler(terminationHandler);
 				if (result == null) result = caseExtensibleElement(terminationHandler);
 				if (result == null) result = caseWSDLElement(terminationHandler);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.VALIDATE_XML: {
+				ValidateXML validateXML = (ValidateXML)theEObject;
+				Object result = caseValidateXML(validateXML);
+				if (result == null) result = caseActivity(validateXML);
+				if (result == null) result = caseExtensibleElement(validateXML);
+				if (result == null) result = caseWSDLElement(validateXML);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1605,6 +1615,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseTerminationHandler(TerminationHandler object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Validate XML</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Validate XML</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseValidateXML(ValidateXML object) {
 		return null;
 	}
 

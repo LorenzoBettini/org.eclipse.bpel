@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.13 2005/12/09 19:30:43 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.14 2005/12/09 19:47:52 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -75,6 +75,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
+import org.eclipse.bpel.model.ValidateXML;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -536,6 +537,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass terminationHandlerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass validateXMLEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1481,6 +1489,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getAssign_Copy() {
 		return (EReference)assignEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAssign_ValidateXML() {
+		return (EAttribute)assignEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2640,6 +2657,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getValidateXML() {
+		return validateXMLEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2796,6 +2822,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		assignEClass = createEClass(ASSIGN);
 		createEReference(assignEClass, ASSIGN__COPY);
+		createEAttribute(assignEClass, ASSIGN__VALIDATE_XML);
 
 		copyEClass = createEClass(COPY);
 		createEReference(copyEClass, COPY__TO);
@@ -2965,6 +2992,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		terminationHandlerEClass = createEClass(TERMINATION_HANDLER);
 		createEReference(terminationHandlerEClass, TERMINATION_HANDLER__ACTIVITY);
 
+		validateXMLEClass = createEClass(VALIDATE_XML);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -3058,6 +3087,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		forEachEClass.getESuperTypes().add(this.getActivity());
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
 		terminationHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		validateXMLEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3175,6 +3205,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(assignEClass, Assign.class, "Assign", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssign_Copy(), this.getCopy(), null, "copy", null, 1, -1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAssign_ValidateXML(), theEcorePackage.getEBooleanObject(), "validateXML", "false", 0, 1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(copyEClass, Copy.class, "Copy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCopy_To(), this.getTo(), null, "to", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3343,6 +3374,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(terminationHandlerEClass, TerminationHandler.class, "TerminationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTerminationHandler_Activity(), this.getActivity(), null, "activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(validateXMLEClass, ValidateXML.class, "ValidateXML", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

@@ -250,6 +250,8 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="copy" lowerBound="1" upperBound="-1"
         eType="#//Copy" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validateXML" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="#//To"
@@ -500,4 +502,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="TerminationHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValidateXML" eSuperTypes="#//Activity"/>
 </ecore:EPackage>
