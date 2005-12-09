@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.6 2005/12/09 15:47:52 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.7 2005/12/09 18:45:56 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -57,6 +57,7 @@ import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Rethrow;
 import org.eclipse.bpel.model.Scope;
@@ -318,6 +319,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseForEach(ForEach object) {
 				return createForEachAdapter();
+			}
+			public Object caseRepeatUntil(RepeatUntil object) {
+				return createRepeatUntilAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1189,6 +1193,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createForEachAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.RepeatUntil <em>Repeat Until</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.RepeatUntil
+	 * @generated
+	 */
+	public Adapter createRepeatUntilAdapter() {
 		return null;
 	}
 

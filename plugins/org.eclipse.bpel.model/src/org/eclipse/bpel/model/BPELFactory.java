@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.6 2005/12/09 15:47:52 james Exp $
+ * $Id: BPELFactory.java,v 1.7 2005/12/09 18:45:56 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -572,6 +572,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	ForEach createForEach();
+
+	/**
+	 * Returns a new object of class '<em>Repeat Until</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Repeat Until</em>'.
+	 * @generated
+	 */
+	RepeatUntil createRepeatUntil();
 
 	/**
 	 * Returns the package supported by this factory.

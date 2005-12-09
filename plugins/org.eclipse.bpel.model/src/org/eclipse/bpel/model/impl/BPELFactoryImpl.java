@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.6 2005/12/09 15:47:52 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.7 2005/12/09 18:45:56 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -58,6 +58,7 @@ import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Rethrow;
 import org.eclipse.bpel.model.Scope;
@@ -166,6 +167,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.TO_PART: return createToPart();
 			case BPELPackage.OPAQUE_ACTIVITY: return createOpaqueActivity();
 			case BPELPackage.FOR_EACH: return createForEach();
+			case BPELPackage.REPEAT_UNTIL: return createRepeatUntil();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -801,6 +803,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public ForEach createForEach() {
 		ForEachImpl forEach = new ForEachImpl();
 		return forEach;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RepeatUntil createRepeatUntil() {
+		RepeatUntilImpl repeatUntil = new RepeatUntilImpl();
+		return repeatUntil;
 	}
 
 	/**

@@ -71,6 +71,7 @@ import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Rethrow;
 import org.eclipse.bpel.model.Scope;
@@ -871,6 +872,8 @@ public class BPELWriter {
 			activityElement = opaqueActivity2XML(activity);
 		else if (activity instanceof ForEach)
 			activityElement = forEach2XML(activity);
+		else if (activity instanceof RepeatUntil)
+			activityElement = repeatUntil2XML(activity);
 		else
 			return null;
 
@@ -1344,13 +1347,27 @@ public class BPELWriter {
 		if (((While)activity).getCondition() != null) {
 			activityElement.appendChild(expression2XML(((While)activity).getCondition(), "condition"));
 		}
-		if( ((While)activity).getActivity() != null ){
+		if (((While)activity).getActivity() != null) {
 			activityElement.appendChild(activity2XML(((While)activity).getActivity()));
 		}
 
 		return activityElement;
 	}
 	
+	protected Element repeatUntil2XML(Activity activity) {
+		RepeatUntil repeatUntil = (RepeatUntil)activity;
+		Element activityElement = createBPELElement("repeatUntil");
+		
+		if (repeatUntil.getActivity() != null) {
+			activityElement.appendChild(activity2XML(repeatUntil.getActivity()));
+		}
+		if (repeatUntil.getCondition() != null) {
+			activityElement.appendChild(expression2XML(repeatUntil.getCondition(), "condition"));
+		}
+
+		return activityElement;
+	}
+
 	protected Element expression2XML(Expression expression, String elementName) {
 		Element expressionElement = createBPELElement(elementName);
 		

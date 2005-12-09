@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.9 2005/12/09 15:47:52 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.10 2005/12/09 18:45:56 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -58,6 +58,7 @@ import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Rethrow;
 import org.eclipse.bpel.model.Scope;
@@ -520,6 +521,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass forEachEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass repeatUntilEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2561,6 +2569,33 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRepeatUntil() {
+		return repeatUntilEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRepeatUntil_Activity() {
+		return (EReference)repeatUntilEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRepeatUntil_Condition() {
+		return (EReference)repeatUntilEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2877,6 +2912,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(forEachEClass, FOR_EACH__START_COUNTER_VALUE);
 		createEReference(forEachEClass, FOR_EACH__FINAL_COUNTER_VALUE);
 
+		repeatUntilEClass = createEClass(REPEAT_UNTIL);
+		createEReference(repeatUntilEClass, REPEAT_UNTIL__ACTIVITY);
+		createEReference(repeatUntilEClass, REPEAT_UNTIL__CONDITION);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -2968,6 +3007,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
 		forEachEClass.getESuperTypes().add(this.getActivity());
+		repeatUntilEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3244,6 +3284,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(repeatUntilEClass, RepeatUntil.class, "RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRepeatUntil_Activity(), this.getActivity(), null, "activity", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRepeatUntil_Condition(), this.getCondition(), null, "condition", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

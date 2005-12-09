@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.6 2005/12/09 15:47:52 james Exp $
+ * $Id: BPELSwitch.java,v 1.7 2005/12/09 18:45:56 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -59,6 +59,7 @@ import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Rethrow;
 import org.eclipse.bpel.model.Scope;
@@ -652,6 +653,15 @@ public class BPELSwitch {
 				if (result == null) result = caseActivity(forEach);
 				if (result == null) result = caseExtensibleElement(forEach);
 				if (result == null) result = caseWSDLElement(forEach);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.REPEAT_UNTIL: {
+				RepeatUntil repeatUntil = (RepeatUntil)theEObject;
+				Object result = caseRepeatUntil(repeatUntil);
+				if (result == null) result = caseActivity(repeatUntil);
+				if (result == null) result = caseExtensibleElement(repeatUntil);
+				if (result == null) result = caseWSDLElement(repeatUntil);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1556,6 +1566,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseForEach(ForEach object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Repeat Until</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Repeat Until</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseRepeatUntil(RepeatUntil object) {
 		return null;
 	}
 

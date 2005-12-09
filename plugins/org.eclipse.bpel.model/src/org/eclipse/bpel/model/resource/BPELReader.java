@@ -70,6 +70,7 @@ import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Rethrow;
 import org.eclipse.bpel.model.Scope;
@@ -1160,6 +1161,8 @@ public class BPELReader {
      		activity = xml2OpaqueActivity(activityElement);
      	} else if (localName.equals("forEach")) {
      		activity = xml2ForEach(activityElement);
+     	} else if (localName.equals("repeatUntil")) {
+     		activity = xml2RepeatUntil(activityElement);
      	} else {
      		return null;
      	}
@@ -2579,6 +2582,43 @@ public class BPELReader {
 		}
 		
 		return forEach;
+	}
+
+	/**
+	 * Converts an XML repeatUntil element to a BPEL RepeatUntil object.
+	 */
+	protected Activity xml2RepeatUntil(Element repeatUntilElement) {
+		RepeatUntil repeatUntil = BPELFactory.eINSTANCE.createRepeatUntil();
+		
+		if (repeatUntilElement == null) return repeatUntil;
+		
+		// Set several parms
+		setStandardAttributes(repeatUntilElement, repeatUntil);
+
+		// Handle condition element
+		Element conditionElement = getBPELChildElementByLocalName(repeatUntilElement, "condition");
+		if (conditionElement != null) {
+			Condition condition = xml2Condition(conditionElement);
+			repeatUntil.setCondition(condition);
+		}
+
+        NodeList repeatUntilElements = repeatUntilElement.getChildNodes();
+        
+        Element activityElement = null;
+
+		if (repeatUntilElements != null && repeatUntilElements.getLength() > 0) {
+			for (int i = 0; i < repeatUntilElements.getLength(); i++) {			
+				if (repeatUntilElements.item(i).getNodeType() != Node.ELEMENT_NODE)
+           	   	  continue;
+           	   	  			
+				activityElement = (Element)repeatUntilElements.item(i); 
+            	Activity activity = xml2Activity(activityElement);
+            	if (activity != null) 
+            		repeatUntil.setActivity(activity); 
+			}
+        }
+        
+		return repeatUntil;
 	}
 
 	protected Correlations xml2Correlations(Element correlationsElement) {
