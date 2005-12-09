@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.7 2005/12/07 14:58:09 james Exp $
+ * $Id: BPELPackage.java,v 1.8 2005/12/09 14:43:11 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -162,22 +162,13 @@ public interface BPELPackage extends EPackage{
 	int PROCESS__VARIABLE_ACCESS_SERIALIZABLE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Abstract Process</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROCESS__ABSTRACT_PROCESS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
-
-	/**
 	 * The feature id for the '<em><b>Partner Links</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__PARTNER_LINKS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
+	int PROCESS__PARTNER_LINKS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Variables</b></em>' containment reference.
@@ -186,7 +177,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__VARIABLES = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
+	int PROCESS__VARIABLES = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
@@ -195,7 +186,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__ACTIVITY = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 9;
+	int PROCESS__ACTIVITY = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Fault Handlers</b></em>' containment reference.
@@ -204,7 +195,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__FAULT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 10;
+	int PROCESS__FAULT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Event Handlers</b></em>' containment reference.
@@ -213,7 +204,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__EVENT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
+	int PROCESS__EVENT_HANDLERS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Correlation Sets</b></em>' containment reference.
@@ -222,7 +213,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__CORRELATION_SETS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 12;
+	int PROCESS__CORRELATION_SETS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Imports</b></em>' containment reference list.
@@ -231,7 +222,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__IMPORTS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 13;
+	int PROCESS__IMPORTS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Extensions</b></em>' containment reference.
@@ -240,7 +231,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
+	int PROCESS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 13;
 
 	/**
 	 * The number of structural features of the '<em>Process</em>' class.
@@ -249,7 +240,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
+	int PROCESS_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.PartnerLinkImpl <em>Partner Link</em>}' class.
@@ -4995,17 +4986,6 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EAttribute getProcess_VariableAccessSerializable();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Process#getAbstractProcess <em>Abstract Process</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Abstract Process</em>'.
-	 * @see org.eclipse.bpel.model.Process#getAbstractProcess()
-	 * @see #getProcess()
-	 * @generated
-	 */
-	EAttribute getProcess_AbstractProcess();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Process#getPartnerLinks <em>Partner Links</em>}'.

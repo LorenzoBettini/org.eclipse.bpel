@@ -416,8 +416,6 @@ public class BPELWriter {
 			processElement.setAttribute("suppressJoinFailure", BPELUtils.boolean2XML(process.getSuppressJoinFailure()));
 		if (process.isSetVariableAccessSerializable())
 			processElement.setAttribute("variableAccessSerializable", BPELUtils.boolean2XML(process.getVariableAccessSerializable()));
-		if (process.isSetAbstractProcess())
-			processElement.setAttribute("abstractProcess", BPELUtils.boolean2XML(process.getAbstractProcess()));
 		if (process.isSetQueryLanguage())
 			processElement.setAttribute("queryLanguage", process.getQueryLanguage());
 		if (process.isSetExpressionLanguage())

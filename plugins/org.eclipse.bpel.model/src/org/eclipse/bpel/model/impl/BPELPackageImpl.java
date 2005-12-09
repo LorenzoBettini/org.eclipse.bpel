@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.7 2005/12/07 14:58:09 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.8 2005/12/09 14:43:11 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -681,17 +681,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProcess_AbstractProcess() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getProcess_PartnerLinks() {
-		return (EReference)processEClass.getEStructuralFeatures().get(7);
+		return (EReference)processEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -700,7 +691,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Variables() {
-		return (EReference)processEClass.getEStructuralFeatures().get(8);
+		return (EReference)processEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -709,7 +700,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Activity() {
-		return (EReference)processEClass.getEStructuralFeatures().get(9);
+		return (EReference)processEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -718,7 +709,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_FaultHandlers() {
-		return (EReference)processEClass.getEStructuralFeatures().get(10);
+		return (EReference)processEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -727,7 +718,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Extensions() {
-		return (EReference)processEClass.getEStructuralFeatures().get(14);
+		return (EReference)processEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -736,7 +727,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_EventHandlers() {
-		return (EReference)processEClass.getEStructuralFeatures().get(11);
+		return (EReference)processEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -745,7 +736,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_CorrelationSets() {
-		return (EReference)processEClass.getEStructuralFeatures().get(12);
+		return (EReference)processEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -754,7 +745,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Imports() {
-		return (EReference)processEClass.getEStructuralFeatures().get(13);
+		return (EReference)processEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -2565,7 +2556,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(processEClass, PROCESS__EXPRESSION_LANGUAGE);
 		createEAttribute(processEClass, PROCESS__SUPPRESS_JOIN_FAILURE);
 		createEAttribute(processEClass, PROCESS__VARIABLE_ACCESS_SERIALIZABLE);
-		createEAttribute(processEClass, PROCESS__ABSTRACT_PROCESS);
 		createEReference(processEClass, PROCESS__PARTNER_LINKS);
 		createEReference(processEClass, PROCESS__VARIABLES);
 		createEReference(processEClass, PROCESS__ACTIVITY);
@@ -2927,7 +2917,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEAttribute(getProcess_ExpressionLanguage(), ecorePackage.getEString(), "expressionLanguage", "http://www.w3.org/TR/1999/REC-xpath-19991116", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProcess_SuppressJoinFailure(), ecorePackage.getEBooleanObject(), "suppressJoinFailure", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProcess_VariableAccessSerializable(), ecorePackage.getEBooleanObject(), "variableAccessSerializable", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_AbstractProcess(), ecorePackage.getEBooleanObject(), "abstractProcess", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_PartnerLinks(), this.getPartnerLinks(), null, "partnerLinks", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Variables(), this.getVariables(), null, "variables", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Activity(), this.getActivity(), null, "activity", null, 1, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

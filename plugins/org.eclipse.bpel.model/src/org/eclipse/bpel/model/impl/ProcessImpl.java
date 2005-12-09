@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: ProcessImpl.java,v 1.3 2005/12/09 14:43:11 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -52,7 +52,6 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExpressionLanguage <em>Expression Language</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getSuppressJoinFailure <em>Suppress Join Failure</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getVariableAccessSerializable <em>Variable Access Serializable</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getAbstractProcess <em>Abstract Process</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getPartnerLinks <em>Partner Links</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getActivity <em>Activity</em>}</li>
@@ -222,35 +221,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @ordered
 	 */
 	protected boolean variableAccessSerializableESet = false;
-
-	/**
-	 * The default value of the '{@link #getAbstractProcess() <em>Abstract Process</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAbstractProcess()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Boolean ABSTRACT_PROCESS_EDEFAULT = Boolean.FALSE;
-
-	/**
-	 * The cached value of the '{@link #getAbstractProcess() <em>Abstract Process</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAbstractProcess()
-	 * @generated
-	 * @ordered
-	 */
-	protected Boolean abstractProcess = ABSTRACT_PROCESS_EDEFAULT;
-
-	/**
-	 * This is true if the Abstract Process attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean abstractProcessESet = false;
 
 	/**
 	 * The cached value of the '{@link #getPartnerLinks() <em>Partner Links</em>}' containment reference.
@@ -574,52 +544,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 */
 	public boolean isSetVariableAccessSerializable() {
 		return variableAccessSerializableESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Boolean getAbstractProcess() {
-		return abstractProcess;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAbstractProcess(Boolean newAbstractProcess) {
-		Boolean oldAbstractProcess = abstractProcess;
-		abstractProcess = newAbstractProcess;
-		boolean oldAbstractProcessESet = abstractProcessESet;
-		abstractProcessESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__ABSTRACT_PROCESS, oldAbstractProcess, abstractProcess, !oldAbstractProcessESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetAbstractProcess() {
-		Boolean oldAbstractProcess = abstractProcess;
-		boolean oldAbstractProcessESet = abstractProcessESet;
-		abstractProcess = ABSTRACT_PROCESS_EDEFAULT;
-		abstractProcessESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PROCESS__ABSTRACT_PROCESS, oldAbstractProcess, ABSTRACT_PROCESS_EDEFAULT, oldAbstractProcessESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetAbstractProcess() {
-		return abstractProcessESet;
 	}
 
 	/**
@@ -993,8 +917,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return getSuppressJoinFailure();
 			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
 				return getVariableAccessSerializable();
-			case BPELPackage.PROCESS__ABSTRACT_PROCESS:
-				return getAbstractProcess();
 			case BPELPackage.PROCESS__PARTNER_LINKS:
 				return getPartnerLinks();
 			case BPELPackage.PROCESS__VARIABLES:
@@ -1049,9 +971,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return;
 			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
 				setVariableAccessSerializable((Boolean)newValue);
-				return;
-			case BPELPackage.PROCESS__ABSTRACT_PROCESS:
-				setAbstractProcess((Boolean)newValue);
 				return;
 			case BPELPackage.PROCESS__PARTNER_LINKS:
 				setPartnerLinks((PartnerLinks)newValue);
@@ -1116,9 +1035,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
 				unsetVariableAccessSerializable();
 				return;
-			case BPELPackage.PROCESS__ABSTRACT_PROCESS:
-				unsetAbstractProcess();
-				return;
 			case BPELPackage.PROCESS__PARTNER_LINKS:
 				setPartnerLinks((PartnerLinks)null);
 				return;
@@ -1172,8 +1088,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return isSetSuppressJoinFailure();
 			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
 				return isSetVariableAccessSerializable();
-			case BPELPackage.PROCESS__ABSTRACT_PROCESS:
-				return isSetAbstractProcess();
 			case BPELPackage.PROCESS__PARTNER_LINKS:
 				return partnerLinks != null;
 			case BPELPackage.PROCESS__VARIABLES:
@@ -1215,8 +1129,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (suppressJoinFailureESet) result.append(suppressJoinFailure); else result.append("<unset>");
 		result.append(", variableAccessSerializable: ");
 		if (variableAccessSerializableESet) result.append(variableAccessSerializable); else result.append("<unset>");
-		result.append(", abstractProcess: ");
-		if (abstractProcessESet) result.append(abstractProcess); else result.append("<unset>");
 		result.append(')');
 		return result.toString();
 	}

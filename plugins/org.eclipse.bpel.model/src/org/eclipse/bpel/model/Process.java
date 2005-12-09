@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: Process.java,v 1.3 2005/12/09 14:43:11 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -40,7 +40,6 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  *   <li>{@link org.eclipse.bpel.model.Process#getExpressionLanguage <em>Expression Language</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getSuppressJoinFailure <em>Suppress Join Failure</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getVariableAccessSerializable <em>Variable Access Serializable</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Process#getAbstractProcess <em>Abstract Process</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getPartnerLinks <em>Partner Links</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getVariables <em>Variables</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getActivity <em>Activity</em>}</li>
@@ -322,60 +321,6 @@ public interface Process extends ExtensibleElement{
 	 * @generated
 	 */
 	boolean isSetVariableAccessSerializable();
-
-	/**
-	 * Returns the value of the '<em><b>Abstract Process</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies whether the process being defined is abstract (rather than executable). Default is false.
-	 * 
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Abstract Process</em>' attribute.
-	 * @see #isSetAbstractProcess()
-	 * @see #unsetAbstractProcess()
-	 * @see #setAbstractProcess(Boolean)
-	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_AbstractProcess()
-	 * @model default="false" unsettable="true"
-	 * @generated
-	 */
-	Boolean getAbstractProcess();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getAbstractProcess <em>Abstract Process</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Abstract Process</em>' attribute.
-	 * @see #isSetAbstractProcess()
-	 * @see #unsetAbstractProcess()
-	 * @see #getAbstractProcess()
-	 * @generated
-	 */
-	void setAbstractProcess(Boolean value);
-
-	/**
-	 * Unsets the value of the '{@link org.eclipse.bpel.model.Process#getAbstractProcess <em>Abstract Process</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetAbstractProcess()
-	 * @see #getAbstractProcess()
-	 * @see #setAbstractProcess(Boolean)
-	 * @generated
-	 */
-	void unsetAbstractProcess();
-
-	/**
-	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Process#getAbstractProcess <em>Abstract Process</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Abstract Process</em>' attribute is set.
-	 * @see #unsetAbstractProcess()
-	 * @see #getAbstractProcess()
-	 * @see #setAbstractProcess(Boolean)
-	 * @generated
-	 */
-	boolean isSetAbstractProcess();
 
 	/**
 	 * Returns the value of the '<em><b>Partner Links</b></em>' containment reference.

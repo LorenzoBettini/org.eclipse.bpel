@@ -681,9 +681,6 @@ public class BPELReader {
 		if (processElement.hasAttribute("variableAccessSerializable"))
 			process.setVariableAccessSerializable(new Boolean(processElement.getAttribute("variableAccessSerializable").equals("yes")));
 
-		if (processElement.hasAttribute("abstractProcess"))
-			process.setAbstractProcess(new Boolean(processElement.getAttribute("abstractProcess").equals("yes")));
-
 		if (processElement.hasAttribute("queryLanguage"))
 			process.setQueryLanguage(processElement.getAttribute("queryLanguage"));
 
