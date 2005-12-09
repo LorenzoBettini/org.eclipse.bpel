@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.5 2005/12/07 14:58:09 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.6 2005/12/09 15:47:52 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
@@ -164,6 +165,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.FROM_PART: return createFromPart();
 			case BPELPackage.TO_PART: return createToPart();
 			case BPELPackage.OPAQUE_ACTIVITY: return createOpaqueActivity();
+			case BPELPackage.FOR_EACH: return createForEach();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -789,6 +791,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public OpaqueActivity createOpaqueActivity() {
 		OpaqueActivityImpl opaqueActivity = new OpaqueActivityImpl();
 		return opaqueActivity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ForEach createForEach() {
+		ForEachImpl forEach = new ForEachImpl();
+		return forEach;
 	}
 
 	/**

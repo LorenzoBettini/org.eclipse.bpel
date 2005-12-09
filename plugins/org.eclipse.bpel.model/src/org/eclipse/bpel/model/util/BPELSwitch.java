@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.5 2005/12/07 14:58:09 james Exp $
+ * $Id: BPELSwitch.java,v 1.6 2005/12/09 15:47:52 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -41,6 +41,7 @@ import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
@@ -642,6 +643,15 @@ public class BPELSwitch {
 				if (result == null) result = caseActivity(opaqueActivity);
 				if (result == null) result = caseExtensibleElement(opaqueActivity);
 				if (result == null) result = caseWSDLElement(opaqueActivity);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.FOR_EACH: {
+				ForEach forEach = (ForEach)theEObject;
+				Object result = caseForEach(forEach);
+				if (result == null) result = caseActivity(forEach);
+				if (result == null) result = caseExtensibleElement(forEach);
+				if (result == null) result = caseWSDLElement(forEach);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1531,6 +1541,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseOpaqueActivity(OpaqueActivity object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>For Each</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>For Each</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseForEach(ForEach object) {
 		return null;
 	}
 

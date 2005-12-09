@@ -478,4 +478,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OpaqueActivity" eSuperTypes="#//Activity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ForEach" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parallel" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="counterName" eType="#//Variable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCounterValue" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

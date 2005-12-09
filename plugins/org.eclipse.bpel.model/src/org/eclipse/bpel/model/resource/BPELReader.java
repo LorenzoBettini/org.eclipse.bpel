@@ -51,6 +51,7 @@ import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
@@ -1117,6 +1118,7 @@ public class BPELReader {
             return null;
         
 		String localName = activityElement.getLocalName();        
+		// JM: What is this first clause for?
         if (localName.equals("process")){ 
 			activity = getChildActivity(activityElement);
 			checkExtensibility = false;
@@ -1156,6 +1158,8 @@ public class BPELReader {
      		activity = xml2ExtensionActivity(activityElement);
      	} else if (localName.equals("opaqueActivity")) {
      		activity = xml2OpaqueActivity(activityElement);
+     	} else if (localName.equals("forEach")) {
+     		activity = xml2ForEach(activityElement);
      	} else {
      		return null;
      	}
@@ -2539,6 +2543,44 @@ public class BPELReader {
 		return receive;
 	}
 	
+	/**
+	 * Converts an XML forEach element to a BPEL ForEach object.
+	 */
+	protected Activity xml2ForEach(Element forEachElement) {
+		ForEach forEach = BPELFactory.eINSTANCE.createForEach();
+		if (forEachElement == null) return forEach;
+		
+		// Set several parms
+		setStandardAttributes(forEachElement, forEach);
+
+		if (forEachElement.hasAttribute("parallel")) {
+			process.setSuppressJoinFailure(new Boolean(forEachElement.getAttribute("parallel").equals("yes")));
+		}
+
+		if (forEachElement.hasAttribute("counterName")) {
+			// Set counterName variable
+			Variable variable = BPELFactory.eINSTANCE.createVariable();		
+			variable.setName(forEachElement.getAttribute("counterName"));
+			forEach.setCounterName(variable);					
+		}		
+
+		// Set startCounterValue element
+		Element startCounterValueElement = getBPELChildElementByLocalName(forEachElement, "startCounterValue");
+		if (startCounterValueElement != null) {
+			Expression expression = xml2Expression(startCounterValueElement);
+			forEach.setStartCounterValue(expression);
+		}
+		
+		// Set finalCounterValue element
+		Element finalCounterValueElement = getBPELChildElementByLocalName(forEachElement, "finalCounterValue");
+		if (finalCounterValueElement != null) {
+			Expression expression = xml2Expression(finalCounterValueElement);
+			forEach.setFinalCounterValue(expression);
+		}
+		
+		return forEach;
+	}
+
 	protected Correlations xml2Correlations(Element correlationsElement) {
 		if (!correlationsElement.getLocalName().equals("correlations"))
 			return null;

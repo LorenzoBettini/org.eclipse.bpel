@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.8 2005/12/09 14:43:11 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.9 2005/12/09 15:47:52 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
@@ -512,6 +513,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass opaqueActivityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass forEachEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2508,6 +2516,51 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getForEach() {
+		return forEachEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getForEach_Parallel() {
+		return (EAttribute)forEachEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getForEach_CounterName() {
+		return (EReference)forEachEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getForEach_StartCounterValue() {
+		return (EReference)forEachEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getForEach_FinalCounterValue() {
+		return (EReference)forEachEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2818,6 +2871,12 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		opaqueActivityEClass = createEClass(OPAQUE_ACTIVITY);
 
+		forEachEClass = createEClass(FOR_EACH);
+		createEAttribute(forEachEClass, FOR_EACH__PARALLEL);
+		createEReference(forEachEClass, FOR_EACH__COUNTER_NAME);
+		createEReference(forEachEClass, FOR_EACH__START_COUNTER_VALUE);
+		createEReference(forEachEClass, FOR_EACH__FINAL_COUNTER_VALUE);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -2908,6 +2967,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensionsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
+		forEachEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3178,6 +3238,12 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getToPart_From(), this.getFrom(), null, "from", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(opaqueActivityEClass, OpaqueActivity.class, "OpaqueActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(forEachEClass, ForEach.class, "ForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getForEach_Parallel(), theEcorePackage.getEBooleanObject(), "parallel", "false", 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

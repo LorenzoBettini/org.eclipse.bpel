@@ -53,6 +53,7 @@ import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
@@ -868,6 +869,8 @@ public class BPELWriter {
 			activityElement = extensionActivity2XML(activity);
 		else if (activity instanceof OpaqueActivity)
 			activityElement = opaqueActivity2XML(activity);
+		else if (activity instanceof ForEach)
+			activityElement = forEach2XML(activity);
 		else
 			return null;
 
@@ -944,6 +947,28 @@ public class BPELWriter {
 
 	protected Element opaqueActivity2XML(Activity activity) {
 		Element activityElement = createBPELElement("opaqueActivity");
+		return activityElement;
+	}
+
+	protected Element forEach2XML(Activity activity) {
+		ForEach forEach = (ForEach)activity;
+		Element activityElement = createBPELElement("forEach");
+		
+		if (forEach.getParallel() != null)
+			activityElement.setAttribute("parallel", BPELUtils.boolean2XML(forEach.getParallel()));
+		
+		if (forEach.getCounterName() != null) {
+			activityElement.setAttribute("counterName", forEach.getCounterName().getName());
+		}
+
+		if (forEach.getStartCounterValue() != null) {
+			activityElement.appendChild(expression2XML(forEach.getStartCounterValue(), "startCounterValue"));
+		}
+		
+		if (forEach.getFinalCounterValue() != null) {
+			activityElement.appendChild(expression2XML(forEach.getFinalCounterValue(), "finalCounterValue"));
+		}
+
 		return activityElement;
 	}
 

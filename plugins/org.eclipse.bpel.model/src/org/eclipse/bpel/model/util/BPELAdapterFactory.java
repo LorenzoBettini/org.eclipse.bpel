@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.5 2005/12/07 14:58:09 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.6 2005/12/09 15:47:52 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -39,6 +39,7 @@ import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
@@ -314,6 +315,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseOpaqueActivity(OpaqueActivity object) {
 				return createOpaqueActivityAdapter();
+			}
+			public Object caseForEach(ForEach object) {
+				return createForEachAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1171,6 +1175,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOpaqueActivityAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ForEach <em>For Each</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.ForEach
+	 * @generated
+	 */
+	public Adapter createForEachAdapter() {
 		return null;
 	}
 

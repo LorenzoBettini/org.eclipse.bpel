@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.8 2005/12/09 14:43:11 james Exp $
+ * $Id: BPELPackage.java,v 1.9 2005/12/09 15:47:52 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -4891,6 +4891,124 @@ public interface BPELPackage extends EPackage{
 	int OPAQUE_ACTIVITY_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ForEachImpl <em>For Each</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ForEachImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getForEach()
+	 * @generated
+	 */
+	int FOR_EACH = 59;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The feature id for the '<em><b>Parallel</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__PARALLEL = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Counter Name</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__COUNTER_NAME = ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Start Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__START_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Final Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__FINAL_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>For Each</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 4;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4898,7 +5016,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 59;
+	int CORRELATION_PATTERN = 60;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -4908,7 +5026,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 60;
+	int ENDPOINT_REFERENCE_ROLE = 61;
 
 
 	/**
@@ -7161,6 +7279,60 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EClass getOpaqueActivity();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.ForEach <em>For Each</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>For Each</em>'.
+	 * @see org.eclipse.bpel.model.ForEach
+	 * @generated
+	 */
+	EClass getForEach();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.ForEach#getParallel <em>Parallel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Parallel</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getParallel()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EAttribute getForEach_Parallel();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getCounterName <em>Counter Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Counter Name</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getCounterName()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_CounterName();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getStartCounterValue <em>Start Counter Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Start Counter Value</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getStartCounterValue()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_StartCounterValue();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getFinalCounterValue <em>Final Counter Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Final Counter Value</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getFinalCounterValue()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_FinalCounterValue();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.
