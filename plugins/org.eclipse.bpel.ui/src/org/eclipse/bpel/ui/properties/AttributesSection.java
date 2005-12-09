@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.common.ui.details.ChangeHelper;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
@@ -21,7 +20,6 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetAbstractProcessCommand;
 import org.eclipse.bpel.ui.commands.SetExpressionLanguageCommand;
 import org.eclipse.bpel.ui.commands.SetQueryLanguageCommand;
 import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
@@ -40,7 +38,6 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
@@ -53,20 +50,17 @@ public class AttributesSection extends BPELPropertySection {
 
 	protected static final int EXPRESSION_COMBO_CONTEXT = 0; 
 	protected static final int QUERY_COMBO_CONTEXT = 1;
-	protected static final int PROCESS_TYPE_CONTEXT = 2;
 	
 	protected int lastChangeContext = -1;
 	
 	protected Process process;
 	protected CCombo expressionLanguageCCombo;
 	protected CCombo queryLanguageCCombo;
-	protected Button isAbstractButton;
 	
 	protected CComboViewer expressionLanguageViewer;
 	protected CComboViewer queryLanguageViewer;
 	protected ChangeHelper expressionChangeHelper;
 	protected ChangeHelper queryChangeHelper;
-	protected ChangeTracker isAbstractTracker;	
 
 	protected void basicSetInput(EObject input) {
 		super.basicSetInput(input);
@@ -106,10 +100,6 @@ public class AttributesSection extends BPELPropertySection {
 			return (n.getFeatureID(Process.class) == BPELPackage.PROCESS__QUERY_LANGUAGE);
 	}
 	
-	protected boolean isProcessAbstractAffected(Notification n) {
-			return (n.getFeatureID(Process.class) == BPELPackage.PROCESS__ABSTRACT_PROCESS);
-	}
-	
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
@@ -117,7 +107,6 @@ public class AttributesSection extends BPELPropertySection {
 				public void notify(Notification n) {
 					if (isExpressionLanguageAffected(n))  updateExpressionLanguageWidgets();
 					if (isQueryLanguageAffected(n)) updateQueryLanguageWidgets();
-					if (isProcessAbstractAffected(n)) updateProcessTypeWidgets();
 				}
 			}, };
 	}
@@ -210,21 +199,6 @@ public class AttributesSection extends BPELPropertySection {
 		};
 		queryChangeHelper.startListeningTo(queryLanguageCCombo);
 		queryChangeHelper.startListeningForEnter(queryLanguageCCombo);
-
-		IOngoingChange change = new IOngoingChange() {
-			public String getLabel() {
-				return IBPELUIConstants.CMD_EDIT_PROCESSTYPE;
-			}
-			public Command createApplyCommand() {
-				lastChangeContext = PROCESS_TYPE_CONTEXT;
-				return wrapInShowContextCommand(new SetAbstractProcessCommand(
-					getInput(), new Boolean(isAbstractButton.getSelection())));
-			}
-			public void restoreOldState() {
-				updateProcessTypeWidgets();
-			}
-		};
-		isAbstractTracker = new ChangeTracker(isAbstractButton, change, getCommandFramework());
 	}
 
 	protected void createAttributesWidgets(Composite composite) {
@@ -278,13 +252,6 @@ public class AttributesSection extends BPELPropertySection {
 		queryLanguageLabel.setLayoutData(data);
 
 		queryLanguageViewer.setInput(new Object());
-		
-		// Process type checkbox layout
-		isAbstractButton = wf.createButton(composite, Messages.AttributesDetails_Process_Type_Abstract__3, SWT.CHECK); 
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.top = new FlatFormAttachment(queryLanguageLabel, IDetailsAreaConstants.VMARGIN + 2);
-		isAbstractButton.setLayoutData(data);
 	}
 
 	protected void createClient(Composite parent) {
@@ -344,23 +311,10 @@ public class AttributesSection extends BPELPropertySection {
 		}
 	}
 		
-	protected void updateProcessTypeWidgets() {
-		isAbstractTracker.stopTracking();
-		try {
-			boolean modelValue = Boolean.TRUE.equals(ModelHelper.isProcessAbstract(getInput()));
-			if (isAbstractButton.getSelection() != modelValue) {
-				isAbstractButton.setSelection(modelValue);
-			}
-		} finally { 
-			isAbstractTracker.startTracking();
-		}
-	}
-		
 	public void refresh() {
 		super.refresh();
 		updateExpressionLanguageWidgets();
 		updateQueryLanguageWidgets();
-		updateProcessTypeWidgets();
 	}
 
 	public Object getUserContext() {
@@ -371,7 +325,6 @@ public class AttributesSection extends BPELPropertySection {
 		switch (i) {
 			case EXPRESSION_COMBO_CONTEXT: expressionLanguageCCombo.setFocus(); return;
 			case QUERY_COMBO_CONTEXT: queryLanguageCCombo.setFocus(); return;
-			case PROCESS_TYPE_CONTEXT: isAbstractButton.setFocus(); return;
 		}
 		throw new IllegalStateException();
 	}

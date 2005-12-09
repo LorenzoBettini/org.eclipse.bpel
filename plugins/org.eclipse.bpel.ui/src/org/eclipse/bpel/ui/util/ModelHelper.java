@@ -251,13 +251,6 @@ public class ModelHelper {
 		throw new IllegalArgumentException();
 	}
 	
-	public static Boolean isProcessAbstract(Object context){
-		if (context instanceof Process){
-			return ((Process)context).getAbstractProcess();
-		}
-		return Boolean.FALSE;
-	}
-
 	public static boolean isMessageActivity(Object context, int direction) {
 		switch (direction)  {
 		case OUTGOING:
