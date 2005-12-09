@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.3 2005/12/09 14:43:11 james Exp $
+ * $Id: Process.java,v 1.4 2005/12/09 19:30:43 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -48,6 +48,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  *   <li>{@link org.eclipse.bpel.model.Process#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Process#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
  * </ul>
  * </p>
  *
@@ -451,6 +452,33 @@ public interface Process extends ExtensibleElement{
 	 * @generated
 	 */
 	void setExtensions(Extensions value);
+
+	/**
+	 * Returns the value of the '<em><b>Exit On Standard Fault</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Exit On Standard Fault</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Exit On Standard Fault</em>' attribute.
+	 * @see #setExitOnStandardFault(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_ExitOnStandardFault()
+	 * @model default="true"
+	 * @generated
+	 */
+	Boolean getExitOnStandardFault();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getExitOnStandardFault <em>Exit On Standard Fault</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Exit On Standard Fault</em>' attribute.
+	 * @see #getExitOnStandardFault()
+	 * @generated
+	 */
+	void setExitOnStandardFault(Boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Event Handlers</b></em>' containment reference.

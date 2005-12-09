@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.12 2005/12/09 19:22:30 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.13 2005/12/09 19:30:43 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -743,6 +743,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getProcess_Extensions() {
 		return (EReference)processEClass.getEStructuralFeatures().get(13);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProcess_ExitOnStandardFault() {
+		return (EAttribute)processEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
@@ -2687,6 +2696,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(processEClass, PROCESS__CORRELATION_SETS);
 		createEReference(processEClass, PROCESS__IMPORTS);
 		createEReference(processEClass, PROCESS__EXTENSIONS);
+		createEAttribute(processEClass, PROCESS__EXIT_ON_STANDARD_FAULT);
 
 		partnerLinkEClass = createEClass(PARTNER_LINK);
 		createEAttribute(partnerLinkEClass, PARTNER_LINK__NAME);
@@ -2985,10 +2995,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		// Obtain other dependent packages
 		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
+		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI);
 		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI);
 		XSDPackageImpl theXSDPackage = (XSDPackageImpl)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
-		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add supertypes to classes
 		processEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
@@ -3065,6 +3075,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getProcess_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Imports(), this.getImport(), null, "imports", null, 0, -1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Extensions(), this.getExtensions(), null, "extensions", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProcess_ExitOnStandardFault(), theEcorePackage.getEBooleanObject(), "exitOnStandardFault", "true", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(partnerLinkEClass, PartnerLink.class, "PartnerLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPartnerLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

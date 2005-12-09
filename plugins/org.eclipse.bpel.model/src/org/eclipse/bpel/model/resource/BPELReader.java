@@ -681,6 +681,9 @@ public class BPELReader {
 		if (processElement.hasAttribute("suppressJoinFailure"))
 			process.setSuppressJoinFailure(new Boolean(processElement.getAttribute("suppressJoinFailure").equals("yes")));
 		
+		if (processElement.hasAttribute("exitOnStandardFault"))
+			process.setExitOnStandardFault(new Boolean(processElement.getAttribute("exitOnStandardFault").equals("yes")));
+		
 		if (processElement.hasAttribute("variableAccessSerializable"))
 			process.setVariableAccessSerializable(new Boolean(processElement.getAttribute("variableAccessSerializable").equals("yes")));
 

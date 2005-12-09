@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationPattern.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: CorrelationPattern.java,v 1.2 2005/12/09 19:30:43 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -100,7 +100,7 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #OUTIN
-	 * @generated
+	 * @customized
 	 * @ordered
 	 */
 	public static final CorrelationPattern OUTIN_LITERAL = new CorrelationPattern(OUTIN, "out-in", "out-in");

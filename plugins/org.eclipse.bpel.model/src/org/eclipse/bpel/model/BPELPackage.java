@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.12 2005/12/09 19:22:30 james Exp $
+ * $Id: BPELPackage.java,v 1.13 2005/12/09 19:30:43 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -234,13 +234,22 @@ public interface BPELPackage extends EPackage{
 	int PROCESS__EXTENSIONS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 13;
 
 	/**
+	 * The feature id for the '<em><b>Exit On Standard Fault</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS__EXIT_ON_STANDARD_FAULT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
+
+	/**
 	 * The number of structural features of the '<em>Process</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
+	int PROCESS_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.PartnerLinkImpl <em>Partner Link</em>}' class.
@@ -5323,6 +5332,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getProcess_Extensions();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Process#getExitOnStandardFault <em>Exit On Standard Fault</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Exit On Standard Fault</em>'.
+	 * @see org.eclipse.bpel.model.Process#getExitOnStandardFault()
+	 * @see #getProcess()
+	 * @generated
+	 */
+	EAttribute getProcess_ExitOnStandardFault();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Process#getEventHandlers <em>Event Handlers</em>}'.

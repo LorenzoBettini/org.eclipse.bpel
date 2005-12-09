@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.3 2005/12/09 14:43:11 james Exp $
+ * $Id: ProcessImpl.java,v 1.4 2005/12/09 19:30:43 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -60,6 +60,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
  * </ul>
  * </p>
  *
@@ -301,6 +302,26 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @ordered
 	 */
 	protected Extensions extensions = null;
+
+	/**
+	 * The default value of the '{@link #getExitOnStandardFault() <em>Exit On Standard Fault</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExitOnStandardFault()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean EXIT_ON_STANDARD_FAULT_EDEFAULT = Boolean.TRUE;
+
+	/**
+	 * The cached value of the '{@link #getExitOnStandardFault() <em>Exit On Standard Fault</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExitOnStandardFault()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean exitOnStandardFault = EXIT_ON_STANDARD_FAULT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -766,6 +787,27 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getExitOnStandardFault() {
+		return exitOnStandardFault;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
+		Boolean oldExitOnStandardFault = exitOnStandardFault;
+		exitOnStandardFault = newExitOnStandardFault;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT, oldExitOnStandardFault, exitOnStandardFault));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EventHandler getEventHandlers() {
 		return eventHandlers;
 	}
@@ -933,6 +975,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return getImports();
 			case BPELPackage.PROCESS__EXTENSIONS:
 				return getExtensions();
+			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+				return getExitOnStandardFault();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -997,6 +1041,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__EXTENSIONS:
 				setExtensions((Extensions)newValue);
 				return;
+			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+				setExitOnStandardFault((Boolean)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -1059,6 +1106,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__EXTENSIONS:
 				setExtensions((Extensions)null);
 				return;
+			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+				setExitOnStandardFault(EXIT_ON_STANDARD_FAULT_EDEFAULT);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -1104,6 +1154,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return imports != null && !imports.isEmpty();
 			case BPELPackage.PROCESS__EXTENSIONS:
 				return extensions != null;
+			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+				return EXIT_ON_STANDARD_FAULT_EDEFAULT == null ? exitOnStandardFault != null : !EXIT_ON_STANDARD_FAULT_EDEFAULT.equals(exitOnStandardFault);
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -1129,6 +1181,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (suppressJoinFailureESet) result.append(suppressJoinFailure); else result.append("<unset>");
 		result.append(", variableAccessSerializable: ");
 		if (variableAccessSerializableESet) result.append(variableAccessSerializable); else result.append("<unset>");
+		result.append(", exitOnStandardFault: ");
+		result.append(exitOnStandardFault);
 		result.append(')');
 		return result.toString();
 	}

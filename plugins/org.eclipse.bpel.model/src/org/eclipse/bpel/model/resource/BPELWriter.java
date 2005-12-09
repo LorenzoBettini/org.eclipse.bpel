@@ -417,6 +417,8 @@ public class BPELWriter {
 			processElement.setAttribute("targetNamespace", process.getTargetNamespace());
 		if (process.isSetSuppressJoinFailure())
 			processElement.setAttribute("suppressJoinFailure", BPELUtils.boolean2XML(process.getSuppressJoinFailure()));
+		if (process.getExitOnStandardFault() != null)
+			processElement.setAttribute("exitOnStandardFault", BPELUtils.boolean2XML(process.getExitOnStandardFault()));
 		if (process.isSetVariableAccessSerializable())
 			processElement.setAttribute("variableAccessSerializable", BPELUtils.boolean2XML(process.getVariableAccessSerializable()));
 		if (process.isSetQueryLanguage())
