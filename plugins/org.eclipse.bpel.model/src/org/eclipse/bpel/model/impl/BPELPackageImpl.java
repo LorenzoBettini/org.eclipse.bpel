@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.15 2005/12/09 21:01:02 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.16 2005/12/12 16:16:49 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -864,6 +864,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getPartnerLink_PartnerLinkType() {
 		return (EReference)partnerLinkEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPartnerLink_InitializePartnerRole() {
+		return (EAttribute)partnerLinkEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2869,6 +2878,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(partnerLinkEClass, PARTNER_LINK__MY_ROLE);
 		createEReference(partnerLinkEClass, PARTNER_LINK__PARTNER_ROLE);
 		createEReference(partnerLinkEClass, PARTNER_LINK__PARTNER_LINK_TYPE);
+		createEAttribute(partnerLinkEClass, PARTNER_LINK__INITIALIZE_PARTNER_ROLE);
 
 		faultHandlerEClass = createEClass(FAULT_HANDLER);
 		createEReference(faultHandlerEClass, FAULT_HANDLER__CATCH);
@@ -3272,6 +3282,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getPartnerLink_MyRole(), thePartnerlinktypePackage.getRole(), null, "myRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPartnerLink_PartnerRole(), thePartnerlinktypePackage.getRole(), null, "partnerRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPartnerLink_PartnerLinkType(), thePartnerlinktypePackage.getPartnerLinkType(), null, "PartnerLinkType", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPartnerLink_InitializePartnerRole(), theEcorePackage.getEBooleanObject(), "initializePartnerRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(faultHandlerEClass, FaultHandler.class, "FaultHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFaultHandler_Catch(), this.getCatch(), null, "catch", null, 0, -1, FaultHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

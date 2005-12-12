@@ -562,6 +562,9 @@ public class BPELWriter {
 			partnerLinkElement.setAttribute("name", partnerLink.getName());
 		}
 		
+		if (partnerLink.isSetInitializePartnerRole())
+			partnerLinkElement.setAttribute("initializePartnerRole", BPELUtils.boolean2XML(partnerLink.getInitializePartnerRole()));
+				
 		PartnerLinkType plt = partnerLink.getPartnerLinkType();
 		if (plt != null) {
 			String qnameStr = bpelNamespacePrefixManager.qNameToString(partnerLink, getQName(plt));

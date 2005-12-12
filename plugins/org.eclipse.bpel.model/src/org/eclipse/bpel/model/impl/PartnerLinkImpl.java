@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: PartnerLinkImpl.java,v 1.2 2005/12/12 16:16:49 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -39,6 +39,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.PartnerLinkImpl#getMyRole <em>My Role</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.PartnerLinkImpl#getPartnerRole <em>Partner Role</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.PartnerLinkImpl#getPartnerLinkType <em>Partner Link Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.PartnerLinkImpl#getInitializePartnerRole <em>Initialize Partner Role</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,6 +95,35 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * @ordered
 	 */
 	protected PartnerLinkType partnerLinkType = null;
+
+	/**
+	 * The default value of the '{@link #getInitializePartnerRole() <em>Initialize Partner Role</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInitializePartnerRole()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean INITIALIZE_PARTNER_ROLE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getInitializePartnerRole() <em>Initialize Partner Role</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInitializePartnerRole()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean initializePartnerRole = INITIALIZE_PARTNER_ROLE_EDEFAULT;
+
+	/**
+	 * This is true if the Initialize Partner Role attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean initializePartnerRoleESet = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -253,6 +283,52 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getInitializePartnerRole() {
+		return initializePartnerRole;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInitializePartnerRole(Boolean newInitializePartnerRole) {
+		Boolean oldInitializePartnerRole = initializePartnerRole;
+		initializePartnerRole = newInitializePartnerRole;
+		boolean oldInitializePartnerRoleESet = initializePartnerRoleESet;
+		initializePartnerRoleESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE, oldInitializePartnerRole, initializePartnerRole, !oldInitializePartnerRoleESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetInitializePartnerRole() {
+		Boolean oldInitializePartnerRole = initializePartnerRole;
+		boolean oldInitializePartnerRoleESet = initializePartnerRoleESet;
+		initializePartnerRole = INITIALIZE_PARTNER_ROLE_EDEFAULT;
+		initializePartnerRoleESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE, oldInitializePartnerRole, INITIALIZE_PARTNER_ROLE_EDEFAULT, oldInitializePartnerRoleESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetInitializePartnerRole() {
+		return initializePartnerRoleESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.PARTNER_LINK__DOCUMENTATION_ELEMENT:
@@ -272,6 +348,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
 				if (resolve) return getPartnerLinkType();
 				return basicGetPartnerLinkType();
+			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+				return getInitializePartnerRole();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -305,6 +383,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
 				setPartnerLinkType((PartnerLinkType)newValue);
 				return;
+			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+				setInitializePartnerRole((Boolean)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -337,6 +418,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
 				setPartnerLinkType((PartnerLinkType)null);
 				return;
+			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+				unsetInitializePartnerRole();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -362,6 +446,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 				return partnerRole != null;
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
 				return partnerLinkType != null;
+			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+				return isSetInitializePartnerRole();
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -377,6 +463,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", initializePartnerRole: ");
+		if (initializePartnerRoleESet) result.append(initializePartnerRole); else result.append("<unset>");
 		result.append(')');
 		return result.toString();
 	}

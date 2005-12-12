@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLink.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: PartnerLink.java,v 1.2 2005/12/12 16:16:49 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -45,6 +45,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  *   <li>{@link org.eclipse.bpel.model.PartnerLink#getMyRole <em>My Role</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.PartnerLink#getPartnerRole <em>Partner Role</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.PartnerLink#getPartnerLinkType <em>Partner Link Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.PartnerLink#getInitializePartnerRole <em>Initialize Partner Role</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,7 +53,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface PartnerLink extends ExtensibleElement {
+public interface PartnerLink extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -156,5 +157,58 @@ public interface PartnerLink extends ExtensibleElement {
 	 * @generated
 	 */
 	void setPartnerLinkType(PartnerLinkType value);
+
+	/**
+	 * Returns the value of the '<em><b>Initialize Partner Role</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Initialize Partner Role</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Initialize Partner Role</em>' attribute.
+	 * @see #isSetInitializePartnerRole()
+	 * @see #unsetInitializePartnerRole()
+	 * @see #setInitializePartnerRole(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getPartnerLink_InitializePartnerRole()
+	 * @model unsettable="true"
+	 * @generated
+	 */
+	Boolean getInitializePartnerRole();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.PartnerLink#getInitializePartnerRole <em>Initialize Partner Role</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Initialize Partner Role</em>' attribute.
+	 * @see #isSetInitializePartnerRole()
+	 * @see #unsetInitializePartnerRole()
+	 * @see #getInitializePartnerRole()
+	 * @generated
+	 */
+	void setInitializePartnerRole(Boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.PartnerLink#getInitializePartnerRole <em>Initialize Partner Role</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetInitializePartnerRole()
+	 * @see #getInitializePartnerRole()
+	 * @see #setInitializePartnerRole(Boolean)
+	 * @generated
+	 */
+	void unsetInitializePartnerRole();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.PartnerLink#getInitializePartnerRole <em>Initialize Partner Role</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Initialize Partner Role</em>' attribute is set.
+	 * @see #unsetInitializePartnerRole()
+	 * @see #getInitializePartnerRole()
+	 * @see #setInitializePartnerRole(Boolean)
+	 * @generated
+	 */
+	boolean isSetInitializePartnerRole();
 
 } // PartnerLink

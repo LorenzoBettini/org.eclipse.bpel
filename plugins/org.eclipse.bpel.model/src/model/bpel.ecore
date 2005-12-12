@@ -53,6 +53,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="myRole" eType="ecore:EClass partnerlinktype.ecore#//Role"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerRole" eType="ecore:EClass partnerlinktype.ecore#//Role"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="PartnerLinkType" eType="ecore:EClass partnerlinktype.ecore#//PartnerLinkType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initializePartnerRole"
+        eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FaultHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.15 2005/12/09 21:01:01 james Exp $
+ * $Id: BPELPackage.java,v 1.16 2005/12/12 16:16:48 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -325,13 +325,22 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_LINK__PARTNER_LINK_TYPE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Initialize Partner Role</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARTNER_LINK__INITIALIZE_PARTNER_ROLE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Partner Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARTNER_LINK_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
+	int PARTNER_LINK_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.FaultHandlerImpl <em>Fault Handler</em>}' class.
@@ -5813,6 +5822,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getPartnerLink_PartnerLinkType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.PartnerLink#getInitializePartnerRole <em>Initialize Partner Role</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Initialize Partner Role</em>'.
+	 * @see org.eclipse.bpel.model.PartnerLink#getInitializePartnerRole()
+	 * @see #getPartnerLink()
+	 * @generated
+	 */
+	EAttribute getPartnerLink_InitializePartnerRole();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.FaultHandler <em>Fault Handler</em>}'.

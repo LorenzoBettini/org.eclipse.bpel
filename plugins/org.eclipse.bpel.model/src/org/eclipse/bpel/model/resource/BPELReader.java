@@ -929,6 +929,9 @@ public class BPELReader {
 		if (partnerLinkElement.hasAttribute("name"))
 			partnerLink.setName(partnerLinkElement.getAttribute("name"));
 			
+		if (partnerLinkElement.hasAttribute("initializePartnerRole"))
+			partnerLink.setInitializePartnerRole(new Boolean(partnerLinkElement.getAttribute("initializePartnerRole").equals("yes")));		
+		
 		Attr partnerLinkTypeName = partnerLinkElement.getAttributeNode("partnerLinkType");
 		if (partnerLinkTypeName != null && partnerLinkTypeName.getSpecified()) {
 			QName sltQName = BPELUtils.createAttributeValue(partnerLinkElement, "partnerLinkType");
