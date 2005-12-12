@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Scope.java,v 1.2 2005/12/09 19:22:30 james Exp $
+ * $Id: Scope.java,v 1.3 2005/12/12 16:22:00 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -281,26 +281,26 @@ public interface Scope extends Activity{
 	void setPartnerLinks(PartnerLinks value);
 
 	/**
-	 * Returns the value of the '<em><b>Termination Handler</b></em>' reference.
+	 * Returns the value of the '<em><b>Termination Handler</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Termination Handler</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Termination Handler</em>' reference.
+	 * @return the value of the '<em>Termination Handler</em>' containment reference.
 	 * @see #setTerminationHandler(TerminationHandler)
 	 * @see org.eclipse.bpel.model.BPELPackage#getScope_TerminationHandler()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	TerminationHandler getTerminationHandler();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Termination Handler</em>' reference.
+	 * @param value the new value of the '<em>Termination Handler</em>' containment reference.
 	 * @see #getTerminationHandler()
 	 * @generated
 	 */

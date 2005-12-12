@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.2 2005/12/09 19:22:30 james Exp $
+ * $Id: ScopeImpl.java,v 1.3 2005/12/12 16:22:00 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -159,7 +159,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	protected PartnerLinks partnerLinks = null;
 
 	/**
-	 * The cached value of the '{@link #getTerminationHandler() <em>Termination Handler</em>}' reference.
+	 * The cached value of the '{@link #getTerminationHandler() <em>Termination Handler</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getTerminationHandler()
@@ -539,14 +539,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 */
 	public TerminationHandler getTerminationHandler() {
-		if (terminationHandler != null && terminationHandler.eIsProxy()) {
-			TerminationHandler oldTerminationHandler = terminationHandler;
-			terminationHandler = (TerminationHandler)eResolveProxy((InternalEObject)terminationHandler);
-			if (terminationHandler != oldTerminationHandler) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.SCOPE__TERMINATION_HANDLER, oldTerminationHandler, terminationHandler));
-			}
-		}
 		return terminationHandler;
 	}
 
@@ -555,8 +547,14 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TerminationHandler basicGetTerminationHandler() {
-		return terminationHandler;
+	public NotificationChain basicSetTerminationHandler(TerminationHandler newTerminationHandler, NotificationChain msgs) {
+		TerminationHandler oldTerminationHandler = terminationHandler;
+		terminationHandler = newTerminationHandler;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.SCOPE__TERMINATION_HANDLER, oldTerminationHandler, newTerminationHandler);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -565,10 +563,17 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 */
 	public void setTerminationHandler(TerminationHandler newTerminationHandler) {
-		TerminationHandler oldTerminationHandler = terminationHandler;
-		terminationHandler = newTerminationHandler;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SCOPE__TERMINATION_HANDLER, oldTerminationHandler, terminationHandler));
+		if (newTerminationHandler != terminationHandler) {
+			NotificationChain msgs = null;
+			if (terminationHandler != null)
+				msgs = ((InternalEObject)terminationHandler).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.SCOPE__TERMINATION_HANDLER, null, msgs);
+			if (newTerminationHandler != null)
+				msgs = ((InternalEObject)newTerminationHandler).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.SCOPE__TERMINATION_HANDLER, null, msgs);
+			msgs = basicSetTerminationHandler(newTerminationHandler, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SCOPE__TERMINATION_HANDLER, newTerminationHandler, newTerminationHandler));
 	}
 
 	/**
@@ -599,6 +604,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 					return basicSetEventHandlers(null, msgs);
 				case BPELPackage.SCOPE__PARTNER_LINKS:
 					return basicSetPartnerLinks(null, msgs);
+				case BPELPackage.SCOPE__TERMINATION_HANDLER:
+					return basicSetTerminationHandler(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -644,8 +651,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__PARTNER_LINKS:
 				return getPartnerLinks();
 			case BPELPackage.SCOPE__TERMINATION_HANDLER:
-				if (resolve) return getTerminationHandler();
-				return basicGetTerminationHandler();
+				return getTerminationHandler();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.16 2005/12/12 16:16:48 james Exp $
+ * $Id: BPELPackage.java,v 1.17 2005/12/12 16:22:00 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -2598,7 +2598,7 @@ public interface BPELPackage extends EPackage{
 	int SCOPE__PARTNER_LINKS = ACTIVITY_FEATURE_COUNT + 7;
 
 	/**
-	 * The feature id for the '<em><b>Termination Handler</b></em>' reference.
+	 * The feature id for the '<em><b>Termination Handler</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6791,10 +6791,10 @@ public interface BPELPackage extends EPackage{
 	EReference getScope_PartnerLinks();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Termination Handler</em>'.
+	 * @return the meta object for the containment reference '<em>Termination Handler</em>'.
 	 * @see org.eclipse.bpel.model.Scope#getTerminationHandler()
 	 * @see #getScope()
 	 * @generated
