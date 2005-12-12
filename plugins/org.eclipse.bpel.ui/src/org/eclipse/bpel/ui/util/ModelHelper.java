@@ -1022,6 +1022,7 @@ public class ModelHelper {
 	}
 
 	public static PortType getRolePortType(Role role) {
+		if (role == null) return null;
 		return (PortType)role.getPortType();
 	}
 
