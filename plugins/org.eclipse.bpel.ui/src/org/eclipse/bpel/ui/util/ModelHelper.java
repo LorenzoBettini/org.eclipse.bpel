@@ -66,7 +66,6 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Policy;
@@ -423,10 +422,7 @@ public class ModelHelper {
 		if (context instanceof OnMessage)  return ((OnMessage)context).getPortType();
 		if (context instanceof OnEvent)  return ((OnEvent)context).getPortType();
 		if (context instanceof Reply)  return ((Reply)context).getPortType();
-		if (context instanceof Role) {
-			RolePortType ptt = ((Role)context).getPortType();
-			return (PortType)((ptt == null)? null : ptt.getName());
-		}
+		if (context instanceof Role) return (PortType)((Role)context).getPortType();
 		throw new IllegalArgumentException();
 	}
 
@@ -447,13 +443,7 @@ public class ModelHelper {
 			((Reply)context).setPortType(portType); return;
 		}
 		if (context instanceof Role) {
-			if (portType == null) {
-				((Role)context).setPortType(null); return;
-			}
-			final RolePortType rpt = PartnerlinktypeFactory.eINSTANCE.createRolePortType();
-			rpt.setName(portType);
-			((Role)context).setPortType(rpt);
-			return;
+			((Role)context).setPortType(portType); return;
 		}
 		throw new IllegalArgumentException();
 	}
@@ -475,8 +465,7 @@ public class ModelHelper {
 			return (n.getFeatureID(Reply.class) == BPELPackage.REPLY__PORT_TYPE);
 		}
 		if (context instanceof Role) {
-			return (n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__PORT_TYPE) ||
-				(n.getFeatureID(RolePortType.class) == PartnerlinktypePackage.ROLE_PORT_TYPE__NAME);
+			return (n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__PORT_TYPE);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -1033,10 +1022,7 @@ public class ModelHelper {
 	}
 
 	public static PortType getRolePortType(Role role) {
-		if (role == null) return null;
-		RolePortType ptt = role.getPortType();
-		if (ptt == null) return null;
-		return (PortType)ptt.getName();
+		return (PortType)role.getPortType();
 	}
 
 	public static PortType getPartnerPortType(PartnerLink partner, int direction)  {
@@ -1420,9 +1406,7 @@ public class ModelHelper {
 	public static Command createSetRoleCommand(PartnerLink partnerLink, PartnerLinkType plt, int whichRole) {
 		CompoundCommand cmd = new CompoundCommand();
 		Role role = PartnerlinktypeFactory.eINSTANCE.createRole();
-		RolePortType rpt = PartnerlinktypeFactory.eINSTANCE.createRolePortType();
 		role.setName((whichRole == ModelHelper.MY_ROLE) ? IBPELUIConstants.ROLE_NAME_MYROLE : IBPELUIConstants.ROLE_NAME_PARTNERROLE);
-		role.setPortType(rpt);
 		cmd.add(new AddRoleCommand(plt, role));
 		cmd.add(new SetRoleCommand(partnerLink, role, whichRole));
 		return cmd;

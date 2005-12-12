@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeFactory.java,v 1.1 2005/11/29 18:50:28 james Exp $
+ * $Id: PartnerlinktypeFactory.java,v 1.2 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage
  * @generated
  */
-public interface PartnerlinktypeFactory extends EFactory {
+public interface PartnerlinktypeFactory extends EFactory{
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -32,15 +32,6 @@ public interface PartnerlinktypeFactory extends EFactory {
 	 * @generated
 	 */
 	PartnerlinktypeFactory eINSTANCE = new org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypeFactoryImpl();
-
-	/**
-	 * Returns a new object of class '<em>Role Port Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Role Port Type</em>'.
-	 * @generated
-	 */
-	RolePortType createRolePortType();
 
 	/**
 	 * Returns a new object of class '<em>Partner Link Type</em>'.

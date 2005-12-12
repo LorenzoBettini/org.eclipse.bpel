@@ -31,10 +31,6 @@ public class PartnerlinktypeExtensibilityElementFactory implements Extensibility
             {
                 return PartnerlinktypeFactory.eINSTANCE.createRole();
             }
-            else if (PartnerlinktypeConstants.PORT_TYPE_ELEMENT_TAG.equals(localName))
-            {
-                return PartnerlinktypeFactory.eINSTANCE.createRolePortType();
-            }
             else
             {
             	BPELPlugin.getPlugin().log("PartnerlinktypeExtensibilityElementFactory: Unhandled localName: " + localName);

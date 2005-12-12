@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: PartnerActivityImpl.java,v 1.2 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -26,7 +26,6 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.model.proxy.OperationProxy;
 import org.eclipse.bpel.model.proxy.PortTypeProxy;
 import org.eclipse.emf.common.notify.Notification;
@@ -222,10 +221,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
                     role = link.getMyRole();
                 }
                 if (role != null) {
-                    RolePortType rpt = role.getPortType();
-                    if (rpt != null) {
-                        portType = (PortType)rpt.getName();
-                    }
+                	portType = (PortType)role.getPortType();
                 }
             }
             return portType;

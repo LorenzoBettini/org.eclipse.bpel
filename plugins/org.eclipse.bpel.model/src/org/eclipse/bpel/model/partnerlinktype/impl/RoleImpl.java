@@ -10,28 +10,25 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.2 2005/12/05 21:04:32 james Exp $
+ * $Id: RoleImpl.java,v 1.3 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
-
-import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
-import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeConstants;
 import org.eclipse.bpel.model.util.BPELServicesUtility;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.wst.wsdl.Definition;
+import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.w3c.dom.Element;
 
@@ -82,14 +79,24 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPortType() <em>Port Type</em>}' containment reference.
+	 * The default value of the '{@link #getPortType() <em>Port Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getPortType()
 	 * @generated
 	 * @ordered
 	 */
-	protected RolePortType portType = null;
+	protected static final Object PORT_TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPortType() <em>Port Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPortType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Object portType = PORT_TYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -147,63 +154,30 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * @customized
 	 */
-	public RolePortType getPortType() {
-		return portType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetPortType(RolePortType newPortType, NotificationChain msgs) {
-		RolePortType oldPortType = portType;
-		portType = newPortType;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PartnerlinktypePackage.ROLE__PORT_TYPE, oldPortType, newPortType);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPortType(RolePortType newPortType) {
-		if (newPortType != portType) {
-			NotificationChain msgs = null;
-			if (portType != null)
-				msgs = ((InternalEObject)portType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PartnerlinktypePackage.ROLE__PORT_TYPE, null, msgs);
-			if (newPortType != null)
-				msgs = ((InternalEObject)newPortType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PartnerlinktypePackage.ROLE__PORT_TYPE, null, msgs);
-			msgs = basicSetPortType(newPortType, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PartnerlinktypePackage.ROLE__PORT_TYPE, newPortType, newPortType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PartnerlinktypePackage.ROLE__PORT_TYPE:
-					return basicSetPortType(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+	public Object getPortType() {
+		if (portType instanceof PortType && ((PortType)portType).eIsProxy()) {
+			PortType oldPortType = (PortType)portType;
+			portType = (PortType)eResolveProxy((InternalEObject)portType);
+			if (portType != oldPortType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PartnerlinktypePackage.ROLE__PORT_TYPE, oldPortType, portType));
 			}
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+        return portType;
+    }
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPortType(Object newPortType) {
+		Object oldPortType = portType;
+		portType = newPortType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PartnerlinktypePackage.ROLE__PORT_TYPE, oldPortType, portType));
 	}
 
 	/**
@@ -254,7 +228,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 				setName((String)newValue);
 				return;
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
-				setPortType((RolePortType)newValue);
+				setPortType((Object)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -283,7 +257,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 				setName(NAME_EDEFAULT);
 				return;
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
-				setPortType((RolePortType)null);
+				setPortType(PORT_TYPE_EDEFAULT);
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -309,7 +283,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 			case PartnerlinktypePackage.ROLE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
-				return portType != null;
+				return PORT_TYPE_EDEFAULT == null ? portType != null : !PORT_TYPE_EDEFAULT.equals(portType);
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -325,6 +299,8 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", portType: ");
+		result.append(portType);
 		result.append(')');
 		return result.toString();
 	}
@@ -345,26 +321,29 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 
 	public void reconcileAttributes(Element changedElement)
 	{
-	    //System.out.println("RoleImpl.reconcileAttributes("+changedElement+")");
 	    super.reconcileAttributes(changedElement);
 
 	    setName
     	(PartnerlinktypeConstants.getAttribute(changedElement, PartnerlinktypeConstants.NAME_ATTRIBUTE));
 
-	    reconcileReferences(true); // TODO true?
+	    reconcileReferences(false);
 	}
 
-	public void handleUnreconciledElement(Element child, Collection remainingModelObjects)
-    {
-	    //System.out.println("RoleImpl.handleUnreconciledElement()");
-	    if (PartnerlinktypeConstants.PORT_TYPE_ELEMENT_TAG.equals(child.getLocalName()))
+	public void reconcileReferences(boolean deep) {
+		// Reconcile the PortType reference.
+		if (element != null && element.hasAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE))
 	    {
-	        RolePortType rolePortType = PartnerlinktypeFactory.eINSTANCE.createRolePortType();
-	        rolePortType.setEnclosingDefinition(getEnclosingDefinition());
-	        rolePortType.setElement(child);
-	        setPortType(rolePortType);
+	    	Definition definition = getEnclosingDefinition();
+	    	if (definition != null)
+	    	{
+		    	QName portTypeQName = createQName(definition, element.getAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE));
+		    	PortType newPortType = (portTypeQName != null) ? (PortType) definition.getPortType(portTypeQName) : null;
+		    	if (newPortType != null && newPortType != getPortType())
+		    		setPortType(newPortType);
+	    	}
 	    }
-    }
+		super.reconcileReferences(deep);
+	}
 
 	//
 	// For reconciliation: Model -> DOM
@@ -382,21 +361,14 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	    {
 	        if (eAttribute == null || eAttribute == PartnerlinktypePackage.eINSTANCE.getRole_Name())
 	            niceSetAttribute(theElement,PartnerlinktypeConstants.NAME_ATTRIBUTE,getName());
+	        if (eAttribute == null || eAttribute == PartnerlinktypePackage.eINSTANCE.getRole_PortType())
+	        {
+	            PortType pt = (PortType)getPortType();
+	            QName qname = (pt == null) ? null : pt.getQName();
+	            if (qname != null)
+	            	niceSetAttributeURIValue(theElement, PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE, qname.getNamespaceURI() + "#" + qname.getLocalPart());
+	        }
+	        
 	    }
 	}
-
-	public Element createElement()
-    {
-	    //System.out.println("RoleImpl.createElement()");
-	    Element newElement = super.createElement();
-	    
-	    RolePortType pt = getPortType();
-	    if (pt != null)
-	    {
-	        Element child = ((RolePortTypeImpl) pt).createElement();
-	        newElement.appendChild(child);
-	    }
-	    
-	    return newElement;
-    }	
 } //RoleImpl

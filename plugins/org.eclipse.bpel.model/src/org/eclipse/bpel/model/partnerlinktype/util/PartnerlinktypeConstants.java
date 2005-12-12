@@ -35,10 +35,10 @@ public final class PartnerlinktypeConstants
 	
     public static final String PARTNER_LINK_TYPE_ELEMENT_TAG = "partnerLinkType";
     public static final String ROLE_ELEMENT_TAG = "role";
-    public static final String PORT_TYPE_ELEMENT_TAG = "portType";
     
     public static final String ROLE_ATTRIBUTE = "role";
     public static final String NAME_ATTRIBUTE = "name";
+    public static final String PORT_TYPE_ATTRIBUTE = "portType";
     
     public static String getAttribute(Element element, String attributeName)
     {

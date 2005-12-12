@@ -13,7 +13,6 @@ package org.eclipse.bpel.ui.details.providers;
 import java.util.Vector;
 
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.ui.details.tree.PortTypeTreeNode;
 import org.eclipse.wst.wsdl.PortType;
 
@@ -30,8 +29,7 @@ public class PortTypeTreeContentProvider extends ModelTreeContentProvider {
 	public Object[] primGetElements(Object inputElement) {
 		Vector v = new Vector();
 		if (inputElement instanceof Role) {
-			RolePortType rpt = ((Role)inputElement).getPortType();
-			v.add(new PortTypeTreeNode((PortType)rpt.getName(), isCondensed));
+			v.add(new PortTypeTreeNode((PortType)((Role)inputElement).getPortType(), isCondensed));
 		}
 		return v.toArray();
 	}

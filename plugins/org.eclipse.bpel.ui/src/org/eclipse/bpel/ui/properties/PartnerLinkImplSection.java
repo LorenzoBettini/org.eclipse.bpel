@@ -20,7 +20,6 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
@@ -98,14 +97,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	
 	protected boolean isRoleAffected(Notification n) {
 		if (n.getNotifier() instanceof Role) {
-			return n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__PORT_TYPE;
-		}
-		return false;
-	}
-	
-	protected boolean isRolePortTypeAffected(Notification n) {
-		if (n.getNotifier() instanceof RolePortType) {
-			return n.getFeatureID(RolePortType.class) == PartnerlinktypePackage.ROLE_PORT_TYPE__NAME;
+			return ((n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__PORT_TYPE)
+				|| (n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__NAME));
 		}
 		return false;
 	}
@@ -118,7 +111,6 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 				boolean refreshAdapters = false;
 				public void notify(Notification n) {
 					updateInterface = updateInterface
-						|| isRolePortTypeAffected(n)
 						|| isPartnerLinkAffected(n)
 						|| isPartnerLinkTypeAffected(n)
 						|| isRoleAffected(n);
@@ -152,9 +144,6 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 				Role role = roles[i];
 				if (role != null) {
 					adapters[0].addToObject(role);
-					if (role.getPortType() != null) {
-						adapters[0].addToObject(role.getPortType());
-					}
 				}
 			}
 		}
@@ -376,7 +365,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			cmd.add(new AutoUndoCommand(plt) {
 	            public void doExecute() {
 	            	Role role = (whichRole == ModelHelper.MY_ROLE) ? partnerLink.getMyRole() : partnerLink.getPartnerRole();
-	            	role.getPortType().setName(portType);
+	            	role.setPortType(portType);
 	            }
 	        });
 		}

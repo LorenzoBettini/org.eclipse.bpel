@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Role.java,v 1.1 2005/11/29 18:50:28 james Exp $
+ * $Id: Role.java,v 1.2 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -34,7 +34,7 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  * @model
  * @generated
  */
-public interface Role extends ExtensibilityElement {
+public interface Role extends ExtensibilityElement{
 	/**
 	 * Returns the value of the '<em><b>ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -77,29 +77,29 @@ public interface Role extends ExtensibilityElement {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Port Type</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Port Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Port Type</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Port Type</em>' containment reference.
-	 * @see #setPortType(RolePortType)
+	 * @return the value of the '<em>Port Type</em>' attribute.
+	 * @see #setPortType(Object)
 	 * @see org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage#getRole_PortType()
-	 * @model containment="true" required="true"
+	 * @model
 	 * @generated
 	 */
-	RolePortType getPortType();
+	Object getPortType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.partnerlinktype.Role#getPortType <em>Port Type</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.partnerlinktype.Role#getPortType <em>Port Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Port Type</em>' containment reference.
+	 * @param value the new value of the '<em>Port Type</em>' attribute.
 	 * @see #getPortType()
 	 * @generated
 	 */
-	void setPortType(RolePortType value);
+	void setPortType(Object value);
 
 } // Role

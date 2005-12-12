@@ -44,7 +44,6 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
@@ -851,8 +850,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			if (role == null)
 				role = partnerLink.getPartnerRole();
 			if (role != null) {
-				RolePortType rolePortType = role.getPortType();//(PortType)portTypesIterator.next();
-				PortType portType = (PortType) rolePortType.getName();
+				PortType portType = (PortType)role.getPortType();
 				if (portType != null && !portType.eIsProxy()) {
 					for (Iterator operationsIterator = portType.getEOperations().iterator(); operationsIterator.hasNext();) {
 						Operation operation = (Operation) operationsIterator.next();

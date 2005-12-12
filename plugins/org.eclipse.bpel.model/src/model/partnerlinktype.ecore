@@ -3,9 +3,6 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="partnerlinktype"
     nsURI="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" nsPrefix="plnk">
-  <eClassifiers xsi:type="ecore:EClass" name="RolePortType" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibilityElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PartnerLinkType" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibilityElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         iD="true"/>
@@ -18,7 +15,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" volatile="true" transient="true" derived="true" iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="portType" lowerBound="1"
-        eType="#//RolePortType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="portType" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
   </eClassifiers>
 </ecore:EPackage>

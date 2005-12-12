@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackageImpl.java,v 1.1 2005/11/29 18:50:28 james Exp $
+ * $Id: PartnerlinktypePackageImpl.java,v 1.2 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -18,25 +18,19 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeConstants;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeExtensibilityElementFactory;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
-
 import org.eclipse.wst.wsdl.WSDLPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
-
 import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
 import org.eclipse.wst.wsdl.util.ExtensibilityElementFactoryRegistry;
-
 import org.eclipse.xsd.impl.XSDPackageImpl;
 
 /**
@@ -46,13 +40,6 @@ import org.eclipse.xsd.impl.XSDPackageImpl;
  * @generated
  */
 public class PartnerlinktypePackageImpl extends EPackageImpl implements PartnerlinktypePackage {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass rolePortTypeEClass = null;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -167,24 +154,6 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRolePortType() {
-		return rolePortTypeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getRolePortType_Name() {
-		return (EAttribute)rolePortTypeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getPartnerLinkType() {
 		return partnerLinkTypeEClass;
 	}
@@ -248,8 +217,8 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRole_PortType() {
-		return (EReference)roleEClass.getEStructuralFeatures().get(2);
+	public EAttribute getRole_PortType() {
+		return (EAttribute)roleEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -280,9 +249,6 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		isCreated = true;
 
 		// Create classes and their features
-		rolePortTypeEClass = createEClass(ROLE_PORT_TYPE);
-		createEAttribute(rolePortTypeEClass, ROLE_PORT_TYPE__NAME);
-
 		partnerLinkTypeEClass = createEClass(PARTNER_LINK_TYPE);
 		createEAttribute(partnerLinkTypeEClass, PARTNER_LINK_TYPE__NAME);
 		createEAttribute(partnerLinkTypeEClass, PARTNER_LINK_TYPE__ID);
@@ -291,7 +257,7 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		roleEClass = createEClass(ROLE);
 		createEAttribute(roleEClass, ROLE__ID);
 		createEAttribute(roleEClass, ROLE__NAME);
-		createEReference(roleEClass, ROLE__PORT_TYPE);
+		createEAttribute(roleEClass, ROLE__PORT_TYPE);
 	}
 
 	/**
@@ -322,14 +288,10 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add supertypes to classes
-		rolePortTypeEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
 		partnerLinkTypeEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
 		roleEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(rolePortTypeEClass, RolePortType.class, "RolePortType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRolePortType_Name(), theEcorePackage.getEJavaObject(), "name", null, 0, 1, RolePortType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(partnerLinkTypeEClass, PartnerLinkType.class, "PartnerLinkType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPartnerLinkType_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLinkType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPartnerLinkType_ID(), ecorePackage.getEString(), "ID", null, 0, 1, PartnerLinkType.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -338,7 +300,7 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		initEClass(roleEClass, Role.class, "Role", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRole_ID(), ecorePackage.getEString(), "ID", null, 0, 1, Role.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRole_Name(), ecorePackage.getEString(), "name", null, 0, 1, Role.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRole_PortType(), this.getRolePortType(), null, "portType", null, 1, 1, Role.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRole_PortType(), theEcorePackage.getEJavaObject(), "portType", null, 0, 1, Role.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

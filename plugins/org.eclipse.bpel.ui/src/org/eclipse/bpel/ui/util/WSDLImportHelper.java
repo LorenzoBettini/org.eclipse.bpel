@@ -62,7 +62,7 @@ public class WSDLImportHelper {
 				for (Iterator it2 = ((PartnerLinkType)ee).getRole().iterator(); it2.hasNext(); ) {
 					Role role = (Role)it2.next();
 					if (role.getPortType() != null) {
-						PortType pt = (PortType)role.getPortType().getName();
+						PortType pt = (PortType)role.getPortType();
 						if (pt != null && pt.getQName() != null) {
 							addImportAndNamespace(definition, pt.getEnclosingDefinition());
 						}

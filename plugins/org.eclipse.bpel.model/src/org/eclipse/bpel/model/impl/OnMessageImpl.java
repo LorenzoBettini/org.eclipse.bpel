@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.2 2005/12/06 02:05:30 james Exp $
+ * $Id: OnMessageImpl.java,v 1.3 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,28 +24,19 @@ import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.bpel.model.partnerlinktype.RolePortType;
 import org.eclipse.bpel.model.proxy.OperationProxy;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
-
 import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -258,10 +249,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
             if (link != null) {
                 Role role = link.getMyRole();
                 if (role != null) {
-                    RolePortType rpt = role.getPortType();
-                    if (rpt != null) {
-                        portType = (PortType)rpt.getName();
-                    }
+                	portType = (PortType)role.getPortType();
                 }
             }
             return portType;

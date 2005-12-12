@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeSwitch.java,v 1.1 2005/11/29 18:50:27 james Exp $
+ * $Id: PartnerlinktypeSwitch.java,v 1.2 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.util;
 
@@ -99,15 +99,6 @@ public class PartnerlinktypeSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case PartnerlinktypePackage.ROLE_PORT_TYPE: {
-				RolePortType rolePortType = (RolePortType)theEObject;
-				Object result = caseRolePortType(rolePortType);
-				if (result == null) result = caseExtensibilityElement(rolePortType);
-				if (result == null) result = caseWSDLElement(rolePortType);
-				if (result == null) result = caseIExtensibilityElement(rolePortType);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE: {
 				PartnerLinkType partnerLinkType = (PartnerLinkType)theEObject;
 				Object result = casePartnerLinkType(partnerLinkType);
@@ -128,21 +119,6 @@ public class PartnerlinktypeSwitch {
 			}
 			default: return defaultCase(theEObject);
 		}
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Role Port Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Role Port Type</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseRolePortType(RolePortType object) {
-		return null;
 	}
 
 	/**

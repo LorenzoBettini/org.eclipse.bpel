@@ -33,9 +33,9 @@ public class PartnerLinkTreeNode extends TreeNode {
 		Vector v = new Vector();
 		if (partnerLink != null) { 
 			Role role = partnerLink.getMyRole();
-			if (role != null) v.add(new PortTypeTreeNode((PortType)role.getPortType().getName(), isCondensed));
+			if (role != null) v.add(new PortTypeTreeNode((PortType)role.getPortType(), isCondensed));
 			role = partnerLink.getPartnerRole();
-			if (role != null) v.add(new PortTypeTreeNode((PortType)role.getPortType().getName(), isCondensed));
+			if (role != null) v.add(new PortTypeTreeNode((PortType)role.getPortType(), isCondensed));
 		}
 		return v.toArray();
 	}

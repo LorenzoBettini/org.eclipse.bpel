@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeAdapterFactory.java,v 1.1 2005/11/29 18:50:27 james Exp $
+ * $Id: PartnerlinktypeAdapterFactory.java,v 1.2 2005/12/12 15:55:41 james Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.util;
 
@@ -82,9 +82,6 @@ public class PartnerlinktypeAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected PartnerlinktypeSwitch modelSwitch =
 		new PartnerlinktypeSwitch() {
-			public Object caseRolePortType(RolePortType object) {
-				return createRolePortTypeAdapter();
-			}
 			public Object casePartnerLinkType(PartnerLinkType object) {
 				return createPartnerLinkTypeAdapter();
 			}
@@ -117,20 +114,6 @@ public class PartnerlinktypeAdapterFactory extends AdapterFactoryImpl {
 		return (Adapter)modelSwitch.doSwitch((EObject)target);
 	}
 
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.partnerlinktype.RolePortType <em>Role Port Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.partnerlinktype.RolePortType
-	 * @generated
-	 */
-	public Adapter createRolePortTypeAdapter() {
-		return null;
-	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.partnerlinktype.PartnerLinkType <em>Partner Link Type</em>}'.

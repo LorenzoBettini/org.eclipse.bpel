@@ -80,7 +80,6 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.IModelVisitor;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.TransferBuffer;
-import org.eclipse.bpel.ui.util.WSDLImportHelper;
 import org.eclipse.bpel.ui.util.ZoominToolEntry;
 import org.eclipse.bpel.ui.util.ZoomoutToolEntry;
 import org.eclipse.core.resources.IFile;
