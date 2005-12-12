@@ -50,15 +50,19 @@ public class ScopeBorder extends CollapsableBorder {
 	// Fault handler, Compensation handler and Event handler support
 	private int faultImageWidth, faultImageHeight;
 	private int compensationImageWidth, compensationImageHeight;
+	private int terminationImageWidth, terminationImageHeight;
 	private int eventImageWidth, eventImageHeight;
 	private Image compensationImage;
+	private Image terminationImage;
 	private Image faultImage;
 	private Image eventImage;
 	private boolean showFault;
 	private boolean showCompensation;
+	private boolean showTermination;
 	private boolean showEvent;
 	private Rectangle rectFault;
 	private Rectangle rectCompensation;
+	private Rectangle rectTermination;
 	private Rectangle rectEvent;
 	
 	// Whether or not we have children; used to determine whether
@@ -78,6 +82,11 @@ public class ScopeBorder extends CollapsableBorder {
 		r = compensationImage.getBounds();
 		this.compensationImageWidth = r.width;
 		this.compensationImageHeight = r.height;
+
+		this.terminationImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_TERMINATION_INDICATOR);
+		r = terminationImage.getBounds();
+		this.terminationImageWidth = r.width;
+		this.terminationImageHeight = r.height;
 
 		this.eventImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
 		r = eventImage.getBounds();
@@ -125,6 +134,11 @@ public class ScopeBorder extends CollapsableBorder {
 		if (showCompensation) {
 			graphics.drawImage(compensationImage, rectCompensation.x, rectCompensation.y);
 		}
+		// Draw the termination image in the upper right hand corner of the round rectangle,
+		// leaving room for the fault image.
+		if (showTermination) {
+			graphics.drawImage(terminationImage, rectTermination.x, rectTermination.y);
+		}
 		// Draw the event image in the upper right hand corner of the round rectangle,
 		// leaving room for fault and compensation.
 		if (showEvent) {
@@ -167,8 +181,20 @@ public class ScopeBorder extends CollapsableBorder {
 			}
 		 	this.rectCompensation = new Rectangle(x, expandedBounds.y, compensationImageWidth, compensationImageHeight);
 		}
-		// Draw the event image in the upper right hand corner of the round rectangle,
+		// Draw the termination image in the upper right hand corner of the round rectangle,
 		// leaving room for fault and compensation.
+		if (showTermination) {
+			int x = expandedBounds.x + expandedBounds.width - terminationImageWidth;
+			if (showFault) {
+				x -= faultImageWidth + 2;
+			}
+			if (showCompensation) {
+				x -= compensationImageWidth + 2;
+			}
+		 	this.rectTermination = new Rectangle(x, expandedBounds.y, terminationImageWidth, terminationImageHeight);
+		}
+		// Draw the event image in the upper right hand corner of the round rectangle,
+		// leaving room for fault, termination and compensation.
 		if (showEvent) {
 			int x = expandedBounds.x + expandedBounds.width - eventImageWidth;
 			if (showFault) {
@@ -176,6 +202,9 @@ public class ScopeBorder extends CollapsableBorder {
 			}
 			if (showCompensation) {
 				x -= compensationImageWidth + 2;
+			}
+			if (showTermination) {
+				x -= terminationImageWidth + 2;
 			}
 			this.rectEvent = new Rectangle(x, expandedBounds.y, eventImageWidth, eventImageHeight);
 		}		
@@ -269,6 +298,15 @@ public class ScopeBorder extends CollapsableBorder {
 		return false;
 	}	
 
+	public boolean isPointInTerminationImage(int x, int y) {
+		if (showTermination) {
+			Point p = new Point(x, y);
+			parentFigure.translateToRelative(p);
+			return rectTermination.contains(p);
+		}
+		return false;
+	}
+
 	public boolean isPointInEventImage(int x, int y) {
 		if (showEvent) {
 			Point p = new Point(x, y);
@@ -284,6 +322,10 @@ public class ScopeBorder extends CollapsableBorder {
 
 	public void setShowCompensation(boolean showCompensation) {
 		this.showCompensation = showCompensation;
+	}
+
+	public void setShowTermination(boolean showTermination) {
+		this.showTermination = showTermination;
 	}
 
 	public void setShowFault(boolean showFault) {

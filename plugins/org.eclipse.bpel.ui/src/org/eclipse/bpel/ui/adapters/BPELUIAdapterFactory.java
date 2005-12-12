@@ -46,6 +46,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	CorrelationSetAdapter correlationSetAdapter;
 	FaultHandlerAdapter faultHandlerAdapter;
 	CompensationHandlerAdapter compensationHandlerAdapter;
+	TerminationHandlerAdapter terminationHandlerAdapter;
 	EventHandlerAdapter eventHandlerAdapter;
 	CatchAdapter catchAdapter;
 	VariablesAdapter variablesAdapter;
@@ -99,6 +100,12 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 			compensationHandlerAdapter = new CompensationHandlerAdapter();	
 		}		
 		return compensationHandlerAdapter;
+	}
+	public Adapter createTerminationHandlerAdapter() {
+		if (terminationHandlerAdapter == null) {
+			terminationHandlerAdapter = new TerminationHandlerAdapter();
+		}
+		return terminationHandlerAdapter;
 	}
 	public Adapter createEventHandlerAdapter() {
 		if (eventHandlerAdapter == null) {

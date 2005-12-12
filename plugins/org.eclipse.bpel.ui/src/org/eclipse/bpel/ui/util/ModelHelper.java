@@ -55,6 +55,7 @@ import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -827,6 +828,7 @@ public class ModelHelper {
 		if (context instanceof Scope)  return ((Scope)context).getActivity();
 		if (context instanceof FaultHandler) return getCatchAll((FaultHandler)context);
 		if (context instanceof CompensationHandler)  return ((CompensationHandler)context).getActivity();
+		if (context instanceof TerminationHandler)  return ((TerminationHandler)context).getActivity();
 		if (context instanceof Switch) return getOtherwise((Switch)context);
 		throw new IllegalArgumentException();
 	}
@@ -868,6 +870,9 @@ public class ModelHelper {
 		if (context instanceof CompensationHandler) {
 			((CompensationHandler)context).setActivity(activity); return;
 		}
+		if (context instanceof TerminationHandler) {
+			((TerminationHandler)context).setActivity(activity); return;
+		}
 		if (context instanceof Switch) {
 			setOtherwise((Switch)context, activity); return;
 		}
@@ -901,6 +906,9 @@ public class ModelHelper {
 		}
 		if (context instanceof CompensationHandler) {
 			return (n.getFeatureID(CompensationHandler.class) == BPELPackage.COMPENSATION_HANDLER__ACTIVITY);
+		}
+		if (context instanceof TerminationHandler) {
+			return (n.getFeatureID(TerminationHandler.class) == BPELPackage.TERMINATION_HANDLER__ACTIVITY);
 		}
 		if (context instanceof FaultHandler) {
 			return isCatchAllAffected((FaultHandler)context, n);
@@ -1139,6 +1147,7 @@ public class ModelHelper {
 		return (adapter==null)? null : (EObject)adapter.get(input);
 	}
 	
+	// TODO: is this unused?
 	public static FaultHandler getContainingFaultHandler(Object object) {
 		if (object instanceof Process) return null;
 		if (object instanceof FaultHandler) return (FaultHandler)object;
@@ -1149,7 +1158,8 @@ public class ModelHelper {
 		return null;
 		
 	}
-	
+
+	// TODO: is this unused?
 	public static CompensationHandler getContainingCompensationHandler(Object object) {
 		if (object instanceof Process) return null;
 		if (object instanceof CompensationHandler) return (CompensationHandler)object;
@@ -1160,7 +1170,8 @@ public class ModelHelper {
 		return null;
 	
 	}
-	
+
+	// TODO: is this unused?
 	public static EventHandler getContainingEventHandler(Object object) {
 		if (object instanceof Process) return null;
 		if (object instanceof EventHandler) return (EventHandler)object;

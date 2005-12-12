@@ -879,13 +879,24 @@ public class BPELUtil {
 		return false;
 	}
 
+	public static boolean getShowTerminationHandler(EditPart part) {
+		if (part instanceof ScopeEditPart)
+			return ((ScopeEditPart)part).getShowTerminationHandler();
+		return false;
+	}
+
 	public static void setShowCompensationHandler(EditPart part, boolean show) {
 		if (part instanceof ScopeEditPart)
 			((ScopeEditPart)part).setShowCompensationHandler(show);
 		else if (part instanceof InvokeEditPart)
 			((InvokeEditPart)part).setShowCompensationHandler(show);
 	}
-	
+
+	public static void setShowTerminationHandler(EditPart part, boolean show) {
+		if (part instanceof ScopeEditPart)
+			((ScopeEditPart)part).setShowTerminationHandler(show);
+	}
+
 	/* external event handler helpers */
 	
 	public static boolean getShowEventHandler(EditPart part) {

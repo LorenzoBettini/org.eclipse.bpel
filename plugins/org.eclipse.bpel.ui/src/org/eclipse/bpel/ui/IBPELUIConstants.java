@@ -113,11 +113,14 @@ public interface IBPELUIConstants {
 	public final String ICON_CATCH_32 = "obj20/catch.png"; //$NON-NLS-1$
 	public final String ICON_CATCHALL_16 = "obj16/catchall.gif"; //$NON-NLS-1$
 	public final String ICON_CATCHALL_32 = "obj20/catchall.png"; //$NON-NLS-1$
-	
+	public final String ICON_TERMINATIONHANDLER_16 = "obj16/terminationhandler.gif"; //$NON-NLS-1$
+	public final String ICON_TERMINATIONHANDLER_32 = "obj20/terminationhandler.png"; //$NON-NLS-1$
+
 	// Overlays
 	public final String ICON_FAULT_INDICATOR = "ovr/faulthandler.gif"; //$NON-NLS-1$
 	public final String ICON_COMPENSATION_INDICATOR = "ovr/compensationhandler.gif"; //$NON-NLS-1$
 	public final String ICON_EVENT_INDICATOR = "ovr/eventhandler.gif"; //$NON-NLS-1$
+	public final String ICON_TERMINATION_INDICATOR = "ovr/terminationhandler.gif"; //$NON-NLS-1$
 
 	// Wizard banner
 	public final String ICON_WIZARD_BANNER = "wizban/new_bpel.gif"; //$NON-NLS-1$
@@ -139,6 +142,7 @@ public interface IBPELUIConstants {
 	public final String ICON_ACTION_ONMESSAGE     = ICON_ONMESSAGE_16;
 	public final String ICON_ACTION_FAULTHANDLER  = ICON_FAULTHANDLER_16;
 	public final String ICON_ACTION_COMPENSATIONHANDLER  = ICON_COMPENSATIONHANDLER_16;
+	public final String ICON_ACTION_TERMINATIONHANDLER   = ICON_TERMINATIONHANDLER_16;
 	public final String ICON_ACTION_EVENTHANDLER  = ICON_EVENTHANDLER_16;
 	public final String ICON_ACTION_CATCH         = ICON_CATCH_16;
 	public final String ICON_ACTION_CATCHALL      = ICON_CATCHALL_16;
@@ -195,6 +199,7 @@ public interface IBPELUIConstants {
 	public final String CMD_ADD_PROPERTY_ALIAS = Messages.IBPELUIConstants_Add_Property_Alias_10; 
 	public final String CMD_ADD_FAULTHANDLER = Messages.IBPELUIConstants_Add_Fault_Handler_11; 
 	public final String CMD_ADD_COMPENSATIONHANDLER = Messages.IBPELUIConstants_Add_Compensation_Handler_11; 
+	public final String CMD_ADD_TERMINATIONHANDLER = Messages.IBPELUIConstants_Add_Termination_Handler_11;
 	public final String CMD_ADD_EVENTHANDLER = Messages.IBPELUIConstants_Add_Event_Handler_11; 
 	public final String CMD_ADD_ROLE = Messages.IBPELUIConstants_Add_Role_12; 
 	public final String CMD_ADD_CUSTOM_SETTING = Messages.IBPELUIConstants_Add_Custom_Setting_13; 

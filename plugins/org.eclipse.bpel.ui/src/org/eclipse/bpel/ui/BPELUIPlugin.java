@@ -209,6 +209,8 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		createImageDescriptor(IBPELUIConstants.ICON_FAULTHANDLER_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATIONHANDLER_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATIONHANDLER_32, baseURL);
+		createImageDescriptor(IBPELUIConstants.ICON_TERMINATIONHANDLER_16, baseURL);
+		createImageDescriptor(IBPELUIConstants.ICON_TERMINATIONHANDLER_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_EVENTHANDLER_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_EVENTHANDLER_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_CATCH_16, baseURL);
@@ -219,6 +221,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		createImageDescriptor(IBPELUIConstants.ICON_FAULT_INDICATOR, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATION_INDICATOR, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_EVENT_INDICATOR, baseURL);
+		createImageDescriptor(IBPELUIConstants.ICON_TERMINATION_INDICATOR, baseURL);
 
 		createImageDescriptor(IBPELUIConstants.ICON_ACTION_INCOMING, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_ACTION_INCOMING_GIF, baseURL);

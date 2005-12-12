@@ -15,6 +15,7 @@ import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.OptionalIndirectContainer;
@@ -25,7 +26,7 @@ import org.eclipse.gef.EditPart;
 
 
 public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHandlerHolder,
-	ICompensationHandlerHolder, IEventHandlerHolder
+	ICompensationHandlerHolder, ITerminationHandlerHolder, IEventHandlerHolder
 {
 
 	/* IContainer delegate */
@@ -42,6 +43,7 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 			new ReferenceContainer(BPELPackage.eINSTANCE.getVariables_Children())));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_FaultHandlers()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_CompensationHandler()));
+		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_TerminationHandler()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_EventHandlers()));
 		return omc;
 	}
@@ -74,6 +76,16 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 
 	public void setCompensationHandler(Object object, CompensationHandler compensationHandler) {
 		((Scope)object).setCompensationHandler(compensationHandler);
+	}
+
+	/* ITerminationHandlerHolder */
+
+	public TerminationHandler getTerminationHandler(Object object) {
+		return ((Scope)object).getTerminationHandler();
+	}
+
+	public void setTerminationHandler(Object object, TerminationHandler terminationHandler) {
+		((Scope)object).setTerminationHandler(terminationHandler);
 	}
 
 	/* EditPartFactory */

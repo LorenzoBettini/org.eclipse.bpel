@@ -58,6 +58,7 @@ import org.eclipse.bpel.ui.actions.ToggleAutoFlowLayout;
 import org.eclipse.bpel.ui.actions.ToggleShowCompensationHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowEventHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowFaultHandler;
+import org.eclipse.bpel.ui.actions.ToggleShowTerminationHandler;
 import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
 import org.eclipse.bpel.ui.editparts.CorrelationSetsEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
@@ -1242,7 +1243,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		action = new ToggleShowCompensationHandler(this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
-		
+
+		action = new ToggleShowTerminationHandler(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+
 		action = new ToggleShowEventHandler(this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());

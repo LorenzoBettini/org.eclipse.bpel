@@ -212,6 +212,7 @@ public final class Messages extends NLS {
 	public static String FlowXYLayoutEditPolicy_Create_1;
 	public static String IBPELUIConstants_Activity_Change_36;
 	public static String IBPELUIConstants_Add_Compensation_Handler_11;
+	public static String IBPELUIConstants_Add_Termination_Handler_11;
 	public static String IBPELUIConstants_Add_Copy_12b;
 	public static String IBPELUIConstants_Add_Correlation_6;
 	public static String IBPELUIConstants_Add_Custom_Property_14;
@@ -401,6 +402,8 @@ public final class Messages extends NLS {
 	public static String ToggleAutoFlowLayout_Align_activities_in_Flows_automatically_3;
 	public static String ToggleShowCompensationHandler_Show_Compensation_Handler_2;
 	public static String ToggleShowCompensationHandler_Shows_compensation_handler_activities_3;
+	public static String ToggleShowTerminationHandler_Show_Termination_Handler_2;
+	public static String ToggleShowTerminationHandler_Shows_termination_handler_activities_3;
 	public static String ToggleShowEventHandler_Show_Event_Handler_2;
 	public static String ToggleShowEventHandler_Shows_event_handler_activities_3;
 	public static String ToggleShowFaultHandler_Show_Fault_Handler_2;
@@ -457,6 +460,8 @@ public final class Messages extends NLS {
 	public static String ZoomoutToolEntry_Zoom_out_1;
 	public static String validationInfo_dialog_title;
 	public static String validationInfo_invalidElementsRemoved;
+	public static String TerminationHandlerAdapter_Termination_Handlers_1;
+	public static String CreateTerminationHandlerAction_Add_Termination_Handler_1;
 
 	// 3-letter abbreviations.  We could get rid of these ones if we get rid of DateTimeSelector.
 	public static String DateTimeSelector_Month_1;

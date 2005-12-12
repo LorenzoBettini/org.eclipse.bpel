@@ -22,6 +22,7 @@ import org.eclipse.bpel.ui.actions.ToggleAutoFlowLayout;
 import org.eclipse.bpel.ui.actions.ToggleShowCompensationHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowEventHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowFaultHandler;
+import org.eclipse.bpel.ui.actions.ToggleShowTerminationHandler;
 import org.eclipse.bpel.ui.actions.editpart.IEditPartAction;
 import org.eclipse.bpel.ui.adapters.IEditPartActionContributor;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
@@ -195,7 +196,13 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 			action.setChecked(true);
 		}
-		
+
+		action = actionRegistry.getAction(ToggleShowTerminationHandler.ACTION_ID);
+		if (action.isEnabled()) {
+			menu.appendToGroup(LAYOUT_ACTIONS, action);
+			action.setChecked(true);
+		}
+
 		action = actionRegistry.getAction(ToggleShowEventHandler.ACTION_ID);
 		if (action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);

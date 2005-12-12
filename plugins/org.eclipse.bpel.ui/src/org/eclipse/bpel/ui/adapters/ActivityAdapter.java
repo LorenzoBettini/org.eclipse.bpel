@@ -19,6 +19,7 @@ import org.eclipse.bpel.ui.actions.editpart.CreateCompensationHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateEventHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateFaultHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateFlowLinkAction;
+import org.eclipse.bpel.ui.actions.editpart.CreateTerminationHandlerAction;
 import org.eclipse.bpel.ui.editparts.LeafEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
@@ -122,6 +123,10 @@ public abstract class ActivityAdapter extends AbstractAdapter implements INamedE
 		ICompensationHandlerHolder ich = (ICompensationHandlerHolder)BPELUtil.adapt(modelObject, ICompensationHandlerHolder.class);
 		if (ich != null && ich.getCompensationHandler(modelObject) == null) {
     		actions.add(new CreateCompensationHandlerAction(editPart));
+		}
+		ITerminationHandlerHolder ith = (ITerminationHandlerHolder)BPELUtil.adapt(modelObject, ITerminationHandlerHolder.class);
+		if (ith != null && ith.getTerminationHandler(modelObject) == null) {
+    		actions.add(new CreateTerminationHandlerAction(editPart));
 		}
 		IEventHandlerHolder ieh = (IEventHandlerHolder)BPELUtil.adapt(modelObject, IEventHandlerHolder.class);
 		if (ieh != null && ieh.getEventHandler(modelObject) == null) {

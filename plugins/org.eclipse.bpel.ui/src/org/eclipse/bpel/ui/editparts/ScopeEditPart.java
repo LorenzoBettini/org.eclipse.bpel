@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.ICompensationHandlerHolder;
@@ -28,6 +29,7 @@ import org.eclipse.bpel.ui.adapters.IEventHandlerHolder;
 import org.eclipse.bpel.ui.adapters.IFaultHandlerHolder;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
+import org.eclipse.bpel.ui.adapters.ITerminationHandlerHolder;
 import org.eclipse.bpel.ui.editparts.borders.DrawerBorder;
 import org.eclipse.bpel.ui.editparts.borders.LeafBorder;
 import org.eclipse.bpel.ui.editparts.borders.ScopeBorder;
@@ -59,9 +61,9 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * Needs refactoring. Has the following responsibilities:
- * -Knows whether or not FH/EH/CH are showing
+ * -Knows whether or not FH/EH/CH/TH are showing
  * -Marker decorator works when expanded and collapsed
- * -Has a ScopeBorder which knows about FH/EH/CH decorations
+ * -Has a ScopeBorder which knows about FH/EH/CH/TH decorations
  */
 public class ScopeEditPart extends CollapsableEditPart {
 	// The amount of spacing to place between child items. Subclasses
@@ -71,8 +73,8 @@ public class ScopeEditPart extends CollapsableEditPart {
 	
 	// Whether to show each of the handlers.
 	// TODO: Initialize these from the preferences store
-	private boolean showFH = false, showEH = false, showCH = false;
-	
+	private boolean showFH = false, showEH = false, showCH = false, showTH = false;
+
 	// The images for the top and bottom drawer, if any.
 	private Image topImage, bottomImage;
 	
@@ -189,6 +191,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		ScopeBorder border = getScopeBorder();
 		border.setShowFault(getFaultHandler() != null);
 		border.setShowCompensation(getCompensationHandler() != null);
+		border.setShowTermination(getTerminationHandler() != null);
 		border.setShowEvent(getEventHandler() != null);
 		
 		return editPartMarkerDecorator.createFigure(parentFigure);
@@ -220,6 +223,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		ScopeBorder border = getScopeBorder();
 		border.setShowFault(getFaultHandler() != null);
 		border.setShowCompensation(getCompensationHandler() != null);
+		border.setShowTermination(getTerminationHandler() != null);
 		border.setShowEvent(getEventHandler() != null);
 		border.setHasChildren(getChildren().size() != 0);
 		// Force a repaint, as the drawer images may have changed.
@@ -311,6 +315,11 @@ public class ScopeEditPart extends CollapsableEditPart {
     	if (showCH) {
 	    	CompensationHandler compensationHandler = this.getCompensationHandler();
 	    	if (compensationHandler != null) children.add(children.size(), compensationHandler);
+    	}
+
+    	if (showTH) {
+	    	TerminationHandler terminationHandler = this.getTerminationHandler();
+	    	if (terminationHandler != null) children.add(children.size(), terminationHandler);
     	}
 
     	if (showEH) {
@@ -406,6 +415,8 @@ public class ScopeEditPart extends CollapsableEditPart {
 			return auxilaryFigure;
 		} else if (model instanceof CompensationHandler) {
 			return auxilaryFigure;
+		} else if (model instanceof TerminationHandler) {
+			return auxilaryFigure;
 		} else if (model instanceof EventHandler) {
 			return auxilaryFigure;
 		} else if (model instanceof Activity) {
@@ -433,6 +444,10 @@ public class ScopeEditPart extends CollapsableEditPart {
 				}
 				if (border.isPointInCompensationImage(point.x, point.y)) {
 					setShowCompensationHandler(!showCH);
+					return true;
+				}
+				if (border.isPointInTerminationImage(point.x, point.y)) {
+					setShowTerminationHandler(!showTH);
 					return true;
 				}
 				if (border.isPointInEventImage(point.x, point.y)) {
@@ -533,6 +548,12 @@ public class ScopeEditPart extends CollapsableEditPart {
 		refresh();
 	}
 
+	public void setShowTerminationHandler(boolean showTerminationHandler) {
+		this.showTH = showTerminationHandler;
+		// Call refresh so that both refreshVisuals and refreshChildren will be called.
+		refresh();
+	}
+
 	public void setShowEventHandler(boolean showEventHandler) {
 		this.showEH = showEventHandler;
 		// Call refresh so that both refreshVisuals and refreshChildren will be called.
@@ -550,7 +571,11 @@ public class ScopeEditPart extends CollapsableEditPart {
 	public boolean getShowCompensationHandler() {
 		return showCH;
 	}
-	
+
+	public boolean getShowTerminationHandler() {
+		return showTH;
+	}
+
 	public FaultHandler getFaultHandler() {
 		IFaultHandlerHolder holder = (IFaultHandlerHolder)BPELUtil.adapt(getActivity(), IFaultHandlerHolder.class);
 		if (holder != null) {
@@ -566,7 +591,15 @@ public class ScopeEditPart extends CollapsableEditPart {
 		}
 		return null;
 	}
-	
+
+	public TerminationHandler getTerminationHandler() {
+		ITerminationHandlerHolder holder = (ITerminationHandlerHolder)BPELUtil.adapt(getActivity(), ITerminationHandlerHolder.class);
+		if (holder != null) {
+			return holder.getTerminationHandler(getActivity());
+		}
+		return null;
+	}
+
 	public EventHandler getEventHandler() {
 		IEventHandlerHolder holder = (IEventHandlerHolder)BPELUtil.adapt(getActivity(), IEventHandlerHolder.class);
 		if (holder != null) {

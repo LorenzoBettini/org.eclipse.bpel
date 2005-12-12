@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.editparts;
 
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.editparts.borders.RoundRectangleBorderWithDecoration;
@@ -45,7 +46,8 @@ public class FaultHandlerEditPart extends BPELEditPart {
 		IFigure figure = new Figure();
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setHorizontal(!(getModel() instanceof CompensationHandler));
+		boolean vertical = (getModel() instanceof CompensationHandler) || (getModel() instanceof TerminationHandler);
+		layout.setHorizontal(!vertical);
 		figure.setLayoutManager(layout);
 		if (image == null) {
 			// Get Image from registry
@@ -53,6 +55,8 @@ public class FaultHandlerEditPart extends BPELEditPart {
 				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
 			} else if (getModel() instanceof CompensationHandler) {
 				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMPENSATION_INDICATOR);
+			} else if (getModel() instanceof TerminationHandler) {
+				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_TERMINATION_INDICATOR);
 			} else {
 				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
 			}		
