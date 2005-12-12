@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.17 2005/12/12 16:22:00 james Exp $
+ * $Id: BPELPackage.java,v 1.18 2005/12/12 20:26:01 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -3957,13 +3957,22 @@ public interface BPELPackage extends EPackage{
 	int VARIABLE__TYPE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE__FROM = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Variable</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIABLE_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
+	int VARIABLE_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.OtherwiseImpl <em>Otherwise</em>}' class.
@@ -7464,6 +7473,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getVariable_Type();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From</em>'.
+	 * @see org.eclipse.bpel.model.Variable#getFrom()
+	 * @see #getVariable()
+	 * @generated
+	 */
+	EReference getVariable_From();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Otherwise <em>Otherwise</em>}'.

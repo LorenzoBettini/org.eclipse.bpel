@@ -996,6 +996,14 @@ public class BPELReader {
 			variable.setXSDElement(element);			
 		}
 
+		// from-spec
+        Element fromElement = getBPELChildElementByLocalName(variableElement, "from");
+        if (fromElement != null) {
+            From from = BPELFactory.eINSTANCE.createFrom();
+            xml2From(from, fromElement); 
+            variable.setFrom(from);
+        }
+		
 		xml2ExtensibleElement(variable,variableElement);
 		
         return variable;

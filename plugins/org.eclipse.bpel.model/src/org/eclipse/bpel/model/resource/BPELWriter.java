@@ -638,6 +638,14 @@ public class BPELWriter {
 			variableElement.setAttribute("element", bpelNamespacePrefixManager.qNameToString(variable, qname));
 		}		
 
+		// from-spec
+		From from = variable.getFrom();
+		if (from != null) {
+			Element fromElement = createBPELElement("from");
+			from2XML(from, fromElement);
+			variableElement.appendChild(fromElement);
+		}
+		
 		// serialize local namespace prefixes to XML
 		bpelNamespacePrefixManager.serializePrefixes(variable, variableElement);	
 		extensibleElement2XML(variable,variableElement);

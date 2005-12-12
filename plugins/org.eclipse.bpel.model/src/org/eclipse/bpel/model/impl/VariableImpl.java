@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: VariableImpl.java,v 1.2 2005/12/12 20:26:01 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -40,6 +41,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.VariableImpl#getMessageType <em>Message Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.VariableImpl#getXSDElement <em>XSD Element</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.VariableImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.VariableImpl#getFrom <em>From</em>}</li>
  * </ul>
  * </p>
  *
@@ -95,6 +97,16 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * @ordered
 	 */
 	protected XSDTypeDefinition type = null;
+
+	/**
+	 * The cached value of the '{@link #getFrom() <em>From</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFrom()
+	 * @generated
+	 * @ordered
+	 */
+	protected From from = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -254,6 +266,44 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public From getFrom() {
+		if (from != null && from.eIsProxy()) {
+			From oldFrom = from;
+			from = (From)eResolveProxy((InternalEObject)from);
+			if (from != oldFrom) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__FROM, oldFrom, from));
+			}
+		}
+		return from;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public From basicGetFrom() {
+		return from;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFrom(From newFrom) {
+		From oldFrom = from;
+		from = newFrom;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__FROM, oldFrom, from));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.VARIABLE__DOCUMENTATION_ELEMENT:
@@ -273,6 +323,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
+			case BPELPackage.VARIABLE__FROM:
+				if (resolve) return getFrom();
+				return basicGetFrom();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -306,6 +359,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__TYPE:
 				setType((XSDTypeDefinition)newValue);
 				return;
+			case BPELPackage.VARIABLE__FROM:
+				setFrom((From)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -338,6 +394,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__TYPE:
 				setType((XSDTypeDefinition)null);
 				return;
+			case BPELPackage.VARIABLE__FROM:
+				setFrom((From)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -363,6 +422,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 				return xsdElement != null;
 			case BPELPackage.VARIABLE__TYPE:
 				return type != null;
+			case BPELPackage.VARIABLE__FROM:
+				return from != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

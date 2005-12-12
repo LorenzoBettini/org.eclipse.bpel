@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Variable.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Variable.java,v 1.2 2005/12/12 20:26:01 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -32,6 +32,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
  *   <li>{@link org.eclipse.bpel.model.Variable#getMessageType <em>Message Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Variable#getXSDElement <em>XSD Element</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Variable#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,7 +40,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
  * @model
  * @generated
  */
-public interface Variable extends ExtensibleElement {
+public interface Variable extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -143,5 +144,31 @@ public interface Variable extends ExtensibleElement {
 	 * @generated
 	 */
 	void setType(XSDTypeDefinition value);
+
+	/**
+	 * Returns the value of the '<em><b>From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>From</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>From</em>' reference.
+	 * @see #setFrom(From)
+	 * @see org.eclipse.bpel.model.BPELPackage#getVariable_From()
+	 * @model
+	 * @generated
+	 */
+	From getFrom();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>From</em>' reference.
+	 * @see #getFrom()
+	 * @generated
+	 */
+	void setFrom(From value);
 
 } // Variable

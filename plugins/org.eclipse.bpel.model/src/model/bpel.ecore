@@ -424,6 +424,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Otherwise" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"

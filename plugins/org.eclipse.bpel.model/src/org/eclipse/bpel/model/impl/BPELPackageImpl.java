@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.17 2005/12/12 16:22:00 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.18 2005/12/12 20:26:01 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -2248,6 +2248,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getVariable_From() {
+		return (EReference)variableEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOtherwise() {
 		return otherwiseEClass;
 	}
@@ -3072,6 +3081,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(variableEClass, VARIABLE__MESSAGE_TYPE);
 		createEReference(variableEClass, VARIABLE__XSD_ELEMENT);
 		createEReference(variableEClass, VARIABLE__TYPE);
+		createEReference(variableEClass, VARIABLE__FROM);
 
 		otherwiseEClass = createEClass(OTHERWISE);
 		createEReference(otherwiseEClass, OTHERWISE__ACTIVITY);
@@ -3476,6 +3486,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getVariable_MessageType(), theWSDLPackage.getMessage(), null, "messageType", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_XSDElement(), theXSDPackage.getXSDElementDeclaration(), null, "XSDElement", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_Type(), theXSDPackage.getXSDTypeDefinition(), null, "type", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVariable_From(), this.getFrom(), null, "from", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(otherwiseEClass, Otherwise.class, "Otherwise", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOtherwise_Activity(), this.getActivity(), null, "activity", null, 1, 1, Otherwise.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
