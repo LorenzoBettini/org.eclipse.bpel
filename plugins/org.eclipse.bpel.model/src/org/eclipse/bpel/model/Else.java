@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Else.java,v 1.1 2005/12/09 21:01:02 james Exp $
+ * $Id: Else.java,v 1.2 2005/12/12 16:10:33 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.wst.wsdl.ExtensibleElement;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
