@@ -1023,7 +1023,7 @@ public class BPELWriter {
 	}
 
 	protected Element extensionActivity2XML(Activity activity) {
-		Element activityElement = createBPELElement("activityExtension");
+		Element activityElement = createBPELElement("extensionActivity");
 		return activityElement;
 	}
 
