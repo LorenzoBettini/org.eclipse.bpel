@@ -48,6 +48,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 
@@ -69,7 +70,7 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	protected BPELEditPartMarkerDecorator.MarkerMotionListener markerMotionListener;
 	
 	// The direct edit manager handles the in-place editing of node names on the graphical canvas.
-	private BPELDirectEditManager manager;
+	private DirectEditManager manager;
 
 	// Mouse motion hover help support
 	protected int mouseLocation = 0; // 0 == no marker, 1 == top drawer, 2 == bottom drawer, 3 == marker on main figure
