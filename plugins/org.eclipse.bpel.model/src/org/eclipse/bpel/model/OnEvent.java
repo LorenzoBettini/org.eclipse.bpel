@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.2 2005/12/06 02:05:30 james Exp $
+ * $Id: OnEvent.java,v 1.3 2006/01/16 20:05:43 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -37,6 +37,7 @@ import org.eclipse.wst.wsdl.PortType;
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getPortType <em>Port Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getMessageType <em>Message Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getFromPart <em>From Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.OnEvent#getCorrelationSets <em>Correlation Sets</em>}</li>
  * </ul>
  * </p>
  *
@@ -242,5 +243,32 @@ public interface OnEvent extends ExtensibleElement{
 	 * @generated
 	 */
 	EList getFromPart();
+
+	/**
+	 * Returns the value of the '<em><b>Correlation Sets</b></em>' containment reference.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Correlation Sets</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Correlation Sets</em>' containment reference.
+	 * @see #setCorrelationSets(CorrelationSets)
+	 * @see org.eclipse.bpel.model.BPELPackage#getOnEvent_CorrelationSets()
+	 * @model containment="true"
+	 * @generated
+	 */
+	CorrelationSets getCorrelationSets();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.OnEvent#getCorrelationSets <em>Correlation Sets</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Correlation Sets</em>' containment reference.
+	 * @see #getCorrelationSets()
+	 * @generated
+	 */
+	void setCorrelationSets(CorrelationSets value);
 
 } // OnEvent

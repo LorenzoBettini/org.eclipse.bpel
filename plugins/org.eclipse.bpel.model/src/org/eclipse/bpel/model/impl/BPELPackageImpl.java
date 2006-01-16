@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.19 2006/01/16 19:47:37 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.20 2006/01/16 20:05:43 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -2390,6 +2390,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOnEvent_CorrelationSets() {
+		return (EReference)onEventEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getImport() {
 		return importEClass;
 	}
@@ -3177,6 +3186,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(onEventEClass, ON_EVENT__PORT_TYPE);
 		createEReference(onEventEClass, ON_EVENT__MESSAGE_TYPE);
 		createEReference(onEventEClass, ON_EVENT__FROM_PART);
+		createEReference(onEventEClass, ON_EVENT__CORRELATION_SETS);
 
 		importEClass = createEClass(IMPORT);
 		createEAttribute(importEClass, IMPORT__NAMESPACE);
@@ -3592,6 +3602,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getOnEvent_PortType(), theWSDLPackage.getPortType(), null, "portType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOnEvent_MessageType(), theWSDLPackage.getMessage(), null, "messageType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOnEvent_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOnEvent_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", "", 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getImport_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

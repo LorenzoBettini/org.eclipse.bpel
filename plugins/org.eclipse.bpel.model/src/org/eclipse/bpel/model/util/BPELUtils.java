@@ -30,6 +30,7 @@ import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
@@ -258,7 +259,9 @@ public class BPELUtils {
 				correlationSets = ((Process)container).getCorrelationSets();
 			else if (container instanceof Scope)
 				correlationSets = ((Scope)container).getCorrelationSets();
-				
+			else if (container instanceof OnEvent)
+				correlationSets = ((OnEvent)container).getCorrelationSets();
+			
 			if (correlationSets != null) {
 				for (Iterator it = correlationSets.getChildren().iterator(); it.hasNext(); ) {
 					CorrelationSet correlationSet = (CorrelationSet)it.next();

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.19 2006/01/16 19:47:37 james Exp $
+ * $Id: BPELPackage.java,v 1.20 2006/01/16 20:05:43 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -4212,13 +4212,22 @@ public interface BPELPackage extends EPackage{
 	int ON_EVENT__FROM_PART = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Correlation Sets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ON_EVENT__CORRELATION_SETS = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>On Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ON_EVENT_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
+	int ON_EVENT_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ImportImpl <em>Import</em>}' class.
@@ -7770,6 +7779,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getOnEvent_FromPart();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.OnEvent#getCorrelationSets <em>Correlation Sets</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Correlation Sets</em>'.
+	 * @see org.eclipse.bpel.model.OnEvent#getCorrelationSets()
+	 * @see #getOnEvent()
+	 * @generated
+	 */
+	EReference getOnEvent_CorrelationSets();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Import <em>Import</em>}'.

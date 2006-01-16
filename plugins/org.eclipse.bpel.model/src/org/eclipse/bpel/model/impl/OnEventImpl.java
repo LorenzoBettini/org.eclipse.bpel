@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.3 2005/12/12 15:55:41 james Exp $
+ * $Id: OnEventImpl.java,v 1.4 2006/01/16 20:05:43 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.OnEvent;
@@ -55,6 +56,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getPortType <em>Port Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getMessageType <em>Message Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getFromPart <em>From Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getCorrelationSets <em>Correlation Sets</em>}</li>
  * </ul>
  * </p>
  *
@@ -140,6 +142,16 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @ordered
 	 */
 	protected EList fromPart = null;
+
+	/**
+	 * The cached value of the '{@link #getCorrelationSets() <em>Correlation Sets</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCorrelationSets()
+	 * @generated
+	 * @ordered
+	 */
+	protected CorrelationSets correlationSets = null;
 
     /**
      * The deserialized value of the operation name.
@@ -517,6 +529,49 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CorrelationSets getCorrelationSets() {
+		return correlationSets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCorrelationSets(CorrelationSets newCorrelationSets, NotificationChain msgs) {
+		CorrelationSets oldCorrelationSets = correlationSets;
+		correlationSets = newCorrelationSets;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_EVENT__CORRELATION_SETS, oldCorrelationSets, newCorrelationSets);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCorrelationSets(CorrelationSets newCorrelationSets) {
+		if (newCorrelationSets != correlationSets) {
+			NotificationChain msgs = null;
+			if (correlationSets != null)
+				msgs = ((InternalEObject)correlationSets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_EVENT__CORRELATION_SETS, null, msgs);
+			if (newCorrelationSets != null)
+				msgs = ((InternalEObject)newCorrelationSets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_EVENT__CORRELATION_SETS, null, msgs);
+			msgs = basicSetCorrelationSets(newCorrelationSets, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_EVENT__CORRELATION_SETS, newCorrelationSets, newCorrelationSets));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -528,6 +583,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 					return basicSetVariable(null, msgs);
 				case BPELPackage.ON_EVENT__CORRELATIONS:
 					return basicSetCorrelations(null, msgs);
+				case BPELPackage.ON_EVENT__CORRELATION_SETS:
+					return basicSetCorrelationSets(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -568,6 +625,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				return basicGetMessageType();
 			case BPELPackage.ON_EVENT__FROM_PART:
 				return getFromPart();
+			case BPELPackage.ON_EVENT__CORRELATION_SETS:
+				return getCorrelationSets();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -614,6 +673,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				getFromPart().clear();
 				getFromPart().addAll((Collection)newValue);
 				return;
+			case BPELPackage.ON_EVENT__CORRELATION_SETS:
+				setCorrelationSets((CorrelationSets)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -658,6 +720,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			case BPELPackage.ON_EVENT__FROM_PART:
 				getFromPart().clear();
 				return;
+			case BPELPackage.ON_EVENT__CORRELATION_SETS:
+				setCorrelationSets((CorrelationSets)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -691,6 +756,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				return messageType != null;
 			case BPELPackage.ON_EVENT__FROM_PART:
 				return fromPart != null && !fromPart.isEmpty();
+			case BPELPackage.ON_EVENT__CORRELATION_SETS:
+				return correlationSets != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

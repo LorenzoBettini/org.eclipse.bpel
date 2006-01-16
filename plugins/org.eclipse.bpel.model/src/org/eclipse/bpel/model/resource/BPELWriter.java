@@ -1660,12 +1660,16 @@ public class BPELWriter {
 		if (onEvent.getMessageType() != null) {
 			onEventElement.setAttribute("messageType", bpelNamespacePrefixManager.qNameToString(onEvent, onEvent.getMessageType().getQName()));
 		}
+		if (onEvent.getCorrelationSets() != null) {
+			onEventElement.appendChild(correlationSets2XML(onEvent.getCorrelationSets()));
+		}
 		if (onEvent.getCorrelations() != null) {
 			onEventElement.appendChild(correlations2XML(onEvent.getCorrelations()));
 		}
+		
 		if (onEvent.getActivity() != null) {
 			onEventElement.appendChild(activity2XML(onEvent.getActivity()));
-		}
+		}		
 		Iterator it = onEvent.getFromPart().iterator();
 		while (it.hasNext()) {
 			FromPart fromPart = (FromPart)it.next();

@@ -1641,6 +1641,11 @@ public class BPELReader {
 			}
 		}		
 		
+		// Handle CorrelationSets Element
+		Element correlationSetsElement = getBPELChildElementByLocalName(onEventElement, "correlationSets");
+		if (correlationSetsElement != null)
+			onEvent.setCorrelationSets(xml2CorrelationSets(correlationSetsElement));
+		
 		xml2ExtensibleElement(onEvent, onEventElement);
 				
 		return onEvent;
