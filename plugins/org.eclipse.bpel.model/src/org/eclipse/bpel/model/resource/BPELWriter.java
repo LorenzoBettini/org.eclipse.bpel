@@ -1145,14 +1145,18 @@ public class BPELWriter {
 
 	protected Element copy2XML(Copy copy) {
 		Element copyElement = createBPELElement("copy");
+		
+		if (copy.isSetKeepSrcElementName())
+			copyElement.setAttribute("keepSrcElementName", BPELUtils.boolean2XML(copy.getKeepSrcElementName()));
+
 		From from = copy.getFrom();
-		if( from != null ){
+		if (from != null) {
 			Element fromElement = createBPELElement("from");
 			from2XML(from,fromElement);
 			copyElement.appendChild(fromElement);
 		}
 		To to  = copy.getTo();
-		if( to != null ){
+		if (to != null) {
 			Element toElement = createBPELElement("to");
 			to2XML(to, toElement);
 			copyElement.appendChild(toElement);
@@ -1167,11 +1171,11 @@ public class BPELWriter {
 
 	protected void from2XML(From from,Element fromElement) {
 		to2XML(from,fromElement);
-		if ( from.isSetEndpointReference() )
+		if (from.isSetEndpointReference())
 			fromElement.setAttribute("endpointReference", from.getEndpointReference().toString());
-		if( from.isSetOpaque())
+		if (from.isSetOpaque())
 			fromElement.setAttribute("opaque", BPELUtils.boolean2XML(from.getOpaque()));
-		if ( from.isSetLiteral() && from.getLiteral()!=null && !from.getLiteral().equals("")) {
+		if (from.isSetLiteral() && from.getLiteral() != null && !from.getLiteral().equals("")) {
 			Node node = null;
 			if (Boolean.TRUE.equals(from.getUnsafeLiteral())) {
 				node = BPELUtils.convertStringToNode(from.getLiteral(), bpelResource);

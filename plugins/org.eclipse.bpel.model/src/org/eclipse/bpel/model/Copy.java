@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Copy.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Copy.java,v 1.2 2006/01/16 20:34:34 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -26,6 +26,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Copy#getTo <em>To</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Copy#getFrom <em>From</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Copy#getKeepSrcElementName <em>Keep Src Element Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,7 +34,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface Copy extends ExtensibleElement {
+public interface Copy extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>To</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -85,5 +86,59 @@ public interface Copy extends ExtensibleElement {
 	 * @generated
 	 */
 	void setFrom(From value);
+
+	/**
+	 * Returns the value of the '<em><b>Keep Src Element Name</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Keep Src Element Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Keep Src Element Name</em>' attribute.
+	 * @see #isSetKeepSrcElementName()
+	 * @see #unsetKeepSrcElementName()
+	 * @see #setKeepSrcElementName(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getCopy_KeepSrcElementName()
+	 * @model default="false" unsettable="true"
+	 * @generated
+	 */
+	Boolean getKeepSrcElementName();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Copy#getKeepSrcElementName <em>Keep Src Element Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Keep Src Element Name</em>' attribute.
+	 * @see #isSetKeepSrcElementName()
+	 * @see #unsetKeepSrcElementName()
+	 * @see #getKeepSrcElementName()
+	 * @generated
+	 */
+	void setKeepSrcElementName(Boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.Copy#getKeepSrcElementName <em>Keep Src Element Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetKeepSrcElementName()
+	 * @see #getKeepSrcElementName()
+	 * @see #setKeepSrcElementName(Boolean)
+	 * @generated
+	 */
+	void unsetKeepSrcElementName();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Copy#getKeepSrcElementName <em>Keep Src Element Name</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Keep Src Element Name</em>' attribute is set.
+	 * @see #unsetKeepSrcElementName()
+	 * @see #getKeepSrcElementName()
+	 * @see #setKeepSrcElementName(Boolean)
+	 * @generated
+	 */
+	boolean isSetKeepSrcElementName();
 
 } // Copy

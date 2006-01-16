@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.20 2006/01/16 20:05:43 james Exp $
+ * $Id: BPELPackage.java,v 1.21 2006/01/16 20:34:34 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -2389,13 +2389,22 @@ public interface BPELPackage extends EPackage{
 	int COPY__FROM = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Keep Src Element Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COPY__KEEP_SRC_ELEMENT_NAME = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Copy</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COPY_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
+	int COPY_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExtensionImpl <em>Extension</em>}' class.
@@ -6834,6 +6843,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getCopy_From();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Copy#getKeepSrcElementName <em>Keep Src Element Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Keep Src Element Name</em>'.
+	 * @see org.eclipse.bpel.model.Copy#getKeepSrcElementName()
+	 * @see #getCopy()
+	 * @generated
+	 */
+	EAttribute getCopy_KeepSrcElementName();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Extension <em>Extension</em>}'.

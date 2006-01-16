@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: CopyImpl.java,v 1.2 2006/01/16 20:34:34 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -45,6 +45,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getTo <em>To</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getFrom <em>From</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getKeepSrcElementName <em>Keep Src Element Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +71,35 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @ordered
 	 */
 	protected From from = null;
+
+	/**
+	 * The default value of the '{@link #getKeepSrcElementName() <em>Keep Src Element Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKeepSrcElementName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean KEEP_SRC_ELEMENT_NAME_EDEFAULT = Boolean.FALSE;
+
+	/**
+	 * The cached value of the '{@link #getKeepSrcElementName() <em>Keep Src Element Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKeepSrcElementName()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean keepSrcElementName = KEEP_SRC_ELEMENT_NAME_EDEFAULT;
+
+	/**
+	 * This is true if the Keep Src Element Name attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean keepSrcElementNameESet = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -180,6 +210,52 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getKeepSrcElementName() {
+		return keepSrcElementName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setKeepSrcElementName(Boolean newKeepSrcElementName) {
+		Boolean oldKeepSrcElementName = keepSrcElementName;
+		keepSrcElementName = newKeepSrcElementName;
+		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
+		keepSrcElementNameESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME, oldKeepSrcElementName, keepSrcElementName, !oldKeepSrcElementNameESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetKeepSrcElementName() {
+		Boolean oldKeepSrcElementName = keepSrcElementName;
+		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
+		keepSrcElementName = KEEP_SRC_ELEMENT_NAME_EDEFAULT;
+		keepSrcElementNameESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME, oldKeepSrcElementName, KEEP_SRC_ELEMENT_NAME_EDEFAULT, oldKeepSrcElementNameESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetKeepSrcElementName() {
+		return keepSrcElementNameESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -213,6 +289,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				return getTo();
 			case BPELPackage.COPY__FROM:
 				return getFrom();
+			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+				return getKeepSrcElementName();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -240,6 +318,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__FROM:
 				setFrom((From)newValue);
 				return;
+			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+				setKeepSrcElementName((Boolean)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -266,6 +347,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__FROM:
 				setFrom((From)null);
 				return;
+			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+				unsetKeepSrcElementName();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -287,8 +371,25 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				return to != null;
 			case BPELPackage.COPY__FROM:
 				return from != null;
+			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+				return isSetKeepSrcElementName();
 		}
 		return eDynamicIsSet(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (keepSrcElementName: ");
+		if (keepSrcElementNameESet) result.append(keepSrcElementName); else result.append("<unset>");
+		result.append(')');
+		return result.toString();
 	}
 
 } //CopyImpl

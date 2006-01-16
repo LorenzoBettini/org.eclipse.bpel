@@ -2257,7 +2257,10 @@ public class BPELReader {
             copy.setTo(to);
         }
  
- 		xml2ExtensibleElement(copy, copyElement);
+		if (copyElement.hasAttribute("keepSrcElementName"))
+			copy.setKeepSrcElementName(new Boolean(copyElement.getAttribute("keepSrcElementName").equals("yes")));
+
+		xml2ExtensibleElement(copy, copyElement);
  		
 		return copy;
 	}

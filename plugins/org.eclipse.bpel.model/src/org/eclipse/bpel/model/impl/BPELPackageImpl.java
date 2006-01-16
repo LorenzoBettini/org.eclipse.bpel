@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.20 2006/01/16 20:05:43 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.21 2006/01/16 20:34:34 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -1598,6 +1598,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCopy_KeepSrcElementName() {
+		return (EAttribute)copyEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExtension() {
 		return extensionEClass;
 	}
@@ -3075,6 +3084,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		copyEClass = createEClass(COPY);
 		createEReference(copyEClass, COPY__TO);
 		createEReference(copyEClass, COPY__FROM);
+		createEAttribute(copyEClass, COPY__KEEP_SRC_ELEMENT_NAME);
 
 		extensionEClass = createEClass(EXTENSION);
 		createEAttribute(extensionEClass, EXTENSION__NAMESPACE);
@@ -3491,6 +3501,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(copyEClass, Copy.class, "Copy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCopy_To(), this.getTo(), null, "to", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCopy_From(), this.getFrom(), null, "from", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCopy_KeepSrcElementName(), ecorePackage.getEBooleanObject(), "keepSrcElementName", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(extensionEClass, Extension.class, "Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExtension_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
