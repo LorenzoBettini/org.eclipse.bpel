@@ -1428,6 +1428,7 @@ public class ModelHelper {
 		Set properties = new HashSet();
 		 
 		// search in current process
+		// TODO: This doesn't work for Scoped correlation sets or those on OnEvents
 		List sets = process.getCorrelationSets().getChildren();
 		for (Iterator iter = sets.iterator(); iter.hasNext();) {
 			CorrelationSet set = (CorrelationSet) iter.next();
