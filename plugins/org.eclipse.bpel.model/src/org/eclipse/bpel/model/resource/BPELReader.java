@@ -30,11 +30,13 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BPELPlugin;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
@@ -1420,7 +1422,13 @@ public class BPELReader {
 			Links links = xml2Links(linksElement);
 			flow.setLinks(links);
 		}
-			        
+			 
+		Element completionConditionElement = getBPELChildElementByLocalName(flowElement, "completionCondition");
+		if (completionConditionElement != null) {
+			CompletionCondition completionCondition = xml2CompletionCondition(completionConditionElement);
+			flow.setCompletionCondition(completionCondition);
+		}
+		
         setStandardAttributes(flowElement, flow);
         
         NodeList flowElements = flowElement.getChildNodes();
@@ -1922,10 +1930,15 @@ public class BPELReader {
 
 	/**
 	 * Converts an XML expression element to a BPEL Expression object.
+	 * 
+	 * Accept a pre-constructed argument. This is good for sub-types
+	 * of expression.
+	 * 
+	 * Returns the second argument as a convenience.
+	 * 
+	 * TODO: Make condition use this one as well.
 	 */
-	protected Expression xml2Expression(Element expressionElement) {
-		Expression expression = BPELFactory.eINSTANCE.createExpression();
-    	
+	protected Expression xml2Expression(Element expressionElement, Expression expression) {
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(expression, expressionElement);
     	
@@ -1985,6 +1998,14 @@ public class BPELReader {
 		}
 
 		return expression;
+	}
+
+	/**
+	 * Converts an XML expression element to a BPEL Expression object.
+	 */
+	protected Expression xml2Expression(Element expressionElement) {
+		Expression expression = BPELFactory.eINSTANCE.createExpression();
+    	return xml2Expression(expressionElement, expression);
 	}
 
 	protected Otherwise xml2Otherwise(Element otherwiseElement) {
@@ -2736,7 +2757,51 @@ public class BPELReader {
 			forEach.setFinalCounterValue(expression);
 		}
 		
+		// Set completionCondition element
+		Element completionConditionElement = getBPELChildElementByLocalName(forEachElement, "completionCondition");
+		if (completionConditionElement != null) {
+			CompletionCondition completionCondition = xml2CompletionCondition(completionConditionElement);
+			forEach.setCompletionCondition(completionCondition);
+		}
+		
 		return forEach;
+	}
+
+	/**
+	 * Converts an XML completionCondition element to a BPEL CompletionCondition object.
+	 */
+	protected CompletionCondition xml2CompletionCondition(Element completionConditionElement) {
+		CompletionCondition completionCondition = BPELFactory.eINSTANCE.createCompletionCondition();
+		if (completionConditionElement == null) return completionCondition;
+		
+		// Set branches element
+		Element branchesElement = getBPELChildElementByLocalName(completionConditionElement, "branches");
+		if (branchesElement != null) {
+			Branches branches = xml2Branches(branchesElement);
+			completionCondition.setBranches(branches);
+		}
+		
+		// Set booleanExpression element
+		Element booleanExpressionElement = getBPELChildElementByLocalName(completionConditionElement, "booleanExpression");
+		if (booleanExpressionElement != null) {
+			Expression expression = xml2Expression(booleanExpressionElement);
+			completionCondition.setBooleanExpression(expression);
+		}
+		
+		return completionCondition;
+	}
+
+	/**
+	 * Converts an XML branches element to a BPEL Branches object.
+	 */
+	protected Branches xml2Branches(Element branchesElement) {
+		Branches branches = BPELFactory.eINSTANCE.createBranches();
+		xml2Expression(branchesElement, branches);
+
+		if (branchesElement.hasAttribute("countCompletedBranchesOnly"))
+			branches.setCountCompletedBranchesOnly(new Boolean(branchesElement.getAttribute("countCompletedBranchesOnly").equals("yes")));
+
+		return branches;
 	}
 
 	/**

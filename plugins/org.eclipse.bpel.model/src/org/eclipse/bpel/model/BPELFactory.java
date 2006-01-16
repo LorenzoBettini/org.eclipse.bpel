@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.11 2005/12/09 21:01:02 james Exp $
+ * $Id: BPELFactory.java,v 1.12 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -635,6 +635,24 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	Else createElse();
+
+	/**
+	 * Returns a new object of class '<em>Completion Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Completion Condition</em>'.
+	 * @generated
+	 */
+	CompletionCondition createCompletionCondition();
+
+	/**
+	 * Returns a new object of class '<em>Branches</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Branches</em>'.
+	 * @generated
+	 */
+	Branches createBranches();
 
 	/**
 	 * Returns the package supported by this factory.

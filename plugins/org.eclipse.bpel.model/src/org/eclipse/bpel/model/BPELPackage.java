@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.18 2005/12/12 20:26:01 james Exp $
+ * $Id: BPELPackage.java,v 1.19 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -2134,13 +2134,22 @@ public interface BPELPackage extends EPackage{
 	int FLOW__LINKS = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Completion Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOW__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Flow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FLOW_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 2;
+	int FLOW_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.OnAlarmImpl <em>On Alarm</em>}' class.
@@ -5045,13 +5054,22 @@ public interface BPELPackage extends EPackage{
 	int FOR_EACH__FINAL_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Completion Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>For Each</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 4;
+	int FOR_EACH_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.RepeatUntilImpl <em>Repeat Until</em>}' class.
@@ -5583,6 +5601,134 @@ public interface BPELPackage extends EPackage{
 	int ELSE_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompletionConditionImpl <em>Completion Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.CompletionConditionImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompletionCondition()
+	 * @generated
+	 */
+	int COMPLETION_CONDITION = 67;
+
+	/**
+	 * The feature id for the '<em><b>Branches</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION__BRANCHES = 0;
+
+	/**
+	 * The feature id for the '<em><b>Boolean Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION__BOOLEAN_EXPRESSION = 1;
+
+	/**
+	 * The number of structural features of the '<em>Completion Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.BranchesImpl <em>Branches</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.BranchesImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getBranches()
+	 * @generated
+	 */
+	int BRANCHES = 68;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__DOCUMENTATION_ELEMENT = EXPRESSION__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__ELEMENT = EXPRESSION__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__REQUIRED = EXPRESSION__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Element Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__ELEMENT_TYPE = EXPRESSION__ELEMENT_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Body</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__BODY = EXPRESSION__BODY;
+
+	/**
+	 * The feature id for the '<em><b>Expression Language</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__EXPRESSION_LANGUAGE = EXPRESSION__EXPRESSION_LANGUAGE;
+
+	/**
+	 * The feature id for the '<em><b>Opaque</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__OPAQUE = EXPRESSION__OPAQUE;
+
+	/**
+	 * The feature id for the '<em><b>Count Completed Branches Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY = EXPRESSION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Branches</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BRANCHES_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5590,7 +5736,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 67;
+	int CORRELATION_PATTERN = 69;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -5600,7 +5746,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 68;
+	int ENDPOINT_REFERENCE_ROLE = 70;
 
 
 	/**
@@ -6550,6 +6696,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getFlow_Links();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Flow#getCompletionCondition <em>Completion Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Completion Condition</em>'.
+	 * @see org.eclipse.bpel.model.Flow#getCompletionCondition()
+	 * @see #getFlow()
+	 * @generated
+	 */
+	EReference getFlow_CompletionCondition();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.OnAlarm <em>On Alarm</em>}'.
@@ -7964,6 +8121,17 @@ public interface BPELPackage extends EPackage{
 	EReference getForEach_FinalCounterValue();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getCompletionCondition <em>Completion Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Completion Condition</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getCompletionCondition()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_CompletionCondition();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.RepeatUntil <em>Repeat Until</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8153,6 +8321,59 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getElse_Activity();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.CompletionCondition <em>Completion Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Completion Condition</em>'.
+	 * @see org.eclipse.bpel.model.CompletionCondition
+	 * @generated
+	 */
+	EClass getCompletionCondition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.CompletionCondition#getBranches <em>Branches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Branches</em>'.
+	 * @see org.eclipse.bpel.model.CompletionCondition#getBranches()
+	 * @see #getCompletionCondition()
+	 * @generated
+	 */
+	EReference getCompletionCondition_Branches();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.CompletionCondition#getBooleanExpression <em>Boolean Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Boolean Expression</em>'.
+	 * @see org.eclipse.bpel.model.CompletionCondition#getBooleanExpression()
+	 * @see #getCompletionCondition()
+	 * @generated
+	 */
+	EReference getCompletionCondition_BooleanExpression();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Branches <em>Branches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Branches</em>'.
+	 * @see org.eclipse.bpel.model.Branches
+	 * @generated
+	 */
+	EClass getBranches();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Branches#getCountCompletedBranchesOnly <em>Count Completed Branches Only</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Count Completed Branches Only</em>'.
+	 * @see org.eclipse.bpel.model.Branches#getCountCompletedBranchesOnly()
+	 * @see #getBranches()
+	 * @generated
+	 */
+	EAttribute getBranches_CountCompletedBranchesOnly();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

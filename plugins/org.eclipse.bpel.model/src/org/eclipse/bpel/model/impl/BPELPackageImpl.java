@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.18 2005/12/12 20:26:01 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.19 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,11 +19,13 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
@@ -576,6 +578,20 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass elseEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass completionConditionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass branchesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1467,6 +1483,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getFlow_Links() {
 		return (EReference)flowEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFlow_CompletionCondition() {
+		return (EReference)flowEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2662,6 +2687,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getForEach_CompletionCondition() {
+		return (EReference)forEachEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRepeatUntil() {
 		return repeatUntilEClass;
 	}
@@ -2824,6 +2858,51 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCompletionCondition() {
+		return completionConditionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCompletionCondition_Branches() {
+		return (EReference)completionConditionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCompletionCondition_BooleanExpression() {
+		return (EReference)completionConditionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBranches() {
+		return branchesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBranches_CountCompletedBranchesOnly() {
+		return (EAttribute)branchesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -2972,6 +3051,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		flowEClass = createEClass(FLOW);
 		createEReference(flowEClass, FLOW__ACTIVITIES);
 		createEReference(flowEClass, FLOW__LINKS);
+		createEReference(flowEClass, FLOW__COMPLETION_CONDITION);
 
 		onAlarmEClass = createEClass(ON_ALARM);
 		createEReference(onAlarmEClass, ON_ALARM__ACTIVITY);
@@ -3144,6 +3224,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(forEachEClass, FOR_EACH__COUNTER_NAME);
 		createEReference(forEachEClass, FOR_EACH__START_COUNTER_VALUE);
 		createEReference(forEachEClass, FOR_EACH__FINAL_COUNTER_VALUE);
+		createEReference(forEachEClass, FOR_EACH__COMPLETION_CONDITION);
 
 		repeatUntilEClass = createEClass(REPEAT_UNTIL);
 		createEReference(repeatUntilEClass, REPEAT_UNTIL__ACTIVITY);
@@ -3169,6 +3250,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		elseEClass = createEClass(ELSE);
 		createEReference(elseEClass, ELSE__ACTIVITY);
+
+		completionConditionEClass = createEClass(COMPLETION_CONDITION);
+		createEReference(completionConditionEClass, COMPLETION_CONDITION__BRANCHES);
+		createEReference(completionConditionEClass, COMPLETION_CONDITION__BOOLEAN_EXPRESSION);
+
+		branchesEClass = createEClass(BRANCHES);
+		createEAttribute(branchesEClass, BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY);
 
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
@@ -3268,6 +3356,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		thenEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		elseIfEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		elseEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		branchesEClass.getESuperTypes().add(this.getExpression());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3377,6 +3466,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(flowEClass, Flow.class, "Flow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFlow_Activities(), this.getActivity(), null, "activities", null, 1, -1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFlow_Links(), this.getLinks(), null, "links", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFlow_CompletionCondition(), this.getCompletionCondition(), null, "completionCondition", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(onAlarmEClass, OnAlarm.class, "OnAlarm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOnAlarm_Activity(), this.getActivity(), null, "activity", null, 1, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3549,6 +3639,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_CompletionCondition(), this.getCompletionCondition(), null, "completionCondition", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(repeatUntilEClass, RepeatUntil.class, "RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRepeatUntil_Activity(), this.getActivity(), null, "activity", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3574,6 +3665,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(elseEClass, Else.class, "Else", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getElse_Activity(), this.getActivity(), null, "activity", null, 1, 1, Else.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(completionConditionEClass, CompletionCondition.class, "CompletionCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCompletionCondition_Branches(), this.getBranches(), null, "branches", "", 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompletionCondition_BooleanExpression(), this.getExpression(), null, "booleanExpression", null, 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(branchesEClass, Branches.class, "Branches", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBranches_CountCompletedBranchesOnly(), theEcorePackage.getEBooleanObject(), "countCompletedBranchesOnly", "false", 0, 1, Branches.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

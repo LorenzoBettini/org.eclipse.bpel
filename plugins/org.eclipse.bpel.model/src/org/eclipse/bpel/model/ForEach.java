@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEach.java,v 1.1 2005/12/09 15:47:52 james Exp $
+ * $Id: ForEach.java,v 1.2 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -19,6 +19,7 @@ package org.eclipse.bpel.model;
  *   <li>{@link org.eclipse.bpel.model.ForEach#getCounterName <em>Counter Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.ForEach#getStartCounterValue <em>Start Counter Value</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.ForEach#getFinalCounterValue <em>Final Counter Value</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.ForEach#getCompletionCondition <em>Completion Condition</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,7 +27,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface ForEach extends Activity {
+public interface ForEach extends Activity{
 	/**
 	 * Returns the value of the '<em><b>Parallel</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
@@ -131,5 +132,31 @@ public interface ForEach extends Activity {
 	 * @generated
 	 */
 	void setFinalCounterValue(Expression value);
+
+	/**
+	 * Returns the value of the '<em><b>Completion Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Completion Condition</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Completion Condition</em>' containment reference.
+	 * @see #setCompletionCondition(CompletionCondition)
+	 * @see org.eclipse.bpel.model.BPELPackage#getForEach_CompletionCondition()
+	 * @model containment="true"
+	 * @generated
+	 */
+	CompletionCondition getCompletionCondition();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.ForEach#getCompletionCondition <em>Completion Condition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Completion Condition</em>' containment reference.
+	 * @see #getCompletionCondition()
+	 * @generated
+	 */
+	void setCompletionCondition(CompletionCondition value);
 
 } // ForEach

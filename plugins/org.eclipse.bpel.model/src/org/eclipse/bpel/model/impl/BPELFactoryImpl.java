@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.11 2005/12/09 21:01:02 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.12 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,11 +19,13 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
@@ -180,6 +182,8 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.THEN: return createThen();
 			case BPELPackage.ELSE_IF: return createElseIf();
 			case BPELPackage.ELSE: return createElse();
+			case BPELPackage.COMPLETION_CONDITION: return createCompletionCondition();
+			case BPELPackage.BRANCHES: return createBranches();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -885,6 +889,26 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Else createElse() {
 		ElseImpl else_ = new ElseImpl();
 		return else_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CompletionCondition createCompletionCondition() {
+		CompletionConditionImpl completionCondition = new CompletionConditionImpl();
+		return completionCondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Branches createBranches() {
+		BranchesImpl branches = new BranchesImpl();
+		return branches;
 	}
 
 	/**

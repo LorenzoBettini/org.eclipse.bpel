@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.11 2005/12/09 21:01:01 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.12 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -20,11 +20,13 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
@@ -346,6 +348,12 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseElse(Else object) {
 				return createElseAdapter();
+			}
+			public Object caseCompletionCondition(CompletionCondition object) {
+				return createCompletionConditionAdapter();
+			}
+			public Object caseBranches(Branches object) {
+				return createBranchesAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1315,6 +1323,34 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createElseAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.CompletionCondition <em>Completion Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.CompletionCondition
+	 * @generated
+	 */
+	public Adapter createCompletionConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Branches <em>Branches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Branches
+	 * @generated
+	 */
+	public Adapter createBranchesAdapter() {
 		return null;
 	}
 

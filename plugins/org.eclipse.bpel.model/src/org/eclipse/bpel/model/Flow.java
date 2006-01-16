@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Flow.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Flow.java,v 1.2 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Flow#getActivities <em>Activities</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Flow#getLinks <em>Links</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Flow#getCompletionCondition <em>Completion Condition</em>}</li>
  * </ul>
  * </p>
  *
@@ -79,5 +80,31 @@ public interface Flow extends Activity{
 	 * @generated
 	 */
 	void setLinks(Links value);
+
+	/**
+	 * Returns the value of the '<em><b>Completion Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Completion Condition</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Completion Condition</em>' containment reference.
+	 * @see #setCompletionCondition(CompletionCondition)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFlow_CompletionCondition()
+	 * @model containment="true"
+	 * @generated
+	 */
+	CompletionCondition getCompletionCondition();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Flow#getCompletionCondition <em>Completion Condition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Completion Condition</em>' containment reference.
+	 * @see #getCompletionCondition()
+	 * @generated
+	 */
+	void setCompletionCondition(CompletionCondition value);
 
 } // Flow

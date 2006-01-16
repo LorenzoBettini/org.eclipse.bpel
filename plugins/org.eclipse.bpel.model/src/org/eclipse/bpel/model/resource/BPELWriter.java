@@ -34,11 +34,13 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
@@ -1008,6 +1010,12 @@ public class BPELWriter {
 		if (forEach.getFinalCounterValue() != null) {
 			activityElement.appendChild(expression2XML(forEach.getFinalCounterValue(), "finalCounterValue"));
 		}
+		
+		CompletionCondition completionCondition = forEach.getCompletionCondition();
+		if (completionCondition != null) {
+			Element completionConditionElement = completionCondition2XML(completionCondition);
+			activityElement.appendChild(completionConditionElement);
+		}
 
 		return activityElement;
 	}
@@ -1301,6 +1309,7 @@ public class BPELWriter {
 	}
 
 	protected Element flow2XML(Activity activity) {
+		Flow flow = (Flow)activity;
 		Element activityElement = createBPELElement("flow");
 		
 		Links links = ((Flow)activity).getLinks();
@@ -1309,6 +1318,11 @@ public class BPELWriter {
 			activityElement.appendChild(linksElement);
 		}
 			
+		CompletionCondition completionCondition = flow.getCompletionCondition();
+		if (completionCondition != null) {
+			Element completionConditionElement = completionCondition2XML(completionCondition);
+			activityElement.appendChild(completionConditionElement);
+		}
 		List activities = ((Flow)activity).getActivities();
 		if( !activities.isEmpty() ){
 			for( Iterator i=activities.iterator(); i.hasNext(); ){
@@ -1320,6 +1334,29 @@ public class BPELWriter {
 		return activityElement;
 	}
 	
+	protected Element completionCondition2XML(CompletionCondition completionCondition) {
+		Element completionConditionElement = createBPELElement("completionCondition");
+		
+		if (completionCondition.getBooleanExpression() != null) {
+			completionConditionElement.appendChild(expression2XML(completionCondition.getBooleanExpression(), "booleanExpression"));
+		}
+		if (completionCondition.getBranches() != null) {
+			Element branchesElement = branches2XML(completionCondition.getBranches());
+			completionConditionElement.appendChild(branchesElement);
+		}
+
+		return completionConditionElement;
+	}
+
+	protected Element branches2XML(Branches branches) {
+		Element branchesElement = expression2XML(branches, "branches");
+		
+		if (branches.isSetCountCompletedBranchesOnly())
+			branchesElement.setAttribute("countCompletedBranchesOnly", BPELUtils.boolean2XML(branches.getCountCompletedBranchesOnly()));
+
+		return branchesElement;
+	}
+
 	protected Element links2XML(Links links) {
 		Element linksElement = createBPELElement("links");
 					

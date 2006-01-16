@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: FlowImpl.java,v 1.2 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.Sources;
@@ -42,6 +43,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.FlowImpl#getActivities <em>Activities</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.FlowImpl#getLinks <em>Links</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.FlowImpl#getCompletionCondition <em>Completion Condition</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +69,16 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * @ordered
 	 */
 	protected Links links = null;
+
+	/**
+	 * The cached value of the '{@link #getCompletionCondition() <em>Completion Condition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompletionCondition()
+	 * @generated
+	 * @ordered
+	 */
+	protected CompletionCondition completionCondition = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -146,6 +158,49 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CompletionCondition getCompletionCondition() {
+		return completionCondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCompletionCondition(CompletionCondition newCompletionCondition, NotificationChain msgs) {
+		CompletionCondition oldCompletionCondition = completionCondition;
+		completionCondition = newCompletionCondition;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FLOW__COMPLETION_CONDITION, oldCompletionCondition, newCompletionCondition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCompletionCondition(CompletionCondition newCompletionCondition) {
+		if (newCompletionCondition != completionCondition) {
+			NotificationChain msgs = null;
+			if (completionCondition != null)
+				msgs = ((InternalEObject)completionCondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__COMPLETION_CONDITION, null, msgs);
+			if (newCompletionCondition != null)
+				msgs = ((InternalEObject)newCompletionCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__COMPLETION_CONDITION, null, msgs);
+			msgs = basicSetCompletionCondition(newCompletionCondition, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FLOW__COMPLETION_CONDITION, newCompletionCondition, newCompletionCondition));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -159,6 +214,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 					return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
 				case BPELPackage.FLOW__LINKS:
 					return basicSetLinks(null, msgs);
+				case BPELPackage.FLOW__COMPLETION_CONDITION:
+					return basicSetCompletionCondition(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -191,6 +248,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 				return getActivities();
 			case BPELPackage.FLOW__LINKS:
 				return getLinks();
+			case BPELPackage.FLOW__COMPLETION_CONDITION:
+				return getCompletionCondition();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -231,6 +290,9 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			case BPELPackage.FLOW__LINKS:
 				setLinks((Links)newValue);
 				return;
+			case BPELPackage.FLOW__COMPLETION_CONDITION:
+				setCompletionCondition((CompletionCondition)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -269,6 +331,9 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			case BPELPackage.FLOW__LINKS:
 				setLinks((Links)null);
 				return;
+			case BPELPackage.FLOW__COMPLETION_CONDITION:
+				setCompletionCondition((CompletionCondition)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -298,6 +363,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 				return activities != null && !activities.isEmpty();
 			case BPELPackage.FLOW__LINKS:
 				return links != null;
+			case BPELPackage.FLOW__COMPLETION_CONDITION:
+				return completionCondition != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.11 2005/12/09 21:01:01 james Exp $
+ * $Id: BPELSwitch.java,v 1.12 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -22,11 +22,13 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
@@ -718,6 +720,22 @@ public class BPELSwitch {
 				Object result = caseElse(else_);
 				if (result == null) result = caseExtensibleElement(else_);
 				if (result == null) result = caseWSDLElement(else_);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.COMPLETION_CONDITION: {
+				CompletionCondition completionCondition = (CompletionCondition)theEObject;
+				Object result = caseCompletionCondition(completionCondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.BRANCHES: {
+				Branches branches = (Branches)theEObject;
+				Object result = caseBranches(branches);
+				if (result == null) result = caseExpression(branches);
+				if (result == null) result = caseExtensibilityElement(branches);
+				if (result == null) result = caseWSDLElement(branches);
+				if (result == null) result = caseIExtensibilityElement(branches);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1727,6 +1745,36 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseElse(Else object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Completion Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Completion Condition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCompletionCondition(CompletionCondition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Branches</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Branches</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseBranches(Branches object) {
 		return null;
 	}
 

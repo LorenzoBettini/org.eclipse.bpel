@@ -2,13 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.1 2005/12/09 15:47:52 james Exp $
+ * $Id: ForEachImpl.java,v 1.2 2006/01/16 19:47:37 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.Sources;
@@ -39,6 +40,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getCounterName <em>Counter Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getStartCounterValue <em>Start Counter Value</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getFinalCounterValue <em>Final Counter Value</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getCompletionCondition <em>Completion Condition</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,6 +96,16 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @ordered
 	 */
 	protected Expression finalCounterValue = null;
+
+	/**
+	 * The cached value of the '{@link #getCompletionCondition() <em>Completion Condition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompletionCondition()
+	 * @generated
+	 * @ordered
+	 */
+	protected CompletionCondition completionCondition = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -268,6 +280,49 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CompletionCondition getCompletionCondition() {
+		return completionCondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCompletionCondition(CompletionCondition newCompletionCondition, NotificationChain msgs) {
+		CompletionCondition oldCompletionCondition = completionCondition;
+		completionCondition = newCompletionCondition;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__COMPLETION_CONDITION, oldCompletionCondition, newCompletionCondition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCompletionCondition(CompletionCondition newCompletionCondition) {
+		if (newCompletionCondition != completionCondition) {
+			NotificationChain msgs = null;
+			if (completionCondition != null)
+				msgs = ((InternalEObject)completionCondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__COMPLETION_CONDITION, null, msgs);
+			if (newCompletionCondition != null)
+				msgs = ((InternalEObject)newCompletionCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__COMPLETION_CONDITION, null, msgs);
+			msgs = basicSetCompletionCondition(newCompletionCondition, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__COMPLETION_CONDITION, newCompletionCondition, newCompletionCondition));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -283,6 +338,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 					return basicSetStartCounterValue(null, msgs);
 				case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
 					return basicSetFinalCounterValue(null, msgs);
+				case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+					return basicSetCompletionCondition(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -319,6 +376,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				return getStartCounterValue();
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
 				return getFinalCounterValue();
+			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+				return getCompletionCondition();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -364,6 +423,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
 				setFinalCounterValue((Expression)newValue);
 				return;
+			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+				setCompletionCondition((CompletionCondition)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -408,6 +470,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
 				setFinalCounterValue((Expression)null);
 				return;
+			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+				setCompletionCondition((CompletionCondition)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -441,6 +506,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				return startCounterValue != null;
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
 				return finalCounterValue != null;
+			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+				return completionCondition != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

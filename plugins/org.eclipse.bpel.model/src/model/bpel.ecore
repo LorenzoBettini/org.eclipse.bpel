@@ -233,6 +233,8 @@
         upperBound="-1" eType="#//Activity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="links" eType="#//Links"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="completionCondition" eType="#//CompletionCondition"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OnAlarm" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -497,6 +499,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" eType="#//Expression"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="completionCondition" eType="#//CompletionCondition"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RepeatUntil" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
@@ -530,5 +534,16 @@
   <eClassifiers xsi:type="ecore:EClass" name="Else" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="branches" eType="#//Branches"
+        defaultValueLiteral="" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="booleanExpression" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Branches" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="countCompletedBranchesOnly"
+        eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
 </ecore:EPackage>
