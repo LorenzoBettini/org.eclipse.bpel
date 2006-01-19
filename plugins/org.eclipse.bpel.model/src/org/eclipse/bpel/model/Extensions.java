@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Extensions.java,v 1.2 2005/12/05 21:04:32 james Exp $
+ * $Id: Extensions.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +24,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface Extensions extends ExtensibleElement{
+public interface Extensions extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.Extension}.

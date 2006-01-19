@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SwitchImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: SwitchImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Case;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Switch;
@@ -212,6 +213,8 @@ public class SwitchImpl extends ActivityImpl implements Switch {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.SWITCH__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.SWITCH__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.SWITCH__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.SWITCH__SOURCES:
@@ -240,6 +243,8 @@ public class SwitchImpl extends ActivityImpl implements Switch {
 				return getElement();
 			case BPELPackage.SWITCH__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.SWITCH__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.SWITCH__NAME:
 				return getName();
 			case BPELPackage.SWITCH__SUPPRESS_JOIN_FAILURE:
@@ -272,6 +277,9 @@ public class SwitchImpl extends ActivityImpl implements Switch {
 			case BPELPackage.SWITCH__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.SWITCH__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.SWITCH__NAME:
 				setName((String)newValue);
@@ -312,6 +320,9 @@ public class SwitchImpl extends ActivityImpl implements Switch {
 			case BPELPackage.SWITCH__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.SWITCH__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.SWITCH__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -347,6 +358,8 @@ public class SwitchImpl extends ActivityImpl implements Switch {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.SWITCH__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.SWITCH__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.SWITCH__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.SWITCH__SUPPRESS_JOIN_FAILURE:

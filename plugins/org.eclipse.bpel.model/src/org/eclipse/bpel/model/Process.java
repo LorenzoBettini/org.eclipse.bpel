@@ -10,13 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.4 2005/12/09 19:30:43 james Exp $
+ * $Id: Process.java,v 1.5 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -56,7 +54,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface Process extends ExtensibleElement{
+public interface Process extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

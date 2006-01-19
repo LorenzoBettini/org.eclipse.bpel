@@ -10,13 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Link.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Link.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +38,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface Link extends ExtensibleElement{
+public interface Link extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

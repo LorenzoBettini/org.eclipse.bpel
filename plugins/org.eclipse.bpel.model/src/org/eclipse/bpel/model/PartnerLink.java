@@ -10,13 +10,12 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLink.java,v 1.2 2005/12/12 16:16:49 james Exp $
+ * $Id: PartnerLink.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -53,7 +52,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface PartnerLink extends ExtensibleElement{
+public interface PartnerLink extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

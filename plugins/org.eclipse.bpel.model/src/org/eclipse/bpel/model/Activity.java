@@ -10,11 +10,10 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Activity.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: Activity.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +38,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface Activity extends ExtensibleElement{
+public interface Activity extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

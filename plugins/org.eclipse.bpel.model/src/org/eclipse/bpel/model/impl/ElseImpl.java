@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseImpl.java,v 1.2 2005/12/12 15:18:36 james Exp $
+ * $Id: ElseImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -18,7 +19,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -116,6 +116,8 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.ELSE__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.ELSE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.ELSE__ACTIVITY:
 					return basicSetActivity(null, msgs);
 				default:
@@ -138,6 +140,8 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 				return getElement();
 			case BPELPackage.ELSE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.ELSE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.ELSE__ACTIVITY:
 				return getActivity();
 		}
@@ -160,6 +164,9 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 			case BPELPackage.ELSE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.ELSE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.ELSE__ACTIVITY:
 				setActivity((Activity)newValue);
@@ -184,6 +191,9 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 			case BPELPackage.ELSE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.ELSE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.ELSE__ACTIVITY:
 				setActivity((Activity)null);
 				return;
@@ -204,6 +214,8 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.ELSE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.ELSE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.ELSE__ACTIVITY:
 				return activity != null;
 		}

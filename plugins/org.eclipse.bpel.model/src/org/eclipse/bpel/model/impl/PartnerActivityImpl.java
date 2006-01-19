@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerActivityImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,6 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
@@ -341,6 +342,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.PARTNER_ACTIVITY__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.PARTNER_ACTIVITY__SOURCES:
@@ -367,6 +370,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 				return getElement();
 			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.PARTNER_ACTIVITY__NAME:
 				return getName();
 			case BPELPackage.PARTNER_ACTIVITY__SUPPRESS_JOIN_FAILURE:
@@ -406,6 +411,9 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__NAME:
 				setName((String)newValue);
@@ -451,6 +459,9 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.PARTNER_ACTIVITY__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -492,6 +503,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.PARTNER_ACTIVITY__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.PARTNER_ACTIVITY__SUPPRESS_JOIN_FAILURE:

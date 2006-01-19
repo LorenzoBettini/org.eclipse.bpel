@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: WaitImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
@@ -179,6 +180,8 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.WAIT__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.WAIT__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.WAIT__SOURCES:
@@ -207,6 +210,8 @@ public class WaitImpl extends ActivityImpl implements Wait {
 				return getElement();
 			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.WAIT__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.WAIT__NAME:
 				return getName();
 			case BPELPackage.WAIT__SUPPRESS_JOIN_FAILURE:
@@ -239,6 +244,9 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.WAIT__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.WAIT__NAME:
 				setName((String)newValue);
@@ -278,6 +286,9 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.WAIT__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.WAIT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -313,6 +324,8 @@ public class WaitImpl extends ActivityImpl implements Wait {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.WAIT__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.WAIT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.WAIT__SUPPRESS_JOIN_FAILURE:

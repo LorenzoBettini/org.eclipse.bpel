@@ -10,11 +10,10 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Case.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Case.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +36,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface Case extends ExtensibleElement{
+public interface Case extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

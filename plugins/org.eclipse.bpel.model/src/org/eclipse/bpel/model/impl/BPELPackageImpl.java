@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.21 2006/01/16 20:34:34 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.22 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -33,6 +33,7 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
@@ -40,6 +41,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -592,6 +594,20 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass branchesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass extensibleElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass documentationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2921,6 +2937,60 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExtensibleElement() {
+		return extensibleElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExtensibleElement_Documentation() {
+		return (EReference)extensibleElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDocumentation() {
+		return documentationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentation_Lang() {
+		return (EAttribute)documentationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentation_Source() {
+		return (EAttribute)documentationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentation_Value() {
+		return (EAttribute)documentationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getCorrelationPattern() {
 		return correlationPatternEEnum;
 	}
@@ -3035,6 +3105,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(receiveEClass, RECEIVE__CREATE_INSTANCE);
 		createEReference(receiveEClass, RECEIVE__VARIABLE);
 		createEReference(receiveEClass, RECEIVE__FROM_PART);
+
+		exitEClass = createEClass(EXIT);
 
 		throwEClass = createEClass(THROW);
 		createEAttribute(throwEClass, THROW__FAULT_NAME);
@@ -3222,8 +3294,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(serviceRefEClass, SERVICE_REF__REFERENCE_SCHEME);
 		createEAttribute(serviceRefEClass, SERVICE_REF__VALUE);
 
-		exitEClass = createEClass(EXIT);
-
 		extensionsEClass = createEClass(EXTENSIONS);
 		createEReference(extensionsEClass, EXTENSIONS__CHILDREN);
 
@@ -3278,6 +3348,14 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		branchesEClass = createEClass(BRANCHES);
 		createEAttribute(branchesEClass, BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY);
 
+		extensibleElementEClass = createEClass(EXTENSIBLE_ELEMENT);
+		createEReference(extensibleElementEClass, EXTENSIBLE_ELEMENT__DOCUMENTATION);
+
+		documentationEClass = createEClass(DOCUMENTATION);
+		createEAttribute(documentationEClass, DOCUMENTATION__LANG);
+		createEAttribute(documentationEClass, DOCUMENTATION__SOURCE);
+		createEAttribute(documentationEClass, DOCUMENTATION__VALUE);
+
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
 		endpointReferenceRoleEEnum = createEEnum(ENDPOINT_REFERENCE_ROLE);
@@ -3307,76 +3385,77 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
 		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI);
 		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI);
+		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
 		XSDPackageImpl theXSDPackage = (XSDPackageImpl)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
 
 		// Add supertypes to classes
-		processEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		partnerLinkEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		faultHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		activityEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		correlationSetEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		processEClass.getESuperTypes().add(this.getExtensibleElement());
+		partnerLinkEClass.getESuperTypes().add(this.getExtensibleElement());
+		faultHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
+		activityEClass.getESuperTypes().add(this.getExtensibleElement());
+		correlationSetEClass.getESuperTypes().add(this.getExtensibleElement());
 		invokeEClass.getESuperTypes().add(this.getPartnerActivity());
-		linkEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		catchEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		linkEClass.getESuperTypes().add(this.getExtensibleElement());
+		catchEClass.getESuperTypes().add(this.getExtensibleElement());
 		replyEClass.getESuperTypes().add(this.getPartnerActivity());
 		replyEClass.getESuperTypes().add(this.getActivity());
 		partnerActivityEClass.getESuperTypes().add(this.getActivity());
 		receiveEClass.getESuperTypes().add(this.getPartnerActivity());
+		exitEClass.getESuperTypes().add(this.getActivity());
 		throwEClass.getESuperTypes().add(this.getActivity());
 		waitEClass.getESuperTypes().add(this.getActivity());
 		emptyEClass.getESuperTypes().add(this.getActivity());
 		sequenceEClass.getESuperTypes().add(this.getActivity());
 		switchEClass.getESuperTypes().add(this.getActivity());
-		caseEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		caseEClass.getESuperTypes().add(this.getExtensibleElement());
 		whileEClass.getESuperTypes().add(this.getActivity());
 		pickEClass.getESuperTypes().add(this.getActivity());
 		flowEClass.getESuperTypes().add(this.getActivity());
-		onAlarmEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		onAlarmEClass.getESuperTypes().add(this.getExtensibleElement());
 		assignEClass.getESuperTypes().add(this.getActivity());
-		copyEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		extensionEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		copyEClass.getESuperTypes().add(this.getExtensibleElement());
+		extensionEClass.getESuperTypes().add(this.getExtensibleElement());
 		scopeEClass.getESuperTypes().add(this.getActivity());
 		compensateEClass.getESuperTypes().add(this.getActivity());
-		compensationHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		toEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		compensationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
+		toEClass.getESuperTypes().add(this.getExtensibleElement());
 		fromEClass.getESuperTypes().add(this.getTo());
-		fromEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		onMessageEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		fromEClass.getESuperTypes().add(this.getExtensibleElement());
+		onMessageEClass.getESuperTypes().add(this.getExtensibleElement());
 		expressionEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
 		booleanExpressionEClass.getESuperTypes().add(this.getExpression());
-		correlationEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		eventHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		sourceEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		targetEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		partnerLinksEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		variablesEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		correlationSetsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		linksEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		catchAllEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		correlationsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		variableEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		otherwiseEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		correlationEClass.getESuperTypes().add(this.getExtensibleElement());
+		eventHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
+		sourceEClass.getESuperTypes().add(this.getExtensibleElement());
+		targetEClass.getESuperTypes().add(this.getExtensibleElement());
+		partnerLinksEClass.getESuperTypes().add(this.getExtensibleElement());
+		variablesEClass.getESuperTypes().add(this.getExtensibleElement());
+		correlationSetsEClass.getESuperTypes().add(this.getExtensibleElement());
+		linksEClass.getESuperTypes().add(this.getExtensibleElement());
+		catchAllEClass.getESuperTypes().add(this.getExtensibleElement());
+		correlationsEClass.getESuperTypes().add(this.getExtensibleElement());
+		variableEClass.getESuperTypes().add(this.getExtensibleElement());
+		otherwiseEClass.getESuperTypes().add(this.getExtensibleElement());
 		unknownExtensibilityAttributeEClass.getESuperTypes().add(theWSDLPackage.getUnknownExtensibilityElement());
-		onEventEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		onEventEClass.getESuperTypes().add(this.getExtensibleElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
 		conditionEClass.getESuperTypes().add(this.getExpression());
-		exitEClass.getESuperTypes().add(this.getActivity());
-		extensionsEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		extensionsEClass.getESuperTypes().add(this.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
 		forEachEClass.getESuperTypes().add(this.getActivity());
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
-		terminationHandlerEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		terminationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
 		validateXMLEClass.getESuperTypes().add(this.getActivity());
 		ifEClass.getESuperTypes().add(this.getActivity());
-		thenEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		elseIfEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		elseEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		thenEClass.getESuperTypes().add(this.getExtensibleElement());
+		elseIfEClass.getESuperTypes().add(this.getExtensibleElement());
+		elseEClass.getESuperTypes().add(this.getExtensibleElement());
 		branchesEClass.getESuperTypes().add(this.getExpression());
+		extensibleElementEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3452,6 +3531,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEAttribute(getReceive_CreateInstance(), ecorePackage.getEBooleanObject(), "createInstance", "false", 0, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReceive_Variable(), this.getVariable(), null, "variable", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReceive_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(exitEClass, Exit.class, "Exit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(throwEClass, Throw.class, "Throw", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getThrow_FaultName(), theWSDLPackage.getQName(), "faultName", null, 0, 1, Throw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3639,8 +3720,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEAttribute(getServiceRef_ReferenceScheme(), ecorePackage.getEString(), "referenceScheme", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceRef_Value(), theEcorePackage.getEJavaObject(), "value", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(exitEClass, Exit.class, "Exit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(extensionsEClass, Extensions.class, "Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExtensions_Children(), this.getExtension(), null, "children", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -3694,6 +3773,14 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(branchesEClass, Branches.class, "Branches", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBranches_CountCompletedBranchesOnly(), theEcorePackage.getEBooleanObject(), "countCompletedBranchesOnly", "false", 0, 1, Branches.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(extensibleElementEClass, ExtensibleElement.class, "ExtensibleElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExtensibleElement_Documentation(), this.getDocumentation(), null, "documentation", null, 0, 1, ExtensibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(documentationEClass, Documentation.class, "Documentation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDocumentation_Lang(), theEcorePackage.getEString(), "lang", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDocumentation_Source(), theEcorePackage.getEString(), "source", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDocumentation_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

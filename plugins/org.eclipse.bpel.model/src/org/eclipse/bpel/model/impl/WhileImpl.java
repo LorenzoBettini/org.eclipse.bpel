@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WhileImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: WhileImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.While;
@@ -180,6 +181,8 @@ public class WhileImpl extends ActivityImpl implements While {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.WHILE__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.WHILE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.WHILE__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.WHILE__SOURCES:
@@ -208,6 +211,8 @@ public class WhileImpl extends ActivityImpl implements While {
 				return getElement();
 			case BPELPackage.WHILE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.WHILE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.WHILE__NAME:
 				return getName();
 			case BPELPackage.WHILE__SUPPRESS_JOIN_FAILURE:
@@ -240,6 +245,9 @@ public class WhileImpl extends ActivityImpl implements While {
 			case BPELPackage.WHILE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.WHILE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.WHILE__NAME:
 				setName((String)newValue);
@@ -279,6 +287,9 @@ public class WhileImpl extends ActivityImpl implements While {
 			case BPELPackage.WHILE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.WHILE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.WHILE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -314,6 +325,8 @@ public class WhileImpl extends ActivityImpl implements While {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.WHILE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.WHILE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.WHILE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.WHILE__SUPPRESS_JOIN_FAILURE:

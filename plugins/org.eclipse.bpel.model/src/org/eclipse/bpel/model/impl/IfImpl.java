@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IfImpl.java,v 1.1 2005/12/09 21:01:02 james Exp $
+ * $Id: IfImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -10,27 +10,22 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Then;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.w3c.dom.Element;
 
 /**
@@ -259,6 +254,8 @@ public class IfImpl extends ActivityImpl implements If {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.IF__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.IF__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.IF__SOURCES:
@@ -291,6 +288,8 @@ public class IfImpl extends ActivityImpl implements If {
 				return getElement();
 			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.IF__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.IF__NAME:
 				return getName();
 			case BPELPackage.IF__SUPPRESS_JOIN_FAILURE:
@@ -327,6 +326,9 @@ public class IfImpl extends ActivityImpl implements If {
 			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.IF__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.IF__NAME:
 				setName((String)newValue);
@@ -373,6 +375,9 @@ public class IfImpl extends ActivityImpl implements If {
 			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.IF__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.IF__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -414,6 +419,8 @@ public class IfImpl extends ActivityImpl implements If {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.IF__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.IF__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.IF__SUPPRESS_JOIN_FAILURE:

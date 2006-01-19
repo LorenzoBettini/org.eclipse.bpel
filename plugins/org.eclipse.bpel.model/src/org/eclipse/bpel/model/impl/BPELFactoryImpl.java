@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.12 2006/01/16 19:47:37 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.13 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -33,6 +33,7 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
@@ -40,6 +41,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -126,6 +128,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.REPLY: return createReply();
 			case BPELPackage.PARTNER_ACTIVITY: return createPartnerActivity();
 			case BPELPackage.RECEIVE: return createReceive();
+			case BPELPackage.EXIT: return createExit();
 			case BPELPackage.THROW: return createThrow();
 			case BPELPackage.WAIT: return createWait();
 			case BPELPackage.EMPTY: return createEmpty();
@@ -168,7 +171,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.SOURCES: return createSources();
 			case BPELPackage.QUERY: return createQuery();
 			case BPELPackage.SERVICE_REF: return createServiceRef();
-			case BPELPackage.EXIT: return createExit();
 			case BPELPackage.EXTENSIONS: return createExtensions();
 			case BPELPackage.EXTENSION_ACTIVITY: return createExtensionActivity();
 			case BPELPackage.FROM_PART: return createFromPart();
@@ -184,6 +186,8 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.ELSE: return createElse();
 			case BPELPackage.COMPLETION_CONDITION: return createCompletionCondition();
 			case BPELPackage.BRANCHES: return createBranches();
+			case BPELPackage.EXTENSIBLE_ELEMENT: return createExtensibleElement();
+			case BPELPackage.DOCUMENTATION: return createDocumentation();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -909,6 +913,26 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Branches createBranches() {
 		BranchesImpl branches = new BranchesImpl();
 		return branches;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExtensibleElement createExtensibleElement() {
+		ExtensibleElementImpl extensibleElement = new ExtensibleElementImpl();
+		return extensibleElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Documentation createDocumentation() {
+		DocumentationImpl documentation = new DocumentationImpl();
+		return documentation;
 	}
 
 	/**

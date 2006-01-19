@@ -2,20 +2,17 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.1 2005/12/06 02:05:30 james Exp $
+ * $Id: ToPartImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.ToPart;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 

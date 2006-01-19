@@ -10,11 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: From.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: From.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
-
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 import org.eclipse.xsd.XSDTypeDefinition;
 
@@ -40,7 +38,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
  * @model
  * @generated
  */
-public interface From extends To, ExtensibleElement{
+public interface From extends To, ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Opaque</b></em>' attribute.
 	 * <!-- begin-user-doc -->

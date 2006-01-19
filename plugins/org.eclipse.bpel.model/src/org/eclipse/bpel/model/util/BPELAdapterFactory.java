@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.12 2006/01/16 19:47:37 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.13 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -33,12 +33,14 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -89,7 +91,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLElement;
 
@@ -180,6 +181,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseReceive(Receive object) {
 				return createReceiveAdapter();
+			}
+			public Object caseExit(Exit object) {
+				return createExitAdapter();
 			}
 			public Object caseThrow(Throw object) {
 				return createThrowAdapter();
@@ -307,9 +311,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			public Object caseServiceRef(ServiceRef object) {
 				return createServiceRefAdapter();
 			}
-			public Object caseExit(Exit object) {
-				return createExitAdapter();
-			}
 			public Object caseExtensions(Extensions object) {
 				return createExtensionsAdapter();
 			}
@@ -355,11 +356,17 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			public Object caseBranches(Branches object) {
 				return createBranchesAdapter();
 			}
+			public Object caseExtensibleElement(ExtensibleElement object) {
+				return createExtensibleElementAdapter();
+			}
+			public Object caseDocumentation(Documentation object) {
+				return createDocumentationAdapter();
+			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
 			}
-			public Object caseExtensibleElement(ExtensibleElement object) {
-				return createExtensibleElementAdapter();
+			public Object caseWSDL_ExtensibleElement(org.eclipse.wst.wsdl.ExtensibleElement object) {
+				return createWSDL_ExtensibleElementAdapter();
 			}
 			public Object caseIExtensibilityElement(ExtensibilityElement object) {
 				return createIExtensibilityElementAdapter();
@@ -1369,16 +1376,30 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.wst.wsdl.ExtensibleElement <em>Extensible Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ExtensibleElement <em>Extensible Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.wst.wsdl.ExtensibleElement
+	 * @see org.eclipse.bpel.model.ExtensibleElement
 	 * @generated
 	 */
 	public Adapter createExtensibleElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Documentation <em>Documentation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Documentation
+	 * @generated
+	 */
+	public Adapter createDocumentationAdapter() {
 		return null;
 	}
 
@@ -1421,6 +1442,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUnknownExtensibilityElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.wst.wsdl.ExtensibleElement <em>Extensible Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.wst.wsdl.ExtensibleElement
+	 * @generated
+	 */
+	public Adapter createWSDL_ExtensibleElementAdapter() {
 		return null;
 	}
 

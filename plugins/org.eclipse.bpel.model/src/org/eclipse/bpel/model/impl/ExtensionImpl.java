@@ -10,19 +10,19 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExtensionImpl.java,v 1.2 2005/12/05 20:06:58 james Exp $
+ * $Id: ExtensionImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -187,6 +187,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 				return getElement();
 			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.EXTENSION__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.EXTENSION__NAMESPACE:
 				return getNamespace();
 			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
@@ -211,6 +213,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.EXTENSION__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.EXTENSION__NAMESPACE:
 				setNamespace((String)newValue);
@@ -238,6 +243,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.EXTENSION__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.EXTENSION__NAMESPACE:
 				setNamespace(NAMESPACE_EDEFAULT);
 				return;
@@ -261,6 +269,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.EXTENSION__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.EXTENSION__NAMESPACE:
 				return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
 			case BPELPackage.EXTENSION__MUST_UNDERSTAND:

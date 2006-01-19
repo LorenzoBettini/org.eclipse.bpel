@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: ActivityImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.emf.common.notify.Notification;
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -297,6 +297,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.ACTIVITY__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.ACTIVITY__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.ACTIVITY__SOURCES:
@@ -321,6 +323,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 				return getElement();
 			case BPELPackage.ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.ACTIVITY__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.ACTIVITY__NAME:
 				return getName();
 			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
@@ -349,6 +353,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 			case BPELPackage.ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.ACTIVITY__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.ACTIVITY__NAME:
 				setName((String)newValue);
@@ -382,6 +389,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 			case BPELPackage.ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.ACTIVITY__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.ACTIVITY__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -411,6 +421,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.ACTIVITY__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.ACTIVITY__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.ACTIVITY__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:

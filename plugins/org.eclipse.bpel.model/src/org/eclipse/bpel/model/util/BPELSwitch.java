@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.12 2006/01/16 19:47:37 james Exp $
+ * $Id: BPELSwitch.java,v 1.13 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -35,12 +35,14 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -89,7 +91,6 @@ import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLElement;
 
@@ -171,6 +172,7 @@ public class BPELSwitch {
 				org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process)theEObject;
 				Object result = caseProcess(process);
 				if (result == null) result = caseExtensibleElement(process);
+				if (result == null) result = caseWSDL_ExtensibleElement(process);
 				if (result == null) result = caseWSDLElement(process);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -179,6 +181,7 @@ public class BPELSwitch {
 				PartnerLink partnerLink = (PartnerLink)theEObject;
 				Object result = casePartnerLink(partnerLink);
 				if (result == null) result = caseExtensibleElement(partnerLink);
+				if (result == null) result = caseWSDL_ExtensibleElement(partnerLink);
 				if (result == null) result = caseWSDLElement(partnerLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -187,6 +190,7 @@ public class BPELSwitch {
 				FaultHandler faultHandler = (FaultHandler)theEObject;
 				Object result = caseFaultHandler(faultHandler);
 				if (result == null) result = caseExtensibleElement(faultHandler);
+				if (result == null) result = caseWSDL_ExtensibleElement(faultHandler);
 				if (result == null) result = caseWSDLElement(faultHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -195,6 +199,7 @@ public class BPELSwitch {
 				Activity activity = (Activity)theEObject;
 				Object result = caseActivity(activity);
 				if (result == null) result = caseExtensibleElement(activity);
+				if (result == null) result = caseWSDL_ExtensibleElement(activity);
 				if (result == null) result = caseWSDLElement(activity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -203,6 +208,7 @@ public class BPELSwitch {
 				CorrelationSet correlationSet = (CorrelationSet)theEObject;
 				Object result = caseCorrelationSet(correlationSet);
 				if (result == null) result = caseExtensibleElement(correlationSet);
+				if (result == null) result = caseWSDL_ExtensibleElement(correlationSet);
 				if (result == null) result = caseWSDLElement(correlationSet);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -213,6 +219,7 @@ public class BPELSwitch {
 				if (result == null) result = casePartnerActivity(invoke);
 				if (result == null) result = caseActivity(invoke);
 				if (result == null) result = caseExtensibleElement(invoke);
+				if (result == null) result = caseWSDL_ExtensibleElement(invoke);
 				if (result == null) result = caseWSDLElement(invoke);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -221,6 +228,7 @@ public class BPELSwitch {
 				Link link = (Link)theEObject;
 				Object result = caseLink(link);
 				if (result == null) result = caseExtensibleElement(link);
+				if (result == null) result = caseWSDL_ExtensibleElement(link);
 				if (result == null) result = caseWSDLElement(link);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -229,6 +237,7 @@ public class BPELSwitch {
 				Catch catch_ = (Catch)theEObject;
 				Object result = caseCatch(catch_);
 				if (result == null) result = caseExtensibleElement(catch_);
+				if (result == null) result = caseWSDL_ExtensibleElement(catch_);
 				if (result == null) result = caseWSDLElement(catch_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -239,6 +248,7 @@ public class BPELSwitch {
 				if (result == null) result = casePartnerActivity(reply);
 				if (result == null) result = caseActivity(reply);
 				if (result == null) result = caseExtensibleElement(reply);
+				if (result == null) result = caseWSDL_ExtensibleElement(reply);
 				if (result == null) result = caseWSDLElement(reply);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -248,6 +258,7 @@ public class BPELSwitch {
 				Object result = casePartnerActivity(partnerActivity);
 				if (result == null) result = caseActivity(partnerActivity);
 				if (result == null) result = caseExtensibleElement(partnerActivity);
+				if (result == null) result = caseWSDL_ExtensibleElement(partnerActivity);
 				if (result == null) result = caseWSDLElement(partnerActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -258,7 +269,18 @@ public class BPELSwitch {
 				if (result == null) result = casePartnerActivity(receive);
 				if (result == null) result = caseActivity(receive);
 				if (result == null) result = caseExtensibleElement(receive);
+				if (result == null) result = caseWSDL_ExtensibleElement(receive);
 				if (result == null) result = caseWSDLElement(receive);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.EXIT: {
+				Exit exit = (Exit)theEObject;
+				Object result = caseExit(exit);
+				if (result == null) result = caseActivity(exit);
+				if (result == null) result = caseExtensibleElement(exit);
+				if (result == null) result = caseWSDL_ExtensibleElement(exit);
+				if (result == null) result = caseWSDLElement(exit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -267,6 +289,7 @@ public class BPELSwitch {
 				Object result = caseThrow(throw_);
 				if (result == null) result = caseActivity(throw_);
 				if (result == null) result = caseExtensibleElement(throw_);
+				if (result == null) result = caseWSDL_ExtensibleElement(throw_);
 				if (result == null) result = caseWSDLElement(throw_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -276,6 +299,7 @@ public class BPELSwitch {
 				Object result = caseWait(wait);
 				if (result == null) result = caseActivity(wait);
 				if (result == null) result = caseExtensibleElement(wait);
+				if (result == null) result = caseWSDL_ExtensibleElement(wait);
 				if (result == null) result = caseWSDLElement(wait);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -285,6 +309,7 @@ public class BPELSwitch {
 				Object result = caseEmpty(empty);
 				if (result == null) result = caseActivity(empty);
 				if (result == null) result = caseExtensibleElement(empty);
+				if (result == null) result = caseWSDL_ExtensibleElement(empty);
 				if (result == null) result = caseWSDLElement(empty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -294,6 +319,7 @@ public class BPELSwitch {
 				Object result = caseSequence(sequence);
 				if (result == null) result = caseActivity(sequence);
 				if (result == null) result = caseExtensibleElement(sequence);
+				if (result == null) result = caseWSDL_ExtensibleElement(sequence);
 				if (result == null) result = caseWSDLElement(sequence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -303,6 +329,7 @@ public class BPELSwitch {
 				Object result = caseSwitch(switch_);
 				if (result == null) result = caseActivity(switch_);
 				if (result == null) result = caseExtensibleElement(switch_);
+				if (result == null) result = caseWSDL_ExtensibleElement(switch_);
 				if (result == null) result = caseWSDLElement(switch_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -311,6 +338,7 @@ public class BPELSwitch {
 				Case case_ = (Case)theEObject;
 				Object result = caseCase(case_);
 				if (result == null) result = caseExtensibleElement(case_);
+				if (result == null) result = caseWSDL_ExtensibleElement(case_);
 				if (result == null) result = caseWSDLElement(case_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -320,6 +348,7 @@ public class BPELSwitch {
 				Object result = caseWhile(while_);
 				if (result == null) result = caseActivity(while_);
 				if (result == null) result = caseExtensibleElement(while_);
+				if (result == null) result = caseWSDL_ExtensibleElement(while_);
 				if (result == null) result = caseWSDLElement(while_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -329,6 +358,7 @@ public class BPELSwitch {
 				Object result = casePick(pick);
 				if (result == null) result = caseActivity(pick);
 				if (result == null) result = caseExtensibleElement(pick);
+				if (result == null) result = caseWSDL_ExtensibleElement(pick);
 				if (result == null) result = caseWSDLElement(pick);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -338,6 +368,7 @@ public class BPELSwitch {
 				Object result = caseFlow(flow);
 				if (result == null) result = caseActivity(flow);
 				if (result == null) result = caseExtensibleElement(flow);
+				if (result == null) result = caseWSDL_ExtensibleElement(flow);
 				if (result == null) result = caseWSDLElement(flow);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -346,6 +377,7 @@ public class BPELSwitch {
 				OnAlarm onAlarm = (OnAlarm)theEObject;
 				Object result = caseOnAlarm(onAlarm);
 				if (result == null) result = caseExtensibleElement(onAlarm);
+				if (result == null) result = caseWSDL_ExtensibleElement(onAlarm);
 				if (result == null) result = caseWSDLElement(onAlarm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -355,6 +387,7 @@ public class BPELSwitch {
 				Object result = caseAssign(assign);
 				if (result == null) result = caseActivity(assign);
 				if (result == null) result = caseExtensibleElement(assign);
+				if (result == null) result = caseWSDL_ExtensibleElement(assign);
 				if (result == null) result = caseWSDLElement(assign);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -363,6 +396,7 @@ public class BPELSwitch {
 				Copy copy = (Copy)theEObject;
 				Object result = caseCopy(copy);
 				if (result == null) result = caseExtensibleElement(copy);
+				if (result == null) result = caseWSDL_ExtensibleElement(copy);
 				if (result == null) result = caseWSDLElement(copy);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -371,6 +405,7 @@ public class BPELSwitch {
 				Extension extension = (Extension)theEObject;
 				Object result = caseExtension(extension);
 				if (result == null) result = caseExtensibleElement(extension);
+				if (result == null) result = caseWSDL_ExtensibleElement(extension);
 				if (result == null) result = caseWSDLElement(extension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -380,6 +415,7 @@ public class BPELSwitch {
 				Object result = caseScope(scope);
 				if (result == null) result = caseActivity(scope);
 				if (result == null) result = caseExtensibleElement(scope);
+				if (result == null) result = caseWSDL_ExtensibleElement(scope);
 				if (result == null) result = caseWSDLElement(scope);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -389,6 +425,7 @@ public class BPELSwitch {
 				Object result = caseCompensate(compensate);
 				if (result == null) result = caseActivity(compensate);
 				if (result == null) result = caseExtensibleElement(compensate);
+				if (result == null) result = caseWSDL_ExtensibleElement(compensate);
 				if (result == null) result = caseWSDLElement(compensate);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -397,6 +434,7 @@ public class BPELSwitch {
 				CompensationHandler compensationHandler = (CompensationHandler)theEObject;
 				Object result = caseCompensationHandler(compensationHandler);
 				if (result == null) result = caseExtensibleElement(compensationHandler);
+				if (result == null) result = caseWSDL_ExtensibleElement(compensationHandler);
 				if (result == null) result = caseWSDLElement(compensationHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -405,6 +443,7 @@ public class BPELSwitch {
 				To to = (To)theEObject;
 				Object result = caseTo(to);
 				if (result == null) result = caseExtensibleElement(to);
+				if (result == null) result = caseWSDL_ExtensibleElement(to);
 				if (result == null) result = caseWSDLElement(to);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -414,6 +453,7 @@ public class BPELSwitch {
 				Object result = caseFrom(from);
 				if (result == null) result = caseTo(from);
 				if (result == null) result = caseExtensibleElement(from);
+				if (result == null) result = caseWSDL_ExtensibleElement(from);
 				if (result == null) result = caseWSDLElement(from);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -422,6 +462,7 @@ public class BPELSwitch {
 				OnMessage onMessage = (OnMessage)theEObject;
 				Object result = caseOnMessage(onMessage);
 				if (result == null) result = caseExtensibleElement(onMessage);
+				if (result == null) result = caseWSDL_ExtensibleElement(onMessage);
 				if (result == null) result = caseWSDLElement(onMessage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -449,6 +490,7 @@ public class BPELSwitch {
 				Correlation correlation = (Correlation)theEObject;
 				Object result = caseCorrelation(correlation);
 				if (result == null) result = caseExtensibleElement(correlation);
+				if (result == null) result = caseWSDL_ExtensibleElement(correlation);
 				if (result == null) result = caseWSDLElement(correlation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -457,6 +499,7 @@ public class BPELSwitch {
 				EventHandler eventHandler = (EventHandler)theEObject;
 				Object result = caseEventHandler(eventHandler);
 				if (result == null) result = caseExtensibleElement(eventHandler);
+				if (result == null) result = caseWSDL_ExtensibleElement(eventHandler);
 				if (result == null) result = caseWSDLElement(eventHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -465,6 +508,7 @@ public class BPELSwitch {
 				Source source = (Source)theEObject;
 				Object result = caseSource(source);
 				if (result == null) result = caseExtensibleElement(source);
+				if (result == null) result = caseWSDL_ExtensibleElement(source);
 				if (result == null) result = caseWSDLElement(source);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -473,6 +517,7 @@ public class BPELSwitch {
 				Target target = (Target)theEObject;
 				Object result = caseTarget(target);
 				if (result == null) result = caseExtensibleElement(target);
+				if (result == null) result = caseWSDL_ExtensibleElement(target);
 				if (result == null) result = caseWSDLElement(target);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -481,6 +526,7 @@ public class BPELSwitch {
 				PartnerLinks partnerLinks = (PartnerLinks)theEObject;
 				Object result = casePartnerLinks(partnerLinks);
 				if (result == null) result = caseExtensibleElement(partnerLinks);
+				if (result == null) result = caseWSDL_ExtensibleElement(partnerLinks);
 				if (result == null) result = caseWSDLElement(partnerLinks);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -489,6 +535,7 @@ public class BPELSwitch {
 				Variables variables = (Variables)theEObject;
 				Object result = caseVariables(variables);
 				if (result == null) result = caseExtensibleElement(variables);
+				if (result == null) result = caseWSDL_ExtensibleElement(variables);
 				if (result == null) result = caseWSDLElement(variables);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -497,6 +544,7 @@ public class BPELSwitch {
 				CorrelationSets correlationSets = (CorrelationSets)theEObject;
 				Object result = caseCorrelationSets(correlationSets);
 				if (result == null) result = caseExtensibleElement(correlationSets);
+				if (result == null) result = caseWSDL_ExtensibleElement(correlationSets);
 				if (result == null) result = caseWSDLElement(correlationSets);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -505,6 +553,7 @@ public class BPELSwitch {
 				Links links = (Links)theEObject;
 				Object result = caseLinks(links);
 				if (result == null) result = caseExtensibleElement(links);
+				if (result == null) result = caseWSDL_ExtensibleElement(links);
 				if (result == null) result = caseWSDLElement(links);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -513,6 +562,7 @@ public class BPELSwitch {
 				CatchAll catchAll = (CatchAll)theEObject;
 				Object result = caseCatchAll(catchAll);
 				if (result == null) result = caseExtensibleElement(catchAll);
+				if (result == null) result = caseWSDL_ExtensibleElement(catchAll);
 				if (result == null) result = caseWSDLElement(catchAll);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -521,6 +571,7 @@ public class BPELSwitch {
 				Correlations correlations = (Correlations)theEObject;
 				Object result = caseCorrelations(correlations);
 				if (result == null) result = caseExtensibleElement(correlations);
+				if (result == null) result = caseWSDL_ExtensibleElement(correlations);
 				if (result == null) result = caseWSDLElement(correlations);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -529,6 +580,7 @@ public class BPELSwitch {
 				Variable variable = (Variable)theEObject;
 				Object result = caseVariable(variable);
 				if (result == null) result = caseExtensibleElement(variable);
+				if (result == null) result = caseWSDL_ExtensibleElement(variable);
 				if (result == null) result = caseWSDLElement(variable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -537,6 +589,7 @@ public class BPELSwitch {
 				Otherwise otherwise = (Otherwise)theEObject;
 				Object result = caseOtherwise(otherwise);
 				if (result == null) result = caseExtensibleElement(otherwise);
+				if (result == null) result = caseWSDL_ExtensibleElement(otherwise);
 				if (result == null) result = caseWSDLElement(otherwise);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -555,6 +608,7 @@ public class BPELSwitch {
 				OnEvent onEvent = (OnEvent)theEObject;
 				Object result = caseOnEvent(onEvent);
 				if (result == null) result = caseExtensibleElement(onEvent);
+				if (result == null) result = caseWSDL_ExtensibleElement(onEvent);
 				if (result == null) result = caseWSDLElement(onEvent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -570,6 +624,7 @@ public class BPELSwitch {
 				Object result = caseRethrow(rethrow);
 				if (result == null) result = caseActivity(rethrow);
 				if (result == null) result = caseExtensibleElement(rethrow);
+				if (result == null) result = caseWSDL_ExtensibleElement(rethrow);
 				if (result == null) result = caseWSDLElement(rethrow);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -608,19 +663,11 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.EXIT: {
-				Exit exit = (Exit)theEObject;
-				Object result = caseExit(exit);
-				if (result == null) result = caseActivity(exit);
-				if (result == null) result = caseExtensibleElement(exit);
-				if (result == null) result = caseWSDLElement(exit);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BPELPackage.EXTENSIONS: {
 				Extensions extensions = (Extensions)theEObject;
 				Object result = caseExtensions(extensions);
 				if (result == null) result = caseExtensibleElement(extensions);
+				if (result == null) result = caseWSDL_ExtensibleElement(extensions);
 				if (result == null) result = caseWSDLElement(extensions);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -630,6 +677,7 @@ public class BPELSwitch {
 				Object result = caseExtensionActivity(extensionActivity);
 				if (result == null) result = caseActivity(extensionActivity);
 				if (result == null) result = caseExtensibleElement(extensionActivity);
+				if (result == null) result = caseWSDL_ExtensibleElement(extensionActivity);
 				if (result == null) result = caseWSDLElement(extensionActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -651,6 +699,7 @@ public class BPELSwitch {
 				Object result = caseOpaqueActivity(opaqueActivity);
 				if (result == null) result = caseActivity(opaqueActivity);
 				if (result == null) result = caseExtensibleElement(opaqueActivity);
+				if (result == null) result = caseWSDL_ExtensibleElement(opaqueActivity);
 				if (result == null) result = caseWSDLElement(opaqueActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -660,6 +709,7 @@ public class BPELSwitch {
 				Object result = caseForEach(forEach);
 				if (result == null) result = caseActivity(forEach);
 				if (result == null) result = caseExtensibleElement(forEach);
+				if (result == null) result = caseWSDL_ExtensibleElement(forEach);
 				if (result == null) result = caseWSDLElement(forEach);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -669,6 +719,7 @@ public class BPELSwitch {
 				Object result = caseRepeatUntil(repeatUntil);
 				if (result == null) result = caseActivity(repeatUntil);
 				if (result == null) result = caseExtensibleElement(repeatUntil);
+				if (result == null) result = caseWSDL_ExtensibleElement(repeatUntil);
 				if (result == null) result = caseWSDLElement(repeatUntil);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -677,6 +728,7 @@ public class BPELSwitch {
 				TerminationHandler terminationHandler = (TerminationHandler)theEObject;
 				Object result = caseTerminationHandler(terminationHandler);
 				if (result == null) result = caseExtensibleElement(terminationHandler);
+				if (result == null) result = caseWSDL_ExtensibleElement(terminationHandler);
 				if (result == null) result = caseWSDLElement(terminationHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -686,6 +738,7 @@ public class BPELSwitch {
 				Object result = caseValidateXML(validateXML);
 				if (result == null) result = caseActivity(validateXML);
 				if (result == null) result = caseExtensibleElement(validateXML);
+				if (result == null) result = caseWSDL_ExtensibleElement(validateXML);
 				if (result == null) result = caseWSDLElement(validateXML);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -695,6 +748,7 @@ public class BPELSwitch {
 				Object result = caseIf(if_);
 				if (result == null) result = caseActivity(if_);
 				if (result == null) result = caseExtensibleElement(if_);
+				if (result == null) result = caseWSDL_ExtensibleElement(if_);
 				if (result == null) result = caseWSDLElement(if_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -703,6 +757,7 @@ public class BPELSwitch {
 				Then then = (Then)theEObject;
 				Object result = caseThen(then);
 				if (result == null) result = caseExtensibleElement(then);
+				if (result == null) result = caseWSDL_ExtensibleElement(then);
 				if (result == null) result = caseWSDLElement(then);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -711,6 +766,7 @@ public class BPELSwitch {
 				ElseIf elseIf = (ElseIf)theEObject;
 				Object result = caseElseIf(elseIf);
 				if (result == null) result = caseExtensibleElement(elseIf);
+				if (result == null) result = caseWSDL_ExtensibleElement(elseIf);
 				if (result == null) result = caseWSDLElement(elseIf);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -719,6 +775,7 @@ public class BPELSwitch {
 				Else else_ = (Else)theEObject;
 				Object result = caseElse(else_);
 				if (result == null) result = caseExtensibleElement(else_);
+				if (result == null) result = caseWSDL_ExtensibleElement(else_);
 				if (result == null) result = caseWSDLElement(else_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -736,6 +793,20 @@ public class BPELSwitch {
 				if (result == null) result = caseExtensibilityElement(branches);
 				if (result == null) result = caseWSDLElement(branches);
 				if (result == null) result = caseIExtensibilityElement(branches);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.EXTENSIBLE_ELEMENT: {
+				ExtensibleElement extensibleElement = (ExtensibleElement)theEObject;
+				Object result = caseExtensibleElement(extensibleElement);
+				if (result == null) result = caseWSDL_ExtensibleElement(extensibleElement);
+				if (result == null) result = caseWSDLElement(extensibleElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.DOCUMENTATION: {
+				Documentation documentation = (Documentation)theEObject;
+				Object result = caseDocumentation(documentation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1809,6 +1880,21 @@ public class BPELSwitch {
 	}
 
 	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Documentation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Documentation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDocumentation(Documentation object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpretting the object as an instance of '<em>IExtensibility Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1850,6 +1936,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseUnknownExtensibilityElement(UnknownExtensibilityElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Extensible Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Extensible Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseWSDL_ExtensibleElement(org.eclipse.wst.wsdl.ExtensibleElement object) {
 		return null;
 	}
 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: TargetImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,24 +19,18 @@ import java.util.Collection;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -219,6 +213,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.TARGET__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.TARGET__LINK:
 					return basicSetLink(null, msgs);
 				default:
@@ -241,6 +237,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 				return getElement();
 			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.TARGET__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.TARGET__LINK:
 				if (resolve) return getLink();
 				return basicGetLink();
@@ -268,6 +266,9 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
 				return;
+			case BPELPackage.TARGET__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
+				return;
 			case BPELPackage.TARGET__LINK:
 				setLink((Link)newValue);
 				return;
@@ -294,6 +295,9 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.TARGET__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.TARGET__LINK:
 				setLink((Link)null);
 				return;
@@ -317,6 +321,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.TARGET__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.TARGET__LINK:
 				return link != null;
 			case BPELPackage.TARGET__ACTIVITY:

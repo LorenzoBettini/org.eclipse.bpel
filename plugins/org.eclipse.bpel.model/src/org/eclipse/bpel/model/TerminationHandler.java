@@ -2,11 +2,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TerminationHandler.java,v 1.2 2005/12/09 21:01:01 james Exp $
+ * $Id: TerminationHandler.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +23,7 @@ import org.eclipse.wst.wsdl.ExtensibleElement;
  * @model
  * @generated
  */
-public interface TerminationHandler extends ExtensibleElement{
+public interface TerminationHandler extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

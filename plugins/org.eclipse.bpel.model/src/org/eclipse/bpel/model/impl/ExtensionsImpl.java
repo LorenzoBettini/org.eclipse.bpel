@@ -2,29 +2,23 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionsImpl.java,v 1.2 2005/12/05 21:04:32 james Exp $
+ * $Id: ExtensionsImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.Extensions;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -91,6 +85,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.EXTENSIONS__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.EXTENSIONS__CHILDREN:
 					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
 				default:
@@ -113,6 +109,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 				return getElement();
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.EXTENSIONS__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.EXTENSIONS__CHILDREN:
 				return getChildren();
 		}
@@ -135,6 +133,9 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.EXTENSIONS__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.EXTENSIONS__CHILDREN:
 				getChildren().clear();
@@ -160,6 +161,9 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.EXTENSIONS__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.EXTENSIONS__CHILDREN:
 				getChildren().clear();
 				return;
@@ -180,6 +184,8 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.EXTENSIONS__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.EXTENSIONS__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.EXTENSIONS__CHILDREN:
 				return children != null && !children.isEmpty();
 		}

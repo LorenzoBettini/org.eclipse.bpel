@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.2 2005/12/06 02:05:30 james Exp $
+ * $Id: InvokeImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Invoke;
@@ -30,7 +31,6 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -334,6 +334,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.INVOKE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.INVOKE__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.INVOKE__SOURCES:
@@ -364,6 +366,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 				return getElement();
 			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.INVOKE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.INVOKE__NAME:
 				return getName();
 			case BPELPackage.INVOKE__SUPPRESS_JOIN_FAILURE:
@@ -417,6 +421,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.INVOKE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.INVOKE__NAME:
 				setName((String)newValue);
@@ -482,6 +489,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.INVOKE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.INVOKE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -541,6 +551,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.INVOKE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.INVOKE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.INVOKE__SUPPRESS_JOIN_FAILURE:

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.2 2005/12/05 20:51:55 james Exp $
+ * $Id: CatchImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,25 +21,17 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.wst.wsdl.Message;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.eclipse.xsd.XSDElementDeclaration;
-
 import org.w3c.dom.Element;
 
 /**
@@ -345,6 +337,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.CATCH__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.CATCH__FAULT_VARIABLE:
 					return basicSetFaultVariable(null, msgs);
 				case BPELPackage.CATCH__ACTIVITY:
@@ -369,6 +363,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 				return getElement();
 			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.CATCH__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.CATCH__FAULT_NAME:
 				return getFaultName();
 			case BPELPackage.CATCH__FAULT_VARIABLE:
@@ -401,6 +397,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.CATCH__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.CATCH__FAULT_NAME:
 				setFaultName((QName)newValue);
@@ -437,6 +436,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.CATCH__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.CATCH__FAULT_NAME:
 				setFaultName(FAULT_NAME_EDEFAULT);
 				return;
@@ -469,6 +471,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.CATCH__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.CATCH__FAULT_NAME:
 				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.CATCH__FAULT_VARIABLE:

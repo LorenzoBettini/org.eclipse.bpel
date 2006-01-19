@@ -10,13 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.3 2006/01/16 20:05:43 james Exp $
+ * $Id: OnEvent.java,v 1.4 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
@@ -45,7 +43,7 @@ import org.eclipse.wst.wsdl.PortType;
  * @model
  * @generated
  */
-public interface OnEvent extends ExtensibleElement{
+public interface OnEvent extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.2 2006/01/16 20:34:34 james Exp $
+ * $Id: CopyImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,22 +18,16 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.To;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -261,6 +255,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.COPY__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.COPY__TO:
 					return basicSetTo(null, msgs);
 				case BPELPackage.COPY__FROM:
@@ -285,6 +281,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				return getElement();
 			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.COPY__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.COPY__TO:
 				return getTo();
 			case BPELPackage.COPY__FROM:
@@ -311,6 +309,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.COPY__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.COPY__TO:
 				setTo((To)newValue);
@@ -341,6 +342,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.COPY__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.COPY__TO:
 				setTo((To)null);
 				return;
@@ -367,6 +371,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.COPY__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.COPY__TO:
 				return to != null;
 			case BPELPackage.COPY__FROM:

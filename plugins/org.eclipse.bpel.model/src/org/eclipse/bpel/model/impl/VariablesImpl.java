@@ -10,29 +10,23 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariablesImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: VariablesImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -99,6 +93,8 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.VARIABLES__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.VARIABLES__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.VARIABLES__CHILDREN:
 					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
 				default:
@@ -121,6 +117,8 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 				return getElement();
 			case BPELPackage.VARIABLES__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.VARIABLES__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.VARIABLES__CHILDREN:
 				return getChildren();
 		}
@@ -143,6 +141,9 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 			case BPELPackage.VARIABLES__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.VARIABLES__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.VARIABLES__CHILDREN:
 				getChildren().clear();
@@ -168,6 +169,9 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 			case BPELPackage.VARIABLES__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.VARIABLES__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.VARIABLES__CHILDREN:
 				getChildren().clear();
 				return;
@@ -188,6 +192,8 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.VARIABLES__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.VARIABLES__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.VARIABLES__CHILDREN:
 				return children != null && !children.isEmpty();
 		}

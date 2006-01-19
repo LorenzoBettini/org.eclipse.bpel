@@ -3,7 +3,7 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
     nsURI="http:///org/eclipse/bpel/model/bpel.ecore" nsPrefix="org.eclipse.bpel">
-  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Describes behavior based on interactions between the activities performed by partners through Web Service interfaces. Defines how individual or composite activities are coordinated to achieve a business goal, as well as the state and logic necessary for this coordination. Represents stateful, long-running interactions in which each interaction has a beginning, defined behavior during its lifetime, and an end.&#xD;&#xA;&#xD;&#xA;Abstract processes approach data handling in a way that reflects the level of abstraction required to describe the public aspects of the business protocol. Abstract processes handle only protocol-relevant data as defined by message properties.&#xD;&#xA;&#xD;&#xA;Processes and Partners are modeled as WSDL services."/>
     </eAnnotations>
@@ -45,7 +45,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="exitOnStandardFault" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PartnerLink" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="PartnerLink" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="The services with which a business process interacts are modeled as partners in the process. Partners both consume and provide services to a business Process. These services are characterized by a ServiceLinkType.&#xD;&#xA;&#xD;&#xA;Partners define the different parties that interact with the business process. A partner represents both a consumer of a service provided by the business process and a provider of a service to the business process.&#xD;&#xA;&#xD;&#xA;The role of the partner is always seen from the perspective of the process that contains it. For invoke activities, the partner plays a role to provide the invoked service. For receive activities, the partner plays a role to invoke the service, and the process plays the role of providing it.&#xD;&#xA;&#xD;&#xA;Each partner is characterized by a service link type and a role name that identifies the functionality that must be provided by the business process and by the partner for the relationship to succeed. That is, the portTypes that the process and partners need to implement.&#xD;&#xA;&#xD;&#xA;myRole represents the responsibilities or services produced and consumed by this process. For services provided by this process, myRole must specify a role of the serviceLinkType which which has a portType and operation that appears in a receive activity within this process. That is, for some receive activity in this process, its partner attribute must name a partner defined in the process having myRole specify a role of the partner's serviceLinkType whose portType matches the receive portType, that portType must contain the operation specified in the receive activity, and the container of that activity must refer to a container of the process whose messageType is the same as the input message of the operation.&#xD;&#xA;&#xD;&#xA;For consumed services, similar rules apply to the invoke activity. The partner attribute must name a partner defined in the process having partnerRole specify a role of the partner's serviceLinkType whose portType matches the invoke portType, that portType must contain the operation specified in the invoke activity, and the inputContainer of that activity  must refer to a container of the process whose messageType is same as the input message of the operation, and whose outputContainer refers to a container of the process whose messageType is the same as the output message of the operation.&#xD;&#xA;"/>
     </eAnnotations>
@@ -57,7 +57,7 @@
         eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         unsettable="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FaultHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="FaultHandler" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Defines the activities that must be executed in response to faults resulting from the invocation of services in a process."/>
     </eAnnotations>
@@ -66,7 +66,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="catchAll" eType="#//CatchAll"
         unsettable="true" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Represents a unit-of-work in a process. If the suppressJoinFailure is true, then the joinCondition determines if the activity is executed based on incoming links."/>
     </eAnnotations>
@@ -82,7 +82,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="sources" eType="#//Sources"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CorrelationSet" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="CorrelationSet" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A named group of properties that, taken together, serve to define a way of identifying an application-level conversation within a business protocol instance.&#xD;&#xA;&#xD;&#xA;A given message can cary multiple correlation sets. After initialization, the values of the properties for a correlation set in a business process instance must be identical for all the messages in all the operations that carry the correlation set."/>
     </eAnnotations>
@@ -105,7 +105,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
         eType="#//FromPart"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Specifies the synchronization dependencies between activities in a flow. Each activity can be the source and/or target of any number of links. Links establish a predecessor/successor relationship between activities. Activities that are the source of a link are predecessors of activities that are targets of the same link. Parallel execution of activities in a flow is synchronized by requiring that all the source activities of an activity must complete before corresponding target activities of the same link can run. When an activity completes, all activities that are targets of links for which this activity is a source are now candidates for execution (assuming all their predecessor activities have completed)."/>
     </eAnnotations>
@@ -115,7 +115,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="targets" upperBound="-1"
         eType="#//Target" eOpposite="#//Target/Link"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Catch" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Catch" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//QName"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="faultVariable" eType="#//Variable"
         containment="true"/>
@@ -196,7 +196,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="otherwise" eType="#//Otherwise"
         unsettable="true" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Case" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Case" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A choice in a switch activity."/>
     </eAnnotations>
@@ -236,7 +236,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="completionCondition" eType="#//CompletionCondition"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OnAlarm" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="OnAlarm" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="When the alert fires, the activity is executed."/>
     </eAnnotations>
@@ -258,7 +258,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="validateXML" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="#//To"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//From"
@@ -266,7 +266,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="keepSrcElementName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Extension" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Extension" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mustUnderstand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true"/>
@@ -304,11 +304,11 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CompensationHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="CompensationHandler" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="To" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="To" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Represents an l-value in an assignment activity. Can be used to query a node of a part of a container, a property of a container, or a service reference of a partner."/>
     </eAnnotations>
@@ -319,7 +319,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="From" eSuperTypes="#//To ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="From" eSuperTypes="#//To #//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="opaque" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -337,7 +337,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OnMessage" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="OnMessage" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Receipt of the corresponding message, the activity is executed."/>
     </eAnnotations>
@@ -363,7 +363,7 @@
         unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" eSuperTypes="#//Expression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Correlation" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Correlation" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="initiate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="no" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="#//CorrelationPattern"
@@ -379,13 +379,13 @@
     <eLiterals name="myRole"/>
     <eLiterals name="partnerRole" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="EventHandler" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="alarm" upperBound="-1"
         eType="#//OnAlarm" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
         eType="#//OnEvent" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Source" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Source" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="Link" lowerBound="1" eType="#//Link"
         eOpposite="#//Link/sources"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
@@ -393,49 +393,49 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="transitionCondition" eType="#//Condition"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Target" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Target" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="Link" lowerBound="1" eType="#//Link"
         eOpposite="#//Link/targets"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PartnerLinks" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="PartnerLinks" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//PartnerLink" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Variables" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Variables" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Variable" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CorrelationSets" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="CorrelationSets" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//CorrelationSet" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Links" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Links" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Link" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CatchAll" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="CatchAll" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Correlations" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Correlations" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Correlation" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Otherwise" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Otherwise" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnknownExtensibilityAttribute" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//UnknownExtensibilityElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="OnEvent" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="OnEvent" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"
@@ -480,7 +480,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceScheme" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Extensions" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Extensions" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Extension" containment="true"/>
   </eClassifiers>
@@ -512,7 +512,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
         eType="#//Condition" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TerminationHandler" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="TerminationHandler" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"
         containment="true"/>
   </eClassifiers>
@@ -525,17 +525,17 @@
         eType="#//ElseIf" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//Else" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Then" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Then" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ElseIf" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ElseIf" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Else" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Else" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
@@ -549,5 +549,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="countCompletedBranchesOnly"
         eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtensibleElement" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentation" eType="#//Documentation"
+        unsettable="true" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Documentation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lang" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.2 2006/01/16 19:47:37 james Exp $
+ * $Id: FlowImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompletionCondition;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.Sources;
@@ -206,6 +207,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.FLOW__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.FLOW__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.FLOW__SOURCES:
@@ -236,6 +239,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 				return getElement();
 			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.FLOW__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.FLOW__NAME:
 				return getName();
 			case BPELPackage.FLOW__SUPPRESS_JOIN_FAILURE:
@@ -270,6 +275,9 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.FLOW__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.FLOW__NAME:
 				setName((String)newValue);
@@ -313,6 +321,9 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.FLOW__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.FLOW__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -351,6 +362,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.FLOW__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.FLOW__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.FLOW__SUPPRESS_JOIN_FAILURE:

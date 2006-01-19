@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FaultHandlerImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: FaultHandlerImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,24 +19,17 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FaultHandler;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -218,6 +211,8 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.FAULT_HANDLER__CATCH:
 					return ((InternalEList)getCatch()).basicRemove(otherEnd, msgs);
 				case BPELPackage.FAULT_HANDLER__CATCH_ALL:
@@ -242,6 +237,8 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 				return getElement();
 			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				return getCatch();
 			case BPELPackage.FAULT_HANDLER__CATCH_ALL:
@@ -266,6 +263,9 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				getCatch().clear();
@@ -294,6 +294,9 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				getCatch().clear();
 				return;
@@ -317,6 +320,8 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				return catch_ != null && !catch_.isEmpty();
 			case BPELPackage.FAULT_HANDLER__CATCH_ALL:

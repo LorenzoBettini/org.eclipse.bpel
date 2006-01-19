@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: CorrelationSetImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -25,7 +26,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -137,6 +137,8 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 				return getElement();
 			case BPELPackage.CORRELATION_SET__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.CORRELATION_SET__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.CORRELATION_SET__NAME:
 				return getName();
 			case BPELPackage.CORRELATION_SET__PROPERTIES:
@@ -161,6 +163,9 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 			case BPELPackage.CORRELATION_SET__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.CORRELATION_SET__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.CORRELATION_SET__NAME:
 				setName((String)newValue);
@@ -189,6 +194,9 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 			case BPELPackage.CORRELATION_SET__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.CORRELATION_SET__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.CORRELATION_SET__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -212,6 +220,8 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.CORRELATION_SET__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.CORRELATION_SET__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.CORRELATION_SET__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.CORRELATION_SET__PROPERTIES:

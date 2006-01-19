@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.3 2005/12/12 16:22:00 james Exp $
+ * $Id: ScopeImpl.java,v 1.4 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -586,6 +587,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.SCOPE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.SCOPE__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.SCOPE__SOURCES:
@@ -626,6 +629,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 				return getElement();
 			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.SCOPE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.SCOPE__NAME:
 				return getName();
 			case BPELPackage.SCOPE__SUPPRESS_JOIN_FAILURE:
@@ -672,6 +677,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.SCOPE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.SCOPE__NAME:
 				setName((String)newValue);
@@ -732,6 +740,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.SCOPE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.SCOPE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -788,6 +799,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.SCOPE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.SCOPE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.SCOPE__SUPPRESS_JOIN_FAILURE:

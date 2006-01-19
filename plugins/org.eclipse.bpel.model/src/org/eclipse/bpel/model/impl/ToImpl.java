@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: ToImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -359,6 +359,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.TO__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.TO__QUERY:
 					return basicSetQuery(null, msgs);
 				default:
@@ -381,6 +383,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				return getElement();
 			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.TO__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.TO__VARIABLE:
 				if (resolve) return getVariable();
 				return basicGetVariable();
@@ -415,6 +419,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.TO__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.TO__VARIABLE:
 				setVariable((Variable)newValue);
@@ -451,6 +458,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.TO__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.TO__VARIABLE:
 				setVariable((Variable)null);
 				return;
@@ -483,6 +493,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.TO__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.TO__VARIABLE:
 				return variable != null;
 			case BPELPackage.TO__PART:

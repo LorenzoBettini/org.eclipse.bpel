@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ThrowImpl.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: ThrowImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Throw;
@@ -165,6 +166,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 				return getElement();
 			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.THROW__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.THROW__NAME:
 				return getName();
 			case BPELPackage.THROW__SUPPRESS_JOIN_FAILURE:
@@ -198,6 +201,9 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.THROW__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.THROW__NAME:
 				setName((String)newValue);
@@ -237,6 +243,9 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.THROW__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.THROW__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -272,6 +281,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.THROW__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.THROW__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.THROW__SUPPRESS_JOIN_FAILURE:

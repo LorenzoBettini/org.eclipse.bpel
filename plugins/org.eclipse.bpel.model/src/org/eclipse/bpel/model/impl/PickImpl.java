@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PickImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: PickImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.Pick;
@@ -196,6 +197,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.PICK__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.PICK__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.PICK__SOURCES:
@@ -224,6 +227,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 				return getElement();
 			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.PICK__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.PICK__NAME:
 				return getName();
 			case BPELPackage.PICK__SUPPRESS_JOIN_FAILURE:
@@ -258,6 +263,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.PICK__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.PICK__NAME:
 				setName((String)newValue);
@@ -302,6 +310,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.PICK__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.PICK__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -340,6 +351,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.PICK__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.PICK__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.PICK__SUPPRESS_JOIN_FAILURE:

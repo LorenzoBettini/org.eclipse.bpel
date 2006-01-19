@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SequenceImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: SequenceImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
@@ -94,6 +95,8 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.SEQUENCE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.SEQUENCE__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.SEQUENCE__SOURCES:
@@ -120,6 +123,8 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 				return getElement();
 			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.SEQUENCE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.SEQUENCE__NAME:
 				return getName();
 			case BPELPackage.SEQUENCE__SUPPRESS_JOIN_FAILURE:
@@ -150,6 +155,9 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.SEQUENCE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.SEQUENCE__NAME:
 				setName((String)newValue);
@@ -187,6 +195,9 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.SEQUENCE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.SEQUENCE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -219,6 +230,8 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.SEQUENCE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.SEQUENCE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.SEQUENCE__SUPPRESS_JOIN_FAILURE:

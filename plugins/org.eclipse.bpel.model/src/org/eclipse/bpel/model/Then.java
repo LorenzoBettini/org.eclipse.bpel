@@ -2,11 +2,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Then.java,v 1.2 2005/12/12 16:10:33 james Exp $
+ * $Id: Then.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.wst.wsdl.ExtensibleElement;
 
 /**
  * <!-- begin-user-doc -->

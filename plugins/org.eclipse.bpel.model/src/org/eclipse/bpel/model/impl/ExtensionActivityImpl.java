@@ -2,13 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionActivityImpl.java,v 1.1 2005/12/06 00:33:48 james Exp $
+ * $Id: ExtensionActivityImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.ExtensionActivity;
-
 import org.eclipse.emf.ecore.EClass;
 
 /**

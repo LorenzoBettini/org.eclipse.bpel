@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RepeatUntilImpl.java,v 1.2 2005/12/09 21:01:02 james Exp $
+ * $Id: RepeatUntilImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -11,21 +11,17 @@ import java.util.Collection;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.w3c.dom.Element;
 
 /**
@@ -177,6 +173,8 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.REPEAT_UNTIL__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.REPEAT_UNTIL__SOURCES:
@@ -205,6 +203,8 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 				return getElement();
 			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.REPEAT_UNTIL__NAME:
 				return getName();
 			case BPELPackage.REPEAT_UNTIL__SUPPRESS_JOIN_FAILURE:
@@ -237,6 +237,9 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.REPEAT_UNTIL__NAME:
 				setName((String)newValue);
@@ -276,6 +279,9 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.REPEAT_UNTIL__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -311,6 +317,8 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.REPEAT_UNTIL__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.REPEAT_UNTIL__SUPPRESS_JOIN_FAILURE:

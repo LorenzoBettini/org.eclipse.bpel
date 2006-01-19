@@ -47,12 +47,14 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -117,7 +119,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.wst.wsdl.Definition;
-import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.util.WSDLConstants;
@@ -134,6 +135,7 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 
 /**
@@ -1361,6 +1363,23 @@ public class BPELWriter {
 		return branchesElement;
 	}
 
+	protected Element documentation2XML(Documentation documentation) {
+		Element documentationElement = createBPELElement("documentation");
+		
+		if (documentation.getSource() != null) {
+			documentationElement.setAttribute("source", documentation.getSource());
+		}
+		if (documentation.getLang() != null) {
+			documentationElement.setAttribute("lang", documentation.getLang());
+		}
+		if (documentation.getValue() != null && documentation.getValue().length() > 0) {
+			Text textNode = documentationElement.getOwnerDocument().createTextNode(documentation.getValue());
+			documentationElement.appendChild(textNode);
+		}
+
+		return documentationElement;
+	}
+
 	protected Element links2XML(Links links) {
 		Element linksElement = createBPELElement("links");
 					
@@ -1776,6 +1795,19 @@ public class BPELWriter {
 	 */
 	protected void extensibleElement2XML(ExtensibleElement extensibleElement, Element element) {
 
+		if (extensibleElement.getDocumentation() != null) {
+			// We can't just do appendChild here. This is called *after* the concrete type
+			// has had a chance to append children, and documentation should precede all of
+			// these children
+			Node firstChild = element.getFirstChild();
+			Element documentationElement = documentation2XML(extensibleElement.getDocumentation());
+			if (firstChild == null) {
+				element.appendChild(documentationElement);
+			} else {
+				element.insertBefore(documentationElement, firstChild);
+			}
+		}
+		
 		// Get the extensibility elements and if the platform is running try to order them.
 		// If the platform is not running just serialize the elements in the order they appear.
 		List extensibilityElements;

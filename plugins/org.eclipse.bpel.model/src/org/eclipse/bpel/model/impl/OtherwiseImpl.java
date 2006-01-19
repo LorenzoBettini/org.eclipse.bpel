@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OtherwiseImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: OtherwiseImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,21 +18,15 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Otherwise;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -130,6 +124,8 @@ public class OtherwiseImpl extends ExtensibleElementImpl implements Otherwise {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.OTHERWISE__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.OTHERWISE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.OTHERWISE__ACTIVITY:
 					return basicSetActivity(null, msgs);
 				default:
@@ -152,6 +148,8 @@ public class OtherwiseImpl extends ExtensibleElementImpl implements Otherwise {
 				return getElement();
 			case BPELPackage.OTHERWISE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.OTHERWISE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.OTHERWISE__ACTIVITY:
 				return getActivity();
 		}
@@ -174,6 +172,9 @@ public class OtherwiseImpl extends ExtensibleElementImpl implements Otherwise {
 			case BPELPackage.OTHERWISE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.OTHERWISE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.OTHERWISE__ACTIVITY:
 				setActivity((Activity)newValue);
@@ -198,6 +199,9 @@ public class OtherwiseImpl extends ExtensibleElementImpl implements Otherwise {
 			case BPELPackage.OTHERWISE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.OTHERWISE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.OTHERWISE__ACTIVITY:
 				setActivity((Activity)null);
 				return;
@@ -218,6 +222,8 @@ public class OtherwiseImpl extends ExtensibleElementImpl implements Otherwise {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.OTHERWISE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.OTHERWISE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.OTHERWISE__ACTIVITY:
 				return activity != null;
 		}

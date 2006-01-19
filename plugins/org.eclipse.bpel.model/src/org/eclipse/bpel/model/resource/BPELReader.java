@@ -44,6 +44,7 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.Empty;
@@ -51,6 +52,7 @@ import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -122,7 +124,6 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.xsd.XSDElementDeclaration;
@@ -2813,6 +2814,26 @@ public class BPELReader {
 	}
 
 	/**
+	 * Converts an XML documentation element to a BPEL Documentation object.
+	 */
+	protected Documentation xml2Documentation(Element documentationElement) {
+		Documentation documentation = BPELFactory.eINSTANCE.createDocumentation();
+
+		if (documentationElement.hasAttribute("lang"))
+			documentation.setLang(documentationElement.getAttribute("lang"));
+		if (documentationElement.hasAttribute("source"))
+			documentation.setSource(documentationElement.getAttribute("source"));
+    	Node textNode = documentationElement.getFirstChild();
+    	if (textNode != null) {
+		    String text = getText(textNode);
+		    if (text != null)
+		        documentation.setValue(text);
+    	}
+
+		return documentation;
+	}
+
+	/**
 	 * Converts an XML repeatUntil element to a BPEL RepeatUntil object.
 	 */
 	protected Activity xml2RepeatUntil(Element repeatUntilElement) {
@@ -2949,6 +2970,13 @@ public class BPELReader {
 		if (extensionRegistry==null)
 			return;
 			
+		// Handle the documentation element first
+		Element documentationElement = getBPELChildElementByLocalName(element, "documentation");
+		if (documentationElement != null) {
+			Documentation documentation = xml2Documentation(documentationElement);
+			extensibleElement.setDocumentation(documentation);
+		}
+		
 		// Get the child nodes, elements and attributes
 		List nodes=new ArrayList();
 		NodeList nodeList=element.getChildNodes();

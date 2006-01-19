@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.2 2005/12/09 19:47:52 james Exp $
+ * $Id: AssignImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.emf.common.notify.Notification;
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.w3c.dom.Element;
@@ -139,6 +139,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.ASSIGN__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.ASSIGN__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.ASSIGN__TARGETS:
 					return basicSetTargets(null, msgs);
 				case BPELPackage.ASSIGN__SOURCES:
@@ -165,6 +167,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				return getElement();
 			case BPELPackage.ASSIGN__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.ASSIGN__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.ASSIGN__NAME:
 				return getName();
 			case BPELPackage.ASSIGN__SUPPRESS_JOIN_FAILURE:
@@ -197,6 +201,9 @@ public class AssignImpl extends ActivityImpl implements Assign {
 			case BPELPackage.ASSIGN__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.ASSIGN__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.ASSIGN__NAME:
 				setName((String)newValue);
@@ -237,6 +244,9 @@ public class AssignImpl extends ActivityImpl implements Assign {
 			case BPELPackage.ASSIGN__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.ASSIGN__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.ASSIGN__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -272,6 +282,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.ASSIGN__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.ASSIGN__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.ASSIGN__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.ASSIGN__SUPPRESS_JOIN_FAILURE:

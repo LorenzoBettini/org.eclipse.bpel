@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Expression.java,v 1.2 2005/12/07 14:58:09 james Exp $
+ * $Id: Expression.java,v 1.3 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -34,7 +34,7 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  * @model
  * @generated
  */
-public interface Expression extends ExtensibilityElement{
+public interface Expression extends ExtensibilityElement {
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' attribute.
 	 * <!-- begin-user-doc -->

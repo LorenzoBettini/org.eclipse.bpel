@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CompensateImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: CompensateImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,7 @@ import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
@@ -200,6 +201,8 @@ public class CompensateImpl extends ActivityImpl implements Compensate {
 				return getElement();
 			case BPELPackage.COMPENSATE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.COMPENSATE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.COMPENSATE__NAME:
 				return getName();
 			case BPELPackage.COMPENSATE__SUPPRESS_JOIN_FAILURE:
@@ -231,6 +234,9 @@ public class CompensateImpl extends ActivityImpl implements Compensate {
 			case BPELPackage.COMPENSATE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.COMPENSATE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.COMPENSATE__NAME:
 				setName((String)newValue);
@@ -267,6 +273,9 @@ public class CompensateImpl extends ActivityImpl implements Compensate {
 			case BPELPackage.COMPENSATE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.COMPENSATE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.COMPENSATE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -299,6 +308,8 @@ public class CompensateImpl extends ActivityImpl implements Compensate {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.COMPENSATE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.COMPENSATE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.COMPENSATE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.COMPENSATE__SUPPRESS_JOIN_FAILURE:

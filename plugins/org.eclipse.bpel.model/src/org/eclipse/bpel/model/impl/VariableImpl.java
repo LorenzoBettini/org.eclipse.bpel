@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableImpl.java,v 1.2 2005/12/12 20:26:01 james Exp $
+ * $Id: VariableImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
@@ -25,7 +26,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.wst.wsdl.Message;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.w3c.dom.Element;
@@ -312,6 +312,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 				return getElement();
 			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.VARIABLE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.VARIABLE__NAME:
 				return getName();
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
@@ -346,6 +348,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.VARIABLE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.VARIABLE__NAME:
 				setName((String)newValue);
@@ -382,6 +387,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.VARIABLE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.VARIABLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -414,6 +422,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.VARIABLE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.VARIABLE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationsImpl.java,v 1.1 2005/11/29 18:50:24 james Exp $
+ * $Id: CorrelationsImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,20 +19,14 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.Correlations;
-
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
-
 import org.w3c.dom.Element;
 
 /**
@@ -99,6 +93,8 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements Correlati
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.CORRELATIONS__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.CORRELATIONS__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.CORRELATIONS__CHILDREN:
 					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
 				default:
@@ -121,6 +117,8 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements Correlati
 				return getElement();
 			case BPELPackage.CORRELATIONS__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.CORRELATIONS__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.CORRELATIONS__CHILDREN:
 				return getChildren();
 		}
@@ -143,6 +141,9 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements Correlati
 			case BPELPackage.CORRELATIONS__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.CORRELATIONS__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.CORRELATIONS__CHILDREN:
 				getChildren().clear();
@@ -168,6 +169,9 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements Correlati
 			case BPELPackage.CORRELATIONS__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.CORRELATIONS__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.CORRELATIONS__CHILDREN:
 				getChildren().clear();
 				return;
@@ -188,6 +192,8 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements Correlati
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.CORRELATIONS__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.CORRELATIONS__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.CORRELATIONS__CHILDREN:
 				return children != null && !children.isEmpty();
 		}

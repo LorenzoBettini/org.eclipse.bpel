@@ -10,12 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: To.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: To.java,v 1.2 2006/01/19 21:08:47 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.bpel.model.messageproperties.Property;
-import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Part;
 
 /**
@@ -42,7 +41,7 @@ import org.eclipse.wst.wsdl.Part;
  * @model
  * @generated
  */
-public interface To extends ExtensibleElement{
+public interface To extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Variable</b></em>' reference.
 	 * <!-- begin-user-doc -->

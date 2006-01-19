@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.4 2006/01/16 20:05:43 james Exp $
+ * $Id: OnEventImpl.java,v 1.5 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
@@ -38,7 +39,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -577,6 +577,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.ON_EVENT__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.ON_EVENT__ACTIVITY:
 					return basicSetActivity(null, msgs);
 				case BPELPackage.ON_EVENT__VARIABLE:
@@ -605,6 +607,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				return getElement();
 			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.ON_EVENT__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				return getActivity();
 			case BPELPackage.ON_EVENT__VARIABLE:
@@ -647,6 +651,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.ON_EVENT__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				setActivity((Activity)newValue);
@@ -696,6 +703,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.ON_EVENT__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				setActivity((Activity)null);
 				return;
@@ -740,6 +750,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.ON_EVENT__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				return activity != null;
 			case BPELPackage.ON_EVENT__VARIABLE:

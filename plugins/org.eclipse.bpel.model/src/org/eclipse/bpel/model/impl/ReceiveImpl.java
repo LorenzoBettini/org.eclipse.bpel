@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.2 2005/12/06 02:05:31 james Exp $
+ * $Id: ReceiveImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Receive;
@@ -26,13 +27,11 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 import org.w3c.dom.Element;
@@ -229,6 +228,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 				return getElement();
 			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.RECEIVE__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.RECEIVE__NAME:
 				return getName();
 			case BPELPackage.RECEIVE__SUPPRESS_JOIN_FAILURE:
@@ -275,6 +276,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.RECEIVE__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.RECEIVE__NAME:
 				setName((String)newValue);
@@ -330,6 +334,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.RECEIVE__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.RECEIVE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -380,6 +387,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.RECEIVE__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.RECEIVE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.RECEIVE__SUPPRESS_JOIN_FAILURE:

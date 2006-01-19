@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.2 2005/12/12 16:16:49 james Exp $
+ * $Id: PartnerLinkImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
@@ -25,7 +26,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -337,6 +337,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 				return getElement();
 			case BPELPackage.PARTNER_LINK__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
+			case BPELPackage.PARTNER_LINK__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.PARTNER_LINK__NAME:
 				return getName();
 			case BPELPackage.PARTNER_LINK__MY_ROLE:
@@ -370,6 +372,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 			case BPELPackage.PARTNER_LINK__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.PARTNER_LINK__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.PARTNER_LINK__NAME:
 				setName((String)newValue);
@@ -406,6 +411,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 			case BPELPackage.PARTNER_LINK__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
+			case BPELPackage.PARTNER_LINK__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.PARTNER_LINK__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -438,6 +446,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.PARTNER_LINK__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.PARTNER_LINK__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.PARTNER_LINK__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.PARTNER_LINK__MY_ROLE:
