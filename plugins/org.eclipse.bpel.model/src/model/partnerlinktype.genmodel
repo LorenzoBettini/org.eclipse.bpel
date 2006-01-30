@@ -7,9 +7,6 @@
   <foreignModel>partnerlinktype.ecore</foreignModel>
   <genPackages prefix="Partnerlinktype" basePackage="org.eclipse.bpel.model" disposableProviderFactory="true"
       ecorePackage="partnerlinktype.ecore#/">
-    <genClasses ecoreClass="partnerlinktype.ecore#//RolePortType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//RolePortType/name"/>
-    </genClasses>
     <genClasses ecoreClass="partnerlinktype.ecore#//PartnerLinkType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//PartnerLinkType/name"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//PartnerLinkType/ID"/>
