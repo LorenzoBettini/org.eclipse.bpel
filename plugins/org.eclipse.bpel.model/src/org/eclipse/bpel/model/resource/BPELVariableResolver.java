@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.bpel.model.Catch;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
@@ -41,6 +42,11 @@ public class BPELVariableResolver implements VariableResolver {
 				}
 			} else if (container instanceof Catch) {
 				Variable variable = ((Catch)container).getFaultVariable();
+				if (variable != null && variable.getName().equals(variableName)) {
+					return variable;
+				}
+			} else if (container instanceof ForEach) {
+				Variable variable = ((ForEach)container).getCounterName();
 				if (variable != null && variable.getName().equals(variableName)) {
 					return variable;
 				}
