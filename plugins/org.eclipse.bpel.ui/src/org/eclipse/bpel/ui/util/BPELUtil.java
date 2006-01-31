@@ -34,6 +34,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
@@ -1386,6 +1387,10 @@ public class BPELUtil {
 			}
 			if (target instanceof OnEvent) {
 				Variable v = ((OnEvent)target).getVariable();
+				if (v != null && v.getName() != null) targetMap.put(v.getName(), v);
+			}
+			if (target instanceof ForEach) {
+				Variable v = ((ForEach)target).getCounterName();
 				if (v != null && v.getName() != null) targetMap.put(v.getName(), v);
 			}
 		}
