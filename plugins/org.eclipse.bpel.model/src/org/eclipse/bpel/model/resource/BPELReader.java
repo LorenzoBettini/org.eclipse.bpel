@@ -1241,6 +1241,8 @@ public class BPELReader {
 		if (joinConditionElement != null) {
 			targets.setJoinCondition(xml2Condition(joinConditionElement));
 		}
+		xml2ExtensibleElement(targets, targetsElement);
+
 		return targets;
      }
      
@@ -1276,6 +1278,8 @@ public class BPELReader {
 			Source source = xml2Source(sourceElement);
 			sources.getChildren().add(source);          				
 		}
+		xml2ExtensibleElement(sources, sourcesElement);
+
 		return sources;
 	}
 	

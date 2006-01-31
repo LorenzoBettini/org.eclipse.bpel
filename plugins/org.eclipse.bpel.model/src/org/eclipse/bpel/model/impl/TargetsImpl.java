@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetsImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: TargetsImpl.java,v 1.3 2006/01/31 15:43:26 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.emf.common.notify.Notification;
@@ -27,9 +28,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,7 +46,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class TargetsImpl extends EObjectImpl implements Targets {
+public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -147,6 +148,10 @@ public class TargetsImpl extends EObjectImpl implements Targets {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.TARGETS__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.TARGETS__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.TARGETS__CHILDREN:
 					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
 				case BPELPackage.TARGETS__JOIN_CONDITION:
@@ -165,6 +170,14 @@ public class TargetsImpl extends EObjectImpl implements Targets {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.TARGETS__DOCUMENTATION_ELEMENT:
+				return getDocumentationElement();
+			case BPELPackage.TARGETS__ELEMENT:
+				return getElement();
+			case BPELPackage.TARGETS__EEXTENSIBILITY_ELEMENTS:
+				return getEExtensibilityElements();
+			case BPELPackage.TARGETS__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.TARGETS__CHILDREN:
 				return getChildren();
 			case BPELPackage.TARGETS__JOIN_CONDITION:
@@ -180,6 +193,19 @@ public class TargetsImpl extends EObjectImpl implements Targets {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.TARGETS__DOCUMENTATION_ELEMENT:
+				setDocumentationElement((Element)newValue);
+				return;
+			case BPELPackage.TARGETS__ELEMENT:
+				setElement((Element)newValue);
+				return;
+			case BPELPackage.TARGETS__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.TARGETS__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
+				return;
 			case BPELPackage.TARGETS__CHILDREN:
 				getChildren().clear();
 				getChildren().addAll((Collection)newValue);
@@ -198,6 +224,18 @@ public class TargetsImpl extends EObjectImpl implements Targets {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.TARGETS__DOCUMENTATION_ELEMENT:
+				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.TARGETS__ELEMENT:
+				setElement(ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.TARGETS__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				return;
+			case BPELPackage.TARGETS__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.TARGETS__CHILDREN:
 				getChildren().clear();
 				return;
@@ -215,6 +253,14 @@ public class TargetsImpl extends EObjectImpl implements Targets {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.TARGETS__DOCUMENTATION_ELEMENT:
+				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
+			case BPELPackage.TARGETS__ELEMENT:
+				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
+			case BPELPackage.TARGETS__EEXTENSIBILITY_ELEMENTS:
+				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.TARGETS__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.TARGETS__CHILDREN:
 				return children != null && !children.isEmpty();
 			case BPELPackage.TARGETS__JOIN_CONDITION:

@@ -10,12 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Targets.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: Targets.java,v 1.3 2006/01/31 15:43:26 james Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Targets extends EObject{
+public interface Targets extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.Target}.

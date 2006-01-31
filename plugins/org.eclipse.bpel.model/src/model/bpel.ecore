@@ -462,13 +462,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rethrow" eSuperTypes="#//Activity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//Expression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Targets">
+  <eClassifiers xsi:type="ecore:EClass" name="Targets" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Target" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="joinCondition" eType="#//Condition"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Sources">
+  <eClassifiers xsi:type="ecore:EClass" name="Sources" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Source" containment="true"/>
   </eClassifiers>

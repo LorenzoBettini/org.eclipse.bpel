@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.14 2006/01/31 14:56:08 james Exp $
+ * $Id: BPELSwitch.java,v 1.15 2006/01/31 15:43:25 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -643,12 +643,18 @@ public class BPELSwitch {
 			case BPELPackage.TARGETS: {
 				Targets targets = (Targets)theEObject;
 				Object result = caseTargets(targets);
+				if (result == null) result = caseExtensibleElement(targets);
+				if (result == null) result = caseWSDL_ExtensibleElement(targets);
+				if (result == null) result = caseWSDLElement(targets);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SOURCES: {
 				Sources sources = (Sources)theEObject;
 				Object result = caseSources(sources);
+				if (result == null) result = caseExtensibleElement(sources);
+				if (result == null) result = caseWSDL_ExtensibleElement(sources);
+				if (result == null) result = caseWSDLElement(sources);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

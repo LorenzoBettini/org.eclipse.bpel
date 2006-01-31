@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.23 2006/01/31 14:56:08 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.24 2006/01/31 15:43:26 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -3472,6 +3472,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		onEventEClass.getESuperTypes().add(this.getExtensibleElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
 		conditionEClass.getESuperTypes().add(this.getExpression());
+		targetsEClass.getESuperTypes().add(this.getExtensibleElement());
+		sourcesEClass.getESuperTypes().add(this.getExtensibleElement());
 		extensionsEClass.getESuperTypes().add(this.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());

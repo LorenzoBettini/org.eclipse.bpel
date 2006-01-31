@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.23 2006/01/31 14:56:08 james Exp $
+ * $Id: BPELPackage.java,v 1.24 2006/01/31 15:43:25 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -5180,13 +5180,49 @@ public interface BPELPackage extends EPackage{
 	int CONDITION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGETS__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGETS__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGETS__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGETS__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
+
+	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TARGETS__CHILDREN = 0;
+	int TARGETS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Join Condition</b></em>' containment reference.
@@ -5195,7 +5231,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TARGETS__JOIN_CONDITION = 1;
+	int TARGETS__JOIN_CONDITION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Targets</em>' class.
@@ -5204,7 +5240,43 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TARGETS_FEATURE_COUNT = 2;
+	int TARGETS_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOURCES__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOURCES__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOURCES__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOURCES__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -5213,7 +5285,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCES__CHILDREN = 0;
+	int SOURCES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Sources</em>' class.
@@ -5222,7 +5294,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCES_FEATURE_COUNT = 1;
+	int SOURCES_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.

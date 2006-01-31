@@ -1651,6 +1651,7 @@ public class BPELWriter {
 			}
 			extensibleElement2XML(source, sourceElement);
 		}
+		extensibleElement2XML(sources, sourcesElement);
 		return sourcesElement;
 	}
 	
@@ -1670,6 +1671,7 @@ public class BPELWriter {
 			targetElement.setAttribute("linkName", target.getLink().getName());
 			extensibleElement2XML(target, targetElement);
 		}
+		extensibleElement2XML(targets, targetsElement);		
 		return targetsElement;
 	}
 	
