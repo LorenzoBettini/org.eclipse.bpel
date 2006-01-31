@@ -100,6 +100,7 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
+import org.eclipse.bpel.model.extensions.BPELActivitySerializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
 import org.eclipse.bpel.model.extensions.BPELExtensionSerializer;
 import org.eclipse.bpel.model.extensions.ServiceReferenceSerializer;
@@ -905,8 +906,6 @@ public class BPELWriter {
 			activityElement = compensate2XML(activity);
 		else if (activity instanceof Rethrow)
 			activityElement = rethrow2XML(activity);
-		else if (activity instanceof ExtensionActivity)
-			activityElement = extensionActivity2XML(activity);
 		else if (activity instanceof OpaqueActivity)
 			activityElement = opaqueActivity2XML(activity);
 		else if (activity instanceof ForEach)
@@ -915,9 +914,30 @@ public class BPELWriter {
 			activityElement = repeatUntil2XML(activity);
 		else if (activity instanceof ValidateXML)
 			activityElement = validateXML2XML(activity);
+		else if (activity instanceof ExtensionActivity) {
+			// NOTE: Support for ExtensionActivity is special in that
+			// the standard elements and attributes are not written out
+			// as part of the extensionActivity element, and it is not
+			// extensible. So return after calling this method so that
+			// the standard support is not run.
+			activityElement = extensionActivity2XML(activity);
+			return activityElement;
+		}
 		else
 			return null;
 
+		addStandardAttributes(activityElement, activity);
+		addStandardElements(activityElement, activity);
+		
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(activity, activityElement);			
+		
+		extensibleElement2XML(activity,activityElement);
+			
+		return activityElement;
+	}
+
+	protected void addStandardAttributes(Element activityElement, Activity activity) {
 		if (activity.getName() != null)
 			activityElement.setAttribute("name", activity.getName());
 		if (activity.isSetSuppressJoinFailure()) {
@@ -925,7 +945,10 @@ public class BPELWriter {
 				"suppressJoinFailure",
 				BPELUtils.boolean2XML(activity.getSuppressJoinFailure()));
 		}
-
+		
+	}
+	
+	protected void addStandardElements(Element activityElement, Activity activity) {
 		// NOTE: Mind the order of these elements.
 		Node firstChild = activityElement.getFirstChild();
 		Targets targets = activity.getTargets();
@@ -937,12 +960,7 @@ public class BPELWriter {
 			activityElement.insertBefore(sources2XML(sources), firstChild); 
 		}
 
-		// serialize local namespace prefixes to XML
-		bpelNamespacePrefixManager.serializePrefixes(activity, activityElement);			
-		extensibleElement2XML(activity,activityElement);
-			
-		return activityElement;
-	}
+	}	
 
 	protected Element catch2XML(Catch _catch) {
 		Element catchElement = createBPELElement("catch");
@@ -1067,6 +1085,21 @@ public class BPELWriter {
 
 	protected Element extensionActivity2XML(Activity activity) {
 		Element activityElement = createBPELElement("extensionActivity");
+		String localName = activity.eClass().getName();
+		String namespace = activity.eClass().getEPackage().getNsURI();
+		QName qName = new QName(namespace, localName);
+		BPELActivitySerializer serializer = extensionRegistry.getActivitySerializer(qName);
+		if (serializer != null) {
+			DocumentFragment fragment = document.createDocumentFragment();
+		    serializer.marshall(qName, activity, fragment, process, this);
+			Element child = (Element)fragment.getFirstChild();
+			activityElement.appendChild(child);
+			// Standard attributes
+			addStandardAttributes(child, activity);
+			// Standard elements
+			addStandardElements(child, activity);
+		}
+		
 		return activityElement;
 	}
 

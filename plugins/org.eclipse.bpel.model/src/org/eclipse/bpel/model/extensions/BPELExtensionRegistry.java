@@ -30,11 +30,16 @@ public class BPELExtensionRegistry extends ExtensionRegistry
 	protected Map serviceReferenceSerializers;
 	protected Map serviceReferenceDeserializers;
 	
+	protected Map activitySerializers;
+	protected Map activityDeserializers;
+	
 	public static BPELExtensionRegistry INSTANCE;
 
 	private BPELExtensionRegistry() {
 		serviceReferenceSerializers = new HashMap();
 		serviceReferenceDeserializers = new HashMap();
+		activitySerializers = new HashMap();
+		activityDeserializers = new HashMap();
 	}
 	
 	/**
@@ -119,4 +124,22 @@ public class BPELExtensionRegistry extends ExtensionRegistry
 		if (referenceScheme == null) return null;
 		return (ServiceReferenceDeserializer)serviceReferenceDeserializers.get(referenceScheme);
 	}
+	
+	public void registerActivitySerializer(QName qname, BPELActivitySerializer serializer) {
+		activitySerializers.put(qname, serializer);
+	}
+
+	public void registerActivityDeserializer(QName qname, BPELActivityDeserializer deserializer) {
+		activityDeserializers.put(qname, deserializer);
+	}
+	
+	public BPELActivitySerializer getActivitySerializer(QName qname) {
+		if (qname == null) return null;
+		return (BPELActivitySerializer)activitySerializers.get(qname);
+	}
+
+	public BPELActivityDeserializer getActivityDeserializer(QName qname) {
+		if (qname == null) return null;
+		return (BPELActivityDeserializer)activityDeserializers.get(qname);
+	}	
 }

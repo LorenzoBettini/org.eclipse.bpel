@@ -99,6 +99,7 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
+import org.eclipse.bpel.model.extensions.BPELActivityDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
 import org.eclipse.bpel.model.extensions.BPELUnknownExtensionDeserializer;
@@ -159,6 +160,11 @@ public class BPELReader {
 	// but replacing this field with another implementation could allow
 	// you to optimize the search or provide different behaviour.
 	public static VariableResolver VARIABLE_RESOLVER = new BPELVariableResolver();
+	// The WS-BPEL Specification says how to resolve links, taking into
+	// account scopes, etc. Technically, no one should override this behaviour,
+	// but replacing this field with another implementation could allow
+	// you to optimize the search or provide different behaviour.
+	public static LinkResolver LINK_RESOLVER = new BPELLinkResolver();
 	
 	/**
 	 * A simple NodeList that is an ArrayList
@@ -1142,7 +1148,6 @@ public class BPELReader {
             return null;
         
 		String localName = activityElement.getLocalName();        
-		// JM: What is this first clause for?
         if (localName.equals("process")){ 
 			activity = getChildActivity(activityElement);
 			checkExtensibility = false;
@@ -1181,7 +1186,11 @@ public class BPELReader {
      	} else if (localName.equals("rethrow")) {
      		activity = xml2Rethrow(activityElement);
      	} else if (localName.equals("extensionActivity")) {
-     		activity = xml2ExtensionActivity(activityElement);
+    		// extensionActivity is a special case. It does not have any standard
+    		// attributes or elements, nor is it an extensible element.
+    		// Return immediately.
+    		activity = xml2ExtensionActivity(activityElement);
+    		return activity;
      	} else if (localName.equals("opaqueActivity")) {
      		activity = xml2OpaqueActivity(activityElement);
      	} else if (localName.equals("forEach")) {
@@ -1194,43 +1203,8 @@ public class BPELReader {
      		return null;
      	}
      	  	
-		// Handle targets
-		Element targetsElement = getBPELChildElementByLocalName(activityElement, "targets");
-		if (targetsElement != null) {
-			activity.setTargets(xml2Targets(targetsElement));
-		}
-				
-		// Handle old targets for backwards compatibility
-		// TODO: do join conditions properly
-		NodeList targetElements = getBPELChildElementsByLocalName(activityElement, "target");
-		for (int i = 0; i < targetElements.getLength(); i++) {
-			Element targetElement = (Element)targetElements.item(i);
- 			// Avoid parent elements from processing this link again.
-			if (!((Element)targetElement.getParentNode()).getLocalName().equals(localName))
-				break;
-				
-			Target target = xml2Target(targetElement);
-			target.setActivity(activity);          
-        }
-        
-		// Handle sources
-		Element sourcesElement = getBPELChildElementByLocalName(activityElement, "sources");
-		if (sourcesElement != null) {
-			activity.setSources(xml2Sources(sourcesElement));
-		}
+		setStandardElements(activityElement, activity);
 		
-		// Handle old sources for backwards compatibility
-		NodeList sourceElements = getBPELChildElementsByLocalName(activityElement, "source");
-		for (int i = 0; i < sourceElements.getLength(); i++) {
-			Element sourceElement = (Element)sourceElements.item(i);
-			// Avoid parent elements from processing this link again.
-			if (!((Element)sourceElement.getParentNode()).getLocalName().equals(localName))
-           		break;
-           		
-           	Source source = xml2Source(sourceElement);
-           	source.setActivity(activity);
-        }
-
 		if (checkExtensibility) {
 			xml2ExtensibleElement(activity, activityElement);
 			// Save all the references to external namespaces		
@@ -1238,9 +1212,23 @@ public class BPELReader {
 		}			
 			
 		return activity;
-     }
+	}
 
-     protected Targets xml2Targets(Element targetsElement) {
+ 	protected void setStandardElements(Element activityElement, Activity activity) {
+		// Handle targets
+		Element targetsElement = getBPELChildElementByLocalName(activityElement, "targets");
+		if (targetsElement != null) {
+			activity.setTargets(xml2Targets(targetsElement));
+		}
+				
+		// Handle sources
+		Element sourcesElement = getBPELChildElementByLocalName(activityElement, "sources");
+		if (sourcesElement != null) {
+			activity.setSources(xml2Sources(sourcesElement));
+		}
+	}
+
+ 	protected Targets xml2Targets(Element targetsElement) {
 		Targets targets = BPELFactory.eINSTANCE.createTargets();
 		NodeList targetElements = getBPELChildElementsByLocalName(targetsElement, "target");
 		for (int i = 0; i < targetElements.getLength(); i++) {
@@ -1269,7 +1257,7 @@ public class BPELReader {
 			final String linkName = targetElement.getAttribute("linkName");			
 			process.getPostLoadRunnables().add(new Runnable() {
 				public void run() {
-					Link link = BPELUtils.getLink(target.getActivity(), linkName);
+					Link link = getLink(target.getActivity(), linkName);
 					if (link != null)
 						target.setLink(link);
 					else
@@ -1310,7 +1298,7 @@ public class BPELReader {
 		
 		process.getPostLoadRunnables().add(new Runnable() {
 			public void run() {
-				Link link = BPELUtils.getLink(source.getActivity(), linkName);
+				Link link = getLink(source.getActivity(), linkName);
 				if (link != null)
 					source.setLink(link);
 				else
@@ -2134,11 +2122,37 @@ public class BPELReader {
 	 * Converts an XML extensionactivity element to a BPEL ExtensionActivity object.
 	 */
 	protected Activity xml2ExtensionActivity(Element extensionActivityElement) {
-		ExtensionActivity extensionActivity = BPELFactory.eINSTANCE.createExtensionActivity();
-		
-		setStandardAttributes(extensionActivityElement, extensionActivity);
-		 
-    	return extensionActivity;
+		// Do not call setStandardAttributes here because extensionActivityElement
+		// doesn't have them.
+
+		// Find the child element.
+		NodeList nodeList = getChildElements(extensionActivityElement);
+		if (nodeList.getLength() == 1) {
+			Node child = (Element)nodeList.item(0);
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				// We found a child element. Look up a deserializer for this
+				// activity and call it.
+				String localName = child.getLocalName();
+				String namespace = child.getNamespaceURI();
+				QName qname = new QName(namespace, localName);
+				BPELActivityDeserializer deserializer = extensionRegistry.getActivityDeserializer(qname);
+				if (deserializer != null) {
+					// Deserialize the DOM element and return the new Activity
+					Map nsMap = getAllNamespacesForElement((Element)child);
+					Activity activity = deserializer.unmarshall(qname,child,process,nsMap,extensionRegistry,resource.getURI(), this);
+					// Now let's do the standard attributes and elements
+					setStandardAttributes((Element)child, activity);
+					setStandardElements((Element)child, activity);
+					
+					// Don't do extensibility because extensionActivity is not extensible.
+					// If individual extensionActivity subclasses are actually extensible, they
+					// have to do this themselves in their deserializer.
+					return activity;
+				}
+			}
+		}
+		// Fallback is to create a new extensionActivity.
+		return BPELFactory.eINSTANCE.createExtensionActivity();
 	}
 
 	
@@ -3127,5 +3141,9 @@ public class BPELReader {
 
 	public static Variable getVariable(EObject eObject, String variableName) {
 		return VARIABLE_RESOLVER.getVariable(eObject, variableName);
+	}	
+	
+	public static Link getLink(Activity activity, String linkName) {
+		return LINK_RESOLVER.getLink(activity, linkName);
 	}	
 }

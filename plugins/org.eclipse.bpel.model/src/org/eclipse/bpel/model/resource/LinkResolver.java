@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.resource;
 
-import org.eclipse.bpel.model.Variable;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.Link;
 
 /**
- * Interface VariableResolver provides an extension mechanism for resolution
- * of a variable with a given name.
+ * Interface LinkResolver provides an extension mechanism for resolution
+ * of a link with a given name.
  */
-public interface VariableResolver {
-	public Variable getVariable(EObject eObject, String variableName);
+public interface LinkResolver {
+	public Link getLink(Activity activity, String linkName);
 }

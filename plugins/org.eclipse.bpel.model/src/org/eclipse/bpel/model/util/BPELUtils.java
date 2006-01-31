@@ -75,26 +75,6 @@ public class BPELUtils {
 		}
 		return partnerLink;
 	}
-	
-	public static Link getLink(Activity activity, String linkName) {
-		if (activity != null) {
-			EObject container = activity.eContainer();
-			while (container != null) {
-				if (container instanceof Flow) {
-					Links links =((Flow)container).getLinks();
-					if (links != null) {
-						for (Iterator it = links.getChildren().iterator(); it.hasNext(); ) {
-							Link candidate = (Link)it.next(); 		
-							if (candidate.getName().equals(linkName)) 
-								return candidate;
-						}
-					}
-				}
-				container = container.eContainer();
-			}
-		}
-		return null;		
-	}	
 
 	public static String getNamespace(BPELResource resource, EObject eObject, String prefix) {
 		BPELResource.NotifierMap prefixNSMap = null;
