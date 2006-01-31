@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.13 2006/01/19 21:08:48 james Exp $
+ * $Id: BPELSwitch.java,v 1.14 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -54,6 +54,7 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
@@ -807,6 +808,12 @@ public class BPELSwitch {
 			case BPELPackage.DOCUMENTATION: {
 				Documentation documentation = (Documentation)theEObject;
 				Object result = caseDocumentation(documentation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.ITERATOR: {
+				Iterator iterator = (Iterator)theEObject;
+				Object result = caseIterator(iterator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1891,6 +1898,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseDocumentation(Documentation object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Iterator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Iterator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseIterator(Iterator object) {
 		return null;
 	}
 

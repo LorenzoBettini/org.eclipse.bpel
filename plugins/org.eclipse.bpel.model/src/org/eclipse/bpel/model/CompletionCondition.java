@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionCondition.java,v 1.1 2006/01/16 19:47:37 james Exp $
+ * $Id: CompletionCondition.java,v 1.2 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.CompletionCondition#getBranches <em>Branches</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.CompletionCondition#getBooleanExpression <em>Boolean Expression</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,31 +51,5 @@ public interface CompletionCondition extends EObject{
 	 * @generated
 	 */
 	void setBranches(Branches value);
-
-	/**
-	 * Returns the value of the '<em><b>Boolean Expression</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Boolean Expression</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Boolean Expression</em>' containment reference.
-	 * @see #setBooleanExpression(Expression)
-	 * @see org.eclipse.bpel.model.BPELPackage#getCompletionCondition_BooleanExpression()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Expression getBooleanExpression();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.CompletionCondition#getBooleanExpression <em>Boolean Expression</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Boolean Expression</em>' containment reference.
-	 * @see #getBooleanExpression()
-	 * @generated
-	 */
-	void setBooleanExpression(Expression value);
 
 } // CompletionCondition

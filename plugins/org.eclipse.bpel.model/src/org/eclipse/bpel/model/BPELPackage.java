@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.22 2006/01/19 21:08:47 james Exp $
+ * $Id: BPELPackage.java,v 1.23 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -5639,31 +5639,31 @@ public interface BPELPackage extends EPackage{
 	int FOR_EACH__COUNTER_NAME = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Start Counter Value</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOR_EACH__START_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Final Counter Value</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOR_EACH__FINAL_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Completion Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 4;
+	int FOR_EACH__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Iterator</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__ITERATOR = ACTIVITY_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__ACTIVITY = ACTIVITY_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>For Each</em>' class.
@@ -6206,22 +6206,13 @@ public interface BPELPackage extends EPackage{
 	int COMPLETION_CONDITION__BRANCHES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Boolean Expression</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLETION_CONDITION__BOOLEAN_EXPRESSION = 1;
-
-	/**
 	 * The number of structural features of the '<em>Completion Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION_FEATURE_COUNT = 2;
+	int COMPLETION_CONDITION_FEATURE_COUNT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6351,6 +6342,43 @@ public interface BPELPackage extends EPackage{
 	int DOCUMENTATION_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.IteratorImpl <em>Iterator</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.IteratorImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getIterator()
+	 * @generated
+	 */
+	int ITERATOR = 71;
+
+	/**
+	 * The feature id for the '<em><b>Final Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR__FINAL_COUNTER_VALUE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Start Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR__START_COUNTER_VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Iterator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6358,7 +6386,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 71;
+	int CORRELATION_PATTERN = 72;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -6368,7 +6396,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 72;
+	int ENDPOINT_REFERENCE_ROLE = 73;
 
 
 	/**
@@ -8743,28 +8771,6 @@ public interface BPELPackage extends EPackage{
 	EReference getForEach_CounterName();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getStartCounterValue <em>Start Counter Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Start Counter Value</em>'.
-	 * @see org.eclipse.bpel.model.ForEach#getStartCounterValue()
-	 * @see #getForEach()
-	 * @generated
-	 */
-	EReference getForEach_StartCounterValue();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getFinalCounterValue <em>Final Counter Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Final Counter Value</em>'.
-	 * @see org.eclipse.bpel.model.ForEach#getFinalCounterValue()
-	 * @see #getForEach()
-	 * @generated
-	 */
-	EReference getForEach_FinalCounterValue();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getCompletionCondition <em>Completion Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8774,6 +8780,28 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getForEach_CompletionCondition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getIterator <em>Iterator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Iterator</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getIterator()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_Iterator();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getActivity <em>Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Activity</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getActivity()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_Activity();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.RepeatUntil <em>Repeat Until</em>}'.
@@ -8988,17 +9016,6 @@ public interface BPELPackage extends EPackage{
 	EReference getCompletionCondition_Branches();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.CompletionCondition#getBooleanExpression <em>Boolean Expression</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Boolean Expression</em>'.
-	 * @see org.eclipse.bpel.model.CompletionCondition#getBooleanExpression()
-	 * @see #getCompletionCondition()
-	 * @generated
-	 */
-	EReference getCompletionCondition_BooleanExpression();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Branches <em>Branches</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9082,6 +9099,38 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EAttribute getDocumentation_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Iterator <em>Iterator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Iterator</em>'.
+	 * @see org.eclipse.bpel.model.Iterator
+	 * @generated
+	 */
+	EClass getIterator();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Iterator#getFinalCounterValue <em>Final Counter Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Final Counter Value</em>'.
+	 * @see org.eclipse.bpel.model.Iterator#getFinalCounterValue()
+	 * @see #getIterator()
+	 * @generated
+	 */
+	EReference getIterator_FinalCounterValue();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Iterator#getStartCounterValue <em>Start Counter Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Start Counter Value</em>'.
+	 * @see org.eclipse.bpel.model.Iterator#getStartCounterValue()
+	 * @see #getIterator()
+	 * @generated
+	 */
+	EReference getIterator_StartCounterValue();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

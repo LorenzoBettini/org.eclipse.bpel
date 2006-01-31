@@ -497,14 +497,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="ForEach" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parallel" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="counterName" eType="#//Variable"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="startCounterValue" eType="#//Expression"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" eType="#//Expression"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="counterName" lowerBound="1"
+        eType="#//Variable" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="completionCondition" eType="#//CompletionCondition"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iterator" lowerBound="1"
+        eType="#//Iterator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
+        eType="#//Activity" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RepeatUntil" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
@@ -542,8 +542,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="branches" eType="#//Branches"
         defaultValueLiteral="" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="booleanExpression" eType="#//Expression"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Branches" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="countCompletedBranchesOnly"
@@ -558,5 +556,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lang" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Iterator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCounterValue" eType="#//Expression"
+        containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

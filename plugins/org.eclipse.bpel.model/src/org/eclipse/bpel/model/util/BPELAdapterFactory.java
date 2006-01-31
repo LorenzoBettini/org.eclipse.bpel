@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.13 2006/01/19 21:08:48 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.14 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -52,6 +52,7 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
@@ -361,6 +362,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseDocumentation(Documentation object) {
 				return createDocumentationAdapter();
+			}
+			public Object caseIterator(Iterator object) {
+				return createIteratorAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1400,6 +1404,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDocumentationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Iterator <em>Iterator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Iterator
+	 * @generated
+	 */
+	public Adapter createIteratorAdapter() {
 		return null;
 	}
 

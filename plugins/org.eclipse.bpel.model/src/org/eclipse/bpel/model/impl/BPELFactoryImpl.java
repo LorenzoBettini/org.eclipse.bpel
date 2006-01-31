@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.13 2006/01/19 21:08:47 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.14 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,6 +53,7 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
@@ -188,6 +189,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.BRANCHES: return createBranches();
 			case BPELPackage.EXTENSIBLE_ELEMENT: return createExtensibleElement();
 			case BPELPackage.DOCUMENTATION: return createDocumentation();
+			case BPELPackage.ITERATOR: return createIterator();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -933,6 +935,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Documentation createDocumentation() {
 		DocumentationImpl documentation = new DocumentationImpl();
 		return documentation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Iterator createIterator() {
+		IteratorImpl iterator = new IteratorImpl();
+		return iterator;
 	}
 
 	/**

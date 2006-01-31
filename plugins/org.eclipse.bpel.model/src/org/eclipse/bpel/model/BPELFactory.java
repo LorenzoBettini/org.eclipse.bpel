@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.13 2006/01/19 21:08:47 james Exp $
+ * $Id: BPELFactory.java,v 1.14 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -671,6 +671,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	Documentation createDocumentation();
+
+	/**
+	 * Returns a new object of class '<em>Iterator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Iterator</em>'.
+	 * @generated
+	 */
+	Iterator createIterator();
 
 	/**
 	 * Returns the package supported by this factory.

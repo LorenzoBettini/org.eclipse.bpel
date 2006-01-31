@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: CompletionConditionImpl.java,v 1.3 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.CompletionConditionImpl#getBranches <em>Branches</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.CompletionConditionImpl#getBooleanExpression <em>Boolean Expression</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,16 +41,6 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 	 * @ordered
 	 */
 	protected Branches branches = null;
-
-	/**
-	 * The cached value of the '{@link #getBooleanExpression() <em>Boolean Expression</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBooleanExpression()
-	 * @generated
-	 * @ordered
-	 */
-	protected Expression booleanExpression = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -119,56 +108,11 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Expression getBooleanExpression() {
-		return booleanExpression;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetBooleanExpression(Expression newBooleanExpression, NotificationChain msgs) {
-		Expression oldBooleanExpression = booleanExpression;
-		booleanExpression = newBooleanExpression;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION, oldBooleanExpression, newBooleanExpression);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBooleanExpression(Expression newBooleanExpression) {
-		if (newBooleanExpression != booleanExpression) {
-			NotificationChain msgs = null;
-			if (booleanExpression != null)
-				msgs = ((InternalEObject)booleanExpression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION, null, msgs);
-			if (newBooleanExpression != null)
-				msgs = ((InternalEObject)newBooleanExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION, null, msgs);
-			msgs = basicSetBooleanExpression(newBooleanExpression, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION, newBooleanExpression, newBooleanExpression));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 					return basicSetBranches(null, msgs);
-				case BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION:
-					return basicSetBooleanExpression(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -185,8 +129,6 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return getBranches();
-			case BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION:
-				return getBooleanExpression();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -200,9 +142,6 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				setBranches((Branches)newValue);
-				return;
-			case BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION:
-				setBooleanExpression((Expression)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -218,9 +157,6 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				setBranches((Branches)null);
 				return;
-			case BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION:
-				setBooleanExpression((Expression)null);
-				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -234,8 +170,6 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return branches != null;
-			case BPELPackage.COMPLETION_CONDITION__BOOLEAN_EXPRESSION:
-				return booleanExpression != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

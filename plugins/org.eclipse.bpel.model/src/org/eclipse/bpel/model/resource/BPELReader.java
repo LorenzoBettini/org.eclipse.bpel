@@ -2745,25 +2745,21 @@ public class BPELReader {
 			process.setSuppressJoinFailure(new Boolean(forEachElement.getAttribute("parallel").equals("yes")));
 		}
 
+		// Set counterName variable
 		if (forEachElement.hasAttribute("counterName")) {
-			// Set counterName variable
-			Variable variable = BPELFactory.eINSTANCE.createVariable();		
+			Variable variable = BPELFactory.eINSTANCE.createVariable();
 			variable.setName(forEachElement.getAttribute("counterName"));
+			QName qName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, "unsignedInt");
+			XSDTypeDefinition type = new XSDTypeDefinitionProxy(resource.getURI(), qName);
+			variable.setType(type);
 			forEach.setCounterName(variable);					
 		}		
 
-		// Set startCounterValue element
-		Element startCounterValueElement = getBPELChildElementByLocalName(forEachElement, "startCounterValue");
-		if (startCounterValueElement != null) {
-			Expression expression = xml2Expression(startCounterValueElement);
-			forEach.setStartCounterValue(expression);
-		}
-		
-		// Set finalCounterValue element
-		Element finalCounterValueElement = getBPELChildElementByLocalName(forEachElement, "finalCounterValue");
-		if (finalCounterValueElement != null) {
-			Expression expression = xml2Expression(finalCounterValueElement);
-			forEach.setFinalCounterValue(expression);
+		// Set iterator element
+		Element iteratorElement = getBPELChildElementByLocalName(forEachElement, "iterator");
+		if (iteratorElement != null) {
+			org.eclipse.bpel.model.Iterator iterator = xml2Iterator(iteratorElement);
+			forEach.setIterator(iterator);
 		}
 		
 		// Set completionCondition element
@@ -2772,8 +2768,39 @@ public class BPELReader {
 			CompletionCondition completionCondition = xml2CompletionCondition(completionConditionElement);
 			forEach.setCompletionCondition(completionCondition);
 		}
-		
+
+		// Set activity
+		Activity activity = getChildActivity(forEachElement);
+		if (activity instanceof Scope) {
+			forEach.setActivity(activity);
+		}
+				
 		return forEach;
+	}
+
+	/**
+	 * Converts an XML iterator element to a BPEL Iterator object.
+	 */
+	protected org.eclipse.bpel.model.Iterator xml2Iterator(Element iteratorElement) {
+		org.eclipse.bpel.model.Iterator iterator = BPELFactory.eINSTANCE.createIterator();
+		if (iteratorElement == null) return iterator;
+		
+		// Set startCounterValue element
+		Element startCounterValueElement = getBPELChildElementByLocalName(iteratorElement, "startCounterValue");
+		if (startCounterValueElement != null) {
+			Expression expression = xml2Expression(startCounterValueElement);
+			iterator.setStartCounterValue(expression);
+		}
+		
+		// Set finalCounterValue element
+		Element finalCounterValueElement = getBPELChildElementByLocalName(iteratorElement, "finalCounterValue");
+		if (finalCounterValueElement != null) {
+			Expression expression = xml2Expression(finalCounterValueElement);
+			iterator.setFinalCounterValue(expression);
+		}
+
+		
+		return iterator;
 	}
 
 	/**
@@ -2788,13 +2815,6 @@ public class BPELReader {
 		if (branchesElement != null) {
 			Branches branches = xml2Branches(branchesElement);
 			completionCondition.setBranches(branches);
-		}
-		
-		// Set booleanExpression element
-		Element booleanExpressionElement = getBPELChildElementByLocalName(completionConditionElement, "booleanExpression");
-		if (booleanExpressionElement != null) {
-			Expression expression = xml2Expression(booleanExpressionElement);
-			completionCondition.setBooleanExpression(expression);
 		}
 		
 		return completionCondition;

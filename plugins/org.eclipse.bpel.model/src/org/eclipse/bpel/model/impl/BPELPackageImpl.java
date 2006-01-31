@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.22 2006/01/19 21:08:48 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.23 2006/01/31 14:56:08 james Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,6 +53,7 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
@@ -608,6 +609,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass documentationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iteratorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2703,7 +2711,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_StartCounterValue() {
+	public EReference getForEach_CompletionCondition() {
 		return (EReference)forEachEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -2712,7 +2720,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_FinalCounterValue() {
+	public EReference getForEach_Iterator() {
 		return (EReference)forEachEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -2721,7 +2729,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_CompletionCondition() {
+	public EReference getForEach_Activity() {
 		return (EReference)forEachEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -2910,15 +2918,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCompletionCondition_BooleanExpression() {
-		return (EReference)completionConditionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getBranches() {
 		return branchesEClass;
 	}
@@ -2984,6 +2983,33 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EAttribute getDocumentation_Value() {
 		return (EAttribute)documentationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIterator() {
+		return iteratorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIterator_FinalCounterValue() {
+		return (EReference)iteratorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIterator_StartCounterValue() {
+		return (EReference)iteratorEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -3312,9 +3338,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		forEachEClass = createEClass(FOR_EACH);
 		createEAttribute(forEachEClass, FOR_EACH__PARALLEL);
 		createEReference(forEachEClass, FOR_EACH__COUNTER_NAME);
-		createEReference(forEachEClass, FOR_EACH__START_COUNTER_VALUE);
-		createEReference(forEachEClass, FOR_EACH__FINAL_COUNTER_VALUE);
 		createEReference(forEachEClass, FOR_EACH__COMPLETION_CONDITION);
+		createEReference(forEachEClass, FOR_EACH__ITERATOR);
+		createEReference(forEachEClass, FOR_EACH__ACTIVITY);
 
 		repeatUntilEClass = createEClass(REPEAT_UNTIL);
 		createEReference(repeatUntilEClass, REPEAT_UNTIL__ACTIVITY);
@@ -3343,7 +3369,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		completionConditionEClass = createEClass(COMPLETION_CONDITION);
 		createEReference(completionConditionEClass, COMPLETION_CONDITION__BRANCHES);
-		createEReference(completionConditionEClass, COMPLETION_CONDITION__BOOLEAN_EXPRESSION);
 
 		branchesEClass = createEClass(BRANCHES);
 		createEAttribute(branchesEClass, BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY);
@@ -3355,6 +3380,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(documentationEClass, DOCUMENTATION__LANG);
 		createEAttribute(documentationEClass, DOCUMENTATION__SOURCE);
 		createEAttribute(documentationEClass, DOCUMENTATION__VALUE);
+
+		iteratorEClass = createEClass(ITERATOR);
+		createEReference(iteratorEClass, ITERATOR__FINAL_COUNTER_VALUE);
+		createEReference(iteratorEClass, ITERATOR__START_COUNTER_VALUE);
 
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
@@ -3737,10 +3766,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(forEachEClass, ForEach.class, "ForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getForEach_Parallel(), theEcorePackage.getEBooleanObject(), "parallel", "false", 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_CompletionCondition(), this.getCompletionCondition(), null, "completionCondition", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_Iterator(), this.getIterator(), null, "iterator", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_Activity(), this.getActivity(), null, "activity", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(repeatUntilEClass, RepeatUntil.class, "RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRepeatUntil_Activity(), this.getActivity(), null, "activity", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3769,7 +3798,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(completionConditionEClass, CompletionCondition.class, "CompletionCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompletionCondition_Branches(), this.getBranches(), null, "branches", "", 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCompletionCondition_BooleanExpression(), this.getExpression(), null, "booleanExpression", null, 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(branchesEClass, Branches.class, "Branches", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBranches_CountCompletedBranchesOnly(), theEcorePackage.getEBooleanObject(), "countCompletedBranchesOnly", "false", 0, 1, Branches.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3781,6 +3809,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEAttribute(getDocumentation_Lang(), theEcorePackage.getEString(), "lang", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentation_Source(), theEcorePackage.getEString(), "source", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentation_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iteratorEClass, Iterator.class, "Iterator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIterator_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 0, 1, Iterator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIterator_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 0, 1, Iterator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

@@ -1005,12 +1005,8 @@ public class BPELWriter {
 			activityElement.setAttribute("counterName", forEach.getCounterName().getName());
 		}
 
-		if (forEach.getStartCounterValue() != null) {
-			activityElement.appendChild(expression2XML(forEach.getStartCounterValue(), "startCounterValue"));
-		}
-		
-		if (forEach.getFinalCounterValue() != null) {
-			activityElement.appendChild(expression2XML(forEach.getFinalCounterValue(), "finalCounterValue"));
+		if (forEach.getIterator() != null) {
+			activityElement.appendChild(iterator2XML(forEach.getIterator()));
 		}
 		
 		CompletionCondition completionCondition = forEach.getCompletionCondition();
@@ -1019,7 +1015,44 @@ public class BPELWriter {
 			activityElement.appendChild(completionConditionElement);
 		}
 
+		if (forEach.getActivity() != null ){
+			activityElement.appendChild(activity2XML(forEach.getActivity()));
+		}
 		return activityElement;
+	}
+
+	protected Element iterator2XML(org.eclipse.bpel.model.Iterator iterator) {
+		Element iteratorElement = createBPELElement("iterator");
+		
+		if (iterator.getStartCounterValue() != null) {
+			iteratorElement.appendChild(expression2XML(iterator.getStartCounterValue(), "startCounterValue"));
+		}
+		
+		if (iterator.getFinalCounterValue() != null) {
+			iteratorElement.appendChild(expression2XML(iterator.getFinalCounterValue(), "finalCounterValue"));
+		}
+
+		return iteratorElement;
+	}
+
+	protected Element completionCondition2XML(CompletionCondition completionCondition) {
+		Element completionConditionElement = createBPELElement("completionCondition");
+		
+		if (completionCondition.getBranches() != null) {
+			Element branchesElement = branches2XML(completionCondition.getBranches());
+			completionConditionElement.appendChild(branchesElement);
+		}
+
+		return completionConditionElement;
+	}
+
+	protected Element branches2XML(Branches branches) {
+		Element branchesElement = expression2XML(branches, "branches");
+		
+		if (branches.isSetCountCompletedBranchesOnly())
+			branchesElement.setAttribute("countCompletedBranchesOnly", BPELUtils.boolean2XML(branches.getCountCompletedBranchesOnly()));
+
+		return branchesElement;
 	}
 
 	protected Element rethrow2XML(Activity activity) {
@@ -1340,29 +1373,6 @@ public class BPELWriter {
 		return activityElement;
 	}
 	
-	protected Element completionCondition2XML(CompletionCondition completionCondition) {
-		Element completionConditionElement = createBPELElement("completionCondition");
-		
-		if (completionCondition.getBooleanExpression() != null) {
-			completionConditionElement.appendChild(expression2XML(completionCondition.getBooleanExpression(), "booleanExpression"));
-		}
-		if (completionCondition.getBranches() != null) {
-			Element branchesElement = branches2XML(completionCondition.getBranches());
-			completionConditionElement.appendChild(branchesElement);
-		}
-
-		return completionConditionElement;
-	}
-
-	protected Element branches2XML(Branches branches) {
-		Element branchesElement = expression2XML(branches, "branches");
-		
-		if (branches.isSetCountCompletedBranchesOnly())
-			branchesElement.setAttribute("countCompletedBranchesOnly", BPELUtils.boolean2XML(branches.getCountCompletedBranchesOnly()));
-
-		return branchesElement;
-	}
-
 	protected Element documentation2XML(Documentation documentation) {
 		Element documentationElement = createBPELElement("documentation");
 		
