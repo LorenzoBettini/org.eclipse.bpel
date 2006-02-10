@@ -454,6 +454,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			Messages.BPELEditor_Assign_10, 
 			Messages.BPELEditor_Assign_11, 
 			provider.getFactoryFor(bpelPackage.getAssign())));
+		basicActionsCategory.add(new BPELCreationToolEntry(
+			Messages.BPELEditor_Validate_XML_12, 
+			Messages.BPELEditor_Validate_XML_13, 
+			provider.getFactoryFor(bpelPackage.getValidate())));
 		palette.add(basicActionsCategory);
 
 		controlCategory = new PaletteCategory("Control"); //$NON-NLS-1$

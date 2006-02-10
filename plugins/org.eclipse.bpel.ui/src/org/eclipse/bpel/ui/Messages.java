@@ -32,6 +32,7 @@ public final class Messages extends NLS {
 	public static String AssignImplDetails_New__5;
 	public static String AssignImplDetails_NofM__4;
 	public static String AssignImplDetails_To__2;
+	public static String Validate;
 	public static String AttributesDetails_Expression_Language__2;
 	public static String AttributesDetails_Process_Type_Abstract__3;
 	public static String AttributesDetails_Query_Language__2;
@@ -51,6 +52,8 @@ public final class Messages extends NLS {
 	public static String BPELEditPartFactory_Could_not_create_edit_part_for;
 	public static String BPELEditor_Assign_10;
 	public static String BPELEditor_Assign_11;
+	public static String BPELEditor_Validate_XML_12;
+	public static String BPELEditor_Validate_XML_13;
 	public static String BPELEditor_Bottom_Control_Group_39;
 	public static String BPELEditor_Cant_read_input_file_1;
 	public static String BPELEditor_Compensate_1;
@@ -214,6 +217,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Add_Compensation_Handler_11;
 	public static String IBPELUIConstants_Add_Termination_Handler_11;
 	public static String IBPELUIConstants_Add_Copy_12b;
+	public static String IBPELUIConstants_Add_VALIDATE_VARIABLE_15;
 	public static String IBPELUIConstants_Add_Correlation_6;
 	public static String IBPELUIConstants_Add_Custom_Property_14;
 	public static String IBPELUIConstants_Add_Custom_Setting_13;
@@ -233,6 +237,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Compensate_Change_40;
 	public static String IBPELUIConstants_Correlation_Change_65;
 	public static String IBPELUIConstants_Create_Instance_Change_51;
+	public static String IBPELUIConstants_Assign_Validate_XML_52;
 	public static String IBPELUIConstants_Delete_Copy_24b;
 	public static String IBPELUIConstants_Delete_Correlation_18;
 	public static String IBPELUIConstants_Delete_Link_17;
@@ -262,6 +267,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Query_Language_Change_67;
 	public static String IBPELUIConstants_Remove_Client_Settings_21;
 	public static String IBPELUIConstants_Remove_Custom_Property_25;
+	public static String IBPELUIConstants_Delete_Validate_Variable_26;
 	public static String IBPELUIConstants_Remove_Custom_Settings_22;
 	public static String IBPELUIConstants_Remove_Property_23;
 	public static String IBPELUIConstants_Reposition_26;
@@ -462,7 +468,11 @@ public final class Messages extends NLS {
 	public static String validationInfo_invalidElementsRemoved;
 	public static String TerminationHandlerAdapter_Termination_Handlers_1;
 	public static String CreateTerminationHandlerAction_Add_Termination_Handler_1;
-
+	public static String ValidateXML_Details_1;
+	public static String ValidateDetails_1;
+	public static String ValidateDetails_2;
+	public static String ValidateDetails_3;
+	public static String ValidateDetails_4;
 	// 3-letter abbreviations.  We could get rid of these ones if we get rid of DateTimeSelector.
 	public static String DateTimeSelector_Month_1;
 	public static String DateTimeSelector_Month_2;

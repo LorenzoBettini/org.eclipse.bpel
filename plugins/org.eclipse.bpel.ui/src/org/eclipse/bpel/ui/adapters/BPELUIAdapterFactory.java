@@ -57,6 +57,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	CompensateAdapter compensateAdapter;
 	RethrowAdapter rethrowAdapter;
 	CustomActivityAdapter customActivityAdapter;
+	ValidateAdapter validateAdapter;
 	
 	public static BPELUIAdapterFactory getInstance() {
 		if (instance == null) {
@@ -292,6 +293,14 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		}		
 		return exitAdapter;
 	}
+	
+	public Adapter createValidateAdapter() {
+		if (validateAdapter == null) {
+			validateAdapter = new ValidateAdapter();	
+		}		
+		return validateAdapter;
+	}
+
 
 	// Anyone creating a new adapter factory needs these three methods verbatim.
 	public Adapter adaptNew(Notifier target, Object type) {
@@ -315,4 +324,6 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
     	}
         return super.createAdapter(target, type);
     }
+
+	
 }

@@ -205,9 +205,11 @@ public interface IBPELUIConstants {
 	public final String CMD_ADD_CUSTOM_SETTING = Messages.IBPELUIConstants_Add_Custom_Setting_13; 
 	public final String CMD_ADD_CUSTOM_PROPERTY = Messages.IBPELUIConstants_Add_Custom_Property_14; 
 	public final String CMD_ADD_COPY = Messages.IBPELUIConstants_Add_Copy_12b; 
+	public final String CMD_ADD_VALIDATE_VARIABLE = Messages.IBPELUIConstants_Add_VALIDATE_VARIABLE_15;
 
 	public final String CMD_DELETE_LINK = Messages.IBPELUIConstants_Delete_Link_17; 
-	public final String CMD_DELETE_CORRELATION = Messages.IBPELUIConstants_Delete_Correlation_18; 
+	public final String CMD_DELETE_CORRELATION = Messages.IBPELUIConstants_Delete_Correlation_18;
+	public final String CMD_DELETE_VALIDATE_VARIABLE = Messages.IBPELUIConstants_Delete_Validate_Variable_26;
 	public final String CMD_DELETE_PROPERTY = Messages.IBPELUIConstants_Delete_Property_19; 
 	public final String CMD_DELETE_PROPERTY_ALIAS = Messages.IBPELUIConstants_Delete_Property_Alias_20; 
 	public final String CMD_REMOVE_CLIENT_SETTINGS = Messages.IBPELUIConstants_Remove_Client_Settings_21; 
@@ -245,6 +247,7 @@ public interface IBPELUIConstants {
 
 	public final String CMD_SELECT_JOINFAILURE = Messages.IBPELUIConstants_Join_Failure_Change_50; 
 	public final String CMD_SELECT_CREATEINSTANCE = Messages.IBPELUIConstants_Create_Instance_Change_51; 
+	public final String CMD_VALIDATE_XML = Messages.IBPELUIConstants_Assign_Validate_XML_52;
 	public final String CMD_SELECT_SPECCOMPLIANT = Messages.IBPELUIConstants_Spec_Compliance_Change_2; 
 
 	public final String CMD_SELECT_TARGETNAMESPACE = Messages.IBPELUIConstants_Target_namespace_Change_61; 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.14 2006/01/31 14:56:08 james Exp $
+ * $Id: BPELAdapterFactory.java,v 1.15 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -83,7 +83,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
-import org.eclipse.bpel.model.ValidateXML;
+import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -336,9 +336,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			public Object caseTerminationHandler(TerminationHandler object) {
 				return createTerminationHandlerAdapter();
 			}
-			public Object caseValidateXML(ValidateXML object) {
-				return createValidateXMLAdapter();
-			}
 			public Object caseIf(If object) {
 				return createIfAdapter();
 			}
@@ -359,6 +356,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseExtensibleElement(ExtensibleElement object) {
 				return createExtensibleElementAdapter();
+			}
+			public Object caseValidate(Validate object) {
+				return createValidateAdapter();
 			}
 			public Object caseDocumentation(Documentation object) {
 				return createDocumentationAdapter();
@@ -1268,20 +1268,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ValidateXML <em>Validate XML</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.ValidateXML
-	 * @generated
-	 */
-	public Adapter createValidateXMLAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.If <em>If</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1390,6 +1376,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createExtensibleElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Validate <em>Validate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.Validate
+	 * @generated
+	 */
+	public Adapter createValidateAdapter() {
 		return null;
 	}
 

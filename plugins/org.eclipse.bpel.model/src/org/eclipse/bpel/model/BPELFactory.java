@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.14 2006/01/31 14:56:08 james Exp $
+ * $Id: BPELFactory.java,v 1.15 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -592,15 +592,6 @@ public interface BPELFactory extends EFactory{
 	TerminationHandler createTerminationHandler();
 
 	/**
-	 * Returns a new object of class '<em>Validate XML</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Validate XML</em>'.
-	 * @generated
-	 */
-	ValidateXML createValidateXML();
-
-	/**
 	 * Returns a new object of class '<em>If</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -662,6 +653,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	ExtensibleElement createExtensibleElement();
+
+	/**
+	 * Returns a new object of class '<em>Validate</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Validate</em>'.
+	 * @generated
+	 */
+	Validate createValidate();
 
 	/**
 	 * Returns a new object of class '<em>Documentation</em>'.

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.24 2006/01/31 15:43:25 james Exp $
+ * $Id: BPELPackage.java,v 1.25 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -690,16 +690,6 @@ public interface BPELPackage extends EPackage{
 	int TERMINATION_HANDLER = 61;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateXMLImpl <em>Validate XML</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.ValidateXMLImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidateXML()
-	 * @generated
-	 */
-	int VALIDATE_XML = 62;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.IfImpl <em>If</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -707,7 +697,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getIf()
 	 * @generated
 	 */
-	int IF = 63;
+	int IF = 62;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ThenImpl <em>Then</em>}' class.
@@ -717,7 +707,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getThen()
 	 * @generated
 	 */
-	int THEN = 64;
+	int THEN = 63;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ElseIfImpl <em>Else If</em>}' class.
@@ -727,7 +717,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElseIf()
 	 * @generated
 	 */
-	int ELSE_IF = 65;
+	int ELSE_IF = 64;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ElseImpl <em>Else</em>}' class.
@@ -737,7 +727,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElse()
 	 * @generated
 	 */
-	int ELSE = 66;
+	int ELSE = 65;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompletionConditionImpl <em>Completion Condition</em>}' class.
@@ -747,7 +737,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompletionCondition()
 	 * @generated
 	 */
-	int COMPLETION_CONDITION = 67;
+	int COMPLETION_CONDITION = 66;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.BranchesImpl <em>Branches</em>}' class.
@@ -757,7 +747,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getBranches()
 	 * @generated
 	 */
-	int BRANCHES = 68;
+	int BRANCHES = 67;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExtensibleElementImpl <em>Extensible Element</em>}' class.
@@ -767,7 +757,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensibleElement()
 	 * @generated
 	 */
-	int EXTENSIBLE_ELEMENT = 69;
+	int EXTENSIBLE_ELEMENT = 68;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3119,13 +3109,13 @@ public interface BPELPackage extends EPackage{
 	int ASSIGN__COPY = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Validate XML</b></em>' attribute.
+	 * The feature id for the '<em><b>Validate</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSIGN__VALIDATE_XML = ACTIVITY_FEATURE_COUNT + 1;
+	int ASSIGN__VALIDATE = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Assign</em>' class.
@@ -5906,87 +5896,6 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATE_XML__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__ELEMENT = ACTIVITY__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__NAME = ACTIVITY__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
-
-	/**
-	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__TARGETS = ACTIVITY__TARGETS;
-
-	/**
-	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML__SOURCES = ACTIVITY__SOURCES;
-
-	/**
-	 * The number of structural features of the '<em>Validate XML</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_XML_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
 	int IF__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
 
 	/**
@@ -6366,6 +6275,106 @@ public interface BPELPackage extends EPackage{
 	 * @ordered
 	 */
 	int BRANCHES_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ValidateImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidate()
+	 * @generated
+	 */
+	int VALIDATE = 69;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The feature id for the '<em><b>Variables</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__VARIABLES = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Validate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.DocumentationImpl <em>Documentation</em>}' class.
@@ -7506,15 +7515,15 @@ public interface BPELPackage extends EPackage{
 	EReference getAssign_Copy();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Assign#getValidateXML <em>Validate XML</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Assign#getValidate <em>Validate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Validate XML</em>'.
-	 * @see org.eclipse.bpel.model.Assign#getValidateXML()
+	 * @return the meta object for the attribute '<em>Validate</em>'.
+	 * @see org.eclipse.bpel.model.Assign#getValidate()
 	 * @see #getAssign()
 	 * @generated
 	 */
-	EAttribute getAssign_ValidateXML();
+	EAttribute getAssign_Validate();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Copy <em>Copy</em>}'.
@@ -8929,16 +8938,6 @@ public interface BPELPackage extends EPackage{
 	EReference getTerminationHandler_Activity();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.bpel.model.ValidateXML <em>Validate XML</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Validate XML</em>'.
-	 * @see org.eclipse.bpel.model.ValidateXML
-	 * @generated
-	 */
-	EClass getValidateXML();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.If <em>If</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9128,6 +9127,27 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getExtensibleElement_Documentation();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Validate <em>Validate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Validate</em>'.
+	 * @see org.eclipse.bpel.model.Validate
+	 * @generated
+	 */
+	EClass getValidate();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.Validate#getVariables <em>Variables</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Variables</em>'.
+	 * @see org.eclipse.bpel.model.Validate#getVariables()
+	 * @see #getValidate()
+	 * @generated
+	 */
+	EReference getValidate_Variables();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Documentation <em>Documentation</em>}'.

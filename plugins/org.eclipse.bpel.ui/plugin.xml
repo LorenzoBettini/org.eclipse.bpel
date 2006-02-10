@@ -363,6 +363,18 @@
                class="org.eclipse.bpel.ui.properties.AssignImplSection"
                id="org.eclipse.bpel.ui.sections.AssignImpl">
             <input type="org.eclipse.bpel.model.Assign"/>
+        </propertySection>        
+        <propertySection		       
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ValidateSection"
+               id="org.eclipse.bpel.ui.sections.ValidateSection">
+            <input type="org.eclipse.bpel.model.Assign"/>
+        </propertySection>
+        <propertySection		       
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ValidateVariablesSection"
+               id="org.eclipse.bpel.ui.sections.ValidateVariablesSection">
+            <input type="org.eclipse.bpel.model.Validate"/>
         </propertySection>
      </propertySections>
 
@@ -531,6 +543,18 @@
                class="org.eclipse.bpel.ui.properties.AssignImplSection"
                id="org.eclipse.bpel.ui.sections.AssignImpl">
             <input type="org.eclipse.bpel.model.Assign"/>
+        </propertySection>
+        <propertySection		       
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ValidateSection"
+               id="org.eclipse.bpel.ui.sections.ValidateSection">
+            <input type="org.eclipse.bpel.model.Assign"/>
+        </propertySection>
+        <propertySection		       
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ValidateVariablesSection"
+               id="org.eclipse.bpel.ui.sections.ValidateVariablesSection">
+            <input type="org.eclipse.bpel.model.Validate"/>
         </propertySection>
         <propertySection
               afterSection="org.eclipse.bpel.ui.sections.Attributes"

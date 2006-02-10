@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Assign.java,v 1.2 2005/12/09 19:47:52 james Exp $
+ * $Id: Assign.java,v 1.3 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -29,7 +29,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Assign#getCopy <em>Copy</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Assign#getValidateXML <em>Validate XML</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Assign#getValidate <em>Validate</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,30 +55,30 @@ public interface Assign extends Activity{
 	EList getCopy();
 
 	/**
-	 * Returns the value of the '<em><b>Validate XML</b></em>' attribute.
+	 * Returns the value of the '<em><b>Validate</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Validate XML</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Validate</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Validate XML</em>' attribute.
-	 * @see #setValidateXML(Boolean)
-	 * @see org.eclipse.bpel.model.BPELPackage#getAssign_ValidateXML()
+	 * @return the value of the '<em>Validate</em>' attribute.
+	 * @see #setValidate(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getAssign_Validate()
 	 * @model default="false"
 	 * @generated
 	 */
-	Boolean getValidateXML();
+	Boolean getValidate();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.Assign#getValidateXML <em>Validate XML</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Assign#getValidate <em>Validate</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Validate XML</em>' attribute.
-	 * @see #getValidateXML()
+	 * @param value the new value of the '<em>Validate</em>' attribute.
+	 * @see #getValidate()
 	 * @generated
 	 */
-	void setValidateXML(Boolean value);
+	void setValidate(Boolean value);
 
 } // Assign

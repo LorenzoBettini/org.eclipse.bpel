@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.24 2006/01/31 15:43:26 james Exp $
+ * $Id: BPELPackageImpl.java,v 1.25 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -84,7 +84,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
-import org.eclipse.bpel.model.ValidateXML;
+import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -552,13 +552,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass validateXMLEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass ifEClass = null;
 
 	/**
@@ -602,6 +595,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass extensibleElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass validateEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1586,7 +1586,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAssign_ValidateXML() {
+	public EAttribute getAssign_Validate() {
 		return (EAttribute)assignEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -2783,15 +2783,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getValidateXML() {
-		return validateXMLEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getIf() {
 		return ifEClass;
 	}
@@ -2947,6 +2938,24 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getExtensibleElement_Documentation() {
 		return (EReference)extensibleElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getValidate() {
+		return validateEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getValidate_Variables() {
+		return (EReference)validateEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -3177,7 +3186,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		assignEClass = createEClass(ASSIGN);
 		createEReference(assignEClass, ASSIGN__COPY);
-		createEAttribute(assignEClass, ASSIGN__VALIDATE_XML);
+		createEAttribute(assignEClass, ASSIGN__VALIDATE);
 
 		copyEClass = createEClass(COPY);
 		createEReference(copyEClass, COPY__TO);
@@ -3349,8 +3358,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		terminationHandlerEClass = createEClass(TERMINATION_HANDLER);
 		createEReference(terminationHandlerEClass, TERMINATION_HANDLER__ACTIVITY);
 
-		validateXMLEClass = createEClass(VALIDATE_XML);
-
 		ifEClass = createEClass(IF);
 		createEReference(ifEClass, IF__CONDITION);
 		createEReference(ifEClass, IF__THEN);
@@ -3375,6 +3382,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		extensibleElementEClass = createEClass(EXTENSIBLE_ELEMENT);
 		createEReference(extensibleElementEClass, EXTENSIBLE_ELEMENT__DOCUMENTATION);
+
+		validateEClass = createEClass(VALIDATE);
+		createEReference(validateEClass, VALIDATE__VARIABLES);
 
 		documentationEClass = createEClass(DOCUMENTATION);
 		createEAttribute(documentationEClass, DOCUMENTATION__LANG);
@@ -3480,13 +3490,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		forEachEClass.getESuperTypes().add(this.getActivity());
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
 		terminationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
-		validateXMLEClass.getESuperTypes().add(this.getActivity());
 		ifEClass.getESuperTypes().add(this.getActivity());
 		thenEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseIfEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseEClass.getESuperTypes().add(this.getExtensibleElement());
 		branchesEClass.getESuperTypes().add(this.getExpression());
 		extensibleElementEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		validateEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3608,7 +3618,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(assignEClass, Assign.class, "Assign", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssign_Copy(), this.getCopy(), null, "copy", null, 1, -1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAssign_ValidateXML(), theEcorePackage.getEBooleanObject(), "validateXML", "false", 0, 1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAssign_Validate(), theEcorePackage.getEBooleanObject(), "validate", "false", 0, 1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(copyEClass, Copy.class, "Copy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCopy_To(), this.getTo(), null, "to", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3780,8 +3790,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(terminationHandlerEClass, TerminationHandler.class, "TerminationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTerminationHandler_Activity(), this.getActivity(), null, "activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(validateXMLEClass, ValidateXML.class, "ValidateXML", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(ifEClass, If.class, "If", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIf_Then(), this.getThen(), null, "then", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3806,6 +3814,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(extensibleElementEClass, ExtensibleElement.class, "ExtensibleElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExtensibleElement_Documentation(), this.getDocumentation(), null, "documentation", null, 0, 1, ExtensibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(validateEClass, Validate.class, "Validate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getValidate_Variables(), this.getVariable(), null, "variables", null, 0, -1, Validate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(documentationEClass, Documentation.class, "Documentation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDocumentation_Lang(), theEcorePackage.getEString(), "lang", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

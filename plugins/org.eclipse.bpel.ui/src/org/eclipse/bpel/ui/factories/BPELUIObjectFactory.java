@@ -69,7 +69,8 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		BPELPackage.eINSTANCE.getCatchAll(),
 		BPELPackage.eINSTANCE.getCompensationHandler(),
 		BPELPackage.eINSTANCE.getEventHandler(),
-	    BPELPackage.eINSTANCE.getOnEvent()
+	    BPELPackage.eINSTANCE.getOnEvent(),
+	    BPELPackage.eINSTANCE.getValidate()
 	};
 
 	protected EClass modelType;

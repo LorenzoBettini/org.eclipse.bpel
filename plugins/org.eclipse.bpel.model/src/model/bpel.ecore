@@ -255,7 +255,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="copy" lowerBound="1" upperBound="-1"
         eType="#//Copy" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validateXML" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validate" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="#//ExtensibleElement">
@@ -516,7 +516,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ValidateXML" eSuperTypes="#//Activity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Validate" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
         containment="true"/>

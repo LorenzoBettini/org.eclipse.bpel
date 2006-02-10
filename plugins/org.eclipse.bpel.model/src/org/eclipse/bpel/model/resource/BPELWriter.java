@@ -95,7 +95,7 @@ import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
-import org.eclipse.bpel.model.ValidateXML;
+import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -912,8 +912,8 @@ public class BPELWriter {
 			activityElement = forEach2XML(activity);
 		else if (activity instanceof RepeatUntil)
 			activityElement = repeatUntil2XML(activity);
-		else if (activity instanceof ValidateXML)
-			activityElement = validateXML2XML(activity);
+		else if (activity instanceof Validate)
+			activityElement = validate2XML(activity);
 		else if (activity instanceof ExtensionActivity) {
 			// NOTE: Support for ExtensionActivity is special in that
 			// the standard elements and attributes are not written out
@@ -1078,8 +1078,19 @@ public class BPELWriter {
 		return activityElement;
 	}
 
-	protected Element validateXML2XML(Activity activity) {
-		Element activityElement = createBPELElement("validateXML");
+	protected Element validate2XML(Activity activity) {
+		Element activityElement = createBPELElement("validate");
+		
+		StringBuffer variablesList = new StringBuffer();
+		Iterator variables = ((Validate)activity).getVariables().iterator();
+		while (variables.hasNext()) {
+			Variable variable = (Variable)variables.next();			
+			variablesList.append(variable.getName());
+			if (variables.hasNext()) variablesList.append(" ");
+		}
+		if (variablesList.length() > 0) {
+			activityElement.setAttribute("variables", variablesList.toString());
+		}
 		return activityElement;
 	}
 
@@ -1198,8 +1209,8 @@ public class BPELWriter {
 		Assign assign = (Assign)activity;
 		Element activityElement = createBPELElement("assign");
 		
-		if (assign.getValidateXML() != null)
-			activityElement.setAttribute("validateXML", BPELUtils.boolean2XML(assign.getValidateXML()));
+		if (assign.getValidate() != null)
+			activityElement.setAttribute("validate", BPELUtils.boolean2XML(assign.getValidate()));
 		
 		List copies = assign.getCopy();
 		if (!copies.isEmpty()) {

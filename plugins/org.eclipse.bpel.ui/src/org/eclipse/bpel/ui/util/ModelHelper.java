@@ -24,6 +24,7 @@ import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.common.extension.model.ExtensionmodelFactory;
 import org.eclipse.bpel.common.extension.model.adapters.ExtendedObjectUserAdapter;
 import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Case;
@@ -57,6 +58,7 @@ import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
+import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -89,6 +91,7 @@ import org.eclipse.bpel.ui.uiextensionmodel.StartNode;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -523,6 +526,11 @@ public class ModelHelper {
 		if (context instanceof Pick)  return ((Pick)context).getCreateInstance();
 		throw new IllegalArgumentException();
 	}
+	
+	public static Boolean getValidate(Object context) {
+		if (context instanceof Assign)  return ((Assign)context).getValidate();		
+		throw new IllegalArgumentException();
+	}
 
 	public static void setCreateInstance(Object context, Boolean createInstance) {
 		if (context instanceof Receive) {
@@ -531,6 +539,13 @@ public class ModelHelper {
 		if (context instanceof Pick) {
 			((Pick)context).setCreateInstance(createInstance); return;
 		}
+		throw new IllegalArgumentException();
+	}
+	
+	public static void setValidate(Object context, Boolean validateXML) {
+		if (context instanceof Assign) {
+			((Assign)context).setValidate(validateXML); return;
+		}		
 		throw new IllegalArgumentException();
 	}
 	
@@ -1009,7 +1024,11 @@ public class ModelHelper {
 		if (context instanceof Scope) return ((Scope)context).getVariables();
 		throw new IllegalArgumentException();
 	}
-	
+	public static EList getValidateVariables(Object context)  {
+		if (context instanceof Validate) return ((Validate)context).getVariables();				
+		throw new IllegalArgumentException();
+	}
+		
 	public static void setCorrelations(Object context, Correlations correlations) {
 		if (context instanceof Receive) {
 			((Receive)context).setCorrelations(correlations); return;

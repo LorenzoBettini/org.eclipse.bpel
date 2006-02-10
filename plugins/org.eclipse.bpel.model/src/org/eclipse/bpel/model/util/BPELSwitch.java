@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.15 2006/01/31 15:43:25 james Exp $
+ * $Id: BPELSwitch.java,v 1.16 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -85,7 +85,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
-import org.eclipse.bpel.model.ValidateXML;
+import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -740,16 +740,6 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.VALIDATE_XML: {
-				ValidateXML validateXML = (ValidateXML)theEObject;
-				Object result = caseValidateXML(validateXML);
-				if (result == null) result = caseActivity(validateXML);
-				if (result == null) result = caseExtensibleElement(validateXML);
-				if (result == null) result = caseWSDL_ExtensibleElement(validateXML);
-				if (result == null) result = caseWSDLElement(validateXML);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BPELPackage.IF: {
 				If if_ = (If)theEObject;
 				Object result = caseIf(if_);
@@ -808,6 +798,16 @@ public class BPELSwitch {
 				Object result = caseExtensibleElement(extensibleElement);
 				if (result == null) result = caseWSDL_ExtensibleElement(extensibleElement);
 				if (result == null) result = caseWSDLElement(extensibleElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.VALIDATE: {
+				Validate validate = (Validate)theEObject;
+				Object result = caseValidate(validate);
+				if (result == null) result = caseActivity(validate);
+				if (result == null) result = caseExtensibleElement(validate);
+				if (result == null) result = caseWSDL_ExtensibleElement(validate);
+				if (result == null) result = caseWSDLElement(validate);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1758,21 +1758,6 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Validate XML</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Validate XML</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseValidateXML(ValidateXML object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpretting the object as an instance of '<em>If</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1889,6 +1874,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseExtensibleElement(ExtensibleElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Validate</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Validate</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseValidate(Validate object) {
 		return null;
 	}
 

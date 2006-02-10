@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.14 2006/01/31 14:56:08 james Exp $
+ * $Id: BPELFactoryImpl.java,v 1.15 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -84,7 +84,7 @@ import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
-import org.eclipse.bpel.model.ValidateXML;
+import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
@@ -92,7 +92,11 @@ import org.eclipse.bpel.model.While;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -180,7 +184,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.FOR_EACH: return createForEach();
 			case BPELPackage.REPEAT_UNTIL: return createRepeatUntil();
 			case BPELPackage.TERMINATION_HANDLER: return createTerminationHandler();
-			case BPELPackage.VALIDATE_XML: return createValidateXML();
 			case BPELPackage.IF: return createIf();
 			case BPELPackage.THEN: return createThen();
 			case BPELPackage.ELSE_IF: return createElseIf();
@@ -188,6 +191,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.COMPLETION_CONDITION: return createCompletionCondition();
 			case BPELPackage.BRANCHES: return createBranches();
 			case BPELPackage.EXTENSIBLE_ELEMENT: return createExtensibleElement();
+			case BPELPackage.VALIDATE: return createValidate();
 			case BPELPackage.DOCUMENTATION: return createDocumentation();
 			case BPELPackage.ITERATOR: return createIterator();
 			default:
@@ -852,16 +856,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ValidateXML createValidateXML() {
-		ValidateXMLImpl validateXML = new ValidateXMLImpl();
-		return validateXML;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public If createIf() {
 		IfImpl if_ = new IfImpl();
 		return if_;
@@ -925,6 +919,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public ExtensibleElement createExtensibleElement() {
 		ExtensibleElementImpl extensibleElement = new ExtensibleElementImpl();
 		return extensibleElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Validate createValidate() {
+		ValidateImpl validate = new ValidateImpl();
+		return validate;
 	}
 
 	/**

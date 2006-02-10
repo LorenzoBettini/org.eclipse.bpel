@@ -41,6 +41,7 @@ public interface IHelpContextIds {
 	public static final String PROPERTY_PAGE_WAIT_DATE = PREFIX + "WAT010"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_WAIT_DURATION = PREFIX + "WAT020"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_PROCESS_DETAILS = PREFIX + "DTS010"; //$NON-NLS-1$
+	public static final String PROPERTY_PAGE_VALIDATE_DETAILS = PREFIX + "DTS020"; //$NON-NLS-1$
 
 	public static final String PROPERTY_PAGE_NAME = "TODO_1";
 	public static final String PROPERTY_PAGE_WAIT = "TODO_2";

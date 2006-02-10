@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: AssignImpl.java,v 1.4 2006/02/10 16:12:48 rodrigo Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.AssignImpl#getCopy <em>Copy</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.AssignImpl#getValidateXML <em>Validate XML</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.AssignImpl#getValidate <em>Validate</em>}</li>
  * </ul>
  * </p>
  *
@@ -59,24 +59,24 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	protected EList copy = null;
 
 	/**
-	 * The default value of the '{@link #getValidateXML() <em>Validate XML</em>}' attribute.
+	 * The default value of the '{@link #getValidate() <em>Validate</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValidateXML()
+	 * @see #getValidate()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean VALIDATE_XML_EDEFAULT = Boolean.FALSE;
+	protected static final Boolean VALIDATE_EDEFAULT = Boolean.FALSE;
 
 	/**
-	 * The cached value of the '{@link #getValidateXML() <em>Validate XML</em>}' attribute.
+	 * The cached value of the '{@link #getValidate() <em>Validate</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValidateXML()
+	 * @see #getValidate()
 	 * @generated
 	 * @ordered
 	 */
-	protected Boolean validateXML = VALIDATE_XML_EDEFAULT;
+	protected Boolean validate = VALIDATE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,8 +113,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Boolean getValidateXML() {
-		return validateXML;
+	public Boolean getValidate() {
+		return validate;
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValidateXML(Boolean newValidateXML) {
-		Boolean oldValidateXML = validateXML;
-		validateXML = newValidateXML;
+	public void setValidate(Boolean newValidate) {
+		Boolean oldValidate = validate;
+		validate = newValidate;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ASSIGN__VALIDATE_XML, oldValidateXML, validateXML));
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ASSIGN__VALIDATE, oldValidate, validate));
 	}
 
 	/**
@@ -179,8 +179,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				return getSources();
 			case BPELPackage.ASSIGN__COPY:
 				return getCopy();
-			case BPELPackage.ASSIGN__VALIDATE_XML:
-				return getValidateXML();
+			case BPELPackage.ASSIGN__VALIDATE:
+				return getValidate();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -221,8 +221,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				getCopy().clear();
 				getCopy().addAll((Collection)newValue);
 				return;
-			case BPELPackage.ASSIGN__VALIDATE_XML:
-				setValidateXML((Boolean)newValue);
+			case BPELPackage.ASSIGN__VALIDATE:
+				setValidate((Boolean)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -262,8 +262,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 			case BPELPackage.ASSIGN__COPY:
 				getCopy().clear();
 				return;
-			case BPELPackage.ASSIGN__VALIDATE_XML:
-				setValidateXML(VALIDATE_XML_EDEFAULT);
+			case BPELPackage.ASSIGN__VALIDATE:
+				setValidate(VALIDATE_EDEFAULT);
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -294,8 +294,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 				return sources != null;
 			case BPELPackage.ASSIGN__COPY:
 				return copy != null && !copy.isEmpty();
-			case BPELPackage.ASSIGN__VALIDATE_XML:
-				return VALIDATE_XML_EDEFAULT == null ? validateXML != null : !VALIDATE_XML_EDEFAULT.equals(validateXML);
+			case BPELPackage.ASSIGN__VALIDATE:
+				return VALIDATE_EDEFAULT == null ? validate != null : !VALIDATE_EDEFAULT.equals(validate);
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -309,8 +309,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (validateXML: ");
-		result.append(validateXML);
+		result.append(" (validate: ");
+		result.append(validate);
 		result.append(')');
 		return result.toString();
 	}
