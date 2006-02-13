@@ -91,6 +91,8 @@ public final class Messages extends NLS {
 	public static String BPELEditor_While_20;
 	public static String BPELEditor_Zoom_In_40;
 	public static String BPELEditor_Zoom_Out_41;
+	public static String BPELEditor_Repeat_Until_42;
+	public static String BPELEditor_Repeat_Until_43;
 	public static String BPELEditor_addCorrelationSet;
 	public static String BPELEditor_addInterfacePartner;
 	public static String BPELEditor_addReferencePartner;

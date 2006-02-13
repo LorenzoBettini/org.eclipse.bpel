@@ -293,7 +293,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	/**
 	 * Does the edit part have children? If so, implicit connection logic will be
 	 * executed. The only edit parts which have children are CompositeActivityEditParts
-	 * (Sequence, While, Flow, etc.) and CaseEditPart (Case, OnMessage, OnAlarm).
+	 * (Sequence, While, Flow, RepeatUntil, etc.) and CaseEditPart (Case, OnMessage, OnAlarm).
 	 */
 	protected boolean hasChildren() {
 		EditPart host = getHost();

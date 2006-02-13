@@ -37,6 +37,7 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.Switch;
@@ -771,6 +772,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			activities = ((Flow) activity).getActivities();
 		if (activity instanceof While)
 			getFaultNames(((While) activity).getActivity());
+		if (activity instanceof RepeatUntil)
+			getFaultNames(((RepeatUntil) activity).getActivity());
 		if (activity instanceof Switch) {
 			EList cases = ((Switch) activity).getCases();
 			for (Iterator caseIterator = cases.iterator(); caseIterator.hasNext();) {

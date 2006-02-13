@@ -58,6 +58,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		BPELPackage.eINSTANCE.getCompensate(),
 		BPELPackage.eINSTANCE.getWait(),
 		BPELPackage.eINSTANCE.getWhile(),
+		BPELPackage.eINSTANCE.getRepeatUntil(),
 		BPELPackage.eINSTANCE.getLink(),
 		BPELPackage.eINSTANCE.getCase(),
 		BPELPackage.eINSTANCE.getOtherwise(),
@@ -105,7 +106,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		return getLargeImageDescriptor(getModelType());
 	}
 	
-	public static ImageDescriptor getSmallImageDescriptor(EClass modelObject) {
+	public static ImageDescriptor getSmallImageDescriptor(EClass modelObject) {		
 		return BPELUIPlugin.getPlugin().getImageDescriptor(OBJ16+baseImageName(modelObject)+GIF);
 	}
 	public static ImageDescriptor getLargeImageDescriptor(EClass modelObject) {

@@ -475,6 +475,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			Messages.BPELEditor_While_20, 
 			provider.getFactoryFor(bpelPackage.getWhile())));
 		controlCategory.add(new BPELCreationToolEntry(
+				Messages.BPELEditor_Repeat_Until_42, 
+				Messages.BPELEditor_Repeat_Until_43, 
+				provider.getFactoryFor(bpelPackage.getRepeatUntil())));
+		controlCategory.add(new BPELCreationToolEntry(
 			Messages.BPELEditor_Wait_21, 
 			Messages.BPELEditor_Wait_22, 
 			provider.getFactoryFor(bpelPackage.getWait())));

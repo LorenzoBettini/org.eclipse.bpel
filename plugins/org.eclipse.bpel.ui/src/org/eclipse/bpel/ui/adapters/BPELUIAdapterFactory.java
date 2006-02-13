@@ -30,6 +30,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	SequenceAdapter sequenceAdapter;
 	SwitchAdapter switchAdapter;
 	WhileAdapter whileAdapter;
+	RepeatUntilAdapter repeatUntilAdapter;
 	AssignAdapter assignAdapter;
 	CopyAdapter copyAdapter;
 	VariableAdapter variableAdapter;
@@ -66,6 +67,13 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return instance;
 	}
 	
+	public Adapter createRepeatUntilAdapter() {
+		if (repeatUntilAdapter == null) {
+			repeatUntilAdapter = new RepeatUntilAdapter();	
+		}		
+		return repeatUntilAdapter;
+	}
+
 	public Adapter createAssignAdapter() {
 		if (assignAdapter == null) {
 			assignAdapter = new AssignAdapter();	

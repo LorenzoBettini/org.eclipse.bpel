@@ -332,6 +332,7 @@
                class="org.eclipse.bpel.ui.properties.WhileConditionSection"
                id="org.eclipse.bpel.ui.sections.WhileCondition">
             <input type="org.eclipse.bpel.model.While"/>
+            <input type="org.eclipse.bpel.model.RepeatUntil"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
@@ -512,6 +513,7 @@
                class="org.eclipse.bpel.ui.properties.WhileConditionSection"
                id="org.eclipse.bpel.ui.sections.WhileCondition">
             <input type="org.eclipse.bpel.model.While"/>
+            <input type="org.eclipse.bpel.model.RepeatUntil"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"

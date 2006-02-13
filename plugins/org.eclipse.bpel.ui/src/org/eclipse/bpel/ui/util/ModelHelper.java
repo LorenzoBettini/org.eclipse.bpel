@@ -51,6 +51,7 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Source;
@@ -580,6 +581,7 @@ public class ModelHelper {
 		case DEFAULT_EXPR:
 			if (context instanceof Case)  return ((Case)context).getCondition();
 			if (context instanceof While)  return ((While)context).getCondition();
+			if (context instanceof RepeatUntil)  return ((RepeatUntil)context).getCondition();
 			if (context instanceof From)  return ((From)context).getExpression();
 			// TODO: is this hack unnecessary?
 			if (context instanceof Copy) {
@@ -634,6 +636,9 @@ public class ModelHelper {
 			}
 			if (context instanceof While) {
 				((While)context).setCondition(makeCondition(expr)); return;
+			}
+			if (context instanceof RepeatUntil) {
+				((RepeatUntil)context).setCondition(makeCondition(expr)); return;
 			}
 			if (context instanceof From) {
 				((From)context).setExpression(expr); return;
@@ -827,6 +832,7 @@ public class ModelHelper {
 		if (context instanceof OnEvent)  return true;
 		if (context instanceof Process)  return true;
 		if (context instanceof While)  return true;
+		if (context instanceof RepeatUntil)  return true;
 		return false;
 	}
 
@@ -840,6 +846,7 @@ public class ModelHelper {
 		if (context instanceof OnEvent)  return ((OnEvent)context).getActivity();
 		if (context instanceof Process)  return ((Process)context).getActivity();
 		if (context instanceof While)  return ((While)context).getActivity();
+		if (context instanceof RepeatUntil)  return ((RepeatUntil)context).getActivity();
 		if (context instanceof Scope)  return ((Scope)context).getActivity();
 		if (context instanceof FaultHandler) return getCatchAll((FaultHandler)context);
 		if (context instanceof CompensationHandler)  return ((CompensationHandler)context).getActivity();
@@ -875,6 +882,9 @@ public class ModelHelper {
 		}
 		if (context instanceof While) {
 			((While)context).setActivity(activity); return;
+		}
+		if (context instanceof RepeatUntil) {
+			((RepeatUntil)context).setActivity(activity); return;
 		}
 		if (context instanceof Scope) {
 			((Scope)context).setActivity(activity); return;
@@ -915,6 +925,9 @@ public class ModelHelper {
 		}
 		if (context instanceof While) {
 			return (n.getFeatureID(While.class) == BPELPackage.WHILE__ACTIVITY);
+		}
+		if (context instanceof RepeatUntil) {
+			return (n.getFeatureID(RepeatUntil.class) == BPELPackage.REPEAT_UNTIL__ACTIVITY);
 		}
 		if (context instanceof Scope) {
 			return (n.getFeatureID(Scope.class) == BPELPackage.SCOPE__ACTIVITY);
