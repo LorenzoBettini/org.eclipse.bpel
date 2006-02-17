@@ -33,6 +33,8 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.Invoke;
@@ -160,6 +162,7 @@ public class BPELUtil {
 
 	private static final Variable[] EMPTY_VARIABLE_ARRAY = new Variable[0];
 	private static final PartnerLink[] EMPTY_PARTNERLINK_ARRAY = new PartnerLink[0];
+	private static final CorrelationSet[] EMPTY_CORRELATIONSET_ARRAY = new CorrelationSet[0];
 
 	/**
 	 * This global variable stores the path of the last WSDL file selected with
@@ -1409,10 +1412,31 @@ public class BPELUtil {
 		if (target instanceof Process) {
 			addPartnerLinksToMap(targetMap, ((Process)target).getPartnerLinks());
 		} else {
-			// recursively add less local variables first
+			// recursively add less local partnerlinks first
 			addVisiblePartnerLinks(targetMap, target.eContainer());
 			if (target instanceof Scope) {
 				addPartnerLinksToMap(targetMap, ((Scope)target).getPartnerLinks());
+			}
+		}
+	}
+	
+	private static void addCorrelationSetsToMap(Map targetMap, CorrelationSets csets) {
+		if (csets == null) return;
+		for (Iterator it = csets.getChildren().iterator(); it.hasNext(); ) {
+			CorrelationSet c = (CorrelationSet)it.next();
+			if (c.getName() != null) targetMap.put(c.getName(), c);
+		}
+	}
+	private static void addVisibleCorrelationSets(Map targetMap, EObject target) {
+		if (target == null) return;
+		if (target instanceof Resource) return;
+		if (target instanceof Process) {
+			addCorrelationSetsToMap(targetMap, ((Process)target).getCorrelationSets());
+		} else {
+			// recursively add less local correlationsets first
+			addVisibleCorrelationSets(targetMap, target.eContainer());
+			if (target instanceof Scope) {
+				addCorrelationSetsToMap(targetMap, ((Scope)target).getCorrelationSets());
 			}
 		}
 	}
@@ -1445,6 +1469,22 @@ public class BPELUtil {
 		if (name2PartnerLink.isEmpty()) return EMPTY_PARTNERLINK_ARRAY;
 		PartnerLink[] result = new PartnerLink[name2PartnerLink.size()];
 		name2PartnerLink.values().toArray(result);
+		return result;
+	}
+	
+	/**
+	 * Look up the PartnerLinks visible to a certain context activity (or the whole process).
+	 * When local PartnerLinks are added to the spec, they will follow lexical scoping rules
+	 * just like variables.
+	 * 
+	 * The returned PartnerLinks are in no particular order.
+	 */
+	public static CorrelationSet[] getVisibleCorrelationSets(EObject target) {
+		Map name2CorrelationSet = new HashMap();
+		addVisibleCorrelationSets(name2CorrelationSet, target);
+		if (name2CorrelationSet.isEmpty()) return EMPTY_CORRELATIONSET_ARRAY;
+		CorrelationSet[] result = new CorrelationSet[name2CorrelationSet.size()];
+		name2CorrelationSet.values().toArray(result);
 		return result;
 	}
 	

@@ -36,10 +36,10 @@ import org.eclipse.bpel.ui.commands.RemoveCorrelationCommand;
 import org.eclipse.bpel.ui.commands.SetCorrelationInitiateCommand;
 import org.eclipse.bpel.ui.commands.SetCorrelationPatternCommand;
 import org.eclipse.bpel.ui.commands.SetCorrelationSetRefCommand;
+import org.eclipse.bpel.ui.details.providers.AbstractContentProvider;
 import org.eclipse.bpel.ui.details.providers.AddNullFilter;
 import org.eclipse.bpel.ui.details.providers.ColumnTableProvider;
 import org.eclipse.bpel.ui.details.providers.CorrelationContentProvider;
-import org.eclipse.bpel.ui.details.providers.CorrelationSetContentProvider;
 import org.eclipse.bpel.ui.details.providers.ModelLabelProvider;
 import org.eclipse.bpel.ui.details.providers.ModelViewerSorter;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -209,10 +209,18 @@ public class CorrelationSection extends BPELPropertySection {
 			labelProvider = new ModelLabelProvider();
 			CComboViewer viewer = cellEditor.getViewer();
 			viewer.addFilter(AddNullFilter.getInstance());
-			viewer.setContentProvider(new CorrelationSetContentProvider());
+			viewer.setContentProvider(new AbstractContentProvider(){
+				
+				public Object[] getElements(Object input)  {
+					if (input instanceof EObject)						
+						return BPELUtil.getVisibleCorrelationSets((EObject)input);
+					return EMPTY_ARRAY;
+				}
+				
+			});
 			viewer.setLabelProvider(labelProvider);
 			viewer.setSorter(ModelViewerSorter.getInstance());
-			viewer.setInput(getProcess());
+			viewer.setInput(ModelHelper.getContainingScope(getInput()));
 			return cellEditor;
 		}
 		public String getText(Object element) {

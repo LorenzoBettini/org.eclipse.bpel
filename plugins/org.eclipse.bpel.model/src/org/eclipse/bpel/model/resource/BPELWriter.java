@@ -442,13 +442,13 @@ public class BPELWriter {
 			processElement.appendChild(import2XML(imp));
 		}
 		
-		if (process.getPartnerLinks() != null)
+		if (process.getPartnerLinks() != null && !process.getPartnerLinks().getChildren().isEmpty())
 			processElement.appendChild(partnerLinks2XML(process.getPartnerLinks()));
 			
-		if (process.getVariables() != null)
+		if (process.getVariables() != null && ! process.getVariables().getChildren().isEmpty())
 			processElement.appendChild(variables2XML(process.getVariables()));
 
-		if (process.getCorrelationSets() != null)
+		if (process.getCorrelationSets() != null && !process.getCorrelationSets().getChildren().isEmpty())
 			processElement.appendChild(correlationSets2XML(process.getCorrelationSets()));
 		
 		if (process.getExtensions() != null)
@@ -1807,11 +1807,11 @@ public class BPELWriter {
 		
 		if (scope.isSetIsolated())
 			activityElement.setAttribute("isolated", BPELUtils.boolean2XML(scope.getIsolated()));					
-		if (scope.getVariables() != null)
+		if (scope.getVariables() != null && !scope.getVariables().getChildren().isEmpty())
 			activityElement.appendChild(variables2XML(scope.getVariables()));
-		if (scope.getCorrelationSets() != null)
+		if (scope.getCorrelationSets() != null && !scope.getCorrelationSets().getChildren().isEmpty())
 			activityElement.appendChild(correlationSets2XML(scope.getCorrelationSets()));
-		if (scope.getPartnerLinks() != null)
+		if (scope.getPartnerLinks() != null && !scope.getPartnerLinks().getChildren().isEmpty())
 			activityElement.appendChild(partnerLinks2XML(scope.getPartnerLinks()));
 		if (scope.getFaultHandlers() != null )
 			activityElement.appendChild(faultHandlers2XML(scope.getFaultHandlers()));

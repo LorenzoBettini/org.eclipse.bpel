@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -42,7 +41,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
 
@@ -97,13 +95,11 @@ public class PartnerLinkSelectorDialog extends SelectionAndCreationDialog {
 	 * Gets the partner links that can be applied to the model object.
 	 */
 	protected PartnerLink[] getPartnerLinks(EObject target) {
-		Process process = ModelHelper.getProcess(modelObject);
-		List partners = process.getPartnerLinks().getChildren();
+		PartnerLink[] partners = BPELUtil.getVisiblePartnerLinks(target);		
 		List result = new ArrayList();
-		for (Iterator iter = partners.iterator(); iter.hasNext();) {
-			PartnerLink partner = (PartnerLink) iter.next();
-			if (isCompatible(target, partner)) {
-				result.add(partner);
+		for (int i = 0 ; i < partners.length; i++) {			
+			if (isCompatible(target, partners[i])) {
+				result.add(partners[i]);
 			}
 		}
 		return (PartnerLink[])result.toArray(new PartnerLink[result.size()]);

@@ -738,32 +738,6 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	public void doSave(IProgressMonitor progressMonitor) {
 		getCommandFramework().applyCurrentChange();
 
-		// The spec says that correlationSets, partnerLinks and variables may not be empty.
-		// If they are, temporarily remove it, and reinstate it after the save.
-		CorrelationSets sets = process.getCorrelationSets();
-		if (sets != null && sets.getChildren().isEmpty()) {
-			process.setCorrelationSets(null);
-		}
-		PartnerLinks links = process.getPartnerLinks();
-		if (links != null && links.getChildren().isEmpty()) {
-			process.setPartnerLinks(null);
-		}
-		Variables variables = process.getVariables();
-		if (variables != null && variables.getChildren().isEmpty()) {
-			process.setVariables(null);
-		}
-		// The spec says that variables may not be empty in scopes.
-		// If they are, temporarily remove it, and reinstate it after the save.
-		for (Iterator iter = process.eAllContents(); iter.hasNext();) {
-			Object object = iter.next();
-			if (object instanceof Scope) {
-				Scope scope = (Scope)object;
-				if (scope.getVariables().getChildren().isEmpty()) {
-					scope.setVariables(null);
-				}
-			}
-		}
-		
 		removeUnusedExtensions();
 		// Add all imports and namespaces to the artifacts file before saving.
 		if (editModelClient.getArtifactsResourceInfo() != null) {
@@ -796,31 +770,12 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			}
 		}
 		try {
-			extensionsResource.setModified(false);
-			editModelClient.saveAll(progressMonitor);
-
+			extensionsResource.setModified(false);			
+			editModelClient.saveAll(progressMonitor);					
+			
 			//getModelDirtyTracker().markSaveLocation();
 
-		} finally {
-			// restore correlationSets, partnerLinks and variables if we removed them above
-			if (sets != null && sets.getChildren().isEmpty()) {
-				process.setCorrelationSets(sets);
-			}
-			if (links != null && links.getChildren().isEmpty()) {
-				process.setPartnerLinks(links);
-			}
-			if (variables != null && variables.getChildren().isEmpty()) {
-				process.setVariables(variables);
-			}
-			for (Iterator iter = process.eAllContents(); iter.hasNext();) {
-				Object object = iter.next();
-				if (object instanceof Scope) {
-					Scope scope = (Scope)object;
-					if (scope.getVariables() == null) {
-						scope.setVariables(BPELFactory.eINSTANCE.createVariables());
-					}
-				}
-			}
+		} finally {						
 			updateTitle();
 		}
 		// Put the timestamp of the bpel file into the bpelex file.

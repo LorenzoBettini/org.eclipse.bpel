@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.bpel.common.ui.tray.TrayCategoryEditPart;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -32,23 +31,21 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.DirectEditRequest;
-
 import org.eclipse.wst.wsdl.Definition;
 
 /**
  * Interface Partners.
  */
-public class PartnerLinksEditPart extends TrayCategoryEditPart {
-
+public class PartnerLinksEditPart extends BPELTrayCategoryEditPart {
+	
 	/**
 	 * Only add inbound partners.
 	 */
-	protected List getModelChildren() {
+	protected List getModelChildren() {		
 		List result = new ArrayList();
 		for (Iterator iter = getPartnerLinks().getChildren().iterator(); iter.hasNext();) {
 			PartnerLink	partner = (PartnerLink) iter.next();
@@ -59,7 +56,7 @@ public class PartnerLinksEditPart extends TrayCategoryEditPart {
 		return result;
 	}
 
-	protected Object addEntry() {
+	protected Object addEntry() {		
 		CompoundCommand compound = new CompoundCommand();
 		EObject parent = getPartnerLinks();
 		final PartnerLink partner = (PartnerLink) getCreationFactory().getNewObject();
@@ -87,12 +84,12 @@ public class PartnerLinksEditPart extends TrayCategoryEditPart {
 		return (PartnerLinks)getModel();
 	}
 	
-	protected Process getProcess() {
-		return (Process)getPartnerLinks().eContainer();
+	protected EObject getContainer() {
+		return getPartnerLinks().eContainer();
 	}
 
 	protected BPELEditor getBPELEditor() {
-		return ModelHelper.getBPELEditor(getProcess());
+		return ModelHelper.getBPELEditor(getContainer());
 	}
 	
 	protected CreationFactory getCreationFactory() {
@@ -115,9 +112,6 @@ public class PartnerLinksEditPart extends TrayCategoryEditPart {
 			public void notify(Notification n) {
 			}
 		};
-	}	
-
-	protected AccessibleEditPart createAccessible() {
-		return new BPELTrayAccessibleEditPart(this);
 	}
+	
 }

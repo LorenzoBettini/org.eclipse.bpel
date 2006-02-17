@@ -131,6 +131,8 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			// we need to have the variables model object in order to have the variables
 			// category appear on the tray
 			((Scope)result).setVariables(BPELFactory.eINSTANCE.createVariables());
+			((Scope)result).setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
+			((Scope)result).setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());			
 		}
 		if (result instanceof Switch) {
 			// create a free Case inside the Switch.

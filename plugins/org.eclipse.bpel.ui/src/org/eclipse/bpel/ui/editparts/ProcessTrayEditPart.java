@@ -18,7 +18,6 @@ import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.editparts.policies.BPELDirectEditPolicy;
@@ -35,8 +34,8 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 
 	protected ISelectionChangedListener selectionListener;
 	protected Object lastSelection = null;
-	protected ReferencePartnerLinks referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
-	
+	protected ReferencePartnerLinks referencePartners;
+
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		// The DIRECT_EDIT_ROLE policy determines how in-place editing takes place.
@@ -44,12 +43,14 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 	}
 	
 	protected List getModelChildren() {
-		Process process = getProcess();
+		
+		//Process process = getProcess();
 		List list = new ArrayList();
 
-		PartnerLinks links = process.getPartnerLinks();
-		if (links != null) {
+		PartnerLinks links = getPartnerLinks();
+		if (links != null) {			
 			list.add(links);
+			referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
 			referencePartners.setPartnerLinks(links);
 			list.add(referencePartners);
 		}
@@ -59,22 +60,45 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 			list.add(variables);
 		}
 		
-		CorrelationSets sets = process.getCorrelationSets();
+		CorrelationSets sets = getCorrelationSets();
 		if (sets != null) {
 			list.add(sets);
 		}
+
 		return list;
+	}
+	
+	/**
+	 * We show scoped partnerLinks if a Scope is the current selection,
+	 * otherwise we show the process partnerLinks.
+	 */
+	protected PartnerLinks getPartnerLinks() {		
+		if (lastSelection instanceof Scope) {
+			return ((Scope)lastSelection).getPartnerLinks();
+		} 
+		return getProcess().getPartnerLinks();
 	}
 
 	/**
 	 * We show scoped variables if a Scope is the current selection,
 	 * otherwise we show the process variables.
 	 */
-	protected Variables getVariables() {
+	protected Variables getVariables() {		
 		if (lastSelection instanceof Scope) {
 			return ((Scope)lastSelection).getVariables();
-		}
+		} 
 		return getProcess().getVariables();
+	}
+	
+	/**
+	 * We show scoped correlationSets if a Scope is the current selection,
+	 * otherwise we show the process correlationSets.
+	 */
+	protected CorrelationSets getCorrelationSets() {		
+		if (lastSelection instanceof Scope) {
+			return ((Scope)lastSelection).getCorrelationSets();
+		} 
+		return getProcess().getCorrelationSets();
 	}
 	
 	protected Process getProcess() {
@@ -84,7 +108,7 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 	public void activate() {
 		super.activate();
 		BPELEditor editor = ModelHelper.getBPELEditor(getProcess());
-		editor.getGraphicalViewer().addSelectionChangedListener(getSelectionChangedListener());
+		editor.getGraphicalViewer().addSelectionChangedListener(getSelectionChangedListener());		
 	}
 	
 	public void deactivate() {
@@ -114,16 +138,7 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 					}
 				}
 				protected boolean shouldRefresh(Object currentSelection) {
-					if (currentSelection == null) {
-						return false;
-					}
-					if (currentSelection instanceof Variable || currentSelection instanceof Variables) {
-						return false;
-					}
-					if (lastSelection != currentSelection && (lastSelection instanceof Scope || currentSelection instanceof Scope)) {
-						return true;
-					}
-					return false;
+					return (lastSelection != currentSelection && (lastSelection instanceof Scope || currentSelection instanceof Scope));
 				}
 			};
 		}

@@ -126,6 +126,12 @@ public class BPELReader {
 				if (scope.getVariables() == null) {
 					scope.setVariables(BPELFactory.eINSTANCE.createVariables());
 				}
+				if (scope.getPartnerLinks() == null) {
+					scope.setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
+				}
+				if (scope.getCorrelationSets() == null) {
+					scope.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+				}
 			}
 		}
 		

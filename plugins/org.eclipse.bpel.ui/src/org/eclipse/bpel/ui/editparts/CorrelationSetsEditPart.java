@@ -12,26 +12,16 @@ package org.eclipse.bpel.ui.editparts;
 
 import java.util.List;
 
-import org.eclipse.bpel.common.ui.tray.TrayCategoryEditPart;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.editparts.policies.TrayContainerEditPolicy;
 import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.eclipse.gef.AccessibleEditPart;
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.requests.CreationFactory;
 
 
-public class CorrelationSetsEditPart extends TrayCategoryEditPart {
-
-	protected void createEditPolicies() {
-		super.createEditPolicies();
-		// handles creations
-		installEditPolicy(EditPolicy.CONTAINER_ROLE, new TrayContainerEditPolicy());
-	}
+public class CorrelationSetsEditPart extends BPELTrayCategoryEditPart {
 
 	protected CreationFactory getCreationFactory() {
 		return UIObjectFactoryProvider.getInstance().getFactoryFor(BPELPackage.eINSTANCE.getCorrelationSet());
@@ -53,7 +43,4 @@ public class CorrelationSetsEditPart extends TrayCategoryEditPart {
 	    return new Label(Messages.CorrelationSetsEditPart_Remove_Correlation_Set_1); 
 	}	
 
-	protected AccessibleEditPart createAccessible() {
-		return new BPELTrayAccessibleEditPart(this);
-	}
 }

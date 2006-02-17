@@ -610,10 +610,12 @@ public class ModelHelper {
 			if (context instanceof Wait) {
 				if (((Wait)context).getFor() != null) return ((Wait)context).getFor();
 				if (((Wait)context).getUntil() != null) return ((Wait)context).getUntil();
+				return null;
 			}
 			if (context instanceof OnAlarm) {
 				if (((OnAlarm)context).getFor() != null) return ((OnAlarm)context).getFor();
 				if (((OnAlarm)context).getUntil() != null) return ((OnAlarm)context).getUntil();
+				return null;
 			}
 			break;
 		}
@@ -1213,6 +1215,15 @@ public class ModelHelper {
 		// Don't know what it is, probably not in an event handler.
 		return null;
 	
+	}
+	
+	public static EObject getContainingScope(Object object) {
+		if (object instanceof Process) return (EObject)object;
+		if (object instanceof Scope) return (EObject)object;
+		if (object instanceof EObject) {
+			return getContainingScope(((EObject)object).eContainer());
+		}
+		return null;
 	}
 	
 	/** 
