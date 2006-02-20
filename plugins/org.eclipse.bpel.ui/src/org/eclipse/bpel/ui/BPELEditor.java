@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
@@ -228,9 +231,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	PaletteCategory controlCategory;
 	
 	// Lists of actions available for context menus, etc.
-	protected List appendNewActions;
-	protected List insertNewActions;
-	protected List changeTypeActions;
+	protected Set appendNewActions;
+	protected Set insertNewActions;
+	protected Set changeTypeActions;
 	
 	// The current property sheet page
 	protected BPELTabbedPropertySheetPage currentPropertySheetPage;
@@ -279,9 +282,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	public ModelAutoUndoRecorder getModelAutoUndoRecorder() { return modelAutoUndoRecorder; }
 	public TransferBuffer getTransferBuffer() { return transferBuffer; }
 
-	public List getAppendNewActions() { return appendNewActions; }
-	public List getInsertNewActions() { return insertNewActions; }
-	public List getChangeTypeActions() { return changeTypeActions; }
+	public Set getAppendNewActions() { return appendNewActions; }
+	public Set getInsertNewActions() { return insertNewActions; }
+	public Set getChangeTypeActions() { return changeTypeActions; }
 	
 	class OutlinePage extends ContentOutlinePage {
 		private PageBook pageBook;
@@ -1265,9 +1268,21 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	 * They reflect what is available from the palette.
 	 */
 	protected void createPaletteDependentActions() {
-		appendNewActions = new ArrayList();
-		insertNewActions = new ArrayList();
-		changeTypeActions = new ArrayList();
+		Comparator actionComparator = new Comparator() {
+			Collator collator = Collator.getInstance();
+			public int compare(Object o1, Object o2) {
+				if (o1 instanceof IAction && o2 instanceof IAction) {
+					IAction action1 = (IAction)o1;
+					IAction action2 = (IAction)o2;
+					return collator.compare(action1.getText(), action2.getText());
+				}
+				return -1;
+			}
+		};
+		
+		appendNewActions = new TreeSet(actionComparator);
+		insertNewActions = new TreeSet(actionComparator);
+		changeTypeActions = new TreeSet(actionComparator);
 		createPaletteDependentActions(getPaletteRoot());
 	}
 
