@@ -79,6 +79,8 @@ public interface IBPELUIConstants {
 	public final String ICON_WHILE_32 = "obj20/while.png"; //$NON-NLS-1$
 	public final String ICON_REPEAT_UNTIL_16 = "obj16/repeatuntil.gif"; //$NON-NLS-1$
 	public final String ICON_REPEAT_UNTIL_32 = "obj20/repeatuntil.png"; //$NON-NLS-1$
+	public final String ICON_VALIDATE_16 = "obj16/validate.gif"; //$NON-NLS-1$
+	public final String ICON_VALIDATE_32 = "obj20/validate.png"; //$NON-NLS-1$
 	
 	
 	// Other objects that appear on the canvas

@@ -184,6 +184,8 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		createImageDescriptor(IBPELUIConstants.ICON_WHILE_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_REPEAT_UNTIL_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_REPEAT_UNTIL_32, baseURL);		
+		createImageDescriptor(IBPELUIConstants.ICON_VALIDATE_16, baseURL);
+		createImageDescriptor(IBPELUIConstants.ICON_VALIDATE_32, baseURL);		
 		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16, baseURL);
