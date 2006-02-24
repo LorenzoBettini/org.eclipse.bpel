@@ -122,17 +122,17 @@ public interface IBPELUIConstants {
 	public final String ICON_TERMINATIONHANDLER_32 = "obj20/terminationhandler.png"; //$NON-NLS-1$
 
 	// Overlays
-	public final String ICON_FAULT_INDICATOR = "ovr/faulthandler.gif"; //$NON-NLS-1$
-	public final String ICON_COMPENSATION_INDICATOR = "ovr/compensationhandler.gif"; //$NON-NLS-1$
-	public final String ICON_EVENT_INDICATOR = "ovr/eventhandler.gif"; //$NON-NLS-1$
-	public final String ICON_TERMINATION_INDICATOR = "ovr/terminationhandler.gif"; //$NON-NLS-1$
+	public final String ICON_FAULT_INDICATOR = "ovr16/faulthandler.gif"; //$NON-NLS-1$
+	public final String ICON_COMPENSATION_INDICATOR = "ovr16/compensationhandler.gif"; //$NON-NLS-1$
+	public final String ICON_EVENT_INDICATOR = "ovr16/eventhandler.gif"; //$NON-NLS-1$
+	public final String ICON_TERMINATION_INDICATOR = "ovr16/terminationhandler.gif"; //$NON-NLS-1$
 
 	// Wizard banner
 	public final String ICON_WIZARD_BANNER = "wizban/new_bpel.gif"; //$NON-NLS-1$
 
 	// Outline view
-	public final String ICON_OUTLINE_16 = "clcl16/outline.gif"; //$NON-NLS-1$
-	public final String ICON_OVERVIEW_16 = "clcl16/overview.gif"; //$NON-NLS-1$
+	public final String ICON_OUTLINE_16 = "elcl16/outline.gif"; //$NON-NLS-1$
+	public final String ICON_OVERVIEW_16 = "elcl16/overview.gif"; //$NON-NLS-1$
 
 	// Action sets
 	public final String ICON_ACTION_COMPENSATE    = ICON_COMPENSATE_16;
@@ -163,8 +163,6 @@ public interface IBPELUIConstants {
 	public final String ICON_PART_32 = "obj20/message_part.png"; //$NON-NLS-1$
 	public final String ICON_PORTTYPE_16 = "obj16/wsdl_port_type.gif";  //$NON-NLS-1$
 	public final String ICON_PORTTYPE_32 = "obj20/wsdl_port_type.png"; //$NON-NLS-1$
-	public final String ICON_PORT_16 = "obj16/port.gif"; //$NON-NLS-1$
-	public final String ICON_PORT_32 = "obj20/port.png"; //$NON-NLS-1$
 	public final String ICON_ROLE_16 = "obj16/role.gif"; //$NON-NLS-1$
 	public final String ICON_ROLE_32 = "obj20/role.png"; //$NON-NLS-1$
 	public final String ICON_PARTNERLINKTYPE_16 = "obj16/partner_linktype.gif"; //$NON-NLS-1$
@@ -174,27 +172,18 @@ public interface IBPELUIConstants {
 	public final String ICON_SERVICE_16 = "obj16/wsdl_service.gif"; //$NON-NLS-1$
 	public final String ICON_SERVICE_32 = "obj20/wsdl_service.png"; //$NON-NLS-1$
 	
-	public final String ICON_INCOMING_VARIABLE_REF = "ovr/inbound_var_ref.gif"; //$NON-NLS-1$
-	public final String ICON_OUTGOING_VARIABLE_REF = "ovr/outbound_var_ref.gif"; //$NON-NLS-1$
-	public final String ICON_BOTH_VARIABLE_REF = "ovr/inout_var_ref.gif"; //$NON-NLS-1$
-	
 	// Link images
-	public final String ICON_LINK_BOTTOMLEFT = "ovr/link_bottomleft.png"; //$NON-NLS-1$
-	public final String ICON_LINK_BOTTOMRIGHT = "ovr/link_bottomright.png"; //$NON-NLS-1$
-	public final String ICON_LINK_TOPLEFT = "ovr/link_topleft.png"; //$NON-NLS-1$
-	public final String ICON_LINK_TOPRIGHT = "ovr/link_topright.png"; //$NON-NLS-1$
-	public final String ICON_LINK_ARROWDOWN = "ovr/link_arrowdown.png"; //$NON-NLS-1$
+	public final String ICON_LINK_BOTTOMLEFT = "ovr16/link_bottomleft.png"; //$NON-NLS-1$
+	public final String ICON_LINK_BOTTOMRIGHT = "ovr16/link_bottomright.png"; //$NON-NLS-1$
+	public final String ICON_LINK_TOPLEFT = "ovr16/link_topleft.png"; //$NON-NLS-1$
+	public final String ICON_LINK_TOPRIGHT = "ovr16/link_topright.png"; //$NON-NLS-1$
+	public final String ICON_LINK_ARROWDOWN = "ovr16/link_arrowdown.png"; //$NON-NLS-1$
 	public final String ICON_LINK_CONDITIONAL = "obj16/condlnk_dgm16.gif"; //$NON-NLS-1$
 	
-	// Bundle and unbundle images
-	public final String ICON_INPUT = "obj16/input_obj.gif"; //$NON-NLS-1$
-	public final String ICON_OUTPUT = "obj16/output_obj.gif"; //$NON-NLS-1$
-	public final String ICON_FAULT = "obj16/fault_obj.gif"; //$NON-NLS-1$
-	
 	// Cursors
-	public final String CURSOR_ZOOM_MASK = "cursors/zoom_mask.bmp"; //$NON-NLS-1$
-	public final String CURSOR_ZOOM_IN = "cursors/zoomin_source.bmp"; //$NON-NLS-1$
-	public final String CURSOR_ZOOM_OUT = "cursors/zoomout_source.bmp"; //$NON-NLS-1$
+	public final String CURSOR_ZOOM_MASK = "point/zoom_mask.bmp"; //$NON-NLS-1$
+	public final String CURSOR_ZOOM_IN = "point/zoomin_source.bmp"; //$NON-NLS-1$
+	public final String CURSOR_ZOOM_OUT = "point/zoomout_source.bmp"; //$NON-NLS-1$
 	
 	public final String CMD_ADD_LINK = Messages.IBPELUIConstants_Add_Link_5; 
 	public final String CMD_ADD_CORRELATION = Messages.IBPELUIConstants_Add_Correlation_6; 

@@ -260,8 +260,6 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		createImageDescriptor(IBPELUIConstants.ICON_PART_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_PORTTYPE_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_PORTTYPE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PORT_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PORT_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_ROLE_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_ROLE_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_PARTNERLINKTYPE_16, baseURL);
@@ -270,15 +268,6 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		createImageDescriptor(IBPELUIConstants.ICON_PROPERTY_32, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_SERVICE_16, baseURL);
 		createImageDescriptor(IBPELUIConstants.ICON_SERVICE_32, baseURL);
-		
-		// Variable references
-		createImageDescriptor(IBPELUIConstants.ICON_INCOMING_VARIABLE_REF, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_OUTGOING_VARIABLE_REF, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_BOTH_VARIABLE_REF, baseURL);
-		
-		createImageDescriptor(IBPELUIConstants.ICON_INPUT, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_OUTPUT, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_FAULT, baseURL);
 	}
 
 	/**
