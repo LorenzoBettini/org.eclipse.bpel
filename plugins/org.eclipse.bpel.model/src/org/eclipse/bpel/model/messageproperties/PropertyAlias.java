@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAlias.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: PropertyAlias.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
  */
 package org.eclipse.bpel.model.messageproperties;
 
@@ -31,6 +31,8 @@ import org.eclipse.wst.wsdl.Part;
  *   <li>{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getID <em>ID</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getWsdlPart <em>Wsdl Part</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getXSDElement <em>XSD Element</em>}</li>
  * </ul>
  * </p>
  *
@@ -183,5 +185,57 @@ public interface PropertyAlias extends ExtensibilityElement{
 	 * @generated
 	 */
 	void setQuery(Query value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see #setType(Object)
+	 * @see org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage#getPropertyAlias_Type()
+	 * @model
+	 * @generated
+	 */
+	Object getType();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>XSD Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>XSD Element</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>XSD Element</em>' attribute.
+	 * @see #setXSDElement(Object)
+	 * @see org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage#getPropertyAlias_XSDElement()
+	 * @model
+	 * @generated
+	 */
+	Object getXSDElement();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getXSDElement <em>XSD Element</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>XSD Element</em>' attribute.
+	 * @see #getXSDElement()
+	 * @generated
+	 */
+	void setXSDElement(Object value);
 
 } // PropertyAlias

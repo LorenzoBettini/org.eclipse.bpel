@@ -43,6 +43,8 @@ public final class MessagepropertiesConstants
     public static final String PROPERTY_ALIAS_MESSAGE_TYPE_ATTRIBUTE = "messageType";
     public static final String PROPERTY_ALIAS_PART_ATTRIBUTE = "part";
     public static final String PROPERTY_ALIAS_QUERY_ATTRIBUTE = "query";
+    public static final String PROPERTY_ALIAS_TYPE_ATTRIBUTE = "type";
+    public static final String PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE = "element";
     public static final String QUERY_QUERYLANGUAGE_ATTRIBUTE = "queryLanguage";
 
     public static String getAttribute(Element element, String attributeName)

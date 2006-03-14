@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: PropertyAliasImpl.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -25,24 +25,21 @@ import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.messageproperties.Query;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.ExtensibilityElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
-
+import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
 import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
-
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDTypeDefinition;
 import org.w3c.dom.Element;
 
 /**
@@ -58,12 +55,15 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl#getID <em>ID</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl#getWsdlPart <em>Wsdl Part</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl#getXSDElement <em>XSD Element</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class PropertyAliasImpl extends ExtensibilityElementImpl implements PropertyAlias {
+
 	/**
 	 * The default value of the '{@link #getMessageType() <em>Message Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -153,6 +153,46 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * @ordered
 	 */
 	protected Query query = null;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Object TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Object type = TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getXSDElement() <em>XSD Element</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getXSDElement()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Object XSD_ELEMENT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getXSDElement() <em>XSD Element</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getXSDElement()
+	 * @generated
+	 * @ordered
+	 */
+	protected Object xsdElement = XSD_ELEMENT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -332,6 +372,61 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	}
 
 	/**
+	 * @customized
+	 */
+	public Object getType() {
+		if (type instanceof XSDTypeDefinition && ((XSDTypeDefinition)type).eIsProxy()) {
+			XSDTypeDefinition oldType = (XSDTypeDefinition)type;
+			type = (XSDTypeDefinition)eResolveProxy((InternalEObject)type);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MessagepropertiesPackage.PROPERTY_ALIAS__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(Object newType) {
+		Object oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.PROPERTY_ALIAS__TYPE, oldType, type));
+	}
+
+	/**
+	 * @customized
+	 */
+	public Object getXSDElement() {
+		if (xsdElement instanceof XSDElementDeclaration && ((XSDElementDeclaration)xsdElement).eIsProxy()) {
+			XSDElementDeclaration oldElement = (XSDElementDeclaration)xsdElement;
+			xsdElement = (XSDElementDeclaration)eResolveProxy((InternalEObject)xsdElement);
+			if (xsdElement != oldElement) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT, oldElement, xsdElement));
+			}
+		}
+		return xsdElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setXSDElement(Object newXSDElement) {
+		Object oldXSDElement = xsdElement;
+		xsdElement = newXSDElement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT, oldXSDElement, xsdElement));
+	}
+
+	
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -376,6 +471,10 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 				return basicGetWsdlPart();
 			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
 				return getQuery();
+			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+				return getType();
+			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+				return getXSDElement();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -413,6 +512,12 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 				return;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
 				setQuery((Query)newValue);
+				return;
+			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+				setType((Object)newValue);
+				return;
+			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+				setXSDElement((Object)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -452,6 +557,12 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
 				setQuery((Query)null);
 				return;
+			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
+			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+				setXSDElement(XSD_ELEMENT_EDEFAULT);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -483,6 +594,10 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 				return wsdlPart != null;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
 				return query != null;
+			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+				return XSD_ELEMENT_EDEFAULT == null ? xsdElement != null : !XSD_ELEMENT_EDEFAULT.equals(xsdElement);
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -502,6 +617,10 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 		result.append(part);
 		result.append(", propertyName: ");
 		result.append(propertyName);
+		result.append(", type: ");
+		result.append(type);
+		result.append(", XSDElement: ");
+		result.append(xsdElement);
 		result.append(')');
 		return result.toString();
 	}
@@ -564,6 +683,37 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 		    	if (newMessage != null && newMessage!=  getMessageType())
 		    		setMessageType(newMessage);
 			}
+	    } else {
+	    	setMessageType(null);
+	    }
+		
+		
+		if (element != null && element.hasAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE))
+	    {
+			if (definition != null)
+			{
+		    	QName typeQName = createQName(definition, element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE));
+		    	XSDTypeDefinition newType = ((DefinitionImpl)definition).resolveTypeDefinition(typeQName.getNamespaceURI(), typeQName.getLocalPart());		    	
+		    	if (newType != null && newType != getType())
+		    		setType(newType);        
+			}
+	    } else {
+	    	setType(null);
+	    }
+		
+		if (element != null && element.hasAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE))
+	    {
+			if (definition != null)
+			{
+		    	QName elementQName = createQName(definition, element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE));
+		    	XSDElementDeclaration newElement = ((DefinitionImpl)definition).resolveElementDeclaration(elementQName.getNamespaceURI(), elementQName.getLocalPart());
+		    	if (newElement != null && newElement != getXSDElement()) {
+		    		setXSDElement(newElement);
+		    	}
+		        
+			}
+	    } else {
+	    	setXSDElement(null);
 	    }
 		super.reconcileReferences(deep);
 	}

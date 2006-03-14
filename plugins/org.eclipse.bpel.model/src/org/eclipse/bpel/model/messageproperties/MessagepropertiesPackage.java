@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackage.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: MessagepropertiesPackage.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
  */
 package org.eclipse.bpel.model.messageproperties;
 
@@ -261,13 +261,31 @@ public interface MessagepropertiesPackage extends EPackage{
 	int PROPERTY_ALIAS__QUERY = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_ALIAS__TYPE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>XSD Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_ALIAS__XSD_ELEMENT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>Property Alias</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_ALIAS_FEATURE_COUNT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 6;
+	int PROPERTY_ALIAS_FEATURE_COUNT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.messageproperties.impl.QueryImpl <em>Query</em>}' class.
@@ -472,6 +490,28 @@ public interface MessagepropertiesPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getPropertyAlias_Query();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.bpel.model.messageproperties.PropertyAlias#getType()
+	 * @see #getPropertyAlias()
+	 * @generated
+	 */
+	EAttribute getPropertyAlias_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.messageproperties.PropertyAlias#getXSDElement <em>XSD Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>XSD Element</em>'.
+	 * @see org.eclipse.bpel.model.messageproperties.PropertyAlias#getXSDElement()
+	 * @see #getPropertyAlias()
+	 * @generated
+	 */
+	EAttribute getPropertyAlias_XSDElement();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.messageproperties.Query <em>Query</em>}'.

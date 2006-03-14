@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackageImpl.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: MessagepropertiesPackageImpl.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -274,6 +274,24 @@ public class MessagepropertiesPackageImpl extends EPackageImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPropertyAlias_Type() {
+		return (EAttribute)propertyAliasEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPropertyAlias_XSDElement() {
+		return (EAttribute)propertyAliasEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getQuery() {
 		return queryEClass;
 	}
@@ -337,6 +355,8 @@ public class MessagepropertiesPackageImpl extends EPackageImpl implements Messag
 		createEAttribute(propertyAliasEClass, PROPERTY_ALIAS__ID);
 		createEReference(propertyAliasEClass, PROPERTY_ALIAS__WSDL_PART);
 		createEReference(propertyAliasEClass, PROPERTY_ALIAS__QUERY);
+		createEAttribute(propertyAliasEClass, PROPERTY_ALIAS__TYPE);
+		createEAttribute(propertyAliasEClass, PROPERTY_ALIAS__XSD_ELEMENT);
 
 		queryEClass = createEClass(QUERY);
 		createEAttribute(queryEClass, QUERY__QUERY_LANGUAGE);
@@ -389,6 +409,8 @@ public class MessagepropertiesPackageImpl extends EPackageImpl implements Messag
 		initEAttribute(getPropertyAlias_ID(), ecorePackage.getEString(), "ID", null, 0, 1, PropertyAlias.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyAlias_WsdlPart(), theWSDLPackage.getPart(), null, "wsdlPart", null, 1, 1, PropertyAlias.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyAlias_Query(), this.getQuery(), null, "query", null, 0, 1, PropertyAlias.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPropertyAlias_Type(), theEcorePackage.getEJavaObject(), "type", null, 0, 1, PropertyAlias.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPropertyAlias_XSDElement(), theEcorePackage.getEJavaObject(), "XSDElement", null, 0, 1, PropertyAlias.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(queryEClass, Query.class, "Query", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getQuery_QueryLanguage(), ecorePackage.getEString(), "queryLanguage", null, 0, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
