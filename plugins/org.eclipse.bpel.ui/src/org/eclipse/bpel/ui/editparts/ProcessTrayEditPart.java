@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.bpel.common.ui.tray.MainTrayEditPart;
+import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.editparts.policies.BPELDirectEditPolicy;
@@ -138,6 +141,16 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 					}
 				}
 				protected boolean shouldRefresh(Object currentSelection) {
+					if (currentSelection == null)
+						return false;
+					if (currentSelection instanceof Variables || currentSelection instanceof Variable)
+						return false;
+					if (currentSelection instanceof PartnerLinks || currentSelection instanceof PartnerLink)
+						return false;
+					if (currentSelection instanceof CorrelationSets || currentSelection instanceof CorrelationSet)
+						return false;
+					if (currentSelection instanceof ReferencePartnerLinks)
+						return false;
 					return (lastSelection != currentSelection && (lastSelection instanceof Scope || currentSelection instanceof Scope));
 				}
 			};
