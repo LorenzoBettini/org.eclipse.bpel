@@ -246,11 +246,7 @@ public class ContainerBorder extends CollapsableBorder {
 	public Insets getInsets(IFigure figure) {
 		if (isCollapsed()) return super.getInsets(figure);
 		calculate(figure);
-		int hInsets = hBorderInsets;
-		if (isCollapsed()) hInsets = 0;
-		int vInsets = vBorderInsets;
-		if (isCollapsed()) vInsets = 0;
-		Insets result = new Insets(vInsets + rectLabelBorder.height, hInsets, vInsets, hInsets);
+		Insets result = new Insets(vBorderInsets + rectLabelBorder.height, hBorderInsets, vBorderInsets, hBorderInsets);
 		result.left += DRAWER_WIDTH;
 		result.right += DRAWER_WIDTH;
 		return result;

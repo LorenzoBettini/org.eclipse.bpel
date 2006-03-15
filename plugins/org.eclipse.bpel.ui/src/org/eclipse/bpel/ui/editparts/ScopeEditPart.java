@@ -225,7 +225,6 @@ public class ScopeEditPart extends CollapsableEditPart {
 		border.setShowCompensation(getCompensationHandler() != null);
 		border.setShowTermination(getTerminationHandler() != null);
 		border.setShowEvent(getEventHandler() != null);
-		border.setHasChildren(getChildren().size() != 0);
 		// Force a repaint, as the drawer images may have changed.
 		getFigure().repaint();
 	}

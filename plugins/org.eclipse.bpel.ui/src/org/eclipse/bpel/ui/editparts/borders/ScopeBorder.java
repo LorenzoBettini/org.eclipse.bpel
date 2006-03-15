@@ -65,10 +65,6 @@ public class ScopeBorder extends CollapsableBorder {
 	private Rectangle rectTermination;
 	private Rectangle rectEvent;
 	
-	// Whether or not we have children; used to determine whether
-	// to add extraSpace
-	private boolean hasChildren = false;
-	
 	public ScopeBorder(IFigure parentFigure, String labelText, Image image) {
 		super(true, IBPELUIConstants.ARC_WIDTH, parentFigure, labelText, image);
 		
@@ -96,14 +92,12 @@ public class ScopeBorder extends CollapsableBorder {
 
 	public Dimension getPreferredSize(IFigure f) {
 		calculate(f);
-		if (isCollapsed()) {
-			return new Dimension(rectCollapsed.width + DRAWER_WIDTH * 2, rectCollapsed.height + expandedHeight);
+		Dimension d = new Dimension(rectCollapsed.width, rectCollapsed.height + expandedHeight);
+		d.width += DRAWER_WIDTH * 2;
+		if (!isCollapsed()) {
+			d.width += extraHorizontalSpace;
 		}
-		int extraSpace = 0;
-		if (!hasChildren) {
-			extraSpace = extraHorizontalSpace;
-		}
-		return new Dimension(expandedBounds.width + extraSpace, expandedBounds.height + expandedHeight);
+		return d;
 	}
 	
 	protected void doPaint(IFigure figure, Graphics graphics, Insets insets) {
@@ -358,9 +352,5 @@ public class ScopeBorder extends CollapsableBorder {
 		invalidate();
 		calculate(parentFigure);
 		return expandedBounds;
-	}
-	
-	public void setHasChildren(boolean hasChildren) {
-		this.hasChildren = hasChildren;
 	}
 }
