@@ -488,6 +488,18 @@ public final class Messages extends NLS {
 	public static String DateTimeSelector_Month_10;
 	public static String DateTimeSelector_Month_11;
 	public static String DateTimeSelector_Month_12;
+	
+	public static String BPELPropertyAliasQuerySection_Query_Language;
+	public static String BPELPropertyAliasQuerySection_Query;
+	
+	public static String BPELPartnerLinkRolesSection_Add;
+	public static String BPELPartnerLinkRolesSection_Remove;
+	public static String BPELPartnerLinkRolesSection_Roles;
+	
+	public static String BPELPartnerLinkRolesSection_Role_Name;
+	public static String BPELPartnerLinkRolesSection_Role_PortType;
+
+	public static String BPELWSDLComponentSelectionDialog;
 
 	public static String ShowPropertiesViewAction_actionText;
 	

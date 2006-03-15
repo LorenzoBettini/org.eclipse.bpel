@@ -25,7 +25,11 @@ Require-Bundle: org.eclipse.ui,
  org.wsdl4j,
  org.eclipse.bpel.common.ui,
  org.eclipse.bpel.common.model,
- org.eclipse.bpel.model
+ org.eclipse.bpel.model,
+ org.eclipse.wst.wsdl.ui,
+ org.eclipse.wst.xsd.ui,
+ org.eclipse.wst.xml.core,
+ org.eclipse.wst.common.ui
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.bpel.ui,
  org.eclipse.bpel.ui.actions,

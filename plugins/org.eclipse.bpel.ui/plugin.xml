@@ -4,8 +4,8 @@
 
    <extension-point id="hoverHelpers" name="%HOVERHELP_HELPER_NAME"/>
    <extension-point id="expressionEditors" name="%EXPRESSION_LANGUAGE_EDITORS_NAME"/>
-   <extension-point id="actions" name="Actions" schema="schema/actions.exsd"/>
-   <extension-point id="modelListener" name="Model Listener" schema="schema/modelListener.exsd"/>
+   <extension-point id="actions" name="Actions" schema="schemas/actions.exsd"/>
+   <extension-point id="modelListener" name="Model Listener" schema="schemas/modelListener.exsd"/>
 
 
    <extension
@@ -196,7 +196,7 @@
               class="org.eclipse.bpel.ui.properties.ActionImplementationSection"
               tab="org.eclipse.bpel.ui.tabs.details"
               id="org.eclipse.bpel.ui.sections.ActionImplementationSection">
-           <input type="org.eclipse.bpel.Empty"/>
+           <input type="org.eclipse.bpel.model.Empty"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.description"
@@ -607,5 +607,51 @@
             class="org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage">
       </package>
    </extension>
+   
+   	<extension
+		point="org.eclipse.wst.xml.core.catalogContributions">
+		<catalogContribution id="default">		
+			<public
+               publicId="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"
+               uri="platform:/plugin/org.eclipse.bpel.ui/schemas/wsbpel_plinkType.xsd">           
+         </public>			
+		</catalogContribution>			
+		<catalogContribution id="default">		
+			<public
+               publicId="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
+               uri="platform:/plugin/org.eclipse.bpel.ui/schemas/wsbpel_msgprop.xsd">           
+         </public>			
+		</catalogContribution>	
+	</extension>
+	
+	<extension
+		point="org.eclipse.wst.wsdl.ui.internalEditorExtensions">
+		<internalEditorExtension
+			class="org.eclipse.bpel.ui.wsdl.extensions.BPELWSDLEditorExtension" />
+	</extension>
+	
+ <extension
+       point="org.eclipse.wst.wsdl.ui.extensibilityItemTreeProviders">
+    <extensibilityItemTreeProvider
+          labelProviderClass="org.eclipse.bpel.ui.wsdl.extensions.BPELWSDLEditorExtension"
+          namespace="http://schemas.xmlsoap.org/ws/2004/03/business-process/"/>
+    <extensibilityItemTreeProvider
+          labelProviderClass="org.eclipse.bpel.ui.wsdl.extensions.BPELWSDLEditorExtension"
+          namespace="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"/>
+ </extension>
+ 
+ <extension
+         point="org.eclipse.wst.wsdl.ui.propertyDescriptorProvider">
+      <propertyDescriptorProvider
+            namespace="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
+            class="org.eclipse.bpel.ui.wsdl.extensions.properties.BPELBusinessProcessPropertyDescriptorProvider"/>
+   </extension>   
+   
+	<extension
+         point="org.eclipse.wst.wsdl.ui.propertyDescriptorProvider">
+      <propertyDescriptorProvider
+            namespace="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"
+            class="org.eclipse.bpel.ui.wsdl.extensions.properties.BPELPartnerLinkPropertyDescriptorProvider"/>
+   </extension>  
 
 </plugin>
