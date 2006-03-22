@@ -159,7 +159,7 @@ public class CompositeEditorManager {
 		IEditorReference ref = new EditorReference();
 		EditorSite site = new CompositeEditorSite(mainEditorSite, ref, editor, page, descriptor);
 		IEditorActionBarContributor contributor = descriptor.createActionBarContributor();
-		site.setActionBars(createEditorActionBars(descriptor, contributor));
+		site.setActionBars(createEditorActionBars(descriptor, contributor, site));
 		return site;
 	}
 
@@ -167,10 +167,10 @@ public class CompositeEditorManager {
 	 * Creates the action bars for the given editor. It also searches for editor
 	 * contribution extensions.
 	 */
-	protected CompositeEditorActionBars createEditorActionBars(EditorDescriptor descriptor, IEditorActionBarContributor contributor) {
+	protected CompositeEditorActionBars createEditorActionBars(EditorDescriptor descriptor, IEditorActionBarContributor contributor, EditorSite site) {
 		String type = String.valueOf(System.currentTimeMillis());
-		IActionBars2 parentActionBars = (IActionBars2) mainEditorSite.getActionBars();
-		CompositeEditorActionBars actionBars = new CompositeEditorActionBars(parentActionBars, type);
+//		IActionBars2 parentActionBars = (IActionBars2) mainEditorSite.getActionBars();
+		CompositeEditorActionBars actionBars = new CompositeEditorActionBars(page, site, type);
 		if (contributor != null) {
 			actionBars.setEditorContributor(contributor);
 			contributor.init(actionBars, page);

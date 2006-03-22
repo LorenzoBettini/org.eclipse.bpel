@@ -51,6 +51,7 @@ import org.eclipse.ui.internal.EditorReference;
 import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.registry.EditorDescriptor;
+import org.eclipse.ui.services.IServiceLocator;
 
 
 /**
@@ -173,7 +174,7 @@ public class EditorInViewManager {
 		IEditorReference ref = new EditorReference(getEditorManager(), input, descriptor);
 		EditorSite site = new EditorInViewSite(viewSite, ref, editor, page, descriptor);
 		IEditorActionBarContributor contributor = descriptor.createActionBarContributor();
-		site.setActionBars(createEditorActionBars(descriptor, contributor));
+		site.setActionBars(createEditorActionBars(descriptor, contributor, site));
 		return site;
 	}
 
@@ -181,11 +182,11 @@ public class EditorInViewManager {
 	 * Creates the action bars for the given editor. It also searches for editor
 	 * contribution extensions.
 	 */
-	protected CompositeEditorActionBars createEditorActionBars(EditorDescriptor descriptor, IEditorActionBarContributor contributor) {
+	protected CompositeEditorActionBars createEditorActionBars(EditorDescriptor descriptor, IEditorActionBarContributor contributor, EditorSite site) {
 		String type = String.valueOf(System.currentTimeMillis());
-		IActionBars viewActionBars = viewSite.getActionBars();
-		IActionBars2 parentActionBars = getIActionBars2Wrapper(viewActionBars);
-		CompositeEditorActionBars actionBars = new CompositeEditorActionBars(parentActionBars, type);
+//		IActionBars viewActionBars = viewSite.getActionBars();
+//		IActionBars2 parentActionBars = getIActionBars2Wrapper(viewActionBars);
+		CompositeEditorActionBars actionBars = new CompositeEditorActionBars(page, site, type);
 		if (contributor != null) {
 			actionBars.setEditorContributor(contributor);
 			contributor.init(actionBars, page);
@@ -232,6 +233,9 @@ public class EditorInViewManager {
 			}
 			public void updateActionBars() {
 				actionBars.updateActionBars();
+			}
+			public IServiceLocator getServiceLocator() {
+				return actionBars.getServiceLocator();
 			}
 		};
 	}

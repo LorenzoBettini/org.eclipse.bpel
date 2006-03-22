@@ -16,8 +16,9 @@ import java.util.Map;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.SubToolBarManager;
-import org.eclipse.ui.IActionBars2;
 import org.eclipse.ui.internal.EditorActionBars;
+import org.eclipse.ui.internal.WorkbenchPage;
+import org.eclipse.ui.services.IServiceLocator;
 
 /**
  * IActionBars implementation for the CompositeEditor. This class was
@@ -42,8 +43,8 @@ public class CompositeEditorActionBars extends EditorActionBars {
 
 	protected SubToolBarManager toolBarMgr;
 
-	public CompositeEditorActionBars(IActionBars2 parent, String type) {
-		super(parent, type);
+	public CompositeEditorActionBars(WorkbenchPage page, IServiceLocator serviceLocator, String type) {
+		super(page, serviceLocator, type);
 	}
 
 	/**
@@ -52,7 +53,11 @@ public class CompositeEditorActionBars extends EditorActionBars {
 	 */
 	public IToolBarManager getToolBarManager() {
 		if (toolBarMgr == null) {
-			toolBarMgr = createSubToolBarManager(getParent().getToolBarManager());
+			// TODO: The code below does not work anymore in Eclipse 3.2M5.
+			// We cannot call this API anymore because we get an exception.
+			// See WWinActionBars.getToolBarManager()
+//			toolBarMgr = createSubToolBarManager(getParent().getToolBarManager());
+			toolBarMgr = createSubToolBarManager(null);
 			toolBarMgr.setVisible(getActive());
 		}
 		return toolBarMgr;
