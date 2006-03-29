@@ -292,16 +292,16 @@ public class NewFileWizardPage1 extends WizardPage
 
     	IDialogSettings settings = getWizard().getDialogSettings();
     	
-    	
-        String projectFieldContents = getProjectNameFieldValue();
-        if (projectFieldContents.equals(EMPTY)) { 
+    	String processName = processNameField.getText();    	 
+                  
+        if (processName.equals(EMPTY)) { 
             setErrorMessage(null);
             setMessage( Messages.NewFileWizardPage1_8); 
             return false;
         }
 
         IStatus nameStatus =
-            workspace.validateName(projectFieldContents, IResource.PROJECT);
+            workspace.validateName(processName, IResource.FILE);
         
         if (!nameStatus.isOK()) {
             setErrorMessage(nameStatus.getMessage());
@@ -309,7 +309,7 @@ public class NewFileWizardPage1 extends WizardPage
         }
         
         // Make sure that there are no spaces in the name
-        if( projectFieldContents.indexOf( " " ) > -1 ) //$NON-NLS-1$
+        if( processName.indexOf( " " ) > -1 ) //$NON-NLS-1$
         {
             setErrorMessage(Messages.NewFileWizardPage1_10);
             return false;
@@ -318,9 +318,7 @@ public class NewFileWizardPage1 extends WizardPage
         setErrorMessage(null);
         setMessage(null);
       
-        String processName = processNameField.getText().trim();
-        String namespace   = processNamespaceField.getText().trim();
-        
+        String namespace   = processNamespaceField.getText().trim();        
         // settings for next time the dialog is used.
         settings.put( LAST_NAMESPACE_KEY , namespace) ;
         
