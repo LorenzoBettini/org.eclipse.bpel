@@ -654,4 +654,20 @@
             class="org.eclipse.bpel.ui.wsdl.extensions.properties.BPELPartnerLinkPropertyDescriptorProvider"/>
    </extension>  
 
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.bpel.file.wizards"
+            name="%NEW_BPEL_CATEGORY"/>
+      <wizard
+            canFinishEarly="false"
+            category="org.eclipse.bpel.file.wizards"
+            class="org.eclipse.bpel.ui.wizards.NewFileWizard"
+            hasPages="true"
+            icon="icons/obj16/bpel.gif"
+            id="org.eclipse.bpel.ui.newFile"
+            name="%NEW_BPEL_FILE"
+            project="false"/>
+   </extension>
+   
 </plugin>

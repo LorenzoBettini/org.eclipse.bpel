@@ -24,6 +24,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -47,6 +48,10 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	private BPELResourceChangeListener resourceChangeListener;
 	private ISaveParticipant saveParticipant;
 
+	// The templates that are provided for new file creation
+	private Templates mTemplates;
+	
+	
 	public BPELUIPlugin() {
 		super();
 		plugin = this;
@@ -288,6 +293,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		store.setDefault(IBPELUIConstants.PREF_CREATE_SPEC_COMPLIANT_PROCESS, false);
 	}
 	
+		
 	/**
 	 * Installs the IResourceChangeListener for the BPEL Plugin. Also
 	 * checks if there were any changes to BPEL files while the plug-in
@@ -320,11 +326,23 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		return false;
 	}
 
+	
+	
+	public Templates getTemplates ()
+	{
+		if (mTemplates == null) {
+			mTemplates = new Templates ();
+			mTemplates.initializeFrom( getBundle() );
+		}
+		return mTemplates;
+	}
+	
+	
 	protected void initialize() {
 		if (!imagesAndColorsInitialized) {
 			imagesAndColorsInitialized = true;
 			initializeImages();
-			initializeColors();
+			initializeColors();			
 		}
 	}
 	
@@ -376,6 +394,31 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		return resourceChangeListener;
 	}
 
+	/**
+	 * Return the dialog settings for a given object. The object may be a string
+	 * or any other java object. In that case, the object's class name will be used
+	 * to retrieve that section name.
+	 * 
+	 * @param object 
+	 * @return the dialog settings for that object
+	 * 
+	 */
+	public IDialogSettings getDialogSettingsFor ( Object object ) 
+	{
+	    String name = object.getClass().getName();
+	    if (object instanceof String) {
+	        name = (String) object;
+	    }
+	    
+	    IDialogSettings main = getPlugin().getDialogSettings();	    
+	    IDialogSettings settings = main.getSection( name );
+	    if (settings == null) {
+	        settings = main.addNewSection(name);
+	    }
+	    return settings;
+	}
+	
+	
 	/**
 	 * Utility methods for logging exceptions.
 	 */
