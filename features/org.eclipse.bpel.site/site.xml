@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.bpel.feature_0.0.1.jar" id="org.eclipse.bpel.feature" version="0.0.1">
+      <category name="Eclipse BPEL Designer"/>
+   </feature>
+   <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer"/>
+</site>
