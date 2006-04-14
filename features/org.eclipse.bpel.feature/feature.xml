@@ -3,7 +3,7 @@
       id="org.eclipse.bpel.feature"
       label="BPEL Visual Designer"
       version="0.0.1"
-      provider-name="Eclipse.org">
+      provider-name="eclipse.org">
 
    <description url="http://www.eclipse.org/bpel/">
       The Eclipse BPEL visual designer.
@@ -217,8 +217,28 @@ litigation.
    </license>
 
    <url>
-      <update label="Eclipse BPEL Designer" url="http://localhost/"/>
+      <update label="Eclipse BPEL Designer" url="http://www.eclipse.org/bpel/update-site/"/>
    </url>
+
+   <includes
+         id="org.eclipse.emf"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gef"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.jem"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.wst"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd"
+         version="0.0.0"/>
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
@@ -262,7 +282,8 @@ litigation.
          id="org.eclipse.bpel.common.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.model"
@@ -275,6 +296,7 @@ litigation.
          id="org.eclipse.bpel.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
