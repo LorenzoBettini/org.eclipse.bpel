@@ -17,3 +17,7 @@ Export-Package: org.eclipse.bpel.common.extension.model,
  org.eclipse.bpel.common.extension.model.notify,
  org.eclipse.bpel.common.extension.model.notify.impl,
  org.eclipse.bpel.common.extension.model.util
+Bundle-ClassPath: code.jar
+Bundle-RequiredExecutionEnvironment: J2SE-1.4,
+ J2SE-1.5
+Bundle-Vendor: eclipse.org

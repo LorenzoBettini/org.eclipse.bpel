@@ -4,7 +4,7 @@ Bundle-Name: BPEL Model
 Bundle-SymbolicName: org.eclipse.bpel.model; singleton:=true
 Bundle-Version: 0.0.1
 Bundle-Activator: org.eclipse.bpel.model.BPELPlugin$Implementation
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -28,3 +28,6 @@ Export-Package: org.eclipse.bpel.model,
  org.eclipse.bpel.model.resource,
  org.eclipse.bpel.model.terms,
  org.eclipse.bpel.model.util
+Bundle-ClassPath: code.jar
+Bundle-RequiredExecutionEnvironment: J2SE-1.4,
+ J2SE-1.5

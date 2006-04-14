@@ -12,7 +12,7 @@
          point="org.eclipse.ui.editors">
       <editor
             name="%BPEL_EDITOR_NAME"
-            icon="./icons/obj16/bpel.gif"
+            icon="icons/obj16/bpel.gif"
             extensions="bpel"
             contributorClass="org.eclipse.bpel.ui.BPELActionBarContributor"
             class="org.eclipse.bpel.ui.BPELEditor"
