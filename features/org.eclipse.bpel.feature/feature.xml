@@ -217,7 +217,7 @@ litigation.
    </license>
 
    <url>
-      <update label="Eclipse BPEL Designer" url="http://www.eclipse.org/bpel/update-site/"/>
+      <update label="Eclipse BPEL Designer" url="http://download.eclipse.org/technology/bpel/update-site/"/>
    </url>
 
    <includes
