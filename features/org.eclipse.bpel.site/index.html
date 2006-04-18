@@ -1,8 +1,9 @@
 <html>
 <head>
-<title>org.eclipse.bpel.site</title>
+<title>BPEL Designer Update Site</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style>@import url("web/site.css");</style>
+<link rel="stylesheet" href="web/site.css" type="text/css"/>
+
 <script type="text/javascript">
 	var returnval = 0;
 	var stylesheet, xmlFile, cache, doc;
@@ -53,8 +54,38 @@
 	}
 </script>
 </head>
-<body onload="init();">
-<!--[insert static HTML here]-->
+<body xxxonload="init();">
+
+<div style="float: right;">
+<b>Last Modified:</b> <script>document.writeln(document.lastModified)</script>
+</div>
+
+
+<h1 class="main" style="clear: both;">Eclipse BPEL Designer Update Site</h1>
+
+
+Welcome to the Eclipse BPEL Designer update site.
+<p>
+To simplest way to install the designer is through the Eclipse Update mechanism. 
+You need the basic <a href="http://download.eclipse.org/">Eclipse SDK</a>
+for your platform and that's it. Then define a new Eclipse update site with the 
+following location:
+<pre class="main">
+	<b>http://download.eclipse.org/technology/bpel/update-site/</b>
+</pre>
+Please note that the update from this location will include all the necessary 
+Eclipse components that are needed to run the BPEL Designer. Things like EMF, GEF, JEM,
+and WST. If you have these already installed then most likely nothing besides the BPEL
+designer will be installed. 
+<p>
+Because we are still in development mode, a suggestion might be to install these on a 
+virgin version of Eclipse 3.2
+<p>
+Currently, eclipse version 3.2M5a is required to run this BPEL designer build. 
+<p>
+We will be updating this site with builds as necessary. 
+<p>
+
 <div id="data"><!-- this is where the transformed data goes --></div>
 </body>
 </html>
