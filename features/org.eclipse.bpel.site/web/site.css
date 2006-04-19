@@ -1,5 +1,6 @@
 BODY,HTML {
-	font: 10pt Verdana;
+	font-family: verdana, arial, tahoma;
+	font-size: 8pt;
 }
 H1.main
 {
@@ -26,14 +27,12 @@ td.spacer {
 }
 
 .bodyText {
-	font-family: sans-serif;
-	font-size: 12pt;
+	font-size: 10pt;
 	color: #000000;
 }
 
 .sub-header {
 	font-weight: bold;
-	font-size: 10pt;
 	color: white;
 }
 
