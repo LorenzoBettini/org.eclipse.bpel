@@ -624,36 +624,6 @@
 		</catalogContribution>	
 	</extension>
 	
-	<extension
-		point="org.eclipse.wst.wsdl.ui.internalEditorExtensions">
-		<internalEditorExtension
-			class="org.eclipse.bpel.ui.wsdl.extensions.BPELWSDLEditorExtension" />
-	</extension>
-	
- <extension
-       point="org.eclipse.wst.wsdl.ui.extensibilityItemTreeProviders">
-    <extensibilityItemTreeProvider
-          labelProviderClass="org.eclipse.bpel.ui.wsdl.extensions.BPELWSDLEditorExtension"
-          namespace="http://schemas.xmlsoap.org/ws/2004/03/business-process/"/>
-    <extensibilityItemTreeProvider
-          labelProviderClass="org.eclipse.bpel.ui.wsdl.extensions.BPELWSDLEditorExtension"
-          namespace="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"/>
- </extension>
- 
- <extension
-         point="org.eclipse.wst.wsdl.ui.propertyDescriptorProvider">
-      <propertyDescriptorProvider
-            namespace="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
-            class="org.eclipse.bpel.ui.wsdl.extensions.properties.BPELBusinessProcessPropertyDescriptorProvider"/>
-   </extension>   
-   
-	<extension
-         point="org.eclipse.wst.wsdl.ui.propertyDescriptorProvider">
-      <propertyDescriptorProvider
-            namespace="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"
-            class="org.eclipse.bpel.ui.wsdl.extensions.properties.BPELPartnerLinkPropertyDescriptorProvider"/>
-   </extension>  
-
    <extension
          point="org.eclipse.ui.newWizards">
       <category
