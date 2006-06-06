@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -182,21 +181,7 @@ public class Templates {
 				template.getResources().add ( resource );
 				
 			}
-			Iterator ii = findProperties(props,"resource.{0}").iterator();
 			
-			while (ii.hasNext()) {
-				String resourceName = (String) ii.next();
-				
-				String entryLoc = nextRoot + resourceName;
-				
-				TemplateResource resource = new TemplateResource() ;
-				resource.setName ( resourceName );						
-				resource.setLocation ( entryLoc );
-				resource.setContent ( slurpContent ( bundle.getEntry(entryLoc), enc ) ) ;
-				
-				// add the resource which makes up this "template" 
-				template.getResources().add ( resource );									
-			}
 		}
 		
 	}
