@@ -88,6 +88,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -150,6 +151,7 @@ import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDPackage;
+import org.eclipse.bpel.ui.adapters.AbstractAdapter;
 
 
 /**
@@ -175,7 +177,14 @@ public class BPELUtil {
 	 */
 	public static IPath lastBPELFilePath = null;
 	
+	/**
+	 * Global variable storing the path of the last XSD file selected
+	 */
+	public static IPath lastXSDFilePath;
+	
 	private static Map keyToAdapterFactory;
+	
+	
 	static {
 	    keyToAdapterFactory = new HashMap();
 	    keyToAdapterFactory.put(BPELPackage.eINSTANCE, BPELUIAdapterFactory.getInstance());
@@ -209,6 +218,43 @@ public class BPELUtil {
 	    }
 	    return factory.adapt(target, type);
 	}
+	
+	
+	/**
+	 * Create an adapter for the given target of the given type. 
+	 * In addition, pass a context object to the adapter(s) of the target. 
+	 * 
+	 * The idea is that some adapters can be stateful and depend not only 
+	 * on the objects that they wrap, but also on some other context that is needed
+	 * to completely and correctly implement the interface for which the adaptor is
+	 * needed.
+	 * 
+	 * Adapters that are statless, should ignore any notifications sent to them.
+	 *  
+	 * @param target the target object
+	 * @param type the type it wants to adapt to
+	 * @param context the context object
+	 * 
+	 * @return
+	 */
+	public static Object adapt (Object target, Object type, Object context) {
+		
+		Object adapter = adapt (target,type);
+		if (adapter == null) {
+			return adapter;
+		}
+		
+		if ((target instanceof EObject) == false) {
+			return adapter;
+		}
+		
+		EObject eObject = (EObject) target;		
+		Notification n = new NotificationImpl(AbstractAdapter.CONTEXT_UPDATE_EVENT_TYPE, null, context);		
+		eObject.eNotify(n);
+		
+		return adapter;
+	}
+		
 
 	/**
 	 * Returns the effective EClass for a custom activity (action).
@@ -590,9 +636,13 @@ public class BPELUtil {
 	 */
 	public static List getPropertyAliasesForMessageType(Message messageType) {
 		List aliases = new ArrayList();
-		ResourceSet resourceSet = messageType.eResource().getResourceSet();
+		Resource resource = messageType.eResource();
+		if (resource == null) {
+			return aliases;
+		}
+		ResourceSet resourceSet = resource.getResourceSet();
 		for (Iterator it = resourceSet.getResources().iterator(); it.hasNext(); ) {
-			Resource resource = (Resource)it.next();
+			resource = (Resource)it.next();
 			// TODO: this is a hack.  Why is there no WSDLResource interface??
 			if (resource instanceof WSDLResourceImpl) {
 				for (TreeIterator treeIt = resource.getAllContents(); treeIt.hasNext(); ) {
