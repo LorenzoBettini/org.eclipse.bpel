@@ -10,22 +10,28 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import org.eclipse.bpel.ui.BPELUIPlugin;
-import org.eclipse.bpel.ui.IBPELUIConstants;
+import java.text.MessageFormat;
+
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.xsd.XSDSchema;
 
 
-public class XSDElementDeclarationAdapter extends XSDAbstractAdapter 
-{
+public class XSDSchemaAdapter extends XSDAbstractAdapter  {
 
-	/* ILabeledElement overrides */
-	
-	public Image getSmallImage(Object object) {		
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_XSD_ELEMENT_DECLARATION_16);
-	}
 		
+	public String getLabel(Object obj) {
+		XSDSchema schema = (XSDSchema) obj;
+		String tns = schema.getTargetNamespace();
+		
+		if (tns == null) {
+			return Messages.XSDSchemaAdapter_0;
+		}		
+		return MessageFormat.format(Messages.XSDSchemaAdapter_1,
+										new Object[] { tns } );
+	}
+
 	public String getTypeLabel(Object object) {
-		return Messages.XSDElementDeclarationAdapter_XSD_Element_1; 
-	}	
+		return Messages.XSDTypeDefinitionAdapter_XSD_Type_1; 
+	}
+	
 }

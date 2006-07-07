@@ -14,13 +14,10 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.xsd.util.XSDAdapterFactory;
 
+
 public class BPELUIXSDAdapterFactory extends XSDAdapterFactory {
 	
-	static BPELUIXSDAdapterFactory instance;
-	
-	XSDTypeDefinitionAdapter typeDefinitionAdapter;
-	XSDAttributeDeclarationAdapter attributeDeclarationAdapter;
-	XSDElementDeclarationAdapter elementDeclarationAdapter;
+	static private BPELUIXSDAdapterFactory instance;	
 	
 	public static BPELUIXSDAdapterFactory getInstance() {
 		if (instance == null) {
@@ -29,24 +26,30 @@ public class BPELUIXSDAdapterFactory extends XSDAdapterFactory {
 		return instance;
 	}
 	
-	public Adapter createXSDTypeDefinitionAdapter() {
-		if (typeDefinitionAdapter == null) {
-			typeDefinitionAdapter = new XSDTypeDefinitionAdapter();
-		}
-		return typeDefinitionAdapter;
+	public Adapter createXSDSimpleTypeDefinitionAdatper () {
+		return new XSDSimpleTypeDefinitionAdapter();
 	}
+	
+	public Adapter createXSDComplexTypeDefinitionAdapter () {
+		return new XSDComplexTypeDefinitionAdapter();
+	}
+	
+	public Adapter createXSDTypeDefinitionAdapter() {
+		return new XSDTypeDefinitionAdapter();
+	}
+	
 	public Adapter createXSDAttributeDeclarationAdapter() {
-		if (attributeDeclarationAdapter == null) {
-			attributeDeclarationAdapter = new XSDAttributeDeclarationAdapter();
-		}
-		return attributeDeclarationAdapter;
+		return new XSDAttributeDeclarationAdapter();
 	}
 	
 	public Adapter createXSDElementDeclarationAdapter() {
-		if (elementDeclarationAdapter == null) {
-			elementDeclarationAdapter = new XSDElementDeclarationAdapter();
-		}
-		return elementDeclarationAdapter;
+		return new XSDElementDeclarationAdapter();
+	}
+	
+	
+
+	public Adapter createXSDSchemaAdapter() {
+		return new XSDSchemaAdapter();
 	}
 
 	public Adapter adaptNew(Notifier target, Object type) {
