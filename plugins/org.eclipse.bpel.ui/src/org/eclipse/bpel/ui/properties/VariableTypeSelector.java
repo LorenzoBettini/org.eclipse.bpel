@@ -21,22 +21,25 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.details.providers.AddNullFilter;
 import org.eclipse.bpel.ui.details.providers.AddSelectedObjectFilter;
 import org.eclipse.bpel.ui.details.providers.FaultContentProvider;
 import org.eclipse.bpel.ui.details.providers.ModelLabelProvider;
+import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.ModelViewerSorter;
 import org.eclipse.bpel.ui.details.providers.OperationContentProvider;
 import org.eclipse.bpel.ui.details.providers.PortTypeContentProvider;
+import org.eclipse.bpel.ui.details.providers.VariableTypeTreeContentProvider;
 import org.eclipse.bpel.ui.uiextensionmodel.VariableExtension;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.BrowseUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.bpel.ui.util.XSDUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionEvent;
@@ -47,7 +50,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Hyperlink;
@@ -58,9 +63,7 @@ import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Output;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 
@@ -95,8 +98,11 @@ public class VariableTypeSelector extends Composite {
 	
 	public static final int STANDARD_LABEL_WIDTH_SM = 85;
 	public static final int STANDARD_LABEL_WIDTH_AVG = STANDARD_LABEL_WIDTH_SM * 5/4;
+	
+	// private static final StructuredViewer dataTypeViewer = null;
 
 	protected EObject variableType;
+	protected Variable myVariable;
 
 	protected Button dataTypeRadio, interfaceRadio;
 	protected Composite dataTypeComposite, interfaceComposite;
@@ -117,6 +123,9 @@ public class VariableTypeSelector extends Composite {
 	
 	protected Button dataTypeBrowseButton;
 	protected Hyperlink dataTypeNameText;
+	protected Tree dataTypeTree;
+	protected TreeViewer dataTypeTreeViewer;
+	protected Label dataTypeLabel;
 
 	protected BPELEditor bpelEditor;
 	protected Callback callback;
@@ -135,15 +144,18 @@ public class VariableTypeSelector extends Composite {
 		this.allowElements = allowElements;
 		
 		Composite parentComposite = createComposite(this);
-		this.setLayout(new FillLayout());
-		
+		this.setLayout(new FillLayout(SWT.VERTICAL));
+				
 		FlatFormLayout formLayout = new FlatFormLayout();
+		
 		formLayout.marginWidth = formLayout.marginHeight = 0;
 		parentComposite.setLayout(formLayout);
 
-		createRadioButtonWidgets(parentComposite);
+		// createRadioButtonWidgets(parentComposite);
+		
 		createDataTypeWidgets(parentComposite);
-		createInterfaceWidgets(parentComposite);
+		
+		// createInterfaceWidgets(parentComposite);
 	}
 
 	/**
@@ -160,7 +172,9 @@ public class VariableTypeSelector extends Composite {
 	}
 
 	protected void selectComposite(int n) {
+		
 		interfaceRadio.setSelection(n == Callback.KIND_INTERFACE);
+		
 		interfaceComposite.setVisible(n == Callback.KIND_INTERFACE);
 		dataTypeRadio.setSelection(n == Callback.KIND_DATATYPE);
 		dataTypeComposite.setVisible(n == Callback.KIND_DATATYPE);
@@ -181,6 +195,8 @@ public class VariableTypeSelector extends Composite {
 	 */
 	public void setVariable(Variable variable) {
 		kindHint = KIND_UNKNOWN;
+		myVariable = variable;
+		
 		if (variable != null) {  
 			if (variable.getMessageType() != null) {
 				setVariableType(variable.getMessageType()); return;
@@ -198,34 +214,42 @@ public class VariableTypeSelector extends Composite {
 	}
 
 	protected void updateDataTypeWidgets() {
-		XSDTypeDefinition type = null;
-		if (variableType instanceof XSDTypeDefinition) {
-			type = (XSDTypeDefinition)variableType;
-		}
-		XSDElementDeclaration element = null;
-		if (variableType instanceof XSDElementDeclaration) {
-			element = (XSDElementDeclaration)variableType;
-		}
-		String name = (type != null)? XSDUtils.getDisplayNameFromXSDType(type, true) :
-			(element != null)? element.getName() : null;
 		
+		String name = null;
+		ILabeledElement label =  (ILabeledElement) BPELUtil.adapt(variableType, ILabeledElement.class, myVariable);
+		if (label != null) {
+			name = label.getLabel(variableType);
+		} 	
+					
 		if (name == null) {
 			dataTypeNameText.setText(Messages.VariableTypeSelector_None_1); 
 			dataTypeNameText.setEnabled(false);
-			//dataTypeViewer.setInput(null);
-		} else {
-			dataTypeNameText.setText(name);
-			if (type instanceof XSDComplexTypeDefinition) {
-				dataTypeNameText.setEnabled(true);
-				//dataTypeViewer.setInput(type);
-			} else if (type instanceof XSDSimpleTypeDefinition) {
-				dataTypeNameText.setEnabled(false);
-				//dataTypeViewer.setInput(null);
-			} else if (element != null) {
-				dataTypeNameText.setEnabled(true);
-				//dataTypeViewer.setInput(element);
-			}
+			dataTypeTreeViewer.setInput(null);
+			dataTypeLabel.setText(Messages.VariableTypeSelector_Data_Type_2);
+			return ;
 		}
+		
+		dataTypeNameText.setText(name);
+		if (variableType instanceof XSDTypeDefinition) {
+			dataTypeNameText.setEnabled(true);
+			dataTypeTreeViewer.setInput(variableType);
+			dataTypeLabel.setText(Messages.VariableTypeSelector_Data_Type_2);				
+		} else if (variableType instanceof XSDElementDeclaration) {
+			dataTypeNameText.setEnabled(true);
+			dataTypeTreeViewer.setInput(variableType);
+			dataTypeLabel.setText(Messages.VariableTypeSelector_0);
+		} else if (variableType instanceof Message) {
+			dataTypeNameText.setEnabled(true);
+			dataTypeTreeViewer.setInput(variableType);
+			dataTypeLabel.setText(Messages.VariableTypeSelector_1);
+		}
+		
+		// scroll to the top ...
+		ScrollBar bar = dataTypeTree.getVerticalBar();
+		if (bar != null) {
+			bar.setSelection(0);
+		}			
+				
 	}
 
 	protected void updateInterfaceWidgets()  {
@@ -283,9 +307,9 @@ public class VariableTypeSelector extends Composite {
 	}
 
 	public void refresh() {
-		updateInterfaceWidgets();
+		// updateInterfaceWidgets();
 		updateDataTypeWidgets();
-		updateCompositeSelection();
+		// updateCompositeSelection();
 	}
 
 	/**
@@ -553,16 +577,17 @@ public class VariableTypeSelector extends Composite {
 		FlatFormData data;
 
 		Composite composite = dataTypeComposite = createFlatFormComposite(parent);
+		
 		data = new FlatFormData();
-		data.top = new FlatFormAttachment(interfaceRadio, IDetailsAreaConstants.VMARGIN);
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VMARGIN);
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
 		data.bottom = new FlatFormAttachment(100, 0);
 		dataTypeComposite.setLayoutData(data);
 		
+		
 		dataTypeBrowseButton = createButton(composite, Messages.VariableTypeSelector_Browse_2, SWT.PUSH); 
-
-		Label dataTypeLabel = createLabel(composite, Messages.VariableTypeSelector_Data_Type_2); 
+		dataTypeLabel = createLabel(composite, Messages.VariableTypeSelector_Data_Type_2); 
 		
 		dataTypeNameText = createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
 		dataTypeNameText.addHyperlinkListener(new HyperlinkAdapter() {
@@ -570,25 +595,41 @@ public class VariableTypeSelector extends Composite {
 				BPELUtil.openEditor(getVariableType(), bpelEditor);
 			}
 		});
+		
+		Label dataTypeTreeLabel = createLabel(composite, Messages.VariableTypeSelector_2); 
+		
+		// Tree viewer for variable structure ...
+		dataTypeTree = wf.createTree(composite, SWT.NONE);
+		VariableTypeTreeContentProvider variableContentProvider = new VariableTypeTreeContentProvider(true, true);
+		dataTypeTreeViewer = new TreeViewer(dataTypeTree);
+		dataTypeTreeViewer.setContentProvider(variableContentProvider);
+		dataTypeTreeViewer.setLabelProvider(new ModelTreeLabelProvider());
+		dataTypeTreeViewer.setInput ( null );
+		dataTypeTreeViewer.setAutoExpandLevel(3);
+		// end tree viewer for variable structure
+				
+		// layout data type label
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel, STANDARD_LABEL_WIDTH_SM));
-		data.top = new FlatFormAttachment(0, 3);
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
 		dataTypeNameText.setLayoutData(data);		
 
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
+		data.left = new FlatFormAttachment(0,IDetailsAreaConstants.HSPACE);
 		data.right = new FlatFormAttachment(dataTypeNameText, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(dataTypeNameText, 3, SWT.TOP);
+		data.top = new FlatFormAttachment(dataTypeNameText, IDetailsAreaConstants.VSPACE, SWT.TOP);
 		dataTypeLabel.setLayoutData(data);
-
+				
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(50, -IDetailsAreaConstants.CENTER_SPACE + IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(dataTypeNameText, -2, SWT.TOP);
 		data.bottom = new FlatFormAttachment(dataTypeLabel, +2, SWT.BOTTOM);
+		data.right = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
+		
 		dataTypeBrowseButton.setLayoutData(data);
 		dataTypeBrowseButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				Object xsdType = BrowseUtil.browseForXSDTypeOrElement(bpelEditor.getResourceSet(), getShell());
+				
+				Object xsdType = BrowseUtil.browseForXSDTypeOrElement(bpelEditor.getProcess(), getShell());
 				if (xsdType != null) {
     				lastChangeContext = DATATYPE_BROWSE_CONTEXT;
 					if (xsdType instanceof XSDTypeDefinition) {
@@ -596,11 +637,26 @@ public class VariableTypeSelector extends Composite {
 						callback.selectXSDType((XSDTypeDefinition)xsdType);
 					} else if (xsdType instanceof XSDElementDeclaration) {
 						callback.selectXSDElement((XSDElementDeclaration)xsdType);
+					} else if (xsdType instanceof Message) {
+						callback.selectMessageType((Message) xsdType);
 					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { }
 		});
+		
+		data = new FlatFormData();
+		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);		
+		data.top = new FlatFormAttachment(dataTypeLabel, 3*IDetailsAreaConstants.VSPACE, SWT.BOTTOM);
+		dataTypeTreeLabel.setLayoutData(data);
+
+		data = new FlatFormData();
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel, STANDARD_LABEL_WIDTH_SM));
+		data.top = new FlatFormAttachment(dataTypeTreeLabel,0, SWT.TOP);
+		data.right = new FlatFormAttachment(100,  -IDetailsAreaConstants.HSPACE) ;		
+		data.bottom = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);	
+		dataTypeTree.setLayoutData(data);						
+		
 	}
 	
 	public interface Callback {
@@ -665,9 +721,10 @@ public class VariableTypeSelector extends Composite {
 	
 	protected void internalSetLayoutData() {
 		FlatFormData data = new FlatFormData();
-		data.left = new FlatFormAttachment(50, -IDetailsAreaConstants.CENTER_SPACE + IDetailsAreaConstants.HSPACE);
+		// data.left = new FlatFormAttachment(50, -IDetailsAreaConstants.CENTER_SPACE + IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(interfaceViewer.getControl(), -1, SWT.TOP);
 		data.bottom = new FlatFormAttachment(interfaceViewer.getControl(), +1, SWT.BOTTOM);
+		data.right = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
 		interfaceBrowseButton.setLayoutData(data);	
 		
 		data = new FlatFormData();

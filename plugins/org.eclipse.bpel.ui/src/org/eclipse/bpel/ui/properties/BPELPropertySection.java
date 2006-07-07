@@ -183,7 +183,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection {
 	}
 
 	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
-		try {
+		//try {
 			super.createControls(parent, aTabbedPropertySheetPage);
 			this.tabbedPropertySheetPage = (BPELTabbedPropertySheetPage)aTabbedPropertySheetPage;
 			this.wf = getWidgetFactory();
@@ -202,10 +202,10 @@ public abstract class BPELPropertySection extends AbstractPropertySection {
 					removeAllAdapters();
 				}
 			});
-		} catch (RuntimeException e) {
+		//} catch (RuntimeException e) {
 			// for debug purposes since some NPEs are not being logged for some reason
-			BPELUIPlugin.log(e, IStatus.WARNING);
-		}
+			//BPELUIPlugin.log(e, IStatus.WARNING);
+		//}
 	}
 
 	/**

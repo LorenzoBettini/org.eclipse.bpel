@@ -21,12 +21,14 @@ import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTreeContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -39,8 +41,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
 import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDTypeDefinition;
 
 import org.eclipse.wst.wsdl.Part;
 
@@ -69,34 +75,83 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	protected boolean isPropertyTree() { return false; }
 	
 	protected void updateQueryFieldFromTreeSelection() {
-		if (displayQuery() && 
-			!getChangeHelper().isNonUserChange()) {
-			if (modelCopy == null)
-				return;
 		
-			IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
-			Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
-			String query = ""; //$NON-NLS-1$
-			for (int i = 0; i<path.length; i++) {
-				Object modelObject = BPELUtil.resolveXSDObject(((ITreeNode)path[i]).getModelObject());
-				if (modelObject instanceof XSDElementDeclaration || modelObject instanceof XSDAttributeDeclaration) {
-					String nameSegment = ((XSDNamedComponent)modelObject).getName();
-					if (nameSegment != null) {
-						if (!query.equals("")) { //$NON-NLS-1$
-							query = nameSegment + "/" + query; //$NON-NLS-1$
-						} else {
-							query = nameSegment;
-						}
-					}
-				}
-			}
-			if (query.length() > 0)
-				query = "/" + query; //$NON-NLS-1$
-			nameText.setText(query);
-			nameText.setEnabled(true);
-			nameLabel.setEnabled(true);
+		if (displayQuery() == false || 
+				getChangeHelper().isNonUserChange() || 
+				modelCopy == null) 
+		{
+			return ;
 		}
+		
+		IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
+		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
+		
+		String query = ""; //$NON-NLS-1$
+		
+		Variable variable = null;
+		
+		for (int i=path.length-1; i >=0 ; i--) {
+			
+			Object modelObject = BPELUtil.resolveXSDObject(((ITreeNode)path[i]).getModelObject());
+			
+			String targetNamespace = null;
+			String namespacePrefix = null;			
+			String segment = null;
+						
+			// Note that the first model object in the path must be 
+			// the variable. We need this model object to reference
+			// the namespace mappings, that is to be able to construct
+			// the query correctly.
+			
+			if (modelObject instanceof Variable) {
+				variable = (Variable) modelObject;				
+			} else if (modelObject instanceof XSDAttributeDeclaration) {
+				
+				XSDAttributeDeclaration att = (XSDAttributeDeclaration) modelObject;
+				targetNamespace = att.getTargetNamespace();
+				if (targetNamespace != null) {
+					namespacePrefix = BPELUtils.getNamespacePrefix( variable, targetNamespace );
+					Assert.isNotNull(namespacePrefix, "Namespace prefix cannot be null here"); //$NON-NLS-1$
+					segment = "/@" + namespacePrefix + ":" + att.getName(); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {				 
+					segment = "/@" + att.getName() ; //$NON-NLS-1$
+				}
+				
+			} else if (modelObject instanceof XSDElementDeclaration) {
+				
+				XSDElementDeclaration elm = (XSDElementDeclaration) modelObject;
+				targetNamespace = elm.getTargetNamespace();
+				
+				XSDTypeDefinition typeDef = elm.getType();				
+				XSDParticle particle = typeDef.getComplexType();				
+				
+				boolean isArray = particle != null && 
+									(particle.getMaxOccurs() == XSDParticle.UNBOUNDED || particle.getMaxOccurs() > 1);
+				
+				if (targetNamespace != null) {
+					namespacePrefix = BPELUtils.getNamespacePrefix( variable, targetNamespace );
+					Assert.isNotNull(namespacePrefix, "Namespace prefix cannot be null here"); //$NON-NLS-1$
+					segment = "/" + namespacePrefix + ":" + elm.getName(); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {				 
+					segment = "/" + elm.getName() ; //$NON-NLS-1$
+				}
+				
+				if (isArray) {
+					segment += "[1]"; //$NON-NLS-1$
+				}
+				
+			}
+			
+			if (segment != null) {
+				query += segment;
+			}								
+		}					
+		nameText.setText(query);
+		nameText.setEnabled(true);
+		nameLabel.setEnabled(true);
+		
 	}
+	
 	
 	protected ITreeNode getSelectedPart() {
 		ITreeNode node = null;
@@ -139,7 +194,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameText, STANDARD_LABEL_WIDTH_SM));
 			data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
 			data.bottom = new FlatFormAttachment(100, 0);
-			data.top = new FlatFormAttachment(100, -nameText.getLineHeight() - IDetailsAreaConstants.VSPACE);
+			
+			data.top = new FlatFormAttachment(100, (-1)* (nameText.getLineHeight() + 4*nameText.getBorderWidth()) - IDetailsAreaConstants.VSPACE);
 			nameText.setLayoutData(data);
 			
 			getChangeHelper().startListeningTo(nameText);
