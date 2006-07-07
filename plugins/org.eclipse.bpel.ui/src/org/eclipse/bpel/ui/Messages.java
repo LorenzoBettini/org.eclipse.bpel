@@ -15,6 +15,7 @@ import org.eclipse.osgi.util.NLS;
 public final class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages";//$NON-NLS-1$
+	
 
 	private Messages() {
 		// Do not instantiate
@@ -32,6 +33,39 @@ public final class Messages extends NLS {
 	public static String AssignImplDetails_New__5;
 	public static String AssignImplDetails_NofM__4;
 	public static String AssignImplDetails_To__2;
+	public static String NamespaceMappingDialog_3;
+	public static String NamespaceMappingDialog_4;
+	public static String NamespaceMappingDialog_5;
+	public static String NamespaceMappingDialog_6;
+	public static String NamespaceMappingDialog_8;
+	public static String NamespaceMappingDialog_9;
+	public static String SchemaImportDialog_10;
+	public static String SchemaImportDialog_11;
+	public static String SchemaImportDialog_12;
+	public static String SchemaImportDialog_13;
+	public static String SchemaImportDialog_2;
+	public static String SchemaImportDialog_4;
+	public static String SchemaImportDialog_5;
+	public static String SchemaImportDialog_6;
+	public static String SchemaImportDialog_7;
+	public static String SchemaImportDialog_8;
+	public static String SchemaImportDialog_9;
+	public static String TypeSelectorDialog_10;
+	public static String TypeSelectorDialog_11;
+	public static String TypeSelectorDialog_12;
+	public static String TypeSelectorDialog_13;
+	public static String TypeSelectorDialog_14;
+	public static String TypeSelectorDialog_15;
+	public static String TypeSelectorDialog_16;
+	public static String TypeSelectorDialog_17;
+	public static String TypeSelectorDialog_18;
+	public static String TypeSelectorDialog_19;
+	public static String TypeSelectorDialog_4;
+	public static String TypeSelectorDialog_5;
+	public static String TypeSelectorDialog_6;
+	public static String TypeSelectorDialog_7;
+	public static String TypeSelectorDialog_8;
+	public static String TypeSelectorDialog_9;
 	public static String Validate;
 	public static String AttributesDetails_Expression_Language__2;
 	public static String AttributesDetails_Process_Type_Abstract__3;
@@ -225,6 +259,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Add_Custom_Setting_13;
 	public static String IBPELUIConstants_Add_Event_Handler_11;
 	public static String IBPELUIConstants_Add_Fault_Handler_11;
+	public static String IBPELUIConstants_Add_Import;	
 	public static String IBPELUIConstants_Add_Link_5;
 	public static String IBPELUIConstants_Add_Partner_7;
 	public static String IBPELUIConstants_Add_Property_9;
@@ -429,6 +464,9 @@ public final class Messages extends NLS {
 	public static String VariableSelectorDialog_Variable_Name_5;
 	public static String VariableSelectorDialog_Variable_Name_wildcards_1;
 	public static String VariableSelectorDialog_Variable_Type_4;
+	public static String VariableTypeSelector_0;
+	public static String VariableTypeSelector_1;
+	public static String VariableTypeSelector_2;
 	public static String VariableTypeSelector_Browse_1;
 	public static String VariableTypeSelector_Browse_2;
 	public static String VariableTypeSelector_Data_Type_1;
@@ -462,7 +500,11 @@ public final class Messages extends NLS {
 	public static String XPathExpressionEditor_Literal_1;
 	public static String XPathExpressionEditor_Text_0;
 	public static String XSDAttributeDeclarationAdapter_XSD_Attribute_1;
+	public static String XSDComplexTypeDefinitionAdapter_0;
 	public static String XSDElementDeclarationAdapter_XSD_Element_1;
+	public static String XSDSchemaAdapter_0;
+	public static String XSDSchemaAdapter_1;
+	public static String XSDSimpleTypeDefinitionAdapter_0;
 	public static String XSDTypeDefinitionAdapter_XSD_Type_1;
 	public static String ZoominToolEntry_Zoom_in_1;
 	public static String ZoomoutToolEntry_Zoom_out_1;
