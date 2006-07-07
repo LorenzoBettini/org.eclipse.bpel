@@ -13,8 +13,10 @@ package org.eclipse.bpel.model.resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -32,6 +34,8 @@ import org.eclipse.bpel.model.util.ImportResolverRegistry;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.xsd.impl.XSDSchemaImpl;
+import org.eclipse.xsd.util.XSDConstants;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 
@@ -219,32 +223,120 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         
     	// Try the BPEL imports if any exist.
         Process process = getProcess();
-        if (process != null) 
+        if (process == null) {
+        	return result;
+        }
+        
+        
+        Iterator it = process.getImports().iterator();
+        while ( it.hasNext() )
         {
-            Iterator it = process.getImports().iterator();
-            while (it.hasNext() && result == null)
-            {
-                Import imp = (Import) it.next();
-                if (imp.getNamespace().equals(qname.getNamespaceURI()))
-                {
-                	if (imp.getLocation() != null) {
-	                    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
-	                    for (int i = 0; i < resolvers.length; i++)
-	                    {
-	                        result = resolvers[i].resolve(imp, qname, proxyURI.getID(), proxyURI.getTypeName());
-	                        if (result != null) {
-	                            return result;
-	                        }
-	                    }
-                	}
+            Import imp = (Import) it.next();            
+            
+            // The null and "" problem ...
+            String ns = imp.getNamespace();
+            if (ns == null) {
+            	ns = javax.xml.XMLConstants.DEFAULT_NS_PREFIX;
+            }
+            
+            if (ns.equals(qname.getNamespaceURI()) == false || 
+             	imp.getLocation() == null ) {
+            	continue;
+            }
+                        
+    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
+            for (int i = 0; i < resolvers.length; i++)
+            {            	
+                result = resolvers[i].resolve(imp, qname, proxyURI.getID(), proxyURI.getTypeName());
+                if (result != null) {
+                    return result;
                 }
             }
+            // next import
         }
         
         // Failed to resolve.
-        return null;
+        return result;
     }
 
+    
+    
+    /**
+     * Return the list of schemas that are imported in this BPEL resource.
+     * This includes XSD imports and schemas present in WSDLs as well.
+     * 
+     * @param bIncludeXSD whether the XSD standard schemas ought to be included
+     * regardless of import.
+     * 
+     * @return a list of XSDScheme objects
+     */
+    public List getSchemas ( boolean bIncludeXSD ) 
+    {
+    	ArrayList al = new ArrayList(8);
+    	
+    	// Try the BPEL imports if any exist.
+        Process process = getProcess();
+        if (process == null) {
+        	return al;
+        }
+                
+        Iterator it = process.getImports().iterator();
+        while ( it.hasNext() )
+        {
+            Import imp = (Import) it.next();                                    
+            if (imp.getLocation() == null ) {
+            	continue;
+            }            
+    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
+            for (int i = 0; i < resolvers.length; i++)
+            {            	
+                al.addAll( resolvers[i].resolve (imp, ImportResolver.RESOLVE_SCHEMA ) );
+            }
+            // next import
+        }
+        
+        if (bIncludeXSD) {
+        	al.add ( XSDSchemaImpl.getSchemaForSchema( XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001 ) );
+        }
+              
+        return al;    	
+    }
+    
+    
+    /**
+     * Get the definitions that are included in this BPEL (via the WSDL imports)
+     *  
+     * @return
+     */
+    
+    public List getDefinitions () {
+    	ArrayList al = new ArrayList(8);
+    	
+    	// Try the BPEL imports if any exist.
+        Process process = getProcess();
+        if (process == null) {
+        	return al;
+        }
+                
+        Iterator it = process.getImports().iterator();
+        while ( it.hasNext() )
+        {
+            Import imp = (Import) it.next();                                    
+            if (imp.getLocation() == null ) {
+            	continue;
+            }            
+    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
+            for (int i = 0; i < resolvers.length; i++)
+            {            	
+                al.addAll( resolvers[i].resolve (imp, ImportResolver.RESOLVE_DEFINITION ) );
+            }
+            // next import
+        }        
+                
+        return al;    	
+    	
+    }
+    
 	public Process getProcess() {
 	    return getContents().size() == 1 && getContents().get(0) instanceof Process ? (Process) getContents().get(0) : null;
 	}
