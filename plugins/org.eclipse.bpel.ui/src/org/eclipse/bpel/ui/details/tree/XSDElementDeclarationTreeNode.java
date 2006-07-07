@@ -42,6 +42,10 @@ public class XSDElementDeclarationTreeNode extends XSDTreeNode {
 	public boolean hasChildren() {
 		XSDElementDeclaration element = getResolvedModelObject();
 		XSDTypeDefinition xsdType = element.getType();
+		if (xsdType == null) {
+			xsdType = element.getTypeDefinition();
+		}
+		
 		if (xsdType instanceof XSDComplexTypeDefinition) {
 			XSDComplexTypeDefinition comp = (XSDComplexTypeDefinition) xsdType;
 			return complexTypeHasChildren(comp);

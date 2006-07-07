@@ -63,4 +63,18 @@ public abstract class XSDTreeNode extends TreeNode {
 		return false;
 	}
 	
+	protected void addNodes ( List dstList, List srcList ) {
+		Iterator i = srcList.iterator();
+		while (i.hasNext()) {
+			Object obj = i.next();
+			if (obj instanceof XSDAttributeDeclaration) {
+				dstList.add(new XSDAttributeDeclarationTreeNode((XSDAttributeDeclaration)obj, isCondensed));
+			} else if (obj instanceof XSDElementDeclaration) {
+				dstList.add(new XSDElementDeclarationTreeNode((XSDElementDeclaration)obj, isCondensed));
+			} else if (obj instanceof XSDTypeDefinition) {
+				dstList.add(new XSDTypeDefinitionTreeNode((XSDTypeDefinition)obj, isCondensed));
+			}
+		}
+	}
+	
 }

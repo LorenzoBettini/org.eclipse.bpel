@@ -504,6 +504,8 @@ public final class Messages extends NLS {
 	public static String XSDElementDeclarationAdapter_XSD_Element_1;
 	public static String XSDSchemaAdapter_0;
 	public static String XSDSchemaAdapter_1;
+	public static String XSDSchemaTreeNode_0;
+	public static String XSDSchemaTreeNode_1;
 	public static String XSDSimpleTypeDefinitionAdapter_0;
 	public static String XSDTypeDefinitionAdapter_XSD_Type_1;
 	public static String ZoominToolEntry_Zoom_in_1;
