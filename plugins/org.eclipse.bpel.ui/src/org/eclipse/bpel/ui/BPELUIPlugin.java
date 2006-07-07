@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui;
 
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -86,6 +87,11 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 	
+	
+	public String getID () {
+		return plugin.getBundle().getSymbolicName();
+	}
+	
 	private void initializeColors() {
 		colorRegistry = new ColorRegistry();
 		
@@ -155,124 +161,25 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	private void initializeImages() {
 		URL baseURL = getBundle().getEntry("/"); //$NON-NLS-1$
 
-		createImageDescriptor(IBPELUIConstants.ICON_ASSIGN_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ASSIGN_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EMPTY_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EMPTY_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_FLOW_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_FLOW_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_INVOKE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_INVOKE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PICK_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PICK_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_RECEIVE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_RECEIVE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_REPLY_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_REPLY_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SCOPE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SCOPE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SEQUENCE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SEQUENCE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SWITCH_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SWITCH_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EXIT_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EXIT_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_THROW_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_THROW_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_RETHROW_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_RETHROW_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_WAIT_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_WAIT_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_WHILE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_WHILE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_REPEAT_UNTIL_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_REPEAT_UNTIL_32, baseURL);		
-		createImageDescriptor(IBPELUIConstants.ICON_VALIDATE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_VALIDATE_32, baseURL);		
-		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PARTNER_OUT_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_VARIABLE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_VARIABLE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CORRELATIONSET_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CORRELATIONSET_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PROCESS_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PROCESS_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_STARTNODE_16_GIF, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ENDNODE_16_GIF, baseURL);
-		
-		createImageDescriptor(IBPELUIConstants.ICON_CASE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CASE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_OTHERWISE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_OTHERWISE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ONMESSAGE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ONMESSAGE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ONALARM_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ONALARM_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_FAULTHANDLER_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_FAULTHANDLER_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATIONHANDLER_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATIONHANDLER_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_TERMINATIONHANDLER_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_TERMINATIONHANDLER_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EVENTHANDLER_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EVENTHANDLER_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CATCH_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CATCH_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CATCHALL_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_CATCHALL_32, baseURL);
-		
-		createImageDescriptor(IBPELUIConstants.ICON_FAULT_INDICATOR, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_COMPENSATION_INDICATOR, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_EVENT_INDICATOR, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_TERMINATION_INDICATOR, baseURL);
-
-		createImageDescriptor(IBPELUIConstants.ICON_ACTION_INCOMING, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ACTION_INCOMING_GIF, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ACTION_OUTGOING, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ACTION_OUTGOING_GIF, baseURL);
-		
-		createImageDescriptor(IBPELUIConstants.ICON_FIGURE_EXPANDED, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_FIGURE_COLLAPSED, baseURL);
-
-		createImageDescriptor(IBPELUIConstants.ICON_OUTLINE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_OVERVIEW_16, baseURL);
-		
-		// Wizard banner
-		createImageDescriptor(IBPELUIConstants.ICON_WIZARD_BANNER, baseURL);
-		
-		// Cursors
-		createImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_MASK, baseURL);
-		createImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_IN, baseURL);
-		createImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_OUT, baseURL);
-
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_BOTTOMLEFT, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_BOTTOMRIGHT, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_TOPLEFT, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_TOPRIGHT, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_ARROWDOWN, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_LINK_CONDITIONAL, baseURL);
-
-		createImageDescriptor(IBPELUIConstants.ICON_MESSAGE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_MESSAGE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_OPERATION_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PART_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PART_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PORTTYPE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PORTTYPE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ROLE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_ROLE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PARTNERLINKTYPE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PARTNERLINKTYPE_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PROPERTY_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_PROPERTY_32, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SERVICE_16, baseURL);
-		createImageDescriptor(IBPELUIConstants.ICON_SERVICE_32, baseURL);
+		// A little reflection magic ... so that we don't
+		// have to add the createImageDescriptor every time
+		// we add it to the IBPELUIConstants ..
+		Field fields[] = IBPELUIConstants.class.getFields();	
+		for(int i=0; i < fields.length; i++) {
+			Field f = fields[i];
+			if (f.getType() != String.class) { 
+				continue;
+			}
+			String name = f.getName();
+			if (name.startsWith("ICON_") || name.startsWith("CURSOR_")) {   //$NON-NLS-1$ //$NON-NLS-2$
+				try {
+					String value = (String) f.get(null);
+					createImageDescriptor(value, baseURL);
+				} catch (Exception e) {
+					log(e);
+				}
+			}			
+		}
 	}
 
 	/**
