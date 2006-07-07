@@ -53,9 +53,6 @@ public class ImportResolverRegistry
         {
             return EMPTY_RESOLVER_ARRAY;
         }
-        else
-        {
-            return (ImportResolver[]) resolvers.toArray(EMPTY_RESOLVER_ARRAY);
-        }
+        return (ImportResolver[]) resolvers.toArray(EMPTY_RESOLVER_ARRAY);        
     }
 }

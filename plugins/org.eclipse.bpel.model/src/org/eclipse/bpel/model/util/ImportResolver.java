@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.util;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Import;
@@ -17,6 +19,15 @@ import org.eclipse.emf.ecore.EObject;
 
 
 public interface ImportResolver
-{    
+{   
+	/** Resovle the schema from the import */	
+	int RESOLVE_SCHEMA = 1;
+	
+	/** Resolve the definition from the import */
+	int RESOLVE_DEFINITION = 2;
+	
     EObject resolve(Import imp, QName qname, String name, String refType);
+    
+    /** Resolve something from the import */
+    List resolve ( Import imp , int what );    
 }
