@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.util;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 
@@ -93,11 +95,73 @@ public final class BPELProxyURI
         }
     }
 
-    private QName parseQName(String string) {
+    private QName parseQName(String qNameAsString) {
+    	
         try {
-            return QName.valueOf(string);
-        } catch (Exception e) {
-            System.err.println("Error parsing QName:" + string);
+            // null is not valid
+            if (qNameAsString == null) {
+                throw new IllegalArgumentException("cannot create QName from \"null\" or \"\" String");
+            }
+
+            // "" local part is valid to preserve compatible behavior with QName 1.0
+            if (qNameAsString.length() == 0) {
+                return new QName(
+                    XMLConstants.NULL_NS_URI,
+                    qNameAsString,
+                    XMLConstants.DEFAULT_NS_PREFIX);
+            }
+
+            // local part only?
+            if (qNameAsString.charAt(0) != '{') {
+                return new QName(
+                    XMLConstants.NULL_NS_URI,
+                    qNameAsString,
+                    XMLConstants.DEFAULT_NS_PREFIX);
+            }
+
+            // Namespace URI improperly specified?
+            if (qNameAsString.startsWith("{" + XMLConstants.NULL_NS_URI + "}")) {
+            	
+            	return new QName (
+            			XMLConstants.NULL_NS_URI,
+            			qNameAsString.substring(2 + XMLConstants.NULL_NS_URI.length() ),
+            			XMLConstants.DEFAULT_NS_PREFIX);
+            
+            	// MRC: This takes care of the specification 
+            	//    {}localPart
+            	// which is used in BPELProxyURI
+            	
+                //throw new IllegalArgumentException(
+                //    "Namespace URI .equals(XMLConstants.NULL_NS_URI), "
+                //    + ".equals(\"" + XMLConstants.NULL_NS_URI + "\"), "
+                //    + "only the local part, "
+                //    + "\"" + qNameAsString.substring(2 + XMLConstants.NULL_NS_URI.length()) + "\", "
+                //    + "should be provided.");
+            }
+
+            
+            // Namespace URI and local part specified
+            int endOfNamespaceURI = qNameAsString.indexOf('}');
+            if (endOfNamespaceURI == -1) {
+                throw new IllegalArgumentException(
+                    "cannot create QName from \""
+                        + qNameAsString
+                        + "\", missing closing \"}\"");
+            }
+            
+            return new QName(
+                qNameAsString.substring(1, endOfNamespaceURI),
+                qNameAsString.substring(endOfNamespaceURI + 1),
+                XMLConstants.DEFAULT_NS_PREFIX);
+            
+            // MRC: The code below does not parse 
+            //  {}localPart 
+            // correctly. 
+            // 
+            // return QName.valueOf(qNameAsString);
+            
+        } catch (Exception e) {            
+            BPELPlugin.log("Error parsing QName " + qNameAsString, e);            		
         }
         return null;
     }
