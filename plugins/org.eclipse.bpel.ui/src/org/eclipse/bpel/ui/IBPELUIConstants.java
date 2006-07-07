@@ -16,10 +16,14 @@ public interface IBPELUIConstants {
 	// File extensions
 	public final String EXTENSION_BPEL = "bpel"; //$NON-NLS-1$
 	public final String EXTENSION_WSDL = "wsdl"; //$NON-NLS-1$
+	public final String EXTENSION_XSD = "xsd"; //$NON-NLS-1$
+	
 	public final String EXTENSION_MODEL_EXTENSIONS = "bpelex"; //$NON-NLS-1$
 	
 	public final String EXTENSION_DOT_BPEL = "." + EXTENSION_BPEL; //$NON-NLS-1$
 	public final String EXTENSION_DOT_WSDL = "." + EXTENSION_WSDL; //$NON-NLS-1$
+	public final String EXTENSION_DOT_XSD = "." + EXTENSION_XSD; //$NON-NLS-1$
+	
 
 	// ID of editor
 	public final String BPEL_EDITOR_ID = "org.eclipse.bpel.ui.bpeleditor"; //$NON-NLS-1$
@@ -172,6 +176,14 @@ public interface IBPELUIConstants {
 	public final String ICON_SERVICE_16 = "obj16/wsdl_service.gif"; //$NON-NLS-1$
 	public final String ICON_SERVICE_32 = "obj20/wsdl_service.png"; //$NON-NLS-1$
 	
+	// Schema/types related icons
+	public final String ICON_XSD_ATTRIBUTE_DECLARATION_16 = "obj16/XSDAttributeDeclaration.gif"; //$NON-NLS-1$
+	public final String ICON_XSD_ELEMENT_DECLARATION_16 = "obj16/XSDElementDeclaration.gif"; //$NON-NLS-1$
+	public final String ICON_XSD_COMPLEX_TYPE_DEFINITION_16 = "obj16/XSDComplexTypeDefinition.gif"; //$NON-NLS-1$
+	public final String ICON_XSD_SIMPLE_TYPE_DEFINITION_16 = "obj16/XSDSimpleTypeDefinition.gif"; //$NON-NLS-1$
+	public final String ICON_XSD_TYPE_DEFINITION_16 = "obj16/XSDTypeDefinition.gif"; //$NON-NLS-1$
+
+	
 	// Link images
 	public final String ICON_LINK_BOTTOMLEFT = "ovr16/link_bottomleft.png"; //$NON-NLS-1$
 	public final String ICON_LINK_BOTTOMRIGHT = "ovr16/link_bottomright.png"; //$NON-NLS-1$
@@ -200,7 +212,8 @@ public interface IBPELUIConstants {
 	public final String CMD_ADD_CUSTOM_PROPERTY = Messages.IBPELUIConstants_Add_Custom_Property_14; 
 	public final String CMD_ADD_COPY = Messages.IBPELUIConstants_Add_Copy_12b; 
 	public final String CMD_ADD_VALIDATE_VARIABLE = Messages.IBPELUIConstants_Add_VALIDATE_VARIABLE_15;
-
+	public final String CMD_ADD_IMPORT = Messages.IBPELUIConstants_Add_Import;
+	
 	public final String CMD_DELETE_LINK = Messages.IBPELUIConstants_Delete_Link_17; 
 	public final String CMD_DELETE_CORRELATION = Messages.IBPELUIConstants_Delete_Correlation_18;
 	public final String CMD_DELETE_VALIDATE_VARIABLE = Messages.IBPELUIConstants_Delete_Validate_Variable_26;
@@ -344,7 +357,10 @@ public interface IBPELUIConstants {
 	// The colors of the flow links
 	public final String COLOR_LINK_ONE = "linkOne"; //$NON-NLS-1$
 	public final String COLOR_LINK_TWO = "linkTwo"; //$NON-NLS-1$
-	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$
+	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$		
+	
+	
+	
 	
 	// some general constants
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
