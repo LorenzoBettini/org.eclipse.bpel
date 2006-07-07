@@ -12,6 +12,9 @@ package org.eclipse.bpel.model;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
@@ -111,4 +114,40 @@ public class BPELPlugin extends EMFPlugin
 	{	
 		return INSTANCE.getString(msgId, new Object[]{ arg1, arg2 });	
 	}
+	
+	/**
+	 * Utility methods for logging exceptions.
+	 */
+	public static void log (String message, Exception e, int severity) {
+		
+		IStatus status = null;
+		
+		if (e instanceof CoreException) {
+			status = ((CoreException)e).getStatus();
+		} else {
+			String m = e.getMessage();
+			
+            if (message == null) {
+            	if (m == null) {
+            		m = "<no message>";
+            	}            	
+            } else {
+            	if (m == null) {
+            		m = message;
+            	} else {
+            		m = message + "[" + m + "]";
+            	}
+            }
+					
+			status = new Status(severity, PLUGIN_ID, 0, m, e); //$NON-NLS-1$
+		}		
+		INSTANCE.getPluginLogger().log(status);
+	}
+	
+	public static void log (String message, Exception e) 
+	{ 
+		log (message, e, IStatus.ERROR); 
+	}	
+	
+	
 }
