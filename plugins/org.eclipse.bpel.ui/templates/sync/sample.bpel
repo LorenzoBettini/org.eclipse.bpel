@@ -5,6 +5,10 @@
          xmlns:tns="${namespace}"
          xmlns="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
          >
+
+    <!-- Import the client WSDL -->
+	<import location="${processName}.wsdl" namespace="${namespace}" 
+	        importType="http://schemas.xmlsoap.org/wsdl/" />
          
     <!-- ================================================================= -->         
     <!-- PARTNERLINKS                                                      -->
