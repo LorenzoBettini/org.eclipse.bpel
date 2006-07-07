@@ -664,20 +664,23 @@ public class XSDUtils {
 		// call above will rather unexpectedly give us cType's PARENT's model group, rather than the null we 
 		// might expect.  We don't want that here, if the model group returned is null or belongs to someone
 		// other than us, return null
-		if (particle==null || particle.eContainer() != cType)
+		if (particle==null || particle.eContainer() != cType) {
 			return null;
+		}
 		
 		// get the model group
 		Object particleContent = particle.getContent();
 		XSDModelGroup group = null;
 		
-		if (particleContent instanceof XSDModelGroupDefinition)
+		if (particleContent instanceof XSDModelGroupDefinition) {
 		    group = ((XSDModelGroupDefinition)particleContent).getResolvedModelGroupDefinition().getModelGroup();
-		else if (particleContent instanceof XSDModelGroup)
+		} else if (particleContent instanceof XSDModelGroup) {
 		    group = (XSDModelGroup)particleContent;
+		}
 		
-		if (group==null)
+		if (group == null) {					
 		    return null;
+		}
 
 		// if the content of the complex type is empty then the content
 		// must be in the complexContent, ie. we're extending another BO.
@@ -691,8 +694,16 @@ public class XSDUtils {
 			if (cType.getBaseType()!=null)
 			{
 				XSDComplexTypeContent content = cType.getContent();
-				if (content instanceof XSDParticle)
-					group = (XSDModelGroup)((XSDParticle)content).getContent();
+				
+				if (content instanceof XSDParticle) {
+					particleContent = ((XSDParticle)content).getContent();
+					if (particleContent instanceof XSDModelGroupDefinition) {
+					    group = ((XSDModelGroupDefinition)particleContent).getResolvedModelGroupDefinition().getModelGroup();
+					} else if (particleContent instanceof XSDModelGroup) {
+					    group = (XSDModelGroup)particleContent;
+					}								
+				}
+				
 			}
 		}		
 
