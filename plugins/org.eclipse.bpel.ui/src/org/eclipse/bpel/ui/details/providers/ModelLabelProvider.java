@@ -27,17 +27,33 @@ public class ModelLabelProvider implements ILabelProvider {
 
 	public static final Object[] EMPTY_ARRAY = new Object[0];
 
+	private Object context = null;
+	
 	/* ILabelProvider */
-
+	public ModelLabelProvider () {
+		
+	}
+	
+	public ModelLabelProvider (Object obj) {
+		context = obj;
+	}
+	
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// TODO: hook model listener?
 	}
 
 	public Image getImage(Object object) {
-		if (object == null)  return null;
-		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(object, ILabeledElement.class);
-		if (label == null)  return null;
+		
+		if (object == null) {
+			return null;
+		}
+		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(object, ILabeledElement.class, context);
+		if (label == null) {
+			return null;
+		}
+		
 		Image image = label.getSmallImage(object);
+		
 		// TODO: The adapters must provide images with a lifecycle outlasting any uses,
 		// since there is no protocol for destroying the images returned by adapters.
 		// If we add methods for releasing the images, call them here.
@@ -46,9 +62,13 @@ public class ModelLabelProvider implements ILabelProvider {
 	}
 
 	public String getText(Object object) {
-		if (object == null)  return Messages.ModelLabelProvider____None____1; 
-		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(object, ILabeledElement.class);
-		if (label == null)  return "<???>"; //$NON-NLS-1$
+		if (object == null) {
+			return Messages.ModelLabelProvider____None____1; 
+		}
+		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(object, ILabeledElement.class, context );
+		if (label == null)  {
+			return "<???>"; //$NON-NLS-1$
+		}		
 		return label.getLabel(object);
 	}
 
