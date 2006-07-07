@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.OnAlarm;
@@ -70,6 +72,8 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
+import org.eclipse.bpel.model.util.ImportResolver;
+import org.eclipse.bpel.model.util.ImportResolverRegistry;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Policy;
@@ -111,6 +115,8 @@ import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.wst.wsdl.WSDLPackage;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.impl.XSDSchemaImpl;
+import org.eclipse.xsd.util.XSDConstants;
 
 
 /**
@@ -1491,4 +1497,138 @@ public class ModelHelper {
 		
 		return properties;
 	}
+	
+	
+
+    
+    /**
+     * Return the list of schemas that are imported in this BPEL resource.
+     * This includes XSD imports and schemas present in WSDLs as well.
+     * 
+     * @param context object within the BPEL object model hierarchy
+     * @param bIncludeXSD whether the XSD standard schemas ought to be included
+     * regardless of import.
+     * 
+     * @return a list of XSDScheme objects
+     */
+	
+    static public List getSchemas ( Object context, boolean bIncludeXSD ) 
+    {
+    	ArrayList al = new ArrayList(8);    	
+    	
+    	// Try the BPEL imports if any exist.
+        Process process = getProcess(context);
+        if (process == null) {
+        	return al;
+        }
+                
+        Iterator it = process.getImports().iterator();
+        while ( it.hasNext() )
+        {
+            Import imp = (Import) it.next();                                    
+            if (imp.getLocation() == null ) {
+            	continue;
+            }            
+    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
+            for (int i = 0; i < resolvers.length; i++)
+            {            	
+                al.addAll( resolvers[i].resolve (imp, ImportResolver.RESOLVE_SCHEMA ) );
+            }
+            // next import
+        }
+        
+        if (bIncludeXSD) {
+        	al.add ( XSDSchemaImpl.getSchemaForSchema( XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001 ) );
+        }
+                
+        return al;    	
+    }
+    
+    
+    /**
+     * Get the definitions that are included in this BPEL (via the WSDL imports)
+     *  
+     * @return
+     */
+    
+    static public List getDefinitions ( Object context ) {
+    	ArrayList al = new ArrayList(8);
+    	
+    	// Try the BPEL imports if any exist.
+        Process process = getProcess( context );
+        if (process == null) {
+        	return al;
+        }
+                
+        Iterator it = process.getImports().iterator();
+        while ( it.hasNext() )
+        {
+            Import imp = (Import) it.next();                                    
+            if (imp.getLocation() == null ) {
+            	continue;
+            }            
+    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
+            for (int i = 0; i < resolvers.length; i++)
+            {            	
+                al.addAll( resolvers[i].resolve (imp, ImportResolver.RESOLVE_DEFINITION ) );
+            }
+            // next import
+        }        
+        
+        return al;    	
+    	
+    }
+
+	/**
+	 * Answer if the process already contains an import specified by this import object.
+	 * 
+	 * @param modelObject a context object from the model
+	 * @param imp the import in question
+	 * @return true if yes, false if no
+	 */
+    
+	public static boolean containsImport (Object modelObject, Import imp) {
+		Process process = getProcess(modelObject);
+		if (process == null) {
+			return false;
+		}
+		EList imports = process.getImports();
+		// this checks for identity
+		if (imports.contains( imp )) {
+			return true;
+		}
+
+		// Don't add the import if it already exists ...
+		Iterator i = imports.iterator();
+		boolean bExists = false;
+		while (i.hasNext() && !bExists) {
+			Import n = (Import) i.next();			
+			bExists = 	isEqual ( n.getImportType(), imp.getImportType() ) &&
+						isEqual ( n.getLocation(),   imp.getLocation() )  &&
+						isEqual ( n.getNamespace(),  imp.getNamespace() ) ;
+		}		
+		return bExists;
+	}
+	
+	
+	
+	/**
+	 * Return true of both strings are the same or null.
+	 * 
+	 * @param s1 
+	 * @param s2
+	 * @return
+	 */
+	
+	static public boolean isEqual ( String s1, String s2 ) {
+		
+		if (s1 != null) {
+			return s1.equals ( s2 );
+		} else if (s2 != null) {
+			return s2.equals ( s1 );
+		} else {
+			return true;
+		}
+	}
+    
 }
