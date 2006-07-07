@@ -23,6 +23,8 @@ public class XSDUtil
     public static final String XSD_TYPE_DEFINITION = XSDPackage.eINSTANCE.getXSDTypeDefinition().getName();
     
     public static final String XSD_ELEMENT_DECLARATION = XSDPackage.eINSTANCE.getXSDElementDeclaration().getName();
+    
+    public static final String XSD_SCHEMA = XSDPackage.eINSTANCE.getXSDSchema().getName();
 
     /**
      * Tests if <code>typeName</code> is a recognized reference type.
@@ -48,6 +50,10 @@ public class XSDUtil
         {
             resolvedObject = resolveElementDeclaration(schema, qname);
         }
+        else if (XSD_SCHEMA.equals(refType)) 
+        {
+        	return schema;
+        }
         else
         {
             System.err.println(XSDUtil.class.getName() + ": unrecognized refType: " + refType);
@@ -56,12 +62,20 @@ public class XSDUtil
     }
 
     public static XSDElementDeclaration resolveElementDeclaration(XSDSchema schema, QName qname)
-    {
-        return schema.resolveElementDeclaration(qname.getNamespaceURI(), qname.getLocalPart());
+    {    	
+        return schema.resolveElementDeclaration(XSDNamespaceAdjust (qname.getNamespaceURI()) , qname.getLocalPart());
     }
     
     public static XSDTypeDefinition resolveTypeDefinition(XSDSchema schema, QName qname)
     {
-        return schema.resolveTypeDefinition(qname.getNamespaceURI(), qname.getLocalPart());
+        return schema.resolveTypeDefinition(XSDNamespaceAdjust ( qname.getNamespaceURI() ), qname.getLocalPart());
+    }
+    
+    
+    private static final String XSDNamespaceAdjust ( String nsURI ) {
+    	if ("".equals(nsURI)) {
+    		return null;
+    	}
+    	return nsURI;
     }
 }
