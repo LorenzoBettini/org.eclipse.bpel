@@ -44,6 +44,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
@@ -92,7 +93,31 @@ public class BPELUtils {
 		return null;		
 	}	
 	
-	public static String getPrefix(BPELResource resource, EObject eObject, String namespaceURI) {
+
+	/**
+	 * Set the namespace prefix on the EObject passed. The namespace -> prefix mapping is defined
+	 * on the object passed. Note that this is different then getPrefix(), where the prefix mapping
+	 * is searched via the hierarchy of the EMF model.
+	 * 
+	 * @param resource the bpel resource
+	 * @param eObject an object at which level the prefix mapping outght to be set.
+	 * @param namespaceURI namespace URI
+	 * @param prefix the prefix.
+	 * @throws RuntimeException if the prefix is already set.
+	 */
+	
+	public static void setPrefix (BPELResource resource, EObject eObject, String namespaceURI, String prefix) {
+		
+		BPELResource.NotifierMap prefixNSMap = resource.getPrefixToNamespaceMap(eObject);
+		if (prefixNSMap.containsKey(prefix)) {
+			throw new RuntimeException("Prefix is already mapped!");
+		}
+		prefixNSMap.put(prefix, namespaceURI);
+	}	
+
+
+	
+	public static String getPrefix (BPELResource resource, EObject eObject, String namespaceURI) {
 		BPELResource.NotifierMap prefixNSMap = null;
 		EObject context = eObject;
 										
@@ -109,6 +134,72 @@ public class BPELUtils {
 		return null;
 	}	
 	
+	
+	/**
+	 * Given a starting object from within our EMF model return the prefix 
+	 * associated with the namespace passed. The object tree is traversed up to the
+	 * root to find the associated mapping and first such association is returned.
+	 *   
+	 * @param eObject the EMF object to start at.
+	 * @param namespace the XML namespace to query for prefix mapping
+	 * @return the prefix name or null of no mapping exists
+	 */
+	
+	public static String getNamespacePrefix (EObject eObject, String namespace) {
+		Resource resource = eObject.eResource();
+		if (resource instanceof BPELResource) {
+			return getPrefix ( (BPELResource) resource, eObject, namespace);
+		}
+		throw new IllegalArgumentException("EMF object is not a BPEL resource.");	
+	}
+	
+	
+	
+	/**
+	 * Given a starting object from within our EMF model set the prefix 
+	 * associated with the namespace passed. The object tree is traversed up to the
+	 * root to find the associated mapping and first such association is returned.
+	 *   
+	 * @param eObject the EMF object to start at.
+	 * @param namespace the XML namespace to query for prefix mapping
+	 * @return the prefix name or null of no mapping exists
+	 */
+	
+	public static void setNamespacePrefix (EObject eObject, String namespace, String prefix) {
+		Resource resource = eObject.eResource();
+		if (resource instanceof BPELResource) {
+			setPrefix ( (BPELResource) resource, getNearestScopeOrProcess(eObject) , namespace, prefix) ;
+			return ;
+		}
+		throw new IllegalArgumentException("EMF object is not a BPEL resource.");
+	}
+	
+	/**
+	 * Return the closest Scope or Process objects from the EMF object
+	 * hierarchy. We use this code to assign namespace prefix mappings when they
+	 * don't exist.
+	 * 
+	 * @param eObject
+	 * @return closest scope or process object.
+	 */
+	
+	public static EObject getNearestScopeOrProcess (EObject eObject) {
+		
+		EObject context = eObject;
+		while (context != null) {
+			if (context instanceof Scope) {
+				return context;
+			}
+			if (context instanceof Process) {
+				return context;
+			}
+			context = context.eContainer();
+		}
+		return null;
+	}
+	
+	
+	 
 	/**
 	 * Return all global and local namespaces of this context
 	 */
