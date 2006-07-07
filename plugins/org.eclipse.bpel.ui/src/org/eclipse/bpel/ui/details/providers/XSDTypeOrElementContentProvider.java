@@ -11,16 +11,19 @@
 package org.eclipse.bpel.ui.details.providers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.util.XSDConstants;
-
+import org.eclipse.bpel.ui.util.XSDUtils;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Types;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.util.XSDConstants;
 
 /**
  * Content provider for XSDComplexType. It also handles built-in types.
@@ -29,65 +32,141 @@ import org.eclipse.wst.wsdl.Types;
  */
 public class XSDTypeOrElementContentProvider extends AbstractContentProvider  {
 
-	// TODO: We should use a common simple type selection mechanism
-	protected static List xsdPrimitiveTypes = new ArrayList(12);
+	final protected static List xsdPrimitiveTypes = XSDUtils.getAdvancedPrimitives();
+	
+	final protected static HashSet xsdPrimitiveTypesNames = new HashSet(xsdPrimitiveTypes.size() + 1);
+	
+	final public static int INCLUDE_SIMPLE_TYPES = 0x1;
+	final public static int INCLUDE_COMPLEX_TYPES = 0x2;
+	
+	final public static int INCLUDE_TYPES = INCLUDE_SIMPLE_TYPES | INCLUDE_COMPLEX_TYPES;
+	
+	final public static int INCLUDE_ELEMENT_DECLARATIONS = 0x4;
+	final public static int INCLUDE_PRIMITIVES = 0x8;
+	
+	final public static int INLCUDE_ALL = 0xff;
+	
 	static {
-		xsdPrimitiveTypes.add("string"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("int"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("long"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("short"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("decimal"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("float"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("double"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("integer"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("boolean"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("byte"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("QName"); //$NON-NLS-1$
-		xsdPrimitiveTypes.add("dateTime"); //$NON-NLS-1$
+		Iterator i = xsdPrimitiveTypes.iterator();
+		while (i.hasNext()) {
+			XSDNamedComponent component =  (XSDNamedComponent) i.next();
+			xsdPrimitiveTypesNames.add( component.getName() );
+		}
 	}
 
-	public Object[] getElements(Object input)  {
-		ArrayList list = new ArrayList();
+	private int fFilter = INLCUDE_ALL;
+	
+
+	public void setFilter ( int filter ) {
+		fFilter = filter;
+	}
+	
+	
+	public int getFilter () {
+		return fFilter;
+	}
+		
+	
+	/**
+	 * Append the schemas that are present in the object passed to the list
+	 * indicated. This can deal with WSDL definitions, XSDSchema, and a List or Array 
+	 * of objects that any of those.  
+	 * 
+	 * @param input an object that has or is schema definitions.
+	 * @param list the list where the schemas are put.
+	 */
+	
+	protected void appendElements ( Object input, List list) {
+		
+		if (input == null) {
+			return ;
+		}
+		
 		if (input instanceof Definition) {
 			Types types = ((Definition)input).getETypes();
-			if (types != null) {
-				Iterator schemaIt = types.getSchemas().iterator();
-				while (schemaIt.hasNext()) {
-					addSchemaElements(list, (XSDSchema)schemaIt.next());
-				}
+			if (types == null) {
+				return;
 			}
+			appendElements( types.getSchemas(), list);
+			return;
 		}
+		
 		if (input instanceof XSDSchema) {
 			XSDSchema schema = (XSDSchema)input;
 			addSchemaElements(list, schema);
+			return;
 		}
+
+		Object[] arr = null;
+		
+		if (input.getClass().isArray()) {			
+			arr = (Object[]) input;
+		} else if (input instanceof List) {
+			arr = ((List)input).toArray();
+		}
+		
+		if (arr == null) {
+			return;
+		}
+		
+		for(int i=0; i < arr.length; i++) {
+			appendElements ( arr[i], list );
+		}					
+	}
+	
+	
+	public Object[] getElements(Object input)  {
+		ArrayList list = new ArrayList();
+		appendElements ( input, list );		
 		return list.isEmpty()? EMPTY_ARRAY : list.toArray();
 	}
 
 	protected void addSchemaElements(List list, XSDSchema schema) {
+		
 		boolean builtInTypesSchema = XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(schema.getTargetNamespace());
-		for (Iterator it = schema.getContents().iterator(); it.hasNext(); ) {
-			Object object = it.next();
-			if ((object instanceof XSDTypeDefinition) || (object instanceof XSDElementDeclaration)) {
-				if (builtInTypesSchema) {
-					if (object instanceof XSDElementDeclaration
-						|| !xsdPrimitiveTypes.contains(((XSDTypeDefinition) object).getName())) {
-						continue; // from this schema we only want the built-in types
-					}
-				}
-				list.add(object); 
-			}
-		}		
+		
+		if (builtInTypesSchema && (fFilter & INCLUDE_PRIMITIVES) > 0 ) {			
+			list.addAll ( XSDUtils.getAdvancedPrimitives () );
+			return ;
+		}
+		
+		if ((fFilter & INCLUDE_ELEMENT_DECLARATIONS) > 0) {
+			list.addAll ( schema.getElementDeclarations() );	
+		}
+		
+		if ( (fFilter & INCLUDE_TYPES) == 0) {
+			return ;
+		}
+		
+		List types = schema.getTypeDefinitions();
+		Iterator i = types.iterator();
+		boolean bAdd = false;
+		
+		while (i.hasNext()) {
+			
+			XSDTypeDefinition defn = (XSDTypeDefinition) i.next();
+			
+			bAdd = ( ((fFilter & INCLUDE_COMPLEX_TYPES) > 0) && (defn instanceof XSDComplexTypeDefinition) ||
+					 ((fFilter & INCLUDE_SIMPLE_TYPES) > 0) && (defn instanceof XSDSimpleTypeDefinition) )  ;
+					 
+			if (bAdd) {
+				list.add(defn);
+			}			
+		}	
+		
 	}
 	
 	/**
 	 * Helper method for identifying if a given type is a built-in type.
 	 */
 	public static boolean isBuiltInType(XSDTypeDefinition target) {
+		
 		XSDSchema schema = (XSDSchema) target.eContainer();
 		if (!XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(schema.getTargetNamespace())) {
 			return false;
 		}
-		return xsdPrimitiveTypes.contains(target.getName());
+		return xsdPrimitiveTypesNames.contains(target.getName());
 	}
+	
+	
 }
