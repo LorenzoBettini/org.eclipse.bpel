@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.util;
 
+import org.eclipse.bpel.ui.dialogs.TypeSelectorDialog;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.xsd.XSDTypeDefinition;
@@ -22,9 +25,18 @@ public class BrowseUtil {
 		// TODO!
 		return null;
 	}
-	public static XSDTypeDefinition browseForXSDTypeOrElement(ResourceSet resourceSet, Shell parent) {
-		// TODO!
+	
+	public static Object browseForXSDTypeOrElement(EObject eObject, Shell parent) {		
+		TypeSelectorDialog dialog = new TypeSelectorDialog (parent,eObject);		
+		if (dialog.open() != Dialog.OK) {
+			return null;
+		}
+		Object obj[] = dialog.getResult();
+		if (obj != null && obj.length > 0) {
+			return obj[0];
+		}
 		return null;
+
 	}
 	public static XSDTypeDefinition browseForXSDSimpleType(ResourceSet resourceSet, Shell parent) {
 		// TODO!
