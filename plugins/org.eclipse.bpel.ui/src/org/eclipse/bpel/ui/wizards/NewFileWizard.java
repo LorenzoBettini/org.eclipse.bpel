@@ -48,8 +48,11 @@ public class NewFileWizard extends Wizard implements INewWizard {
 		
 	private IWorkbench fWorkbench;
 	
-	/** The page of the wizard */
+	/** The 1st page of the wizard */
 	private NewFileWizardPage1 fMainPage;
+
+	/** The 2nd page of the wizard */
+	private NewFileWizardPage2 fContainerPage;
 
 		
 	/**
@@ -132,9 +135,14 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 */
 
 	public void addPages() {
-		super.addPages();
+		
 		fMainPage = new NewFileWizardPage1(Messages.NewFileWizard_1);
+		fContainerPage = new NewFileWizardPage2(Messages.NewFileWizard_1);
+		
 		addPage(fMainPage);
+		addPage(fContainerPage);
+		
+		fContainerPage.setPreviousPage( fMainPage );			
 	}
 
 	/**
@@ -148,7 +156,16 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	public boolean performFinish() {
 
 		BPELCreateOperation runnable = new BPELCreateOperation();
-		runnable.setContainer( mContainer );
+		
+		// The container either comes from the 2nd page, explicitely defined
+		// or it comes as the context in the current selection.
+		
+		IContainer container = fContainerPage.getResourceContainer();
+		if (container == null) {
+			container = mContainer;
+		}
+		
+		runnable.setContainer( container );
 		runnable.setTemplate( fMainPage.getSelectedTemplate () );
 		runnable.setArgs( fMainPage.getArgs () ) ;
 		
@@ -190,6 +207,16 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			return (IContainer) obj;
 		}
 		return null;		
+	}
+
+	
+	/**
+	 *  
+	 * Final condition for the wizard to finish
+	 */
+	
+	public boolean canFinish() {
+		return (fMainPage.isPageComplete() && mContainer != null) || super.canFinish();
 	}
 	
 	
