@@ -2,7 +2,7 @@
 <definitions name="${processName}"
         targetNamespace="${namespace}"
         xmlns:tns="${namespace}"
-        xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+        xmlns:plnk="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"
         xmlns="http://schemas.xmlsoap.org/wsdl/"
         >
 
@@ -78,11 +78,7 @@
          requester portType into an asynchronous conversation.
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
     <plnk:partnerLinkType name="${processName}">
-        <plnk:role name="${processName}Provider">
-            <plnk:portType name="tns:${processName}"/>
-        </plnk:role>
-        <plnk:role name="${processName}Requester">
-            <plnk:portType name="tns:${processName}Callback"/>
-        </plnk:role>
+        <plnk:role name="${processName}Provider" portType="tns:${processName}"/>
+        <plnk:role name="${processName}Requester" portType="tns:${processName}Callback"/>
     </plnk:partnerLinkType>   
 </definitions>

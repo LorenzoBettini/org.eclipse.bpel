@@ -2,7 +2,7 @@
 <definitions name="${processName}"
         targetNamespace="${namespace}"
         xmlns:tns="${namespace}"
-        xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+        xmlns:plnk="http://schemas.xmlsoap.org/ws/2004/03/partner-link/"
         xmlns="http://schemas.xmlsoap.org/wsdl/"
         >
 
@@ -65,9 +65,7 @@
      PARTNER LINK TYPE DEFINITION
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
     <plnk:partnerLinkType name="${processName}">
-        <plnk:role name="${processName}Provider">
-            <plnk:portType name="tns:${processName}"/>
-        </plnk:role>
+        <plnk:role name="${processName}Provider" portType="tns:${processName}"/>
     </plnk:partnerLinkType>
     
 </definitions>
