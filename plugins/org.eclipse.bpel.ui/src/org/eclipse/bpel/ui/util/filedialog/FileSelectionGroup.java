@@ -157,6 +157,13 @@ public class FileSelectionGroup extends Composite {
 		if (selectedResource == null) return null;
 		return selectedResource.getFullPath();
 	}
+	
+	
+	public IResource getSelectedResource () {
+		return selectedResource;
+	}
+	
+	
 	/**
 	 * Returns the tree viewer.
 	 */
