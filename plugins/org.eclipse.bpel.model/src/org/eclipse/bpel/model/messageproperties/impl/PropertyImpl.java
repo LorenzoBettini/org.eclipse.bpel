@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.1 2005/11/29 18:50:27 james Exp $
+ * $Id: PropertyImpl.java,v 1.2 2006/08/16 22:11:16 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -427,8 +427,9 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
     {
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.
-		if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null)
-			getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
+		//if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null) {
+		//	getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
+		// }
 		
 	    Element newElement = super.createElement();
 	    

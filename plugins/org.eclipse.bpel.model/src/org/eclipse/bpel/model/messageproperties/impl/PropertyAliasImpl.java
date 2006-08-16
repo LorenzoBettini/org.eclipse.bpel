@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
+ * $Id: PropertyAliasImpl.java,v 1.3 2006/08/16 22:11:16 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -769,8 +769,9 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
     {
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.
-		if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null)
-			getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
+		//if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null) {
+		//	getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
+		//}
 		
 	    Element newElement = super.createElement();
 	    

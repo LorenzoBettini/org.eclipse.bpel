@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.3 2005/12/12 15:55:41 james Exp $
+ * $Id: RoleImpl.java,v 1.4 2006/08/16 22:11:16 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -20,7 +20,9 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeConstants;
+import org.eclipse.bpel.model.proxy.PortTypeProxy;
 import org.eclipse.bpel.model.util.BPELServicesUtility;
+import org.eclipse.bpel.model.util.WSDLUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -329,7 +331,12 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	    reconcileReferences(false);
 	}
 
-	public void reconcileReferences(boolean deep) {
+	public void reconcileReferences(boolean deep) {		
+		
+		if (deep == false ) {
+			return ;
+		}
+		
 		// Reconcile the PortType reference.
 		if (element != null && element.hasAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE))
 	    {
@@ -337,10 +344,18 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	    	if (definition != null)
 	    	{
 		    	QName portTypeQName = createQName(definition, element.getAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE));
-		    	PortType newPortType = (portTypeQName != null) ? (PortType) definition.getPortType(portTypeQName) : null;
-		    	if (newPortType != null && newPortType != getPortType())
+		    	
+		    	PortType newPortType = null;
+		    	
+		    	if (portTypeQName != null) {		    				    		
+		    		newPortType = WSDLUtil.resolvePortType(definition, portTypeQName);
+		    	}
+		    	
+	    		if (newPortType != null && newPortType != getPortType() ) {
 		    		setPortType(newPortType);
+		    	}
 	    	}
+	    	
 	    }
 		super.reconcileReferences(deep);
 	}

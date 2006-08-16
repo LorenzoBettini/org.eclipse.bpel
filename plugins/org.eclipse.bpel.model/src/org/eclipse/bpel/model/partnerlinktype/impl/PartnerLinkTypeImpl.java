@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkTypeImpl.java,v 1.1 2005/11/29 18:50:27 james Exp $
+ * $Id: PartnerLinkTypeImpl.java,v 1.2 2006/08/16 22:11:16 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -415,8 +415,11 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.
-		if (getEnclosingDefinition().getPrefix(PartnerlinktypeConstants.NAMESPACE) == null)
-			getEnclosingDefinition().addNamespace(PartnerlinktypePackage.eNS_PREFIX, PartnerlinktypeConstants.NAMESPACE);
+		
+		//if (getEnclosingDefinition().getPrefix(PartnerlinktypeConstants.NAMESPACE) == null) {
+		//	getEnclosingDefinition().addNamespace(PartnerlinktypePackage.eNS_PREFIX, PartnerlinktypeConstants.NAMESPACE);
+		//}		
+		// System.out.println("Namespace: " + getEnclosingDefinition().getNamespaces());
 		
 	    Element newElement = super.createElement();
 	    
