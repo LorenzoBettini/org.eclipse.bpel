@@ -329,7 +329,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	/**
 	 * Utility methods for logging exceptions.
 	 */
-	public static void log(Exception e, int severity) {
+	public static void log(Throwable e, int severity) {
 		IStatus status = null;
 		if (e instanceof CoreException) {
 			status = ((CoreException)e).getStatus();
@@ -341,5 +341,6 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		BPELUIPlugin.getPlugin().getLog().log(status);
 	}
 	
-	public static void log(Exception e) { log(e, IStatus.ERROR); }
+	public static void log(Throwable throwable) { 
+		log(throwable, IStatus.ERROR); }
 }
