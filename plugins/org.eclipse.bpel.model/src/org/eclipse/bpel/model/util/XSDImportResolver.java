@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -50,8 +51,20 @@ public class XSDImportResolver implements ImportResolver {
         URI locationURI = URI.createURI(location);
         
         ResourceSet resourceSet = baseResource.getResourceSet();
-        XSDResourceImpl resource = (XSDResourceImpl) resourceSet.getResource(locationURI, true);        
-        return resource.getSchema();
+        Resource resource = resourceSet.getResource(locationURI, true);
+        
+        //Really make sure it is an XSDResource
+        if (resource instanceof XSDResourceImpl) {
+        	return ((XSDResourceImpl) resource).getSchema();
+        }
+        
+        if (resource != null) {
+        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " is not an XML schema.") );
+        } else  {
+        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " cannot be read." )) ;
+        }
+        
+        return null;
     }
 
     
@@ -86,9 +99,11 @@ public class XSDImportResolver implements ImportResolver {
 		}
 		
 		List list = new ArrayList(1);
-		list.add ( findAndLoadSchema( imp ) );
+		XSDSchema schema = findAndLoadSchema(imp);
+		if (schema != null) {
+			list.add ( schema );
+		}
 		return list;
-	}
-    
+	}    
     
 }

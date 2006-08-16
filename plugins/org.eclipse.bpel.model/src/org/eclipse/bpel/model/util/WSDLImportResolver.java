@@ -16,7 +16,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -42,8 +44,24 @@ public class WSDLImportResolver implements ImportResolver {
         
         URI locationURI = URI.createURI(location);
         ResourceSet resourceSet = baseResource.getResourceSet();
-        WSDLResourceImpl resource = (WSDLResourceImpl) resourceSet.getResource(locationURI, true);
-        return resource.getDefinition();        
+        Resource resource = null;
+        try {
+        	resource = resourceSet.getResource(locationURI, true);
+        } catch (Exception ex) {
+        	BPELPlugin.log("The resource " + locationURI + " cannot be read.",ex,IStatus.WARNING) ;
+        	return null;
+        }
+        
+        if (resource instanceof WSDLResourceImpl) {
+        	return ((WSDLResourceImpl)resource).getDefinition();
+        }
+        
+        if (resource != null) {
+        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " is not a WSDL definition."),IStatus.WARNING );
+        } else  {
+        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " cannot be read." ),IStatus.WARNING) ;
+        }
+        return null;
     }
     
     public EObject resolve(Import imp, QName qname, String name, String refType) {
@@ -55,7 +73,9 @@ public class WSDLImportResolver implements ImportResolver {
         }
         
         Definition definition = findAndLoadWSDL ( imp );
-        result = WSDLUtil.resolveWSDLReference(definition, qname, name, refType);
+        if (definition != null) {
+        	result = WSDLUtil.resolveWSDLReference(definition, qname, name, refType);
+        }
         
         return result;
     }
@@ -69,6 +89,10 @@ public class WSDLImportResolver implements ImportResolver {
         	return Collections.EMPTY_LIST;
         }        
         Definition definition = findAndLoadWSDL ( imp );
+        
+        if (definition == null) {
+        	return Collections.EMPTY_LIST;
+        }
         
         if (what == RESOLVE_DEFINITION) {
         	ArrayList al = new ArrayList(1);

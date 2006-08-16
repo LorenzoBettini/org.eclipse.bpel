@@ -22,6 +22,7 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.Definition;
+import org.eclipse.wst.wsdl.Import;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Part;
@@ -40,7 +41,7 @@ import org.eclipse.xsd.util.XSDConstants;
 
 
 public class WSDLUtil
-{
+{	 
     public static final String WSDL_MESSAGE = WSDLPackage.eINSTANCE.getMessage().getName();
     
     public static final String WSDL_PORT_TYPE = WSDLPackage.eINSTANCE.getPortType().getName();
@@ -61,6 +62,10 @@ public class WSDLUtil
 
     public static final String BPEL_PROPERTY = MessagepropertiesPackage.eINSTANCE.getProperty().getName();
 
+    // TODO: This should be a preference that can be easily turned on/off
+	private static boolean RESOLVING_DEEPLY = true;
+    
+	
     public static boolean isWSDLType(String typeName)
     {
         return typeName == null ? false :
@@ -76,6 +81,13 @@ public class WSDLUtil
             || BPEL_PROPERTY.equals(typeName);
     }
 
+    public static void setResolveDeeply ( boolean resolveDeeply ) {
+    	RESOLVING_DEEPLY = resolveDeeply;
+    }
+    public static boolean isResolvingDeeply () {
+    	return RESOLVING_DEEPLY;
+    }
+    
     /**
      * Resolve with the given definition.
      */
@@ -131,16 +143,51 @@ public class WSDLUtil
 	    return resolvedObject;
     }
     
-    public static PortType resolvePortType(Definition definition, QName qname)
-    {
-        return (PortType) definition.getPortType(qname);
+    
+    public static PortType resolvePortType (Definition definition, QName qname)
+    {    	
+    	PortType result = (PortType) definition.getPortType(qname);
+    	
+    	if (result != null || RESOLVING_DEEPLY == false) {
+    		return result;
+    	}
+    	
+    	Iterator it = definition.getImports(qname.getNamespaceURI()).iterator();
+    	while (it.hasNext() && result == null) {
+             ImportImpl imp = (ImportImpl) it.next();
+             imp.importDefinitionOrSchema();               
+             Definition importedDefinition = (Definition) imp.getDefinition();
+             if (importedDefinition != null)
+             {
+                 result = resolvePortType (importedDefinition, qname);                          
+             }
+        }
+        return result;
     }
+    
     
     public static Message resolveMessage(Definition definition, QName qname)
     {
-        return (Message) definition.getMessage(qname);
+    	Message result = (Message) definition.getMessage(qname);
+    	if (result != null || RESOLVING_DEEPLY == false) {
+    		return result;
+    	}
+    	
+    	Iterator it = definition.getImports(qname.getNamespaceURI()).iterator();
+    	while (it.hasNext() && result == null) {
+             ImportImpl imp = (ImportImpl) it.next();
+             imp.importDefinitionOrSchema();               
+             Definition importedDefinition = (Definition) imp.getDefinition();
+             if (importedDefinition != null)
+             {
+                 result = resolveMessage (importedDefinition, qname);                          
+             }
+        }        
+        return result;
     }
 
+    
+    
     public static Operation resolveOperation(Definition definition, QName portTypeQName, String operationName)
     {
         PortType portType = resolvePortType(definition, portTypeQName);
