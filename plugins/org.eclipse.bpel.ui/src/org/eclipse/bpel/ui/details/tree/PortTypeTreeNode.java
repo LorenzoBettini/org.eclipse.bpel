@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.details.tree;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 
@@ -21,11 +22,32 @@ import org.eclipse.wst.wsdl.PortType;
  */
 public class PortTypeTreeNode extends TreeNode {
 
+	// we need these to allow filters to work correctly. 
+	
+	boolean fDerivedFromMyRole = false;
+	boolean fDerivedFromPartnerRole = false;
+	
 	public PortTypeTreeNode(PortType portType, boolean isCondensed) {
 		super(portType, isCondensed);
 	}
-
+	
 	/* ITreeNode */
+
+	public boolean isDerivedFromMyRole() {
+		return fDerivedFromMyRole;
+	}
+
+	public void setDerivedFromMyRole(boolean derivedFromMyRole) {
+		fDerivedFromMyRole = derivedFromMyRole;
+	}
+
+	public boolean isDerivedFromPartnerRole() {
+		return fDerivedFromPartnerRole;
+	}
+
+	public void setDerivedFromPartnerRole(boolean derivedFromPartnerRole) {
+		fDerivedFromPartnerRole = derivedFromPartnerRole;
+	}
 
 	public Object[] getChildren() {
 		PortType pt = (PortType)modelObject;

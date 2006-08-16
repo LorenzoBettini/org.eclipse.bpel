@@ -37,7 +37,8 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 
 	protected ISelectionChangedListener selectionListener;
 	protected Object lastSelection = null;
-	protected ReferencePartnerLinks referencePartners;
+	
+	// protected ReferencePartnerLinks referencePartners;
 
 	protected void createEditPolicies() {
 		super.createEditPolicies();
@@ -53,9 +54,9 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 		PartnerLinks links = getPartnerLinks();
 		if (links != null) {			
 			list.add(links);
-			referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
-			referencePartners.setPartnerLinks(links);
-			list.add(referencePartners);
+			// referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
+			// referencePartners.setPartnerLinks(links);
+			// list.add(referencePartners);
 		}
 
 		Variables variables = getVariables();

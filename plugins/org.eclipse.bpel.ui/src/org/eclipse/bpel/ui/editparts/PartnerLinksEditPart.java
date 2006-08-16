@@ -45,36 +45,38 @@ public class PartnerLinksEditPart extends BPELTrayCategoryEditPart {
 	/**
 	 * Only add inbound partners.
 	 */
-	protected List getModelChildren() {		
-		List result = new ArrayList();
-		for (Iterator iter = getPartnerLinks().getChildren().iterator(); iter.hasNext();) {
-			PartnerLink	partner = (PartnerLink) iter.next();
-			if (ModelHelper.isInterfacePartnerLink(partner)) {
-				result.add(partner);
-			}
-		}
-		return result;
+	protected List getModelChildren() {
+		return getPartnerLinks().getChildren();
+//		
+//		List result = new ArrayList();
+//		for (Iterator iter = getPartnerLinks().getChildren().iterator(); iter.hasNext();) {
+//			PartnerLink	partner = (PartnerLink) iter.next();
+//			if (ModelHelper.isInterfacePartnerLink(partner)) {
+//				result.add(partner);
+//			}
+//		}
+//		return result;
 	}
 
-	protected Object addEntry() {		
-		CompoundCommand compound = new CompoundCommand();
-		EObject parent = getPartnerLinks();
-		final PartnerLink partner = (PartnerLink) getCreationFactory().getNewObject();
-		compound.add(new InsertInContainerCommand(parent, partner, null));
-		Definition artifactsDefinition = getBPELEditor().getArtifactsDefinition();
-		PartnerLinkType plt = PartnerlinktypeFactory.eINSTANCE.createPartnerLinkType();
-		Process process = ModelHelper.getProcess(parent);
-		compound.add(ModelHelper.getCreatePartnerLinkTypeCommand(process, partner, plt, artifactsDefinition, getRoleKind()));
-		getCommandStack().execute(compound);
-		// direct edit
-		getViewer().getControl().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				EditPart part = selectEditPart(partner);
-				part.performRequest(new DirectEditRequest());
-			}
-		});
-		return partner;
-	}
+//	protected Object addEntry() {		
+//		CompoundCommand compound = new CompoundCommand();
+//		EObject parent = getPartnerLinks();
+//		final PartnerLink partner = (PartnerLink) getCreationFactory().getNewObject();
+//		compound.add(new InsertInContainerCommand(parent, partner, null));
+//		Definition artifactsDefinition = getBPELEditor().getArtifactsDefinition();
+//		PartnerLinkType plt = PartnerlinktypeFactory.eINSTANCE.createPartnerLinkType();
+//		Process process = ModelHelper.getProcess(parent);
+//		compound.add(ModelHelper.getCreatePartnerLinkTypeCommand(process, partner, plt, artifactsDefinition, getRoleKind()));
+//		getCommandStack().execute(compound);
+//		// direct edit
+//		getViewer().getControl().getDisplay().asyncExec(new Runnable() {
+//			public void run() {
+//				EditPart part = selectEditPart(partner);
+//				part.performRequest(new DirectEditRequest());
+//			}
+//		});
+//		return partner;
+//	}
 	
 	protected int getRoleKind() {
 		return ModelHelper.MY_ROLE;

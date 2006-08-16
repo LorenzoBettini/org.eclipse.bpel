@@ -20,9 +20,8 @@ import org.eclipse.bpel.model.Variable;
  */
 public class BPELVariableTreeNode extends TreeNode {
 
-	MessageTypeTreeNode messageNode = null;
-	XSDElementDeclarationTreeNode elementNode = null;
-	XSDTypeDefinitionTreeNode typeNode = null;
+	TreeNode fNode;
+	
 	boolean isPropertyTree;
 	boolean displayParticles;
 	
@@ -30,14 +29,15 @@ public class BPELVariableTreeNode extends TreeNode {
 		super(variable, isCondensed);
 		this.displayParticles = displayParticles;
 		this.isPropertyTree = isPropertyTree;
+
 		if (isCondensed) {
 			if (variable.getMessageType() != null)  {
-				messageNode = new MessageTypeTreeNode(variable.getMessageType(),
+				fNode = new MessageTypeTreeNode(variable.getMessageType(),
 					isCondensed, isPropertyTree);
 			} else if (variable.getType() != null) {
-				typeNode = new XSDTypeDefinitionTreeNode(variable.getType(), isCondensed);
+				fNode = new XSDTypeDefinitionTreeNode(variable.getType(), isCondensed);
 			} else if (variable.getXSDElement() != null) {
-				elementNode = new XSDElementDeclarationTreeNode(variable.getXSDElement(), isCondensed);			
+				fNode = new XSDElementDeclarationTreeNode(variable.getXSDElement(), isCondensed);			
 			}
 		}
 	}
@@ -45,49 +45,41 @@ public class BPELVariableTreeNode extends TreeNode {
 	/* ITreeNode */
 
 	public String getLabelSuffix() {
-		if (isCondensed) {
-			if (messageNode != null) return messageNode.getLabel();
-			if (typeNode != null) return typeNode.getLabel();
-			if (elementNode != null) return elementNode.getLabel();
+		if (isCondensed && fNode != null) {
+			return fNode.getLabel();
 		}
 		return null;
 	}
 
 	public Object[] getChildren() {
 		if (isCondensed) {
-			if (messageNode != null) return messageNode.getChildren();
-			if (typeNode != null) return typeNode.getChildren();
-			if (elementNode != null) return elementNode.getChildren();
-			return EMPTY_ARRAY;
+			return fNode != null ? fNode.getChildren() : EMPTY_ARRAY;
 		}
 		Variable variable = (Variable)modelObject;
 		if (variable.getMessageType() != null) {
-			Object[] result = new Object[1];
-			result[0] = new MessageTypeTreeNode(variable.getMessageType(),
-				isCondensed, isPropertyTree, displayParticles);
-			return result;
+			return new Object[] {
+					new MessageTypeTreeNode(variable.getMessageType(),
+							isCondensed, isPropertyTree, displayParticles) 
+				};			
 		}
 		if (variable.getType() != null) {
-			Object[] result = new Object[1];
-			result[0] = new XSDTypeDefinitionTreeNode(variable.getType(), isCondensed);
-			return result;
+			return new Object[] {
+					new XSDTypeDefinitionTreeNode(variable.getType(), isCondensed)
+			};
 		}
 		if (variable.getXSDElement() != null) {
-			Object[] result = new Object[1];
-			result[0] = new XSDElementDeclarationTreeNode(variable.getXSDElement(), isCondensed);
-			return result;
+			return new Object[] {
+					new XSDElementDeclarationTreeNode(variable.getXSDElement(), isCondensed)
+			};
 		}
 		return EMPTY_ARRAY;
 	}
 
 	public boolean hasChildren() {
 		if (isCondensed) {
-			if (elementNode != null)  return elementNode.hasChildren();
-			if (typeNode != null)  return typeNode.hasChildren();
-			if (messageNode != null)  return messageNode.hasChildren();
-			return false;
+			return fNode != null ? fNode.hasChildren() : false;
 		}
-		Variable variable = (Variable)modelObject;
+		Variable variable = (Variable) modelObject;
 		return (variable.getMessageType() != null) ||
 			(variable.getType() != null) ||	(variable.getXSDElement() != null);
 	}

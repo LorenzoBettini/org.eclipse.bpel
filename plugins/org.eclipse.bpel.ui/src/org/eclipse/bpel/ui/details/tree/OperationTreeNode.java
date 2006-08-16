@@ -13,8 +13,9 @@ package org.eclipse.bpel.ui.details.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.wst.wsdl.Message;
+import org.eclipse.wst.wsdl.Input;
 import org.eclipse.wst.wsdl.Operation;
+import org.eclipse.wst.wsdl.Output;
 
 /**
  * Tree node to represent an Operation model object.
@@ -27,24 +28,30 @@ public class OperationTreeNode extends TreeNode {
 
 	/* ITreeNode */
 
-	public Object[] getChildren() {
+	public Object[] getChildren() {		
 		Operation op = (Operation)modelObject;
 		List list = new ArrayList();
-		if (op.getInput() != null && op.getInput().getMessage() != null) {
-			list.add(new MessageTypeTreeNode((Message)op.getInput().getMessage(),
-				isCondensed, false));
+		if (op.getInput() != null ) {
+			
+			list.add(new MessageTypeTreeNode((Input)op.getInput(),isCondensed, false));
 		}
-		if (op.getOutput() != null && op.getOutput().getMessage() != null) {
-			list.add(new MessageTypeTreeNode((Message)op.getOutput().getMessage(),
-				isCondensed, false));
+		if (op.getOutput() != null ) {
+			list.add(new MessageTypeTreeNode((Output)op.getOutput(),isCondensed, false));
 		}
+		
 		return list.toArray();
 	}
 
 	public boolean hasChildren() {
-		Operation op = (Operation)modelObject;
-		if (op.getInput() != null && op.getInput().getMessage() != null) return true;
-		if (op.getOutput() != null && op.getOutput().getMessage() != null) return true;
+		Operation op = (Operation) modelObject;
+		if (op.getInput() != null) {
+			return true;
+		}
+		
+		if (op.getOutput() != null) {
+			return true;
+		}
+		
 		return false;
 	}
 }

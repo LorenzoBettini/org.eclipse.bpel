@@ -19,7 +19,11 @@ import java.util.Set;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.wst.wsdl.Fault;
+import org.eclipse.wst.wsdl.Input;
 import org.eclipse.wst.wsdl.Message;
+import org.eclipse.wst.wsdl.Output;
 import org.eclipse.wst.wsdl.Part;
 
 /**
@@ -30,12 +34,30 @@ public class MessageTypeTreeNode extends TreeNode {
 	boolean isPropertyTree;
 	boolean displayParticles;
 	
+	public MessageTypeTreeNode(Input msg, boolean isCondensed, boolean isProperty) {
+		this(msg, isCondensed, isProperty,true);		
+	}
+	
+	
+	public MessageTypeTreeNode(Output msg, boolean isCondensed, boolean isProperty) {
+		this(msg, isCondensed, isProperty,true);		
+	}
+	
 	public MessageTypeTreeNode(Message messageType, boolean isCondensed, boolean isPropertyTree) {
 		this(messageType, isCondensed, isPropertyTree, true);
 	}
-	public MessageTypeTreeNode(Message messageType, boolean isCondensed,
+	
+	
+	public MessageTypeTreeNode (Message messageType, boolean isCondensed,
 		boolean isPropertyTree, boolean displayParticles) {
-		super(messageType, isCondensed);
+		this((EObject) messageType,isCondensed,isPropertyTree,displayParticles);
+	}
+	
+	
+	private MessageTypeTreeNode(EObject obj,  boolean isCondensed,
+			boolean isPropertyTree, boolean displayParticles ) 
+	{
+		super(obj, isCondensed);
 		this.isPropertyTree = isPropertyTree;
 		this.displayParticles = displayParticles;
 	}
@@ -43,7 +65,13 @@ public class MessageTypeTreeNode extends TreeNode {
 	/* ITreeNode */
 
 	public Object[] getChildren() {
-		Message msg = (Message)modelObject;
+		
+		Message msg = getMessage();
+		
+		if (msg == null) {
+			return EMPTY_ARRAY;
+		}
+		
 		if (isPropertyTree) {
 			// Find propertyAliases that refer to this message.
 			List aliases = BPELUtil.getPropertyAliasesForMessageType(msg);
@@ -55,7 +83,10 @@ public class MessageTypeTreeNode extends TreeNode {
 			return list.toArray();
 		}
 
-		if (msg.getParts() == null)  return EMPTY_ARRAY;
+		if (msg.getParts() == null) {
+			return EMPTY_ARRAY;
+		}
+		
 		List list = new ArrayList();
 		for (Iterator it = msg.getParts().values().iterator(); it.hasNext(); ) {
 			list.add(new PartTreeNode((Part)it.next(), isCondensed, displayParticles));
@@ -70,7 +101,11 @@ public class MessageTypeTreeNode extends TreeNode {
 			return getChildren().length > 0;
 		}
 
-		Message msg = (Message)modelObject;
+		Message msg = getMessage();
+		if (msg == null) {
+			return false;
+		}
+		
 		return (msg.getParts() != null && !msg.getParts().isEmpty());
 	}
 
@@ -89,4 +124,20 @@ public class MessageTypeTreeNode extends TreeNode {
 		}
 		return properties;
 	}
+	
+	
+	Message getMessage () {
+		if (modelObject instanceof Message) {
+			return (Message) modelObject;
+		}
+		if (modelObject instanceof Input) {
+			return ((Input)modelObject).getEMessage();
+		}
+		if (modelObject instanceof Output) {
+			return ((Output)modelObject).getEMessage();
+		}
+		return null;
+	}
+	
+	
 }

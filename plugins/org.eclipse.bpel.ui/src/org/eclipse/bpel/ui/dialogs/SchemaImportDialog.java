@@ -11,16 +11,19 @@
 package org.eclipse.bpel.ui.dialogs;
 
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.details.providers.MessageTypeContentProvider;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
+import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTypeTreeContentProvider;
-import org.eclipse.bpel.ui.details.providers.XSDTypeOrElementContentProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.filedialog.FileSelectionGroup;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -28,9 +31,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -38,6 +45,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
@@ -46,9 +54,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
-import org.eclipse.xsd.XSDSchema;
-
+import org.eclipse.ui.progress.IProgressService;
 
 
 /**
@@ -71,22 +79,28 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	/* Browse button  */
 	protected static final int BID_BROWSE = IDialogConstants.CLIENT_ID + 4;
 
-	/* The import source setting, rememebered in the dialog settings */
+	/* The import source setting, remembered in the dialog settings */
 	private static final String IMPORT_KIND = "ImportKind";  //$NON-NLS-1$
 
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	
-			
+	
+	private String[] FILTER_EXTENSIONS = { IBPELUIConstants.EXTENSION_STAR_DOT_XSD,
+											IBPELUIConstants.EXTENSION_STAR_DOT_WSDL,
+											IBPELUIConstants.EXTENSION_STAR_DOT_ANY};
+	
+	private String[] FILTER_NAMES = { 	IBPELUIConstants.EXTENSION_XSD_NAME,
+										IBPELUIConstants.EXTENSION_WSDL_NAME,
+										IBPELUIConstants.EXTENSION_ANY_NAME };		                                                    
+	
+	
 	protected EObject modelObject;
 	
 	protected Text filterText;
 		
-	static protected XSDTypeOrElementContentProvider xsdTypeProvider = new XSDTypeOrElementContentProvider();
-	static protected MessageTypeContentProvider messageTypeProvider = new MessageTypeContentProvider();
 	
-	
-	protected Tree dataTypeTree;
-	protected TreeViewer dataTypeTreeViewer;
+	protected Tree fTree;
+	protected TreeViewer fTreeViewer;
 
 	private Text fLocation;
 
@@ -100,7 +114,15 @@ public class SchemaImportDialog extends SelectionStatusDialog {
     	
 	private IDialogSettings fSettings ;
 	
-	private int KIND = BID_BROWSE_RESOURCE ; 	
+	private int KIND = BID_BROWSE_RESOURCE ;
+
+	private String fStructureTitle;
+
+	private ITreeContentProvider fTreeContentProvider;
+
+	protected Object fInput;
+
+	private IRunnableWithProgress fRunnableWithProgress; 	
 		
 	
 	public SchemaImportDialog (Shell parent) {
@@ -118,7 +140,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         }
         
         setDialogBoundsSettings ( fSettings, getDialogBoundsStrategy()  );
+        
+        configureAsSchemaImport();
 	}
+	
 	/**
 	 * The modelObject is the model element that indicates the scope in which the
 	 * variable should be visible.
@@ -151,13 +176,14 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		switch (buttonId) {
 		case BID_BROWSE : 
 			FileDialog fileDialog = new FileDialog(getShell());
-			fileDialog.setFilterNames( new String[] { "*.xsd" }); //$NON-NLS-1$
+			fileDialog.setFilterExtensions( FILTER_EXTENSIONS );
+			fileDialog.setFilterNames( FILTER_NAMES );
 			String path = fileDialog.open();
 			if (path == null) {
 				return;
 			}
 			fLocation.setText( path );
-			attemptSchemaLoad ( path );
+			attemptLoad ( path );
 			break;
 		}
 		super.buttonPressed(buttonId);
@@ -177,10 +203,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			
 			fBrowseButton.setEnabled( id == BID_BROWSE_FILE );
 			fLocation.setText(EMPTY); 
-			dataTypeTreeViewer.setInput(null);
-			updateOK(false);
-			fSettings.put(IMPORT_KIND, KIND);
+			fTreeViewer.setInput(null);
+			updateOK(false);			
 			KIND = id;
+			fSettings.put(IMPORT_KIND, KIND);
 			
 			fGroup.getParent().layout(true);								
 		}
@@ -201,8 +227,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 	public void create() {		
 		super.create();
-		
-		
+		buttonPressed(KIND, true);		
 	}
 
 
@@ -290,9 +315,26 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         fLocation.addListener(SWT.FocusOut, new Listener() {
 
 			public void handleEvent(Event event) {
-				attemptSchemaLoad( fLocation.getText() );				
+				String location = fLocation.getText();
+				if (location.length() > 0) {
+					attemptLoad(location );
+				}
 			}        	
         });
+        fLocation.addKeyListener( new KeyListener () {
+
+			public void keyPressed(KeyEvent event) {
+				if (event.keyCode == '\r') {
+					attemptLoad(fLocation.getText());
+				}						
+			}
+
+			public void keyReleased(KeyEvent e) {
+				return ;				
+			}
+        	
+        });
+        
                 		
         fBrowseButton = createButton(fLocationComposite, BID_BROWSE, Messages.SchemaImportDialog_9, false);
         
@@ -302,18 +344,21 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         fResourceComposite  = new FileSelectionGroup(fGroup,
         		new Listener() {
 					public void handleEvent(Event event) {
-						IPath path = fResourceComposite.getResourceFullPath();
-						if (path == null) {
+						IResource resource = fResourceComposite.getSelectedResource();
+						if (resource.getType() == IResource.FILE) {
+							// only attempt to load a resource which is not a container
+							attemptLoad ( (IFile) resource );							
+						} else {						
 							updateStatus ( Status.OK_STATUS );
 							updateOK(false);
-							return;
+							return ;
 						}						
-						// only attempt to load a resource which is not a container
-						attemptSchemaLoad ( path.toString() );
 					}        	
-        		},        		
+        		},
+        		
         		Messages.SchemaImportDialog_10,
-        		IBPELUIConstants.EXTENSION_DOT_XSD);        
+        		IBPELUIConstants.EXTENSION_DOT_XSD + "," + IBPELUIConstants.EXTENSION_DOT_WSDL );         //$NON-NLS-1$
+        
         
         TreeViewer viewer = fResourceComposite.getTreeViewer();        
         viewer.setAutoExpandLevel(2);
@@ -321,20 +366,22 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         // End resource variant               
 	}
 
+	
 
 	protected Object createImportStructure (Composite parent) {
 		
-		 Label location = new Label(parent,SWT.NONE);
-	     location.setText(Messages.SchemaImportDialog_11);
+		Label location = new Label(parent,SWT.NONE);
+	    location.setText( fStructureTitle );
 	        
 		//	Tree viewer for variable structure ...
-		dataTypeTree = new Tree(parent, SWT.BORDER );
+		fTree = new Tree(parent, SWT.BORDER );
+		
 		VariableTypeTreeContentProvider variableContentProvider = new VariableTypeTreeContentProvider(true, true);
-		dataTypeTreeViewer = new TreeViewer(dataTypeTree);
-		dataTypeTreeViewer.setContentProvider(variableContentProvider);
-		dataTypeTreeViewer.setLabelProvider(new ModelTreeLabelProvider());
-		dataTypeTreeViewer.setInput ( null );		
-		dataTypeTreeViewer.setAutoExpandLevel(3);
+		fTreeViewer = new TreeViewer(fTree);
+		fTreeViewer.setContentProvider( fTreeContentProvider != null ? fTreeContentProvider : variableContentProvider );
+		fTreeViewer.setLabelProvider(new ModelTreeLabelProvider());
+		fTreeViewer.setInput ( null );		
+		fTreeViewer.setAutoExpandLevel(3);
 		// end tree viewer for variable structure
 		GridData data = new GridData();        
         data.grabExcessVerticalSpace = true;
@@ -342,40 +389,83 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         data.horizontalAlignment = GridData.FILL;
         data.verticalAlignment = GridData.FILL;
         data.minimumHeight = 200;
-        dataTypeTree.setLayoutData(data);
+        fTree.setLayoutData(data);
         
-		return dataTypeTree;
+		return fTree;
 	}
 
 
-	protected XSDSchema getSchemaFromLocation ( URI uri ) {
-		updateStatus ( Status.OK_STATUS );		
-		try {
-			ResourceSet resourceSet = BPELUtil.createResourceSetImpl();	
-			Resource xsdResource = resourceSet.getResource(uri, true);
-			return  (XSDSchema) xsdResource.getContents().get(0);				
-		} catch (Exception ex) {
-			updateStatus ( new Status(Status.ERROR, BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_12,ex) );			
-		}
-		return null;
+	Object attemptLoad ( URI uri ) {
+		ResourceSet resourceSet = BPELUtil.createResourceSetImpl();	
+		Resource resource = resourceSet.getResource(uri, true);
+		return  resource.getContents().get(0);				
+	}
+
+	
+	void attemptLoad ( IFile file ) {
+		attemptLoad ( file.getFullPath().toString() );
 	}
 	
 		
-	private void attemptSchemaLoad ( String path ) {
+	void attemptLoad ( String path ) {
+		if (fRunnableWithProgress != null) {
+			return ;
+		}
+		
+		updateStatus ( Status.OK_STATUS );		
 
-		URI uri = convertToURI ( path );
+		// empty paths are ignored
+		if (path.length() == 0) {
+			return ;
+		}
+		
+
+		final URI uri = convertToURI ( path );
 		if (uri == null) {
 			return ;
 		}
 		
-		XSDSchema schema = getSchemaFromLocation( uri );
-		dataTypeTreeViewer.setInput(schema);
 		
-		if (schema != null) {
-			dataTypeTree.getVerticalBar().setSelection(0);
+		fRunnableWithProgress = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				fInput = attemptLoad(uri);
+				
+				fTree.getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						loadDone();						
+					}						
+				});
+			}
+		 };
+			
+		 
+		 IProgressService progressService = PlatformUI.getWorkbench().getProgressService();		 
+		 try {			 
+			progressService.busyCursorWhile(fRunnableWithProgress);			
+		} catch (InvocationTargetException ite)  {			
+			updateStatus ( new Status(Status.ERROR, BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_12,ite.getTargetException() ) );			
+			BPELUIPlugin.log( ite.getTargetException() );
+			fRunnableWithProgress = null;
+		} catch (InterruptedException e) {
+			BPELUIPlugin.log( e );
+			fRunnableWithProgress = null;
 		}
 	}
 
+	
+	 
+	void loadDone () {
+		
+		fRunnableWithProgress = null;
+		
+		fTreeViewer.setInput(fInput);
+		
+		if (fInput != null) {
+			fTree.getVerticalBar().setSelection(0);
+		}
+		
+	}
+	
 	
 	private URI convertToURI (String path ) {
 		
@@ -413,12 +503,27 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	 */
 	
 	protected void computeResult() {
-		Object schema = dataTypeTreeViewer.getInput();
-		if (schema == null) {
+		Object object = fTreeViewer.getInput();
+		if (object == null) {
 			return ;
 		}
-		setSelectionResult(new Object[]{ schema });		
+		setSelectionResult(new Object[]{ object });		
 	}
 	
+	
+	
+	public void configureAsSchemaImport ( ) {
+		setTitle(Messages.SchemaImportDialog_2);
+		fStructureTitle = Messages.SchemaImportDialog_11;		        
+	}
+	
+	
+	public void configureAsWSDLImport ( ) {
+		
+		setTitle(Messages.SchemaImportDialog_0);
+		fStructureTitle = Messages.SchemaImportDialog_14;
+		fTreeContentProvider = new PartnerLinkTypeTreeContentProvider(true);
+		
+	}
 	
 }

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.tree;
 
-import java.util.Vector;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.wst.wsdl.PortType;
@@ -28,25 +28,48 @@ public class PartnerLinkTreeNode extends TreeNode {
 	/* ITreeNode */
 
 	public Object[] getChildren() {
+		
 		PartnerLink partnerLink = (PartnerLink)modelObject;
-		if (partnerLink == null) return EMPTY_ARRAY;
-		Vector v = new Vector();
-		if (partnerLink != null) { 
-			Role role = partnerLink.getMyRole();
-			if (role != null) v.add(new PortTypeTreeNode((PortType)role.getPortType(), isCondensed));
-			role = partnerLink.getPartnerRole();
-			if (role != null) v.add(new PortTypeTreeNode((PortType)role.getPortType(), isCondensed));
+		
+		if (partnerLink == null) {
+			return EMPTY_ARRAY;
 		}
-		return v.toArray();
+		
+		List list = new ArrayList(2);
+		
+		Role role = partnerLink.getMyRole();
+		PortTypeTreeNode node ;
+		if (role != null && !role.eIsProxy() ) {
+			node = new PortTypeTreeNode((PortType)role.getPortType(), isCondensed);
+			node.setDerivedFromMyRole(true);
+			list.add(node);
+		}
+		
+		role = partnerLink.getPartnerRole();
+		if (role != null && !role.eIsProxy() )  {
+			node = new PortTypeTreeNode((PortType)role.getPortType(), isCondensed);
+			node.setDerivedFromPartnerRole(true);
+			list.add(node);
+		}
+		
+		return list.toArray();
 	}
 
 	public boolean hasChildren() {
 		PartnerLink partnerLink = (PartnerLink)modelObject;
-		if (partnerLink == null)  return false;
+		
+		if (partnerLink == null)  {
+			return false;
+		}
+		
 		Role role = partnerLink.getMyRole();
-		if (role != null && role.getPortType() != null)  return true;
+		if (role != null && !role.eIsProxy()) {
+			return true;
+		}
 		role = partnerLink.getPartnerRole();
-		if (role != null && role.getPortType() != null)  return true;
+		if (role != null && !role.eIsProxy() ) {
+			return true;
+		}
 		return false;
 	}
 }

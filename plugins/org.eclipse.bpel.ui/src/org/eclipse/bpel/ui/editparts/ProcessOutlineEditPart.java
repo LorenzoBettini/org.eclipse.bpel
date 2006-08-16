@@ -26,11 +26,11 @@ import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 
 public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 
-	protected ReferencePartnerLinks referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
+	// protected ReferencePartnerLinks referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
 
 	protected void createEditPolicies() {
 		super.createEditPolicies();
-		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessLayoutEditPolicy());
+		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessLayoutEditPolicy());
 	}
 	protected void addAllAdapters() {
 		super.addAllAdapters();
@@ -49,8 +49,9 @@ public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 		PartnerLinks links = process.getPartnerLinks();
 		if (links != null) {
 			list.add(links);
-			referencePartners.setPartnerLinks(links);
-			list.add(referencePartners);
+			// 
+			// referencePartners.setPartnerLinks(links);
+			// list.add(referencePartners);
 		}
 
 		Variables variables = process.getVariables();
