@@ -304,7 +304,12 @@ public class AssignImplSection extends BPELPropertySection {
 
 		super.basicSetInput(newInput);
 		currentCopyIndex = 0;
-		selectCategoriesForInput();
+		selectCategoriesForInput();		
+		for (int i = 0; i < 2; i++) {
+			IAssignCategory category = categories[i][currentCategoryIndex[i]].category;
+			category.refresh();
+		}
+
 	}
 
 	protected void selectCategoriesForInput() {
@@ -361,11 +366,6 @@ public class AssignImplSection extends BPELPropertySection {
 
 	public void refresh() {
 		super.refresh();
-		selectCategoriesForInput();
-		for (int i = 0; i < 2; i++) {
-			IAssignCategory category = categories[i][currentCategoryIndex[i]].category;
-			category.refresh();
-		}
 	}
 
 	public void aboutToBeHidden() {

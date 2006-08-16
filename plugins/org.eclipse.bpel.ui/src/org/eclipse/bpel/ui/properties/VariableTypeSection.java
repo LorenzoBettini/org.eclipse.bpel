@@ -21,6 +21,7 @@ import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
@@ -130,10 +131,12 @@ public class VariableTypeSection extends BPELPropertySection {
 		//variableTypeSelector.refresh();
 	}
 	
-	public void refresh() {
-		super.refresh();
+	
+	protected void basicSetInput(EObject newInput) {
+		super.basicSetInput(newInput);
 		updateVariableTypeSelector();
 	}
+
 
 	public Object getUserContext() {
 		return variableTypeSelector.getUserContext();

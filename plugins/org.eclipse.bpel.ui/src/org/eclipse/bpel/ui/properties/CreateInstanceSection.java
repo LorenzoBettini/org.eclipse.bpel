@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
@@ -71,8 +72,9 @@ public class CreateInstanceSection extends BPELPropertySection  {
 		
 		Composite parent = wf.createComposite(composite);
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.top = new FlatFormAttachment(0, 0);
+		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+		
 		parent.setLayoutData(data);
 		parent.setLayout(new FillLayout());
 
@@ -114,5 +116,14 @@ public class CreateInstanceSection extends BPELPropertySection  {
 	
 	public void restoreUserContext(Object userContext) {
 		createInstanceButton.setFocus();
+		
+	}
+	
+	public boolean shouldUseExtraSpace () {
+		return false;
+	}
+	
+	public int getMinimumHeight () {
+		return 40;
 	}
 }

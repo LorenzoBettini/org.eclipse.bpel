@@ -14,24 +14,36 @@ import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.AddImportCommand;
+import org.eclipse.bpel.ui.commands.RemoveImportCommand;
 import org.eclipse.bpel.ui.details.providers.ColumnTableProvider;
 import org.eclipse.bpel.ui.details.providers.ImportContentProvider;
+import org.eclipse.bpel.ui.dialogs.SchemaImportDialog;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NamespaceUtils;
 import org.eclipse.bpel.ui.util.TableCursor;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
-
 
 /**
  * Edits the import statements of the BPEL file.
@@ -39,50 +51,115 @@ import org.eclipse.ui.PlatformUI;
 public class ImportsSection extends BPELPropertySection {
 
 	protected Composite parentComposite;
-	protected Composite activityComposite;	
-	protected Label importLabel;
-	
-	protected Table importTable;
-	protected TableViewer importViewer;
-	protected ColumnTableProvider tableProvider;
-	protected TableCursor tableCursor = null;	
-	
-	protected MultiObjectAdapter[] createAdapters() {
-		return new MultiObjectAdapter[] {
-				new MultiObjectAdapter(){
-					public void notify(Notification n) {
-						refresh();
-					}
-				},
-		};
-	}	
 
-	protected void createImportWidgets(Composite parent) {	
+	protected Composite activityComposite;
+
+	protected Label importLabel;
+
+	protected Table importTable;
+
+	protected TableViewer importViewer;
+
+	protected ColumnTableProvider tableProvider;
+
+	protected TableCursor tableCursor = null;
+
+	protected MultiObjectAdapter[] createAdapters() {
+		return new MultiObjectAdapter[] { new MultiObjectAdapter() {
+			public void notify(Notification n) {
+				refresh();
+			}
+		}, };
+	}
+
+	protected void createImportWidgets(Composite parent) {
+
 		FlatFormData data;
 
-		importLabel = wf.createLabel(parent, Messages.ImportDetails_Imports_20); 
+		Button browseWSDL = wf.createButton(parent, Messages.ImportsSection_0,
+				SWT.PUSH);
+		Button browseXSD = wf.createButton(parent, Messages.ImportsSection_1,
+				SWT.PUSH);
+		final Button removeImport = wf.createButton(parent, Messages.ImportsSection_2, SWT.PUSH);
+		removeImport.setEnabled(false);
+		
+		removeImport.addSelectionListener( new SelectionListener () {
+
+			public void widgetDefaultSelected(SelectionEvent e) {				
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				removeImport();				
+			}			
+		});
+		
+		browseWSDL.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				browseAndImportWSDL();
+			}
+		});
+
+		browseXSD.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				browseAndImportXSD();
+			}
+
+		});
+
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.top = new FlatFormAttachment(0, 0);
+		data.right = new FlatFormAttachment(100, -5
+				* IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+		removeImport.setLayoutData(data);
+
+		data = new FlatFormData();
+		data.right = new FlatFormAttachment(removeImport,
+				-IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+		browseXSD.setLayoutData(data);
+
+		data = new FlatFormData();
+		data.right = new FlatFormAttachment(browseXSD,
+				-IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+		browseWSDL.setLayoutData(data);
+
+		importLabel = wf.createLabel(parent, Messages.ImportDetails_Imports_20);
+		data = new FlatFormData();
+		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(browseWSDL,
+				IDetailsAreaConstants.VSPACE);
 		importLabel.setLayoutData(data);
-		
-		//create table
-		importTable = wf.createTable(parent, SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.READ_ONLY);
-		
+
+		// create table
+		importTable = wf.createTable(parent, SWT.FULL_SELECTION | SWT.V_SCROLL
+				| SWT.READ_ONLY);
+
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(100, 0);
-		data.top = new FlatFormAttachment(importLabel, IDetailsAreaConstants.VSPACE);
-		data.bottom = new FlatFormAttachment(100, 0);
+		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
+		data.right = new FlatFormAttachment(100, -5
+				* IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(importLabel,
+				IDetailsAreaConstants.VSPACE);
+		data.bottom = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
 		importTable.setLayoutData(data);
-		
-		//set up table
+
+		// set up table
 		importTable.setLinesVisible(true);
 		importTable.setHeaderVisible(true);
-				
+		
 		tableProvider = new ColumnTableProvider();
 		tableProvider.add(new LocationColumn());
 		tableProvider.add(new NamespaceColumn());
+		tableProvider.add(new ImportTypeColumn());
 
 		importViewer = new TableViewer(importTable);
 		tableProvider.createTableLayout(importTable);
@@ -90,54 +167,167 @@ public class ImportsSection extends BPELPropertySection {
 		importViewer.setCellModifier(tableProvider);
 		importViewer.setContentProvider(new ImportContentProvider());
 		importViewer.setColumnProperties(tableProvider.getColumnProperties());
-		importViewer.setCellEditors(tableProvider.createCellEditors(importTable));
+		importViewer.setCellEditors(tableProvider
+				.createCellEditors(importTable));
 		
-		tableCursor = BPELUtil.createTableCursor(importTable, importViewer);			
+		importViewer.addPostSelectionChangedListener( new ISelectionChangedListener () {
+			public void selectionChanged(SelectionChangedEvent event) {
+				removeImport.setEnabled( ! event.getSelection().isEmpty() );				
+			}		
+		});
+
+		tableCursor = BPELUtil.createTableCursor(importTable, importViewer);
 	}
-	
-	public class NamespaceColumn extends ColumnTableProvider.Column implements ILabelProvider {
-		public String getHeaderText() { return Messages.ImportDetails_Import_Namespace_12; } 
-		public String getProperty() { return "setNamespace"; } //$NON-NLS-1$
-		public int getInitialWeight() { return 50; }
+
+	public class NamespaceColumn extends ColumnTableProvider.Column implements
+			ILabelProvider {
+		public String getHeaderText() {
+			return Messages.ImportDetails_Import_Namespace_12;
+		}
+
+		public String getProperty() {
+			return "Namespace"; //$NON-NLS-1$
+		} 
+
+		public int getInitialWeight() {
+			return 30;
+		}
 
 		public String getText(Object element) {
-			String s = ((Import)element).getNamespace();
-			return (s == null)? "" : NamespaceUtils.convertUriToNamespace(s); //$NON-NLS-1$
+			String s = ((Import) element).getNamespace();
+			return (s == null) ? "" : NamespaceUtils.convertUriToNamespace(s); //$NON-NLS-1$
 		}
 	}
-	
-	public class LocationColumn extends ColumnTableProvider.Column implements ILabelProvider {
-		public String getHeaderText() { return Messages.ImportDetails_Import_Location_12; } 
-		public String getProperty() { return "setLocation"; } //$NON-NLS-1$
-		public int getInitialWeight() { return 50; }
+
+	public class LocationColumn extends ColumnTableProvider.Column implements
+			ILabelProvider {
+		public String getHeaderText() {
+			return Messages.ImportDetails_Import_Location_12;
+		}
+
+		public String getProperty() {
+			return "Location"; //$NON-NLS-1$
+		}
+
+		public int getInitialWeight() {
+			return 30;
+		}
 
 		public String getText(Object element) {
-			String s = ((Import)element).getLocation();
-			return (s == null)? "" : s; //$NON-NLS-1$			
-		}		
+			String s = ((Import) element).getLocation();
+			return (s == null) ? "" : s; //$NON-NLS-1$			
+		}
 	}
-		
+
+	public class ImportTypeColumn extends ColumnTableProvider.Column implements
+			ILabelProvider {
+		public String getHeaderText() {
+			return Messages.ImportsSection_3;
+		}
+
+		public String getProperty() {
+			return "ImportType"; //$NON-NLS-1$
+		}
+
+		public int getInitialWeight() {
+			return 30;
+		}
+
+		public String getText(Object element) {
+			String s = ((Import) element).getImportType();
+			return (s == null) ? "" : s; //$NON-NLS-1$			
+		}
+	}
+
 	public void refresh() {
 		super.refresh();
-		if (getInput() != null){
+		if (getInput() != null) {
 			importViewer.setInput(getInput());
 		}
-	}	
-	
+	}
+
 	protected void createClient(Composite parent) {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
+
 		createImportWidgets(composite);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			parentComposite, IHelpContextIds.PROPERTY_PAGE_BPEL_IMPORTS);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parentComposite,
+				IHelpContextIds.PROPERTY_PAGE_BPEL_IMPORTS);
 	}
 
 	public Object getUserContext() {
-		return ((StructuredSelection)importViewer.getSelection()).getFirstElement();
+		return ((StructuredSelection) importViewer.getSelection())
+				.getFirstElement();
 	}
+
 	public void restoreUserContext(Object userContext) {
 		importTable.setFocus();
 		if (userContext != null) {
 			importViewer.setSelection(new StructuredSelection(userContext));
 		}
 	}
+
+	void removeImport () {
+		
+		ISelection selection = importViewer.getSelection();
+		if (selection.isEmpty()) {
+			return ;
+		}
+		IStructuredSelection ssel = null;
+		if ( (selection instanceof IStructuredSelection) == false) {
+			return;
+		}
+		
+		ssel = (IStructuredSelection) selection;		
+		Object obj = ssel.getFirstElement();
+		
+		RemoveImportCommand cmd = new RemoveImportCommand ( 
+				ModelHelper.getProcess( getInput() ), 
+				obj,
+				IBPELUIConstants.CMD_REMOVE_IMPORT);
+		
+		if (cmd.canDoExecute()) {
+			getCommandFramework().execute( cmd );
+		}
+	}
+	
+	void browseAndImportWSDL() {
+
+		SchemaImportDialog dialog = new SchemaImportDialog(importLabel
+				.getShell(), getInput());
+		dialog.configureAsWSDLImport();
+		if (dialog.open() != Window.OK) {
+			return;
+		}
+		Object result[] = dialog.getResult();
+		if (result.length < 1) {
+			return;
+		}
+
+		AddImportCommand cmd = new AddImportCommand(ModelHelper
+				.getProcess(getInput()), result[0]);
+		if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {
+			getCommandFramework().execute(cmd);
+		}
+	}
+
+	void browseAndImportXSD() {
+
+		SchemaImportDialog dialog = new SchemaImportDialog(importLabel
+				.getShell(), getInput());
+		if (dialog.open() != Window.OK) {
+			return;
+		}
+
+		Object result[] = dialog.getResult();
+		if (result.length < 1) {
+			return;
+		}
+
+		AddImportCommand cmd = new AddImportCommand(ModelHelper
+				.getProcess(getInput()), result[0]);
+		if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {
+			getCommandFramework().execute(cmd);
+		}
+	}
+
 }

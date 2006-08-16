@@ -22,14 +22,13 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELTabbedPropertySheetPage;
-import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
+import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
@@ -44,8 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
-
-
 import org.eclipse.wst.common.ui.properties.internal.provisional.AbstractPropertySection;
 import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
 import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
@@ -58,12 +55,14 @@ import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
  * 
  * Implementors may subclass this class, or they could extend AbstractPropertySection directly.
  */  
-public abstract class BPELPropertySection extends AbstractPropertySection {
-
+public abstract class BPELPropertySection extends AbstractPropertySection 	
+{
+	protected static final String EMPTY_STRING = ""; //$NON-NLS-1$
+	
 	protected static final MultiObjectAdapter[] EMPTY_MULTI_OBJECT_ARRAY = new MultiObjectAdapter[0];
 	protected static final List NULL_LIST = Collections.singletonList(null);
 
-	public static final int STANDARD_LABEL_WIDTH_SM = 85;
+	public static final int STANDARD_LABEL_WIDTH_SM = 105;
 	public static final int STANDARD_LABEL_WIDTH_AVG = STANDARD_LABEL_WIDTH_SM * 5/4;
 	public static final int STANDARD_LABEL_WIDTH_LRG = STANDARD_LABEL_WIDTH_SM * 3/2;
 	public static final int STANDARD_BUTTON_WIDTH = 60;
@@ -76,6 +75,14 @@ public abstract class BPELPropertySection extends AbstractPropertySection {
 	protected TabbedPropertySheetWidgetFactory wf;
 	protected BPELTabbedPropertySheetPage tabbedPropertySheetPage;
 
+	
+	final protected ModelContentProposalProvider.ValueProvider inputValueProvider =  new ModelContentProposalProvider.ValueProvider () {
+		public Object value() {
+			return getModel();
+		}		
+	};
+	
+	
 	public BPELPropertySection() {
 		super();
 		adapters = createAdapters();
@@ -135,22 +142,29 @@ public abstract class BPELPropertySection extends AbstractPropertySection {
 	}
 	
 	public final void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		Object oldInput = modelObject;
+		
+		if ((selection instanceof IStructuredSelection) == false) {
+			return ;
+		}
+		
+		Object model = ((IStructuredSelection)selection).getFirstElement();
+		if (model == modelObject) {
+			return;
+		}
+				
 		removeAllAdapters();
-	    if (getSelection() instanceof IStructuredSelection) {
-	    	Object model = ((IStructuredSelection)getSelection()).getFirstElement();
-	    	basicSetInput((EObject)model);
-	    }
+		
+		super.setInput(part, selection);
+		
+	    basicSetInput((EObject)model);
+	    
 		// Careful: don't assume input == newInput.
 		// There are basicSetInput() hacks that violate that assumption  =)
 		// TODO: is this comment related to the custom activities?
-		addAllAdapters();
-		if (getInput() != oldInput) {
-			refresh();
-		}
+		addAllAdapters();		
 	}
 
+	
 	public void aboutToBeHidden() {
 //		Assert.isTrue(!isHidden);
 		isHidden = true;
@@ -168,6 +182,14 @@ public abstract class BPELPropertySection extends AbstractPropertySection {
 	protected final EObject getInput() {
 		return getModel();
 	}
+
+	/*&
+	 * 
+	 */
+	public Object value() {
+		return getModel();
+	}
+	
 	
 	/**
 	 * Refresh the given CComboViewer, and also make sure selectedObject is selected in it.

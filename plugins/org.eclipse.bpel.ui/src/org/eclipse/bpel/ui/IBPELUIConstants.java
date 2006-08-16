@@ -24,6 +24,13 @@ public interface IBPELUIConstants {
 	public final String EXTENSION_DOT_WSDL = "." + EXTENSION_WSDL; //$NON-NLS-1$
 	public final String EXTENSION_DOT_XSD = "." + EXTENSION_XSD; //$NON-NLS-1$
 	
+	public final String EXTENSION_STAR_DOT_XSD  = "*" + EXTENSION_DOT_XSD;
+	public final String EXTENSION_STAR_DOT_WSDL = "*" + EXTENSION_DOT_WSDL;
+	public final String EXTENSION_STAR_DOT_ANY = "*.*";
+	
+	public final String EXTENSION_XSD_NAME = "XML Schema Files";
+	public final String EXTENSION_WSDL_NAME = "WSDL Definition Files";
+	public final String EXTENSION_ANY_NAME = "All";
 
 	// ID of editor
 	public final String BPEL_EDITOR_ID = "org.eclipse.bpel.ui.bpeleditor"; //$NON-NLS-1$
@@ -45,6 +52,10 @@ public interface IBPELUIConstants {
 	
 	// Eclipse property view ID
 	public static final String PROPERTY_VIEW_ID = "org.eclipse.ui.views.PropertySheet"; //$NON-NLS-1$
+	
+	// Generic icons
+	public final String ICON_SEPARATOR_16 = "obj16/separator.gif"; //$NON-NLS-1$
+	public final String ICON_COMMAND_16 = "obj16/command.gif"; //$NON-NLS-1$
 	
 	// Images
 		
@@ -175,6 +186,13 @@ public interface IBPELUIConstants {
 	public final String ICON_PROPERTY_32 = "obj20/property.png"; //$NON-NLS-1$
 	public final String ICON_SERVICE_16 = "obj16/wsdl_service.gif"; //$NON-NLS-1$
 	public final String ICON_SERVICE_32 = "obj20/wsdl_service.png"; //$NON-NLS-1$
+	public final String ICON_INPUT_16 = "obj16/input.gif"; //$NON-NLS-1$
+	public final String ICON_INPUT_32 = "obj20/input.png"; //$NON-NLS-1$
+	public final String ICON_OUTPUT_16 = "obj16/output.gif"; //$NON-NLS-1$
+	public final String ICON_OUTPUT_32 = "obj20/output.png"; //$NON-NLS-1$
+	public final String ICON_FAULT_16 = "obj16/fault.gif"; //$NON-NLS-1$
+	public final String ICON_FAULT_32 = "obj20/fault.png"; //$NON-NLS-1$
+	
 	
 	// Schema/types related icons
 	public final String ICON_XSD_ATTRIBUTE_DECLARATION_16 = "obj16/XSDAttributeDeclaration.gif"; //$NON-NLS-1$
@@ -224,7 +242,8 @@ public interface IBPELUIConstants {
 	public final String CMD_REMOVE_PROPERTY = Messages.IBPELUIConstants_Remove_Property_23; 
 	public final String CMD_DELETE_ROLE = Messages.IBPELUIConstants_Delete_Role_24; 
 	public final String CMD_REMOVE_CUSTOM_PROPERTY = Messages.IBPELUIConstants_Remove_Custom_Property_25; 
-	public final String CMD_DELETE_COPY = Messages.IBPELUIConstants_Delete_Copy_24b; 
+	public final String CMD_DELETE_COPY = Messages.IBPELUIConstants_Delete_Copy_24b;
+	public final String CMD_REMOVE_IMPORT = Messages.IBPELUIConstants_Remove_Import;
 	
 	public final String CMD_REPOSITION_NODE = Messages.IBPELUIConstants_Reposition_26; 
 	public final String CMD_RESIZE_NODE = Messages.IBPELUIConstants_Resize_27; 
@@ -358,6 +377,11 @@ public interface IBPELUIConstants {
 	public final String COLOR_LINK_ONE = "linkOne"; //$NON-NLS-1$
 	public final String COLOR_LINK_TWO = "linkTwo"; //$NON-NLS-1$
 	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$		
+	
+	
+	
+	
+	
 	
 	
 	

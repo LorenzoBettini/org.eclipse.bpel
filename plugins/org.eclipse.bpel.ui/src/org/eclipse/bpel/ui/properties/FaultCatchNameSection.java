@@ -588,6 +588,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(variableNameText, IDetailsAreaConstants.VSPACE+4);
 		data.left = new FlatFormAttachment(0,0);
 		data.right = new FlatFormAttachment(100,0);
+		data.bottom = new FlatFormAttachment(100,0);
 		variableTypeSelector.setLayoutData(data);
 	}
 

@@ -47,6 +47,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -151,11 +152,7 @@ public class VariableTypeSelector extends Composite {
 		formLayout.marginWidth = formLayout.marginHeight = 0;
 		parentComposite.setLayout(formLayout);
 
-		// createRadioButtonWidgets(parentComposite);
-		
 		createDataTypeWidgets(parentComposite);
-		
-		// createInterfaceWidgets(parentComposite);
 	}
 
 	/**
@@ -590,6 +587,7 @@ public class VariableTypeSelector extends Composite {
 		dataTypeLabel = createLabel(composite, Messages.VariableTypeSelector_Data_Type_2); 
 		
 		dataTypeNameText = createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
+		dataTypeNameText.setToolTipText(Messages.VariableTypeSelector_3);
 		dataTypeNameText.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 				BPELUtil.openEditor(getVariableType(), bpelEditor);
@@ -612,7 +610,8 @@ public class VariableTypeSelector extends Composite {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel, STANDARD_LABEL_WIDTH_SM));
 		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
-		dataTypeNameText.setLayoutData(data);		
+		data.right = new FlatFormAttachment(60,0);
+		dataTypeNameText.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0,IDetailsAreaConstants.HSPACE);
@@ -688,20 +687,24 @@ public class VariableTypeSelector extends Composite {
 		throw new IllegalStateException();
 	}
 	
-	public void setEnabled(boolean enabled) {
-		super.setEnabled(enabled);	
-		dataTypeRadio.setEnabled(enabled);
-		interfaceRadio.setEnabled(enabled);
-		interfaceViewer.getCCombo().setEnabled(enabled);
-		interfaceBrowseButton.setEnabled(enabled);
-		operationViewer.getCCombo().setEnabled(enabled);
-		operationInputRadio.setEnabled(enabled);
-		operationOutputRadio.setEnabled(enabled);
-		operationFaultRadio.setEnabled(enabled);
-		dataTypeBrowseButton.setEnabled(enabled);
-		dataTypeNameText.setEnabled(enabled);
-		faultViewer.getCCombo().setEnabled(enabled);
+	public void setEnabled(boolean enabled) {	
+		setEnabled(enabled, this,0);
 	}
+
+	void setEnabled ( boolean enabled, Control control , int depth) {
+		
+		if (control instanceof Composite) {
+			Composite root = (Composite) control;
+			Control list[] = root.getChildren();
+			for(int i=0; i<list.length; i++) {
+				setEnabled(enabled,list[i],depth+1);
+			}
+		}
+		if (depth > 0) {
+			control.setEnabled(enabled);
+		}
+	}
+	
 	
 	protected Button createButton(Composite parent, String text, int style) {
 		return wf.createButton(parent, text, style);

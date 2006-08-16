@@ -84,6 +84,7 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.IModelVisitor;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.TransferBuffer;
+import org.eclipse.bpel.ui.util.WSDLImportHelper;
 import org.eclipse.bpel.ui.util.ZoominToolEntry;
 import org.eclipse.bpel.ui.util.ZoomoutToolEntry;
 import org.eclipse.core.resources.IFile;
@@ -534,19 +535,6 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		root.setDefaultEntry(selectionTool);
 	}
 
-	private void createBottomControlPaletteEntries(PaletteContainer palette) {
-		PaletteGroup controlGroup = new PaletteGroup(Messages.BPELEditor_Bottom_Control_Group_39); 
-
-		ZoominToolEntry zoomIn = new ZoominToolEntry(Messages.BPELEditor_Zoom_In_40); 
-		zoomIn.setSmallIcon(CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_ZOOM_IN_TOOL));
-		controlGroup.add(zoomIn);
-		ZoomoutToolEntry zoomOut = new ZoomoutToolEntry(Messages.BPELEditor_Zoom_Out_41); 
-		zoomOut.setSmallIcon(CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_ZOOM_OUT_TOOL));
-		controlGroup.add(zoomOut);
-
-		palette.add(controlGroup);
-	}
-
 	/**
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
@@ -762,9 +750,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 					// ---
 					
 					def.getEImports().clear();
-					// JM: Disable this for now - it causes a stack dump
-//					WSDLImportHelper.addAllImportsAndNamespaces(def,
-//						getEditModelClient().getPrimaryResourceInfo().getFile());
+					
+					WSDLImportHelper.addAllImportsAndNamespaces(def,
+						getEditModelClient().getPrimaryResourceInfo().getFile());
+					
 					// This doesn't seem to introduce an updateElement automatically,
 					// so do it manually now, so that RolePortTypes (for example) who
 					// are affected by the new namespace will know about it.
@@ -1232,17 +1221,24 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 		action = new BPELAddChildInTrayAction(this, 
 				PartnerLinksEditPart.class, 
-				Messages.BPELEditor_addInterfacePartner,  
+				"Add Partner Link",  
 				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
-		
-		action = new BPELAddChildInTrayAction(this, 
-				ReferencePartnerLinksEditPart.class, 
-				Messages.BPELEditor_addReferencePartner,  
-				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_OUT_16));
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
+	
+//		action = new BPELAddChildInTrayAction(this, 
+//				PartnerLinksEditPart.class, 
+//				Messages.BPELEditor_addInterfacePartner,  
+//				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
+//		registry.registerAction(action);
+//		getSelectionActions().add(action.getId());
+//		
+//		action = new BPELAddChildInTrayAction(this, 
+//				ReferencePartnerLinksEditPart.class, 
+//				Messages.BPELEditor_addReferencePartner,  
+//				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_OUT_16));
+//		registry.registerAction(action);
+//		getSelectionActions().add(action.getId());
 		
 		action = new BPELAddChildInTrayAction(this, 
 				VariablesEditPart.class, 
@@ -1357,6 +1353,19 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	
 	public boolean getAutoFlowLayout() {
 		return BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
+	}
+
+	private void createBottomControlPaletteEntries(PaletteContainer palette) {
+		PaletteGroup controlGroup = new PaletteGroup(Messages.BPELEditor_Bottom_Control_Group_39); 
+	
+		ZoominToolEntry zoomIn = new ZoominToolEntry(Messages.BPELEditor_Zoom_In_40); 
+		zoomIn.setSmallIcon(CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_ZOOM_IN_TOOL));
+		controlGroup.add(zoomIn);
+		ZoomoutToolEntry zoomOut = new ZoomoutToolEntry(Messages.BPELEditor_Zoom_Out_41); 
+		zoomOut.setSmallIcon(CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_ZOOM_OUT_TOOL));
+		controlGroup.add(zoomOut);
+	
+		palette.add(controlGroup);
 	}
 
 	/**
