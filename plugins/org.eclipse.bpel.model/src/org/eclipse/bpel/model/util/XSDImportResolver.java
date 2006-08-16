@@ -18,6 +18,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -51,7 +52,13 @@ public class XSDImportResolver implements ImportResolver {
         URI locationURI = URI.createURI(location);
         
         ResourceSet resourceSet = baseResource.getResourceSet();
-        Resource resource = resourceSet.getResource(locationURI, true);
+        Resource resource = null;
+        try {
+        	resource = resourceSet.getResource(locationURI, true);
+        } catch (Exception ex) {
+           	BPELPlugin.log("The resource " + locationURI + " cannot be read.",ex,IStatus.WARNING) ;
+        	return null;       	
+        }
         
         //Really make sure it is an XSDResource
         if (resource instanceof XSDResourceImpl) {
