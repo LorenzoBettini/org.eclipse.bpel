@@ -125,7 +125,7 @@ public class BPELPlugin extends EMFPlugin
 		if (e instanceof CoreException) {
 			status = ((CoreException)e).getStatus();
 		} else {
-			String m = e.getMessage();
+			String m = e != null ? e.getMessage() : null;
 			
             if (message == null) {
             	if (m == null) {
