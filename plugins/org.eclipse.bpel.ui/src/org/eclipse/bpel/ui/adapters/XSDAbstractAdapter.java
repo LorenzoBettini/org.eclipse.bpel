@@ -11,16 +11,17 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
+
 import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDTypeDefinition;
 
 /**
- * @author mchmiele
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  *
  */
-public class XSDAbstractAdapter extends AbstractAdapter implements ILabeledElement {
+
+public class XSDAbstractAdapter extends AbstractAdapter 
+	implements ILabeledElement, IStatefullAdapter 
+{
 	
 	public Image getLargeImage(Object object) {
 		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PART_32);
@@ -68,11 +69,5 @@ public class XSDAbstractAdapter extends AbstractAdapter implements ILabeledEleme
 			return "{" + ns + "}" + name; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return prefix + ":" + name; //$NON-NLS-1$
-	}
-	
-	
-	public boolean isStateless() {
-		return false;
-	}
-
+	}	
 }

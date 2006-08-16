@@ -25,21 +25,27 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.swt.graphics.Image;
 
 
 public class VariableAdapter extends AbstractAdapter implements INamedElement, ILabeledElement,
-	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, ITrayEditPartFactory, IExtensionFactory
+	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, 
+	ITrayEditPartFactory, IExtensionFactory, IContentProposal,
+	IStatefullAdapter
 {
 
+	Variable myVariable ( Object obj ) {
+		return (Variable) getTarget(obj, Variable.class) ;
+	}
 	/* INamedElement */
 	
 	public String getName(Object modelObject) {
-		return ((Variable)modelObject).getName();
+		return myVariable(modelObject).getName();
 	}
 	
 	public void setName(Object modelObject, String name) {
-		((Variable)modelObject).setName(name);
+		myVariable(modelObject).setName(name);
 	}
 	
 	public boolean isNameAffected(Object modelObject, Notification n) {
@@ -62,7 +68,9 @@ public class VariableAdapter extends AbstractAdapter implements INamedElement, I
 	
 	public String getLabel(Object object) {
 		String name = getName(object);
-		if (name != null)  return name;
+		if (name != null) {
+			return name;
+		}
 		return getTypeLabel(object);
 	}
 	
@@ -100,4 +108,42 @@ public class VariableAdapter extends AbstractAdapter implements INamedElement, I
 	public EObject createExtension(EObject object) {
 		return UiextensionmodelFactory.eINSTANCE.createVariableExtension();
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getContent()
+	 */
+	public String getContent() {
+		return getLabel ( getTarget() );		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getCursorPosition()
+	 */
+	public int getCursorPosition() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getDescription()
+	 */
+	public String getDescription() {
+		// TODO: When we have a DOM representation, then description could be returned
+		// Variable v = (Variable) getTarget ( null, Variable.class );
+		// 
+		// Element elm = v.getDocumentationElement();
+		// return (elm != null ? elm.getNodeValue() : null);
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getLabel()
+	 */
+	public String getLabel() {
+		return Messages.bind(Messages.VariableAdapter_0, 
+				getLabel( getTarget() ),
+				getLabel ( getTarget() ) );
+	}
+		
 }

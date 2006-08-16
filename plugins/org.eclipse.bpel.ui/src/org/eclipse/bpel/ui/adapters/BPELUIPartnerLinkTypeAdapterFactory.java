@@ -18,10 +18,17 @@ import org.eclipse.emf.common.notify.Notifier;
 public class BPELUIPartnerLinkTypeAdapterFactory extends PartnerlinktypeAdapterFactory {
 
 	static BPELUIPartnerLinkTypeAdapterFactory instance;
+		
+	AdapterProvider provider;
 	
-	PartnerLinkTypeAdapter partnerLinkTypeAdapter;
-	RoleAdapter roleAdapter;
-	RolePortTypeAdapter rolePortTypeAdapter;
+	/**
+	 * There is only 1 instance of this class, so the default constructor
+	 * is private.
+	 *
+	 */
+	private BPELUIPartnerLinkTypeAdapterFactory () {
+		provider = new AdapterProvider ();
+	}
 	
 	public static BPELUIPartnerLinkTypeAdapterFactory getInstance() {
 		if (instance == null) {
@@ -29,27 +36,24 @@ public class BPELUIPartnerLinkTypeAdapterFactory extends PartnerlinktypeAdapterF
 		}
 		return instance;
 	}
-
+	
+	
 	public Adapter createPartnerLinkTypeAdapter() {
-		if (partnerLinkTypeAdapter == null) {
-			partnerLinkTypeAdapter = new PartnerLinkTypeAdapter();	
-		}		
-		return partnerLinkTypeAdapter;
+		return provider.getAdapter ( PartnerLinkTypeAdapter.class );
 	}
+	
 	public Adapter createRoleAdapter() {
-		if (roleAdapter == null) {
-			roleAdapter = new RoleAdapter();	
-		}		
-		return roleAdapter;
+		return provider.getAdapter( RoleAdapter.class );
 	}
+	
+	
 	public Adapter createRolePortTypeAdapter() {
-		if (rolePortTypeAdapter == null) {
-			rolePortTypeAdapter = new RolePortTypeAdapter();	
-		}		
-		return rolePortTypeAdapter;
+		return provider.getAdapter( PortTypeAdapter.class );		
 	}
 
 
+	
+	
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
 		if (adapter != null && adapter.isAdapterForType(type)) {

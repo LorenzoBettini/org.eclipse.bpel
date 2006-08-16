@@ -35,12 +35,13 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 		MultiContainer omc = new MultiContainer();
 		omc.add(new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getScope_Activity()));
 // TODO: Support scoped partner links and correlation sets
-//		omc.add(new OptionalIndirectContainer(BPELPackage.eINSTANCE.getScope_PartnerLinks(),			
-//			new ReferenceContainer(BPELPackage.eINSTANCE.getPartnerLinks_Children())));
-//		omc.add(new OptionalIndirectContainer(BPELPackage.eINSTANCE.getScope_CorrelationSets(),			
-//			new ReferenceContainer(BPELPackage.eINSTANCE.getCorrelationSets_Children())));
+		omc.add(new OptionalIndirectContainer(BPELPackage.eINSTANCE.getScope_PartnerLinks(),			
+			new ReferenceContainer(BPELPackage.eINSTANCE.getPartnerLinks_Children())));
+		omc.add(new OptionalIndirectContainer(BPELPackage.eINSTANCE.getScope_CorrelationSets(),			
+			new ReferenceContainer(BPELPackage.eINSTANCE.getCorrelationSets_Children())));
 		omc.add(new OptionalIndirectContainer(BPELPackage.eINSTANCE.getScope_Variables(),			
 			new ReferenceContainer(BPELPackage.eINSTANCE.getVariables_Children())));
+		
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_FaultHandlers()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_CompensationHandler()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getScope_TerminationHandler()));

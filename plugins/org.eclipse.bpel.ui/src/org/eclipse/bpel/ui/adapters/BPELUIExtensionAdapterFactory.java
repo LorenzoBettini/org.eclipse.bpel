@@ -21,6 +21,11 @@ public class BPELUIExtensionAdapterFactory extends UiextensionmodelAdapterFactor
 	EndNodeAdapter endNodeAdapter;
 	ReferencePartnerLinksAdapter referencePartnerLinkAdapter;
 	static BPELUIExtensionAdapterFactory instance = null;
+	AdapterProvider provider = new AdapterProvider();
+	
+	private BPELUIExtensionAdapterFactory () {
+		provider = new AdapterProvider();
+	}
 	
 	public static BPELUIExtensionAdapterFactory getInstance() {
 		if (instance == null) {
@@ -30,25 +35,17 @@ public class BPELUIExtensionAdapterFactory extends UiextensionmodelAdapterFactor
 	}
 	
 	public Adapter createStartNodeAdapter() {
-		if (startNodeAdapter == null) {
-			startNodeAdapter = new StartNodeAdapter();
-		}
-		return startNodeAdapter;
+		return provider.getAdapter( StartNodeAdapter.class);
 	}
 	
 	public Adapter createEndNodeAdapter() {
-		if (endNodeAdapter == null) {
-			endNodeAdapter = new EndNodeAdapter();
-		}
-		return endNodeAdapter;
+		return provider.getAdapter( EndNodeAdapter.class);
 	}
 	
 	public Adapter createReferencePartnerLinksAdapter() {
-		if (referencePartnerLinkAdapter == null) {
-			referencePartnerLinkAdapter = new ReferencePartnerLinksAdapter();
-		}
-		return referencePartnerLinkAdapter;
+		return provider.getAdapter( ReferencePartnerLinksAdapter.class );
 	}
+
 	
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);

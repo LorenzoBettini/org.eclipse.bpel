@@ -19,8 +19,11 @@ public class BPELUIMessagePropertiesAdapterFactory extends MessagepropertiesAdap
 	
 	static BPELUIMessagePropertiesAdapterFactory instance;
 	
-	PropertyAdapter propertyAdapter;
+	AdapterProvider provider;
 	
+	private BPELUIMessagePropertiesAdapterFactory () {
+		provider = new AdapterProvider();
+	}
 	public static BPELUIMessagePropertiesAdapterFactory getInstance() {
 		if (instance == null) {
 			instance = new BPELUIMessagePropertiesAdapterFactory();
@@ -29,10 +32,7 @@ public class BPELUIMessagePropertiesAdapterFactory extends MessagepropertiesAdap
 	}
 
 	public Adapter createPropertyAdapter() {
-		if (propertyAdapter == null) {
-			propertyAdapter = new PropertyAdapter();	
-		}		
-		return propertyAdapter;
+		return provider.getAdapter( PropertyAdapter.class );
 	}
 	
 	public Adapter adaptNew(Notifier target, Object type) {

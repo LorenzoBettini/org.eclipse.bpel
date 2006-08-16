@@ -18,14 +18,18 @@ import org.eclipse.wst.wsdl.internal.util.WSDLAdapterFactory;
 public class BPELUIWSDLAdapterFactory extends WSDLAdapterFactory {
 	
 	static BPELUIWSDLAdapterFactory instance;
+		
+	AdapterProvider provider;	
 	
-	MessageAdapter messageAdapter;
-	FaultAdapter faultAdapter;
-	CompensateAdapter compensationAdapter;
-	OperationAdapter operationAdapter;
-	PartAdapter partAdapter;
-	PortTypeAdapter portTypeAdapter;
+	/**
+	 * Private constructor to allow only a singleton instances
+	 * @param provider
+	 */
 	
+	private BPELUIWSDLAdapterFactory () {	
+		this.provider = new AdapterProvider();
+	}
+
 	public static BPELUIWSDLAdapterFactory getInstance() {
 		if (instance == null) {
 			instance = new BPELUIWSDLAdapterFactory();
@@ -34,45 +38,36 @@ public class BPELUIWSDLAdapterFactory extends WSDLAdapterFactory {
 	}
 	
 	public Adapter createMessageAdapter() {
-		if (messageAdapter == null) {
-			messageAdapter = new MessageAdapter();	
-		}		
-		return messageAdapter;
+		return provider.getAdapter( MessageAdapter.class );
 	}
 	
 	public Adapter createFaultAdapter() {
-		if (faultAdapter == null) {
-			faultAdapter = new FaultAdapter();	
-		}		
-		return faultAdapter;
+		return provider.getAdapter( FaultAdapter.class );
 	}
 	
 	public Adapter createCompensationAdapter() {
-		if (compensationAdapter == null) {
-			compensationAdapter = new CompensateAdapter();	
-		}		
-		return compensationAdapter;
+		return provider.getAdapter( CompensateAdapter.class );
 	}
 	
 	public Adapter createOperationAdapter() {
-		if (operationAdapter == null) {
-			operationAdapter = new OperationAdapter();	
-		}		
-		return operationAdapter;
+		return provider.getAdapter( OperationAdapter.class );
 	}
 	
 	public Adapter createPartAdapter() {
-		if (partAdapter == null) {
-			partAdapter = new PartAdapter();	
-		}		
-		return partAdapter;
+		return provider.getAdapter( PartAdapter.class );
 	}
 	
 	public Adapter createPortTypeAdapter() {
-		if (portTypeAdapter == null) {
-			portTypeAdapter = new PortTypeAdapter();	
-		}		
-		return portTypeAdapter;
+		return provider.getAdapter( PortTypeAdapter.class );
+	}
+
+	
+	public Adapter createInputAdapter() {
+		return provider.getAdapter(InputMessageAdapter.class);
+	}
+
+	public Adapter createOutputAdapter() {
+		return provider.getAdapter(OutputMessageAdapter.class);
 	}
 
 	public Adapter adaptNew(Notifier target, Object type) {

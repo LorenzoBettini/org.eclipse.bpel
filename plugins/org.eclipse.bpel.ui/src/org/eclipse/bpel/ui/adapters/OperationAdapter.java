@@ -10,15 +10,22 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.swt.graphics.Image;
-
 import org.eclipse.wst.wsdl.Operation;
+import org.eclipse.wst.wsdl.WSDLPackage;
+import org.w3c.dom.Element;
 
-public class OperationAdapter extends AbstractAdapter implements ILabeledElement {
-
+public class OperationAdapter extends AbstractAdapter 
+	implements ILabeledElement, INamedElement, IContentProposal, IStatefullAdapter {
+		
+	
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
@@ -33,9 +40,68 @@ public class OperationAdapter extends AbstractAdapter implements ILabeledElement
 		return Messages.OperationAdapter_Operation_1; 
 	}
 	public String getLabel(Object object) {
-		Operation op = (Operation)object;
+		Operation op = (Operation) getTarget( object ,Operation.class );
 		String name = op.getName();
-		if (name != null)  return name;
-		return getTypeLabel(object);
+		if (name != null)  {
+			return name;
+		}
+		return getTypeLabel (op) ;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getContent()
+	 */
+	public String getContent() {
+		return getLabel ( getTarget() );		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getCursorPosition()
+	 */
+	public int getCursorPosition() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getDescription()
+	 */
+	public String getDescription() {
+		Operation op = (Operation) getTarget(null, Operation.class );
+		Element elm = op.getDocumentationElement();
+		return (elm != null ? elm.getNodeValue() : null);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getLabel()
+	 */
+
+	public String getLabel() {
+		return Messages.bind(Messages.OperationAdapter_0, 
+				getLabel( getTarget() ),
+				getLabel ( getTarget() ) );
+	}
+	
+	/* INamedElement */
+
+	public String getName(Object modelObject) {
+		Operation op = (Operation) getTarget( modelObject ,Operation.class );
+		return op.getName();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.bpel.ui.adapters.INamedElement#isNameAffected(java.lang.Object, org.eclipse.emf.common.notify.Notification)
+	 */
+	public boolean isNameAffected (Object modelObject, Notification n) {
+		return (n.getFeatureID(Operation.class) == WSDLPackage.OPERATION__NAME);
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.bpel.ui.adapters.INamedElement#setName(java.lang.Object, java.lang.String)
+	 */
+	public void setName(Object modelObject, String name) {
+		Operation op = (Operation) getTarget( modelObject ,Operation.class );
+		op.setName( name );		
 	}
 }

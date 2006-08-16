@@ -72,7 +72,7 @@ public class PartnerLinksAdapter extends ContainerAdapter implements EditPartFac
 	}
 	
 	public String getLabel(Object object) {
-		return Messages.PartnerLinksAdapter_Interface_Partners_1; 
+		return Messages.PartnerLinksAdapter_PartnerLinks_1; 
 	}
 
 	/* IOutlineEditPartFactory */
@@ -80,14 +80,8 @@ public class PartnerLinksAdapter extends ContainerAdapter implements EditPartFac
 	public EditPart createOutlineEditPart(EditPart context, final Object model) {
 		EditPart result = new OutlineTreeEditPart() {
 			protected List getModelChildren() {
-				List list = new ArrayList();
-				for (Iterator iter = ((PartnerLinks)model).getChildren().iterator(); iter.hasNext();) {
-					PartnerLink	partner = (PartnerLink) iter.next();
-					if (ModelHelper.isInterfacePartnerLink(partner)) {
-						list.add(partner);
-					}
-				}
-				return list;
+				PartnerLinks parnterLinks = (PartnerLinks) model;
+				return parnterLinks.getChildren();
 			}
 		};
 		result.setModel(model);

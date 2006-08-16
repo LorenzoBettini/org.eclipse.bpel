@@ -19,6 +19,17 @@ public class BPELUIXSDAdapterFactory extends XSDAdapterFactory {
 	
 	static private BPELUIXSDAdapterFactory instance;	
 	
+	AdapterProvider provider;
+	
+	/**
+	 * The AdapterFactory constructor. Private, because there is only
+	 * 1 instance of the factory obtainable via getInstance() method below. 
+	 */
+	
+	private BPELUIXSDAdapterFactory () {
+		provider = new AdapterProvider();
+	}
+	
 	public static BPELUIXSDAdapterFactory getInstance() {
 		if (instance == null) {
 			instance = new BPELUIXSDAdapterFactory();
@@ -27,31 +38,30 @@ public class BPELUIXSDAdapterFactory extends XSDAdapterFactory {
 	}
 	
 	public Adapter createXSDSimpleTypeDefinitionAdatper () {
-		return new XSDSimpleTypeDefinitionAdapter();
+		return provider.getAdapter( XSDSimpleTypeDefinitionAdapter.class );		
 	}
 	
 	public Adapter createXSDComplexTypeDefinitionAdapter () {
-		return new XSDComplexTypeDefinitionAdapter();
+		return provider.getAdapter( XSDComplexTypeDefinitionAdapter.class );		
 	}
 	
 	public Adapter createXSDTypeDefinitionAdapter() {
-		return new XSDTypeDefinitionAdapter();
+		return provider.getAdapter( XSDTypeDefinitionAdapter.class );		
 	}
 	
 	public Adapter createXSDAttributeDeclarationAdapter() {
-		return new XSDAttributeDeclarationAdapter();
+		return provider.getAdapter( XSDAttributeDeclarationAdapter.class );		
 	}
 	
 	public Adapter createXSDElementDeclarationAdapter() {
-		return new XSDElementDeclarationAdapter();
+		return provider.getAdapter( XSDElementDeclarationAdapter.class );		
 	}
-	
-	
-
+		
 	public Adapter createXSDSchemaAdapter() {
-		return new XSDSchemaAdapter();
+		return provider.getAdapter( XSDSchemaAdapter.class );		
 	}
 
+	
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
 		if (adapter != null && adapter.isAdapterForType(type)) {

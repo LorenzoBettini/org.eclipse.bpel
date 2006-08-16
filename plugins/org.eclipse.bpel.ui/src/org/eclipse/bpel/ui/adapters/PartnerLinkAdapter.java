@@ -23,22 +23,29 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.swt.graphics.Image;
 
 
 public class PartnerLinkAdapter extends AbstractAdapter implements INamedElement,
 	ILabeledElement, EditPartFactory, IOutlineEditPartFactory, IMarkerHolder,
-	ITrayEditPartFactory
+	ITrayEditPartFactory, IContentProposal, IStatefullAdapter
 {
-
+	
+	PartnerLink myPartnerLink ( Object obj ) {
+		return (PartnerLink) getTarget(obj,PartnerLink.class);
+	}
+	
+	
 	/* INamedElement */
 	
-	public String getName(Object namedElement) {
-		return ((PartnerLink)namedElement).getName();
+
+	public String getName (Object namedElement) {
+		return myPartnerLink( namedElement ).getName();		
 	}
 	
 	public void setName(Object namedElement, String name) {
-		((PartnerLink)namedElement).setName(name);
+		myPartnerLink(namedElement).setName(name);		
 	}
 	
 	public boolean isNameAffected(Object modelObject, Notification n) {
@@ -61,7 +68,9 @@ public class PartnerLinkAdapter extends AbstractAdapter implements INamedElement
 	
 	public String getLabel(Object object) {
 		String name = getName(object);
-		if (name != null)  return name;
+		if (name != null)  {
+			return name;
+		}
 		return getTypeLabel(object);
 	}
 
@@ -92,5 +101,40 @@ public class PartnerLinkAdapter extends AbstractAdapter implements INamedElement
 	
 	public IMarker[] getMarkers(Object object) {
 		return BPELUtil.getMarkers(object);
+	}
+
+	/*
+	 * IContentProposal
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getContent()
+	 */
+	
+	public String getContent() {
+		return getLabel( getTarget() );		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getCursorPosition()
+	 */
+	public int getCursorPosition() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getDescription()
+	 */
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getLabel()
+	 */
+	public String getLabel() {		
+		Object obj = getTarget();
+		return Messages.bind(Messages.PartnerLinkAdapter_0, 
+				getTypeLabel( obj ) ,
+				getName( obj ) );
 	}
 }

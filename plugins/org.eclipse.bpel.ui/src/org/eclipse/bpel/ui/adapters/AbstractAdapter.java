@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -21,19 +19,12 @@ public class AbstractAdapter implements Adapter {
 	
 	/** The event type that we will consume that indicates a context update */
 	static public final int CONTEXT_UPDATE_EVENT_TYPE = 101;
-	
-	/** a static map of all interfaces indexed by adapter class */
-	private static final HashMap interfacesByAdapterClass = new HashMap();
-	
-	/** My supported types */
-	private HashSet supportedTypes = null;
-
-	/** Makes sense only when adapters are stateful */
+		
+	/** Makes sense only when adapters are statefull */
 	private Notifier target = null;
 	
 	/** additional context that is needed by the adapter to wrap the object */
-	private Object context = null;
-	
+	private Object context = null;	
 	
 	/**
      * Adds all the interfaces implemented by the given class.
@@ -43,35 +34,12 @@ public class AbstractAdapter implements Adapter {
 	
 	public AbstractAdapter() {
 		
-		Class clazz = this.getClass();
-		supportedTypes = (HashSet) interfacesByAdapterClass.get(clazz);
-		
-		if (supportedTypes == null) {
-			supportedTypes = createSupportedTypes();
-			interfacesByAdapterClass.put(clazz,supportedTypes);
-		}
 	}
 	
-	/**
-	 * Create a set of supported types based on the interfaces I implement.
-	 * @return a set of supported interfaces
-	 */
-	
-	private HashSet createSupportedTypes () {
-		HashSet myTypes = new HashSet(11);
-		for (Class c = getClass(); c != null; c = c.getSuperclass()) {
-			Class[] a = c.getInterfaces();
-			for (int i = 0; i < a.length; i++) {
-				myTypes.add(a[i]);			
-			}
-		}
-		return myTypes;
-	}
-
 	
 	public void notifyChanged (Notification notification) {
 		
-		if (notification.getEventType() == CONTEXT_UPDATE_EVENT_TYPE && !isStateless() ) {
+		if (notification.getEventType() == CONTEXT_UPDATE_EVENT_TYPE && isStatefull() ) {
 			context = notification.getNewValue();
 		}
 	}
@@ -93,14 +61,26 @@ public class AbstractAdapter implements Adapter {
 	 */
 	
 	public void setTarget(Notifier newTarget) {		
-		if (!isStateless()) {
+		if ( isStatefull() ) {
 			target = newTarget;
 		}
 		 		
 	}
 
+	/**
+	 * Answer true if we are an adapter for the type given
+	 * 
+	 */
+	
 	public boolean isAdapterForType (Object type) {
-		return supportedTypes.contains(type);
+		Class clazz = null;
+		// what is type ? (an interface)
+		if (type instanceof Class) {
+			clazz = (Class) type;
+			return clazz.isInstance(this);
+		}
+		// what else could it be ?
+		return false;
 	}
 	
 	/**
@@ -112,14 +92,36 @@ public class AbstractAdapter implements Adapter {
 		return context;
 	}
 	
+	public boolean isStatefull () {
+		return IStatefullAdapter.class.isInstance(this);
+	}
+	
+	
 	/**
-	 * Most adapters are statelss, some that are stateful will override this
-	 * method and return true.
-	 * 
-	 * @return
+	 * Some adapters rely on interfaces that are stateless, where the target
+	 * is passed as an argument to the adapter. This is not necessarily true for
+	 * some interfaces we cannot control (like IContentProposal).
+	 * @param obj the object which might be the adapted target
+	 * @param clazz the class that the target must be an instance of. 
+	 * @return the target object
 	 */
 	
-	public boolean isStateless () {
-		return true;
+	public Object getTarget ( Object obj , Class clazz ) {
+
+		// If the object is passed and it matches the adapted object class,
+		// then we return it, because most likely it is it.
+		if ( obj != null && clazz.isInstance(obj) ) {
+			return obj ;
+		}
+		
+		// if the adapter is stateful
+		if ( isStatefull() ) {
+			if (clazz.isInstance(target)) {
+				return target;
+			}
+		}		
+	
+		throw new RuntimeException("Cannot figure out target object of class " + clazz.getName()); //$NON-NLS-1$
 	}
+
 }

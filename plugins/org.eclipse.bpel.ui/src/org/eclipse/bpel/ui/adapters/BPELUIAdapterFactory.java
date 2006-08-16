@@ -19,46 +19,12 @@ import org.eclipse.emf.common.notify.Notifier;
 public class BPELUIAdapterFactory extends BPELAdapterFactory {
 
 	static BPELUIAdapterFactory instance;
+		
+	AdapterProvider provider;
 	
-	CaseAdapter caseAdapter;
-	FlowAdapter flowAdapter;
-	OnMessageAdapter onMessageAdapter;
-	OnEventAdapter onEventAdapter;
-	OnAlarmAdapter onAlarmAdapter;
-	PickAdapter pickAdapter;
-	ProcessAdapter processAdapter;
-	SequenceAdapter sequenceAdapter;
-	SwitchAdapter switchAdapter;
-	WhileAdapter whileAdapter;
-	RepeatUntilAdapter repeatUntilAdapter;
-	AssignAdapter assignAdapter;
-	CopyAdapter copyAdapter;
-	VariableAdapter variableAdapter;
-	EmptyAdapter emptyAdapter;
-	InvokeAdapter invokeAdapter;
-	LinkAdapter linkAdapter;
-	PartnerLinkAdapter partnerAdapter;
-	ReceiveAdapter receiveAdapter;
-	ReplyAdapter replyAdapter;
-	ScopeAdapter scopeAdapter;
-	ExitAdapter exitAdapter;
-	ThrowAdapter throwAdapter;
-	WaitAdapter waitAdapter;
-	CorrelationSetAdapter correlationSetAdapter;
-	FaultHandlerAdapter faultHandlerAdapter;
-	CompensationHandlerAdapter compensationHandlerAdapter;
-	TerminationHandlerAdapter terminationHandlerAdapter;
-	EventHandlerAdapter eventHandlerAdapter;
-	CatchAdapter catchAdapter;
-	VariablesAdapter variablesAdapter;
-	PartnerLinksAdapter partnerLinksAdapter;
-	CorrelationSetsAdapter correlationSetsAdapter;
-	CatchAllAdapter catchAllAdapter;
-	OtherwiseAdapter otherwiseAdapter;
-	CompensateAdapter compensateAdapter;
-	RethrowAdapter rethrowAdapter;
-	CustomActivityAdapter customActivityAdapter;
-	ValidateAdapter validateAdapter;
+	private BPELUIAdapterFactory () {
+		provider = new AdapterProvider();
+	}
 	
 	public static BPELUIAdapterFactory getInstance() {
 		if (instance == null) {
@@ -68,245 +34,159 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	}
 	
 	public Adapter createRepeatUntilAdapter() {
-		if (repeatUntilAdapter == null) {
-			repeatUntilAdapter = new RepeatUntilAdapter();	
-		}		
-		return repeatUntilAdapter;
+		return provider.getAdapter(RepeatUntilAdapter.class);
 	}
 
 	public Adapter createAssignAdapter() {
-		if (assignAdapter == null) {
-			assignAdapter = new AssignAdapter();	
-		}		
-		return assignAdapter;
+		return provider.getAdapter(AssignAdapter.class);		
 	}
+	
 	public Adapter createCopyAdapter() {
-		if (copyAdapter == null) {
-			copyAdapter = new CopyAdapter();	
-		}		
-		return copyAdapter;
+		return provider.getAdapter(CopyAdapter.class);		
 	}
+	
 	public Adapter createCaseAdapter() {
-		if (caseAdapter == null) {
-			caseAdapter = new CaseAdapter();	
-		}		
-		return caseAdapter;
+		return provider.getAdapter(CaseAdapter.class);		
 	}
+	
 	public Adapter createCatchAdapter() {
-		if (catchAdapter == null) {
-			catchAdapter = new CatchAdapter();	
-		}		
-		return catchAdapter;
+		return provider.getAdapter(CatchAdapter.class);		
 	}
+	
 	public Adapter createFaultHandlerAdapter() {
-		if (faultHandlerAdapter == null) {
-			faultHandlerAdapter = new FaultHandlerAdapter();	
-		}		
-		return faultHandlerAdapter;
+		return provider.getAdapter(FaultHandlerAdapter.class);		
 	}
+
 	public Adapter createCompensationHandlerAdapter() {
-		if (compensationHandlerAdapter == null) {
-			compensationHandlerAdapter = new CompensationHandlerAdapter();	
-		}		
-		return compensationHandlerAdapter;
+		return provider.getAdapter(CompensationHandlerAdapter.class);
 	}
+	
 	public Adapter createTerminationHandlerAdapter() {
-		if (terminationHandlerAdapter == null) {
-			terminationHandlerAdapter = new TerminationHandlerAdapter();
-		}
-		return terminationHandlerAdapter;
+		return provider.getAdapter(TerminationHandlerAdapter.class);		
 	}
+	
 	public Adapter createEventHandlerAdapter() {
-		if (eventHandlerAdapter == null) {
-			eventHandlerAdapter = new EventHandlerAdapter();	
-		}		
-		return eventHandlerAdapter;
+		return provider.getAdapter(EventHandlerAdapter.class);
 	}
+	
 	public Adapter createVariableAdapter() {
-		if (variableAdapter == null) {
-			variableAdapter = new VariableAdapter();	
-		}		
-		return variableAdapter;
+		return provider.getAdapter(VariableAdapter.class);		
 	}
+	
 	public Adapter createEmptyAdapter() {
-		if (emptyAdapter == null) {
-			emptyAdapter = new EmptyAdapter();	
-		}		
-		return emptyAdapter;
+		return provider.getAdapter(EmptyAdapter.class);		
 	}
+	
 	public Adapter createFlowAdapter() {
-		if (flowAdapter == null) {
-			flowAdapter = new FlowAdapter();	
-		}		
-		return flowAdapter;
+		return provider.getAdapter(FlowAdapter.class);
 	}
+	
 	public Adapter createInvokeAdapter() {
-		if (invokeAdapter == null) {
-			invokeAdapter = new InvokeAdapter();	
-		}		
-		return invokeAdapter;
+		return provider.getAdapter(InvokeAdapter.class);		
 	}
+	
 	public Adapter createLinkAdapter() {
-		if (linkAdapter == null) {
-			linkAdapter = new LinkAdapter();	
-		}		
-		return linkAdapter;
+		return provider.getAdapter(LinkAdapter.class);
 	}
+	
 	public Adapter createOnAlarmAdapter() {
-		if (onAlarmAdapter == null) {
-			onAlarmAdapter = new OnAlarmAdapter();	
-		}		
-		return onAlarmAdapter;
+		return provider.getAdapter(OnAlarmAdapter.class);		
 	}
+	
 	public Adapter createOnMessageAdapter() {
-		if (onMessageAdapter == null) {
-			onMessageAdapter = new OnMessageAdapter();	
-		}		
-		return onMessageAdapter;
+		return provider.getAdapter(OnMessageAdapter.class);		
 	}
+	
 	public Adapter createOnEventAdapter() {
-		if (onEventAdapter == null) {
-			onEventAdapter = new OnEventAdapter();	
-		}		
-		return onEventAdapter;
+		return provider.getAdapter(OnEventAdapter.class);		
 	}
+	
 	public Adapter createPartnerLinkAdapter() {
-		if (partnerAdapter == null) {
-			partnerAdapter = new PartnerLinkAdapter();	
-		}		
-		return partnerAdapter;
+		return provider.getAdapter(PartnerLinkAdapter.class);		
 	}
+	
 	public Adapter createPickAdapter() {
-		if (pickAdapter == null) {
-			pickAdapter = new PickAdapter();	
-		}		
-		return pickAdapter;
+		return provider.getAdapter(PickAdapter.class);		
 	}
+	
 	public Adapter createProcessAdapter() {
-		if (processAdapter == null) {
-			processAdapter = new ProcessAdapter();	
-		}		
-		return processAdapter;
+		return provider.getAdapter(ProcessAdapter.class);		
 	}
+	
 	public Adapter createSwitchAdapter() {
-		if (switchAdapter == null) {
-			switchAdapter = new SwitchAdapter();	
-		}		
-		return switchAdapter;
+		return provider.getAdapter(SwitchAdapter.class);
 	}
+	
 	public Adapter createReceiveAdapter() {
-		if (receiveAdapter == null) {
-			receiveAdapter = new ReceiveAdapter();	
-		}		
-		return receiveAdapter;
+		return provider.getAdapter(ReceiveAdapter.class);		
 	}
+	
 	public Adapter createReplyAdapter() {
-		if (replyAdapter == null) {
-			replyAdapter = new ReplyAdapter();	
-		}		
-		return replyAdapter;
+		return provider.getAdapter(ReplyAdapter.class);		
 	}
+	
 	public Adapter createSequenceAdapter() {
-		if (sequenceAdapter == null) {
-			sequenceAdapter = new SequenceAdapter();	
-		}		
-		return sequenceAdapter;
+		return provider.getAdapter(SequenceAdapter.class);		
 	}
+	
 	public Adapter createScopeAdapter() {
-		if (scopeAdapter == null) {
-			scopeAdapter = new ScopeAdapter();	
-		}		
-		return scopeAdapter;
+		return provider.getAdapter(ScopeAdapter.class);		
 	}
+	
 	public Adapter createThrowAdapter() {
-		if (throwAdapter == null) {
-			throwAdapter = new ThrowAdapter();	
-		}		
-		return throwAdapter;
+		return provider.getAdapter(ThrowAdapter.class);		
 	}
+	
 	public Adapter createWaitAdapter() {
-		if (waitAdapter == null) {
-			waitAdapter = new WaitAdapter();	
-		}		
-		return waitAdapter;
+		return provider.getAdapter(WaitAdapter.class);		
 	}
+	
 	public Adapter createWhileAdapter() {
-		if (whileAdapter == null) {
-			whileAdapter = new WhileAdapter();	
-		}		
-		return whileAdapter;
+		return provider.getAdapter(WhileAdapter.class);		
 	}
+	
 	public Adapter createCorrelationSetAdapter() {
-		if (correlationSetAdapter == null) {
-			correlationSetAdapter = new CorrelationSetAdapter();	
-		}		
-		return correlationSetAdapter;
+		return provider.getAdapter(CorrelationSetAdapter.class);		
 	}
 
 	public Adapter createCorrelationSetsAdapter() {
-		if (correlationSetsAdapter == null) {
-			correlationSetsAdapter = new CorrelationSetsAdapter();	
-		}		
-		return correlationSetsAdapter;
+		return provider.getAdapter(CorrelationSetsAdapter.class);		
 	}
 
 	public Adapter createPartnerLinksAdapter() {
-		if (partnerLinksAdapter == null) {
-			partnerLinksAdapter = new PartnerLinksAdapter();	
-		}		
-		return partnerLinksAdapter;
+		return provider.getAdapter(PartnerLinksAdapter.class);		
 	}
 
 	public Adapter createVariablesAdapter() {
-		if (variablesAdapter == null) {
-			variablesAdapter = new VariablesAdapter();	
-		}		
-		return variablesAdapter;
+		return provider.getAdapter(VariablesAdapter.class);		
 	}
+	
 	public Adapter createCatchAllAdapter() {
-		if (catchAllAdapter == null) {
-			catchAllAdapter = new CatchAllAdapter();
-		}
-		return catchAllAdapter;
+		return provider.getAdapter(CatchAllAdapter.class);		
 	}
+	
 	public Adapter createOtherwiseAdapter() {
-		if (otherwiseAdapter == null) {
-			otherwiseAdapter = new OtherwiseAdapter();
-		}
-		return otherwiseAdapter;
+		return provider.getAdapter(OtherwiseAdapter.class);
 	}
+	
 	public Adapter createCompensateAdapter() {
-		if (compensateAdapter == null) {
-			compensateAdapter = new CompensateAdapter();
-		}
-		return compensateAdapter;
+		return provider.getAdapter(CompensateAdapter.class);		
 	}
+	
 	public Adapter createCustomActivityAdapter() {
-		if (customActivityAdapter == null) {
-		    customActivityAdapter = new CustomActivityAdapter();
-		}
-		return customActivityAdapter;
+		return provider.getAdapter(CustomActivityAdapter.class);		
 	}
 
 	public Adapter createRethrowAdapter() {
-		if (rethrowAdapter == null) {
-			rethrowAdapter = new RethrowAdapter();
-		}
-		return rethrowAdapter;
+		return provider.getAdapter(RethrowAdapter.class);		
 	}	
 	
 	public Adapter createExitAdapter() {
-		if (exitAdapter == null) {
-			exitAdapter = new ExitAdapter();	
-		}		
-		return exitAdapter;
+		return provider.getAdapter(ExitAdapter.class);		
 	}
 	
 	public Adapter createValidateAdapter() {
-		if (validateAdapter == null) {
-			validateAdapter = new ValidateAdapter();	
-		}		
-		return validateAdapter;
+		return provider.getAdapter(ValidateAdapter.class);		
 	}
 
 
