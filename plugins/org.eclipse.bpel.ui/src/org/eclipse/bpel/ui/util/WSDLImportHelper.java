@@ -14,10 +14,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
+import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
+import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
+import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeConstants;
 import org.eclipse.bpel.ui.details.providers.XSDTypeOrElementContentProvider;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
@@ -42,6 +46,11 @@ import org.eclipse.xsd.XSDTypeDefinition;
  */
 public class WSDLImportHelper {
 
+	static final String WSDL_PREFIX_KIND = "wsdl"; //$NON-NLS-1$
+	static final String XSD_PREFIX_KIND = "xsd";   //$NON-NLS-1$
+	
+	
+	
 	public static void addAllImportsAndNamespaces(Definition definition, IResource contextObject) {
 		String TNS = definition.getTargetNamespace();
 		if (TNS == null) {
@@ -83,7 +92,7 @@ public class WSDLImportHelper {
 						addImportAndNamespace(definition, td.getSchema(), contextObject);
 					} else {
 						// namespace only!
-						addNamespace(td.getTargetNamespace(), definition);
+						addNamespace(definition,td.getTargetNamespace(), XSD_PREFIX_KIND );
 					}
 				} else if (xsdType instanceof XSDElementDeclaration) {
 					XSDElementDeclaration ed = (XSDElementDeclaration)xsdType;
@@ -91,7 +100,7 @@ public class WSDLImportHelper {
 						addImportAndNamespace(definition, ed.getSchema(), contextObject);
 					} else {
 						// namespace only!
-						addNamespace(ed.getTargetNamespace(), definition);
+						addNamespace(definition, ed.getTargetNamespace(), XSD_PREFIX_KIND);
 					}
 				}
 			}
@@ -99,8 +108,18 @@ public class WSDLImportHelper {
 		
 	}
 
-	// TODO: is this truly necessary, or is the model doing it for us somewhere else?	
+	// TODO: is this truly necessary, or is the model doing it for us somewhere else?
+	// TODO: michal.chmielewski@oracle.com: The partner link namespace was somehow getting placed twice in the WSDL
+	// and so I have added the tooling namespace back to existence. I have no idea why at this point.
+
 	protected static void addToolingNamespaces(Definition definition) {
+		
+		addNamespace(definition, PartnerlinktypeConstants.NAMESPACE, PartnerlinktypePackage.eNS_PREFIX );
+		addNamespace(definition, MessagepropertiesConstants.NAMESPACE, MessagepropertiesPackage.eNS_PREFIX );
+		
+//		if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null) {
+		//	getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
+		// }
 //		if (definition.getNamespace(PartnerlinktypePackage.eNS_PREFIX) == null) {
 //			definition.addNamespace(PartnerlinktypePackage.eNS_PREFIX,
 //				PartnerlinktypePackage.eNS_URI);
@@ -118,7 +137,7 @@ public class WSDLImportHelper {
 		// TODO LOGTHIS: need better error handling here!
 		if (namespace == null)  return;
 		
-		addNamespace(namespace, definition);
+		addNamespace( definition, namespace, XSD_PREFIX_KIND );
 		addImport(namespace, definition, definition.eResource().getURI(), importedSchema,
 			importedSchema.eResource().getURI(), contextObject);
 	}
@@ -132,22 +151,28 @@ public class WSDLImportHelper {
 		// TODO LOGTHIS: need better error handling here!
 		if (namespace == null)  return;
 		
-		addNamespace(namespace, definition);
+		addNamespace(definition, namespace, WSDL_PREFIX_KIND );
 		addImport(namespace, definition, definition.eResource().getURI(), importedDefinition,
 			importedDefinition.eResource().getURI());
 	}
 	
-	protected static void addNamespace(String namespace, Definition definition) {
+	protected static void addNamespace ( Definition definition, String namespace, String pfxRoot  ) {
+		
 		String prefix = definition.getPrefix(namespace);
-		if (prefix == null) {
-			for (int i = 0; ; i++) {
-				prefix = "wsdl"+i; //$NON-NLS-1$
-				if (definition.getNamespace(prefix) == null) {
-					definition.addNamespace(prefix, namespace);
-					break;
-				}
-			}
+		if (prefix != null) {
+			return ;
 		}
+		// Find a suitable prefix
+		prefix = pfxRoot;
+		int idx = 1;
+		do {
+			if (definition.getNamespace(prefix) == null) {
+				definition.addNamespace(prefix, namespace);
+				break;
+			} 
+			prefix = pfxRoot + idx;
+			idx += 1;
+		} while (true);
 	}
 	
 	protected static void addImport(String namespace, Definition importingDefinition,
@@ -166,6 +191,7 @@ public class WSDLImportHelper {
 		}
 		if (!found) {
 			String locationURI = createBuildPathRelativeReference(importingUri, importedUri);
+						
 			if (locationURI != null && locationURI.length() != 0) {
 		        // Create and add the import to the definition
 				Import _import = wsdlFactory.createImport();
@@ -202,6 +228,7 @@ public class WSDLImportHelper {
 			// It's not for something in the workspace.
 		} else {
 			String locationString = createBuildPathRelativeReference(importingUri, importedUri);
+			
 			if (locationString != null && locationString.length() != 0) {
 		        // Create and add the import to the definition
 				Import _import = wsdlFactory.createImport();
@@ -224,8 +251,10 @@ public class WSDLImportHelper {
 				
 		//BaseURI source = new BaseURI(sourceURI);
 		//return source.getRelativeURI(targetURI);
-		return targetURI.deresolve(sourceURI, true, true, false).toFileString();
 		// TODO: this is probably bogus.
+		String result = targetURI.deresolve(sourceURI, true, true, true).toFileString();
+		// When absolute URLs 
+		return (result == null ? targetURI.toString() : result);
 	}
 
 	public static Definition getDefinition(org.eclipse.bpel.model.Import bpelImport) {

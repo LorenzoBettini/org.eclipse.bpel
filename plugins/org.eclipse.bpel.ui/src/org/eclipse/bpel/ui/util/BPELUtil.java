@@ -199,12 +199,32 @@ public class BPELUtil {
 	    keyToAdapterFactory.put(key, factory);
 	}
 	
+	static Class adapterInterface ( Object type ) {
+		
+		if (type instanceof Class) {
+			return (Class) type;
+		}
+		
+		throw new RuntimeException("Adapter type " + type + " is not understood.");		 //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	
 	/**
 	 * This method tries the registered adapter factories one by one, returning
 	 * the first non-null result it gets.  If none of the factories can adapt
 	 * the result, it returns null.
 	 */
 	public static Object adapt(Object target, Object type) {
+
+		// If the target is already an instance of the type to adapt,
+		// we return it. Presumably, the target might already speak the requested
+		// type. The type argument, is 
+
+		Class clazz = adapterInterface(type);
+		if ( clazz.isInstance( target ) ) {
+			return target;
+		}
+		
 	    AdapterFactory factory = null;
 	    EClass effectiveClass = getEClassFor(target);
 	    if (effectiveClass != null) {
@@ -229,7 +249,7 @@ public class BPELUtil {
 	 * to completely and correctly implement the interface for which the adaptor is
 	 * needed.
 	 * 
-	 * Adapters that are statless, should ignore any notifications sent to them.
+	 * Adapters that are stateless, should ignore any notifications sent to them.
 	 *  
 	 * @param target the target object
 	 * @param type the type it wants to adapt to
@@ -1229,6 +1249,15 @@ public class BPELUtil {
 	public static IInputValidator getNCNameValidator() {
 		return new IInputValidator() {
 			public String isValid(String newText) {
+				if (newText.length() == 0) { 
+					return Messages.BPELUtil_NCName_1;
+				}
+				if (newText.indexOf(":") >= 0) { //$NON-NLS-1$
+					return Messages.BPELUtil_NCName_2;
+				}
+				if (newText.indexOf(" ") >= 0) { //$NON-NLS-1$
+					return Messages.BPELUtil_NCName_3;
+				}
 				// TODO ! temporary hack
 				return null;
 			}
@@ -1424,27 +1453,40 @@ public class BPELUtil {
 		}
 	}
 	private static void addVisibleVariables(Map targetMap, EObject target) {
-		if (target == null) return;
-		if (target instanceof Resource) return;
+		if (target == null) {
+			return;
+		}
+		if (target instanceof Resource) {
+			return;
+		}
+		
 		if (target instanceof Process) {
 			addVariablesToMap(targetMap, ((Process)target).getVariables());
-		} else {
-			// recursively add less local variables first
-			addVisibleVariables(targetMap, target.eContainer());
-			if (target instanceof Scope) {
-				addVariablesToMap(targetMap, ((Scope)target).getVariables());
+			return ;
+		} 
+		// recursively add less local variables first
+		addVisibleVariables(targetMap, target.eContainer());
+		
+		if (target instanceof Scope) {
+			addVariablesToMap(targetMap, ((Scope)target).getVariables());
+		}
+		if (target instanceof Catch) {
+			Variable v = ((Catch)target).getFaultVariable();
+			if (v != null && v.getName() != null) {
+				targetMap.put(v.getName(), v);
 			}
-			if (target instanceof Catch) {
-				Variable v = ((Catch)target).getFaultVariable();
-				if (v != null && v.getName() != null) targetMap.put(v.getName(), v);
+		}
+		if (target instanceof OnEvent) {
+			Variable v = ((OnEvent)target).getVariable();
+			if (v != null && v.getName() != null) {
+				targetMap.put(v.getName(), v);
 			}
-			if (target instanceof OnEvent) {
-				Variable v = ((OnEvent)target).getVariable();
-				if (v != null && v.getName() != null) targetMap.put(v.getName(), v);
-			}
-			if (target instanceof ForEach) {
-				Variable v = ((ForEach)target).getCounterName();
-				if (v != null && v.getName() != null) targetMap.put(v.getName(), v);
+		}
+		
+		if (target instanceof ForEach) {
+			Variable v = ((ForEach)target).getCounterName();
+			if (v != null && v.getName() != null) {
+				targetMap.put(v.getName(), v);
 			}
 		}
 	}
@@ -1500,10 +1542,10 @@ public class BPELUtil {
 	public static Variable[] getVisibleVariables(EObject target) {
 		Map name2Variable = new HashMap();
 		addVisibleVariables(name2Variable, target);
-		if (name2Variable.isEmpty()) return EMPTY_VARIABLE_ARRAY;
-		Variable[] result = new Variable[name2Variable.size()];
-		name2Variable.values().toArray(result);
-		return result;
+		if (name2Variable.isEmpty()) {
+			return EMPTY_VARIABLE_ARRAY;
+		}
+		return (Variable[]) name2Variable.values().toArray( EMPTY_VARIABLE_ARRAY );
 	}
 	
 	/**

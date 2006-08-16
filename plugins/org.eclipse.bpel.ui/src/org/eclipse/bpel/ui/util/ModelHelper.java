@@ -12,10 +12,15 @@ package org.eclipse.bpel.ui.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.wsdl.Input;
 import javax.wsdl.Output;
@@ -104,6 +109,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.SameShellProvider;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.ExtensibilityElement;
 import org.eclipse.wst.wsdl.ExtensibleElement;
@@ -136,6 +142,8 @@ public class ModelHelper {
 	// These constants are used by getVariable() and setVariable().
 	public static final int OUTGOING = 0;
 	public static final int INCOMING = 1;
+	public static final int NOT_SPECIFIED = 4;
+	
 	
 	// These constants are used by getExpression() and setExpression().
 	// expression kinds
@@ -297,96 +305,121 @@ public class ModelHelper {
 	}	
 	
 	public static Variable getVariable(Object context, int direction) {
-		switch (direction)  {
-		case OUTGOING:
-			if (context instanceof Reply)  return ((Reply)context).getVariable();
-			if (context instanceof Invoke)  return ((Invoke)context).getInputVariable();
-			if (context instanceof Throw)  return ((Throw)context).getFaultVariable();
-			break;
-		case INCOMING:
-			if (context instanceof Receive)  return ((Receive)context).getVariable();
-			if (context instanceof OnMessage)  return ((OnMessage)context).getVariable();
-			if (context instanceof OnEvent)  return ((OnEvent)context).getVariable();
-			if (context instanceof Invoke)  return ((Invoke)context).getOutputVariable();
-			if (context instanceof Catch)  return ((Catch)context).getFaultVariable(); 
-			break;
+		
+		// This is the only activity that has 2 variables at this point.
+		
+		if (context instanceof Invoke) {
+			if (direction == INCOMING) {
+				return ((Invoke)context).getOutputVariable();
+			}
+			return ((Invoke)context).getInputVariable();
 		}
-		throw new IllegalArgumentException();
+				
+		if (context instanceof Reply)  {
+			return ((Reply)context).getVariable();
+		}
+		if (context instanceof Throw)  {
+			return ((Throw)context).getFaultVariable();
+		}			
+		if (context instanceof Reply)  {
+			return ((Reply)context).getVariable();
+		}
+		if (context instanceof Throw)  {
+			return ((Throw)context).getFaultVariable();
+		}			
+		if (context instanceof Receive)  {
+			return ((Receive)context).getVariable();
+		}
+		if (context instanceof OnMessage)  {
+			return ((OnMessage)context).getVariable();
+		}
+		if (context instanceof OnEvent)  {
+			return ((OnEvent)context).getVariable();
+		}
+		if (context instanceof Catch) {
+			return ((Catch)context).getFaultVariable(); 
+		}
+		
+		throw new IllegalArgumentException("This model object has no variable to get"); //$NON-NLS-1$
 	}	
+	
+	
 	public static void setVariable(Object context, Variable v, int direction) {
-		switch (direction) {
-		case OUTGOING:
-			if (context instanceof Reply) {
-				((Reply)context).setVariable(v); return;
-			}
-			if (context instanceof Invoke) {
+		if (context instanceof Invoke) {
+			if (direction == INCOMING) {
+				((Invoke)context).setOutputVariable(v); 				
+			} else {
 				((Invoke)context).setInputVariable(v); return;
-			}
-			if (context instanceof Throw) {
-				((Throw)context).setFaultVariable(v); return;
-			}
-			break; 
-		case INCOMING:
-			if (context instanceof Receive) {
-				((Receive)context).setVariable(v); return;
-			}
-			if (context instanceof OnMessage) {
-				((OnMessage)context).setVariable(v); return;
-			}
-			if (context instanceof OnEvent) {
-				((OnEvent)context).setVariable(v); return;
-			}
-			if (context instanceof Invoke) {
-				((Invoke)context).setOutputVariable(v); return;
-			}
-			if (context instanceof Catch) {
-				((Catch)context).setFaultVariable(v); return;
-			}
-			break; 
+			}		
+		} else if (context instanceof Reply) {
+			((Reply)context).setVariable(v);
+		} else if (context instanceof Invoke) {
+			((Invoke)context).setInputVariable(v);
+		} else if (context instanceof Throw) {
+			((Throw)context).setFaultVariable(v);
+		} else if (context instanceof Receive) {
+			((Receive)context).setVariable(v);
+		} else if (context instanceof OnMessage) {
+			((OnMessage)context).setVariable(v); 		
+		} else if (context instanceof OnEvent) {
+			((OnEvent)context).setVariable(v);
+		} else if (context instanceof Invoke) {
+			((Invoke)context).setOutputVariable(v);
+		} else if (context instanceof Catch) {
+			((Catch)context).setFaultVariable(v); 
+		} else {
+			throw new IllegalArgumentException("This model object has no variable to set"); //$NON-NLS-1$
 		}
-		throw new IllegalArgumentException();
 	}
-	public static boolean isVariableAffected(Object context, Notification n, int direction) {
-		switch (direction) {
-		case OUTGOING:
-			if (context instanceof Reply) {
-				return (n.getFeatureID(Reply.class) == BPELPackage.REPLY__VARIABLE);
-			}
-			if (context instanceof Invoke) {
-				return (n.getFeatureID(Invoke.class) == BPELPackage.INVOKE__INPUT_VARIABLE);
-			}
-			if (context instanceof Throw) {
-				return (n.getFeatureID(Throw.class) == BPELPackage.THROW__FAULT_VARIABLE);
-			}
-			break; 
-		case INCOMING:
-			if (context instanceof Receive) {
-				return (n.getFeatureID(Receive.class) == BPELPackage.RECEIVE__VARIABLE);
-			}
-			if (context instanceof OnMessage) {
-				return (n.getFeatureID(OnMessage.class) == BPELPackage.ON_MESSAGE__VARIABLE);
-			}
-			if (context instanceof OnEvent) {
-				return (n.getFeatureID(OnEvent.class) == BPELPackage.ON_EVENT__VARIABLE);
-			}
-			if (context instanceof Invoke) {
+	
+	public static boolean isVariableAffected (Object context, Notification n, int direction) {
+		
+		if (context instanceof Invoke) {
+			if (direction == INCOMING) {
 				return (n.getFeatureID(Invoke.class) == BPELPackage.INVOKE__OUTPUT_VARIABLE);
 			}
-			if (context instanceof Catch) {
-				return (n.getFeatureID(Catch.class) == BPELPackage.CATCH__FAULT_VARIABLE);
-			}
-			break; 
+			return (n.getFeatureID(Invoke.class) == BPELPackage.INVOKE__INPUT_VARIABLE);
 		}
-		throw new IllegalArgumentException();
+		
+		if (context instanceof Reply) {
+			return (n.getFeatureID(Reply.class) == BPELPackage.REPLY__VARIABLE);
+		}
+		if (context instanceof Throw) {
+			return (n.getFeatureID(Throw.class) == BPELPackage.THROW__FAULT_VARIABLE);
+		}
+		if (context instanceof Receive) {
+			return (n.getFeatureID(Receive.class) == BPELPackage.RECEIVE__VARIABLE);
+		}
+		if (context instanceof OnMessage) {
+			return (n.getFeatureID(OnMessage.class) == BPELPackage.ON_MESSAGE__VARIABLE);
+		}
+		if (context instanceof OnEvent) {
+			return (n.getFeatureID(OnEvent.class) == BPELPackage.ON_EVENT__VARIABLE);
+		}
+		if (context instanceof Catch) {
+			return (n.getFeatureID(Catch.class) == BPELPackage.CATCH__FAULT_VARIABLE);
+		}
+		
+		return false;
 	}
 
 	public static PartnerLink getPartnerLink(Object context) {
-		if (context instanceof Invoke)  return ((Invoke)context).getPartnerLink();
-		if (context instanceof Receive)  return ((Receive)context).getPartnerLink();
-		if (context instanceof OnMessage)  return ((OnMessage)context).getPartnerLink();
-		if (context instanceof OnEvent)  return ((OnEvent)context).getPartnerLink();
-		if (context instanceof Reply)  return ((Reply)context).getPartnerLink();
-		throw new IllegalArgumentException();
+		if (context instanceof Invoke)  {
+			return ((Invoke)context).getPartnerLink();
+		}
+		if (context instanceof Receive) {
+			return ((Receive)context).getPartnerLink();
+		}
+		if (context instanceof OnMessage) {
+			return ((OnMessage)context).getPartnerLink();
+		}
+		if (context instanceof OnEvent) {
+			return ((OnEvent)context).getPartnerLink();
+		}
+		if (context instanceof Reply) {
+			return ((Reply)context).getPartnerLink();
+		}
+		throw new IllegalArgumentException("Object has no partner link."); //$NON-NLS-1$
 	}
 
 	public static void setPartnerLink(Object context, PartnerLink partner) {
@@ -481,6 +514,8 @@ public class ModelHelper {
 		throw new IllegalArgumentException();
 	}
 
+	
+	
 	public static Operation getOperation(Object context) {
 		if (context instanceof Invoke)  return ((Invoke)context).getOperation();
 		if (context instanceof Receive)  return ((Receive)context).getOperation();
@@ -1040,6 +1075,108 @@ public class ModelHelper {
 		throw new IllegalArgumentException();
 	}
 	
+	
+	static final Variable[] EMPTY_VARIABLE_LIST = new Variable[] {};
+
+	
+	
+	/**
+	 * 
+	 * @param msg
+	 * @return
+	 */
+			
+	public static Variable[] getVariablesOfType (EObject context, final Message msg) {
+				
+		return (Variable[]) ListMap.Map(
+				// List of visible variables
+				getVisibleVariables ( context ),
+				
+				// select the ones that match the message type
+				new ListMap.Visitor() {
+					public Object visit(Object obj) {
+						Variable v = (Variable) obj;
+						return (v.getMessageType() == msg ? v : ListMap.IGNORE);
+					}				
+				}, 
+				// make the return as (Variable[])
+				EMPTY_VARIABLE_LIST);
+	}
+    
+	/**
+	 * 
+	 * @param msg
+	 * @return
+	 */
+			
+	public static Variable[] getVariablesOfType (EObject context, final XSDElementDeclaration decl) {
+				
+		return (Variable[]) ListMap.Map(
+				// Visible variables
+				getVisibleVariables ( context ),
+				
+				// only the ones of the type requested
+				new ListMap.Visitor() {
+					public Object visit(Object obj) {
+						Variable v = (Variable) obj;
+						return (v.getXSDElement() == decl ? v : ListMap.IGNORE);
+					}				
+				},
+				
+				// make sure that the return of the type passed here 
+				EMPTY_VARIABLE_LIST);
+	}
+    	
+	
+	
+	public static Variable[] getVisibleVariables ( EObject context ) {
+					
+		List list = new LinkedList();
+		
+		EObject refObj = context;		
+		while (refObj != null) {
+			List refList = null;
+			if (refObj instanceof Process) {
+				Process process = (Process) refObj;
+				refList = process.getVariables().getChildren();
+				
+			} else if (refObj instanceof Scope) {
+				Scope scope = (Scope) refObj;
+				refList = scope.getVariables().getChildren();
+			}			
+			
+			// If there are variables at this level, then check for 
+			// make sure that you only add the ones that are visible
+			// (no name hiding).
+			
+			if (refList != null) {
+				
+				Iterator it = refList.iterator();
+				
+				while (it.hasNext()) {
+					Object next =  it.next();
+					Object elm = ListMap.findElement(list,next,
+							new Comparator() {
+								public int compare(Object o1, Object o2) {
+									Variable v1 = (Variable)o1;
+									Variable v2 = (Variable)o2;
+									return v1.getName().compareTo( v2.getName() );
+								}					
+					});
+					
+					if (elm == null) {
+						list.add(next);
+					}
+				}
+				
+			}
+			refObj = refObj.eContainer();
+		}
+		
+		return (Variable[]) list.toArray( EMPTY_VARIABLE_LIST );
+	}
+
+	
 	public static Variables getVariables(Object context)  {
 		if (context instanceof Process) return ((Process)context).getVariables();
 		if (context instanceof Scope) return ((Scope)context).getVariables();
@@ -1575,6 +1712,11 @@ public class ModelHelper {
             // next import
         }        
         
+        // If the artifacts are not imported yet, then add them to the list here as well.
+        Definition artifacts = ModelHelper.getBPELEditor(process).getArtifactsDefinition();
+        if (al.contains(artifacts) == false) {
+        	al.add(artifacts);
+        }
         return al;    	
     	
     }
@@ -1630,5 +1772,8 @@ public class ModelHelper {
 			return true;
 		}
 	}
-    
+
+	
+	
+
 }

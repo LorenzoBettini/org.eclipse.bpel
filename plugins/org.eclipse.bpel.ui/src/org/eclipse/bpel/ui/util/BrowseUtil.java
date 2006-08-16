@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.util;
 
+import org.eclipse.bpel.ui.dialogs.PartnerLinkTypeSelectorDialog;
 import org.eclipse.bpel.ui.dialogs.TypeSelectorDialog;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -41,6 +42,26 @@ public class BrowseUtil {
 	public static XSDTypeDefinition browseForXSDSimpleType(ResourceSet resourceSet, Shell parent) {
 		// TODO!
 		return null;
+	}
+	
+
+	/**
+	 * @param input
+	 * @param shell
+	 * @return
+	 */
+	
+	public static Object browseForPartnerLinkType (EObject eObject, Shell parent) {
+		PartnerLinkTypeSelectorDialog dialog = new PartnerLinkTypeSelectorDialog (parent,eObject);		
+		if (dialog.open() != Dialog.OK) {
+			return null;
+		}
+		Object obj[] = dialog.getResult();
+		if (obj != null && obj.length > 0) {
+			return obj[0];
+		}
+		return null;
+
 	}
 
 }
