@@ -10,16 +10,20 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.wst.wsdl.Operation;
+import org.eclipse.wst.wsdl.PortType;
 
 /** 
- * Sets the faultName property of a model object.  This is supported for
- * Catch objects and Throw activities.
+ * Set the operation on any of the partner interaction activities.
+ * In addition to setting the operation, the portType is set, as it is
+ * the parent of the operation.
  */
+
 public class SetOperationCommand extends SetCommand {
 
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_SELECT_OPERATION; }
@@ -32,6 +36,14 @@ public class SetOperationCommand extends SetCommand {
 		return ModelHelper.getOperation(target);
 	}
 	public void set(Object o) {
-		ModelHelper.setOperation(target, (Operation)o);
+		Operation op = (Operation) o;
+		ModelHelper.setOperation(target, op);
+		 
+		if (op == null) {
+			ModelHelper.setPortType(target, null);
+		} else {
+			PortType portType = (PortType) op.eContainer();
+			ModelHelper.setPortType(target, portType);
+		}
 	}
 }

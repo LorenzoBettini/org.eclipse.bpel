@@ -10,23 +10,20 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.bpel.common.ui.editmodel.ResourceInfo;
-import org.eclipse.bpel.model.BPELFactory;
-import org.eclipse.bpel.model.Import;
-import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
-import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.wst.wsdl.Definition;
-import org.eclipse.wst.wsdl.util.WSDLConstants;
+import org.eclipse.wst.wsdl.Import;
+import org.eclipse.wst.wsdl.WSDLFactory;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.util.XSDConstants;
 
 
 /**
@@ -39,60 +36,46 @@ import org.eclipse.xsd.util.XSDConstants;
  * 
  */
 
-public class AddImportCommand extends AutoUndoCommand {
+public class AddWSDLImportCommand extends AutoUndoCommand {
 	
-	Process fProcess;
-	Import  fImport;
-	boolean bNoop = false;
+	/* Definition into which the import will be placed. */
+	Definition fDefinition;
 	
-	ResourceInfo fResourceInfo;	
+	/* The WSDL import to create. 
+	 * Note this is the WSDL import, not the BPEL import */
+	Import fImport;
 
 	/**
 	 * Create a new instance of the AddImportCommand
-	 * @param process
+	 * @param defn the WSDL definition to add import to
 	 * @param object either an Import, XSDSchema, Definition, or any element
 	 *  belonging to schema or definition (that is, whose parent is  either a schema
 	 *  or a definition).
 	 */
 	
-	public AddImportCommand ( Process process , Object object, ResourceInfo info ) {
-		super(IBPELUIConstants.CMD_ADD_IMPORT,process);
-		fProcess = process;
-		fResourceInfo = info;
+	public AddWSDLImportCommand ( Definition defn , Object object ) {
+		super (defn);
+		setLabel(IBPELUIConstants.CMD_ADD_IMPORT);
 		
-		fImport = createImport( object );	
+		fDefinition = defn;
+		fImport = createImport( object );		
+	}
 		
-		if (fImport != null) {	
-			bNoop = ModelHelper.containsImport( fProcess, fImport );
-		}		
-	}
-	
-	
-	public AddImportCommand ( Process process, Object object) {
-		this(process,object,null);
-	}	
-	
-	
-	protected List getList() {	
-		return fProcess.getImports();		
-	}
-	
-	
-	
+
 	public void doExecute() {
-		if (bNoop) {
+		
+		if (fImport == null) {
 			return ;
 		}
-		fProcess.getImports().add( fImport );
-	}
-
-
-	public boolean wouldCreateDuplicateImport () {
-		return bNoop;
-	}
 		
-	
-	
+		/* Add the WSDL imports */
+		if (containsImport(fDefinition,fImport) == false) {				
+			fImport.setEnclosingDefinition( fDefinition );
+			fDefinition.addImport( fImport );		
+		}				
+	}
+
+
 	Import createImport ( Object obj ) {
 		
 		if (obj instanceof Import) {
@@ -150,23 +133,24 @@ public class AddImportCommand extends AutoUndoCommand {
 	}
 		
 
-	Import createImportFrom(XSDSchema schema) {
+	Import createImportFrom (XSDSchema schema) {
 		
-		Import imp = BPELFactory.eINSTANCE.createImport();
+		Import imp = WSDLFactory.eINSTANCE.createImport();
 	
 		// namespace
 		String t = schema.getTargetNamespace();
+		
 		if (t != null) {
-			imp.setNamespace( t );
+			imp.setNamespaceURI( t );
 		}
 		// location
-		Resource resource = fProcess.eResource();		
+		Resource resource = fDefinition.eResource();		
 		URI schemaURI = URI.createURI(schema.getSchemaLocation());
 				
-		imp.setLocation( schemaURI.deresolve(resource.getURI()).toString() );
+		imp.setLocationURI( schemaURI.deresolve(resource.getURI()).toString() );
 		
-		// importType (the XSD kind)
-		imp.setImportType( XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
+		imp.setDefinition( fDefinition );
+		// imp.setImportType( XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 	
 		return imp;
 	}
@@ -174,32 +158,52 @@ public class AddImportCommand extends AutoUndoCommand {
 	
 	Import createImportFrom (Definition defn) {
 		
-		Import imp = BPELFactory.eINSTANCE.createImport();
+		Import imp = WSDLFactory.eINSTANCE.createImport();
 	
 		// namespace
 		String t = defn.getTargetNamespace();
 		if (t != null) {
-			imp.setNamespace( t );
-		}
-		// location
-		Resource resource = fProcess.eResource();
-		URI schemaURI = null;
-		
-		if (defn.getLocation() == null) {
-			
-			if (fResourceInfo != null) {
-				imp.setLocation ( fResourceInfo.getFile().toString() );
-			}
-			
-		} else {
-			schemaURI = URI.createURI( defn.getLocation() );
-			imp.setLocation( schemaURI.deresolve(resource.getURI(),true,true,true).toString() );
+			imp.setNamespaceURI( t );
 		}
 		
-		// importType (the WSDL kind)
-		imp.setImportType(  WSDLConstants.WSDL_NAMESPACE_URI );
+		// location of our the definition into which we are adding the import
+		Resource resource = fDefinition.eResource();		
+		URI defnURI = defn.eResource().getURI();
+		String importURI = defnURI.deresolve(resource.getURI()).toString();
+		if (importURI == null) {
+			importURI = defnURI.toString();
+		}
+		imp.setLocationURI( importURI );
 	
 		return imp;		
 	}
 
+	boolean containsImport ( Definition defn, Import imp) {
+		EList imports = defn.getEImports();
+		// this checks for identity
+		if (imports.contains( imp )) {
+			return true;
+		}
+
+		// Don't add the import if it already exists ...
+		Iterator i = imports.iterator();
+		boolean bExists = false;
+		while (i.hasNext() && !bExists) {
+			Import n = (Import) i.next();			
+			bExists = 	isEqual ( n.getLocationURI(),   imp.getLocationURI() )  &&
+						isEqual ( n.getNamespaceURI(),  imp.getNamespaceURI() ) ;
+		}		
+		return bExists;
+	}
+	
+	boolean isEqual ( String s1, String s2 ) {
+		
+		if (s1 != null) {
+			return s1.equals ( s2 );
+		} else if (s2 != null) {
+			return s2.equals ( s1 );
+		} else {
+			return true;
+		}
+	}
 }

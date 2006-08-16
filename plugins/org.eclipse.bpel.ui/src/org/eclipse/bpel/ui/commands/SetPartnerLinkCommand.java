@@ -38,6 +38,7 @@ public class SetPartnerLinkCommand extends SetCommand {
 	public void set(Object o) {
 	    PartnerLink pl = (PartnerLink)o;
 		ModelHelper.setPartnerLink(target, pl);
+		
 		Operation operation = null;
 		
 		if (pl != null) {
@@ -53,6 +54,8 @@ public class SetPartnerLinkCommand extends SetCommand {
 		        if (ops.size() > 0) operation = (Operation)ops.get(0);
 		    }
 		}
+		// Not sure why we set an operation here.
+		
         ModelHelper.setOperation(target, operation);
 	}
 }

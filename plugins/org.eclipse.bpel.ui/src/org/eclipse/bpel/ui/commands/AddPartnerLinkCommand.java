@@ -14,9 +14,11 @@ import java.util.List;
 
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.uiextensionmodel.PartnerLinkExtension;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.ecore.EObject;
 
 
 /**
@@ -27,21 +29,40 @@ public class AddPartnerLinkCommand extends AddToListCommand {
 	Process process;
 	PartnerLink partnerLink;
 	PartnerLinkExtension extension = null;
-	PartnerLinkExtension oldExtension = null;
+	Scope scope;
 	
-	public AddPartnerLinkCommand(Process process, PartnerLink partnerLink, PartnerLinkExtension extension) {
-		super(process, partnerLink, IBPELUIConstants.CMD_ADD_PARTNERLINK);
-		this.process = process;
+	
+	
+	public AddPartnerLinkCommand (EObject eObj, PartnerLink partnerLink, PartnerLinkExtension extension) {
+		super(ModelHelper.getContainingScope( eObj ), partnerLink, IBPELUIConstants.CMD_ADD_PARTNERLINK);
+		if (target instanceof Process) {
+			this.process = (Process)target;
+		} else if (target instanceof Scope) {
+			this.scope = (Scope)target;
+		}
+		this.partnerLink = partnerLink;
 		this.extension = extension;
 	}
 	
-	protected List getList() {
-		return process.getPartnerLinks().getChildren();
+
+	public AddPartnerLinkCommand (EObject eObj, PartnerLink partnerLink ) {
+		this(eObj,partnerLink,null);				
 	}
 
+	protected List getList() {
+		if (process != null) {
+			return process.getPartnerLinks().getChildren();
+		} else if (scope != null) {
+			return scope.getPartnerLinks().getChildren();
+		} 
+		throw new IllegalStateException("Container must either be a scope or a process"); //$NON-NLS-1$
+	}
+
+	
 	public void doExecute() {
-		if (extension != null)
+		if (extension != null) {
 			ModelHelper.getBPELEditor(process).getExtensionMap().put(partnerLink, extension);
+		}
 		super.doExecute();
 	}
 }

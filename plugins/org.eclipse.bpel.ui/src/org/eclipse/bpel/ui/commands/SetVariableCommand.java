@@ -35,9 +35,13 @@ public class SetVariableCommand extends SetCommand {
 
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_SELECT_VARIABLE; }
 
+	public SetVariableCommand(EObject target, Variable newVariable) {
+		this(target,newVariable,ModelHelper.NOT_SPECIFIED);
+	}
+	
 	public SetVariableCommand(EObject target, Variable newVariable, int direction)  {
 		super(target, newVariable);
-		this.direction = direction;
+		this.direction = direction;		
 	}
 
 	public Object get() {

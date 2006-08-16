@@ -12,24 +12,23 @@ package org.eclipse.bpel.ui.commands;
 
 import java.util.List;
 
-import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.ecore.EObject;
 
 
 /**
- * Adds a Variable to the Process.
+ * Adds a Variable to either a process or scope.
+ * 
  */
 public class AddVariableCommand extends AddToListCommand {
-
-	Process process;
-	
-	public AddVariableCommand(Process process, Variable var) {
-		super(process, var, IBPELUIConstants.CMD_ADD_VARIABLE);
-		this.process = process;
+		
+	public AddVariableCommand (EObject context, Variable var) {
+		super(ModelHelper.getContainingScope(context), var, IBPELUIConstants.CMD_ADD_VARIABLE);	
 	}
 	
 	protected List getList() {
-		return process.getVariables().getChildren();
+		return ModelHelper.getVariables( target ).getChildren();		
 	}
 }

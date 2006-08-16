@@ -28,13 +28,26 @@ public class CreatePartnerLinkTypeCommand extends CreateWSDLExtensibilityElement
 	// TODO: label wrong?
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_ADD_PARTNERLINK; }
 
-	public CreatePartnerLinkTypeCommand(Definition definition, PartnerLinkType plt, PartnerLink partner) {
-		super(definition, plt);
+	public CreatePartnerLinkTypeCommand(Definition defn, PartnerLinkType plt, PartnerLink partner) {
+		super(defn, plt);
 		this.partner = partner;
 	}
 
+	/**
+	 * @param artifactsDefinition
+	 * @param partnerLinkType
+	 */
+	public CreatePartnerLinkTypeCommand(Definition defn, PartnerLinkType plt) {
+		super(defn,plt);
+	}
+
 	public void doExecute() {
-		getPartnerLinkType().setName(BPELUtil.getUniqueModelName(definition, partner.getName() + "PLT", Collections.singletonList(getPartnerLinkType()))); //$NON-NLS-1$
+		// only alter if parter is set. Otherwise, plain vanila partner link type creation.
+		
+		if (partner != null) {
+			getPartnerLinkType().setName(BPELUtil.getUniqueModelName(definition, partner.getName() + "PLT", Collections.singletonList(getPartnerLinkType()))); //$NON-NLS-1$
+		}
+		
 		super.doExecute();
 	}
 	
