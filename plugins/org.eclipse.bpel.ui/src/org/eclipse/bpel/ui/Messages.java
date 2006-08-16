@@ -33,16 +33,65 @@ public final class Messages extends NLS {
 	public static String AssignImplDetails_New__5;
 	public static String AssignImplDetails_NofM__4;
 	public static String AssignImplDetails_To__2;
+	public static String BPELUtil_NCName_1;
+	public static String BPELUtil_NCName_2;
+	public static String BPELUtil_NCName_3;
+	public static String BrowseSelectorDialog_0;
+	public static String BrowseSelectorDialog_1;
+	public static String BrowseSelectorDialog_2;
+	public static String BrowseSelectorDialog_3;
+	public static String BrowseSelectorDialog_4;
+	public static String ImportsSection_0;
+	public static String ImportsSection_1;
+	public static String ImportsSection_2;
+	public static String ImportsSection_3;
+	public static String InputMessageAdapter_0;
+	public static String InvokeImplSection_0;
+	public static String InvokeImplSection_1;
+	public static String InvokeImplSection_10;
+	public static String InvokeImplSection_11;
+	public static String InvokeImplSection_12;
+	public static String InvokeImplSection_13;
+	public static String InvokeImplSection_16;
+	public static String InvokeImplSection_2;
+	public static String InvokeImplSection_22;
+	public static String InvokeImplSection_23;
+	public static String InvokeImplSection_24;
+	public static String InvokeImplSection_3;
+	public static String InvokeImplSection_4;
+	public static String InvokeImplSection_7;
 	public static String NamespaceMappingDialog_3;
 	public static String NamespaceMappingDialog_4;
 	public static String NamespaceMappingDialog_5;
 	public static String NamespaceMappingDialog_6;
 	public static String NamespaceMappingDialog_8;
 	public static String NamespaceMappingDialog_9;
+	public static String OperationAdapter_0;
+	public static String OutputMessageAdapter_0;
+	public static String PartnerLinkAdapter_0;
+	public static String PartnerLinkImplSection_0;
+	public static String PartnerLinkImplSection_1;
+	public static String PartnerLinkImplSection_10;
+	public static String PartnerLinkImplSection_2;
+	public static String PartnerLinkImplSection_4;
+	public static String PartnerLinkImplSection_5;
+	public static String PartnerLinkImplSection_6;
+	public static String PartnerLinkImplSection_7;
+	public static String PartnerLinkImplSection_8;
+	public static String PartnerLinkImplSection_9;
+	public static String PartnerLinkTypeAdapter_0;
+	public static String PartnerLinkTypeSelectorDialog_0;
+	public static String PartnerLinkTypeSelectorDialog_1;
+	public static String PartnerLinkTypeSelectorDialog_2;
+	public static String PartnerLinkTypeSelectorDialog_3;
+	public static String PartnerLinkTypeSelectorDialog_4;
+	public static String PartnerLinkTypeSelectorDialog_5;
+	public static String SchemaImportDialog_0;
 	public static String SchemaImportDialog_10;
 	public static String SchemaImportDialog_11;
 	public static String SchemaImportDialog_12;
 	public static String SchemaImportDialog_13;
+	public static String SchemaImportDialog_14;
 	public static String SchemaImportDialog_2;
 	public static String SchemaImportDialog_4;
 	public static String SchemaImportDialog_5;
@@ -304,6 +353,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Query_Language_Change_67;
 	public static String IBPELUIConstants_Remove_Client_Settings_21;
 	public static String IBPELUIConstants_Remove_Custom_Property_25;
+	public static String IBPELUIConstants_Remove_Import;
 	public static String IBPELUIConstants_Delete_Validate_Variable_26;
 	public static String IBPELUIConstants_Remove_Custom_Settings_22;
 	public static String IBPELUIConstants_Remove_Property_23;
@@ -387,6 +437,7 @@ public final class Messages extends NLS {
 	public static String PartnerLinkSelectorDialog_6;
 	public static String PartnerLinkTypeAdapter_Partner_Link_Type_1;
 	public static String PartnerLinksAdapter_Interface_Partners_1;
+	public static String PartnerLinksAdapter_PartnerLinks_1;
 	public static String PartnerLinksEditPart_0;
 	public static String PartnerLinksEditPart_1;
 	public static String PartnerLinksEditPart_Partners_1;
@@ -454,6 +505,7 @@ public final class Messages extends NLS {
 	public static String TransitionConditionSection_Create_a_New_Condition_3;
 	public static String TransitionConditionSection_No_condition_specified_1;
 	public static String TransitionConditionSection_Optional_condition_text_2;
+	public static String VariableAdapter_0;
 	public static String VariableImplDetails_Isolated__6;
 	public static String VariablePartAssignCategory_Query__8;
 	public static String VariablePartAssignCategory_Variable_or_Part_1;
@@ -467,6 +519,7 @@ public final class Messages extends NLS {
 	public static String VariableTypeSelector_0;
 	public static String VariableTypeSelector_1;
 	public static String VariableTypeSelector_2;
+	public static String VariableTypeSelector_3;
 	public static String VariableTypeSelector_Browse_1;
 	public static String VariableTypeSelector_Browse_2;
 	public static String VariableTypeSelector_Data_Type_1;
@@ -546,6 +599,7 @@ public final class Messages extends NLS {
 	public static String BPELWSDLComponentSelectionDialog;
 
 	public static String ShowPropertiesViewAction_actionText;
+	
 	
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

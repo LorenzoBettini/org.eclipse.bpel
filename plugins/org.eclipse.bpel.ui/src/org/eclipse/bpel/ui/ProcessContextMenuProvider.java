@@ -148,24 +148,37 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		menu.appendToGroup(FREQUENT_ACTIONS, changeTypeMenu);
 
 		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(PartnerLinksEditPart.class));
-		if (action.isEnabled()) menu.appendToGroup(FREQUENT_ACTIONS, action);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(FREQUENT_ACTIONS, action);
+		}
 		
 		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(ReferencePartnerLinksEditPart.class));
-		if (action.isEnabled()) menu.appendToGroup(FREQUENT_ACTIONS, action);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(FREQUENT_ACTIONS, action);
+		}
 		
 		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(VariablesEditPart.class));
-		if (action.isEnabled()) menu.appendToGroup(FREQUENT_ACTIONS, action);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(FREQUENT_ACTIONS, action);
+		}
 		
 		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(CorrelationSetsEditPart.class));
-		if (action.isEnabled()) menu.appendToGroup(FREQUENT_ACTIONS, action);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(FREQUENT_ACTIONS, action);
+		}
 		
 		action = actionRegistry.getAction(MakePartner2WayAction.ID);
-		if (action.isEnabled()) menu.appendToGroup(FREQUENT_ACTIONS, action);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(FREQUENT_ACTIONS, action);
+		}
 		
 		// Delete (always shown) and Rename (if appropriate)
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, actionRegistry.getAction(ActionFactory.DELETE.getId()));
 		action = actionRegistry.getAction(ActionFactory.RENAME.getId());
-		if (action.isEnabled()) menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		}
 		
 		action = actionRegistry.getAction(GEFActionConstants.ZOOM_IN); 
 		action2 = actionRegistry.getAction(GEFActionConstants.ZOOM_OUT); 
@@ -175,42 +188,42 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		}
 		
 		action = actionRegistry.getAction(ToggleAutoFlowLayout.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 			action.setChecked(true);
 		}
 
 		action = actionRegistry.getAction(AutoArrangeFlowsAction.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 		}
 		
 		action = actionRegistry.getAction(ToggleShowFaultHandler.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 			action.setChecked(true);
 		}
 		
 		action = actionRegistry.getAction(ToggleShowCompensationHandler.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 			action.setChecked(true);
 		}
 
 		action = actionRegistry.getAction(ToggleShowTerminationHandler.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 			action.setChecked(true);
 		}
 
 		action = actionRegistry.getAction(ToggleShowEventHandler.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 			action.setChecked(true);
 		}
 		
 		action = actionRegistry.getAction(ShowPropertiesViewAction.ACTION_ID);
-		if (action.isEnabled()) {
+		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(GEFActionConstants.GROUP_SHOW_IN, action);
 			action.setChecked(false);
 		}

@@ -12,15 +12,12 @@ package org.eclipse.bpel.ui.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.wsdl.Input;
 import javax.wsdl.Output;
@@ -109,7 +106,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.window.SameShellProvider;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.ExtensibilityElement;
 import org.eclipse.wst.wsdl.ExtensibleElement;
