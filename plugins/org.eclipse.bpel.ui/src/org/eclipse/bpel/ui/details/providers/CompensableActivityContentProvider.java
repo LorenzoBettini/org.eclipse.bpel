@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.bpel.ui.util.BPELUtil;
 
 /**
@@ -17,8 +19,9 @@ import org.eclipse.bpel.ui.util.BPELUtil;
  * list of activities to which the Compensate can be applied.
  */
 public class CompensableActivityContentProvider extends AbstractContentProvider {
-
-	public Object[] getElements(Object input) {
-		return BPELUtil.getCompensableActivities(input).toArray();
+	
+	public void collectElements (Object input, List list) {
+		list.addAll( BPELUtil.getCompensableActivities(input) );
 	}
+
 }

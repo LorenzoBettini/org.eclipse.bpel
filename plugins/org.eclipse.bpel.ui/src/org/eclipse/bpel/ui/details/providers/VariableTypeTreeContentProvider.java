@@ -10,11 +10,15 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+
 import org.eclipse.bpel.ui.details.tree.MessageTypeTreeNode;
 import org.eclipse.bpel.ui.details.tree.XSDElementDeclarationTreeNode;
 import org.eclipse.bpel.ui.details.tree.XSDSchemaTreeNode;
 import org.eclipse.bpel.ui.details.tree.XSDTypeDefinitionTreeNode;
+import org.eclipse.bpel.ui.util.ListMap;
+import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Message;
+import org.eclipse.wst.wsdl.Types;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDTypeDefinition;
@@ -28,6 +32,8 @@ public class VariableTypeTreeContentProvider extends ModelTreeContentProvider {
 
 	boolean isPropertyTree;
 	boolean displayParticles;
+	
+	XSDSchemaContentProvider xsdContentProvider = null;
 	
 	public VariableTypeTreeContentProvider(boolean isCondensed, boolean displayParticles) {
 		super(isCondensed);
@@ -52,6 +58,24 @@ public class VariableTypeTreeContentProvider extends ModelTreeContentProvider {
 		} else if (inputElement instanceof XSDSchema) {
 			XSDSchema schema = (XSDSchema) inputElement;
 			list[0] = new XSDSchemaTreeNode(schema,isCondensed);
+		} else if (inputElement instanceof Definition) {
+			
+			Definition defn = (Definition) inputElement;			
+			Types types = defn.getETypes();
+			
+			if (types != null) {
+			
+				return (Object[]) ListMap.Map ( 
+						types.getSchemas(),						
+						new ListMap.Visitor () {		
+							public Object visit (Object obj) {
+								return new XSDSchemaTreeNode ( (XSDSchema) obj,isCondensed);						
+							}					
+						},
+						list );				
+				
+			}
+			return EMPTY_ARRAY;
 		}
 				
 		return list; 

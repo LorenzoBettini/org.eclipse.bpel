@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,32 +30,46 @@ import org.eclipse.wst.wsdl.PortType;
  */
 public class PortTypeContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
-		if (input instanceof Definition) {
-			return ((Definition)input).getEPortTypes().toArray();
-		}			
-		if (input instanceof Role) {
-			PortType portType = ModelHelper.getRolePortType((Role)input);
-			if (portType == null)  return EMPTY_ARRAY;
-			return new Object[] { portType };
-		}
-
-		// everything else is expected to be a Process or something inside a Process.
+	public void collectElements(Object input, List list)  {
 		
-		PartnerLink[] partnerLinks = BPELUtil.getVisiblePartnerLinks((EObject)input);
-		List portTypes = new ArrayList();
-		Set portTypeSet = new HashSet();
-		for (int i = 0; i<partnerLinks.length; i++) {
-			PortType pt = ModelHelper.getPartnerPortType(partnerLinks[i], ModelHelper.INCOMING);
-			if (pt != null) {
-				if (portTypeSet.add(pt)) portTypes.add(pt);
+		if (input instanceof Definition) {
+			Definition defn = (Definition) input;
+			list.addAll ( defn.getEPortTypes() );
+			
+		} else if (input instanceof PortType) {
+			
+			PortType pt = (PortType) input;
+			collectElements ( pt.eContainer(), list );
+			
+		} else if (input instanceof Role) {
+		
+			Role role = (Role) input;
+			PortType portType = ModelHelper.getRolePortType(role);
+			if (portType != null) {
+				list.add ( portType );
 			}
-			pt = ModelHelper.getPartnerPortType(partnerLinks[i], ModelHelper.OUTGOING);
-			if (pt != null) {
-				if (portTypeSet.add(pt)) portTypes.add(pt);
+			
+		} else if (input instanceof EObject) {
+			EObject eObj = (EObject) input;
+			
+			// everything else is expected to be a Process or something inside a Process.			
+			PartnerLink[] partnerLinks = BPELUtil.getVisiblePartnerLinks( eObj );			
+			Set portTypeSet = new HashSet();
+			for (int i = 0; i<partnerLinks.length; i++) {
+				PortType pt = ModelHelper.getPartnerPortType(partnerLinks[i], ModelHelper.INCOMING);
+				if (pt != null) {
+					if (portTypeSet.add(pt)) {
+						list.add(pt);
+					}
+				}
+				pt = ModelHelper.getPartnerPortType(partnerLinks[i], ModelHelper.OUTGOING);
+				if (pt != null) {
+					if (portTypeSet.add(pt)) {
+						list.add(pt);
+					}
+				}
 			}
+			
 		}
-		if (portTypes.isEmpty()) return EMPTY_ARRAY;
-		return portTypes.toArray();
 	}
 }

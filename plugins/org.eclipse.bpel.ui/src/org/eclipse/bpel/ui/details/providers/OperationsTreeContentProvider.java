@@ -10,31 +10,36 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.ArrayList;
-
-import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.ui.details.tree.PartnerLinkTreeNode;
-import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.bpel.ui.details.tree.OperationTreeNode;
+import org.eclipse.wst.wsdl.Operation;
+import org.eclipse.wst.wsdl.PortType;
 
 
 /**
  * Provides a tree of model objects representing some expansion of the underlying graph
  * of model objects whose roots are the PartnerLinks of a Process. 
  */
-public class PartnerLinkTreeContentProvider extends ModelTreeContentProvider {
+public class OperationsTreeContentProvider extends ModelTreeContentProvider {
 
-	public PartnerLinkTreeContentProvider (boolean isCondensed) {
+	private static final Operation[] NO_OPERATIONS = {};
+
+	public OperationsTreeContentProvider (boolean isCondensed) {
 		super(isCondensed);
 	}
 
 	public Object[] primGetElements (Object inputElement) {
 		
-		PartnerLink links[] = BPELUtil.getVisiblePartnerLinks( (EObject) inputElement);
-		ArrayList list = new ArrayList( links.length + 1);
-		for(int i=0; i<links.length; i++) {
-			list.add( new PartnerLinkTreeNode( links[i], isCondensed ));
+		Operation list[] = NO_OPERATIONS;
+		
+		if (inputElement instanceof PortType) {
+			PortType pt = (PortType) inputElement;
+			list = (Operation[]) pt.getOperations().toArray( list );
 		}
-		return list.toArray();
+
+		OperationTreeNode nodeList[] = new OperationTreeNode[list.length];
+		for(int i=0; i < list.length; i++) {
+			nodeList[i] = new OperationTreeNode(list[i],isCondensed);
+		}
+		return nodeList;
 	}
 }

@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
+import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.Reply;
 import org.eclipse.wst.wsdl.PortType;
 
 /**
@@ -19,10 +24,34 @@ import org.eclipse.wst.wsdl.PortType;
  */
 public class OperationContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
+	public void collectElements(Object input, List list)  {
+		
 		if (input instanceof PortType) {
-			return ((PortType)input).getOperations().toArray();
+			PortType pt = (PortType) input;
+			list.addAll ( pt.getOperations() );
+			
+			return ;
 		}
-		return EMPTY_ARRAY;
+		
+		
+		// Return all the operations for a receive (myRole mapping to port types)
+		if (input instanceof Receive) {
+			Receive receive = (Receive) input;
+			collectElements( receive.getPortType(), list );			
+			return;
+		}
+		
+		
+		if (input instanceof Reply) {
+			Reply reply = (Reply) input;
+			collectElements ( reply.getPortType(), list);
+			return ;
+		}
+		
+		if (input instanceof Invoke) {
+			Invoke invoke = (Invoke) input;
+			collectElements ( invoke.getPortType(), list );
+			return ;
+		}
 	}
 }

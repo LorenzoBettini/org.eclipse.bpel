@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.wst.wsdl.Definition;
 
 /**
@@ -19,10 +21,12 @@ import org.eclipse.wst.wsdl.Definition;
  */
 public class ServiceContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
+	public void collectElements(Object input, List list)  {
 		if (input instanceof Definition) {
-			return ((Definition)input).getEServices().toArray();
+			Definition defn = (Definition) input;
+			list.addAll( defn.getEServices());			
 		}			
+		// This will break any CompositeContentProvider
 		throw new IllegalArgumentException();
 	}
 }

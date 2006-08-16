@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.wst.wsdl.Message;
 
 /**
@@ -19,10 +21,10 @@ import org.eclipse.wst.wsdl.Message;
  */
 public class PartContentProvider extends AbstractContentProvider {
 
-	public Object[] getElements(Object input) {
+	public void collectElements (Object input, List list) {
 		if (input instanceof Message) {
-			return ((Message)input).getEParts().toArray();
-		}
-		return EMPTY_ARRAY;
+			Message msg = (Message) input;
+			list.addAll( msg.getEParts() );			
+		}		
 	}
 }

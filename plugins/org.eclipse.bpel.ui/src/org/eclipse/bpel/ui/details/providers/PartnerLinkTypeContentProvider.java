@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.Vector;
+import java.util.List;
 
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.wst.wsdl.Definition;
 
 /**
@@ -22,18 +22,35 @@ import org.eclipse.wst.wsdl.Definition;
  * 
  * Expects a Definition as input.
  */
+
 public class PartnerLinkTypeContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
+	
+	public void collectElements ( Object input, List list) {
+		
 		if (input instanceof Definition) {
 			EList extensibilityElementList = ((Definition)input).getEExtensibilityElements();
-			Vector v = new Vector();
-			for (int i = 0; i < extensibilityElementList.size(); i++) {
+			for (int i = 0, j = extensibilityElementList.size(); i < j; i++) {
 				Object maybePlt = extensibilityElementList.get(i);
-				if (maybePlt instanceof PartnerLinkType) v.add(maybePlt);
+				if (maybePlt instanceof PartnerLinkType) {
+					list.add(maybePlt);
+				}
 			}
-			return v.toArray();
+			return;
 		}
-		return EMPTY_ARRAY;
-	}
+		
+		// check if we can extract any definitions
+		List definitions = ModelHelper.getDefinitions( input );
+		
+		if (definitions.size() > 0) {
+			collectComplex(definitions,list);
+			return ;
+		}
+		
+		// try basic complex types (list,array)
+		collectComplex ( input, list );
+	}	
+	
+	
+	
 }

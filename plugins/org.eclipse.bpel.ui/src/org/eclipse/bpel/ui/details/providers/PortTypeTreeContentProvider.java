@@ -10,10 +10,14 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.details.tree.PortTypeTreeNode;
+import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
 
 /**
@@ -26,11 +30,20 @@ public class PortTypeTreeContentProvider extends ModelTreeContentProvider {
 		super(isCondensed);
 	}
 
-	public Object[] primGetElements(Object inputElement) {
-		Vector v = new Vector();
+	public Object[] primGetElements (Object inputElement) {
+		
+		List list = new LinkedList();
 		if (inputElement instanceof Role) {
-			v.add(new PortTypeTreeNode((PortType)((Role)inputElement).getPortType(), isCondensed));
-		}
-		return v.toArray();
+			Role r = (Role) inputElement;
+			list.add(new PortTypeTreeNode((PortType) r.getPortType(), isCondensed));
+		} else if (inputElement instanceof Definition) {
+			Definition defn = (Definition) inputElement;
+			Iterator it = defn.getPortTypes().values().iterator();
+			while (it.hasNext()) {
+				PortType element = (PortType) it.next();
+				list.add ( new PortTypeTreeNode(element,isCondensed));
+			}			
+		}	
+		return list.isEmpty() ? EMPTY_ARRAY : list.toArray();
 	}
 }

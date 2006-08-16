@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -76,7 +75,7 @@ public class XSDTypeOrElementContentProvider extends AbstractContentProvider  {
 	 * @param list the list where the schemas are put.
 	 */
 	
-	protected void appendElements ( Object input, List list) {
+	public void collectElements ( Object input, List list) {
 		
 		if (input == null) {
 			return ;
@@ -87,7 +86,7 @@ public class XSDTypeOrElementContentProvider extends AbstractContentProvider  {
 			if (types == null) {
 				return;
 			}
-			appendElements( types.getSchemas(), list);
+			collectElements( types.getSchemas(), list);
 			return;
 		}
 		
@@ -97,29 +96,9 @@ public class XSDTypeOrElementContentProvider extends AbstractContentProvider  {
 			return;
 		}
 
-		Object[] arr = null;
-		
-		if (input.getClass().isArray()) {			
-			arr = (Object[]) input;
-		} else if (input instanceof List) {
-			arr = ((List)input).toArray();
-		}
-		
-		if (arr == null) {
-			return;
-		}
-		
-		for(int i=0; i < arr.length; i++) {
-			appendElements ( arr[i], list );
-		}					
+		collectComplex(input, list);
 	}
 	
-	
-	public Object[] getElements(Object input)  {
-		ArrayList list = new ArrayList();
-		appendElements ( input, list );		
-		return list.isEmpty()? EMPTY_ARRAY : list.toArray();
-	}
 
 	protected void addSchemaElements(List list, XSDSchema schema) {
 		

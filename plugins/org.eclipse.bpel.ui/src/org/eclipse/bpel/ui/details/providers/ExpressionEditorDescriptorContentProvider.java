@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.extensions.ExpressionEditorDescriptor;
@@ -23,18 +25,25 @@ public class ExpressionEditorDescriptorContentProvider extends AbstractContentPr
 		super();
 	}
 	
-	public Object[] getElements(Object inputElement) {
+	public void collectElements (Object input, List list) {
 		ExpressionEditorDescriptor[] descriptors = BPELUIRegistry.getInstance().getExpressionEditorDescriptors();
+		
 		if (specCompliant) {
 			// on spec-compliant mode only return XPATH
 			for (int i = 0; i < descriptors.length; i++) {
 				ExpressionEditorDescriptor descriptor = descriptors[i];
 				if (IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH.equals(descriptor.getExpressionLanguage())) {
-					return new ExpressionEditorDescriptor[]{descriptor};
+					list.add(descriptor);
 				}
 			}
+			
+			return ;
 		}
-		return descriptors;
+		
+		
+		for(int i=0; i<descriptors.length; i++) {
+			list.add(descriptors[i]);
+		}
 	}
 	
 	public void setSpecCompliant(boolean specCompliant) {

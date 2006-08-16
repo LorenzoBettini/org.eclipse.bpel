@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.bpel.model.PartnerLink;
@@ -24,20 +23,21 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
  */
 public class RoleContentProvider extends AbstractContentProvider {
 
-	public Object[] getElements(Object input)  {
-		if (input == null)  return EMPTY_ARRAY;
+	public void collectElements(Object input,List list)  {
+		
 		if (input instanceof PartnerLinkType) {
-			Object[] result = ((PartnerLinkType)input).getRole().toArray();
-			return result;
-		}
-		if (input instanceof PartnerLink) {
-			List list = new ArrayList();
+			PartnerLinkType plt = (PartnerLinkType) input;
+			list.addAll ( plt.getRole() );			
+			
+		} else if (input instanceof PartnerLink) {
+			
 			PartnerLink partnerLink = (PartnerLink)input;
-			if (partnerLink.getMyRole() != null)  list.add(partnerLink.getMyRole());
-			if (partnerLink.getPartnerRole() != null)  list.add(partnerLink.getPartnerRole());
-			if (list.isEmpty()) return EMPTY_ARRAY;
-			return list.toArray();
-		}
-		return EMPTY_ARRAY;
+			if (partnerLink.getMyRole() != null) {
+				list.add(partnerLink.getMyRole());
+			}
+			if (partnerLink.getPartnerRole() != null) {
+				list.add(partnerLink.getPartnerRole());
+			}			
+		}		
 	}
 }

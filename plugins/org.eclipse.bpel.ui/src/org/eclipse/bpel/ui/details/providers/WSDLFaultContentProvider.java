@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.wst.wsdl.Operation;
 
 /**
@@ -19,10 +21,14 @@ import org.eclipse.wst.wsdl.Operation;
  */
 public class WSDLFaultContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
+	
+	public void collectElements (Object input, List list)  {
+		
 		if (input instanceof Operation) {
-			return ((Operation)input).getEFaults().toArray();
+			Operation op = (Operation) input;
+			list.addAll ( op.getEFaults() );			
 		}
-		return EMPTY_ARRAY;
+		
 	}
+	
 }

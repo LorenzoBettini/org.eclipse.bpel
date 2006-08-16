@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.bpel.model.Process;
 
 /**
@@ -19,12 +21,12 @@ import org.eclipse.bpel.model.Process;
  */
 public class ImportContentProvider extends AbstractContentProvider  {
 
-	public ImportContentProvider() {}
 	
-	public Object[] getElements(Object input)  {
+	public void collectElements(Object input, List list)  {
 		if (input instanceof Process) {
-			return ((Process)input).getImports().toArray();
-		}
-		return EMPTY_ARRAY;
+			Process process = (Process) input;
+			list.addAll ( process.getImports() );			
+		}		
 	}
+	
 }

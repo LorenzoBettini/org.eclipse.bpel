@@ -12,35 +12,46 @@ package org.eclipse.bpel.ui.details.providers;
 
 import java.util.List;
 
-import org.eclipse.wst.wsdl.Definition;
-import org.eclipse.wst.wsdl.Types;
-import org.eclipse.xsd.XSDSchema;
-
 /**
+ * This provider wraps another provider and is able to switch the provider on or off.
+ * 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
- * @date Jul 19, 2006
+ * @date Jul 18, 2006
  *
  */
-public class XSDSchemaContentProvider extends AbstractContentProvider {
 
-	public void collectElements(Object input, List list) {
-		if (collectComplex(input, list)) {
-			return ;
-		}
-		
-		if (input instanceof XSDSchema) {
-			list.add ( input );
-		} else if (input instanceof Definition) {
-			Definition defn = (Definition) input;
-			Types types = defn.getETypes();
-			if (types == null) {
-				return;
-			}
-			list.addAll( types.getSchemas() );			
-		}
-		
+public class GatedContentProvider extends AbstractContentProvider {
+
+	boolean fEnabled = true;
+	
+	AbstractContentProvider fProvider;
+
+	/**
+	 * 
+	 * @param provider
+	 */
+	public GatedContentProvider(AbstractContentProvider provider) {
+		super();
+		fProvider = provider;
+	}
+
+	public boolean isEnabled() {
+		return fEnabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		fEnabled = enabled;
 	}
 	
 	
-
+	public void collectElements ( Object input, List list ) {
+		if (fEnabled) {
+			fProvider.collectElements(input, list);
+		}
+	}
+	
+	
+	
+	
+	
 }

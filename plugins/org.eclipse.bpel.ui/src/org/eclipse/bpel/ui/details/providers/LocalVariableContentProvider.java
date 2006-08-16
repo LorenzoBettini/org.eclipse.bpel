@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui.details.providers;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.bpel.model.Process;
@@ -38,35 +39,39 @@ public class LocalVariableContentProvider extends AbstractContentProvider  {
 		this.needValidMessage = false;
 	}
 	
-	public Object[] getElements(Object input)  {
-		if (input instanceof Process) {
-			if (!needValidMessage)
-				return ((Process)input).getVariables().getChildren().toArray();
+	public void collectElements(Object input, List list)  {
+		
+		if (input instanceof Process) {			
+			Process process = (Process) input;			
+			if (!needValidMessage) {
+				list.addAll ( process.getVariables().getChildren() );
+				return;
+			}
 
-			Vector v = new Vector();
-			Iterator it = ((Process)input).getVariables().getChildren().iterator();
+			Iterator it = process.getVariables().getChildren().iterator();
 			while (it.hasNext()) {
 				Variable var = (Variable) it.next();
-				if (var.getMessageType() != null)
-					v.add(var);
+				if (var.getMessageType() != null) {
+					list.add(var);
+				}
+			}
+						
+		} else 	if (input instanceof Scope) {
+			
+			Scope scope = (Scope) input;
+			
+			if (scope.getVariables() == null) {
+				return ;
 			}
 			
-			return v.toArray();
-		}
+			Iterator it = scope.getVariables().getChildren().iterator();
+			while (it.hasNext()) {
+				Variable var = (Variable) it.next();
+				if (var.getMessageType() != null || var.getType() != null)
+					list.add(var);
+			}			
+		}	
 		
-		if (input instanceof Scope) {
-			if(!(((Scope)input).getVariables() == null) ){
-				Vector v = new Vector();
-				Iterator it = ((Scope)input).getVariables().getChildren().iterator();
-				while (it.hasNext()) {
-					Variable var = (Variable) it.next();
-					if (var.getMessageType() != null || var.getType() != null)
-						v.add(var);
-				}
-				return v.toArray();
-			}
-		}
-		return EMPTY_ARRAY;
 	}
 
 }

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.Vector;
+import java.util.List;
 
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -22,18 +22,13 @@ import org.eclipse.emf.ecore.EObject;
  * 
  * Provides all the Variables visible in a given context.
  */
+
 public class VariableContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
+	public void collectElements(Object input, List list)  {
 		Variable[] vars = BPELUtil.getVisibleVariables((EObject)input);
-		// TODO: I think this code should be moved to a filter?
-		Vector returnVector = new Vector();
-		for (int i = 0; i<vars.length; i++) {
-			Variable var = (Variable)vars[i];
-			if (var.getMessageType() != null || var.getType() != null) {
-				returnVector.add(vars[i]);
-			}
-		}
-		return returnVector.toArray();
+		for (int i = 0; i< vars.length; i++) {
+			list.add(vars[i]);
+		}		
 	}
 }

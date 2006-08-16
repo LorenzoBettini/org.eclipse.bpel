@@ -10,18 +10,23 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.ui.util.ModelHelper;
 
 
 public class CorrelationContentProvider extends AbstractContentProvider {
 
-	public Object[] getElements(Object inputElement)  {
+	public void collectElements (Object input, List list) {
 		try {
-			Correlations c = ModelHelper.getCorrelations(inputElement);
-			return (c == null)? EMPTY_ARRAY : c.getChildren().toArray();
+			Correlations c = ModelHelper.getCorrelations(input);
+			if (c != null) {
+				list.addAll( c.getChildren() );
+			}		
 		} catch (IllegalArgumentException e) {
-			return EMPTY_ARRAY;
-		}
+			// 
+		}		
 	}
+	
 }

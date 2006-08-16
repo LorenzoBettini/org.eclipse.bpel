@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.wst.wsdl.Definition;
@@ -22,35 +21,14 @@ import org.eclipse.wst.wsdl.Definition;
  */
 public class MessageTypeContentProvider extends AbstractContentProvider  {
 
-	protected void appendElements ( Object input, List list) {
+	public void collectElements ( Object input, List list) {
 		
 		if (input instanceof Definition) {
 			list.addAll( ((Definition)input).getEMessages() );
 			return;
 		}
 		
-		Object[] arr = null;
-		
-		if (input.getClass().isArray()) {			
-			arr = (Object[]) input;
-		} else if (input instanceof List) {
-			arr = ((List)input).toArray();
-		}
-		
-		if (arr == null) {
-			return;
-		}
-		
-		for(int i=0; i < arr.length; i++) {
-			appendElements ( arr[i], list );
-		}					
+		collectComplex( input, list);
 	}
-	
-	
-	public Object[] getElements(Object input)  {
-		ArrayList list = new ArrayList();
-		appendElements ( input, list );		
-		return list.isEmpty()? EMPTY_ARRAY : list.toArray();
-	}
-	
+		
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
+import java.util.List;
+
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
 
@@ -20,19 +22,23 @@ import org.eclipse.bpel.model.Scope;
  */
 public class CorrelationSetContentProvider extends AbstractContentProvider  {
 
-	public Object[] getElements(Object input)  {
+	
+	public void collectElements (Object input, List list) {
+		
 		if (input instanceof Process) {
-			if (((Process)input).getCorrelationSets() == null) return EMPTY_ARRAY;
-			return ((Process)input).getCorrelationSets().getChildren().toArray();
-		}
-		if (input instanceof Scope) {
-			if (((Scope)input).getCorrelationSets() == null) return EMPTY_ARRAY;
-			return ((Scope)input).getCorrelationSets().getChildren().toArray();
+			Process process = (Process) input;
+			if (process.getCorrelationSets() != null) {
+				list.addAll ( process.getCorrelationSets().getChildren() );				
+			}
+						
+		} else if (input instanceof Scope) {
+			Scope scope = (Scope) input;
+			if (scope.getCorrelationSets() != null) {
+				list.addAll ( scope.getCorrelationSets().getChildren() );
+			}
 		}
 		
 		// TODO: fix this to return all visible correlation sets?
-		// see BPELUtil.getVisiblePartnerLinks() etc.
-		
-		return EMPTY_ARRAY;
+		// see BPELUtil.getVisiblePartnerLinks() etc.				
 	}
 }

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 
@@ -30,36 +28,39 @@ import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
  */
 public class PropertyAliasContentProvider extends AbstractContentProvider {
 
-	public Object[] getElements(Object input)  {
+	public void collectElements(Object input, List list )  {
+		
 		if (input instanceof Definition) {
-			List result = new ArrayList(); 
+			
 			Definition def = (Definition)input;
 			for (Iterator it = def.getEExtensibilityElements().iterator(); it.hasNext(); ) {
 				Object object = it.next();
-				if (object instanceof PropertyAlias)  result.add(object);
-			}
-			return result.isEmpty()? EMPTY_ARRAY : result.toArray();
-		}
-		if (input instanceof Process) {
+				if (object instanceof PropertyAlias)  {
+					list.add(object);
+				}
+			}	
+			
+		} else if (input instanceof Process) {
+			
 			// Walk all WSDL resources in the ResourceSet and scan each one for Properties.
 			// This code is similar to BPELUtil.getPropertyAliasesForMessageType().
 			
 			// TODO: there should be a better way, e.g. builder (ctc.index) keeping a map
 			// of what properties and propertyAliases are available and where?
 			
-			ResourceSet resourceSet = ((Process)input).eResource().getResourceSet();
-			List result = new ArrayList();
+			ResourceSet resourceSet = ((Process)input).eResource().getResourceSet();			
 			for (Iterator it = resourceSet.getResources().iterator(); it.hasNext(); ) {
 				Resource resource = (Resource)it.next();
 				if (resource instanceof WSDLResourceImpl) {
 					for (TreeIterator treeIt = resource.getAllContents(); treeIt.hasNext(); ) {
 						Object object = treeIt.next();
-						if (object instanceof PropertyAlias)  result.add(object);
+						if (object instanceof PropertyAlias)  {
+							list.add(object);
+						}
 					}
 				}
-			}
-			return result.isEmpty()? EMPTY_ARRAY : result.toArray();
+			}			
 		}
-		return EMPTY_ARRAY;
+		
 	}
 }
