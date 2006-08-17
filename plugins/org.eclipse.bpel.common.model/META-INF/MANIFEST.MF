@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Extension Model
 Bundle-SymbolicName: org.eclipse.bpel.common.model; singleton:=true
-Bundle-Version: 0.0.1
+Bundle-Version: 0.0.2
 Bundle-Activator: org.eclipse.bpel.common.extension.model.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,

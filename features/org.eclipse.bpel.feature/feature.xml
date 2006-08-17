@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.bpel.feature"
       label="BPEL Visual Designer"
-      version="0.0.1"
+      version="0.0.2"
       provider-name="eclipse.org">
 
    <description url="http://www.eclipse.org/bpel/">
