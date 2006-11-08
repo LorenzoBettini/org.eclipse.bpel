@@ -5,8 +5,8 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Initial Contribution by:
- *     University College London Software Systems Engineering
+ * Contributors:
+ * 	Bruno Wassermann - initial API and implementation
  *******************************************************************************/
 package org.eclipse.bpel.runtimes.module;
 
@@ -24,9 +24,6 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jem.util.logger.proxy.Logger;
-import org.eclipse.wst.common.componentcore.ComponentCore;
-import org.eclipse.wst.common.componentcore.internal.util.IModuleConstants;
-import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -35,8 +32,6 @@ import org.eclipse.wst.server.core.internal.Trace;
 import org.eclipse.wst.server.core.model.ModuleDelegate;
 import org.eclipse.wst.server.core.model.ModuleFactoryDelegate;
 
-import sun.security.action.GetPropertyAction;
-
 /**
  * <code>ModuleFactoryDelegate</code> implementation for discovering BPEL modules
  * (for now, just BPEL files not entire projects).
@@ -44,6 +39,18 @@ import sun.security.action.GetPropertyAction;
  * @author Bruno Wassermann, written Aug 4, 2006
  */
 public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
+	
+	/*
+	 * TODO Idea for resolving bug 5. Maybe can register a standard resource
+	 * listener on the workbench in initialize() (override, call super() and then
+	 * register) and get any events/deltas. Then can decide whether something
+	 * we are interested in happened and do ModuleFactory.clearModuleCache() 
+	 * (see ProjectModuleFactoryDelegate.handleGlobalProjectChange()).
+	 * This would be a bit of a hack, but would fix the bug until 
+	 * ResourceManager does not just notify us of project changes, but also
+	 * considers file resources.
+	 */
+	
 	
 	/**
 	 * Stores a mapping from <code>IModules</code> to <code>BPELModuleDelegates</code>
@@ -81,11 +88,11 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 	protected IModule createModuleDelegates(IProject project, IFile file) {
 		try {			
 			IModule module = createModule(
-					project.getName().concat(file.getName()),
-					file.getName(), 
+					project.getName().concat(">>" + file.getProjectRelativePath().toString()),
+					project.getName() + "/" + file.getProjectRelativePath().toString(), 
 					IBPELModuleFacetConstants.BPEL20_MODULE_TYPE,
 					getVersion(project),
-					project);
+					project);			
 			BPELModuleDelegate moduleDelegate = new BPELModuleDelegate(project, file);
 			moduleDelegates.put(module, moduleDelegate);
 			return module;
@@ -114,7 +121,7 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 		modules.toArray(modules2);
 		return modules2;
 	}
-	
+		
 	protected void clearCache() {
 		moduleDelegates = new HashMap(5);
 	}
@@ -221,7 +228,7 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 					&& ProjectFacetsManager.isProjectFacetDefined(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET)) 
 			{
 				IProjectFacet projectFacet = ProjectFacetsManager.getProjectFacet(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
-				
+
 				return facetedProject.getInstalledVersion(projectFacet).getVersionString();
 			}
 		} catch (Exception e) {

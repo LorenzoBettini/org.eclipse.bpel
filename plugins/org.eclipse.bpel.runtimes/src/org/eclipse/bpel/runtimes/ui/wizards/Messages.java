@@ -1,6 +1,13 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2006 University College London Software Systems Engineering
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 	Bruno Wassermann - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.bpel.runtimes.ui.wizards;
 
 import org.eclipse.osgi.util.NLS;

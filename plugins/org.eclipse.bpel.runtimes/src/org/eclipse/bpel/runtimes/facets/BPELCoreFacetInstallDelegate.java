@@ -5,20 +5,34 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Initial Contribution by:
- *     University College London Software Systems Engineering
+ * Contributors:
+ * 	Bruno Wassermann - initial API and implementation
  *******************************************************************************/
 package org.eclipse.bpel.runtimes.facets;
 
-import org.eclipse.core.resources.IFolder;
+import org.eclipse.bpel.runtimes.IBPELModuleFacetConstants;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jem.util.logger.proxy.Logger;
+import org.eclipse.wst.common.componentcore.datamodel.FacetDataModelProvider;
+import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.wst.common.componentcore.internal.operation.FacetDataModelOperation;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModelOperation;
+import org.eclipse.wst.common.frameworks.internal.datamodel.DataModelImpl;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 
 /**
  * BPEL Facet implementation of <code>IDelegate</code>. 
+ * <p>
+ * Note: Must not call IFacetedProject.modify() to install facet as this is
+ * a prohibited operation from a delegate and will throw <code>CoreException</code>.
  *
  * @author Bruno Wassermann, written Jun 7, 2006
  */
@@ -36,20 +50,36 @@ public class BPELCoreFacetInstallDelegate implements IDelegate {
 	public void execute(IProject proj, 
 						IProjectFacetVersion ver, 
 						Object obj,
-						IProgressMonitor progMon) 
+						IProgressMonitor monitor) 
 		throws CoreException 
 	{
-		progMon.beginTask( "", 2 );
+		monitor.beginTask("", 3);
+		monitor.worked(1);
+		
+		FacetInstallDataModelProvider dmProvider = new FacetInstallDataModelProvider();
+		IDataModel dataModel = new DataModelImpl(dmProvider);
+		monitor.worked(1);
+		
+		try {
+			dataModel.setProperty(
+					IFacetDataModelProperties.FACET_ID, 
+					IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
+			dataModel.setProperty(
+					IFacetDataModelProperties.FACET_PROJECT_NAME, 
+					proj.getName());
+			dataModel.setProperty(
+					IFacetDataModelProperties.FACET_VERSION, 
+					ver);
+			dataModel.setProperty(
+					IFacetDataModelProperties.FACET_VERSION_STR, 
+					ver.getVersionString());
+			dataModel.setProperty(IFacetDataModelProperties.SHOULD_EXECUTE, Boolean.TRUE);
 
-        try
-        {
-        	progMon.worked( 1 );
-        	progMon.worked( 1 );
-        }
-        finally
-        {
-            progMon.done();
-        }
+			monitor.worked(1);
+
+		} catch (Exception e) {
+			Logger.getLogger().logError(e);
+		}		
+		monitor.done();
 	}
-	
 }

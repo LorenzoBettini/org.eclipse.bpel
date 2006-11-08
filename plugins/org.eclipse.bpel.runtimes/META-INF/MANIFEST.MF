@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Runtimes Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.runtimes; singleton:=true
-Bundle-Version: 0.0.1
+Bundle-Version: 0.0.2
 Bundle-Activator: org.eclipse.bpel.runtimes.RuntimesPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.common.frameworks.ui,
  org.eclipse.jst.server.generic.core,
  org.eclipse.jem.util,
- org.eclipse.debug.ui
+ org.eclipse.debug.ui,
+ org.eclipse.jst.ws.consumption
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.bpel.runtimes,
  org.eclipse.bpel.runtimes.facets,
@@ -26,4 +27,4 @@ Export-Package: org.eclipse.bpel.runtimes,
  org.eclipse.bpel.runtimes.publishers,
  org.eclipse.bpel.runtimes.ui.wizards
 Bundle-ClassPath: code.jar
-Bundle-Vendor: University College London Software Systems Engineering
+Bundle-Vendor: %providerName

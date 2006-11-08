@@ -5,8 +5,8 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Initial Contribution by:
- *     University College London Software Systems Engineering
+ * Contributors:
+ * 	Bruno Wassermann - initial API and implementation
  *******************************************************************************/
 package org.eclipse.bpel.runtimes.module;
 
@@ -79,6 +79,9 @@ public class BPELDeployableArtifactUtil {
 	/*
 	 * TODO in case fixed BPEL facet is not set anymore, may be able to set
 	 * the facet programmatically as a fix for the time being
+	 * 
+	 * TODO figure out new plugin.xml syntax for fixed facet from dynamic web
+	 * project
 	 * 
 	 * TODO this is a duplicate method (BPELModuleFactory.getVersion()). 
 	 * Replace this with a utility method somewhere. 

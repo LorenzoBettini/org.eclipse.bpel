@@ -5,8 +5,8 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Initial Contribution by:
- *     University College London Software Systems Engineering
+ * Contributors:
+ * 	Bruno Wassermann - initial API and implementation
  *******************************************************************************/
 package org.eclipse.bpel.runtimes.module;
 
