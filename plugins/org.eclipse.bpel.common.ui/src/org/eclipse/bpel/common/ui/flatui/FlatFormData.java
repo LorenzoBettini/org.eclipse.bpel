@@ -134,4 +134,17 @@ FlatFormAttachment getTopAttachment () {
 	return bottomAttachment.plus (top.offset);
 }
 
+public String toString () {
+ 	String string = getClass().getName ()+" {";
+ 	if (width != 0) string += "w=" + width + " " ;
+ 	if (height != 0) string += "h="+height+" ";
+ 	if (left != null) string += "L=(" + left + ") ";
+ 	if (right != null) string += "R=(" + right + ") ";
+ 	if (top != null) string += "T=(" + top + ") ";
+ 	if (bottom != null) string += "B=(" + bottom + ") ";
+ 	string = string.trim();
+ 	string += "}";
+ 	return string;
+}
+
 }

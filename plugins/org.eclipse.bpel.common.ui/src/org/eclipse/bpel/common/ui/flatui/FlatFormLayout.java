@@ -198,4 +198,15 @@ Point layout (Composite composite, boolean move, int x, int y, int width, int he
 	return move ? null : new Point (width, height);
 }
 	
+
+public String toString () {
+ 	String string = getClass().getName ()+" {";
+ 	if (marginWidth != 0) string += "marginWidth=" + marginWidth + " " ;
+ 	if (marginHeight != 0) string += "marginHeight="+marginHeight+" ";
+ 	
+ 	string = string.trim();
+ 	string += "}";
+ 	return string;
+}
+
 }

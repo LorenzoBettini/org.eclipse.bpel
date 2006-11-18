@@ -229,7 +229,9 @@ public class ModelMarkerUtil {
         if (markerTypeMap == null) {
             initializeMarkerTypeMap();
         }
-        
+        if (markerTypeMap == null) {
+        	return null;
+        }
         Object provider = markerTypeMap.get(markerType);
         if (provider == null) {
             return null;
@@ -269,6 +271,9 @@ public class ModelMarkerUtil {
 	private static void initializeMarkerTypeMap() {
         // load marker content providers
         IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(DECORATION_MARKER_PROVIDERS_EXTENSION_ID);
+        if (extensionPoint == null) {
+        	return ;
+        }
         
         IExtension[] extensions = extensionPoint.getExtensions();
         markerTypeMap = new HashMap(extensions.length);

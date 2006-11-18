@@ -58,7 +58,8 @@ public void fireSelectionChanged(final SelectionChangedEvent event) {
 	Object[] listeners = this.listeners.getListeners();
 	for (int i = 0; i < listeners.length; ++i) {
 		final ISelectionChangedListener l = (ISelectionChangedListener)listeners[i];
-		Platform.run(new SafeRunnable() {
+		
+		SafeRunnable.run(new SafeRunnable() {
 			public void run() {
 				l.selectionChanged(event);
 			}

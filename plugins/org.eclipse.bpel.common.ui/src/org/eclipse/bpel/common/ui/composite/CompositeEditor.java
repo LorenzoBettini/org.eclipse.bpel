@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -326,7 +327,7 @@ public abstract class CompositeEditor extends EditorPart {
 					public void handleException(Throwable exception) {
 					}
 				};
-				Platform.run(runnable);
+				SafeRunnable.run(runnable);				
 			}
 		} finally {
 			monitor.done();
