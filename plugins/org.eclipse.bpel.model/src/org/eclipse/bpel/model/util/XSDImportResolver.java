@@ -30,6 +30,11 @@ import org.eclipse.xsd.util.XSDResourceImpl;
 
 public class XSDImportResolver implements ImportResolver {
     
+	/**
+	 * Report what kind of import handle.
+	 * @return the schema for schema URI.
+	 */
+	
     public final static String getImportType() {
         return XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001;
     }
@@ -75,15 +80,31 @@ public class XSDImportResolver implements ImportResolver {
     }
 
     
+    /**
+     * Resolve an object from the import.
+     * @param import to resolve from.
+     * @param qname of the object.
+     * @param name ?
+     * @param refType the type of resolution that we are doing.
+     * @return the resolved object.
+     */
     
     public EObject resolve(Import imp, QName qname, String name, String refType) {
         EObject result = null;
         
-        if (getImportType().equals(imp.getImportType()) == false || 
-        		XSDUtil.isSchemaType(refType) == false) {
+        if (getImportType().equals(imp.getImportType()) == false) {
+        	return result; 
+        }
+        
+        if (XSDUtil.isSchemaType(refType) == false && TOP.equals(refType) == false) {
         	return result;            
         }        
-        XSDSchema schema = findAndLoadSchema( imp );                    
+        XSDSchema schema = findAndLoadSchema( imp );   
+        
+        if (TOP.equals(refType)) {
+        	return schema;
+        }
+        
         result = XSDUtil.resolve(schema, qname, name, refType);
         
         return result;

@@ -20,11 +20,15 @@ import org.eclipse.emf.ecore.EObject;
 
 public interface ImportResolver
 {   
-	/** Resovle the schema from the import */	
+	/** Resolve the schema from the import */	
 	int RESOLVE_SCHEMA = 1;
 	
 	/** Resolve the definition from the import */
 	int RESOLVE_DEFINITION = 2;
+	
+	/** The top element, which implies the model behind the import */
+	String TOP = "top.element"; //$NON-NLS-1$
+	
 	
     EObject resolve(Import imp, QName qname, String name, String refType);
     

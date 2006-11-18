@@ -2362,8 +2362,9 @@ public class BPELReader {
 		// Set variable
 		Attr variable = toElement.getAttributeNode("variable"); 
     
-		if (variable != null && variable.getSpecified())				
+		if (variable != null && variable.getSpecified()) {				
 			setVariable(toElement, to, "variable", BPELPackage.eINSTANCE.getTo_Variable());
+		}
 
 		// Set part
 		Attr part = toElement.getAttributeNode("part"); 		
@@ -2376,8 +2377,9 @@ public class BPELReader {
 		// Set partnerLink			
 		Attr partnerLink = toElement.getAttributeNode("partnerLink");			
 		
-		if (partnerLink != null && partnerLink.getSpecified())
-			setPartnerLink(toElement, to, BPELPackage.eINSTANCE.getTo_PartnerLink());			
+		if (partnerLink != null && partnerLink.getSpecified()) {
+			setPartnerLink(toElement, to, BPELPackage.eINSTANCE.getTo_PartnerLink());
+		}
 
 		// Set property		
 		Attr property = toElement.getAttributeNode("property");
@@ -2444,14 +2446,17 @@ public class BPELReader {
 		
 		Attr endpointReference = fromElement.getAttributeNode("endpointReference");
     
-		if (endpointReference != null && endpointReference.getSpecified())
+		if (endpointReference != null && endpointReference.getSpecified()) {
 			from.setEndpointReference(EndpointReferenceRole.get(endpointReference.getValue()));
+		}
 		
-		// Set service-ref element
-		boolean foundServiceRef = false;
+		// Set service-ref element		
 		Element serviceRefElement = getBPELChildElementByLocalName(fromElement, "service-ref");
+		Element literalElement = getBPELChildElementByLocalName(fromElement, "literal");
+		
+		
 		if (serviceRefElement != null) {
-			foundServiceRef = true;
+					
 			ServiceRef serviceRef = BPELFactory.eINSTANCE.createServiceRef();
 			from.setServiceRef(serviceRef);
 			
@@ -2511,115 +2516,48 @@ public class BPELReader {
 			} else {
 				serviceRef.setValue(data);
 			}
-		}
+						
+		} 
 		
-		// Set new expression element
-		Element expressionElement = getBPELChildElementByLocalName(fromElement, "expression");
-		if (expressionElement != null) {
+		
+		// Literal node
+		if (literalElement != null) {
+			
+			String elementData = BPELUtils.elementToString(literalElement);
+			from.setUnsafeLiteral(Boolean.FALSE);
+			
+			if (isEmptyOrWhitespace(elementData) == false) {
+				from.setUnsafeLiteral(Boolean.TRUE);
+				from.setLiteral( elementData );
+			}
+			
+		} else {		
+		
+			// must be expression
 			Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
 			from.setExpression(expressionObject);
 			
 			// Set expressionLanguage
-			if (expressionElement.hasAttribute("expressionLanguage")) {
-				expressionObject.setExpressionLanguage(expressionElement.getAttribute("expressionLanguage"));
+			if (fromElement.hasAttribute("expressionLanguage")) {
+				expressionObject.setExpressionLanguage(fromElement.getAttribute("expressionLanguage"));
 			}
 
 			// Set expression text
 			// Get the condition text
-			String data = "";
-			Node node = expressionElement.getFirstChild();
-			boolean containsValidData = false;
-			while (node != null) {
-				if (node.getNodeType() == Node.TEXT_NODE) {
-					Text text = (Text)node;
-					data += text.getData();
-				} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-					data="";
-					do {
-						CDATASection cdata = (CDATASection) node;
-						data += cdata.getData();
-						node = node.getNextSibling();
-						containsValidData = true;
-					} while (node != null && node.getNodeType() == Node.CDATA_SECTION_NODE);
-					break;
-				}
-				node = node.getNextSibling();
-			}
-			if (!containsValidData) {
-				for (int i = 0; i < data.length(); i++) {
-					char charData = data.charAt(i);
-					if (charData == '\n' || Character.isWhitespace(charData)){}//ignore
-					else { //valid data
-						containsValidData = true;
-						break;
-					}
-				}
-			}
-			
-			if (containsValidData) {
+			String data = slurpTextualNodes ( fromElement );
+			if (isEmptyOrWhitespace(data) == false) {			
 				expressionObject.setBody(data);
-			}
+			}								
 		}
 
 		// Set opaque
 		Attr opaque = fromElement.getAttributeNode("opaque");
 			
-		if (opaque != null && opaque.getSpecified())
+		if (opaque != null && opaque.getSpecified()) {
 			from.setOpaque(new Boolean(opaque.getValue().equals("yes")));
-
-		// Literal value
-		// Only consider a literal if we do not have a service-ref or
-		// a query or an expression.
-		// Revisit this with resolution of OASIS issue.
-		if (!foundServiceRef && from.getQuery() == null && from.getExpression() == null) {
-			String elementData = null;
-			for (Node node = fromElement.getFirstChild(); node != null; node = node.getNextSibling()) {
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					if (elementData == null) elementData = "";
-					elementData = elementData+BPELUtils.elementToString((Element)node);
-				}
-			}
-			
-			from.setUnsafeLiteral(Boolean.FALSE);
-			boolean containsValidData = false;
-			String data = "";
-			if (elementData != null) {
-				from.setUnsafeLiteral(Boolean.TRUE);
-				data = elementData;
-				containsValidData = true;
-			} else {
-				Node node = fromElement.getFirstChild();
-				while(node != null) {
-					if (node.getNodeType() == Node.TEXT_NODE) {
-						Text text = (Text) node;
-						data += text.getData();
-						from.setUnsafeLiteral(Boolean.TRUE);
-					} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-						data="";
-						do {
-							CDATASection cdata = (CDATASection) node;
-							data += cdata.getData();
-							node = node.getNextSibling();
-							containsValidData = true;
-						} while (node != null && node.getNodeType() == Node.CDATA_SECTION_NODE);
-						break;
-					}
-					node = node.getNextSibling();
-				}
-	
-				if(!containsValidData){
-					for (int i = 0; i < data.length(); i++) {
-						char charData = data.charAt(i);
-						if(charData == '\n' || Character.isWhitespace(charData)){}//ignore
-						else{ //valid data
-							containsValidData = true;
-							break;
-						}
-					}
-				}
-			}
-			if(containsValidData) from.setLiteral(data);
 		}
+
+		
 		// See if there is an xsi:type attribue.
 		if (fromElement.hasAttribute("xsi:type")) {
 			QName qName = BPELUtils.createAttributeValue(fromElement, "xsi:type");
@@ -3121,10 +3059,53 @@ public class BPELReader {
 		}
 	}
 	
+	
+	
+	
+	
+	String slurpTextualNodes ( Element node ) {
+		
+		StringBuffer sb = new StringBuffer(128);
+		Node n = node.getFirstChild();
+		while (n != null) {
+			switch (n.getNodeType()) {
+			case Node.TEXT_NODE :
+			case Node.CDATA_SECTION_NODE :
+				sb.append( n.getNodeValue() );
+				break;
+			}
+			n = n.getNextSibling();
+		}
+		return sb.toString();
+	}
+	
+
+	/**
+     * Returns true if the string is either null or contains just whitespace.
+	 * @param value 
+	 * @return true if empty or whitespace, false otherwise.
+     */
+		
+   static public boolean isEmptyOrWhitespace( String value )
+   {
+       if( value == null || value.length() == 0) {
+           return true;
+       }               
+       for( int i = 0, j = value.length(); i < j; i++ )
+       {
+           if( ! Character.isWhitespace( value.charAt(i) ) ) {
+               return false;
+           }
+       }
+       return true;
+   }
+	
+	
 	/**
 	 * Helper method to get a string from the given text node or CDATA text node.
 	 */
-	private String getText(Node node) {
+	private String getText (Node node) {
+		
 		String data = "";
 		boolean containsValidData = false;
 		while (node != null) {
@@ -3143,6 +3124,7 @@ public class BPELReader {
 			}
 			node = node.getNextSibling();
 		}
+		
 		if (!containsValidData) {
 			for (int i = 0; i < data.length(); i++) {
 				char charData = data.charAt(i);

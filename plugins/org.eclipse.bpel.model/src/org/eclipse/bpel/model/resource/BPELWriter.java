@@ -1250,25 +1250,39 @@ public class BPELWriter {
 
 	protected void from2XML(From from,Element fromElement) {
 		to2XML(from,fromElement);
-		if (from.isSetEndpointReference())
+		
+		if (from.isSetEndpointReference()) {
 			fromElement.setAttribute("endpointReference", from.getEndpointReference().toString());
-		if (from.isSetOpaque())
+		}
+		
+		if (from.isSetOpaque()) {
 			fromElement.setAttribute("opaque", BPELUtils.boolean2XML(from.getOpaque()));
+		}
+		
+		
 		if (from.isSetLiteral() && from.getLiteral() != null && !from.getLiteral().equals("")) {
+			
 			Node node = null;
+			Element literal = createBPELElement("literal");
+			
+			fromElement.appendChild(literal);
+			
 			if (Boolean.TRUE.equals(from.getUnsafeLiteral())) {
 				node = BPELUtils.convertStringToNode(from.getLiteral(), bpelResource);
 			}
+			
 			if (node != null) {
 				for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
-					DOMUtil.copyInto(child, fromElement);
+					DOMUtil.copyInto(child, literal);
 				}
 			} else {
 				CDATASection cdata = BPELUtils.createCDATASection(document, from.getLiteral());
 				fromElement.appendChild(cdata);
 			}
+						
 		}
 
+		
 		if (from.getServiceRef() != null) {
 			ServiceRef serviceRef = from.getServiceRef();
 			Element serviceRefElement = createBPELElement("service-ref");
@@ -1314,19 +1328,20 @@ public class BPELWriter {
 				fromElement.appendChild(serviceRefElement);
 			}
 		}
+
 		
 		if (from.getExpression() != null) {
 			Expression expression = from.getExpression();
-			Element expressionElement = createBPELElement("expression");
+			
 			if (expression.getExpressionLanguage() != null) {
-				expressionElement.setAttribute("expressionLanguage", expression.getExpressionLanguage());
+				fromElement.setAttribute("expressionLanguage", expression.getExpressionLanguage());
 			}
 			if (expression.getBody() != null) {
 				CDATASection cdata = BPELUtils.createCDATASection(document, (String)expression.getBody());
-				expressionElement.appendChild(cdata);
-			}
-			fromElement.appendChild(expressionElement);
+				fromElement.appendChild(cdata);
+			}			
 		}
+		
 		if (from.getType() != null) {
 			XSDTypeDefinition type = from.getType();
 			QName qname = new QName(type.getTargetNamespace(), type.getName());

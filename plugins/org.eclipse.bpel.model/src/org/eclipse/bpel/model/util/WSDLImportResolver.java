@@ -67,12 +67,20 @@ public class WSDLImportResolver implements ImportResolver {
     public EObject resolve(Import imp, QName qname, String name, String refType) {
         EObject result = null;
         
-        if (getImportType().equals(imp.getImportType()) == false ||
-        		WSDLUtil.isWSDLType(refType) == false)  {
+        if ( getImportType().equals(imp.getImportType()) == false ) {
+        	return result;
+        }
+        
+        if (WSDLUtil.isWSDLType(refType) == false && refType.equals(TOP) == false) {
         	return result;
         }
         
         Definition definition = findAndLoadWSDL ( imp );
+        
+        if (refType.equals(TOP)) {
+        	return definition;
+        }
+        
         if (definition != null) {
         	result = WSDLUtil.resolveWSDLReference(definition, qname, name, refType);
         }
