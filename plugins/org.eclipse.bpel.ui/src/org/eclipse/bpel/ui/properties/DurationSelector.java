@@ -16,8 +16,8 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -27,7 +27,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TypedListener;
-import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+
 
 
 /**
@@ -37,12 +38,19 @@ import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertyS
  */
 public class DurationSelector extends Composite {
 
+	/** The id of the text widget (property) */
+	static final String ID    = "id";  //$NON-NLS-1$
+	
+	/** The text of the widget, tracked in focus listener */
+	static final String TEXT  = "text"; //$NON-NLS-1$
+	
+	
 	protected Composite topComposite;
 	protected Composite[] composite;
 	protected Label[] label;
 	protected Text[] text;
 
-	protected int lastWidgetChanged = -1;
+	protected Object lastWidgetChanged;
 
 	protected static final int YEAR=0, MONTH=1, DAY=2, HOUR=3, MINUTE=4, SECOND=5; 
 	protected static final String[] labelStrings = {
@@ -88,7 +96,8 @@ public class DurationSelector extends Composite {
 			// Accessibility: create each Label right before the corresponding Text.
 			label[i] = wf.createLabel(composite[i], labelStrings[i], SWT.CENTER);
 			text[i] = wf.createText(composite[i], "0"); //$NON-NLS-1$
-		
+			text[i].setData(ID, new Integer(i));
+			
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0,0);
 			data.right = new FlatFormAttachment(100,0);
@@ -109,18 +118,87 @@ public class DurationSelector extends Composite {
 		layout(true);
 	}
 	
-	private void addListeners(){
+	private void addListeners() {
 		// TODO: if we use text widgets, we need to support committers.
 		// when spinners are implemented we might still need to support committers..
-		ModifyListener commonListener = new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				for (int i = 0; i<6; i++) {
-					if (e.widget == text[i])  lastWidgetChanged = i;
-				}
-				selectionChanged();
+		
+		/**
+		 * We use a focus listener to track modifications in the widgets. Only when one
+		 * of the text widgets is truly modified we fire up a change event to whoever 
+		 * is listening on us. 
+		 */
+		
+		FocusListener focusListener = new FocusListener() {
+			
+			public void focusGained(FocusEvent e) {
+				Text w = (Text) e.widget;				
+				w.setData(TEXT,w.getText().trim());
 			}
+
+			public void focusLost(FocusEvent e) {
+				
+				Text w = (Text) e.widget;
+				String cv = w.getText();
+				String ct = cv.trim();
+				String ov = (String) w.getData(TEXT);
+				
+				if (isValidValue (ct, (Integer) w.getData(ID) ) == false) {
+					w.setText(ov);
+					return ;
+				}
+				
+				
+				// ignore any spaces around the text
+				if (ct.equals ( cv ) == false ) {
+					w.setText(ct);
+				}
+				
+				// if the trimmed value is different from the original one, then we
+				// do have a change.
+				
+				if (ct.equals(ov) == false) {
+					lastWidgetChanged = w.getData( ID );
+					selectionChanged();
+				}				
+			}			
 		};
-		for (int i = 0; i<6; i++)  text[i].addModifyListener(commonListener);
+		
+		for (int i = 0; i<6; i++)  {			
+			text[i].addFocusListener(focusListener);
+		}
+	}
+	
+	/**
+	 * Determines if the value entered is valid for this type of field. 
+	 * 
+	 * @param value the value as string.
+	 * @param type the type 
+	 * @return true/false
+	 */
+	
+	boolean isValidValue ( String value, Integer type ) {
+		int n = numberValue(value);
+		
+		if (n < 0) {
+			return false;
+		}
+		
+		switch ( type.intValue()) {
+		case YEAR :
+			return  n < 999;
+		case MONTH :
+			return n < 12;
+		case DAY : 
+			return n < 31;
+		case HOUR : 
+			return n < 24;
+		case MINUTE :
+		case SECOND :
+			return n < 59 ;
+		default : 
+			return false;
+		}
+		
 	}
 	
 	protected int numberValue(String s)  {
@@ -133,6 +211,11 @@ public class DurationSelector extends Composite {
 		return result;
 	}
 
+	/**
+	 * Return the values as a 6 element string.
+	 * @return the values present in this "editor"
+	 */
+	
 	public int[] getValues() {
 		int[] result = new int[6];
 		for (int i = 0; i<6; i++) {
@@ -141,11 +224,18 @@ public class DurationSelector extends Composite {
 		return result;
 	}
 	
+	
+	/**
+	 *  Sets the values of the duration in the editor.
+	 *  
+	 * @param duration
+	 * @return true on success 
+	 */
 	public boolean setValues(int[] duration) {
-		// TODO: check validity?
-		int last = lastWidgetChanged;
-		for (int i = 0; i<6; i++)  text[i].setText(String.valueOf(duration[i]));
-		lastWidgetChanged = last;
+		
+		for (int i = 0; i<6; i++)  {
+			text[i].setText(String.valueOf(duration[i]));
+		}
 		return true;
 	}
 	
@@ -156,22 +246,50 @@ public class DurationSelector extends Composite {
 		e.widget.notifyListeners(e.type, e);
 	}
 	
-	public void addSelectionListener(SelectionListener listener){
+	/**
+	 * @param listener
+	 */
+	public void addSelectionListener (SelectionListener listener ) {
+		
 		TypedListener typedListener = new TypedListener (listener);
 		addListener (SWT.Selection,typedListener);
-		addListener (SWT.DefaultSelection,typedListener);
 	}
 
+	/**
+	 * Return the user context for this editor. This will help restore the editor
+	 * to the previous state when activated again.
+	 * 
+	 * @return the user context 
+	 */
+	
 	public Object getUserContext() {
-		return new Integer(lastWidgetChanged);
+		return lastWidgetChanged;
 	}
 	
+	
+	/**
+	 * Restore the user context, restore editor to the last state.
+	 * @param userContext
+	 */
 	public void restoreUserContext(Object userContext) {
+		
 		int i = ((Integer)userContext).intValue();
-		if (i >= 0)  text[i].setFocus();
+		
+		if (i >= 0) {
+			text[i].setFocus();
+		}
 	}
 
+	
+	/** 
+	 * Enable this editor.
+	 * 
+	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
+	 */
+	
+	@Override
 	public void setEnabled(boolean enabled) {
+		
 		super.setEnabled(enabled);
 		for (int i = 0; i < text.length; i++) {
 			text[i].setEnabled(enabled);

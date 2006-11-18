@@ -79,7 +79,9 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 			boolean needRefresh = false;
 			boolean toOrFromAffected = false;
 			public void notify(Notification n) {
-				if (isBodyAffected(n) && !isExecutingStoreCommand) needRefresh = true;
+				needRefresh = isBodyAffected(n);
+				
+				// if (isBodyAffected(n) && !isExecutingStoreCommand) needRefresh = true;
 				if (isToOrFromAffected(n)) toOrFromAffected = true;
 				refreshAdapters();
 			}
@@ -160,6 +162,8 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		fillLayout.marginHeight = fillLayout.marginWidth = 0;
 		parent.setLayout(fillLayout);
 		super.createClient(parent);
+		
+		
 	}
 	
 	// HACK

@@ -23,12 +23,19 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabDescriptor;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegistry;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.part.IPageSite;
-import org.eclipse.wst.common.ui.properties.internal.provisional.ITabbedPropertySheetPageContributor;
-import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
-import org.eclipse.wst.common.ui.properties.internal.view.TabDescriptor;
-import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyRegistry;
-import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+// import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+
+//import org.eclipse.wst.common.ui.properties.internal.provisional.ITabbedPropertySheetPageContributor;
+//import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
+//import org.eclipse.wst.common.ui.properties.internal.view.TabDescriptor;
+//import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyRegistry;
+//import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
 
 /**
  * Our own version of the TabbedPropertySheetPage in order to supply the

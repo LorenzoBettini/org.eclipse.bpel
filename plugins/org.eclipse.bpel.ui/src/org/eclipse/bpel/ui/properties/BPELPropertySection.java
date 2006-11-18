@@ -26,9 +26,11 @@ import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
@@ -36,6 +38,7 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -43,10 +46,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.wst.common.ui.properties.internal.provisional.AbstractPropertySection;
-import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
-import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
-import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
+// import org.eclipse.wst.common.ui.properties.internal.provisional.AbstractPropertySection;
+// import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
+// import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
+// import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
+
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
+import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * An abstract implementation which provides some adapter support and useful stuff.
@@ -76,13 +84,21 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	protected BPELTabbedPropertySheetPage tabbedPropertySheetPage;
 
 	
+		
 	final protected ModelContentProposalProvider.ValueProvider inputValueProvider =  new ModelContentProposalProvider.ValueProvider () {
 		public Object value() {
 			return getModel();
 		}		
 	};
 	
-	
+
+	@Override
+	public TabbedPropertySheetWidgetFactory getWidgetFactory() {
+		TabbedPropertySheetWidgetFactory wf = super.getWidgetFactory();
+		wf.setBorderStyle(SWT.BORDER);
+		return wf;
+	}
+
 	public BPELPropertySection() {
 		super();
 		adapters = createAdapters();
@@ -370,7 +386,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	protected Composite createFlatFormComposite(Composite parent) {
 		Composite result = wf.createFlatFormComposite(parent);
 		FlatFormLayout formLayout = new FlatFormLayout();
-		formLayout.marginWidth = formLayout.marginHeight = 0;
+		formLayout.marginWidth = formLayout.marginHeight = 0;		
 		result.setLayout(formLayout);
 		return result;
 	}
@@ -397,16 +413,47 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	
 	/**
 	 * Shows the given marker.
+	 * @param marker
 	 */
-	public void gotoMarker(IMarker marker) {
+	public void gotoMarker (IMarker marker) {
+		
 	}
 	
 	/**
-	 * Returns true if this section knows how to show the given marker. 
+	 * Returns true if this section knows how to show the given marker.
+	 * 
+	 * @param marker the marker to be checked. 
+	 * @return true if so, false otherwise ... 
 	 */
-	public boolean isValidMarker(IMarker marker) {
+	
+	public boolean isValidMarker (IMarker marker) {
+		
+		EObject obj = BPELUtil.getObjectFromMarker( marker, modelObject );
+		
+		if (obj == null) {
+			return false ;
+		}
+		
+		// do the easy check
+		if ( obj.equals( modelObject ) ) {
+			return true;
+		}
+		
 		return false;
 	}
+
+	
+	/**
+	 * Return the Context names that allows us to point markers correctly at this 
+	 * section.
+	 * 
+	 * @return an array of context names 
+	 */
+	
+	public String[] getContextNames () {
+		return new String[] {}; 
+	}
+	
 	
 	/**
 	 * Given a model object, selects it in the BPEL Editor and makes sure the

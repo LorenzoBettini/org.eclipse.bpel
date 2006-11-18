@@ -12,7 +12,8 @@ package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.model.To;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.wst.common.ui.properties.internal.provisional.ISection;
+import org.eclipse.ui.views.properties.tabbed.ISection;
+
 
 
 /**

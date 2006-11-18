@@ -26,16 +26,18 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.widgets.Composite;
 
 
+/**
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Nov 15, 2006
+ *
+ */
 public abstract class TextSection extends BPELPropertySection implements IGetExpressionEditor {
 
 	protected IExpressionEditor editor;
-	protected boolean isExecutingStoreCommand = false;
+	// protected boolean isExecutingStoreCommand = false;
 	protected boolean updating = false;
 	protected IOngoingChange change;
-	
-	public boolean shouldUseExtraSpace() {
-		return true;
-	}
 	
 	protected void disposeEditor() {
 		if (editor != null) {
@@ -44,23 +46,33 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 		}
 	}
 	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
+		
 		MultiObjectAdapter adapter = new BatchedMultiObjectAdapter() {
+			
 			boolean needRefresh = false;
-			public void notify(Notification n) {
-				if (!isExecutingStoreCommand) {
-					if (isBodyAffected(n)) needRefresh = true;
-				}
+			
+			@Override
+			public void notify(Notification n) {				
+				needRefresh = isBodyAffected(n);								
 				refreshAdapters();
 			}
+			
+			@Override
 			public void finish() {
-				if (needRefresh) updateWidgets();
+				if (needRefresh) {
+					updateWidgets();
+				}
 				needRefresh = false;
 			}
 		};
+		
 		return new MultiObjectAdapter[] { adapter };
 	}
 
+	
+	
 	protected String getCommandLabel() {
 		return IBPELUIConstants.CMD_EDIT_EXPRESSION;
 	}
@@ -77,11 +89,11 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 				if (command == null) return null;
 				CompoundCommand result = new CompoundCommand() {
 				    public void execute() {
-				        isExecutingStoreCommand = true;
+				        //isExecutingStoreCommand = true;
 				        try {
 				            super.execute();
 				        } finally {
-				            isExecutingStoreCommand = false;
+				            //isExecutingStoreCommand = false;
 				        }
                     }
 				};
@@ -102,11 +114,22 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 		};
 	}
 	
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#shouldUseExtraSpace()
+	 */
+	@Override
+	public boolean shouldUseExtraSpace() {
+		return true;
+	}
+	
+	
+	@Override
 	protected void createClient(Composite parent) {
 		createEditor(parent);
 		createChangeHelper();
 	}
 
+	
 	protected abstract void createEditor(Composite parent);
 	
 	protected void notifyEditorChanged() {
@@ -129,22 +152,35 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 	}
 
 	public void aboutToBeShown() {
-		if (Policy.DEBUG) System.out.println("exprdetails.aboutToBeShown() - "+this); //$NON-NLS-1$
+		if (Policy.DEBUG) {
+			System.out.println("exprdetails.aboutToBeShown() - "+this); //$NON-NLS-1$
+		}
+		
 		// TODO: can't remove the following line because we rely on this event
 		// in some places.
-		updateEditor();
+		// updateEditor();
+		
 		super.aboutToBeShown();
-		if (editor != null) editor.aboutToBeShown();
+		if (editor != null) {
+			editor.aboutToBeShown();
+		}
+		
 //		if (Platform.getWS().equals(Platform.WS_GTK)) {
 //			((DetailsArea)detailsArea).getDetailsAreaComposite().getScrolledComposite().pack(true);
 //			((DetailsArea)detailsArea).getDetailsAreaComposite().getScrolledComposite().pack(true);
 //		}
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#dispose()
+	 */
+	
+	@Override
 	public void dispose() {
 	    disposeEditor();
 	}
 
+	
 	protected void updateWidgets() {
 		Assert.isNotNull(getInput());
 
@@ -157,19 +193,16 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 			}
 		}
 	}
+    
 
-	public void refresh() {
-		super.refresh();
-		updateEditor();
-		updateWidgets();
-	}
-
-    public Object getUserContext() {
+	public Object getUserContext() {
     	return (editor==null)? null : editor.getUserContext();
     }
 
     public void restoreUserContext(Object userContext) {
-    	if (editor != null) editor.restoreUserContext(userContext);
+    	if (editor != null) {
+    		editor.restoreUserContext(userContext);
+    	}
     }
     
 	public IExpressionEditor getExpressionEditor() {
@@ -182,10 +215,15 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 	public void gotoMarker(IMarker marker) {
 		// TODO: Look up the use type.
 		String useType = null;
-		getExpressionEditor().gotoTextMarker(marker, useType, modelObject);
+		IExpressionEditor editor = getExpressionEditor();
+		// may have not been created yet
+		if (editor == null) {
+			return ;
+		}
+		editor.gotoTextMarker(marker, useType, modelObject);
 	}
 	
 	public boolean isExecutingStoreCommand() {
-		return isExecutingStoreCommand;
+		return false; // isExecutingStoreCommand;
 	}
 }

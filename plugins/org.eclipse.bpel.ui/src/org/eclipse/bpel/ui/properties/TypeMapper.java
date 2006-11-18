@@ -11,7 +11,8 @@
 package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.wst.common.ui.properties.internal.provisional.ITypeMapper;
+import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
+
 
 public class TypeMapper implements ITypeMapper {
 
@@ -24,4 +25,15 @@ public class TypeMapper implements ITypeMapper {
         }
 		return object.getClass();
     }
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.ITypeMapper#mapType(java.lang.Object)
+	 */
+	public Class mapType(Object object) {
+		
+		if (object instanceof EditPart) {
+            object = ((EditPart)object).getModel();
+        }
+		return object.getClass();		
+	}
 }

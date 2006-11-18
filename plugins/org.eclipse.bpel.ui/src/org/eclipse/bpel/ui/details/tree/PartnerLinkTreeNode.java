@@ -38,18 +38,27 @@ public class PartnerLinkTreeNode extends TreeNode {
 		List list = new ArrayList(2);
 		
 		Role role = partnerLink.getMyRole();
-		PortTypeTreeNode node ;
+		PortTypeTreeNode node = null;
+		PortType portType = null;
+		
 		if (role != null && !role.eIsProxy() ) {
-			node = new PortTypeTreeNode((PortType)role.getPortType(), isCondensed);
-			node.setDerivedFromMyRole(true);
-			list.add(node);
+			portType = (PortType) role.getPortType();
+			if (portType != null) {
+				node = new PortTypeTreeNode((PortType)role.getPortType(), isCondensed);
+				node.setDerivedFromMyRole(true);
+				list.add(node);
+			}
 		}
 		
 		role = partnerLink.getPartnerRole();
+		
 		if (role != null && !role.eIsProxy() )  {
-			node = new PortTypeTreeNode((PortType)role.getPortType(), isCondensed);
-			node.setDerivedFromPartnerRole(true);
-			list.add(node);
+			portType = (PortType) role.getPortType();
+			if (portType != null) {
+				node = new PortTypeTreeNode((PortType)role.getPortType(), isCondensed);
+				node.setDerivedFromPartnerRole(true);
+				list.add(node);
+			}
 		}
 		
 		return list.toArray();

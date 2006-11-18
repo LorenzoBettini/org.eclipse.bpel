@@ -12,9 +12,11 @@ package org.eclipse.bpel.ui.util;
 
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
+import org.eclipse.swt.events.MouseEvent;
 
 
 public class BPELCreationTool extends CreationTool implements IHilightControllingTool {
@@ -33,6 +35,7 @@ public class BPELCreationTool extends CreationTool implements IHilightControllin
 		//if (container == null)  return false;
 		//return container.isValidChild(targetObject, (EClass)getFactory().getObjectType());
 	}
+	
 
 	protected Command getCommand() {
 		try {

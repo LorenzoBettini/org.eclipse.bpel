@@ -13,11 +13,13 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -48,11 +50,16 @@ public class JoinConditionSection extends ExpressionSection {
 	
 	protected boolean isExpressionOptional() { return true; }
 	
-	protected void createNoEditorWidgets(Composite composite) {
-	    super.createNoEditorWidgets(composite);
-		FlatFormData ffdata;
+	
+	@Override
+	protected Composite createNoEditorWidgets(Composite composite) {
+	
+		Composite section = wf.createComposite(composite);
+		section.setLayout(new FlatFormLayout());
+	
+	    FlatFormData ffdata;
 		
-		Label label1 = wf.createLabel(composite,
+		Label label1 = wf.createLabel(section,
 			Messages.JoinConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -60,7 +67,7 @@ public class JoinConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		label2 = wf.createLabel(composite,
+		label2 = wf.createLabel(section,
 			Messages.JoinConditionSection_Optional_condition_text_2); 
 			ffdata = new FlatFormData();
 			ffdata.left = new FlatFormAttachment(0, 0);
@@ -68,7 +75,7 @@ public class JoinConditionSection extends ExpressionSection {
 			ffdata.right = new FlatFormAttachment(100, 0);
 			label2.setLayoutData(ffdata);
 			
-		label3 = wf.createLabel(composite,
+		label3 = wf.createLabel(section,
 				Messages.JoinConditionSection_No_incoming_links_text_1); 
 			ffdata = new FlatFormData();
 			ffdata.left = new FlatFormAttachment(0, 0);
@@ -77,7 +84,7 @@ public class JoinConditionSection extends ExpressionSection {
 			label3.setLayoutData(ffdata);
 		label3.setVisible(false);
 			
-		createDefaultButton = wf.createButton(composite, Messages.JoinConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
+		createDefaultButton = wf.createButton(section, Messages.JoinConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
@@ -89,15 +96,27 @@ public class JoinConditionSection extends ExpressionSection {
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { }
 		});
+		
+		return section;
+		
 	}
 	
+	/**
+	 * Update the widgets based on the last input set.
+	 * 
+	 */
+	@Override
 	protected void updateWidgets() {
+		
 		super.updateWidgets();
+		
 		Activity activity = (Activity)getInput();
 		Targets targets = activity.getTargets();
 		boolean enable = (targets != null);
-		expressionLanguageCCombo.setEnabled(enable);
-		if (hasNoEditor) {
+				
+		expressionLanguageViewer.getCombo().setEnabled(enable);
+		
+		if (hasEditor() == false) {
 			label2.setVisible(enable);
 			label3.setVisible(!enable);
 			createDefaultButton.setVisible(enable);
@@ -105,6 +124,17 @@ public class JoinConditionSection extends ExpressionSection {
 		}
 	}
 
+	
+	@Override
+	protected void basicSetInput(EObject newInput) {		
+		super.basicSetInput(newInput);
+		
+		// update the widgets
+		updateWidgets();
+	}
+
+	
+	@Override
 	protected boolean isValidClientUseType(String useType) {
 		return IBPELUIConstants.USE_TYPE_JOIN_CONDITION.equals(useType);
 	}

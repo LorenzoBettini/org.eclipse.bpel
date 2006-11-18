@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui.editors;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
@@ -19,37 +20,125 @@ import org.eclipse.ui.IPersistableElement;
  */
 public class TextEditorInput implements IEditorInput {
 
-	protected String body;
+	/** body of the document, the initial value */
+	String body;
+	
+	/** A context object */
+	Object eObj;
 
-	public TextEditorInput(String body) {
-		this.body = body;
+	/**
+	 * Create a new Text Editor Input. 
+	 * @param text
+	 * @param eObject
+	 */
+	
+	public TextEditorInput (String text, Object eObject) {
+		setBody (text,eObject);
 	}
 
+	/**
+	 * Returns the body from this TextEditorInput. This may include the modified editor
+	 * body once the editor has notified us that its content has changed.
+	 * 
+	 * @return the editor's body.
+	 */
+	
 	public String getBody() {
-		return body;
+		return fDocument == null ? body : fDocument.get() ;		
+	}
+	
+	/**
+	 * Set the body on the document.
+	 * 
+	 * @param text
+	 * @param eObject
+	 */
+	
+	public void setBody (String text, Object eObject) {
+		
+		body = text;
+		eObj = eObject;
+		
+		if (fDocument != null) {
+			fDocument.set(text);
+		}
+		
 	}
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.IEditorInput#exists()
+	 */
+	
 	public boolean exists() {
 		return false;
 	}
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
+	 */
+	
 	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.IEditorInput#getName()
+	 */
 	public String getName() {
 		return null;
 	}
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.IEditorInput#getPersistable()
+	 */
 	public IPersistableElement getPersistable() {
 		return null;
 	}
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
+	 */
 	public String getToolTipText() {
+		return "XPath Expressions"; //$NON-NLS-1$
+	}
+
+	/**
+	 * Adapt to the adapter class.
+	 * 
+	 * The receiver carries the string input to the editor, so if String.class is passed
+	 * we just return that.
+	 * 
+	 * We also hold a context object. If the context object is of the adapter class we 
+	 * return it is. The context object can be anything ... in our case we pass the reference 
+	 * to the model object that is "closest" to the expression node. 
+	 * @param adapter The adapter class to use.
+	 * @return the adapted object ...
+	 */
+	
+	
+	public Object getAdapter (Class adapter) {
+		
+		if (adapter.isInstance(eObj)) {
+			return eObj;
+		}
+				
+		if (adapter.isInstance(body)) {
+			return getBody();
+		}
 		return null;
 	}
 
-	public Object getAdapter(Class adapter) {
-		return null;
+	
+	IDocument fDocument;
+	
+	/**
+	 * Set the document that this text editor input manages.
+	 * 
+	 * @param doc
+	 */
+	
+	public void setDocument ( IDocument doc ) {
+		fDocument = doc;
 	}
+	
 }

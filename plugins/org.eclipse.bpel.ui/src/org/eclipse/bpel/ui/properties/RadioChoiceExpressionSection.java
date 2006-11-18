@@ -33,10 +33,18 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 	protected Composite radioComposite;
 	protected Button[] radioButtons;
 	
+	protected int fButtonCount ;
 	protected int currentButtonIndex;
 	
-	protected String getExpressionType() { return getButtonExprType(currentButtonIndex); }
-	protected String getExpressionContext() { return getButtonExprContext(currentButtonIndex); }
+	@Override
+	protected String getExpressionType() { 
+		return getButtonExprType(currentButtonIndex); 
+	}
+	
+	@Override
+	protected String getExpressionContext() { 
+		return getButtonExprContext(currentButtonIndex); 
+	}
 	
 	protected abstract String[] getButtonLabels();
 	protected abstract String getButtonExprType(int buttonIndex);
@@ -44,16 +52,29 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 	
 	protected abstract int getButtonIndexFromModel();
 	
+	/** 
+	 * Change the input.
+	 * 
+	 */
+	
+	@Override
 	protected void basicSetInput(EObject newInput) {
+		
 		super.basicSetInput(newInput);
 		currentButtonIndex = getButtonIndexFromModel();
+		
+		updateWidgets();
 	}
 	
 	// TODO: call this at the proper time
 	protected void calculateEnablement() {
-		IExpressionEditor editor = getExpressionEditor();
-		if (editor == null) throw new IllegalStateException();
-		for (int i = 0; i<radioButtons.length; i++) {
+		
+		IExpressionEditor exEditor = getExpressionEditor();
+		if (exEditor == null) {
+			throw new IllegalStateException();
+		}
+		
+		for (int i = 0; i < radioButtons.length; i++) {
 			String btnType = getButtonExprType(i);
 			String btnContext = getButtonExprContext(i);
 			boolean enabled = editor.supportsExpressionType(btnType, btnContext);
@@ -61,33 +82,61 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 		}
 	}
 	
+	/**
+	 * Update the Radio button widgets according to the state of the model.
+	 *
+	 */
+	
 	protected void updateRadioButtonWidgets() {
-		if (editor == null) {
-			// We are probably looking at the noEditorComposite right now.
-			// The radio buttons are hidden in this situation.
-		} else {
+		
+		if (hasEditor() == false) {
+		    radioComposite.setVisible(false);			
+		} else {		
+			radioComposite.setVisible(true);
+    	    FlatFormData data = (FlatFormData) fEditorAreaComposite.getLayoutData();
+    	    data.top = new FlatFormAttachment(radioComposite, IDetailsAreaConstants.VSPACE);
+			
 			calculateEnablement();
 			currentButtonIndex = getButtonIndexFromModel();
 			if (currentButtonIndex >= 0) radioButtons[currentButtonIndex].setSelection(true);
 			for (int i = 0; i<radioButtons.length; i++) {
-				if (i != currentButtonIndex) radioButtons[i].setSelection(false);
+				if (i != currentButtonIndex) {
+					radioButtons[i].setSelection(false);
+				}
 			}
+			
 		}
+		
+	    parentComposite.layout(true);
 	}
 	
+	@Override
 	protected void updateWidgets() {
 		super.updateWidgets();
 		updateRadioButtonWidgets();
 	}
 	
+	/**
+	 * Creates the radio button widgets.
+	 * <p>
+	 * NB: There is a dependency on the parent class here that is not obvious. Super classes will
+	 * defined getButtonLabels(), this information is used to create the radio buttons, but prior to
+	 * do that create
+	 * @param parent
+	 */
 	protected void createRadioButtonWidgets(Composite parent) {
-		FlatFormData data;
-		radioComposite = createFlatFormComposite(parent);
 		
 		String[] labels = getButtonLabels();
-		radioButtons = new Button[labels.length];
+		fButtonCount = labels.length;
+		
+		FlatFormData data;
+		radioComposite = createFlatFormComposite(parent);		
+		
+		radioButtons = new Button[ fButtonCount ];
+		
 		FlatFormAttachment lastLeft = new FlatFormAttachment(0, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG);
-		for (int i = 0; i<labels.length; i++) {
+		for (int i = 0; i < fButtonCount; i++) {
+			
 			radioButtons[i] = wf.createButton(radioComposite, labels[i], SWT.RADIO);
 			data = new FlatFormData();
 			data.left = lastLeft;
@@ -95,29 +144,35 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 			radioButtons[i].setLayoutData(data);
 			lastLeft = new FlatFormAttachment(radioButtons[i], IDetailsAreaConstants.HSPACE);
 			final int index = i;
+			
 			radioButtons[i].addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
 					if (radioButtons[index].getSelection()) {
+						
 						currentButtonIndex = index;
 						String newExprType = getButtonExprType(currentButtonIndex);
 						String newExprContext = getButtonExprContext(currentButtonIndex);
-						Object defaultBody = getDefaultBody(
-							editorLanguage,	newExprType, newExprContext);
-						// hack?
-						CompoundCommand result = new CompoundCommand() {
-						    public void execute() {
-						        isExecutingStoreCommand = true;
-						        try {
-						            super.execute();
-						        } finally {
-						            isExecutingStoreCommand = false;
-						        }
-		                    }
-						};
-						result.add(newStoreToModelCommand(defaultBody));
-						getCommandFramework().execute(wrapInShowContextCommand(result));
-						refresh();
-						// TODO!
+						
+						Object defaultBody = getDefaultBody(editorLanguage,	newExprType, newExprContext);
+
+						if (false) {
+							// hack?
+							CompoundCommand result = new CompoundCommand() {
+							    @Override
+								public void execute() {
+							        //isExecutingStoreCommand = true;
+							        try {
+							            super.execute();
+							        } finally {
+							            //isExecutingStoreCommand = false;
+							        }
+			                    }
+							};
+						}
+						
+						// result.add(newStoreToModelCommand(defaultBody));
+						
+						getCommandFramework().execute(wrapInShowContextCommand(	newStoreToModelCommand(defaultBody) ));			
 					}
 				}
 				public void widgetDefaultSelected(SelectionEvent e) { }
@@ -128,38 +183,38 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
-		data.top = new FlatFormAttachment(expressionLanguageCCombo, IDetailsAreaConstants.VSPACE + 2);
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(), IDetailsAreaConstants.VSPACE + 2);
 		radioComposite.setLayoutData(data);
 	}
 
+	
+	@Override
 	protected void createClient(Composite parent) {
-		super.createClient(parent);
+		super.createClient(parent);	
 		createRadioButtonWidgets(parentComposite);
 	}
 	
-	protected boolean showRadioButtons() { return !hasNoEditor; }
-	
-    protected void createEditorArea(Composite parent) {
-        super.createEditorArea(parent);
-        boolean showRadio = showRadioButtons();
-	    radioComposite.setVisible(showRadio);
-        if (showRadio) {
-    	    FlatFormData data = (FlatFormData)editorAreaComposite.getLayoutData();
-    	    data.top = new FlatFormAttachment(radioComposite, IDetailsAreaConstants.VSPACE);
-    	    parentComposite.layout(true);
-        }
-    }
+	protected boolean showRadioButtons() { 
+		return hasEditor(); 
+	}
 
+    
 	/**
 	 * Allow the editor in the combo if *any* of the radio buttons would be supported
 	 * by that editor.  (calculateEnabled() will decide which radio buttons to actually
 	 * enable for the selected editor).
 	 */
-	protected boolean isEditorSupported(IExpressionEditor editor) {
-		for (int i = 0; i<radioButtons.length; i++) {
+	@Override
+	protected boolean isEditorSupported(IExpressionEditor exEditor) {
+				
+		for (int i = 0; i< fButtonCount; i++) {
+			
 			String btnType = getButtonExprType(i);
 			String btnContext = getButtonExprContext(i);
-			if (editor.supportsExpressionType(btnType, btnContext)) return true;
+			
+			if (exEditor.supportsExpressionType(btnType, btnContext)) {
+				return true;
+			}
 		}
 		return false;
 	}

@@ -301,8 +301,18 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 
 	protected void basicSetInput(EObject input) {
+		
 		super.basicSetInput(input);	
 		rearrangeWidgets();
+		
+		updateQuickPickWidgets();
+		updatePartnerWidgets();
+		updatePortTypeWidgets();
+		updateOperationWidgets();
+		updateInputVariableWidgets();
+		updateOutputVariableWidgets();
+		updateFaultWidgets();		
+		
 	}
 	
 	protected void rearrangeWidgets() {
@@ -1293,18 +1303,6 @@ public class InvokeImplSection extends BPELPropertySection {
 		doChildLayout();
 	}
 	
-	public void refresh() {
-		super.refresh();
-		
-		updateQuickPickWidgets();
-		updatePartnerWidgets();
-		updatePortTypeWidgets();
-		updateOperationWidgets();
-		updateInputVariableWidgets();
-		updateOutputVariableWidgets();
-		updateFaultWidgets();		
-	}
-
 	public Object getUserContext() {
 		return new Integer(lastChangeContext);
 	}

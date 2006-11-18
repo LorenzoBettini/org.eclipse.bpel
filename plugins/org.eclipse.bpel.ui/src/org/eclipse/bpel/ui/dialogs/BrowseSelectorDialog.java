@@ -143,14 +143,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		settings.put ( VIEW_FROM_KEY, VIEW_FROM );		
 		settings.put ( SHOW_DUPLICATES_KEY, showDuplicates );
 	}
-
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, 
-				BID_ADD_IMPORT,
-				Messages.BrowseSelectorDialog_3, 
-				false);		
-		super.createButtonsForButtonBar(parent);
-	}
+	
 
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == BID_ADD_IMPORT) {
@@ -220,16 +213,17 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 
 	/**
-	 * Handle the checkbutton and radio button callbacks.
+	 * Handle the check button and radio button callbacks.
 	 * 
 	 * @param id
 	 * @param checked
+	 * @param refresh unless this is set, no refresh is done.
 	 */
-	protected void buttonPressed(int id, boolean checked) {
-		
-		boolean bRefresh = true;
-		
+	
+	protected void buttonPressed(int id, boolean checked, boolean bRefresh) {
+				
 		switch (id) {
+		
 		case BID_DUPLICATES :
 			showDuplicates = checked;
 			break;
@@ -248,20 +242,18 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 			}
 			break;
 					
-		default : 
-			bRefresh = false;
+		default : 			
 			break;
 		}
 	
-		
-		// always refresh, unless default case is reached.
+	
 		if (bRefresh) {
 			refresh();
 		}
 	}
 
 	/**
-	 * Add an import using an explict import dialog selection. 
+	 * Add an import using an explicit import dialog selection. 
 	 * 
 	 * We safeguard against adding duplicate types to the BPEL model here as well.
 	 * 
@@ -272,13 +264,13 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		if (dialog.open() == Window.CANCEL) {
 			return ;
 		}
-		
-		Object obj[] = dialog.getResult();
-		if (obj == null || obj.length < 1) {
+		Object obj = dialog.getFirstResult();
+		if (obj == null) {
 			return ;
 		}
-		if (handleAddImport ( obj [0] )) {
+		if (handleAddImport ( obj )) {
 			showImportedTypes();
+			refresh();
 		}
 		
 	}
@@ -307,10 +299,10 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		
 		button.addSelectionListener (new SelectionAdapter() {
 			public void widgetSelected (SelectionEvent event) {
-				Button button = (Button) event.widget;
-				int id = ((Integer) button.getData()).intValue();
+				Button b = (Button) event.widget;
+				int val = ((Integer) b.getData()).intValue();
 				
-				buttonPressed(id, button.getSelection());
+				buttonPressed(val, b.getSelection(), true );
 			}
 		});
 		
@@ -328,10 +320,10 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		
 		button.addSelectionListener (new SelectionAdapter() {
 			public void widgetSelected (SelectionEvent event) {
-				Button button = (Button) event.widget;
-				int id = ((Integer) button.getData()).intValue();
+				Button b = (Button) event.widget;
+				int val = ((Integer) b.getData()).intValue();
 				
-				buttonPressed(id, button.getSelection());
+				buttonPressed(val, b.getSelection(), true);
 			}
 		});
 		
@@ -523,7 +515,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	
 	/**
 	 * Show the types which are available in the current workspace. 
-	 * This inlcudes all the open projects ...
+	 * This includes all the open projects ...
 	 */
 	protected void refreshFromWorkspace() {
 	
@@ -610,17 +602,16 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 
 	protected void showImportedTypes() {
 			
-			fFromImportsRadio.setSelection(true);
-			fFromProjectRadio.setSelection(false);
-			fFromWorkspaceRadio.setSelection(false);
-			
-	//		fFromRepositoryRadio.setSelection(false);
-	//		fFromCatalogRadio.setSelection(false);
-			
-			fFromImportsRadio.forceFocus();
-			buttonPressed(BID_FROM_IMPORTS_ONLY, true);
-			
-		}
+		fFromImportsRadio.setSelection(true);
+		fFromProjectRadio.setSelection(false);
+		fFromWorkspaceRadio.setSelection(false);
+		
+		//	fFromRepositoryRadio.setSelection(false);
+		//	fFromCatalogRadio.setSelection(false);
+		
+		fFromImportsRadio.forceFocus();
+		buttonPressed(BID_FROM_IMPORTS_ONLY, true, false);
+	}
 
 	protected void handleEmptyList() {
 		fTreeViewer.setInput ( null );		

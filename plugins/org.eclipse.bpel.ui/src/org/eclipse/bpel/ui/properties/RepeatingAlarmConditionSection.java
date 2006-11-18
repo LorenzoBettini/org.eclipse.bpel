@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
@@ -36,11 +37,16 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 	protected String getExpressionType() { return IEditorConstants.ET_DURATION; }
 	protected String getExpressionContext() { return IEditorConstants.EC_ONALARM_REPEATEVERY; }
 	
-	protected void createNoEditorWidgets(Composite composite) {
-	    super.createNoEditorWidgets(composite);
+	
+	@Override
+	protected Composite createNoEditorWidgets(Composite composite) {
+		
+		Composite section = wf.createComposite(composite);
+		section.setLayout(new FlatFormLayout());
+	
 		FlatFormData ffdata;
 		
-		label1 = wf.createLabel(composite,
+		label1 = wf.createLabel(section,
 			Messages.RepeatingAlarmConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -48,7 +54,7 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		label2 = wf.createLabel(composite,
+		label2 = wf.createLabel(section,
 			Messages.RepeatingAlarmConditionSection_Choose_type_text_2); 
 			ffdata = new FlatFormData();
 			ffdata.left = new FlatFormAttachment(0, 0);
@@ -56,7 +62,7 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 			ffdata.right = new FlatFormAttachment(100, 0);
 			label2.setLayoutData(ffdata);
 			
-		label3 = wf.createLabel(composite,
+		label3 = wf.createLabel(section,
 			Messages.RepeatingAlarmConditionSection_Not_supported_in_Pick_text_3); 
 			ffdata = new FlatFormData();
 			ffdata.left = new FlatFormAttachment(0, 0);
@@ -64,7 +70,7 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 			ffdata.right = new FlatFormAttachment(100, 0);
 			label3.setLayoutData(ffdata);
 				
-		createDefaultButton = wf.createButton(composite, Messages.RepeatingAlarmConditionSection_Create_a_New_Repeat_Condition_3, SWT.PUSH); 
+		createDefaultButton = wf.createButton(section, Messages.RepeatingAlarmConditionSection_Create_a_New_Repeat_Condition_3, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
@@ -76,14 +82,15 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { }
 		});
+		return section;
 	}
 
 	protected void updateWidgets() {
 		super.updateWidgets();
 		boolean enable = (BPELUtil.getIContainerParent(getInput()) instanceof EventHandler);
-		expressionLanguageCCombo.setEnabled(enable);
-		if (hasNoEditor) {
-			expressionLanguageCCombo.setEnabled(enable);
+		expressionLanguageViewer.getCombo().setEnabled(enable);
+		if (editor == null) {
+			expressionLanguageViewer.getCombo().setEnabled(enable);
 			label1.setVisible(enable);
 			label2.setVisible(enable);
 			label3.setVisible(!enable);

@@ -37,7 +37,14 @@ import org.eclipse.xsd.XSDTypeDefinition;
  */
 public class VariableTypeSection extends BPELPropertySection {
 
-	public boolean shouldUseExtraSpace() { return true; }
+	/**
+	 * Make this section use all the vertical space it can get. 
+	 * 
+	 */
+	@Override
+	public boolean shouldUseExtraSpace() { 
+		return true;
+	}
 	
 	protected VariableTypeSelector variableTypeSelector;
 	

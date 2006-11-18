@@ -24,6 +24,7 @@ import org.eclipse.bpel.ui.util.filedialog.FileSelectionGroup;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -45,7 +46,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
@@ -60,7 +60,7 @@ import org.eclipse.ui.progress.IProgressService;
 
 
 /**
- * Browse for complex/simple types available in the procoess and choose
+ * Browse for complex/simple types available in the process and choose
  * that simple type.
  * 
  */
@@ -102,10 +102,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	protected Tree fTree;
 	protected TreeViewer fTreeViewer;
 
-	private Text fLocation;
+	Text fLocation;
 
 	private Composite fLocationComposite;
-	private FileSelectionGroup fResourceComposite;
+	FileSelectionGroup fResourceComposite;
 	
     
 	private Button fBrowseButton;
@@ -125,6 +125,11 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	private IRunnableWithProgress fRunnableWithProgress; 	
 		
 	
+	/**
+	 * Create a brand new shiny Schema Import Dialog.
+	 * 
+	 * @param parent
+	 */
 	public SchemaImportDialog (Shell parent) {
 		super(parent);
 		setStatusLineAboveButtons(true);		
@@ -145,8 +150,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	}
 	
 	/**
-	 * The modelObject is the model element that indicates the scope in which the
-	 * variable should be visible.
+	 * Create a brand new shiny Schema Import Dialog
+	 * 
+	 * @param parent shell to use
+	 * @param eObject the model object to use as reference
 	 */
 	public SchemaImportDialog (Shell parent, EObject eObject) {
 		this(parent);
@@ -156,8 +163,12 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	}
 	
 	
-	/*
+	/**
+	 * 
      * @see Dialog#createDialogArea(Composite)
+     * 
+     * @param parent the parent composite to use
+     * @return the composite it created to be used in the dialog area.
      */
 	
     public Control createDialogArea(Composite parent) {
@@ -225,6 +236,11 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	}
 	
 	
+	/**
+	 * Create the dialog.
+	 * 
+	 */
+	
 	public void create() {		
 		super.create();
 		buttonPressed(KIND, true);		
@@ -241,10 +257,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		
 		button.addSelectionListener (new SelectionAdapter() {
 			public void widgetSelected (SelectionEvent event) {
-				Button button = (Button) event.widget;
-				int id = ((Integer) button.getData()).intValue();
+				Button b = (Button) event.widget;
+				int bid = ((Integer) b.getData()).intValue();
 				
-				buttonPressed(id, button.getSelection());
+				buttonPressed(bid, b.getSelection());
 			}
 		});
 		
@@ -315,16 +331,16 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         fLocation.addListener(SWT.FocusOut, new Listener() {
 
 			public void handleEvent(Event event) {
-				String location = fLocation.getText();
-				if (location.length() > 0) {
-					attemptLoad(location );
+				String loc = fLocation.getText();
+				if (loc.length() > 0) {
+					attemptLoad( loc );
 				}
 			}        	
         });
         fLocation.addKeyListener( new KeyListener () {
 
 			public void keyPressed(KeyEvent event) {
-				if (event.keyCode == '\r') {
+				if (event.keyCode == SWT.CR) {
 					attemptLoad(fLocation.getText());
 				}						
 			}
@@ -427,7 +443,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		
 		
 		fRunnableWithProgress = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			public void run(IProgressMonitor monitor)  {
 				fInput = attemptLoad(uri);
 				
 				fTree.getDisplay().asyncExec(new Runnable() {
@@ -443,7 +459,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		 try {			 
 			progressService.busyCursorWhile(fRunnableWithProgress);			
 		} catch (InvocationTargetException ite)  {			
-			updateStatus ( new Status(Status.ERROR, BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_12,ite.getTargetException() ) );			
+			updateStatus ( new Status(IStatus.ERROR, BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_12,ite.getTargetException() ) );			
 			BPELUIPlugin.log( ite.getTargetException() );
 			fRunnableWithProgress = null;
 		} catch (InterruptedException e) {
@@ -477,7 +493,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			case BID_BROWSE_RESOURCE :
 				return URI.createPlatformResourceURI(path);				
 			
-			case BID_BROWSE_URL :
+			case BID_BROWSE_URL :				
 				return URI.createURI(path);
 				
 			default :
@@ -485,11 +501,16 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			}
 			
 		} catch (Exception ex) {
-			updateStatus ( new Status(Status.ERROR,BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_13,ex) );			
+			updateStatus ( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_13,ex) );			
 			return null;
 		}
 	}
 
+	/**
+	 * Update the state of the OK button to the state indicated.
+	 * 
+	 * @param state false to disable, true to enable.
+	 */
 	
 	public void updateOK ( boolean state ) {
 		Button okButton = getOkButton();
@@ -511,12 +532,22 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	}
 	
 	
+	/**
+	 * Configure the dialog as a schema import dialog. Set the title and
+	 * the structure pane message.
+	 *
+	 */
 	
 	public void configureAsSchemaImport ( ) {
 		setTitle(Messages.SchemaImportDialog_2);
 		fStructureTitle = Messages.SchemaImportDialog_11;		        
 	}
 	
+	/**
+	 * Configure the dialog as a WSDL import dialog. Set the title and
+	 * the structure pane message.
+	 *
+	 */
 	
 	public void configureAsWSDLImport ( ) {
 		

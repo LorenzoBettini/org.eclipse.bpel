@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
-import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 
 /**
@@ -51,14 +51,15 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	    this.body = body;
 	    updating = true;
 	    try {
-	    	editor.setInput(new TextEditorInput((String)body));
+	    	editor.setInput(new TextEditorInput((String)body, getModelObject() ));
 	    } finally {
 	    	updating = false;
 	    }
 	}
 	
 	protected void createEditor(Composite parent) {
-		IEditorInput input = new TextEditorInput((String)body);
+		IEditorInput input = new TextEditorInput((String)body, getModelObject() );
+		
 		//editorComposite = new Composite(parent, SWT.NONE);
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
 		editorComposite = BPELUtil.createBorderComposite(parent, wf);

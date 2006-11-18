@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Browse for data types available and choose that type.
  * 
- * In BPEL, types are just an aggragation of "visible" XML schemas. Visible schemas are
+ * In BPEL, types are just an aggregation of "visible" XML schemas. Visible schemas are
  * schemas imported in the BPEL source file via the import construct and schemas
  * present in WSDL files (which are also imported via the import construct).
  * 
@@ -41,10 +41,10 @@ import org.eclipse.swt.widgets.Shell;
  * 1) Browsing types which are already imported (constitute the type system of the process)
  * 2) Browsing for available types. This includes XML types visible to designer.
  * 
- * In addtion, one can arbitrarily add an import to the process if the XML schema
+ * In addition, one can arbitrarily add an import to the process if the XML schema
  * representing the types is somewhere else (URL, outside file, etc).
  * 
- * It should be noted, that currently, no attampt is made to resolve duplicate type entries
+ * It should be noted, that currently, no attempt is made to resolve duplicate type entries
  * in the schemas. This is not necessarily a bug.
  * 
  *  @author Michal Chmielewski (michal.chmielewski@oracle.com)  
@@ -88,14 +88,16 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 	
 	
 	/**
-	 * The modelObject is the model element that indicates the scope in which the
-	 * variable should be visible.
+	 * Create a brand new shiny Type Selector Dialog.
+	 * 
+	 * @param parent the parent shell
+	 * @param eObj any BPEL model object
 	 */
 	
-	public TypeSelectorDialog (Shell parent, EObject modelObject ) {
-		super(parent, new ModelLabelProvider(modelObject));
+	public TypeSelectorDialog (Shell parent, EObject eObj ) {
+		super(parent, new ModelLabelProvider(eObj));
 		
-		this.modelObject = modelObject;
+		this.modelObject = eObj;
 					
 		resourceContentProvider = new XSDSchemaFromResourceContentProvider( modelObject.eResource().getResourceSet() );
 		
@@ -161,9 +163,8 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 	 * @param checked
 	 */
 	
-	protected void buttonPressed (int id, boolean checked) {
+	protected void buttonPressed (int id, boolean checked, boolean bRefresh) {
 		
-		boolean bRefresh = true;
 		int bits = 0;
 				
 		switch (id) {
@@ -188,8 +189,9 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 			break;
 							
 		default :
-			super.buttonPressed(id, checked);
-			break;
+			// exit the function here
+			super.buttonPressed(id, checked,bRefresh);
+			return;
 		}
 
 		
@@ -208,7 +210,13 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 		}
 	}
 		
-	
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, 
+				BID_ADD_IMPORT,
+				Messages.TypeSelectorDialog_3, 
+				false);		
+		super.createButtonsForButtonBar(parent);
+	}
 	
 	protected void createBrowseFilterGroupButtons ( Group  group ) {
         

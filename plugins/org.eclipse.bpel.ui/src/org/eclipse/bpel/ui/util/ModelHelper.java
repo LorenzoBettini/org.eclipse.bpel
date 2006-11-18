@@ -76,6 +76,7 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.util.ImportResolver;
 import org.eclipse.bpel.model.util.ImportResolverRegistry;
+import org.eclipse.bpel.model.util.WSDLUtil;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Policy;
@@ -1633,6 +1634,26 @@ public class ModelHelper {
 	
 	
 
+	/**
+	 * Return the imported document, based on the import passed.
+	 * 
+	 * @param imp
+	 * @return the imported document model or null, if it cannot be constructed.
+	 */
+	
+    static public EObject getImportedDocument ( Import imp ) {
+    	
+        ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
+        for (int i = 0; i < resolvers.length ; i++)
+        {
+        	EObject result = resolvers[i].resolve(imp, null, null, null );
+        	if (result != null) {
+        		return result;
+        	}
+        }
+        
+        return null;
+    }
     
     /**
      * Return the list of schemas that are imported in this BPEL resource.

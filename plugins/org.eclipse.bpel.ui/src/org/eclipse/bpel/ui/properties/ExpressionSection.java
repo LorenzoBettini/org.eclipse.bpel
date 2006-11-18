@@ -12,9 +12,7 @@ package org.eclipse.bpel.ui.properties;
 
 import java.util.ArrayList;
 
-import org.eclipse.bpel.common.ui.details.ChangeHelper;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
@@ -29,38 +27,68 @@ import org.eclipse.bpel.ui.expressions.IExpressionEditor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.extensions.ExpressionEditorDescriptor;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.Gate;
+import org.eclipse.bpel.ui.util.IGate;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 
 /**
- * Base class with some shared behaviour for details panes that edit
- * an expression.
+ * Base class with some shared behavior for details panes that edit an expression.
+ * 
+ * NB: Nov 2nd, 2006
+ * 
+ * The code used CComboViewer and CCombo to show the expression language drop down. 
+ * There used to be a lot of code that dealt with refresh and selection disappearing in the
+ * CCombo to the point that the XPath editor was created and destroyed 14 times every time a 
+ * object was selected in the process map that required this particular expression section.
+ * 
+ * I debugged the code, I swear it was this bad.
+ * 
+ * I had done some cleanup here to make it easier to understand because there is truly a little
+ * too much magic for this simple thing. So ...
+ * 
+ * <ol>
+ * <li> The expression language is a Combo, wrapped in a ComboViewer.
+ * <li> The ComboViewer has a content provider which it will refresh every time a setInput is 
+ * used on the ComboViewer. Any other refresh logic is not necessary.
+ * <li> The section is configured when the basicSetInput is called. Then the editor is picked,created, etc.
+ * <li> There is a general problem with refresh() method calls, .aboutToBeShown(), etc. many of them simply 
+ * used to call refresh() which just destroyed and re-created the views. 
+ * 
+ * </ol>
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * 
  */
 public abstract class ExpressionSection extends TextSection {
 
-	protected String editorLanguage;
-	protected CCombo expressionLanguageCCombo;
-	protected CComboViewer expressionLanguageViewer;
-	protected ChangeHelper expressionChangeHelper;
-	protected ExpressionComboContentProvider expressionComboContentProvider;
-	protected Composite editorAreaComposite, parentComposite;
+	static final String EMPTY_BODY = ""; //$NON-NLS-1$
 	
-	protected boolean hasNoEditor;
+	protected String editorLanguage;
+	
+	protected ComboViewer expressionLanguageViewer;
+	
+	protected ExpressionComboContentProvider expressionComboContentProvider;
+	
+	/** The editor area composite, it is used to display editors or the no-editor widgets in it */
+	protected Composite fEditorAreaComposite ;
+	
 	
 	// Pseudo-model object to represent no expression at all (in which case no editor
 	// is used).
@@ -70,20 +98,38 @@ public abstract class ExpressionSection extends TextSection {
 	// the expression (i.e. the expression language is inherited from the Process).
 	protected static final Object SAME_AS_PARENT = new Object();
 	
+	
+	/** The gated selection changed listener for the combo viewer. */
+	protected IGate fListenerGate ;
+
+	/** The composite which holds the no-editor widgets */
+	protected Composite fNoEditorWidgets;
+
+	/** The parent composite, it owns the expression language combo and the editor area */
+	protected Composite parentComposite;
+	
+	
 	protected static boolean objectsEqual(Object lhs, Object rhs) {
 		if (lhs == null) return (rhs == null);
 		return lhs.equals(rhs);
 	}
 	
 
+	
 	/**
 	 * A content provider which (1) adds the NO_EXPRESSION and SAME_AS_PARENT elements,
 	 * (2) ensures that the selected object is in the list, and (3) removes any
 	 * elements from the list which are not supported (unless they happen to be
 	 * the selected object at the moment--an error case).
 	 */
+	
+	@SuppressWarnings("unchecked")
+	
 	class ExpressionComboContentProvider extends ExpressionEditorDescriptorContentProvider {
-		Object selectedObject;
+		Object selectedObject = SAME_AS_PARENT;
+		
+		
+		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] descriptors = super.getElements(inputElement);
 			int descriptorCount = descriptors.length;
@@ -104,21 +150,17 @@ public abstract class ExpressionSection extends TextSection {
 		public boolean allowItem(Object element) {
 			String language = getEffectiveLanguage(getExpressionLanguage(element));
 			try {
-				IExpressionEditor editor = BPELUIRegistry.getInstance().getExpressionEditor(language);
-				return (editor == null)? false : isEditorSupported(editor);
+				IExpressionEditor exEditor = BPELUIRegistry.getInstance().getExpressionEditor(language);
+				return (exEditor == null)? false : isEditorSupported(exEditor);
 			} catch (CoreException e) {
 				BPELUIPlugin.log(e);
 				return false;
 			}
-		}
-		public Object getSelectedObject() {
-			return selectedObject;
-		}
-		public void setSelectedObject(Object selectedObject) {
-			this.selectedObject = selectedObject;
-		}
+		}		
 	}
 	
+	
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		Expression e = getExprFromModel();
@@ -127,97 +169,59 @@ public abstract class ExpressionSection extends TextSection {
 		}
 	}
 
+	/**
+	 * Get rid of the current editor.
+	 * We do this when the Expression Language changes and we have to replace the editor with the right
+	 * editor for the expression language.
+	 */
+	
+	@Override
 	protected void disposeEditor() {
 	    super.disposeEditor();
 		editorLanguage = null;
 	}
 	
+	
 	protected Object getDefaultBody(String newLanguage, String exprType, String exprContext) {
-		IExpressionEditor editor = null;
+		
+		IExpressionEditor ed = null;
 		try {
 			newLanguage = getEffectiveLanguage(newLanguage);
-			editor = BPELUIRegistry.getInstance().getExpressionEditor(newLanguage);
+			ed = BPELUIRegistry.getInstance().getExpressionEditor(newLanguage);
 		} catch (CoreException e) {
 			BPELUIPlugin.log(e);
+			return EMPTY_BODY;
 		}
+		
 		// TODO: call supportsExpressionType in the right place
-		editor.setExpressionType(exprType, exprContext);
-		editor.setModelObject(getInput());
-		return editor.getDefaultBody();
+		ed.setExpressionType(exprType, exprContext);
+		ed.setModelObject(getInput());
+		return ed.getDefaultBody();
 	}
+	
+	
 	
 	protected Command newEraseModelCommand() {
 		return new SetExpressionCommand(getInput(), getModelExpressionType(), getModelExpressionSubType(), null);
 	}
 	
 	protected void createExpressionLanguageWidgets(final Composite composite) {
+
 		FlatFormData data;
+		
+		Label expressionLanguageLabel = wf.createLabel(composite, Messages.ExpressionSection_Expression_language_1); 		//
 
-		// TODO: Maybe replace this with a standard viewer listener if we are
-		// sure there is no selection badness that occurs with combos
-		expressionChangeHelper = new ChangeHelper(getCommandFramework()) {
-			public String getLabel() {
-				return IBPELUIConstants.CMD_EDIT_EXPRESSIONLANGUAGE;
-			}
-			public Command createApplyCommand() {
-				String value = expressionLanguageCCombo.getText();
-				boolean found = false;
-				int foundIndex = 0;
-				if (value != null) {
-					// Check if the text matches one of the combo items!
-					String[] items = expressionLanguageCCombo.getItems();
-					for (int i = 0; !found && i<items.length; i++) {
-						if (value.equals(items[i])) { found = true; foundIndex = i; }
-					}
-				}
-				String language = value;
-				if (found) {
-					IStructuredSelection selection = (IStructuredSelection) expressionLanguageViewer.getSelection();
-					Object firstElement = selection.getFirstElement();
-					if (firstElement == null) {
-						firstElement = expressionLanguageViewer.getElementAt(foundIndex);
-					}
-					if (firstElement == NO_EXPRESSION) {
-						return wrapInShowContextCommand(newEraseModelCommand());
-					}
-					language = getExpressionLanguage(firstElement);
-				}
-				CompoundCommand cmd = new CompoundCommand();
-				Expression exp = BPELFactory.eINSTANCE.createCondition();
-				exp.setExpressionLanguage(language);
-				Object newDefaultBody = getDefaultBody(language, getExpressionType(), getExpressionContext()); 
-				// Figure out what the new default value should be for this expression,
-				// and install it in the model.  It is necessary to do this before we
-				// properly create the editor (which happens when we update widgets in
-				// response to the model change).
-				exp.setBody(newDefaultBody);
-				cmd.add(new SetExpressionCommand(getInput(), getModelExpressionType(),
-					getModelExpressionSubType(), exp));
-
-				return wrapInShowContextCommand(cmd);
-			}
-			public void restoreOldState() {
-				updateExpressionLanguageWidgets();
-			}
-			public void handleEvent(Event event) {
-				if (event.type == SWT.Selection) {
-					finish();
-				} else {
-					super.handleEvent(event);
-				}
-			}
-		};
-		Label expressionLanguageLabel = wf.createLabel(composite, Messages.ExpressionSection_Expression_language_1); 
-		expressionLanguageCCombo = wf.createCCombo(composite, SWT.FLAT);
-
-		expressionLanguageViewer = new CComboViewer(expressionLanguageCCombo);
+		expressionLanguageViewer = new ComboViewer(composite, SWT.FLAT | SWT.READ_ONLY );
+		expressionLanguageViewer.getCombo().setFont( expressionLanguageLabel.getFont() );
+		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(expressionLanguageLabel, STANDARD_LABEL_WIDTH_LRG));
 		data.right = new FlatFormAttachment(100, 0);
 		data.top = new FlatFormAttachment(0, 0);
-		expressionLanguageCCombo.setLayoutData(data);
+		expressionLanguageViewer.getCombo().setLayoutData(data);
 
 		expressionLanguageViewer.setLabelProvider(new LabelProvider() {
+			@Override
 			public String getText(Object element) {
 				if (element == NO_EXPRESSION) return Messages.ExpressionSection_No_Expression_2; 
 				if (element == SAME_AS_PARENT) {
@@ -237,66 +241,128 @@ public abstract class ExpressionSection extends TextSection {
 		expressionComboContentProvider = new ExpressionComboContentProvider();
 		expressionLanguageViewer.setContentProvider(expressionComboContentProvider);
 		expressionLanguageViewer.setSorter(ModelViewerSorter.getInstance());
+		expressionLanguageViewer.setInput( SAME_AS_PARENT );
+		
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(expressionLanguageCCombo, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(expressionLanguageCCombo, 0, SWT.CENTER);
+		data.right = new FlatFormAttachment(expressionLanguageViewer.getCombo(), -IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(), 0, SWT.CENTER);
 		expressionLanguageLabel.setLayoutData(data);
+		
+		// Selection on the combo.
+		// During programmatic changes, we want to disable the selection listener.
+		// 
+		fListenerGate = (IGate) Gate.newInstance( new ISelectionChangedListener() {
 
-		expressionChangeHelper.startListeningTo(expressionLanguageCCombo);
-		expressionChangeHelper.startListeningForEnter(expressionLanguageCCombo);
+			public void selectionChanged (SelectionChangedEvent event) {
+				
+				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+												
+				Object elm = sel.getFirstElement();
+				
+				Command cmd; 
+				
+				if (elm == NO_EXPRESSION) {
+					cmd = newEraseModelCommand();
+				} else {					
+					
+					String language = getExpressionLanguage(elm);											
+					Expression exp = BPELFactory.eINSTANCE.createCondition();
+					exp.setExpressionLanguage(language);
+					Object newDefaultBody = getDefaultBody(language, getExpressionType(), getExpressionContext());
+					
+					// Figure out what the new default value should be for this expression,
+					// 	and install it in the model.  It is necessary to do this before we
+					// 	properly create the editor (which happens when we update widgets in
+					// response to the model change).
+					exp.setBody(newDefaultBody);
+					
+					cmd = new SetExpressionCommand(getInput(), getModelExpressionType(),
+								getModelExpressionSubType(), exp);
+				}
+				
+				getCommandFramework().execute( wrapInShowContextCommand(cmd) ); 
+			}			
+		});
+		
+ 				
+		expressionLanguageViewer.addSelectionChangedListener( (ISelectionChangedListener) fListenerGate );		
 	}
 	
 	/**
 	 * This method is used by subclasses who need to select a language programmatically.
+	 * 
 	 */
-	protected void doChooseExpressionLanguage(Object model) {
-		if (((StructuredSelection)expressionLanguageViewer.getSelection()).getFirstElement() == model) return;
-		expressionComboContentProvider.setSelectedObject(model);
-		refreshCCombo(expressionLanguageViewer, model);
-		expressionChangeHelper.finish();
-		updateWidgets();
+	
+	protected void doChooseExpressionLanguage (Object model) {
+		
+		IStructuredSelection selection = (IStructuredSelection) expressionLanguageViewer.getSelection();
+		if (selection.getFirstElement() == model) {
+			return ;
+		}
+		
+		// By setting the selection on the combo box, we are kicking off a selection changed event.
+		// This is intentional, because we are emulating the a user interface command.
+		
+		expressionLanguageViewer.setSelection(new StructuredSelection( model ), true);
+		
+		// Now we update the editor, after the model had been mutated.
+		updateEditor();
 	}
 	
+	
 	protected void updateExpressionLanguageWidgets() {
-        Object model = NO_EXPRESSION;
+        
+		Object model = NO_EXPRESSION;
         if (getExprFromModel() != null) {
 			String language = getExpressionLanguageFromModel();
 	        if (language == null) {
 	            model = SAME_AS_PARENT;
 	        } else {
 	            model = BPELUIRegistry.getInstance().getExpressionEditorDescriptor(language);
-	            if (model == null) model = language;
+	            if (model == null) {
+	            	model = language;
+	            }
 	        }
         }
-        expressionComboContentProvider.setSelectedObject(model);
-
-		if (expressionLanguageViewer != null) {
-			expressionChangeHelper.startNonUserChange();
-			try {
-				expressionLanguageViewer.setInput(new Object());
-		        refreshCCombo(expressionLanguageViewer, model);
-			} finally {
-				expressionChangeHelper.finishNonUserChange();
-			}
-		}
-	}
+        
+        // The gate prevents the selection listener form being fired.
+		fListenerGate.on();
+		expressionLanguageViewer.setSelection( new StructuredSelection( model ), true );				
+		fListenerGate.off();
+		
+		// Reflect the model in the editor
+		updateEditor();               
+    }
 	
+	
+	/**
+	 *  When this method is called, the section has already been created.
+	 *  
+	 *  The widgets are available to be configured, however, the section may not be shown yet.
+	 *  
+	 *  The concept here is that we are reflecting the input selected in the UI. So the path that is taken
+	 *  by this code must not create any re-doable commands, just set the widgets to what they are supposed to
+	 *  be based on the model.
+	 */
+	
+	
+	@Override
 	protected void basicSetInput(EObject newInput) {
+		
 		super.basicSetInput(newInput);
 		
-		// since now we have a model object we should update the content providers
-		// to reflect the spec-compliance mode of the current process
-		expressionChangeHelper.startNonUserChange();
-		try {
-			expressionComboContentProvider.setSpecCompliant(ModelHelper.isSpecCompliant(getInput()));
-			expressionLanguageViewer.refresh();
-		} finally {
-			expressionChangeHelper.finishNonUserChange();
-		}
+		// The content provider may change as a result of this input setting.
+		expressionComboContentProvider.setSpecCompliant(ModelHelper.isSpecCompliant(getInput()));
 		
+		// A different input may have different expression language settings.
+		expressionLanguageViewer.refresh(true);
+		
+		// Reveal the right selection in the widget.
+		updateExpressionLanguageWidgets();		
 	}
+	
 	
 	protected boolean isExpressionOptional() { return false; }
 
@@ -309,14 +375,18 @@ public abstract class ExpressionSection extends TextSection {
 	 * cases other than NO_EXPRESSION, this is the proper value to store into the model.
 	 */
 	protected String getExpressionLanguage(Object comboElement) {
-		if (comboElement == NO_EXPRESSION || comboElement == SAME_AS_PARENT) return null;
+		if (comboElement == NO_EXPRESSION || comboElement == SAME_AS_PARENT) {
+			return null;
+		}
 		String language = null;
 		if (comboElement instanceof ExpressionEditorDescriptor) {
 		    language = ((ExpressionEditorDescriptor)comboElement).getExpressionLanguage();
 		} else if (comboElement instanceof String) {
 			language = (String)comboElement;
 		}
-		if ("".equals(language))  language = null; //$NON-NLS-1$
+		if ("".equals(language))  { //$NON-NLS-1$
+			language = null; 
+		}
 		return language;
 	}
 	
@@ -340,7 +410,9 @@ public abstract class ExpressionSection extends TextSection {
 	 */
 	protected String getExpressionLanguageFromModel() {
 		Expression expression = getExprFromModel();
-		if (expression == null) return null;
+		if (expression == null) {
+			return null;
+		}
 		return expression.getExpressionLanguage();
 	}
 	
@@ -356,6 +428,8 @@ public abstract class ExpressionSection extends TextSection {
 		return ModelHelper.getExpression(getInput(), getModelExpressionType());
 	}
 	
+	
+	@Override
 	protected boolean isBodyAffected(Notification n) {
 		if (n.getOldValue() instanceof Expression ||
 			n.getNewValue() instanceof Expression ||
@@ -363,6 +437,8 @@ public abstract class ExpressionSection extends TextSection {
 		return ModelHelper.isExpressionAffected(getInput(), n, getModelExpressionType());
 	}
 
+	
+	@Override
 	protected Command newStoreToModelCommand(Object body) {
 		CompoundCommand result = new CompoundCommand();
 		// If there is no condition, create one.
@@ -381,101 +457,142 @@ public abstract class ExpressionSection extends TextSection {
 		return result;
 	}
 	
-	protected void createClient(Composite parent) {
-		parentComposite = createFlatFormComposite(parent);
+	/**
+	 * Create the client area. This is just done once.
+	 */
+	
+	@Override
+	protected void createClient (Composite parent) {
+		
+		parentComposite =  createFlatFormComposite(parent);
+		// parentComposite = parent;
 		createExpressionLanguageWidgets(parentComposite);
+		
+		fNoEditorWidgets = createNoEditorWidgets(parentComposite);
+		FlatFormData data = new FlatFormData();
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(),IDetailsAreaConstants.VSPACE);
+		data.right = new FlatFormAttachment(100,0);
+		data.left = new FlatFormAttachment(0,0);
+		data.bottom = new FlatFormAttachment(100,0);
+		fNoEditorWidgets.setLayoutData(data);
+		
+		createEditorArea(parentComposite);
+		
 		createChangeHelper();
 	}
 	
-	protected void createEditorArea(Composite parent) {
-		if (editorAreaComposite != null) {
-			disposeEditor();
-			editorAreaComposite.dispose();
-			editorAreaComposite = null;
+	/** 
+	 * Create the editor area.
+	 * 
+	 * @param parent
+	 */
+	
+	protected void createEditorArea (Composite parent) {
+		
+		if (fEditorAreaComposite != null) {
+			return;
 		}
-		editorAreaComposite = createFlatFormComposite(parent);
+		
 		FlatFormData data = new FlatFormData();
-		data.top = new FlatFormAttachment(expressionLanguageCCombo, IDetailsAreaConstants.VSPACE);
+		
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(), IDetailsAreaConstants.VSPACE);
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
 		data.bottom = new FlatFormAttachment(100, 0);
-		editorAreaComposite.setLayoutData(data);
-
-		Expression expr = getExprFromModel();
-		if (expr == null) {
-			hasNoEditor = true;
-			createNoEditorWidgets(editorAreaComposite);
-		} else {
-			hasNoEditor = false;
-		    editorAreaComposite.setLayout(new FillLayout());
-			createEditor(editorAreaComposite);
-			IExpressionEditor editor = getExpressionEditor();
-			// TODO: call supportsExpressionType in the right place
-			editor.setExpressionType(getExpressionType(), getExpressionContext());
-			editor.setModelObject(getInput());
-			editor.setBody(expr.getBody());
-			if (!isHidden) {
-				// We destroyed and re-created the editor, so it doesn't know
-				// that it's supposed to be visible. Tell it now.
-				editor.aboutToBeShown();
-			}
-		}
-		parentComposite.layout(true);
+		
+		
+		// The editor area consists of the parent composite which has stack layout 
+		// and the editorComposite which has FillLayout. The editorComposite is used
+		// to place and remove various editors which are based on the expression language
+		// setting. 
+		
+		fEditorAreaComposite = createFlatFormComposite(parent);
+		fEditorAreaComposite.setLayoutData(data);
+		
+		fEditorAreaComposite.setLayout( new FillLayout( ));
 	}
 
-	protected void createNoEditorWidgets(Composite composite) {}
 	
-	protected void createEditor(Composite parent) {
+	protected Composite createNoEditorWidgets (Composite composite) {
+		return wf.createComposite(composite);
+	}
+	
+	
+	/** 
+	 * Create the editor.
+	 * 
+	 */
+	
+	@Override
+	protected void createEditor (Composite parent) {
+									
+		String language = getEffectiveLanguage(getExpressionLanguageFromModel());
+		
 		try {
-			String language = getEffectiveLanguage(getExpressionLanguageFromModel());
 			editor = BPELUIRegistry.getInstance().getExpressionEditor(language);
-			editorLanguage = language;
-			editor.createControls(parent, this);
-			editor.addListener(new IExpressionEditor.Listener() {
-				public void notifyChanged() {
-					if (!updating) { // && !isExecutingStoreCommand()) {
-						notifyEditorChanged();
-					}
-				}
-			});
 		} catch (CoreException e) {
-			BPELUIPlugin.log(e);
+			BPELUIPlugin.log(e);			
+			return ;
 		}
-	}
-	
-	protected void updateEditor() {
-	    Expression e = getExprFromModel();
-	    boolean newEditorArea = false;
-		if (e == null) {
-			newEditorArea = true;
-		} else {
-			if (editor == null) {
-			    createEditorArea(parentComposite);
-			} else {
-				String newLanguage = getEffectiveLanguage(getExpressionLanguageFromModel());
-				if (!newLanguage.equals(editorLanguage)) {
-				    createEditorArea(parentComposite);
+			
+		editorLanguage = language;
+		editor.createControls(parent, this);
+		
+		editor.addListener(new IExpressionEditor.Listener() {
+			public void notifyChanged() {
+				if (!updating) { // && !isExecutingStoreCommand()) {
+					notifyEditorChanged();
 				}
 			}
-		}
-		if (newEditorArea) {
-			createEditorArea(parentComposite);
-		} else if (e != null) {
-			editor.setExpressionType(getExpressionType(), getExpressionContext());
-			editor.setModelObject(getInput());
-			editor.setBody(e.getBody());
-		}
-
-		updateExpressionLanguageWidgets();
-		editorAreaComposite.layout(true);
+		});				
 	}
 	
+	/**
+	 * We update the editor from the model. This is a model-to-ui operation.
+	 * 
+	 */
+	@Override
+	protected void updateEditor() {
+		
+		Expression expr = getExprFromModel();
+		
+		if (expr == null) {
+						
+			fNoEditorWidgets.setVisible(true);
+			fEditorAreaComposite.setVisible(false);			
+		} else {
+			String newLanguage = getEffectiveLanguage(getExpressionLanguageFromModel());
+			
+			if ( newLanguage.equals(editorLanguage) == false ) {
+				disposeEditor();
+				createEditor(fEditorAreaComposite);	
+			}
+			fEditorAreaComposite.setVisible(true);
+			fNoEditorWidgets.setVisible(false);
+			
+			if (editor != null) {
+				// TODO: call supportsExpressionType in the right place
+				editor.setExpressionType(getExpressionType(), getExpressionContext());
+				editor.setModelObject(getInput());
+				editor.setBody(expr.getBody());
+				editor.aboutToBeShown();
+			}					
+		}
+		
+		parentComposite.getDisplay().syncExec( new Runnable() {
+			public void run() {
+				parentComposite.layout(true);				
+			}		
+		});		
+	}
+		
+
 	/**
 	 * This is used by the Expression Language combo to filter out editors that
 	 * can't be used with the current type/context.
 	 */
-	protected boolean isEditorSupported(IExpressionEditor editor) {
-		return editor.supportsExpressionType(getExpressionType(), getExpressionContext());
+	protected boolean isEditorSupported(IExpressionEditor exEditor) {
+		return exEditor.supportsExpressionType(getExpressionType(), getExpressionContext());
 	}
 	
 	/**
@@ -485,10 +602,20 @@ public abstract class ExpressionSection extends TextSection {
 		return false;
 	}
 	
-	public void aboutToBeHidden() {
-		super.aboutToBeHidden();
-		if (expressionChangeHelper != null) {
-			getCommandFramework().notifyChangeDone(expressionChangeHelper);
-		}
+	/**
+	 * Answer if we have an editor visible. 
+	 * 
+	 * @return true if visible, false otherwise.
+	 */
+	
+	public boolean hasEditor () {
+		return (editor != null ) ;
 	}
+	
+//	public void aboutToBeHidden() {
+//		super.aboutToBeHidden();
+//		if (expressionChangeHelper != null) {
+//			getCommandFramework().notifyChangeDone(expressionChangeHelper);
+//		}
+//	}
 }

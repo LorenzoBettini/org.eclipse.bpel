@@ -49,6 +49,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.dialogs.IInputValidator;
 
 
 /**
@@ -323,4 +324,10 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 		}
 		return null;
 	}
+
+	protected IInputValidator getLabelValidator() {		
+		return BPELUtil.getNCNameValidator();
+	}
+	
+	
 }

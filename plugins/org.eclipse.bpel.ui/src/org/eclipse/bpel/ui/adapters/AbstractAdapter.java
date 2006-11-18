@@ -10,10 +10,18 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+
+/**
+ * Abstract adapter has basic adapter functionality and it has some
+ * logic to decide whether adapters are stateful or stateless. 
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Sep 15, 2006
+ *
+ */
 
 public class AbstractAdapter implements Adapter {
 	
@@ -48,6 +56,7 @@ public class AbstractAdapter implements Adapter {
 	/**
 	 * Return the target. This will always be null in case the 
 	 * adapter is stateless.
+	 * @return the notifier which is our target
 	 * 
 	 */
 	
@@ -56,8 +65,9 @@ public class AbstractAdapter implements Adapter {
 	}
 	
 	/**
-	 * Set the target element, only if the adapter is stateless.
+	 * Set the target element, only if the adapter is stateful.
 	 * 
+	 * @param newTarget set the target
 	 */
 	
 	public void setTarget(Notifier newTarget) {		
@@ -68,8 +78,10 @@ public class AbstractAdapter implements Adapter {
 	}
 
 	/**
-	 * Answer true if we are an adapter for the type given
+	 * Answer true if we are an adapter for the type given.
 	 * 
+	 * @param type the type to check if we can adapt
+	 * @return true/false if we can adapt to it.
 	 */
 	
 	public boolean isAdapterForType (Object type) {
@@ -85,12 +97,19 @@ public class AbstractAdapter implements Adapter {
 	
 	/**
 	 * Return any context object that the adapter is holding.
-	 * @return
+	 * 
+	 * @return any context context object that the adapter is holding
 	 */
 	
 	public Object getContext () {
 		return context;
 	}
+	
+	/**
+	 * Answer if we ware statfull or stateless ...
+	 * 
+	 * @return true if stateful, false if stateless.
+	 */
 	
 	public boolean isStatefull () {
 		return IStatefullAdapter.class.isInstance(this);
@@ -101,6 +120,7 @@ public class AbstractAdapter implements Adapter {
 	 * Some adapters rely on interfaces that are stateless, where the target
 	 * is passed as an argument to the adapter. This is not necessarily true for
 	 * some interfaces we cannot control (like IContentProposal).
+	 * 
 	 * @param obj the object which might be the adapted target
 	 * @param clazz the class that the target must be an instance of. 
 	 * @return the target object

@@ -44,6 +44,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
@@ -74,24 +75,24 @@ public class AssignImplSection extends BPELPropertySection {
 	}
 	CategoryInfo[][] categories = {
 		/* From categories */ {
-			new CategoryInfo(new NullAssignCategory(true, this)),
+			// new CategoryInfo(new NullAssignCategory(true, this)),
 			new CategoryInfo(new VariablePartAssignCategory(true, this)),
+			new CategoryInfo(new ExpressionAssignCategory(true, this)),
+			new CategoryInfo(new LiteralAssignCategory(true, this)),
 			new CategoryInfo(new VariablePropertyAssignCategory(true, this)),
 			new CategoryInfo(new PartnerRoleAssignCategory(true, this)),
-			new CategoryInfo(new EndpointReferenceAssignCategory(true, this)),
-			new CategoryInfo(new LiteralAssignCategory(true, this)),
-			new CategoryInfo(new ExpressionAssignCategory(true, this)),
+			new CategoryInfo(new EndpointReferenceAssignCategory(true, this)),						
 			new CategoryInfo(new OpaqueAssignCategory(true, this)),
 		},
 		/* To categories */ {
-			new CategoryInfo(new NullAssignCategory(false, this)),
+			// new CategoryInfo(new NullAssignCategory(false, this)),
 			new CategoryInfo(new VariablePartAssignCategory(false, this)),
 			new CategoryInfo(new VariablePropertyAssignCategory(false, this)),
 			new CategoryInfo(new PartnerRoleAssignCategory(false, this)),
 		}
 	};
 	
-	CCombo[] categoryCombo;
+	Combo[] categoryCombo;
 	Label[] categoryLabel;
 	Composite[] outerComposite;
 	int[] currentCategoryIndex;
@@ -109,7 +110,7 @@ public class AssignImplSection extends BPELPropertySection {
 	
 	public AssignImplSection()  {
 		super();
-		categoryCombo = new CCombo[2];
+		categoryCombo = new Combo[2];
 		categoryLabel = new Label[2];
 		outerComposite = new Composite[2];
 		currentCategoryIndex = new int[2];
@@ -199,7 +200,8 @@ public class AssignImplSection extends BPELPropertySection {
 			public void widgetSelected(SelectionEvent e) {
 				currentCopyIndex = copyList.getSelectionIndex();
 				if (currentCopyIndex < 0) currentCopyIndex = 0;
-				refresh();
+				selectCategoriesForInput();
+				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { /* nothing */ }
 		});
@@ -229,7 +231,8 @@ public class AssignImplSection extends BPELPropertySection {
 		final boolean isFrom = (fromOrTo==0);
 		
 		categoryLabel[fromOrTo] = wf.createLabel(composite, isFrom?Messages.AssignImplDetails_From__1:Messages.AssignImplDetails_To__2); 
-		categoryCombo[fromOrTo] = wf.createCCombo(composite);
+		categoryCombo[fromOrTo] = new Combo(composite,SWT.FLAT | SWT.BORDER | SWT.READ_ONLY );
+		// wf.createCCombo(composite);
 		data = new FlatFormData();
 		
 		if (isFrom)  {
@@ -493,6 +496,7 @@ public class AssignImplSection extends BPELPropertySection {
 	}
 	public void restoreUserContext(Object userContext) {
 		((AssignUserContext)userContext).restoreOn(this);
+		
 	}
 	
 	public void gotoMarker(IMarker marker) {

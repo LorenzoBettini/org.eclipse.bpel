@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
@@ -32,11 +33,15 @@ public class CaseConditionSection extends ExpressionSection {
 	protected String getExpressionType() { return IEditorConstants.ET_BOOLEAN; }
 	protected String getExpressionContext() { return IEditorConstants.EC_CASE; }
 	
-	protected void createNoEditorWidgets(Composite composite) {
-	    super.createNoEditorWidgets(composite);
+	@Override
+	protected Composite createNoEditorWidgets(Composite composite) {
+		
+		Composite section = wf.createComposite(composite);
+		section.setLayout(new FlatFormLayout());
+		
 		FlatFormData ffdata;
 		
-		Label label1 = wf.createLabel(composite,
+		Label label1 = wf.createLabel(section,
 			Messages.CaseConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -44,7 +49,7 @@ public class CaseConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		Label label2 = wf.createLabel(composite,
+		Label label2 = wf.createLabel(section,
 			Messages.CaseConditionSection_Create_condition_text_2); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -52,7 +57,7 @@ public class CaseConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label2.setLayoutData(ffdata);
 		
-		Button createDefaultButton = wf.createButton(composite, Messages.CaseConditionSection_Create_a_New_Condition_2, SWT.PUSH); 
+		Button createDefaultButton = wf.createButton(section, Messages.CaseConditionSection_Create_a_New_Condition_2, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
@@ -64,6 +69,8 @@ public class CaseConditionSection extends ExpressionSection {
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { }
 		});
+		
+		return section;
 	}
 	
 	protected boolean isValidClientUseType(String useType) {

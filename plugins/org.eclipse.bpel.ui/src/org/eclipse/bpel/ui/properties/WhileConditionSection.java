@@ -13,9 +13,14 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
+import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
+import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -32,11 +37,14 @@ public class WhileConditionSection extends ExpressionSection {
 	protected String getExpressionType() { return IEditorConstants.ET_BOOLEAN; }
 	protected String getExpressionContext() { return IEditorConstants.EC_WHILE; }
 	
-	protected void createNoEditorWidgets(Composite composite) {
-	    super.createNoEditorWidgets(composite);
+	@Override
+	protected Composite createNoEditorWidgets(Composite composite) {
+			    	    
 		FlatFormData ffdata;
 		
-		Label label1 = wf.createLabel(composite,
+		Composite section = createFlatFormComposite(composite);		
+		
+		Label label1 = wf.createLabel(section,
 			Messages.WhileConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -44,7 +52,7 @@ public class WhileConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		Label label2 = wf.createLabel(composite,
+		Label label2 = wf.createLabel(section,
 			Messages.WhileConditionSection_Mandatory_condition_text_2); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -52,7 +60,7 @@ public class WhileConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label2.setLayoutData(ffdata);
 		
-		Button createDefaultButton = wf.createButton(composite, Messages.WhileConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
+		Button createDefaultButton = wf.createButton(section, Messages.WhileConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
@@ -64,9 +72,28 @@ public class WhileConditionSection extends ExpressionSection {
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { }
 		});
+		
+		return section;
 	}
 
 	protected boolean isValidClientUseType(String useType) {
 		return IBPELUIConstants.USE_TYPE_CONDITION.equals(useType);
 	}
+	
+	
+	
+	/**
+	 * Return true if the marker is valid for this section.
+	 * @return true if so, false otherwise.
+	 */
+	
+	
+	@Override
+	public boolean isValidMarker (IMarker marker ) {
+		
+		EObject errObj = BPELUtil.getObjectFromMarker( marker, getInput());
+		return (Condition.class.isInstance( errObj ));
+	}
+	
+	
 }

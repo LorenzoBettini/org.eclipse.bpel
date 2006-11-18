@@ -14,7 +14,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.texteditor.AbstractDocumentProvider;
 
@@ -23,12 +25,17 @@ import org.eclipse.ui.texteditor.AbstractDocumentProvider;
  */
 public class TextDocumentProvider extends AbstractDocumentProvider {
 
-	protected IDocument createDocument(Object element) throws CoreException {
+	protected IDocument createDocument (Object element) throws CoreException {
+		
 		if (element instanceof TextEditorInput) {
+			
 			TextEditorInput input = (TextEditorInput) element;
-			Document doc = new Document(input.getBody());
+			Document doc = new Document( input.getBody() );
+			input.setDocument ( doc );
+			
 			return doc;
 		}
+		
 		return null;
 	}
 

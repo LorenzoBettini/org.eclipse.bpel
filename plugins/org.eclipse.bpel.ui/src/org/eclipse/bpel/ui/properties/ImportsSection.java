@@ -27,7 +27,9 @@ import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NamespaceUtils;
 import org.eclipse.bpel.ui.util.TableCursor;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -64,10 +66,22 @@ public class ImportsSection extends BPELPropertySection {
 
 	protected TableCursor tableCursor = null;
 
-	protected MultiObjectAdapter[] createAdapters() {
+	
+	/**
+	 * Make this section use all the vertical space it can get. 
+	 * 
+	 */
+	@Override
+	public boolean shouldUseExtraSpace() { 
+		return true;
+	}
+	
+	
+	
+	protected MultiObjectAdapter[] createAdapters() {		
 		return new MultiObjectAdapter[] { new MultiObjectAdapter() {
 			public void notify(Notification n) {
-				refresh();
+				importViewer.setInput(getInput());				
 			}
 		}, };
 	}
@@ -238,13 +252,18 @@ public class ImportsSection extends BPELPropertySection {
 			return (s == null) ? "" : s; //$NON-NLS-1$			
 		}
 	}
+	
+	
 
-	public void refresh() {
-		super.refresh();
+	@Override
+	protected void basicSetInput(EObject newInput) {		
+		super.basicSetInput(newInput);
+		
 		if (getInput() != null) {
 			importViewer.setInput(getInput());
 		}
 	}
+	
 
 	protected void createClient(Composite parent) {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
@@ -330,4 +349,24 @@ public class ImportsSection extends BPELPropertySection {
 		}
 	}
 
+	
+	
+	@Override
+	public void gotoMarker(IMarker marker) {
+		// TODO Auto-generated method stub
+		super.gotoMarker(marker);
+	}
+	
+	/**
+	 * 
+	 */
+	
+
+	@Override
+	public boolean isValidMarker(IMarker marker) {
+		return super.isValidMarker(marker);
+	}
+
+	
+	
 }

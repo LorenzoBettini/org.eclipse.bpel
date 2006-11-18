@@ -47,6 +47,7 @@ public class BPELSelectionTool extends SelectionTool {
 	 * The following workaround tests if we are notifying the properties view for
 	 * a selection change and ignores the FocusOut event in that case.
 	 */
+	@Override
 	protected boolean handleFocusLost() {
 		if (isSelectionChangeBeingBroadcasted()) return true;
 		return super.handleFocusLost();

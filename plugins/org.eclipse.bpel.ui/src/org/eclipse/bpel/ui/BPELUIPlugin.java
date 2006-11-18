@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import org.eclipse.bpel.common.ui.ColorUtils;
+import org.eclipse.bpel.ui.expressions.Functions;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.ISaveContext;
 import org.eclipse.core.resources.ISaveParticipant;
@@ -23,8 +24,11 @@ import org.eclipse.core.resources.ISavedState;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ColorRegistry;
@@ -189,6 +193,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		super.start(context);
 		initializePreferences();
 		initializeResourceChangeListener();
+		initFunctions ();
 	}
 
 	protected void initializePreferences() {
@@ -250,9 +255,38 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 			imagesAndColorsInitialized = true;
 			initializeImages();
 			initializeColors();			
-		}
+		}		
 	}
 	
+	
+	void initFunctions () {
+		
+		Job job = new Job ("Initializing XPath tooling ...") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				long start = System.currentTimeMillis();
+				IStatus status;
+				try {
+					Functions.getInstance();										
+					status = new Status(IStatus.OK, PLUGIN_ID, 0, "Done",null); //$NON-NLS-1$
+				} catch (Throwable t ) {					
+					log(t);
+					status = new Status(IStatus.ERROR,PLUGIN_ID,0,t.getLocalizedMessage(),t);
+				}	
+				long end = System.currentTimeMillis();
+				System.out.println("InitFunctions took: " + (end - start) + "ms");
+				
+				monitor.done();
+				done(Job.ASYNC_FINISH);				
+				return status;				
+			}			
+		};		
+			
+		job.setPriority(Job.SHORT);		
+		job.schedule();
+
+	}
 	/**
 	 * @see org.eclipse.core.runtime.Plugin#stop(BundleContext)
 	 */

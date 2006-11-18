@@ -24,6 +24,7 @@ import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.commands.SetNameCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Notification;
@@ -70,6 +71,8 @@ public class NameSection extends BPELPropertySection {
 		} else  {
 			namedElement = (INamedElement)BPELUtil.adapt(input, INamedElement.class);
 		}
+		
+		updateNameWidgets();
 	}
 
 	protected void createNameWidgets(Composite composite) {
@@ -134,8 +137,12 @@ public class NameSection extends BPELPropertySection {
 
 	protected void updateNameWidgets()  {
 		Assert.isNotNull(getInput());
-		String name = namedElement.getName(getInput());
+		String name = "" ;//$NON-NLS-1$
+		if (namedElement != null) {
+			name = namedElement.getName(getInput());
+		}
 		if (name == null)  name = ""; //$NON-NLS-1$
+		
 		if (!name.equals(nameText.getText())) {
 			nameTracker.stopTracking();
 			try {
@@ -146,11 +153,6 @@ public class NameSection extends BPELPropertySection {
 		}
 	}
 	
-	public void refresh() {
-		super.refresh();
-		updateNameWidgets();
-	}
-
 	protected IStatus validate() {
 		//IStatus status = ValidationHelper.validateXML_NCName(nameText.getText());
 		//if (status.isOK())
@@ -217,4 +219,39 @@ public class NameSection extends BPELPropertySection {
 	public void restoreUserContext(Object userContext) {
 		nameText.setFocus();
 	}
+
+	/**
+	 * Goto the specific marker. This is only called when isValidMarker
+	 * returns true.
+	 * 
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#gotoMarker(org.eclipse.core.resources.IMarker)
+	 */
+	
+	@Override
+	public void gotoMarker(IMarker marker) {
+		nameText.setFocus() ;
+	}
+
+	/**
+	 * 
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#isValidMarker(org.eclipse.core.resources.IMarker)
+	 */
+	
+	@Override
+	public boolean isValidMarker(IMarker marker) {
+
+		boolean isValid = super.isValidMarker(marker);
+		
+		if (!isValid) {
+			return false;
+		}
+		
+		String context = null;
+		try {
+			context = (String) marker.getAttribute("href.context");
+		} catch (Exception ex) {
+			return false;
+		}
+		return "name".equals (context);
+	}	
 }

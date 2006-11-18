@@ -35,8 +35,11 @@ import org.eclipse.bpel.common.ui.tray.TrayComposite;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
@@ -94,6 +97,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.LightweightSystem;
@@ -124,10 +128,13 @@ import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.PaletteCustomizer;
+import org.eclipse.gef.ui.palette.customize.PaletteCustomizerDialog;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.Action;
@@ -159,16 +166,17 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.internal.views.properties.tabbed.view.Tab;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabDescriptor;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.wst.common.ui.properties.internal.provisional.ISection;
-import org.eclipse.wst.common.ui.properties.internal.provisional.ITabbedPropertySheetPageContributor;
-import org.eclipse.wst.common.ui.properties.internal.view.Tab;
-import org.eclipse.wst.common.ui.properties.internal.view.TabDescriptor;
-import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
+import org.eclipse.ui.views.properties.tabbed.ISection;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
 import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
@@ -222,7 +230,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	// Drag and drop support
 	private DropTarget dropTarget;
 	// JM
-	//private BPELDropTargetListener dropTargetListener;
+	private BPELDropTargetListener dropTargetListener;
 
 	// refactoring listeners;
 	protected IResourceChangeListener postBuildRefactoringListener;
@@ -427,11 +435,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		this.dropTarget = new DropTarget(getGraphicalViewer().getControl(), DND.DROP_NONE | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
 		// Set transfers to the types that are specified by the helper
 		// JM
-		// dropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
+		dropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
 		// Create our drop listener and add it to the DropTarget
 		// JM
-		//this.dropTargetListener = new BPELDropTargetListener(getGraphicalViewer(), this);
-		//dropTarget.addDropListener(dropTargetListener);
+		this.dropTargetListener = new BPELDropTargetListener(getGraphicalViewer(), this);
+		dropTarget.addDropListener(dropTargetListener);
 	}
 
 	private void createBPELPaletteEntries(PaletteContainer palette) {
@@ -520,12 +528,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			Messages.BPELEditor_Compensate_2, 
 			provider.getFactoryFor(bpelPackage.getCompensate())));
 		palette.add(faultCategory);
+					
 	}
 
 	private void createTopControlPaletteEntries(PaletteRoot root) {
 		PaletteGroup controlGroup = new PaletteGroup(Messages.BPELEditor_Top_Control_Group_37); 
 
-		BPELSelectionToolEntry selectionTool = new BPELSelectionToolEntry(Messages.BPELEditor_Selection_Tool_38); 
+		SelectionToolEntry selectionTool = new SelectionToolEntry(Messages.BPELEditor_Selection_Tool_38); 
 		controlGroup.add(selectionTool);
 
 		MarqueeToolEntry marqueeTool = new MarqueeToolEntry(Messages.BPELEditor_Marquee_Tool); 
@@ -818,39 +827,106 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	}
 	
 	public void gotoMarker(IMarker marker) {
-		setFocus();
-		// TODO: We need some functionality to look up the model object
-		// for a given marker.
+		
+		// One such mechanism is to use the href of the model object
+		// generated by the validator or whatever ...
+		
+		String href = null;
+		try {
+			href = (String) marker.getAttribute( "href" );
+		} catch (CoreException ex) {
+			BPELUIPlugin.log(ex);
+		}		
+		
+		// lookup by object href in the model.
 		EObject modelObject = null;
-		if (modelObject == null) return;
 		
-		// TODO: is this bogus now that we have AdaptingSelectionProvider?
-		
-		// Special case variables, since we may have to select a scope in order
-		// for the edit part to even be visible.
-		if (modelObject instanceof Variable) {
-			EObject modelParent = modelObject.eContainer();
-			if (modelParent instanceof Variables) {
-				modelParent = modelParent.eContainer();
-				if (modelParent instanceof Scope) {
-					selectModelObject(modelParent);
-					EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(modelParent);
-					if (editPart != null) {
-						getGraphicalViewer().reveal(editPart);
-					}
-				}
+		if (href != null) {
+			try {
+				modelObject = getResource().getEObject( href );
+			} catch (Throwable t) {
+				BPELUIPlugin.log(t);
 			}
 		}
-		selectModelObject(modelObject);
-		EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(modelObject);
-		if (editPart != null) {
-			getGraphicalViewer().reveal(editPart);
-		}
-		editPart = (EditPart)getTrayViewer().getEditPartRegistry().get(modelObject);
-		if (editPart != null) {
-			getTrayViewer().reveal(editPart);
+		
+		if (modelObject == null) {
+			return;
 		}
 		
+		gotoMarker ( marker, modelObject );
+	}
+	
+	
+	/**
+	 * Figure out which object needs to be selected for this marker.
+	 * 
+	 * @param marker the marker
+	 * @param modelObject the model object on which the marker is generated.
+	 */
+	
+	void gotoMarker ( IMarker marker, EObject modelObject ) {
+		
+		// TODO: is this bogus now that we have AdaptingSelectionProvider?
+				
+		
+		// The closest parent which has an edit part in the graph view.
+		//
+		// The following do not have viewers in the graph view:
+		//  1) Variables, PartnerLinks, Correlation Sets
+		// If it's any of those, then we have to reveal the closest container
+		// and then select the model object and show the properties.
+
+		GraphicalViewer graphViewer = getGraphicalViewer();
+		EObject refObj = null;
+		
+		EditPart editPart = null;
+		if ( modelObject instanceof Variable ||
+		     modelObject instanceof PartnerLink ||
+		     modelObject instanceof CorrelationSet ) {
+			
+			refObj = ModelHelper.getContainingScope(modelObject);
+			editPart = (EditPart)graphViewer.getEditPartRegistry().get(refObj);
+			if (editPart != null) {
+				graphViewer.reveal(editPart);
+			}			
+			selectModelObject(modelObject);
+			
+		} else if (modelObject instanceof Activity) {
+			
+			// activity objects are on the graphical viewer
+			refObj = modelObject;
+			editPart = (EditPart)graphViewer.getEditPartRegistry().get(refObj);
+			
+			if (editPart != null) {
+				graphViewer.reveal(editPart);
+			}
+			
+			selectModelObject(modelObject);
+			
+			
+		} else {
+				
+			refObj = modelObject;
+			while (refObj != null && !(refObj instanceof Activity) ) {
+				refObj = refObj.eContainer();
+			}
+			
+			// select process by default.
+			if (refObj == null) {
+				refObj = ModelHelper.getProcess( modelObject ) ;
+			}
+			
+			modelObject = refObj;
+			
+			editPart = (EditPart)graphViewer.getEditPartRegistry().get(modelObject);
+			
+			if (editPart != null) {
+				graphViewer.reveal(editPart);
+			}
+			
+			selectModelObject(modelObject);
+		}
+						
 		// If possible, try to display the marker in a property section.
 		BPELTabbedPropertySheetPage propertySheetPage = currentPropertySheetPage;
 		if (propertySheetPage == null) {
@@ -862,46 +938,58 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			// TODO: this doesn't work
 			//propertySheetPage = createBPELTabbedPropertySheetPage();
 		}
+		
 		TabbedPropertyViewer viewer = propertySheetPage.getTabbedPropertyViewer();
-		try {
-			int j = 0;
-			while (true) { // while we don't get an exception...
-				TabDescriptor descriptor = (TabDescriptor)viewer.getElementAt(j++);
-				if (descriptor == null) {
-					break; // no more descriptors
-				}
-				Tab tab = descriptor.createTab();
-				ISection[] sections = tab.getSections();
-				for (int i = 0; i < sections.length; i++) {
-					if (sections[i] instanceof BPELPropertySection) {
-						BPELPropertySection section = (BPELPropertySection)sections[i];
-
-						// HACK: we have to fake the initialization of this section in order to
-						// make isValidMarker work. This section should not be used as a normal section.
-						section.createControls(new Composite(getSite().getShell(), 0), propertySheetPage);
-						section.setInput(this, new StructuredSelection(modelObject));
-
-						if (section.isValidMarker(marker)) {
-							// the first section that handles this kind of marker wins
-							showPropertiesView();
-							// get real viewer, Tab and ISection objects since we are probably using fake ones
-							viewer = currentPropertySheetPage.getTabbedPropertyViewer();
-							viewer.setSelection(new StructuredSelection(descriptor));
-							tab = currentPropertySheetPage.getCurrentTab();
-							section = (BPELPropertySection)tab.getSectionAtIndex(i);
-							section.gotoMarker(marker);
-							return; // ignore other sections and tabs
-						}
-					}
-				}
+		
+		int j = 0;
+		while (true) { // while we don't get an exception...
+			TabDescriptor descriptor = null;
+			try {
+				descriptor = (TabDescriptor)viewer.getElementAt(j++);
+			} catch (IndexOutOfBoundsException iobe) {
+				break;
 			}
-		} catch (IndexOutOfBoundsException e) {
-			// don't do anything - an exception is expected
-			// TODO: in order to get have a better implementation we
-			// need more support from the properties framework.
+			
+			if (descriptor == null) {
+				break; // no more descriptors
+			}
+			
+			Tab tab = descriptor.createTab();
+			ISection[] sections = tab.getSections();
+			for (int i = 0; i < sections.length; i++) {
+			
+				if (BPELPropertySection.class.isInstance( sections[i]) == false) {
+					continue;
+				}
+				
+				BPELPropertySection section = (BPELPropertySection)sections[i];
+
+				// HACK: we have to fake the initialization of this section in order to
+				// make isValidMarker work. This section should not be used as a normal section.
+				section.createControls(new Composite(getSite().getShell(), 0), propertySheetPage);
+				section.setInput(this, new StructuredSelection(modelObject));
+
+				if (section.isValidMarker (marker) ) {
+					
+					// the first section that handles this kind of marker wins
+					showPropertiesView();
+					// get real viewer, Tab and ISection objects since we are probably using fake ones
+					viewer = currentPropertySheetPage.getTabbedPropertyViewer();
+					viewer.setSelection(new StructuredSelection(descriptor));
+					tab = currentPropertySheetPage.getCurrentTab();
+					section = (BPELPropertySection)tab.getSectionAtIndex(i);
+					section.gotoMarker(marker);
+					return; // ignore other sections and tabs
+					
+				}
+			}					
 		}
 	}
+	
+	
 
+	
+	
 	protected void showPropertiesView() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
@@ -1720,15 +1808,17 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		final DropTarget trayDropTarget = new DropTarget(getTrayViewer().getControl(), DND.DROP_NONE | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
 		// Set transfers to the types that are specified by the helper
 		// JM
-		//trayDropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
+		trayDropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
 		// Create our drop listener and add it to the DropTarget
 		// JM
-		//trayDropTarget.addDropListener(new BPELDropTargetListener(getTrayViewer(), this));
+		trayDropTarget.addDropListener(new BPELDropTargetListener(getTrayViewer(), this));
+		
 		getTrayViewer().getControl().addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				trayDropTarget.dispose();
 			}
 		});
+		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
 			getTrayViewer().getControl(), IHelpContextIds.TRAY_DESCRIPTION);	
 	}

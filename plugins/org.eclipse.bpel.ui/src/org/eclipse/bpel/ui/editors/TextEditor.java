@@ -12,23 +12,28 @@ package org.eclipse.bpel.ui.editors;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
 /**
  * Text editor for IText objects.
  */
-public class TextEditor extends AbstractTextEditor {
+
+public class TextEditor extends AbstractDecoratedTextEditor {
 
 	public static final String EDITOR_ID = "org.eclipse.bpel.ui.editors.TextEditor"; //$NON-NLS-1$
 
+	/**
+	 * 
+	 */
 	public TextEditor() {
 		super();
 		setDocumentProvider(new TextDocumentProvider());
+		
 	}
 
 	/**
-	 * Remove unecessary actions.
+	 * Remove unnecessary actions.
 	 */
 	protected void createActions() {
 		super.createActions();
@@ -39,7 +44,9 @@ public class TextEditor extends AbstractTextEditor {
 
 	/**
 	 * Returns the current contents of this editor.
+	 * @return the contents of the editor
 	 */
+	
 	public String getContents() {
 		IEditorInput input = getEditorInput();
 		IDocument doc = getDocumentProvider().getDocument(input);

@@ -11,9 +11,6 @@
 package org.eclipse.bpel.ui.dialogs;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
@@ -25,7 +22,6 @@ import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeContentProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.PortTypeContentProvider;
 import org.eclipse.bpel.ui.details.providers.WSDLDefinitionFromResourceContentProvider;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.wizards.CreatePartnerLinkWizard;
 import org.eclipse.emf.ecore.EObject;
@@ -33,6 +29,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -68,17 +65,22 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	GatedContentProvider portTypeContentProvider;
 
 	PartnerLinkType fPartnerLinkType;
+
+	/** Show port types check box button */
+	Button fShowPortTypes;
 	
 
 	/**
-	 * The modelObject is the model element that indicates the scope in which the
-	 * variable should be visible.
+	 * Create a brand new shiny Partner Link Type Selector dialog.
+	 * 
+	 * @param parent the parent shell
+	 * @param eObj a BPEL model object
 	 */
 	
-	public PartnerLinkTypeSelectorDialog (Shell parent, EObject modelObject ) {
-		super(parent, new ModelLabelProvider(modelObject));
+	public PartnerLinkTypeSelectorDialog (Shell parent, EObject eObj ) {
+		super(parent, new ModelLabelProvider(eObj));
 		
-		this.modelObject = modelObject;		
+		this.modelObject = eObj;		
 		
 		portTypeContentProvider = new GatedContentProvider ( new PortTypeContentProvider () );
 		
@@ -127,31 +129,29 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	}	
 	
 	/**
-	 * Handle the checkbutton and radio button callbacks.
+	 * Handle the check button and radio button callbacks.
 	 * 
 	 * @param id
 	 * @param checked
+	 * @param bRefresh perform refresh at the end 
 	 */
 	
-	protected void buttonPressed (int id, boolean checked) {
+	protected void buttonPressed (int id, boolean checked, boolean bRefresh ) {
 		
-		boolean bRefresh = true;
-				
 		switch (id) {
 
 		case BID_SHOW_PORT_TYPES :
 			showPortTypes = checked;
+			portTypeContentProvider.setEnabled( showPortTypes );
 			break;
 							
 		default :
-			bRefresh = false;
-			super.buttonPressed(id, checked);			
-			break;
+			super.buttonPressed(id, checked, bRefresh );			
+			return ;
 		}
 
 		
-		if (bRefresh) {
-			portTypeContentProvider.setEnabled( checked );
+		if (bRefresh) {			
 			refresh();
 		}
 	}
@@ -207,7 +207,8 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	
 	protected void createBrowseFilterGroupButtons ( Group  group ) {
         
-		createCheckButton(group,Messages.PartnerLinkTypeSelectorDialog_5, BID_SHOW_PORT_TYPES, 
+		fShowPortTypes = createCheckButton(group,Messages.PartnerLinkTypeSelectorDialog_5, 
+				BID_SHOW_PORT_TYPES, 
 				showPortTypes  );
 		
 		super.createBrowseFilterGroupButtons( group );
@@ -215,7 +216,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	
 	
 	/**
-	 * Add an import using an explict import dialog selection. 
+	 * Add an import using an explicit import dialog selection. 
 	 * 
 	 * We safeguard against adding duplicate types to the BPEL model here as well.
 	 * 
@@ -228,17 +229,29 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 		if (dialog.open() == Window.CANCEL) {
 			return ;
 		}
-		
-		Object obj[] = dialog.getResult();
-		if (obj == null || obj.length < 1) {
+		Object obj = dialog.getFirstResult();		
+		if (obj == null) {
 			return ;
-		}
-		
-		if (handleAddImport( obj [0] )) {
+		}		
+		if (handleAddImport( obj )) {
 			showImportedTypes();
+			refresh();
 		}
 	}
 	
+	protected void showImportedTypes () {	
+		fShowPortTypes.setSelection(true);
+		buttonPressed(BID_SHOW_PORT_TYPES,true, false);		
+		super.showImportedTypes();
+	}
+	
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, 
+				BID_ADD_IMPORT,
+				Messages.PartnerLinkTypeSelectorDialog_6, 
+				false);		
+		super.createButtonsForButtonBar(parent);
+	}
 	
 	/**
 	 * In the case of partner link types, we nee to see a few more levels

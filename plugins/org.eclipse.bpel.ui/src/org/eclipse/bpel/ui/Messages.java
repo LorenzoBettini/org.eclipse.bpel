@@ -86,6 +86,7 @@ public final class Messages extends NLS {
 	public static String PartnerLinkTypeSelectorDialog_3;
 	public static String PartnerLinkTypeSelectorDialog_4;
 	public static String PartnerLinkTypeSelectorDialog_5;
+	public static String PartnerLinkTypeSelectorDialog_6;
 	public static String SchemaImportDialog_0;
 	public static String SchemaImportDialog_10;
 	public static String SchemaImportDialog_11;
@@ -109,6 +110,7 @@ public final class Messages extends NLS {
 	public static String TypeSelectorDialog_17;
 	public static String TypeSelectorDialog_18;
 	public static String TypeSelectorDialog_19;
+	public static String TypeSelectorDialog_3;
 	public static String TypeSelectorDialog_4;
 	public static String TypeSelectorDialog_5;
 	public static String TypeSelectorDialog_6;

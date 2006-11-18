@@ -24,9 +24,9 @@
          point="org.eclipse.bpel.common.ui.embeddedEditors">
       <editor
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            class="org.eclipse.bpel.ui.editors.TextEditor"
-            name=""
-            id="org.eclipse.bpel.ui.editors.TextEditor">
+            class="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor"
+            name="XPath 1.0 Text Editor."
+            id="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor">
              <!-- TODO: remove the name="" in the future -->
       </editor>
    </extension>
@@ -83,7 +83,7 @@
    </extension>
 
   <extension
-        point="org.eclipse.wst.common.ui.properties.propertyContributor">
+        point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
      <propertyContributor
            contributorId="org.eclipse.bpel.ui.bpeleditor"
            typeMapper="org.eclipse.bpel.ui.properties.TypeMapper"
@@ -106,7 +106,7 @@
      </propertyContributor>
   </extension>
 
-  <extension point="org.eclipse.wst.common.ui.properties.propertyTabs">
+  <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
      <propertyTabs contributorId="org.eclipse.bpel.ui.bpeleditor">
         <propertyTab
               label="%DETAILS_PAGES_DESCRIPTION_LABEL"
@@ -190,7 +190,7 @@
      </propertyTabs>
   </extension>
 
-  <extension point="org.eclipse.wst.common.ui.properties.propertySections">
+  <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
      <propertySections contributorId="org.eclipse.bpel.ui.bpeleditor">
         <propertySection
               class="org.eclipse.bpel.ui.properties.ActionImplementationSection"

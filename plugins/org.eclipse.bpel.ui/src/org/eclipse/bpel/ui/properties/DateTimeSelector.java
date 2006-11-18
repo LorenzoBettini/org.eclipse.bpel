@@ -25,11 +25,12 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TypedListener;
-import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 
 /**
@@ -39,6 +40,9 @@ import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertyS
  */
 public class DateTimeSelector extends Composite {
 
+	static final String ID = "id"; //$NON-NLS-1$
+	
+	
 	public static String[] DateTimeSelector_Months = new String[] {
 			Messages.DateTimeSelector_Month_1, Messages.DateTimeSelector_Month_2, Messages.DateTimeSelector_Month_3,
 			Messages.DateTimeSelector_Month_4, Messages.DateTimeSelector_Month_5, Messages.DateTimeSelector_Month_6,
@@ -46,16 +50,20 @@ public class DateTimeSelector extends Composite {
 			Messages.DateTimeSelector_Month_10, Messages.DateTimeSelector_Month_11, Messages.DateTimeSelector_Month_12
 		};
 	                     
-	protected static final int YEAR = 0;
-	protected static final int MONTH = 1;
-	protected static final int DAY = 2;
-	protected static final int HOUR = 3;
-	protected static final int MINUTE = 4;
-	protected static final int SECOND = 5;
+	static final int YEAR = 0;
+	static final int MONTH = YEAR+1;
+	static final int DAY = YEAR+2;
+	static final int HOUR = YEAR+3;
+	static final int MINUTE = YEAR+4;
+	static final int SECOND = YEAR+5;
 	
-	protected int lastChangeContext = -1;
+	static final int LAST_IDX = YEAR+6;
+	
+	
+	
+	protected Object lastChangeContext ;
 
-	private CCombo[] combo;
+	private Combo[] combo;
 
 	private Label timeSep, timeSep2, dateSep, dateSep2;
 	private int yearMin;
@@ -69,6 +77,7 @@ public class DateTimeSelector extends Composite {
 	};
 
 	public static int daysInMonth(int monthMinusOne, int year) {
+		
 		// february has a leap day every 4 years, except not every 100 years (except every 400..)
 		if (monthMinusOne==1 && (year&3)==0 && ((year%100)!=0 || (year%400)==0))  return 29;
 		return rawDaysInMonth[monthMinusOne];
@@ -80,7 +89,7 @@ public class DateTimeSelector extends Composite {
 
 	public DateTimeSelector(TabbedPropertySheetWidgetFactory factory, Composite parent, int style, int yearMin, int yearMax) {
 		super(parent, style);
-		combo = new CCombo[6];
+		combo = new Combo[6];
 		this.wf = factory;
 		this.yearMin = yearMin;
 		this.yearMax = yearMax;
@@ -115,14 +124,12 @@ public class DateTimeSelector extends Composite {
 		FlatFormAttachment minuteRight = new FlatFormAttachment(65,0);
 		FlatFormAttachment secondLeft  = new FlatFormAttachment(70,0);
 		FlatFormAttachment secondRight = new FlatFormAttachment(100,0);
-
-		combo[MONTH] = wf.createCCombo(composite);
-		combo[DAY] = wf.createCCombo(composite);
-		combo[YEAR] = wf.createCCombo(composite);
-		combo[HOUR] = wf.createCCombo(composite);
-		combo[MINUTE] = wf.createCCombo(composite);
-		combo[SECOND] = wf.createCCombo(composite);
-
+		
+		for(int i=0; i < combo.length; i++) {
+			combo[i] = new Combo(composite,SWT.READ_ONLY);
+			combo[i].setData(ID, new Integer(i));			
+		}
+		
 		dateSep  = wf.createLabel(composite, dateSepText, SWT.CENTER);
 		dateSep2 = wf.createLabel(composite, dateSepText, SWT.CENTER);
 		timeSep  = wf.createLabel(composite, timeSepText, SWT.CENTER);
@@ -220,9 +227,9 @@ public class DateTimeSelector extends Composite {
 		dateFlatFormat.format(date, junkBuffer, pos);
 		yearPos = pos.getBeginIndex();
 	
-		CCombo left = combo[MONTH];
-		CCombo middle = combo[DAY];
-		CCombo right = combo[YEAR];
+		Combo left = combo[MONTH];
+		Combo middle = combo[DAY];
+		Combo right = combo[YEAR];
 		
 		// The current widget arrangement assumes MDY.
 		if (dayPos < monthPos) {
@@ -258,7 +265,7 @@ public class DateTimeSelector extends Composite {
 		addListeners();
 	}
 	
-	private void populateComboWithInts(CCombo combo, int start, int length) {
+	private void populateComboWithInts(Combo combo, int start, int length) {
 		combo.removeAll();
 		for (int i = start; i<start+length; i++) {
 			combo.add(((i<10)?"0":"")+String.valueOf(i)); //$NON-NLS-1$ //$NON-NLS-2$
@@ -273,7 +280,8 @@ public class DateTimeSelector extends Composite {
 		combo[DAY].select(Math.min(sel, days-1));	
 	}
 		
-	private void populateCombos(){
+	private void populateCombos() {
+		
 		populateComboWithInts(combo[YEAR], yearMin, Math.max(0, yearMax-yearMin));
 		combo[MONTH].setItems(MONTH_NAMES);
 		populateComboWithInts(combo[DAY], 1, 31);
@@ -292,18 +300,24 @@ public class DateTimeSelector extends Composite {
 		combo[SECOND].select(0);
 	}
 	
-	private void addListeners(){
+	private void addListeners() {
+		
 		SelectionListener commonListener = new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				int last = lastChangeContext;
-				if (e.widget == combo[YEAR] || e.widget == combo[MONTH])  updateDaysCombo();
-				for (int i = 0; i<6; i++)  if (e.widget == combo[i])  last = i;
-				lastChangeContext = last;
+				Combo cw = (Combo) e.widget;
+				lastChangeContext = cw.getData(ID);
+				
+				if (cw == combo[YEAR] || cw == combo[MONTH])  {
+					updateDaysCombo();
+				}
 				selectionChanged();
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { widgetSelected(e); }
 		};
-		for (int i = 0; i<6; i++)  combo[i].addSelectionListener(commonListener);
+		
+		for (int i = 0; i<6; i++) {
+			combo[i].addSelectionListener(commonListener);
+		}
 	}
 
 	/**
@@ -358,23 +372,24 @@ public class DateTimeSelector extends Composite {
 	public void addSelectionListener(SelectionListener listener){
 		TypedListener typedListener = new TypedListener (listener);
 		addListener (SWT.Selection,typedListener);
-		addListener (SWT.DefaultSelection,typedListener);
+		// addListener (SWT.DefaultSelection,typedListener);
 	}
 
 	public Object getUserContext() {
-		return new Integer(lastChangeContext);
+		return lastChangeContext;
 	}
+	
 	public void restoreUserContext(Object userContext) {
 		int i = ((Integer)userContext).intValue();
 		switch (i) {
 		case YEAR:	case MONTH: case DAY:
 		case HOUR:	case MINUTE: case SECOND:
-			combo[i].setFocus(); return;
-		}
-		throw new IllegalArgumentException();
+			combo[i].setFocus(); 
+			return;
+		}		
 	}
 	
-	public void setEnabled(boolean enabled) {
+	public void setEnabled (boolean enabled) {
 		super.setEnabled(enabled);
 		for (int i = 0; i < combo.length; i++) {
 			combo[i].setEnabled(enabled);

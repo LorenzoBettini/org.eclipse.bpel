@@ -210,6 +210,9 @@ public interface IBPELUIConstants {
 	public final String ICON_LINK_ARROWDOWN = "ovr16/link_arrowdown.png"; //$NON-NLS-1$
 	public final String ICON_LINK_CONDITIONAL = "obj16/condlnk_dgm16.gif"; //$NON-NLS-1$
 	
+	// Expressions
+	public final String ICON_EXPR_FUNCTION = "obj16/function.gif";
+	
 	// Cursors
 	public final String CURSOR_ZOOM_MASK = "point/zoom_mask.bmp"; //$NON-NLS-1$
 	public final String CURSOR_ZOOM_IN = "point/zoomin_source.bmp"; //$NON-NLS-1$
