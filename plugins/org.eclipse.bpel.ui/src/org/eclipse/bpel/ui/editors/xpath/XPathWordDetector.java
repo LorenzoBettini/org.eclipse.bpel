@@ -27,10 +27,100 @@ public class XPathWordDetector implements IWordDetector {
 	
 	static public class NCNameWordDetector extends XPathWordDetector {
 		
-		public boolean isWordPart (char c) {
+		@Override
+		public boolean isWordPart (char c) {			
 			 return c != ':' && super.isWordPart(c); 
 		}
 	}
+	
+	/**
+	 * Detects variables in XPath expressions.
+	 * 
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date Nov 17, 2006
+	 *
+	 */
+	static public class VariableDetector extends NCNameWordDetector {
+		
+		/**
+		 * These always start with a $
+		 * @see org.eclipse.bpel.ui.editors.xpath.XPathWordDetector#isWordStart(char)
+		 */
+		@Override
+		public boolean isWordStart (char c) {
+			return c == '$' ;
+		}
+		
+		/** 
+		 * The rest of the variable is a NCName but does not contain a '.' 
+		 */
+		@Override
+		public boolean isWordPart (char c) {
+			 return c != '.' && super.isWordPart(c); 
+		}
+	}
+	
+	/**
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date Nov 27, 2006
+	 *
+	 */
+	static public class MessagePartDetector extends NCNameWordDetector {
+		
+		/**
+		 * These always start with a $
+		 * @see org.eclipse.bpel.ui.editors.xpath.XPathWordDetector#isWordStart(char)
+		 */
+		@Override
+		public boolean isWordStart (char c) {
+			return c == '.' ;
+		}
+		
+		/** 
+		 * The rest of the variable is a NCName but does not contain a '.' 
+		 */
+		@Override
+		public boolean isWordPart (char c) {
+			 return c != '.' && c != '/' && super.isWordPart(c); 
+		}
+	}
+	/**
+	 * Detects variables in XPath expressions.
+	 * 
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date Nov 17, 2006
+	 *
+	 */
+	static public class QNameDetector extends NCNameWordDetector {
+		
+		int colCount = 0;
+		
+		/**
+		 * These always start with a $
+		 * @see org.eclipse.bpel.ui.editors.xpath.XPathWordDetector#isWordStart(char)
+		 */
+		@Override
+		public boolean isWordStart (char c) {
+			colCount = 0;
+			return super.isWordStart(c);
+		}
+		
+		/** 
+		 * The rest of the variable is a NCName but does not contain a '.' 
+		 */
+		@Override
+		public boolean isWordPart (char c) {
+			if (c == ':') {
+				if (colCount == 0) {
+					colCount += 1;
+					return true;
+				}				
+				return false;
+			}
+			return super.isWordPart(c); 
+		}
+	}
+	
 	
 	/**
 	 * @see org.eclipse.jface.text.rules.IWordDetector#isWordPart(char)

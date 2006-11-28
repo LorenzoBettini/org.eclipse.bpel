@@ -50,6 +50,9 @@ public class WordRule implements IRule {
 	/** Buffer used for pattern detection */
 	private StringBuffer fBuffer= new StringBuffer();
 
+	/** A checker to check the token context (tokens seen so far). */
+	ITokenContext fTokenContext;
+
 	/**
 	 * Creates a rule which, with the help of an word detector, will return the token
 	 * associated with the detected word. If no token has been associated, the scanner
@@ -98,6 +101,17 @@ public class WordRule implements IRule {
 	}
 
 	/**
+	 * Sets the token context checker (could be null). This allows use
+	 * to see what tokens came before then one we are reading now.
+	 * 
+	 * @param context
+	 */
+	
+	public void setTokenContextCheck ( ITokenContext context ) {
+		fTokenContext = context;
+	}
+	
+	/**
 	 * Sets a column constraint for this rule. If set, the rule's token
 	 * will only be returned if the pattern is detected starting at the
 	 * specified column. If the column is smaller then 0, the column
@@ -116,7 +130,12 @@ public class WordRule implements IRule {
 	 */
 	
 	public IToken evaluate(ICharacterScanner scanner) {
-		int c= scanner.read();
+		
+		if (fTokenContext != null && fTokenContext.check(scanner) == false) {
+			return Token.UNDEFINED;
+		}
+		
+		int c = scanner.read();
 		if (fDetector.isWordStart((char) c)) {
 			if (fColumn == UNDEFINED || (fColumn == scanner.getColumn() - 1)) {
 
