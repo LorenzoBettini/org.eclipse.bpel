@@ -74,6 +74,10 @@ public class PreferenceConstants {
 	public final static RGB TAG = new RGB(0, 0, 128);
 
 	public final static RGB FUNCTIONS_XPATH = new RGB(0,0,200);
+
+	public static final RGB VARIABLES = new RGB(10,10,10);
+	
+	public static final RGB VARIABLE_PART = new RGB(0xe0,80,0);
 	
 	
 	
