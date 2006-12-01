@@ -15,7 +15,10 @@ import java.util.ResourceBundle;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.contentassist.ExpressionContentAssistProcessor;
 import org.eclipse.bpel.ui.editors.TextEditor;
+import org.eclipse.bpel.ui.editors.TextEditorInput;
 import org.eclipse.bpel.ui.preferences.PreferenceConstants;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -32,6 +35,7 @@ import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.ContentAssistAction;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
@@ -101,16 +105,21 @@ public class XPathTextEditor extends TextEditor {
 	}
 	
 	
-	public void setModelObject(Object model) {
-		ExpressionContentAssistProcessor caproc = (ExpressionContentAssistProcessor)this.getSourceViewerConfiguration().
-				getContentAssistant(this.getSourceViewer()).
-				getContentAssistProcessor(IDocument.DEFAULT_CONTENT_TYPE);
-		caproc.setModelObject(model);
+	@Override
+	protected void doSetInput (IEditorInput input) throws CoreException {
 		
-	}
+		super.doSetInput(input);
+		
+		EObject eObj = (EObject) input.getAdapter(EObject.class);
+		
+		if (eObj != null) {
+			ExpressionContentAssistProcessor caproc = (ExpressionContentAssistProcessor)this.getSourceViewerConfiguration().
+			getContentAssistant(this.getSourceViewer()).
+			getContentAssistProcessor(IDocument.DEFAULT_CONTENT_TYPE);
+			caproc.setModelObject( eObj );
+		}
+	}		
 	
-	
-
 	/*
 	 * @see AbstractTextEditor#createPartControl(Composite)
 	 */
