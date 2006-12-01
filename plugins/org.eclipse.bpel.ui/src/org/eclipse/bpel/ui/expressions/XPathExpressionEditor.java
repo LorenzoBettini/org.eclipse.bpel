@@ -226,8 +226,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		textEditor = (XPathTextEditor) createEditor(XPathTextEditor.EDITOR_ID,
 				this.textEditorInput, textEditorComposite);
 
-		textEditor.addPropertyListener(getPropertyListener());
-		textEditor.setModelObject(this.getModelObject());
+		textEditor.addPropertyListener(getPropertyListener());	
 
 		return textEditorComposite;
 	}
@@ -539,7 +538,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	}
 
 	@Override
-	public void setBody(Object body) {
+	public void setBody (Object body) {
 
 		String value = (body instanceof String) ? (String) body : ""; //$NON-NLS-1$
 
