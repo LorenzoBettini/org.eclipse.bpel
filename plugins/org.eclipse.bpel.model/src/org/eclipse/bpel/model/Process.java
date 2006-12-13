@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.5 2006/01/19 21:08:47 james Exp $
+ * $Id: Process.java,v 1.6 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -47,6 +47,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.bpel.model.Process#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Process#getMessageExchanges <em>Message Exchanges</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,7 +55,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Process extends ExtensibleElement {
+public interface Process extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -477,6 +478,32 @@ public interface Process extends ExtensibleElement {
 	 * @generated
 	 */
 	void setExitOnStandardFault(Boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Message Exchanges</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Message Exchanges</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Message Exchanges</em>' reference.
+	 * @see #setMessageExchanges(MessageExchanges)
+	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_MessageExchanges()
+	 * @model
+	 * @generated
+	 */
+	MessageExchanges getMessageExchanges();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getMessageExchanges <em>Message Exchanges</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message Exchanges</em>' reference.
+	 * @see #getMessageExchanges()
+	 * @generated
+	 */
+	void setMessageExchanges(MessageExchanges value);
 
 	/**
 	 * Returns the value of the '<em><b>Event Handlers</b></em>' containment reference.

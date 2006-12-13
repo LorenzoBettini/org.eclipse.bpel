@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Copy.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: Copy.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -26,6 +26,7 @@ package org.eclipse.bpel.model;
  *   <li>{@link org.eclipse.bpel.model.Copy#getTo <em>To</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Copy#getFrom <em>From</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Copy#getKeepSrcElementName <em>Keep Src Element Name</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Copy#getIgnoreMissingFromData <em>Ignore Missing From Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,7 +34,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface Copy extends ExtensibleElement {
+public interface Copy extends ExtensibleElement{
 	/**
 	 * Returns the value of the '<em><b>To</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -139,5 +140,59 @@ public interface Copy extends ExtensibleElement {
 	 * @generated
 	 */
 	boolean isSetKeepSrcElementName();
+
+	/**
+	 * Returns the value of the '<em><b>Ignore Missing From Data</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ignore Missing From Data</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ignore Missing From Data</em>' attribute.
+	 * @see #isSetIgnoreMissingFromData()
+	 * @see #unsetIgnoreMissingFromData()
+	 * @see #setIgnoreMissingFromData(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getCopy_IgnoreMissingFromData()
+	 * @model default="false" unsettable="true"
+	 * @generated
+	 */
+	Boolean getIgnoreMissingFromData();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Copy#getIgnoreMissingFromData <em>Ignore Missing From Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ignore Missing From Data</em>' attribute.
+	 * @see #isSetIgnoreMissingFromData()
+	 * @see #unsetIgnoreMissingFromData()
+	 * @see #getIgnoreMissingFromData()
+	 * @generated
+	 */
+	void setIgnoreMissingFromData(Boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.Copy#getIgnoreMissingFromData <em>Ignore Missing From Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetIgnoreMissingFromData()
+	 * @see #getIgnoreMissingFromData()
+	 * @see #setIgnoreMissingFromData(Boolean)
+	 * @generated
+	 */
+	void unsetIgnoreMissingFromData();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Copy#getIgnoreMissingFromData <em>Ignore Missing From Data</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Ignore Missing From Data</em>' attribute is set.
+	 * @see #unsetIgnoreMissingFromData()
+	 * @see #getIgnoreMissingFromData()
+	 * @see #setIgnoreMissingFromData(Boolean)
+	 * @generated
+	 */
+	boolean isSetIgnoreMissingFromData();
 
 } // Copy

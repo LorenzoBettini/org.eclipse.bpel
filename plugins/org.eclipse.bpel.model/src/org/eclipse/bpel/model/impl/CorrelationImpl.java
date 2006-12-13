@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: CorrelationImpl.java,v 1.3 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,10 +22,14 @@ import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.w3c.dom.Element;
 
 /**
@@ -258,6 +262,25 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 		set = newSet;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CORRELATION__SET, oldSet, set));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.CORRELATION__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.CORRELATION__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
 	}
 
 	/**

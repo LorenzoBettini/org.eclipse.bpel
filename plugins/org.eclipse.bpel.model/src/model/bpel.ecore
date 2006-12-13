@@ -44,6 +44,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="exitOnStandardFault" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageExchanges" eType="#//MessageExchanges"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PartnerLink" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -122,7 +123,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="faultMessageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="faultElement" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="faultElement" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDElementDeclaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Reply" eSuperTypes="#//PartnerActivity #//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -265,6 +266,9 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="keepSrcElementName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreMissingFromData"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Extension" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -293,6 +297,9 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="terminationHandler" eType="#//TerminationHandler"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageExchanges" eType="#//MessageExchanges"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exitOnStandardFault" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Compensate" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -335,7 +342,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRef" eType="#//ServiceRef"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OnMessage" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -426,8 +433,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../../plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDElementDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Otherwise" eSuperTypes="#//ExtensibleElement">
@@ -495,14 +502,17 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OpaqueActivity" eSuperTypes="#//Activity"/>
   <eClassifiers xsi:type="ecore:EClass" name="ForEach" eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parallel" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCounterValue" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parallel" lowerBound="1"
+        eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="counterName" lowerBound="1"
         eType="#//Variable" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="completionCondition" eType="#//CompletionCondition"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="iterator" lowerBound="1"
-        eType="#//Iterator" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
@@ -560,10 +570,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Iterator">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" eType="#//Expression"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="startCounterValue" eType="#//Expression"
-        containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageExchanges" eSuperTypes="#//ExtensibleElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="1"
+        upperBound="-1" eType="#//MessageExchange"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageExchange" eSuperTypes="#//ExtensibleElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

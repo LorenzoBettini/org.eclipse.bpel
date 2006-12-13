@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: PartnerLinkImpl.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,10 +22,14 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.w3c.dom.Element;
 
 /**
@@ -322,6 +326,25 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 */
 	public boolean isSetInitializePartnerRole() {
 		return initializePartnerRoleESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.PARTNER_LINK__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.PARTNER_LINK__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
 	}
 
 	/**

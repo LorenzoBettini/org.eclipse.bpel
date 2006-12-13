@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEach.java,v 1.3 2006/01/31 14:56:08 james Exp $
+ * $Id: ForEach.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -15,10 +15,11 @@ package org.eclipse.bpel.model;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.eclipse.bpel.model.ForEach#getStartCounterValue <em>Start Counter Value</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.ForEach#getFinalCounterValue <em>Final Counter Value</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.ForEach#getParallel <em>Parallel</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.ForEach#getCounterName <em>Counter Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.ForEach#getCompletionCondition <em>Completion Condition</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.ForEach#getIterator <em>Iterator</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.ForEach#getActivity <em>Activity</em>}</li>
  * </ul>
  * </p>
@@ -28,6 +29,58 @@ package org.eclipse.bpel.model;
  * @generated
  */
 public interface ForEach extends Activity{
+	/**
+	 * Returns the value of the '<em><b>Start Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Start Counter Value</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Start Counter Value</em>' containment reference.
+	 * @see #setStartCounterValue(Expression)
+	 * @see org.eclipse.bpel.model.BPELPackage#getForEach_StartCounterValue()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Expression getStartCounterValue();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.ForEach#getStartCounterValue <em>Start Counter Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Start Counter Value</em>' containment reference.
+	 * @see #getStartCounterValue()
+	 * @generated
+	 */
+	void setStartCounterValue(Expression value);
+
+	/**
+	 * Returns the value of the '<em><b>Final Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Final Counter Value</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Final Counter Value</em>' containment reference.
+	 * @see #setFinalCounterValue(Expression)
+	 * @see org.eclipse.bpel.model.BPELPackage#getForEach_FinalCounterValue()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Expression getFinalCounterValue();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.ForEach#getFinalCounterValue <em>Final Counter Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Final Counter Value</em>' containment reference.
+	 * @see #getFinalCounterValue()
+	 * @generated
+	 */
+	void setFinalCounterValue(Expression value);
+
 	/**
 	 * Returns the value of the '<em><b>Parallel</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
@@ -40,7 +93,7 @@ public interface ForEach extends Activity{
 	 * @return the value of the '<em>Parallel</em>' attribute.
 	 * @see #setParallel(Boolean)
 	 * @see org.eclipse.bpel.model.BPELPackage#getForEach_Parallel()
-	 * @model default="false"
+	 * @model default="false" required="true"
 	 * @generated
 	 */
 	Boolean getParallel();
@@ -106,32 +159,6 @@ public interface ForEach extends Activity{
 	 * @generated
 	 */
 	void setCompletionCondition(CompletionCondition value);
-
-	/**
-	 * Returns the value of the '<em><b>Iterator</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Iterator</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Iterator</em>' containment reference.
-	 * @see #setIterator(Iterator)
-	 * @see org.eclipse.bpel.model.BPELPackage#getForEach_Iterator()
-	 * @model containment="true" required="true"
-	 * @generated
-	 */
-	Iterator getIterator();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.ForEach#getIterator <em>Iterator</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Iterator</em>' containment reference.
-	 * @see #getIterator()
-	 * @generated
-	 */
-	void setIterator(Iterator value);
 
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.

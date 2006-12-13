@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: CopyImpl.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -40,6 +40,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getTo <em>To</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getFrom <em>From</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getKeepSrcElementName <em>Keep Src Element Name</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.CopyImpl#getIgnoreMissingFromData <em>Ignore Missing From Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,6 +95,35 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @ordered
 	 */
 	protected boolean keepSrcElementNameESet = false;
+
+	/**
+	 * The default value of the '{@link #getIgnoreMissingFromData() <em>Ignore Missing From Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIgnoreMissingFromData()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean IGNORE_MISSING_FROM_DATA_EDEFAULT = Boolean.FALSE;
+
+	/**
+	 * The cached value of the '{@link #getIgnoreMissingFromData() <em>Ignore Missing From Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIgnoreMissingFromData()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean ignoreMissingFromData = IGNORE_MISSING_FROM_DATA_EDEFAULT;
+
+	/**
+	 * This is true if the Ignore Missing From Data attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean ignoreMissingFromDataESet = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,6 +280,52 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getIgnoreMissingFromData() {
+		return ignoreMissingFromData;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIgnoreMissingFromData(Boolean newIgnoreMissingFromData) {
+		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
+		ignoreMissingFromData = newIgnoreMissingFromData;
+		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
+		ignoreMissingFromDataESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__IGNORE_MISSING_FROM_DATA, oldIgnoreMissingFromData, ignoreMissingFromData, !oldIgnoreMissingFromDataESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetIgnoreMissingFromData() {
+		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
+		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
+		ignoreMissingFromData = IGNORE_MISSING_FROM_DATA_EDEFAULT;
+		ignoreMissingFromDataESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.COPY__IGNORE_MISSING_FROM_DATA, oldIgnoreMissingFromData, IGNORE_MISSING_FROM_DATA_EDEFAULT, oldIgnoreMissingFromDataESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetIgnoreMissingFromData() {
+		return ignoreMissingFromDataESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -289,6 +365,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				return getFrom();
 			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
 				return getKeepSrcElementName();
+			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+				return getIgnoreMissingFromData();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -322,6 +400,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
 				setKeepSrcElementName((Boolean)newValue);
 				return;
+			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+				setIgnoreMissingFromData((Boolean)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -354,6 +435,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
 				unsetKeepSrcElementName();
 				return;
+			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+				unsetIgnoreMissingFromData();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -379,6 +463,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				return from != null;
 			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
 				return isSetKeepSrcElementName();
+			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+				return isSetIgnoreMissingFromData();
 		}
 		return eDynamicIsSet(eFeature);
 	}
@@ -394,6 +480,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (keepSrcElementName: ");
 		if (keepSrcElementNameESet) result.append(keepSrcElementName); else result.append("<unset>");
+		result.append(", ignoreMissingFromData: ");
+		if (ignoreMissingFromDataESet) result.append(ignoreMissingFromData); else result.append("<unset>");
 		result.append(')');
 		return result.toString();
 	}

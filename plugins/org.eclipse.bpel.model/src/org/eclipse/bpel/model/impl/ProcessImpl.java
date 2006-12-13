@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.5 2006/01/19 21:08:47 james Exp $
+ * $Id: ProcessImpl.java,v 1.6 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -26,6 +26,7 @@ import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.emf.common.notify.Notification;
@@ -61,6 +62,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getMessageExchanges <em>Message Exchanges</em>}</li>
  * </ul>
  * </p>
  *
@@ -322,6 +324,16 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @ordered
 	 */
 	protected Boolean exitOnStandardFault = EXIT_ON_STANDARD_FAULT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getMessageExchanges() <em>Message Exchanges</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMessageExchanges()
+	 * @generated
+	 * @ordered
+	 */
+	protected MessageExchanges messageExchanges = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -808,6 +820,44 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MessageExchanges getMessageExchanges() {
+		if (messageExchanges != null && messageExchanges.eIsProxy()) {
+			MessageExchanges oldMessageExchanges = messageExchanges;
+			messageExchanges = (MessageExchanges)eResolveProxy((InternalEObject)messageExchanges);
+			if (messageExchanges != oldMessageExchanges) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PROCESS__MESSAGE_EXCHANGES, oldMessageExchanges, messageExchanges));
+			}
+		}
+		return messageExchanges;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageExchanges basicGetMessageExchanges() {
+		return messageExchanges;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
+		MessageExchanges oldMessageExchanges = messageExchanges;
+		messageExchanges = newMessageExchanges;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__MESSAGE_EXCHANGES, oldMessageExchanges, messageExchanges));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EventHandler getEventHandlers() {
 		return eventHandlers;
 	}
@@ -981,6 +1031,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return getExtensions();
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
 				return getExitOnStandardFault();
+			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+				if (resolve) return getMessageExchanges();
+				return basicGetMessageExchanges();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -1051,6 +1104,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
 				setExitOnStandardFault((Boolean)newValue);
 				return;
+			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+				setMessageExchanges((MessageExchanges)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -1119,6 +1175,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
 				setExitOnStandardFault(EXIT_ON_STANDARD_FAULT_EDEFAULT);
 				return;
+			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+				setMessageExchanges((MessageExchanges)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -1168,6 +1227,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return extensions != null;
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
 				return EXIT_ON_STANDARD_FAULT_EDEFAULT == null ? exitOnStandardFault != null : !EXIT_ON_STANDARD_FAULT_EDEFAULT.equals(exitOnStandardFault);
+			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+				return messageExchanges != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -1,16 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2005 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EmptyImpl.java,v 1.2 2006/12/13 16:17:31 smoser Exp $
+ * $Id: MessageExchangesImpl.java,v 1.1 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,37 +10,52 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.Empty;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Empty</b></em>'.
+ * An implementation of the model object '<em><b>Message Exchanges</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.bpel.model.impl.MessageExchangesImpl#getChildren <em>Children</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
  */
-public class EmptyImpl extends ActivityImpl implements Empty {
+public class MessageExchangesImpl extends ExtensibleElementImpl implements MessageExchanges {
+	/**
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChildren()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList children = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EmptyImpl() {
+	protected MessageExchangesImpl() {
 		super();
 	}
 
@@ -58,7 +65,19 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getEmpty();
+		return BPELPackage.eINSTANCE.getMessageExchanges();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getChildren() {
+		if (children == null) {
+			children = new EObjectResolvingEList(MessageExchange.class, this, BPELPackage.MESSAGE_EXCHANGES__CHILDREN);
+		}
+		return children;
 	}
 
 	/**
@@ -69,14 +88,10 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.EMPTY__EEXTENSIBILITY_ELEMENTS:
+				case BPELPackage.MESSAGE_EXCHANGES__EEXTENSIBILITY_ELEMENTS:
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.EMPTY__DOCUMENTATION:
+				case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION:
 					return basicUnsetDocumentation(msgs);
-				case BPELPackage.EMPTY__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.EMPTY__SOURCES:
-					return basicSetSources(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -91,22 +106,16 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EMPTY__DOCUMENTATION_ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION_ELEMENT:
 				return getDocumentationElement();
-			case BPELPackage.EMPTY__ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__ELEMENT:
 				return getElement();
-			case BPELPackage.EMPTY__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.MESSAGE_EXCHANGES__EEXTENSIBILITY_ELEMENTS:
 				return getEExtensibilityElements();
-			case BPELPackage.EMPTY__DOCUMENTATION:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION:
 				return getDocumentation();
-			case BPELPackage.EMPTY__NAME:
-				return getName();
-			case BPELPackage.EMPTY__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.EMPTY__TARGETS:
-				return getTargets();
-			case BPELPackage.EMPTY__SOURCES:
-				return getSources();
+			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+				return getChildren();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -118,30 +127,22 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EMPTY__DOCUMENTATION_ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION_ELEMENT:
 				setDocumentationElement((Element)newValue);
 				return;
-			case BPELPackage.EMPTY__ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__ELEMENT:
 				setElement((Element)newValue);
 				return;
-			case BPELPackage.EMPTY__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.MESSAGE_EXCHANGES__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				getEExtensibilityElements().addAll((Collection)newValue);
 				return;
-			case BPELPackage.EMPTY__DOCUMENTATION:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION:
 				setDocumentation((Documentation)newValue);
 				return;
-			case BPELPackage.EMPTY__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.EMPTY__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.EMPTY__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.EMPTY__SOURCES:
-				setSources((Sources)newValue);
+			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -154,29 +155,20 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EMPTY__DOCUMENTATION_ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION_ELEMENT:
 				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
 				return;
-			case BPELPackage.EMPTY__ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__ELEMENT:
 				setElement(ELEMENT_EDEFAULT);
 				return;
-			case BPELPackage.EMPTY__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.MESSAGE_EXCHANGES__EEXTENSIBILITY_ELEMENTS:
 				getEExtensibilityElements().clear();
 				return;
-			case BPELPackage.EMPTY__DOCUMENTATION:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION:
 				unsetDocumentation();
 				return;
-			case BPELPackage.EMPTY__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.EMPTY__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.EMPTY__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.EMPTY__SOURCES:
-				setSources((Sources)null);
+			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+				getChildren().clear();
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -189,24 +181,18 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EMPTY__DOCUMENTATION_ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION_ELEMENT:
 				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.EMPTY__ELEMENT:
+			case BPELPackage.MESSAGE_EXCHANGES__ELEMENT:
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.EMPTY__EEXTENSIBILITY_ELEMENTS:
+			case BPELPackage.MESSAGE_EXCHANGES__EEXTENSIBILITY_ELEMENTS:
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.EMPTY__DOCUMENTATION:
+			case BPELPackage.MESSAGE_EXCHANGES__DOCUMENTATION:
 				return isSetDocumentation();
-			case BPELPackage.EMPTY__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.EMPTY__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.EMPTY__TARGETS:
-				return targets != null;
-			case BPELPackage.EMPTY__SOURCES:
-				return sources != null;
+			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+				return children != null && !children.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}
 
-} //EmptyImpl
+} //MessageExchangesImpl

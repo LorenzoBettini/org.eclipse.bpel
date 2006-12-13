@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.4 2006/01/31 14:56:08 james Exp $
+ * $Id: ForEachImpl.java,v 1.5 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -34,10 +34,11 @@ import org.w3c.dom.Element;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getStartCounterValue <em>Start Counter Value</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getFinalCounterValue <em>Final Counter Value</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getParallel <em>Parallel</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getCounterName <em>Counter Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getCompletionCondition <em>Completion Condition</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getIterator <em>Iterator</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ForEachImpl#getActivity <em>Activity</em>}</li>
  * </ul>
  * </p>
@@ -45,6 +46,26 @@ import org.w3c.dom.Element;
  * @generated
  */
 public class ForEachImpl extends ActivityImpl implements ForEach {
+	/**
+	 * The cached value of the '{@link #getStartCounterValue() <em>Start Counter Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStartCounterValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected Expression startCounterValue = null;
+
+	/**
+	 * The cached value of the '{@link #getFinalCounterValue() <em>Final Counter Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFinalCounterValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected Expression finalCounterValue = null;
+
 	/**
 	 * The default value of the '{@link #getParallel() <em>Parallel</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -86,16 +107,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	protected CompletionCondition completionCondition = null;
 
 	/**
-	 * The cached value of the '{@link #getIterator() <em>Iterator</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIterator()
-	 * @generated
-	 * @ordered
-	 */
-	protected Iterator iterator = null;
-
-	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -121,6 +132,92 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 */
 	protected EClass eStaticClass() {
 		return BPELPackage.eINSTANCE.getForEach();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getStartCounterValue() {
+		return startCounterValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStartCounterValue(Expression newStartCounterValue, NotificationChain msgs) {
+		Expression oldStartCounterValue = startCounterValue;
+		startCounterValue = newStartCounterValue;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__START_COUNTER_VALUE, oldStartCounterValue, newStartCounterValue);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStartCounterValue(Expression newStartCounterValue) {
+		if (newStartCounterValue != startCounterValue) {
+			NotificationChain msgs = null;
+			if (startCounterValue != null)
+				msgs = ((InternalEObject)startCounterValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__START_COUNTER_VALUE, null, msgs);
+			if (newStartCounterValue != null)
+				msgs = ((InternalEObject)newStartCounterValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__START_COUNTER_VALUE, null, msgs);
+			msgs = basicSetStartCounterValue(newStartCounterValue, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__START_COUNTER_VALUE, newStartCounterValue, newStartCounterValue));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getFinalCounterValue() {
+		return finalCounterValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFinalCounterValue(Expression newFinalCounterValue, NotificationChain msgs) {
+		Expression oldFinalCounterValue = finalCounterValue;
+		finalCounterValue = newFinalCounterValue;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, oldFinalCounterValue, newFinalCounterValue);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFinalCounterValue(Expression newFinalCounterValue) {
+		if (newFinalCounterValue != finalCounterValue) {
+			NotificationChain msgs = null;
+			if (finalCounterValue != null)
+				msgs = ((InternalEObject)finalCounterValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, null, msgs);
+			if (newFinalCounterValue != null)
+				msgs = ((InternalEObject)newFinalCounterValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, null, msgs);
+			msgs = basicSetFinalCounterValue(newFinalCounterValue, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, newFinalCounterValue, newFinalCounterValue));
 	}
 
 	/**
@@ -235,49 +332,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Iterator getIterator() {
-		return iterator;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetIterator(Iterator newIterator, NotificationChain msgs) {
-		Iterator oldIterator = iterator;
-		iterator = newIterator;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__ITERATOR, oldIterator, newIterator);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIterator(Iterator newIterator) {
-		if (newIterator != iterator) {
-			NotificationChain msgs = null;
-			if (iterator != null)
-				msgs = ((InternalEObject)iterator).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__ITERATOR, null, msgs);
-			if (newIterator != null)
-				msgs = ((InternalEObject)newIterator).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__ITERATOR, null, msgs);
-			msgs = basicSetIterator(newIterator, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__ITERATOR, newIterator, newIterator));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Activity getActivity() {
 		return activity;
 	}
@@ -332,12 +386,14 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 					return basicSetTargets(null, msgs);
 				case BPELPackage.FOR_EACH__SOURCES:
 					return basicSetSources(null, msgs);
+				case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+					return basicSetStartCounterValue(null, msgs);
+				case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+					return basicSetFinalCounterValue(null, msgs);
 				case BPELPackage.FOR_EACH__COUNTER_NAME:
 					return basicSetCounterName(null, msgs);
 				case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
 					return basicSetCompletionCondition(null, msgs);
-				case BPELPackage.FOR_EACH__ITERATOR:
-					return basicSetIterator(null, msgs);
 				case BPELPackage.FOR_EACH__ACTIVITY:
 					return basicSetActivity(null, msgs);
 				default:
@@ -370,14 +426,16 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				return getTargets();
 			case BPELPackage.FOR_EACH__SOURCES:
 				return getSources();
+			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+				return getStartCounterValue();
+			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+				return getFinalCounterValue();
 			case BPELPackage.FOR_EACH__PARALLEL:
 				return getParallel();
 			case BPELPackage.FOR_EACH__COUNTER_NAME:
 				return getCounterName();
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
 				return getCompletionCondition();
-			case BPELPackage.FOR_EACH__ITERATOR:
-				return getIterator();
 			case BPELPackage.FOR_EACH__ACTIVITY:
 				return getActivity();
 		}
@@ -416,6 +474,12 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__SOURCES:
 				setSources((Sources)newValue);
 				return;
+			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+				setStartCounterValue((Expression)newValue);
+				return;
+			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+				setFinalCounterValue((Expression)newValue);
+				return;
 			case BPELPackage.FOR_EACH__PARALLEL:
 				setParallel((Boolean)newValue);
 				return;
@@ -424,9 +488,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				return;
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
 				setCompletionCondition((CompletionCondition)newValue);
-				return;
-			case BPELPackage.FOR_EACH__ITERATOR:
-				setIterator((Iterator)newValue);
 				return;
 			case BPELPackage.FOR_EACH__ACTIVITY:
 				setActivity((Activity)newValue);
@@ -466,6 +527,12 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__SOURCES:
 				setSources((Sources)null);
 				return;
+			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+				setStartCounterValue((Expression)null);
+				return;
+			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+				setFinalCounterValue((Expression)null);
+				return;
 			case BPELPackage.FOR_EACH__PARALLEL:
 				setParallel(PARALLEL_EDEFAULT);
 				return;
@@ -474,9 +541,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				return;
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
 				setCompletionCondition((CompletionCondition)null);
-				return;
-			case BPELPackage.FOR_EACH__ITERATOR:
-				setIterator((Iterator)null);
 				return;
 			case BPELPackage.FOR_EACH__ACTIVITY:
 				setActivity((Activity)null);
@@ -508,14 +572,16 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				return targets != null;
 			case BPELPackage.FOR_EACH__SOURCES:
 				return sources != null;
+			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+				return startCounterValue != null;
+			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+				return finalCounterValue != null;
 			case BPELPackage.FOR_EACH__PARALLEL:
 				return PARALLEL_EDEFAULT == null ? parallel != null : !PARALLEL_EDEFAULT.equals(parallel);
 			case BPELPackage.FOR_EACH__COUNTER_NAME:
 				return counterName != null;
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
 				return completionCondition != null;
-			case BPELPackage.FOR_EACH__ITERATOR:
-				return iterator != null;
 			case BPELPackage.FOR_EACH__ACTIVITY:
 				return activity != null;
 		}

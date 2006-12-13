@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Scope.java,v 1.3 2005/12/12 16:22:00 james Exp $
+ * $Id: Scope.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -36,6 +36,8 @@ package org.eclipse.bpel.model;
  *   <li>{@link org.eclipse.bpel.model.Scope#getEventHandlers <em>Event Handlers</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Scope#getPartnerLinks <em>Partner Links</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Scope#getTerminationHandler <em>Termination Handler</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Scope#getMessageExchanges <em>Message Exchanges</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Scope#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
  * </ul>
  * </p>
  *
@@ -305,5 +307,85 @@ public interface Scope extends Activity{
 	 * @generated
 	 */
 	void setTerminationHandler(TerminationHandler value);
+
+	/**
+	 * Returns the value of the '<em><b>Message Exchanges</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Message Exchanges</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Message Exchanges</em>' reference.
+	 * @see #setMessageExchanges(MessageExchanges)
+	 * @see org.eclipse.bpel.model.BPELPackage#getScope_MessageExchanges()
+	 * @model
+	 * @generated
+	 */
+	MessageExchanges getMessageExchanges();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Scope#getMessageExchanges <em>Message Exchanges</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message Exchanges</em>' reference.
+	 * @see #getMessageExchanges()
+	 * @generated
+	 */
+	void setMessageExchanges(MessageExchanges value);
+
+	/**
+	 * Returns the value of the '<em><b>Exit On Standard Fault</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Exit On Standard Fault</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Exit On Standard Fault</em>' attribute.
+	 * @see #isSetExitOnStandardFault()
+	 * @see #unsetExitOnStandardFault()
+	 * @see #setExitOnStandardFault(Boolean)
+	 * @see org.eclipse.bpel.model.BPELPackage#getScope_ExitOnStandardFault()
+	 * @model default="false" unsettable="true"
+	 * @generated
+	 */
+	Boolean getExitOnStandardFault();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Scope#getExitOnStandardFault <em>Exit On Standard Fault</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Exit On Standard Fault</em>' attribute.
+	 * @see #isSetExitOnStandardFault()
+	 * @see #unsetExitOnStandardFault()
+	 * @see #getExitOnStandardFault()
+	 * @generated
+	 */
+	void setExitOnStandardFault(Boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.Scope#getExitOnStandardFault <em>Exit On Standard Fault</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetExitOnStandardFault()
+	 * @see #getExitOnStandardFault()
+	 * @see #setExitOnStandardFault(Boolean)
+	 * @generated
+	 */
+	void unsetExitOnStandardFault();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Scope#getExitOnStandardFault <em>Exit On Standard Fault</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Exit On Standard Fault</em>' attribute is set.
+	 * @see #unsetExitOnStandardFault()
+	 * @see #getExitOnStandardFault()
+	 * @see #setExitOnStandardFault(Boolean)
+	 * @generated
+	 */
+	boolean isSetExitOnStandardFault();
 
 } // Scope

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationPattern.java,v 1.2 2005/12/09 19:30:43 james Exp $
+ * $Id: CorrelationPattern.java,v 1.3 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -83,7 +83,7 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final CorrelationPattern IN_LITERAL = new CorrelationPattern(IN, "in", "in");
+	public static final CorrelationPattern IN_LITERAL = new CorrelationPattern(IN, "in");
 
 	/**
 	 * The '<em><b>Out</b></em>' literal object.
@@ -93,7 +93,7 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final CorrelationPattern OUT_LITERAL = new CorrelationPattern(OUT, "out", "out");
+	public static final CorrelationPattern OUT_LITERAL = new CorrelationPattern(OUT, "out");
 
 	/**
 	 * The '<em><b>Outin</b></em>' literal object.
@@ -103,7 +103,7 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	 * @customized
 	 * @ordered
 	 */
-	public static final CorrelationPattern OUTIN_LITERAL = new CorrelationPattern(OUTIN, "out-in", "out-in");
+	public static final CorrelationPattern OUTIN_LITERAL = new CorrelationPattern(OUTIN, "out-in");
 
 	/**
 	 * An array of all the '<em><b>Correlation Pattern</b></em>' enumerators.
@@ -127,31 +127,15 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Correlation Pattern</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static CorrelationPattern get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			CorrelationPattern result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Returns the '<em><b>Correlation Pattern</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static CorrelationPattern getByName(String name) {
+	public static CorrelationPattern get(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			CorrelationPattern result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
+			if (result.toString().equals(name)) {
 				return result;
 			}
 		}
@@ -159,7 +143,7 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Correlation Pattern</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Correlation Pattern</b></em>' literal with the specified value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -179,8 +163,8 @@ public final class CorrelationPattern extends AbstractEnumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private CorrelationPattern(int value, String name, String literal) {
-		super(value, name, literal);
+	private CorrelationPattern(int value, String name) {
+		super(value, name);
 	}
 
 } //CorrelationPattern

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.25 2006/02/10 16:12:48 rodrigo Exp $
+ * $Id: BPELPackageImpl.java,v 1.26 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,9 +53,10 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -615,7 +616,14 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iteratorEClass = null;
+	private EClass messageExchangesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass messageExchangeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -832,6 +840,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EAttribute getProcess_ExitOnStandardFault() {
 		return (EAttribute)processEClass.getEStructuralFeatures().get(14);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcess_MessageExchanges() {
+		return (EReference)processEClass.getEStructuralFeatures().get(15);
 	}
 
 	/**
@@ -1631,6 +1648,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCopy_IgnoreMissingFromData() {
+		return (EAttribute)copyEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExtension() {
 		return extensionEClass;
 	}
@@ -1741,6 +1767,24 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getScope_TerminationHandler() {
 		return (EReference)scopeEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScope_MessageExchanges() {
+		return (EReference)scopeEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScope_ExitOnStandardFault() {
+		return (EAttribute)scopeEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -2693,8 +2737,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getForEach_Parallel() {
-		return (EAttribute)forEachEClass.getEStructuralFeatures().get(0);
+	public EReference getForEach_StartCounterValue() {
+		return (EReference)forEachEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2702,7 +2746,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_CounterName() {
+	public EReference getForEach_FinalCounterValue() {
 		return (EReference)forEachEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -2711,8 +2755,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_CompletionCondition() {
-		return (EReference)forEachEClass.getEStructuralFeatures().get(2);
+	public EAttribute getForEach_Parallel() {
+		return (EAttribute)forEachEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2720,7 +2764,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_Iterator() {
+	public EReference getForEach_CounterName() {
 		return (EReference)forEachEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -2729,8 +2773,17 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForEach_Activity() {
+	public EReference getForEach_CompletionCondition() {
 		return (EReference)forEachEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getForEach_Activity() {
+		return (EReference)forEachEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -2999,8 +3052,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getIterator() {
-		return iteratorEClass;
+	public EClass getMessageExchanges() {
+		return messageExchangesEClass;
 	}
 
 	/**
@@ -3008,8 +3061,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIterator_FinalCounterValue() {
-		return (EReference)iteratorEClass.getEStructuralFeatures().get(0);
+	public EReference getMessageExchanges_Children() {
+		return (EReference)messageExchangesEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -3017,8 +3070,17 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIterator_StartCounterValue() {
-		return (EReference)iteratorEClass.getEStructuralFeatures().get(1);
+	public EClass getMessageExchange() {
+		return messageExchangeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMessageExchange_Name() {
+		return (EAttribute)messageExchangeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -3083,6 +3145,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(processEClass, PROCESS__IMPORTS);
 		createEReference(processEClass, PROCESS__EXTENSIONS);
 		createEAttribute(processEClass, PROCESS__EXIT_ON_STANDARD_FAULT);
+		createEReference(processEClass, PROCESS__MESSAGE_EXCHANGES);
 
 		partnerLinkEClass = createEClass(PARTNER_LINK);
 		createEAttribute(partnerLinkEClass, PARTNER_LINK__NAME);
@@ -3192,6 +3255,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(copyEClass, COPY__TO);
 		createEReference(copyEClass, COPY__FROM);
 		createEAttribute(copyEClass, COPY__KEEP_SRC_ELEMENT_NAME);
+		createEAttribute(copyEClass, COPY__IGNORE_MISSING_FROM_DATA);
 
 		extensionEClass = createEClass(EXTENSION);
 		createEAttribute(extensionEClass, EXTENSION__NAMESPACE);
@@ -3207,6 +3271,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(scopeEClass, SCOPE__EVENT_HANDLERS);
 		createEReference(scopeEClass, SCOPE__PARTNER_LINKS);
 		createEReference(scopeEClass, SCOPE__TERMINATION_HANDLER);
+		createEReference(scopeEClass, SCOPE__MESSAGE_EXCHANGES);
+		createEAttribute(scopeEClass, SCOPE__EXIT_ON_STANDARD_FAULT);
 
 		compensateEClass = createEClass(COMPENSATE);
 		createEReference(compensateEClass, COMPENSATE__SCOPE);
@@ -3345,10 +3411,11 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		opaqueActivityEClass = createEClass(OPAQUE_ACTIVITY);
 
 		forEachEClass = createEClass(FOR_EACH);
+		createEReference(forEachEClass, FOR_EACH__START_COUNTER_VALUE);
+		createEReference(forEachEClass, FOR_EACH__FINAL_COUNTER_VALUE);
 		createEAttribute(forEachEClass, FOR_EACH__PARALLEL);
 		createEReference(forEachEClass, FOR_EACH__COUNTER_NAME);
 		createEReference(forEachEClass, FOR_EACH__COMPLETION_CONDITION);
-		createEReference(forEachEClass, FOR_EACH__ITERATOR);
 		createEReference(forEachEClass, FOR_EACH__ACTIVITY);
 
 		repeatUntilEClass = createEClass(REPEAT_UNTIL);
@@ -3357,6 +3424,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		terminationHandlerEClass = createEClass(TERMINATION_HANDLER);
 		createEReference(terminationHandlerEClass, TERMINATION_HANDLER__ACTIVITY);
+
+		validateEClass = createEClass(VALIDATE);
+		createEReference(validateEClass, VALIDATE__VARIABLES);
 
 		ifEClass = createEClass(IF);
 		createEReference(ifEClass, IF__CONDITION);
@@ -3383,17 +3453,16 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensibleElementEClass = createEClass(EXTENSIBLE_ELEMENT);
 		createEReference(extensibleElementEClass, EXTENSIBLE_ELEMENT__DOCUMENTATION);
 
-		validateEClass = createEClass(VALIDATE);
-		createEReference(validateEClass, VALIDATE__VARIABLES);
-
 		documentationEClass = createEClass(DOCUMENTATION);
 		createEAttribute(documentationEClass, DOCUMENTATION__LANG);
 		createEAttribute(documentationEClass, DOCUMENTATION__SOURCE);
 		createEAttribute(documentationEClass, DOCUMENTATION__VALUE);
 
-		iteratorEClass = createEClass(ITERATOR);
-		createEReference(iteratorEClass, ITERATOR__FINAL_COUNTER_VALUE);
-		createEReference(iteratorEClass, ITERATOR__START_COUNTER_VALUE);
+		messageExchangesEClass = createEClass(MESSAGE_EXCHANGES);
+		createEReference(messageExchangesEClass, MESSAGE_EXCHANGES__CHILDREN);
+
+		messageExchangeEClass = createEClass(MESSAGE_EXCHANGE);
+		createEAttribute(messageExchangeEClass, MESSAGE_EXCHANGE__NAME);
 
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
@@ -3490,13 +3559,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		forEachEClass.getESuperTypes().add(this.getActivity());
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
 		terminationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
+		validateEClass.getESuperTypes().add(this.getActivity());
 		ifEClass.getESuperTypes().add(this.getActivity());
 		thenEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseIfEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseEClass.getESuperTypes().add(this.getExtensibleElement());
 		branchesEClass.getESuperTypes().add(this.getExpression());
 		extensibleElementEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		validateEClass.getESuperTypes().add(this.getActivity());
+		messageExchangesEClass.getESuperTypes().add(this.getExtensibleElement());
+		messageExchangeEClass.getESuperTypes().add(this.getExtensibleElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3515,6 +3586,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getProcess_Imports(), this.getImport(), null, "imports", null, 0, -1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcess_Extensions(), this.getExtensions(), null, "extensions", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProcess_ExitOnStandardFault(), theEcorePackage.getEBooleanObject(), "exitOnStandardFault", "true", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcess_MessageExchanges(), this.getMessageExchanges(), null, "messageExchanges", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(partnerLinkEClass, PartnerLink.class, "PartnerLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPartnerLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3624,6 +3696,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getCopy_To(), this.getTo(), null, "to", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCopy_From(), this.getFrom(), null, "from", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCopy_KeepSrcElementName(), ecorePackage.getEBooleanObject(), "keepSrcElementName", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCopy_IgnoreMissingFromData(), ecorePackage.getEBooleanObject(), "ignoreMissingFromData", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(extensionEClass, Extension.class, "Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExtension_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3639,6 +3712,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getScope_EventHandlers(), this.getEventHandler(), null, "eventHandlers", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScope_PartnerLinks(), this.getPartnerLinks(), null, "partnerLinks", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScope_TerminationHandler(), this.getTerminationHandler(), null, "terminationHandler", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScope_MessageExchanges(), this.getMessageExchanges(), null, "messageExchanges", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScope_ExitOnStandardFault(), ecorePackage.getEBooleanObject(), "exitOnStandardFault", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compensateEClass, Compensate.class, "Compensate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompensate_Scope(), theEcorePackage.getEObject(), null, "scope", null, 0, 1, Compensate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3777,10 +3852,11 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(opaqueActivityEClass, OpaqueActivity.class, "OpaqueActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(forEachEClass, ForEach.class, "ForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getForEach_Parallel(), theEcorePackage.getEBooleanObject(), "parallel", "false", 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEach_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getForEach_Parallel(), theEcorePackage.getEBooleanObject(), "parallel", "false", 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_CompletionCondition(), this.getCompletionCondition(), null, "completionCondition", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_Iterator(), this.getIterator(), null, "iterator", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEach_Activity(), this.getActivity(), null, "activity", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(repeatUntilEClass, RepeatUntil.class, "RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3789,6 +3865,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(terminationHandlerEClass, TerminationHandler.class, "TerminationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTerminationHandler_Activity(), this.getActivity(), null, "activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(validateEClass, Validate.class, "Validate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getValidate_Variables(), this.getVariable(), null, "variables", null, 0, -1, Validate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ifEClass, If.class, "If", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3815,17 +3894,16 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(extensibleElementEClass, ExtensibleElement.class, "ExtensibleElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExtensibleElement_Documentation(), this.getDocumentation(), null, "documentation", null, 0, 1, ExtensibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(validateEClass, Validate.class, "Validate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getValidate_Variables(), this.getVariable(), null, "variables", null, 0, -1, Validate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(documentationEClass, Documentation.class, "Documentation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDocumentation_Lang(), theEcorePackage.getEString(), "lang", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentation_Source(), theEcorePackage.getEString(), "source", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentation_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(iteratorEClass, Iterator.class, "Iterator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIterator_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 0, 1, Iterator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIterator_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 0, 1, Iterator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(messageExchangesEClass, MessageExchanges.class, "MessageExchanges", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMessageExchanges_Children(), this.getMessageExchange(), null, "children", null, 1, -1, MessageExchanges.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(messageExchangeEClass, MessageExchange.class, "MessageExchange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMessageExchange_Name(), ecorePackage.getEString(), "name", null, 1, 1, MessageExchange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

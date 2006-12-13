@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.1 2006/02/10 16:12:48 rodrigo Exp $
+ * $Id: ValidateImpl.java,v 1.2 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,8 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.bpel.model.Variable;
 
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -30,6 +32,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.w3c.dom.Element;
 
@@ -85,6 +89,29 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 			variables = new EObjectResolvingEList(Variable.class, this, BPELPackage.VALIDATE__VARIABLES);
 		}
 		return variables;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.VALIDATE__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.VALIDATE__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
+				case BPELPackage.VALIDATE__TARGETS:
+					return basicSetTargets(null, msgs);
+				case BPELPackage.VALIDATE__SOURCES:
+					return basicSetSources(null, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
 	}
 
 	/**

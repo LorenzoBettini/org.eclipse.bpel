@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.25 2006/02/10 16:12:48 rodrigo Exp $
+ * $Id: BPELPackage.java,v 1.26 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -697,7 +697,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getIf()
 	 * @generated
 	 */
-	int IF = 62;
+	int IF = 63;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ThenImpl <em>Then</em>}' class.
@@ -707,7 +707,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getThen()
 	 * @generated
 	 */
-	int THEN = 63;
+	int THEN = 64;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ElseIfImpl <em>Else If</em>}' class.
@@ -717,7 +717,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElseIf()
 	 * @generated
 	 */
-	int ELSE_IF = 64;
+	int ELSE_IF = 65;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ElseImpl <em>Else</em>}' class.
@@ -727,7 +727,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElse()
 	 * @generated
 	 */
-	int ELSE = 65;
+	int ELSE = 66;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompletionConditionImpl <em>Completion Condition</em>}' class.
@@ -737,7 +737,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompletionCondition()
 	 * @generated
 	 */
-	int COMPLETION_CONDITION = 66;
+	int COMPLETION_CONDITION = 67;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.BranchesImpl <em>Branches</em>}' class.
@@ -747,7 +747,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getBranches()
 	 * @generated
 	 */
-	int BRANCHES = 67;
+	int BRANCHES = 68;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ExtensibleElementImpl <em>Extensible Element</em>}' class.
@@ -757,7 +757,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensibleElement()
 	 * @generated
 	 */
-	int EXTENSIBLE_ELEMENT = 68;
+	int EXTENSIBLE_ELEMENT = 69;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -796,7 +796,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSIBLE_ELEMENT__DOCUMENTATION = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Extensible Element</em>' class.
+	 * The number of structural features of the the '<em>Extensible Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -976,13 +976,22 @@ public interface BPELPackage extends EPackage{
 	int PROCESS__EXIT_ON_STANDARD_FAULT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
-	 * The number of structural features of the '<em>Process</em>' class.
+	 * The feature id for the '<em><b>Message Exchanges</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
+	int PROCESS__MESSAGE_EXCHANGES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
+
+	/**
+	 * The number of structural features of the the '<em>Process</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 16;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -1066,7 +1075,7 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_LINK__INITIALIZE_PARTNER_ROLE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>Partner Link</em>' class.
+	 * The number of structural features of the the '<em>Partner Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1129,7 +1138,7 @@ public interface BPELPackage extends EPackage{
 	int FAULT_HANDLER__CATCH_ALL = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Fault Handler</em>' class.
+	 * The number of structural features of the the '<em>Fault Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1210,7 +1219,7 @@ public interface BPELPackage extends EPackage{
 	int ACTIVITY__SOURCES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Activity</em>' class.
+	 * The number of structural features of the the '<em>Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1273,7 +1282,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATION_SET__PROPERTIES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Correlation Set</em>' class.
+	 * The number of structural features of the the '<em>Correlation Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1390,7 +1399,7 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_ACTIVITY__OPERATION = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Partner Activity</em>' class.
+	 * The number of structural features of the the '<em>Partner Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1561,7 +1570,7 @@ public interface BPELPackage extends EPackage{
 	int INVOKE__FROM_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 5;
 
 	/**
-	 * The number of structural features of the '<em>Invoke</em>' class.
+	 * The number of structural features of the the '<em>Invoke</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1633,7 +1642,7 @@ public interface BPELPackage extends EPackage{
 	int LINK__TARGETS = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Link</em>' class.
+	 * The number of structural features of the the '<em>Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1723,7 +1732,7 @@ public interface BPELPackage extends EPackage{
 	int CATCH__FAULT_ELEMENT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>Catch</em>' class.
+	 * The number of structural features of the the '<em>Catch</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1867,7 +1876,7 @@ public interface BPELPackage extends EPackage{
 	int REPLY__TO_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Reply</em>' class.
+	 * The number of structural features of the the '<em>Reply</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2011,7 +2020,7 @@ public interface BPELPackage extends EPackage{
 	int RECEIVE__FROM_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Receive</em>' class.
+	 * The number of structural features of the the '<em>Receive</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2092,7 +2101,7 @@ public interface BPELPackage extends EPackage{
 	int EXIT__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the '<em>Exit</em>' class.
+	 * The number of structural features of the the '<em>Exit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2191,7 +2200,7 @@ public interface BPELPackage extends EPackage{
 	int THROW__FAULT_VARIABLE = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Throw</em>' class.
+	 * The number of structural features of the the '<em>Throw</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2290,7 +2299,7 @@ public interface BPELPackage extends EPackage{
 	int WAIT__UNTIL = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Wait</em>' class.
+	 * The number of structural features of the the '<em>Wait</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2371,7 +2380,7 @@ public interface BPELPackage extends EPackage{
 	int EMPTY__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the '<em>Empty</em>' class.
+	 * The number of structural features of the the '<em>Empty</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2461,7 +2470,7 @@ public interface BPELPackage extends EPackage{
 	int SEQUENCE__ACTIVITIES = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Sequence</em>' class.
+	 * The number of structural features of the the '<em>Sequence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2560,7 +2569,7 @@ public interface BPELPackage extends EPackage{
 	int SWITCH__OTHERWISE = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Switch</em>' class.
+	 * The number of structural features of the the '<em>Switch</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2623,7 +2632,7 @@ public interface BPELPackage extends EPackage{
 	int CASE__CONDITION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Case</em>' class.
+	 * The number of structural features of the the '<em>Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2722,7 +2731,7 @@ public interface BPELPackage extends EPackage{
 	int WHILE__CONDITION = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>While</em>' class.
+	 * The number of structural features of the the '<em>While</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2830,7 +2839,7 @@ public interface BPELPackage extends EPackage{
 	int PICK__ALARM = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Pick</em>' class.
+	 * The number of structural features of the the '<em>Pick</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2938,7 +2947,7 @@ public interface BPELPackage extends EPackage{
 	int FLOW__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Flow</em>' class.
+	 * The number of structural features of the the '<em>Flow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3019,7 +3028,7 @@ public interface BPELPackage extends EPackage{
 	int ON_ALARM__REPEAT_EVERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>On Alarm</em>' class.
+	 * The number of structural features of the the '<em>On Alarm</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3118,7 +3127,7 @@ public interface BPELPackage extends EPackage{
 	int ASSIGN__VALIDATE = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Assign</em>' class.
+	 * The number of structural features of the the '<em>Assign</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3190,13 +3199,22 @@ public interface BPELPackage extends EPackage{
 	int COPY__KEEP_SRC_ELEMENT_NAME = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Copy</em>' class.
+	 * The feature id for the '<em><b>Ignore Missing From Data</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COPY_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
+	int COPY__IGNORE_MISSING_FROM_DATA = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the the '<em>Copy</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COPY_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3253,7 +3271,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION__MUST_UNDERSTAND = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Extension</em>' class.
+	 * The number of structural features of the the '<em>Extension</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3415,13 +3433,31 @@ public interface BPELPackage extends EPackage{
 	int SCOPE__TERMINATION_HANDLER = ACTIVITY_FEATURE_COUNT + 8;
 
 	/**
-	 * The number of structural features of the '<em>Scope</em>' class.
+	 * The feature id for the '<em><b>Message Exchanges</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 9;
+	int SCOPE__MESSAGE_EXCHANGES = ACTIVITY_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Exit On Standard Fault</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCOPE__EXIT_ON_STANDARD_FAULT = ACTIVITY_FEATURE_COUNT + 10;
+
+	/**
+	 * The number of structural features of the the '<em>Scope</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3505,7 +3541,7 @@ public interface BPELPackage extends EPackage{
 	int COMPENSATE__SCOPE = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Compensate</em>' class.
+	 * The number of structural features of the the '<em>Compensate</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3559,7 +3595,7 @@ public interface BPELPackage extends EPackage{
 	int COMPENSATION_HANDLER__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Compensation Handler</em>' class.
+	 * The number of structural features of the the '<em>Compensation Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3649,7 +3685,7 @@ public interface BPELPackage extends EPackage{
 	int TO__QUERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>To</em>' class.
+	 * The number of structural features of the the '<em>To</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3802,7 +3838,7 @@ public interface BPELPackage extends EPackage{
 	int FROM__TYPE = TO_FEATURE_COUNT + 6;
 
 	/**
-	 * The number of structural features of the '<em>From</em>' class.
+	 * The number of structural features of the the '<em>From</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3910,7 +3946,7 @@ public interface BPELPackage extends EPackage{
 	int ON_MESSAGE__FROM_PART = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The number of structural features of the '<em>On Message</em>' class.
+	 * The number of structural features of the the '<em>On Message</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3982,7 +4018,7 @@ public interface BPELPackage extends EPackage{
 	int EXPRESSION__OPAQUE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Expression</em>' class.
+	 * The number of structural features of the the '<em>Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4054,7 +4090,7 @@ public interface BPELPackage extends EPackage{
 	int BOOLEAN_EXPRESSION__OPAQUE = EXPRESSION__OPAQUE;
 
 	/**
-	 * The number of structural features of the '<em>Boolean Expression</em>' class.
+	 * The number of structural features of the the '<em>Boolean Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4126,7 +4162,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATION__SET = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Correlation</em>' class.
+	 * The number of structural features of the the '<em>Correlation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4189,7 +4225,7 @@ public interface BPELPackage extends EPackage{
 	int EVENT_HANDLER__EVENTS = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Event Handler</em>' class.
+	 * The number of structural features of the the '<em>Event Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4261,7 +4297,7 @@ public interface BPELPackage extends EPackage{
 	int SOURCE__TRANSITION_CONDITION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Source</em>' class.
+	 * The number of structural features of the the '<em>Source</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4324,7 +4360,7 @@ public interface BPELPackage extends EPackage{
 	int TARGET__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Target</em>' class.
+	 * The number of structural features of the the '<em>Target</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4378,7 +4414,7 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_LINKS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Partner Links</em>' class.
+	 * The number of structural features of the the '<em>Partner Links</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4432,7 +4468,7 @@ public interface BPELPackage extends EPackage{
 	int VARIABLES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Variables</em>' class.
+	 * The number of structural features of the the '<em>Variables</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4486,7 +4522,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATION_SETS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Correlation Sets</em>' class.
+	 * The number of structural features of the the '<em>Correlation Sets</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4540,7 +4576,7 @@ public interface BPELPackage extends EPackage{
 	int LINKS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Links</em>' class.
+	 * The number of structural features of the the '<em>Links</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4594,7 +4630,7 @@ public interface BPELPackage extends EPackage{
 	int CATCH_ALL__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Catch All</em>' class.
+	 * The number of structural features of the the '<em>Catch All</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4648,7 +4684,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATIONS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Correlations</em>' class.
+	 * The number of structural features of the the '<em>Correlations</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4738,7 +4774,7 @@ public interface BPELPackage extends EPackage{
 	int VARIABLE__FROM = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>Variable</em>' class.
+	 * The number of structural features of the the '<em>Variable</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4792,7 +4828,7 @@ public interface BPELPackage extends EPackage{
 	int OTHERWISE__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Otherwise</em>' class.
+	 * The number of structural features of the the '<em>Otherwise</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4846,7 +4882,7 @@ public interface BPELPackage extends EPackage{
 	int UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN = WSDLPackage.UNKNOWN_EXTENSIBILITY_ELEMENT__CHILDREN;
 
 	/**
-	 * The number of structural features of the '<em>Unknown Extensibility Attribute</em>' class.
+	 * The number of structural features of the the '<em>Unknown Extensibility Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4972,7 +5008,7 @@ public interface BPELPackage extends EPackage{
 	int ON_EVENT__CORRELATION_SETS = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
-	 * The number of structural features of the '<em>On Event</em>' class.
+	 * The number of structural features of the the '<em>On Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5008,7 +5044,7 @@ public interface BPELPackage extends EPackage{
 	int IMPORT__IMPORT_TYPE = 2;
 
 	/**
-	 * The number of structural features of the '<em>Import</em>' class.
+	 * The number of structural features of the the '<em>Import</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5089,7 +5125,7 @@ public interface BPELPackage extends EPackage{
 	int RETHROW__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the '<em>Rethrow</em>' class.
+	 * The number of structural features of the the '<em>Rethrow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5161,7 +5197,7 @@ public interface BPELPackage extends EPackage{
 	int CONDITION__OPAQUE = EXPRESSION__OPAQUE;
 
 	/**
-	 * The number of structural features of the '<em>Condition</em>' class.
+	 * The number of structural features of the the '<em>Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5224,7 +5260,7 @@ public interface BPELPackage extends EPackage{
 	int TARGETS__JOIN_CONDITION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Targets</em>' class.
+	 * The number of structural features of the the '<em>Targets</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5278,7 +5314,7 @@ public interface BPELPackage extends EPackage{
 	int SOURCES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Sources</em>' class.
+	 * The number of structural features of the the '<em>Sources</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5305,7 +5341,7 @@ public interface BPELPackage extends EPackage{
 	int QUERY__QUERY_LANGUAGE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Query</em>' class.
+	 * The number of structural features of the the '<em>Query</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5332,7 +5368,7 @@ public interface BPELPackage extends EPackage{
 	int SERVICE_REF__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Service Ref</em>' class.
+	 * The number of structural features of the the '<em>Service Ref</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5386,7 +5422,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSIONS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Extensions</em>' class.
+	 * The number of structural features of the the '<em>Extensions</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5467,7 +5503,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION_ACTIVITY__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the '<em>Extension Activity</em>' class.
+	 * The number of structural features of the the '<em>Extension Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5494,7 +5530,7 @@ public interface BPELPackage extends EPackage{
 	int FROM_PART__TO = 1;
 
 	/**
-	 * The number of structural features of the '<em>From Part</em>' class.
+	 * The number of structural features of the the '<em>From Part</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5521,7 +5557,7 @@ public interface BPELPackage extends EPackage{
 	int TO_PART__FROM = 1;
 
 	/**
-	 * The number of structural features of the '<em>To Part</em>' class.
+	 * The number of structural features of the the '<em>To Part</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5602,7 +5638,7 @@ public interface BPELPackage extends EPackage{
 	int OPAQUE_ACTIVITY__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the '<em>Opaque Activity</em>' class.
+	 * The number of structural features of the the '<em>Opaque Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5683,13 +5719,31 @@ public interface BPELPackage extends EPackage{
 	int FOR_EACH__SOURCES = ACTIVITY__SOURCES;
 
 	/**
+	 * The feature id for the '<em><b>Start Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__START_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Final Counter Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH__FINAL_COUNTER_VALUE = ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Parallel</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH__PARALLEL = ACTIVITY_FEATURE_COUNT + 0;
+	int FOR_EACH__PARALLEL = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Counter Name</b></em>' containment reference.
@@ -5698,7 +5752,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH__COUNTER_NAME = ACTIVITY_FEATURE_COUNT + 1;
+	int FOR_EACH__COUNTER_NAME = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Completion Condition</b></em>' containment reference.
@@ -5707,16 +5761,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Iterator</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOR_EACH__ITERATOR = ACTIVITY_FEATURE_COUNT + 3;
+	int FOR_EACH__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Activity</b></em>' containment reference.
@@ -5725,16 +5770,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH__ACTIVITY = ACTIVITY_FEATURE_COUNT + 4;
+	int FOR_EACH__ACTIVITY = ACTIVITY_FEATURE_COUNT + 5;
 
 	/**
-	 * The number of structural features of the '<em>For Each</em>' class.
+	 * The number of structural features of the the '<em>For Each</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 5;
+	int FOR_EACH_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5827,7 +5872,7 @@ public interface BPELPackage extends EPackage{
 	int REPEAT_UNTIL__CONDITION = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Repeat Until</em>' class.
+	 * The number of structural features of the the '<em>Repeat Until</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5881,13 +5926,113 @@ public interface BPELPackage extends EPackage{
 	int TERMINATION_HANDLER__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Termination Handler</em>' class.
+	 * The number of structural features of the the '<em>Termination Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int TERMINATION_HANDLER_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ValidateImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidate()
+	 * @generated
+	 */
+	int VALIDATE = 62;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The feature id for the '<em><b>Variables</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE__VARIABLES = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the the '<em>Validate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5998,7 +6143,7 @@ public interface BPELPackage extends EPackage{
 	int IF__ELSE = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>If</em>' class.
+	 * The number of structural features of the the '<em>If</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6052,7 +6197,7 @@ public interface BPELPackage extends EPackage{
 	int THEN__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Then</em>' class.
+	 * The number of structural features of the the '<em>Then</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6115,7 +6260,7 @@ public interface BPELPackage extends EPackage{
 	int ELSE_IF__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Else If</em>' class.
+	 * The number of structural features of the the '<em>Else If</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6169,7 +6314,7 @@ public interface BPELPackage extends EPackage{
 	int ELSE__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Else</em>' class.
+	 * The number of structural features of the the '<em>Else</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6187,7 +6332,7 @@ public interface BPELPackage extends EPackage{
 	int COMPLETION_CONDITION__BRANCHES = 0;
 
 	/**
-	 * The number of structural features of the '<em>Completion Condition</em>' class.
+	 * The number of structural features of the the '<em>Completion Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6268,113 +6413,13 @@ public interface BPELPackage extends EPackage{
 	int BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY = EXPRESSION_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Branches</em>' class.
+	 * The number of structural features of the the '<em>Branches</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int BRANCHES_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.ValidateImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidate()
-	 * @generated
-	 */
-	int VALIDATE = 69;
-
-	/**
-	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__ELEMENT = ACTIVITY__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__NAME = ACTIVITY__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
-
-	/**
-	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__TARGETS = ACTIVITY__TARGETS;
-
-	/**
-	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__SOURCES = ACTIVITY__SOURCES;
-
-	/**
-	 * The feature id for the '<em><b>Variables</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE__VARIABLES = ACTIVITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Validate</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.DocumentationImpl <em>Documentation</em>}' class.
@@ -6414,7 +6459,7 @@ public interface BPELPackage extends EPackage{
 	int DOCUMENTATION__VALUE = 2;
 
 	/**
-	 * The number of structural features of the '<em>Documentation</em>' class.
+	 * The number of structural features of the the '<em>Documentation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6423,41 +6468,132 @@ public interface BPELPackage extends EPackage{
 	int DOCUMENTATION_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.IteratorImpl <em>Iterator</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.MessageExchangesImpl <em>Message Exchanges</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.IteratorImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getIterator()
+	 * @see org.eclipse.bpel.model.impl.MessageExchangesImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchanges()
 	 * @generated
 	 */
-	int ITERATOR = 71;
+	int MESSAGE_EXCHANGES = 71;
 
 	/**
-	 * The feature id for the '<em><b>Final Counter Value</b></em>' containment reference.
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITERATOR__FINAL_COUNTER_VALUE = 0;
+	int MESSAGE_EXCHANGES__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
-	 * The feature id for the '<em><b>Start Counter Value</b></em>' containment reference.
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITERATOR__START_COUNTER_VALUE = 1;
+	int MESSAGE_EXCHANGES__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
 
 	/**
-	 * The number of structural features of the '<em>Iterator</em>' class.
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITERATOR_FEATURE_COUNT = 2;
+	int MESSAGE_EXCHANGES__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGES__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the the '<em>Message Exchanges</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGES_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.MessageExchangeImpl <em>Message Exchange</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.MessageExchangeImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchange()
+	 * @generated
+	 */
+	int MESSAGE_EXCHANGE = 72;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGE__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGE__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGE__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGE__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGE__NAME = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the the '<em>Message Exchange</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_EXCHANGE_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
@@ -6467,7 +6603,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 72;
+	int CORRELATION_PATTERN = 73;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -6477,7 +6613,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 73;
+	int ENDPOINT_REFERENCE_ROLE = 74;
 
 
 	/**
@@ -6621,6 +6757,17 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EAttribute getProcess_ExitOnStandardFault();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Process#getMessageExchanges <em>Message Exchanges</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Message Exchanges</em>'.
+	 * @see org.eclipse.bpel.model.Process#getMessageExchanges()
+	 * @see #getProcess()
+	 * @generated
+	 */
+	EReference getProcess_MessageExchanges();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Process#getEventHandlers <em>Event Handlers</em>}'.
@@ -7569,6 +7716,17 @@ public interface BPELPackage extends EPackage{
 	EAttribute getCopy_KeepSrcElementName();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Copy#getIgnoreMissingFromData <em>Ignore Missing From Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ignore Missing From Data</em>'.
+	 * @see org.eclipse.bpel.model.Copy#getIgnoreMissingFromData()
+	 * @see #getCopy()
+	 * @generated
+	 */
+	EAttribute getCopy_IgnoreMissingFromData();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Extension <em>Extension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7708,6 +7866,28 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getScope_TerminationHandler();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Scope#getMessageExchanges <em>Message Exchanges</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Message Exchanges</em>'.
+	 * @see org.eclipse.bpel.model.Scope#getMessageExchanges()
+	 * @see #getScope()
+	 * @generated
+	 */
+	EReference getScope_MessageExchanges();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Scope#getExitOnStandardFault <em>Exit On Standard Fault</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Exit On Standard Fault</em>'.
+	 * @see org.eclipse.bpel.model.Scope#getExitOnStandardFault()
+	 * @see #getScope()
+	 * @generated
+	 */
+	EAttribute getScope_ExitOnStandardFault();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Compensate <em>Compensate</em>}'.
@@ -8830,6 +9010,28 @@ public interface BPELPackage extends EPackage{
 	EClass getForEach();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getStartCounterValue <em>Start Counter Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Start Counter Value</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getStartCounterValue()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_StartCounterValue();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getFinalCounterValue <em>Final Counter Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Final Counter Value</em>'.
+	 * @see org.eclipse.bpel.model.ForEach#getFinalCounterValue()
+	 * @see #getForEach()
+	 * @generated
+	 */
+	EReference getForEach_FinalCounterValue();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.ForEach#getParallel <em>Parallel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8861,17 +9063,6 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getForEach_CompletionCondition();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getIterator <em>Iterator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Iterator</em>'.
-	 * @see org.eclipse.bpel.model.ForEach#getIterator()
-	 * @see #getForEach()
-	 * @generated
-	 */
-	EReference getForEach_Iterator();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.ForEach#getActivity <em>Activity</em>}'.
@@ -9193,36 +9384,46 @@ public interface BPELPackage extends EPackage{
 	EAttribute getDocumentation_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Iterator <em>Iterator</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.MessageExchanges <em>Message Exchanges</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Iterator</em>'.
-	 * @see org.eclipse.bpel.model.Iterator
+	 * @return the meta object for class '<em>Message Exchanges</em>'.
+	 * @see org.eclipse.bpel.model.MessageExchanges
 	 * @generated
 	 */
-	EClass getIterator();
+	EClass getMessageExchanges();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Iterator#getFinalCounterValue <em>Final Counter Value</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.bpel.model.MessageExchanges#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Final Counter Value</em>'.
-	 * @see org.eclipse.bpel.model.Iterator#getFinalCounterValue()
-	 * @see #getIterator()
+	 * @return the meta object for the reference list '<em>Children</em>'.
+	 * @see org.eclipse.bpel.model.MessageExchanges#getChildren()
+	 * @see #getMessageExchanges()
 	 * @generated
 	 */
-	EReference getIterator_FinalCounterValue();
+	EReference getMessageExchanges_Children();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Iterator#getStartCounterValue <em>Start Counter Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.MessageExchange <em>Message Exchange</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Start Counter Value</em>'.
-	 * @see org.eclipse.bpel.model.Iterator#getStartCounterValue()
-	 * @see #getIterator()
+	 * @return the meta object for class '<em>Message Exchange</em>'.
+	 * @see org.eclipse.bpel.model.MessageExchange
 	 * @generated
 	 */
-	EReference getIterator_StartCounterValue();
+	EClass getMessageExchange();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.MessageExchange#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.eclipse.bpel.model.MessageExchange#getName()
+	 * @see #getMessageExchange()
+	 * @generated
+	 */
+	EAttribute getMessageExchange_Name();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

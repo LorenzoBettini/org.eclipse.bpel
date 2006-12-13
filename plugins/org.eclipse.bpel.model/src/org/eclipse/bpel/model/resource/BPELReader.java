@@ -65,6 +65,8 @@ import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -729,6 +731,11 @@ public class BPELReader {
 		if (correlationSetsElement != null)
 			process.setCorrelationSets(xml2CorrelationSets(correlationSetsElement));
 			 
+		// Handle MessageExchanges Element
+		Element messageExchangesElements = getBPELChildElementByLocalName(processElement, "messageExchanges");
+		if (messageExchangesElements != null)
+			process.setMessageExchanges(xml2MessageExchanges(messageExchangesElements));
+		
 		// Handle Extensions Element
 		Element extensionsElement = getBPELChildElementByLocalName(processElement, "extensions");
 		if (extensionsElement != null)
@@ -838,6 +845,27 @@ public class BPELReader {
 		return correlationSets;
 	}
 
+	protected MessageExchanges xml2MessageExchanges(Element messageExchangesElement) {
+		if (!messageExchangesElement.getLocalName().equals("messageExchanges"))
+			return null;
+		
+		MessageExchanges messageExchanges = BPELFactory.eINSTANCE.createMessageExchanges();
+		
+		// Save all the references to external namespaces
+		saveNamespacePrefix(messageExchanges, messageExchangesElement);
+		
+		BPELNodeList messageExchangeElements = getBPELChildElementsByLocalName(messageExchangesElement, "messageExchange");
+		for (int i = 0; i < messageExchangeElements.getLength(); i++) {
+			Element messageExchangeElement = (Element)messageExchangeElements.item(i);
+			MessageExchange messageExchange = xml2MessageExchange(messageExchangeElement);
+			messageExchanges.getChildren().add(messageExchange);
+		}
+		
+		xml2ExtensibleElement(messageExchanges, messageExchangesElement);
+		
+		return messageExchanges;
+	}
+	
 	protected Extensions xml2Extensions(Element extensionsElement) {
 		if (!extensionsElement.getLocalName().equals("extensions"))
 			return null;
@@ -896,6 +924,27 @@ public class BPELReader {
 		xml2ExtensibleElement(correlationSet, correlationSetElement);
 
 		return correlationSet;
+	}
+	
+	/**
+	 * Converts an XML messageExchange element to a BPEL MessageExchange object.
+	 */
+	protected MessageExchange xml2MessageExchange(Element messageExchangeElement) {
+		MessageExchange messageExchange = BPELFactory.eINSTANCE.createMessageExchange();
+		
+		// Save all the references to external namespaces
+		saveNamespacePrefix(messageExchange, messageExchangeElement);
+		
+		if (messageExchangeElement == null) 
+			return messageExchange;
+		
+		// Set name
+		if (messageExchangeElement.hasAttribute("name"))
+			messageExchange.setName(messageExchangeElement.getAttribute("name"));
+		
+		xml2ExtensibleElement(messageExchange, messageExchangeElement);
+		
+		return messageExchange;
 	}
 
 	/**
@@ -1328,6 +1377,11 @@ public class BPELReader {
 		
 		if (isolated != null && isolated.getSpecified())
 			scope.setIsolated(new Boolean(isolated.getValue().equals("yes")));
+		
+		// Handle attribute exitOnStandardFault
+		Attr exitOnStandardFault = scopeElement.getAttributeNode("exitOnStandardFault");
+		if (exitOnStandardFault != null && exitOnStandardFault.getSpecified())
+			scope.setExitOnStandardFault(new Boolean(exitOnStandardFault.getValue().equals("yes")));
 				
 		// Handle Variables element
 		Element variablesElement = getBPELChildElementByLocalName(scopeElement, "variables");
@@ -1348,6 +1402,13 @@ public class BPELReader {
 		if (partnerLinksElement != null) {
 			PartnerLinks partnerLinks = xml2PartnerLinks(partnerLinksElement);
 			scope.setPartnerLinks(partnerLinks);
+		}
+		
+		// MessageExchanges element
+		Element messageExchangesElement = getBPELChildElementByLocalName(scopeElement, "messageExchanges");
+		if (messageExchangesElement != null) {
+			MessageExchanges messageExchanges = xml2MessageExchanges(messageExchangesElement);
+			scope.setMessageExchanges(messageExchanges);
 		}
 				
 		// Handle FaultHandler element
@@ -2295,6 +2356,9 @@ public class BPELReader {
  
 		if (copyElement.hasAttribute("keepSrcElementName"))
 			copy.setKeepSrcElementName(new Boolean(copyElement.getAttribute("keepSrcElementName").equals("yes")));
+		
+		if (copyElement.hasAttribute("ignoreMissingFromData")) 
+			copy.setIgnoreMissingFromData(new Boolean(copyElement.getAttribute("ignoreMissingFromData").equals("yes")));
 
 		xml2ExtensibleElement(copy, copyElement);
  		
@@ -2728,11 +2792,18 @@ public class BPELReader {
 			forEach.setCounterName(variable);					
 		}		
 
-		// Set iterator element
-		Element iteratorElement = getBPELChildElementByLocalName(forEachElement, "iterator");
-		if (iteratorElement != null) {
-			org.eclipse.bpel.model.Iterator iterator = xml2Iterator(iteratorElement);
-			forEach.setIterator(iterator);
+		// Set startCounterValue element
+		Element startCounterValueElement = getBPELChildElementByLocalName(forEachElement, "startCounterValue");
+		if (startCounterValueElement != null) {
+			Expression expression = xml2Expression(startCounterValueElement);
+			forEach.setStartCounterValue(expression);
+		}
+		
+		// Set finalCounterValue element
+		Element finalCounterValueElement = getBPELChildElementByLocalName(forEachElement, "finalCounterValue");
+		if (finalCounterValueElement != null) {
+			Expression expression = xml2Expression(finalCounterValueElement);
+			forEach.setFinalCounterValue(expression);
 		}
 		
 		// Set completionCondition element
@@ -2749,31 +2820,6 @@ public class BPELReader {
 		}
 				
 		return forEach;
-	}
-
-	/**
-	 * Converts an XML iterator element to a BPEL Iterator object.
-	 */
-	protected org.eclipse.bpel.model.Iterator xml2Iterator(Element iteratorElement) {
-		org.eclipse.bpel.model.Iterator iterator = BPELFactory.eINSTANCE.createIterator();
-		if (iteratorElement == null) return iterator;
-		
-		// Set startCounterValue element
-		Element startCounterValueElement = getBPELChildElementByLocalName(iteratorElement, "startCounterValue");
-		if (startCounterValueElement != null) {
-			Expression expression = xml2Expression(startCounterValueElement);
-			iterator.setStartCounterValue(expression);
-		}
-		
-		// Set finalCounterValue element
-		Element finalCounterValueElement = getBPELChildElementByLocalName(iteratorElement, "finalCounterValue");
-		if (finalCounterValueElement != null) {
-			Expression expression = xml2Expression(finalCounterValueElement);
-			iterator.setFinalCounterValue(expression);
-		}
-
-		
-		return iterator;
 	}
 
 	/**
@@ -2800,8 +2846,8 @@ public class BPELReader {
 		Branches branches = BPELFactory.eINSTANCE.createBranches();
 		xml2Expression(branchesElement, branches);
 
-		if (branchesElement.hasAttribute("countCompletedBranchesOnly"))
-			branches.setCountCompletedBranchesOnly(new Boolean(branchesElement.getAttribute("countCompletedBranchesOnly").equals("yes")));
+		if (branchesElement.hasAttribute("successfulBranchesOnly"))
+			branches.setCountCompletedBranchesOnly(new Boolean(branchesElement.getAttribute("successfulBranchesOnly").equals("yes")));
 
 		return branches;
 	}

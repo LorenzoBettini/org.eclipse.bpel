@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.16 2006/02/10 16:12:48 rodrigo Exp $
+ * $Id: BPELSwitch.java,v 1.17 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -57,6 +57,8 @@ import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -740,6 +742,16 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case BPELPackage.VALIDATE: {
+				Validate validate = (Validate)theEObject;
+				Object result = caseValidate(validate);
+				if (result == null) result = caseActivity(validate);
+				if (result == null) result = caseExtensibleElement(validate);
+				if (result == null) result = caseWSDL_ExtensibleElement(validate);
+				if (result == null) result = caseWSDLElement(validate);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case BPELPackage.IF: {
 				If if_ = (If)theEObject;
 				Object result = caseIf(if_);
@@ -801,25 +813,27 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.VALIDATE: {
-				Validate validate = (Validate)theEObject;
-				Object result = caseValidate(validate);
-				if (result == null) result = caseActivity(validate);
-				if (result == null) result = caseExtensibleElement(validate);
-				if (result == null) result = caseWSDL_ExtensibleElement(validate);
-				if (result == null) result = caseWSDLElement(validate);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BPELPackage.DOCUMENTATION: {
 				Documentation documentation = (Documentation)theEObject;
 				Object result = caseDocumentation(documentation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.ITERATOR: {
-				Iterator iterator = (Iterator)theEObject;
-				Object result = caseIterator(iterator);
+			case BPELPackage.MESSAGE_EXCHANGES: {
+				MessageExchanges messageExchanges = (MessageExchanges)theEObject;
+				Object result = caseMessageExchanges(messageExchanges);
+				if (result == null) result = caseExtensibleElement(messageExchanges);
+				if (result == null) result = caseWSDL_ExtensibleElement(messageExchanges);
+				if (result == null) result = caseWSDLElement(messageExchanges);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.MESSAGE_EXCHANGE: {
+				MessageExchange messageExchange = (MessageExchange)theEObject;
+				Object result = caseMessageExchange(messageExchange);
+				if (result == null) result = caseExtensibleElement(messageExchange);
+				if (result == null) result = caseWSDL_ExtensibleElement(messageExchange);
+				if (result == null) result = caseWSDLElement(messageExchange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1908,17 +1922,32 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Iterator</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Message Exchanges</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Iterator</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Message Exchanges</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseIterator(Iterator object) {
+	public Object caseMessageExchanges(MessageExchanges object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Message Exchange</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Message Exchange</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseMessageExchange(MessageExchange object) {
 		return null;
 	}
 

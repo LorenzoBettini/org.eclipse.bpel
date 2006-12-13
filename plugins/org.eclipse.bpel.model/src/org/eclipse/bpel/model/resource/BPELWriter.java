@@ -68,6 +68,8 @@ import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -460,6 +462,9 @@ public class BPELWriter {
 		if (process.getEventHandlers() != null) 
 			processElement.appendChild(eventHandler2XML(process.getEventHandlers()));
 		
+		if (process.getMessageExchanges() != null)
+			processElement.appendChild(messageExchanges2XML(process.getMessageExchanges()));
+		
 		if (process.getActivity() != null) 
 			processElement.appendChild(activity2XML(process.getActivity()));
 		
@@ -766,6 +771,35 @@ public class BPELWriter {
 		return correlationSetElement;
 	}
 
+	protected Element messageExchanges2XML(MessageExchanges messageExchanges) {
+		Element messageExchangesElement = createBPELElement("messageExchanges");
+		
+		Iterator it = messageExchanges.getChildren().iterator();
+		while (it.hasNext()) {
+			MessageExchange messageExchange = (MessageExchange) it.next();
+			messageExchangesElement.appendChild(messageExchange2XML(messageExchange));
+		}
+		
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(messageExchanges, messageExchangesElement);			
+		extensibleElement2XML(messageExchanges, messageExchangesElement);
+		
+		return messageExchangesElement;
+	}
+	
+	protected Element messageExchange2XML(MessageExchange messageExchange) {
+		Element messageExchangeElement = createBPELElement("messageExchange");
+		
+		if (messageExchange.getName() != null) 
+			messageExchangeElement.setAttribute("name", messageExchange.getName());
+				
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(messageExchange, messageExchangeElement);					
+		extensibleElement2XML(messageExchange, messageExchangeElement);
+		
+		return messageExchangeElement;
+	}
+	
 	protected Element correlations2XML(Correlations correlations) {
 		Element correlationsElement = createBPELElement("correlations");
 		
@@ -821,7 +855,7 @@ public class BPELWriter {
 			parentElement.appendChild(catchAll2XML(faultHandler.getCatchAll()));
 		}
 	}
-
+	
 	protected Element compensationHandler2XML(CompensationHandler compensationHandler) {
 		Element compensationHandlerElement = createBPELElement("compensationHandler");
 		
@@ -1022,9 +1056,13 @@ public class BPELWriter {
 		if (forEach.getCounterName() != null) {
 			activityElement.setAttribute("counterName", forEach.getCounterName().getName());
 		}
-
-		if (forEach.getIterator() != null) {
-			activityElement.appendChild(iterator2XML(forEach.getIterator()));
+		
+		if (forEach.getStartCounterValue() != null) {
+			activityElement.appendChild(expression2XML(forEach.getStartCounterValue(), "startCounterValue"));
+		}
+		
+		if (forEach.getFinalCounterValue() != null) {
+			activityElement.appendChild(expression2XML(forEach.getFinalCounterValue(), "finalCounterValue"));
 		}
 		
 		CompletionCondition completionCondition = forEach.getCompletionCondition();
@@ -1037,20 +1075,6 @@ public class BPELWriter {
 			activityElement.appendChild(activity2XML(forEach.getActivity()));
 		}
 		return activityElement;
-	}
-
-	protected Element iterator2XML(org.eclipse.bpel.model.Iterator iterator) {
-		Element iteratorElement = createBPELElement("iterator");
-		
-		if (iterator.getStartCounterValue() != null) {
-			iteratorElement.appendChild(expression2XML(iterator.getStartCounterValue(), "startCounterValue"));
-		}
-		
-		if (iterator.getFinalCounterValue() != null) {
-			iteratorElement.appendChild(expression2XML(iterator.getFinalCounterValue(), "finalCounterValue"));
-		}
-
-		return iteratorElement;
 	}
 
 	protected Element completionCondition2XML(CompletionCondition completionCondition) {
@@ -1068,7 +1092,7 @@ public class BPELWriter {
 		Element branchesElement = expression2XML(branches, "branches");
 		
 		if (branches.isSetCountCompletedBranchesOnly())
-			branchesElement.setAttribute("countCompletedBranchesOnly", BPELUtils.boolean2XML(branches.getCountCompletedBranchesOnly()));
+			branchesElement.setAttribute("successfulBranchesOnly", BPELUtils.boolean2XML(branches.getCountCompletedBranchesOnly()));
 
 		return branchesElement;
 	}
@@ -1227,6 +1251,9 @@ public class BPELWriter {
 		
 		if (copy.isSetKeepSrcElementName())
 			copyElement.setAttribute("keepSrcElementName", BPELUtils.boolean2XML(copy.getKeepSrcElementName()));
+		
+		if (copy.isSetIgnoreMissingFromData())
+			copyElement.setAttribute("ignoreMissingFromData", BPELUtils.boolean2XML(copy.getIgnoreMissingFromData()));
 
 		From from = copy.getFrom();
 		if (from != null) {
@@ -1821,7 +1848,9 @@ public class BPELWriter {
 		Element activityElement = createBPELElement("scope");
 		
 		if (scope.isSetIsolated())
-			activityElement.setAttribute("isolated", BPELUtils.boolean2XML(scope.getIsolated()));					
+			activityElement.setAttribute("isolated", BPELUtils.boolean2XML(scope.getIsolated()));
+		if (scope.isSetExitOnStandardFault())
+			activityElement.setAttribute("exitOnStandardFault", BPELUtils.boolean2XML(scope.getExitOnStandardFault()));
 		if (scope.getVariables() != null && !scope.getVariables().getChildren().isEmpty())
 			activityElement.appendChild(variables2XML(scope.getVariables()));
 		if (scope.getCorrelationSets() != null && !scope.getCorrelationSets().getChildren().isEmpty())
@@ -1836,6 +1865,8 @@ public class BPELWriter {
 			activityElement.appendChild(terminationHandler2XML(scope.getTerminationHandler()));
 		if (scope.getEventHandlers() != null)
 			activityElement.appendChild(eventHandler2XML(scope.getEventHandlers()));
+		if (scope.getMessageExchanges() != null)
+			activityElement.appendChild(messageExchanges2XML(scope.getMessageExchanges()));
 		if (scope.getActivity() != null )
 			activityElement.appendChild(activity2XML(scope.getActivity()));
 		return activityElement;

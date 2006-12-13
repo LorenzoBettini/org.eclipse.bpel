@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: ReplyImpl.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -28,12 +28,16 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 import org.w3c.dom.Element;
@@ -181,6 +185,31 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 			toPart = new EObjectResolvingEList(ToPart.class, this, BPELPackage.REPLY__TO_PART);
 		}
 		return toPart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.REPLY__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.REPLY__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
+				case BPELPackage.REPLY__TARGETS:
+					return basicSetTargets(null, msgs);
+				case BPELPackage.REPLY__SOURCES:
+					return basicSetSources(null, msgs);
+				case BPELPackage.REPLY__CORRELATIONS:
+					return basicSetCorrelations(null, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
 	}
 
 	/**
