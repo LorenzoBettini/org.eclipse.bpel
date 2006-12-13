@@ -30,11 +30,13 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.CorrelationSet;
@@ -42,6 +44,7 @@ import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
@@ -149,6 +152,9 @@ public class ModelHelper {
 	public static final int TRANSITION_EXPR = 2;
 	public static final int REPEATEVERY_EXPR = 3;
 	public static final int WAIT_EXPR = 4;
+	public static final int COMPLETION_EXPR = 5;
+	public static final int START_COUNTER_VALUE_EXPR = 6;
+	public static final int FINAL_COUNTER_VALUE_EXPR = 7;
 
 	// expression sub-kinds
 	public static final int ESUB_DEFAULT = 0;
@@ -336,6 +342,9 @@ public class ModelHelper {
 		if (context instanceof Catch) {
 			return ((Catch)context).getFaultVariable(); 
 		}
+		if (context instanceof ForEach) {
+			return ((ForEach)context).getCounterName();
+		}
 		
 		throw new IllegalArgumentException("This model object has no variable to get"); //$NON-NLS-1$
 	}	
@@ -364,6 +373,8 @@ public class ModelHelper {
 			((Invoke)context).setOutputVariable(v);
 		} else if (context instanceof Catch) {
 			((Catch)context).setFaultVariable(v); 
+		} else if (context instanceof ForEach) {
+			((ForEach)context).setCounterName(v);
 		} else {
 			throw new IllegalArgumentException("This model object has no variable to set"); //$NON-NLS-1$
 		}
@@ -656,6 +667,24 @@ public class ModelHelper {
 				return null;
 			}
 			break;
+		case COMPLETION_EXPR:
+			if (context instanceof ForEach) {
+				if (((ForEach)context).getCompletionCondition() != null) {
+					return ((ForEach)context).getCompletionCondition().getBranches();
+				}
+				return null;
+			}
+			break;
+		case START_COUNTER_VALUE_EXPR:
+			if (context instanceof ForEach) {
+				return ((ForEach) context).getStartCounterValue();
+			}
+			break;
+		case FINAL_COUNTER_VALUE_EXPR:
+			if (context instanceof ForEach) {
+				return ((ForEach) context).getFinalCounterValue();
+			}
+			break;
 		}
 		throw new IllegalArgumentException();
 	}
@@ -666,6 +695,19 @@ public class ModelHelper {
 		cond.setExpressionLanguage(expr.getExpressionLanguage());
 		cond.setBody(expr.getBody());
 		return cond;
+	}
+	
+	protected static CompletionCondition makeCompletionCondition(Expression expr) {
+		if ((expr == null) || (expr instanceof CompletionCondition)) {
+			return (CompletionCondition) expr;
+		}
+		CompletionCondition completionCondition = BPELFactory.eINSTANCE.createCompletionCondition();
+		Branches branches = BPELFactory.eINSTANCE.createBranches();
+		branches.setExpressionLanguage(expr.getExpressionLanguage());
+		branches.setBody(expr.getBody());
+		completionCondition.setBranches(branches);
+		
+		return completionCondition;
 	}
 	
 	public static void setExpression(Object context, int exprKind, int exprSubKind, Expression expr) {
@@ -731,6 +773,23 @@ public class ModelHelper {
 				if (exprSubKind == ESUB_UNTIL) { ((OnAlarm)context).setUntil(expr); return; }
 			}
 			break;
+		case COMPLETION_EXPR:
+			if (context instanceof ForEach) {
+				((ForEach)context).setCompletionCondition(makeCompletionCondition(expr)); return;
+			}
+			break;
+		case START_COUNTER_VALUE_EXPR:
+			if (context instanceof ForEach) {
+				((ForEach)context).setStartCounterValue(expr); 
+				return;
+			}
+			break;
+		case FINAL_COUNTER_VALUE_EXPR:
+			if (context instanceof ForEach) {
+				((ForEach)context).setFinalCounterValue(expr); 
+				return;
+			}
+			break;
 		}
 	}
 
@@ -749,6 +808,12 @@ public class ModelHelper {
 		if (IEditorConstants.EC_WAIT.equals(exprContext) ||	IEditorConstants.EC_ONALARM.equals(exprContext)) {
 			return WAIT_EXPR;
 		}
+		if (IEditorConstants.EC_FOREACH_COMPLETION_CONDITION.equals(exprContext)) 
+			return COMPLETION_EXPR;
+		if (IEditorConstants.EC_FOREACH_START_COUNTER_VALUE.equals(exprContext))
+			return START_COUNTER_VALUE_EXPR;
+		if (IEditorConstants.EC_FOREACH_FINAL_COUNTER_VALUE.equals(exprContext))
+			return FINAL_COUNTER_VALUE_EXPR;
 		// everything else
 		return DEFAULT_EXPR;
 	}

@@ -16,6 +16,7 @@ public interface IEditorConstants {
 	public static final String ET_BOOLEAN = "boolean"; //$NON-NLS-1$
 	public static final String ET_DATETIME = "deadline"; //$NON-NLS-1$
 	public static final String ET_DURATION = "duration"; //$NON-NLS-1$
+	public static final String ET_UNSIGNED_INT = "unsignedInt"; //$NON-NLS-1$
 	// TODO: what should expression type of Assign From be??
 	public static final String ET_ASSIGNFROM = "assignFrom"; //$NON-NLS-1$
 	public static final String ET_VOID = "void"; //$NON-NLS-1$
@@ -24,6 +25,9 @@ public interface IEditorConstants {
 	public static final String EC_JOIN = "joinCondition"; //$NON-NLS-1$
 	public static final String EC_CASE = "case"; //$NON-NLS-1$
 	public static final String EC_WHILE = "while"; //$NON-NLS-1$
+	public static final String EC_FOREACH_COMPLETION_CONDITION = "forEachCompletion"; //$NON-NLS-1$
+	public static final String EC_FOREACH_START_COUNTER_VALUE = "forEachStartCounterValue"; //$NON-NLS-1$
+	public static final String EC_FOREACH_FINAL_COUNTER_VALUE = "forEachFinalCounterValue"; //$NON-NLS-1$
 	public static final String EC_TRANSITION = "linkTransition"; //$NON-NLS-1$
 	public static final String EC_ASSIGNFROM = "assignFrom"; //$NON-NLS-1$
 	public static final String EC_WAIT = "wait"; //$NON-NLS-1$

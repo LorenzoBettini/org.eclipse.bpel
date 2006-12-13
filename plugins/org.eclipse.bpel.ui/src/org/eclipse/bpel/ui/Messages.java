@@ -174,6 +174,8 @@ public final class Messages extends NLS {
 	public static String BPELEditor_Wait_22;
 	public static String BPELEditor_While_19;
 	public static String BPELEditor_While_20;
+	public static String BPELEditor_ForEach_19;
+	public static String BPELEditor_ForEach_20;
 	public static String BPELEditor_Zoom_In_40;
 	public static String BPELEditor_Zoom_Out_41;
 	public static String BPELEditor_Repeat_Until_42;
@@ -368,6 +370,9 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Variable_Change_38;
 	public static String IBPELUIConstants_Variable_Type_Change_1;
 	public static String IBPELUIConstants_Variable_Type_Change_73;
+	public static String IBELUIConstants_SET_PARALLEL_EXECUTION;
+	public static String IBELUIConstants_COUNTER_VARIABLE_NAME_CHANGE;
+	public static String IBELUIConstants_SET_SUCCESSFUL_BRANCHES_ONLY;
 	public static String ImportDetails_Import_Location_12;
 	public static String ImportDetails_Import_Namespace_12;
 	public static String ImportDetails_Imports_20;
@@ -547,6 +552,20 @@ public final class Messages extends NLS {
 	public static String WhileConditionSection_Create_a_New_Condition_3;
 	public static String WhileConditionSection_Mandatory_condition_text_2;
 	public static String WhileConditionSection_No_condition_specified_1;
+	
+	public static String ForEachSection_IS_PARALLEL;
+	public static String ForEachSection_COUNTER_NAME;
+	public static String ForEachCompletionConditionSection_No_condition_specified_1;
+	public static String ForEachCompletionConditionSection_Optional_condition_text_2;
+	public static String ForEachCompletionConditionSection_Create_a_New_Condition_3;
+	public static String ForEachSuccessfulBranchesOnlySection_1;
+	public static String ForEachStartCounterValuesSection_No_Expression_specified_1;
+	public static String ForEachStartCounterValuesSection_TITLE_3;
+	public static String ForEachFinalCounterValuesSection_TITLE_3;
+	public static String ForEachFinalCounterValuesSection_No_Expression_specified_1;
+	public static String ForEachCounterValuesSection_Mandatory_Expression_2;
+	public static String ForEachCounterValuesSection_Create_a_New_Expression_3;
+	
 	public static String WorkbenchFileSelectionDialog_Browse_2;
 	public static String WsdlFileSelectionDialog_Select_a_WSDL_File_1;
 	public static String XPathExpressionEditor_Date_Time_UTC_3;

@@ -43,6 +43,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -107,6 +109,12 @@ public abstract class ExpressionSection extends TextSection {
 
 	/** The parent composite, it owns the expression language combo and the editor area */
 	protected Composite parentComposite;
+
+	protected Font boldFont;
+
+	protected String title;
+
+	protected Label titleLabel;
 	
 	
 	protected static boolean objectsEqual(Object lhs, Object rhs) {
@@ -205,6 +213,17 @@ public abstract class ExpressionSection extends TextSection {
 		return new SetExpressionCommand(getInput(), getModelExpressionType(), getModelExpressionSubType(), null);
 	}
 	
+	protected void createTitleWidgets(Composite composite) {
+		FlatFormData data;
+		titleLabel = wf.createLabel(composite, title);
+		titleLabel.setFont(boldFont);
+		data = new FlatFormData();
+		data.left = new FlatFormAttachment(0, 0);
+		data.top = new FlatFormAttachment(0, 0);
+		data.right = new FlatFormAttachment(100, 0);
+		titleLabel.setLayoutData(data);
+	}
+	
 	protected void createExpressionLanguageWidgets(final Composite composite) {
 
 		FlatFormData data;
@@ -217,7 +236,11 @@ public abstract class ExpressionSection extends TextSection {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(expressionLanguageLabel, STANDARD_LABEL_WIDTH_LRG));
 		data.right = new FlatFormAttachment(100, 0);
-		data.top = new FlatFormAttachment(0, 0);
+		if (this.title != null) {
+			data.top = new FlatFormAttachment(this.titleLabel, IDetailsAreaConstants.VSPACE);
+		} else {
+			data.top = new FlatFormAttachment(0, 0);
+		}
 		expressionLanguageViewer.getCombo().setLayoutData(data);
 
 		expressionLanguageViewer.setLabelProvider(new LabelProvider() {
@@ -466,6 +489,12 @@ public abstract class ExpressionSection extends TextSection {
 		
 		parentComposite =  createFlatFormComposite(parent);
 		// parentComposite = parent;
+		
+		if (this.title != null) {
+			createBoldFont(parentComposite);
+			createTitleWidgets(parentComposite);
+		}
+		
 		createExpressionLanguageWidgets(parentComposite);
 		
 		fNoEditorWidgets = createNoEditorWidgets(parentComposite);
@@ -610,6 +639,21 @@ public abstract class ExpressionSection extends TextSection {
 	
 	public boolean hasEditor () {
 		return (editor != null ) ;
+	}
+	
+	private void createBoldFont(Composite parentComposite) {
+		FontData[] data = parentComposite.getDisplay().getSystemFont().getFontData();
+		FontData data0 = data[0];
+		data0.setStyle(SWT.BOLD);
+		boldFont = new Font(parentComposite.getDisplay(), data0);
+	}
+	
+	@Override
+	public void dispose() {
+		if (boldFont != null) {
+			boldFont.dispose();
+		}
+		super.dispose();
 	}
 	
 //	public void aboutToBeHidden() {

@@ -49,6 +49,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  */
 public class XPathExpressionEditor extends AbstractExpressionEditor {
 
+	private static final String BOOLEAN_EXPR_DEFAULT = "true()";
+	private static final String UNSIGNED_INT_EXPR_DEFAULT = "1";
+	
 	private static final String TEXT_STRING = Messages.XPathExpressionEditor_Text_0,
 			LITERAL_STRING = Messages.XPathExpressionEditor_Literal_1;
 
@@ -580,7 +583,9 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		switch (comboValue) {
 		case TEXT: {
 			if (IEditorConstants.ET_BOOLEAN.equals(exprType)) {
-				return "true()"; //$NON-NLS-1$
+				return BOOLEAN_EXPR_DEFAULT;
+			} else if (IEditorConstants.ET_UNSIGNED_INT.equals(exprType)) {
+				return UNSIGNED_INT_EXPR_DEFAULT;
 			}
 			return ""; //$NON-NLS-1$
 		}
@@ -611,6 +616,8 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		if (IEditorConstants.ET_DURATION.equals(exprType))
 			return true;
 		if (IEditorConstants.ET_ASSIGNFROM.equals(exprType))
+			return true;
+		if (IEditorConstants.ET_UNSIGNED_INT.equals(exprType))
 			return true;
 		return false;
 	}

@@ -92,6 +92,8 @@ public interface IBPELUIConstants {
 	public final String ICON_WAIT_32 = "obj20/wait.png"; //$NON-NLS-1$
 	public final String ICON_WHILE_16 = "obj16/while.gif"; //$NON-NLS-1$
 	public final String ICON_WHILE_32 = "obj20/while.png"; //$NON-NLS-1$
+	public final String ICON_FOREACH_16 = "obj16/foreach.gif"; //$NON-NLS-1$
+	public final String ICON_FOREACH_32 = "obj20/foreach.png"; //$NON-NLS-1$
 	public final String ICON_REPEAT_UNTIL_16 = "obj16/repeatuntil.gif"; //$NON-NLS-1$
 	public final String ICON_REPEAT_UNTIL_32 = "obj20/repeatuntil.png"; //$NON-NLS-1$
 	public final String ICON_VALIDATE_16 = "obj16/validate.gif"; //$NON-NLS-1$
@@ -298,6 +300,10 @@ public interface IBPELUIConstants {
 
 	public final String CMD_EDIT_PARTNERLINK = Messages.IBPELUIConstants_Partner_Change_79; 
 
+	public final String CMD_SET_PARALLEL_EXECUTION = Messages.IBELUIConstants_SET_PARALLEL_EXECUTION;
+	public final String CMD_SET_COUNTER_VARIABLE_NAME = Messages.IBELUIConstants_COUNTER_VARIABLE_NAME_CHANGE;
+	public final String CMD_SET_SUCCESSFUL_BRANCHES_ONLY = Messages.IBELUIConstants_SET_SUCCESSFUL_BRANCHES_ONLY;
+	
 	// error messages
 	public final int MISSING_ATTRIBUTE = 0;
 

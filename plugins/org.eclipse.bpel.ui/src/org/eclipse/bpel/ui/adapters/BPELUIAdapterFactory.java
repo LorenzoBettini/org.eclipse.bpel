@@ -145,6 +145,10 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return provider.getAdapter(WhileAdapter.class);		
 	}
 	
+	public Adapter createForEachAdapter() {
+		return provider.getAdapter(ForEachAdapter.class);
+	}
+	
 	public Adapter createCorrelationSetAdapter() {
 		return provider.getAdapter(CorrelationSetAdapter.class);		
 	}

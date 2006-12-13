@@ -127,6 +127,16 @@
                afterTab="org.eclipse.bpel.ui.tabs.details"
                id="org.eclipse.bpel.ui.tabs.repeat"/>
         <propertyTab
+        	  label="%DETAILS_PAGES_COUNTER_VALUES_LABEL"
+        	  afterTab="org.eclipse.bpel.ui.tabs.details"
+        	  category="implementation"
+        	  id="org.eclipse.bpel.ui.tabs.counter_values"/>
+        <propertyTab
+        	  label="%DETAILS_PAGES_COMPLETION_LABEL"
+        	  afterTab="org.eclipse.bpel.ui.tabs.counter_values"
+        	  category="implementation"
+        	  id="org.eclipse.bpel.ui.tabs.completion"/>
+        <propertyTab
                label="%DETAILS_PAGES_JOIN_BEHAVIOUR_LABEL"
                category="implementation"
                afterTab="org.eclipse.bpel.ui.tabs.details"
@@ -334,6 +344,49 @@
             <input type="org.eclipse.bpel.model.While"/>
             <input type="org.eclipse.bpel.model.RepeatUntil"/>
         </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.ForEachSection"
+               id="org.eclipse.bpel.ui.sections.ForEach">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection>
+        
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.counter_values"
+               class="org.eclipse.bpel.ui.properties.ForEachCounterValuesSection"
+               id="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection> 
+<!--        
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.counter_values"
+               class="org.eclipse.bpel.ui.properties.ForEachStartCounterValueSection"
+               id="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection> 
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.counter_values"
+               class="org.eclipse.bpel.ui.properties.ForEachFinalCounterValueSection"
+               id="org.eclipse.bpel.ui.sections.ForEachFinalCounterValue"
+               afterSection="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection>   
+-->
+           
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.completion"
+               class="org.eclipse.bpel.ui.properties.ForEachSuccessfulBranchesOnlySection"
+               id="org.eclipse.bpel.ui.sections.ForEachSuccessfulBranchesOnly">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection>    
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.completion"
+               class="org.eclipse.bpel.ui.properties.ForEachCompletionSection"
+               id="org.eclipse.bpel.ui.sections.ForEachCompletion"
+               afterSection="org.eclipse.bpel.ui.sections.ForEachSuccessfulBranchesOnly">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection>        
+        
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
                class="org.eclipse.bpel.ui.properties.CaseConditionSection"
