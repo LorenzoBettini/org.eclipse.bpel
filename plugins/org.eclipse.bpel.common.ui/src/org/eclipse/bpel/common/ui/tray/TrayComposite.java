@@ -142,17 +142,22 @@ public class TrayComposite extends SashForm {
 		setRedraw(false);
 		
 		if (isInState(STATE_COLLAPSED)) {
-			int titleWidth = sashControl.computeSize(-1, -1).x;
+			int titleWidth = sashControl.computeSize(-1, -1).x;			
 			editorControl.setBounds(area.x, area.y, area.width - titleWidth, area.height);
 			sashControl.setBounds(area.x + area.width - titleWidth, area.y, titleWidth, area.height);
 			trayControl.setVisible(false);
 			
 		} else if (isInState(STATE_EXPANDED)) {
-			int titleWidth = sashControl.computeSize(-1, -1).x;
+			int titleWidth = sashControl.computeSize(-1, -1).x;			
 			if (changed) {
 				int editorWeight = area.width - titleWidth - trayWidth;
-				int sashWeight = titleWidth;
-				int trayWeight = trayWidth;
+				int sashWeight = titleWidth >= 0 ? titleWidth : 0;
+				int trayWeight = trayWidth >= 0 ? trayWidth : 0;
+				
+				if (editorWeight < 0) {
+					editorWeight = 0;
+				}
+				
 				setWeights(new int[] {editorWeight, sashWeight, trayWeight});
 			}
 			editorControl.setBounds(area.x, area.y, area.width - titleWidth - trayWidth, area.height);
