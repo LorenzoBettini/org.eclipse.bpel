@@ -20,14 +20,10 @@
    
    <extension
          point="org.eclipse.ui.newWizards">
-      <category
-            name="%NEW_BPEL_CATEGORY"
-            id="org.eclipse.bpel.runtimes">
-      </category>
       <wizard
             name="%NEW_BPEL_PROJECT"
             icon="icons/ctool16/new_bpelprj.gif"
-            category="org.eclipse.bpel.runtimes"
+            category="org.eclipse.bpel.wizards"
             project="true"
             class="org.eclipse.bpel.runtimes.ui.wizards.NewBPELProjectWizard"
             id="org.eclipse.bpel.runtimes.wizards.newBPELProject">
