@@ -680,11 +680,11 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="org.eclipse.bpel.file.wizards"
+            id="org.eclipse.bpel.wizards"
             name="%NEW_BPEL_CATEGORY"/>
       <wizard
             canFinishEarly="false"
-            category="org.eclipse.bpel.file.wizards"
+            category="org.eclipse.bpel.wizards"
             class="org.eclipse.bpel.ui.wizards.NewFileWizard"
             hasPages="true"
             icon="icons/obj16/bpel.gif"
