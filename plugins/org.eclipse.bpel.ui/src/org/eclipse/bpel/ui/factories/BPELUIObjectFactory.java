@@ -15,16 +15,20 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Switch;
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Policy;
+import org.eclipse.bpel.ui.util.XSDUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.xsd.XSDTypeDefinition;
 
 
 /**
@@ -40,6 +44,8 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 	protected static final String OBJ20 = "obj20/"; //$NON-NLS-1$
 	protected static final String GIF = ".gif"; //$NON-NLS-1$
 	protected static final String PNG = ".png"; //$NON-NLS-1$
+	public static final String FOR_EACH_COUNTER_VARIABLE_TYPE = "unsignedInt"; //$NON-NLS-1$
+	public static final String FOR_EACH_COUNTER_VARIABLE_NAME = "Counter"; //$NON-NLS-1$
 
 	// we should not include actions here (invoke, etc...)
 	public static EClass[] classArray = {
@@ -151,6 +157,19 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			// create a free Copy inside the Assign.
 			Copy copy = BPELFactory.eINSTANCE.createCopy();
 			((Assign)result).getCopy().add(copy);
+		}
+		if (result instanceof ForEach) {
+			// create a default counter variable inside the ForEach
+			Variable variable = BPELFactory.eINSTANCE.createVariable();
+			XSDTypeDefinition varType = XSDUtils
+					.getPrimitive(FOR_EACH_COUNTER_VARIABLE_TYPE);
+			variable.setType(varType);
+			variable.setName(FOR_EACH_COUNTER_VARIABLE_NAME);
+			((ForEach) result).setCounterName(variable);
+
+			// create an empty scope inside the ForEach
+			Scope scope = BPELFactory.eINSTANCE.createScope();
+			((ForEach) result).setActivity(scope);
 		}
 		return result;
 	}

@@ -23,6 +23,7 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.SetForEachIsParallelCommand;
 import org.eclipse.bpel.ui.commands.SetNameCommand;
 import org.eclipse.bpel.ui.commands.SetVariableCommand;
+import org.eclipse.bpel.ui.factories.BPELUIObjectFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
@@ -54,7 +55,6 @@ public class ForEachSection extends BPELPropertySection {
 
 	protected static final int	IS_PARALLEL_CONTEXT				= 1;
 	protected static final int	COUNTER_NAME_VARIABLE_CONTEXT	= 2;
-	protected static final String COUNTER_VARIABLE_TYPE = "unsignedInt";
 
 	private Text				counterNameText;
 	private Composite			counterNameVariableComposite;
@@ -123,7 +123,7 @@ public class ForEachSection extends BPELPropertySection {
 				if (variableName != null) {
 					if (variable == null) {
 						variable = BPELFactory.eINSTANCE.createVariable();
-						XSDTypeDefinition varType = XSDUtils.getPrimitive(COUNTER_VARIABLE_TYPE);
+						XSDTypeDefinition varType = XSDUtils.getPrimitive(BPELUIObjectFactory.FOR_EACH_COUNTER_VARIABLE_TYPE);
 						variable.setType(varType);
 						result.add(new SetVariableCommand(forEach, variable,
 								ModelHelper.INCOMING));
