@@ -134,6 +134,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 * 
 	 */
 
+	@Override
 	public void addPages() {
 		
 		fMainPage = new NewFileWizardPage1(Messages.NewFileWizard_1);
@@ -215,6 +216,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 * Final condition for the wizard to finish
 	 */
 	
+	@Override
 	public boolean canFinish() {
 		return (fMainPage.isPageComplete() && mContainer != null) || super.canFinish();
 	}

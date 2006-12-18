@@ -32,6 +32,12 @@ public class NewFileWizardPage2 extends WizardPage {
 
   private FileSelectionGroup fResourceComposite;
 
+/**
+ * New File Wizard, page 2.
+ * 
+ * @param pageName
+ */
+  
 public NewFileWizardPage2(String pageName) 
     {
         super(pageName);
@@ -43,7 +49,7 @@ public NewFileWizardPage2(String pageName)
         setImageDescriptor( BPELUIPlugin.getPlugin().getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
     }
   
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl (Composite parent) {
@@ -73,6 +79,7 @@ public NewFileWizardPage2(String pageName)
 	
 	/**
 	 * Return the selected resource container for the BPEL project.
+	 * @return the resource container.
 	 */
 	
 	public IContainer getResourceContainer () {

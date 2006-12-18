@@ -46,25 +46,25 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 public class NewFileWizardPage1 extends WizardPage 
 {
 
-	static final String EMPTY = ""; //$NON-NLS-N$  //$NON-NLS-1$
+	static final String EMPTY = ""; //$NON-NLS-1$
 	
 	/** last namespace used in creating a project, saved in dialog settings */
-	static final String LAST_NAMESPACE_KEY = "last.namespace.used"; //$NON-NLS-N$ //$NON-NLS-1$
+	static final String LAST_NAMESPACE_KEY = "last.namespace.used"; //$NON-NLS-1$
 
 	/** Process name field */
     private Text  processNameField;
 
     /** which namespace to use to create the process */
-    private Combo processNamespaceField;
+    Combo processNamespaceField;
 
     /** which template to use to create a process */
-    private Combo processTemplateField;
+    Combo processTemplateField;
     
     /** Template description, in summary */
-    private Text templateDescription;
+    Text templateDescription;
 
     
-    private Map mArgs = new HashMap (3);
+    private Map<String,Object> mArgs = new HashMap<String,Object> (3);
     
      
     
@@ -163,7 +163,7 @@ public class NewFileWizardPage1 extends WizardPage
         namespaceLabel.setFont(parent.getFont());
         
         // new project name entry field
-        processNamespaceField = new Combo( fields, SWT.DROP_DOWN | SWT.SIMPLE );
+        processNamespaceField = new Combo( fields, SWT.DROP_DOWN | SWT.SIMPLE );        
         data = new GridData(GridData.FILL_HORIZONTAL);
         data.widthHint = SIZING_TEXT_FIELD_WIDTH;
         processNamespaceField.setLayoutData(data);
@@ -318,15 +318,19 @@ public class NewFileWizardPage1 extends WizardPage
         setErrorMessage(null);
         setMessage(null);
       
-        String namespace   = processNamespaceField.getText().trim();        
+        String namespace   = processNamespaceField.getText().trim(); 
+        if (namespace.length() < 1) {
+        	setErrorMessage(Messages.NewFileWizardPage1_11);
+        	return false;
+        }
+        
         // settings for next time the dialog is used.
         settings.put( LAST_NAMESPACE_KEY , namespace) ;
-        
-        
-        // Template args
-        mArgs.put("processName", processName );  //$NON-NLS-N$ //$NON-NLS-1$
-        mArgs.put("namespace",   namespace );	//$NON-NLS-N$ //$NON-NLS-1$
-        mArgs.put("date",   new Date() );	//$NON-NLS-N$ //$NON-NLS-1$
+                
+        // Template arguments
+        mArgs.put("processName", processName ); //$NON-NLS-1$
+        mArgs.put("namespace",   namespace );   //$NON-NLS-1$
+        mArgs.put("date",   new Date() );	    //$NON-NLS-1$
         
         return true;
     }
@@ -337,7 +341,8 @@ public class NewFileWizardPage1 extends WizardPage
      * 
      */
     
-    public void setVisible (boolean visible) {
+    @Override
+	public void setVisible (boolean visible) {
         super.setVisible(visible);
         if (visible) {
             processNameField.setFocus();
@@ -357,7 +362,7 @@ public class NewFileWizardPage1 extends WizardPage
 	 * @return the arguments that need to be supplied to the template mechanism.
 	 */
 	
-	public Map getArgs() {
+	public Map<String,Object> getArgs() {
 		
 		return mArgs;
 	}
