@@ -251,29 +251,17 @@ litigation.
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.jdt.debug"/>
-      <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.gef"/>
-      <import plugin="org.eclipse.emf"/>
       <import plugin="org.eclipse.emf.ecore.change"/>
-      <import plugin="org.eclipse.jdt.ui"/>
-      <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.xsd"/>
       <import plugin="org.eclipse.wst.wsdl"/>
       <import plugin="org.wsdl4j"/>
       <import plugin="org.apache.xerces"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.wst.common.ui.properties"/>
-      <import plugin="org.eclipse.wst.wsdl.ui"/>
-      <import plugin="org.eclipse.wst.xsd.ui"/>
+      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.wst.xml.core"/>
-      <import plugin="org.eclipse.wst.common.ui"/>
-      <import plugin="org.eclipse.wst.validation"/>
       <import plugin="org.eclipse.wst.server.core"/>
       <import plugin="org.eclipse.wst.web.ui"/>
       <import plugin="org.eclipse.wst.common.project.facet.ui"/>
@@ -281,10 +269,10 @@ litigation.
       <import plugin="org.eclipse.wst.common.frameworks"/>
       <import plugin="org.eclipse.wst.common.project.facet.core"/>
       <import plugin="org.eclipse.wst.common.frameworks.ui"/>
-      <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.eclipse.jem.util"/>
       <import plugin="org.eclipse.jst.server.generic.core"/>
-      <import plugin="org.eclipse.pde.runtime"/>
+      <import plugin="org.eclipse.jem.util"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.jst.ws.consumption"/>
    </requires>
 
    <plugin
