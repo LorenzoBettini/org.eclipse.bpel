@@ -2,14 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BPEL Model
 Bundle-SymbolicName: org.eclipse.bpel.model; singleton:=true
-Bundle-Version: 0.0.2
+Bundle-Version: 0.2.0
 Bundle-Activator: org.eclipse.bpel.model.BPELPlugin$Implementation
 Bundle-Vendor: eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
- org.eclipse.emf.common,
- org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.xsd,
  org.eclipse.wst.wsdl,
