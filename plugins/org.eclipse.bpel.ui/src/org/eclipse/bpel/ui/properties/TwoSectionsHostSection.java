@@ -129,4 +129,15 @@ public abstract class TwoSectionsHostSection extends BPELPropertySection {
 		}
 		super.dispose();
 	}
+
+	
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#shouldUseExtraSpace()
+	 */
+	@Override
+	public boolean shouldUseExtraSpace() { 
+		return true;
+	}
+	
+	
 }
