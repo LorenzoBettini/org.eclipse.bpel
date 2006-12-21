@@ -4,7 +4,7 @@
    <description url="http://download.eclipse.org/technology/bpel/update-site/">
       BPEL Designer for Eclipse
    </description>
-   <feature url="features/org.eclipse.bpel.feature_0.0.1.jar" id="org.eclipse.bpel.feature" version="0.0.1">
+   <feature url="features/org.eclipse.bpel.feature_0.2.0.jar" id="org.eclipse.bpel.feature" version="0.2.0">
       <category name="Eclipse BPEL Designer"/>
    </feature>
    <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer">
