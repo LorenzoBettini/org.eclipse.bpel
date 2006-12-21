@@ -229,15 +229,19 @@ litigation.
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.wst"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.jem"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.xsd"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.wst"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo"
          version="0.0.0"/>
 
    <includes
@@ -272,7 +276,6 @@ litigation.
       <import plugin="org.eclipse.jst.server.generic.core"/>
       <import plugin="org.eclipse.jem.util"/>
       <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.eclipse.jst.ws.consumption"/>
    </requires>
 
    <plugin
@@ -307,7 +310,6 @@ litigation.
          id="org.eclipse.bpel.runtimes"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
