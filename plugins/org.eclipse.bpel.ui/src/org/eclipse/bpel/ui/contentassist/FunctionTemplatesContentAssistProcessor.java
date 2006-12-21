@@ -14,6 +14,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.bpel.ui.expressions.INamespaceResolver;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.expressions.Function;
@@ -42,6 +45,17 @@ public class FunctionTemplatesContentAssistProcessor extends TemplateCompletionP
 	/** Build the templates */
 	private Template[] fTemplates = {};
 		
+	private Object theModel;
+	
+	public class NamespaceResolver implements INamespaceResolver {
+		public String resolvePrefix(String namespaceURI) {
+			return BPELUtils.getNamespacePrefix((EObject)theModel, namespaceURI);
+		}
+	}
+	
+	public void setModel(Object model) {
+		theModel = model;
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.text.templates.TemplateCompletionProcessor#getContextType(org.eclipse.jface.text.ITextViewer, org.eclipse.jface.text.IRegion)
@@ -80,11 +94,11 @@ public class FunctionTemplatesContentAssistProcessor extends TemplateCompletionP
 				
 				Iterator<Function> iter = Functions.getInstance().getFunctions().values().iterator();				
 				while (iter.hasNext()) {
-					Function func = iter.next();				
+					Function func = iter.next();			
 					list.add(new Template (func.getName(),
 											func.getHelp(),
 											contextTypeId, 
-											func.getReplacementString() 
+											func.getReplacementString(new NamespaceResolver()) 
 											,true)) ;
 				}
 				fTemplates = list.toArray(fTemplates);

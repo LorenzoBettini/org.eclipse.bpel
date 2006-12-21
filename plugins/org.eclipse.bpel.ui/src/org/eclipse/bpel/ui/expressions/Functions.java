@@ -107,7 +107,7 @@ public class Functions {
 					Element funcNode = (Element) funcList.item(i);
 					
 					String name = null;
-					String nsprefix = null;
+					String nsuri = null;
 					String returntype = null;
 					String help = null;
 					String comments = null;
@@ -117,8 +117,8 @@ public class Functions {
 					
 					help = xpath.evaluate("help/text()", funcNode);
 					comments = xpath.evaluate("comment/text()", funcNode);
-					String nsexpr = "property[@id='namespace-prefix']/value/text()";
-					nsprefix = xpath.evaluate(nsexpr, funcNode);
+					String nsexpr = "property[@id='namespace-uri']/value/text()";
+					nsuri = xpath.evaluate(nsexpr, funcNode);
 					
 					// retrieve child nodes for arguments
 					ArrayList args = new ArrayList();
@@ -183,11 +183,11 @@ public class Functions {
 						}
 						// categorize function by return type and store internally
 						if (index < RETURN_TYPES.length)
-							functions[index].put(name, new Function(name, nsprefix, returntype, help, comments, args));
+							functions[index].put(name, new Function(name, nsuri, returntype, help, comments, args));
 						else
 							System.out.println("unknown return type - Function: " + name + ", Returns: " + returntype);
 						// keep an alphabetized list of all functions	
-						allFunctions.put(name, new Function(name, nsprefix, returntype, help, comments, args));
+						allFunctions.put(name, new Function(name, nsuri, returntype, help, comments, args));
 					}					
 				}
 				// return ok status
@@ -234,7 +234,7 @@ public class Functions {
 					Node node2 = nodelist2.item(i);
 					NamedNodeMap attribs = node2.getAttributes();
 					String name = null;
-					String nsprefix = null;
+					String nsuri = null;
 					String returntype = null;
 					String help = null;
 					
@@ -312,7 +312,7 @@ public class Functions {
 							if (propattribs != null) {
 								Node childNode3 = (Node)propattribs.getNamedItem("id");
 								if (childNode3 != null) {
-									if (childNode3.getNodeValue().compareTo("namespace-prefix") == 0) {
+									if (childNode3.getNodeValue().compareTo("namespace-uri") == 0) {
 										NodeList childNode4 = childNode.getChildNodes();
 										for (int z=0; z<childNode4.getLength(); z++) {
 											Node valueNode = childNode4.item(z);
@@ -321,7 +321,7 @@ public class Functions {
 													NodeList valueList = valueNode.getChildNodes();
 													for (int a=0; a<valueList.getLength(); a++) {
 														if (valueList.item(a).getNodeType() == Node.TEXT_NODE) {
-															nsprefix = valueList.item(a).getNodeValue();
+															nsuri = valueList.item(a).getNodeValue();
 															break;
 														}
 													}
@@ -345,11 +345,11 @@ public class Functions {
 						}
 						// categorize function by return type and store internally
 						if (index < RETURN_TYPES.length)
-							functions[index].put(name, new Function(name, nsprefix, returntype, help, null, args));
+							functions[index].put(name, new Function(name, nsuri, returntype, help, null, args));
 						else
 							System.out.println("unknown return type - Function: " + name + ", Returns: " + returntype);
 						// keep an alphabetized list of all functions	
-						allFunctions.put(name, new Function(name, nsprefix, returntype, help, "", args));
+						allFunctions.put(name, new Function(name, nsuri, returntype, help, "", args));
 					}
 				}
 				// return ok status 

@@ -43,11 +43,14 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+
 
 
 /**
@@ -89,7 +92,7 @@ public abstract class ExpressionSection extends TextSection {
 	protected ExpressionComboContentProvider expressionComboContentProvider;
 	
 	/** The editor area composite, it is used to display editors or the no-editor widgets in it */
-	protected Composite fEditorAreaComposite ;
+	protected Composite fEditorArea ;
 	
 	
 	// Pseudo-model object to represent no expression at all (in which case no editor
@@ -108,14 +111,18 @@ public abstract class ExpressionSection extends TextSection {
 	protected Composite fNoEditorWidgets;
 
 	/** The parent composite, it owns the expression language combo and the editor area */
-	protected Composite parentComposite;
+	protected Composite fParentComposite;
 
 	protected Font boldFont;
 
 	protected String title;
 
 	protected Label titleLabel;
-	
+
+	StackLayout fEditorAreaStackLayout;
+
+	Composite fEditorComposite;
+
 	
 	protected static boolean objectsEqual(Object lhs, Object rhs) {
 		if (lhs == null) return (rhs == null);
@@ -137,6 +144,9 @@ public abstract class ExpressionSection extends TextSection {
 		Object selectedObject = SAME_AS_PARENT;
 		
 		
+		/**
+		 * @see org.eclipse.bpel.ui.details.providers.AbstractContentProvider#getElements(java.lang.Object)
+		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] descriptors = super.getElements(inputElement);
@@ -155,6 +165,11 @@ public abstract class ExpressionSection extends TextSection {
 			if (!result.contains(selectedObject)) result.add(selectedObject);
 			return result.toArray();
 		}
+		/**
+		 * 
+		 * @param element
+		 * @return true if item is to be allowed, false otherwise.
+		 */
 		public boolean allowItem(Object element) {
 			String language = getEffectiveLanguage(getExpressionLanguage(element));
 			try {
@@ -184,9 +199,13 @@ public abstract class ExpressionSection extends TextSection {
 	 */
 	
 	@Override
-	protected void disposeEditor() {
+	protected void disposeEditor() {		
 	    super.disposeEditor();
 		editorLanguage = null;
+		if (fEditorComposite != null) {
+			fEditorComposite.dispose();
+			fEditorComposite = null;
+		}
 	}
 	
 	
@@ -487,40 +506,14 @@ public abstract class ExpressionSection extends TextSection {
 	@Override
 	protected void createClient (Composite parent) {
 		
-		parentComposite =  createFlatFormComposite(parent);
-		// parentComposite = parent;
-		
+		fParentComposite =  createFlatFormComposite(parent);
+
 		if (this.title != null) {
-			createBoldFont(parentComposite);
-			createTitleWidgets(parentComposite);
+			createBoldFont(fParentComposite);
+			createTitleWidgets(fParentComposite);
 		}
 		
-		createExpressionLanguageWidgets(parentComposite);
-		
-		fNoEditorWidgets = createNoEditorWidgets(parentComposite);
-		FlatFormData data = new FlatFormData();
-		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(),IDetailsAreaConstants.VSPACE);
-		data.right = new FlatFormAttachment(100,0);
-		data.left = new FlatFormAttachment(0,0);
-		data.bottom = new FlatFormAttachment(100,0);
-		fNoEditorWidgets.setLayoutData(data);
-		
-		createEditorArea(parentComposite);
-		
-		createChangeHelper();
-	}
-	
-	/** 
-	 * Create the editor area.
-	 * 
-	 * @param parent
-	 */
-	
-	protected void createEditorArea (Composite parent) {
-		
-		if (fEditorAreaComposite != null) {
-			return;
-		}
+		createExpressionLanguageWidgets(fParentComposite);
 		
 		FlatFormData data = new FlatFormData();
 		
@@ -528,19 +521,20 @@ public abstract class ExpressionSection extends TextSection {
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
 		data.bottom = new FlatFormAttachment(100, 0);
+					
+		fEditorArea = wf.createComposite(fParentComposite);
+		fEditorArea.setLayoutData(data);		
 		
+		fEditorAreaStackLayout = new StackLayout();
+		fEditorArea.setLayout( fEditorAreaStackLayout );
+				
+		fNoEditorWidgets = createNoEditorWidgets(fEditorArea);
 		
-		// The editor area consists of the parent composite which has stack layout 
-		// and the editorComposite which has FillLayout. The editorComposite is used
-		// to place and remove various editors which are based on the expression language
-		// setting. 
+		fEditorAreaStackLayout.topControl = fNoEditorWidgets;			
 		
-		fEditorAreaComposite = createFlatFormComposite(parent);
-		fEditorAreaComposite.setLayoutData(data);
-		
-		fEditorAreaComposite.setLayout( new FillLayout( ));
+		createChangeHelper();
 	}
-
+		
 	
 	protected Composite createNoEditorWidgets (Composite composite) {
 		return wf.createComposite(composite);
@@ -585,37 +579,40 @@ public abstract class ExpressionSection extends TextSection {
 		
 		Expression expr = getExprFromModel();
 		
+		Control previousTop = fEditorAreaStackLayout.topControl;
+		
 		if (expr == null) {
-						
-			fNoEditorWidgets.setVisible(true);
-			fEditorAreaComposite.setVisible(false);			
+			fEditorAreaStackLayout.topControl = fNoEditorWidgets;			
 		} else {
 			String newLanguage = getEffectiveLanguage(getExpressionLanguageFromModel());
 			
-			if ( newLanguage.equals(editorLanguage) == false ) {
-				disposeEditor();
-				createEditor(fEditorAreaComposite);	
+			if ( newLanguage.equals(editorLanguage) == false || hasEditor() == false) {
+				// get rid of the old editor
+				// The "old" editorComposite will be buried in the stack layout				
+				disposeEditor();				
+				
+				fEditorComposite = wf.createComposite(fEditorArea);	
+				fEditorComposite.setLayout( new FillLayout() );
+				createEditor (fEditorComposite);
+				
 			}
-			fEditorAreaComposite.setVisible(true);
-			fNoEditorWidgets.setVisible(false);
-			
-			if (editor != null) {
-				// TODO: call supportsExpressionType in the right place
-				editor.setExpressionType(getExpressionType(), getExpressionContext());
-				editor.setModelObject(getInput());
-				editor.setBody(expr.getBody());
-				editor.aboutToBeShown();
-			}					
+			fEditorAreaStackLayout.topControl = fEditorComposite;		
+		
+			// we update our editor with the model, since something may have changed
+			// in it that needs to be reflected in the editor.
+			editor.setExpressionType(getExpressionType(), getExpressionContext());
+			editor.setModelObject(getInput());
+			editor.setBody(expr.getBody());
+			editor.aboutToBeShown();
 		}
 		
-		parentComposite.getDisplay().syncExec( new Runnable() {
-			public void run() {
-				parentComposite.layout(true);				
-			}		
-		});		
-	}
 		
-
+		if ( previousTop != fEditorAreaStackLayout.topControl ) {
+			// Layout is necessary after swapping the top element in the stack layout
+			fParentComposite.layout(true,true);
+		}				
+	}
+	
 	/**
 	 * This is used by the Expression Language combo to filter out editors that
 	 * can't be used with the current type/context.
@@ -638,15 +635,19 @@ public abstract class ExpressionSection extends TextSection {
 	 */
 	
 	public boolean hasEditor () {
-		return (editor != null ) ;
+		return (editor != null && fEditorAreaStackLayout.topControl != fNoEditorWidgets) ;
 	}
 	
-	private void createBoldFont(Composite parentComposite) {
-		FontData[] data = parentComposite.getDisplay().getSystemFont().getFontData();
+	private void createBoldFont (Composite parent) {
+		FontData[] data = parent.getDisplay().getSystemFont().getFontData();
 		FontData data0 = data[0];
 		data0.setStyle(SWT.BOLD);
-		boldFont = new Font(parentComposite.getDisplay(), data0);
+		boldFont = new Font(parent.getDisplay(), data0);
 	}
+	
+	/** (non-Javadoc)
+	 * @see org.eclipse.bpel.ui.properties.TextSection#dispose()
+	 */
 	
 	@Override
 	public void dispose() {

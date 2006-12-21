@@ -21,7 +21,8 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
 public class TextEditor extends AbstractDecoratedTextEditor {
 
-	public static final String EDITOR_ID = "org.eclipse.bpel.ui.editors.TextEditor"; //$NON-NLS-1$
+	/** The Editor ID */
+	public static final String TEXT_EDITOR_ID = TextEditor.class.getName();
 
 	/**
 	 * 
@@ -35,6 +36,7 @@ public class TextEditor extends AbstractDecoratedTextEditor {
 	/**
 	 * Remove unnecessary actions.
 	 */
+	@Override
 	protected void createActions() {
 		super.createActions();
 		setAction(ITextEditorActionConstants.PRINT, null);

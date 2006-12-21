@@ -154,7 +154,7 @@ public class ExpressionContentAssistProcessor1 extends TemplateCompletionProcess
 		Image img = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EXPR_FUNCTION);
 		while (iter.hasNext()) {
 			Function func = (Function)iter.next();
-			String replace = func.getReplacementString();
+			String replace = func.getReplacementString(null);
 			
 			if (func.getName().startsWith(context)) {								
 				prop = new CompletionProposal(replace, offset-context.length(), context.length(), 
@@ -326,7 +326,7 @@ public class ExpressionContentAssistProcessor1 extends TemplateCompletionProcess
 					list.add(new Template (func.getName(),
 											func.getHelp(),
 											contextTypeId, 
-											func.getReplacementString() 
+											func.getReplacementString(null) 
 											,true)) ;
 				}
 				fTemplates = list.toArray(fTemplates);

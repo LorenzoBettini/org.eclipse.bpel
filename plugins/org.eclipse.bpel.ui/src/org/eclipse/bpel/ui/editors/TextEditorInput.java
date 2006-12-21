@@ -25,17 +25,31 @@ public class TextEditorInput implements IEditorInput {
 	
 	/** A context object */
 	Object eObj;
+	
+	// expression context
+	String theExpressionContext;
 
 	/**
 	 * Create a new Text Editor Input. 
 	 * @param text
 	 * @param eObject
+	 * @param expressionContext 
 	 */
 	
-	public TextEditorInput (String text, Object eObject) {
+	public TextEditorInput (String text, Object eObject, String expressionContext) {
 		setBody (text,eObject);
+		theExpressionContext = expressionContext;
 	}
 
+	
+	/**
+	 * @return return the expression context, represented by this TextEditor input.
+	 */
+	
+	public String getExpressionContext() {
+		return theExpressionContext;
+	}
+	
 	/**
 	 * Returns the body from this TextEditorInput. This may include the modified editor
 	 * body once the editor has notified us that its content has changed.
@@ -116,6 +130,8 @@ public class TextEditorInput implements IEditorInput {
 	 */
 	
 	
+	
+	@SuppressWarnings("unchecked")
 	public Object getAdapter (Class adapter) {
 		
 		if (adapter.isInstance(eObj)) {
@@ -125,6 +141,12 @@ public class TextEditorInput implements IEditorInput {
 		if (adapter.isInstance(body)) {
 			return getBody();
 		}
+
+		// hack
+		if (adapter == Integer.class) {
+			return theExpressionContext;
+		}
+
 		return null;
 	}
 

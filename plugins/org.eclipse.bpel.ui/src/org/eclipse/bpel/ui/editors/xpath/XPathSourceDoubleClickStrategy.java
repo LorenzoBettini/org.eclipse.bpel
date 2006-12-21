@@ -23,15 +23,24 @@ import org.eclipse.jface.text.ITextViewer;
  */
 
  public class XPathSourceDoubleClickStrategy implements ITextDoubleClickStrategy {
- 	protected ITextViewer fText;
 
+	 protected XPathWordDetector fWordDetector = new XPathWordDetector();
+	 
+	 protected ITextViewer fText;
+
+ 	/**
+ 	 * Do something on double-click. For us, this means selecting the right amount of 
+ 	 * characters to form word or string.
+ 	 * 
+ 	 * @see org.eclipse.jface.text.ITextDoubleClickStrategy#doubleClicked(org.eclipse.jface.text.ITextViewer)
+ 	 */
  	public void doubleClicked (ITextViewer part) {
-         System.out.println( "Double clicked!!!!" );
          
  		int pos = part.getSelectedRange().x;
 
- 		if (pos < 0)
+ 		if (pos < 0) {
  			return;
+ 		}
 
  		fText = part;
 
@@ -39,6 +48,8 @@ import org.eclipse.jface.text.ITextViewer;
  			selectWord(pos);
  		}
  	}
+ 	
+ 	
  	protected boolean selectComment(int caretPos) {
  		IDocument doc = fText.getDocument();
  		int startPos, endPos;
@@ -87,6 +98,8 @@ import org.eclipse.jface.text.ITextViewer;
 
  		return false;
  	}
+ 	
+ 	
  	protected boolean selectWord(int caretPos) {
 
  		IDocument doc = fText.getDocument();
@@ -99,7 +112,7 @@ import org.eclipse.jface.text.ITextViewer;
 
  			while (pos >= 0) {
  				c = doc.getChar(pos);
- 				if (!Character.isJavaIdentifierPart(c))
+ 				if (! fWordDetector.isWordPart(c))
  					break;
  				--pos;
  			}
@@ -111,7 +124,7 @@ import org.eclipse.jface.text.ITextViewer;
 
  			while (pos < length) {
  				c = doc.getChar(pos);
- 				if (!Character.isJavaIdentifierPart(c))
+ 				if (!fWordDetector.isWordPart(c))
  					break;
  				++pos;
  			}

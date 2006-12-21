@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.contentassist.ExpressionContentAssistProcessor;
 import org.eclipse.bpel.ui.editors.TextEditor;
-import org.eclipse.bpel.ui.editors.TextEditorInput;
 import org.eclipse.bpel.ui.preferences.PreferenceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
@@ -36,6 +35,7 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ContentAssistAction;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
@@ -54,7 +54,7 @@ import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 public class XPathTextEditor extends TextEditor {
 	
 	/** The editor id, based on the name of our class */
-	public static final String EDITOR_ID = XPathTextEditor.class.getName();
+	public static final String XPATH_EDITOR_ID = XPathTextEditor.class.getName();
 	
 	/** Matchable character pairs */
 	protected final static char[] BRACKETS= { '(', ')', '[', ']' };
@@ -63,7 +63,7 @@ public class XPathTextEditor extends TextEditor {
 	protected XPathCharPairMatcher fBracketMatcher= new XPathCharPairMatcher(BRACKETS);
 	
 	/** The bracket inserter. */
-	private BracketInserter fBracketInserter= new BracketInserter();	
+	BracketInserter fBracketInserter= new BracketInserter();	
 	
 	private ColorManager fColorManager;
 	
@@ -88,11 +88,11 @@ public class XPathTextEditor extends TextEditor {
 		super.createActions();
 		
 		ResourceBundle bundle = ResourceBundle.getBundle("bpelexpression"); //$NON-NLS-1$
-		Action action = new ContentAssistAction(bundle, "ContentAssistProposal.", this); 
+		Action action = new ContentAssistAction(bundle, "ContentAssistProposal.", this);  //$NON-NLS-1$
 		String id = ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS;
 		action.setActionDefinitionId(id);
-		setAction("ContentAssistProposal", action); 
-		markAsStateDependentAction("ContentAssistProposal", true);
+		setAction("ContentAssistProposal", action);  //$NON-NLS-1$
+		markAsStateDependentAction("ContentAssistProposal", true); //$NON-NLS-1$
 		
 
 		
@@ -110,17 +110,24 @@ public class XPathTextEditor extends TextEditor {
 		
 		super.doSetInput(input);
 		
+		ExpressionContentAssistProcessor caproc = (ExpressionContentAssistProcessor)
+							this.getSourceViewerConfiguration().
+							getContentAssistant( this.getSourceViewer() ).
+							getContentAssistProcessor(IDocument.DEFAULT_CONTENT_TYPE);
+	
 		EObject eObj = (EObject) input.getAdapter(EObject.class);
 		
 		if (eObj != null) {
-			ExpressionContentAssistProcessor caproc = (ExpressionContentAssistProcessor)this.getSourceViewerConfiguration().
-			getContentAssistant(this.getSourceViewer()).
-			getContentAssistProcessor(IDocument.DEFAULT_CONTENT_TYPE);
 			caproc.setModelObject( eObj );
+		}
+		
+		String expressionContext = (String) input.getAdapter(Integer.class);
+		if (expressionContext != null) {
+			caproc.setExpressionContext(expressionContext);
 		}
 	}		
 	
-	/*
+	/**
 	 * @see AbstractTextEditor#createPartControl(Composite)
 	 */
 	@Override
@@ -217,9 +224,10 @@ public class XPathTextEditor extends TextEditor {
 	}
 	
 	
-	/*
+	/**
 	 * @see AbstractTextEditor#handlePreferenceStoreChanged(PropertyChangeEvent)
 	 */
+	@Override
 	protected void handlePreferenceStoreChanged (PropertyChangeEvent event) {
 		
 		String p = event.getProperty();		
@@ -327,13 +335,14 @@ public class XPathTextEditor extends TextEditor {
 		 * @see org.eclipse.swt.custom.VerifyKeyListener#verifyKey(org.eclipse.swt.events.VerifyEvent)
 		 */
 		
+		@SuppressWarnings("fallthrough")
 		public void verifyKey(VerifyEvent event) {			
 
 			if (!event.doit || getInsertMode() != SMART_INSERT) {
 				return;
 			}
 				
-			final ISourceViewer sourceViewer= getSourceViewer();
+			ISourceViewer sourceViewer = getSourceViewer();
 			IDocument document= sourceViewer.getDocument();
 
 			final Point selection= sourceViewer.getSelectedRange();
@@ -479,7 +488,7 @@ public class XPathTextEditor extends TextEditor {
 		}
 	}
 	
-	private static char getEscapeCharacter(char character) {
+	static char getEscapeCharacter (char character) {
 		switch (character) {
 			case '"':
 			case '\'':
@@ -489,7 +498,7 @@ public class XPathTextEditor extends TextEditor {
 		}
 	}
 	
-	private static char getPeerCharacter(char character) {
+	static char getPeerCharacter(char character) {
 		switch (character) {
 			case '(':
 				return ')';

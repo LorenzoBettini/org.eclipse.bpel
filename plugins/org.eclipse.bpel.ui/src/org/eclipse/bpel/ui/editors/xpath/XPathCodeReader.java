@@ -65,11 +65,9 @@ public class XPathCodeReader {
 	 * @param offset
 	 * @param length
 	 * @param skipStrings
-	 * @throws IOException
 	 */
 	
-	public void configureForwardReader (IDocument document, int offset,	int length, boolean skipStrings)
-			throws IOException {
+	public void configureForwardReader (IDocument document, int offset,	int length, boolean skipStrings) {
 		fDocument = document;
 		fOffset = offset;
 		fSkipStrings = skipStrings;
@@ -99,16 +97,19 @@ public class XPathCodeReader {
 		}
 	}
 
-	/*
+	/**
 	 * 
 	 */
-	public void close() throws IOException {
+	public void close()  {
 		fDocument = null;
 	}
 
-	/*
-	 * @see SingleCharReader#read()
+	/**
+	 * @return the next character read, in either the forward or reverse direction. 
+	 * @throws IOException if bad location (passed start or end)
+	 * 
 	 */
+	
 	public int read() throws IOException {
 		try {
 			return fForward ? readForwards() : readBackwards();
@@ -129,11 +130,13 @@ public class XPathCodeReader {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void gotoLineEnd() throws BadLocationException {
 		int line = fDocument.getLineOfOffset(fOffset);
 		fOffset = fDocument.getLineOffset(line + 1);
 	}
 
+	
 	private int readForwards() throws BadLocationException {
 		while (fOffset < fEnd) {
 			char current = fDocument.getChar(fOffset++);

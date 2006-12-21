@@ -13,7 +13,6 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
@@ -34,8 +33,16 @@ import org.eclipse.swt.widgets.Label;
  */
 public class WhileConditionSection extends ExpressionSection {
 
-	protected String getExpressionType() { return IEditorConstants.ET_BOOLEAN; }
-	protected String getExpressionContext() { return IEditorConstants.EC_WHILE; }
+	@Override
+	protected String getExpressionType() { 
+		return IEditorConstants.ET_BOOLEAN; 
+	}
+	
+	
+	@Override
+	protected String getExpressionContext() {
+		return IEditorConstants.EC_WHILE; 
+	}
 	
 	@Override
 	protected Composite createNoEditorWidgets(Composite composite) {
@@ -76,6 +83,7 @@ public class WhileConditionSection extends ExpressionSection {
 		return section;
 	}
 
+	@Override
 	protected boolean isValidClientUseType(String useType) {
 		return IBPELUIConstants.USE_TYPE_CONDITION.equals(useType);
 	}

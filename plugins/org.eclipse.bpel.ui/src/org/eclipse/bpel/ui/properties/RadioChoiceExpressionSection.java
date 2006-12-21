@@ -93,7 +93,7 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 		    radioComposite.setVisible(false);			
 		} else {		
 			radioComposite.setVisible(true);
-    	    FlatFormData data = (FlatFormData) fEditorAreaComposite.getLayoutData();
+    	    FlatFormData data = (FlatFormData) fEditorArea.getLayoutData();
     	    data.top = new FlatFormAttachment(radioComposite, IDetailsAreaConstants.VSPACE);
 			
 			calculateEnablement();
@@ -107,7 +107,7 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 			
 		}
 		
-	    parentComposite.layout(true);
+	    fParentComposite.layout(true);
 	}
 	
 	@Override
@@ -191,7 +191,7 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 	@Override
 	protected void createClient(Composite parent) {
 		super.createClient(parent);	
-		createRadioButtonWidgets(parentComposite);
+		createRadioButtonWidgets(fParentComposite);
 	}
 	
 	protected boolean showRadioButtons() { 

@@ -17,9 +17,15 @@ import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
  * @date Nov 1, 2006
  *
  */
+@SuppressWarnings("nls")
+
 public interface IXPathEditorActionDefinitionIds extends
 		ITextEditorActionDefinitionIds {
 
+	/**
+	 * Variable Picker action definition id.
+	 */
+	
 	String VARIABLE_PICKER = "org.eclipse.bpel.ui.editors.xpath.VariablePicker";
 
 }

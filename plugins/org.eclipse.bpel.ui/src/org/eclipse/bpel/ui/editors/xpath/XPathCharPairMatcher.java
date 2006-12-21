@@ -69,18 +69,14 @@ public class XPathCharPairMatcher implements ICharacterPairMatcher {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.eclipse.jface.text.source.ICharacterPairMatcher#getAnchor()
 	 */
 	public int getAnchor() {
 		return fAnchor;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.eclipse.jface.text.source.ICharacterPairMatcher#dispose()
 	 */
 	public void dispose() {
@@ -88,10 +84,11 @@ public class XPathCharPairMatcher implements ICharacterPairMatcher {
 		fDocument = null;
 	}
 
-	/*
+	/**
 	 * @see org.eclipse.jface.text.source.ICharacterPairMatcher#clear()
 	 */
 	public void clear() {
+		
 	}
 
 	protected boolean matchPairsAt() {
@@ -141,18 +138,20 @@ public class XPathCharPairMatcher implements ICharacterPairMatcher {
 				fAnchor = RIGHT;
 				fStartPos = searchForOpeningPeer(fEndPos,
 						fPairs[pairIndex2 - 1], fPairs[pairIndex2], fDocument);
-				if (fStartPos > -1)
+				if (fStartPos > -1) {
 					return true;
-				else
-					fEndPos = -1;
+				} 
+				fEndPos = -1;
+				
 			} else if (fStartPos > -1) {
 				fAnchor = LEFT;
 				fEndPos = searchForClosingPeer(fStartPos, fPairs[pairIndex1],
 						fPairs[pairIndex1 + 1], fDocument);
-				if (fEndPos > -1)
+				
+				if (fEndPos > -1) {
 					return true;
-				else
-					fStartPos = -1;
+				} 
+				fStartPos = -1;
 			}
 
 		} catch (BadLocationException x) {

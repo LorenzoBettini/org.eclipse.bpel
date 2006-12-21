@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Function {
 	protected String theName;
-	protected String theNSPrefix;
+	protected String theNSUri;
 	protected String theReturnType;
 	protected String theHelp;
 	protected String theComments;
@@ -22,17 +22,17 @@ public class Function {
 	
 	public Function() {
 		theName = null;
-		theNSPrefix = null;
+		theNSUri = null;
 		theReturnType = null;
 		theHelp = null;
 		theComments = null;
 		theArgs = null;
 	}
 	
-	public Function(String name, String nsPrefix, String returnType, 
+	public Function(String name, String nsUri, String returnType, 
 			String help, String comments, ArrayList args) {
 		theName = name;
-		theNSPrefix = nsPrefix;
+		theNSUri = nsUri;
 		theReturnType = returnType;
 		theComments = comments;
 		theHelp = help;
@@ -40,7 +40,7 @@ public class Function {
 	}
 	
 	public String getName() { return theName; }
-	public String getNamespacePrefix() { return theNSPrefix; };
+	public String getNamespaceURI() { return theNSUri; };
 	public String getReturnType() { return theReturnType; }
 	public String getHelp() { return theHelp; }
 	public String getComments() { return theComments; }
@@ -49,11 +49,14 @@ public class Function {
 	/*
 	 * Returns string to be inserted into the text editor.
 	 */
-	public String getReplacementString() {
+	public String getReplacementString(INamespaceResolver resolve) {
 		String display = "";
 		// add namespace if found
-		if ((theNSPrefix != null) && (theNSPrefix.length()>0))
-			display += theNSPrefix + ":";
+		if ((theNSUri != null) && (theNSUri.length()>0)) {
+			String nsprefix = resolve.resolvePrefix(theNSUri);
+			if ((nsprefix != null) && (nsprefix.length() > 0))
+				display += nsprefix + ":";
+		}
 		
 		display += theName + "("; //$NON-NLS-1$
 		

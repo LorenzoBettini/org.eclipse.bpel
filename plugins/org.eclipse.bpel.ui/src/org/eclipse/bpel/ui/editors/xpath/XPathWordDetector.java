@@ -27,6 +27,9 @@ public class XPathWordDetector implements IWordDetector {
 	
 	static public class NCNameWordDetector extends XPathWordDetector {
 		
+		/** (non-Javadoc)
+		 * @see org.eclipse.bpel.ui.editors.xpath.XPathWordDetector#isWordPart(char)
+		 */
 		@Override
 		public boolean isWordPart (char c) {			
 			 return c != ':' && super.isWordPart(c); 

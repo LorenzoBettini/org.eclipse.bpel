@@ -36,7 +36,8 @@ public class WordRule implements IRule {
 	/** Internal setting for the un-initialized column constraint */
 	protected static final int UNDEFINED= -1;
 
-	public static final String ANY = ".:@"; //$NON-NLS-1$
+	/** The key that matches the any word */
+	public static final String ANY = "<.:.@>"; //$NON-NLS-1$
 
 	/** The word detector used by this rule */
 	protected IWordDetector fDetector;

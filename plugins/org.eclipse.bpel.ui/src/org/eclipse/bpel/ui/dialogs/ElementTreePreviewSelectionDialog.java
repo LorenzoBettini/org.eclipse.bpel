@@ -20,6 +20,7 @@ import org.eclipse.bpel.ui.details.tree.XSDAttributeDeclarationTreeNode;
 import org.eclipse.bpel.ui.details.tree.XSDElementDeclarationTreeNode;
 import org.eclipse.bpel.ui.details.tree.PartTreeNode;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
+import org.eclipse.bpel.ui.details.tree.TreeNode;
 import org.eclipse.bpel.ui.expressions.XPathExpressionUtil;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.runtime.Assert;
@@ -55,7 +56,7 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 	protected Label filterLabel;
 	protected Text filterText;
 	private String thePreviewText;
-	private String theFilter = "";
+	private String theFilter = ""; //$NON-NLS-1$
 	
 	public class TreeFilter extends ViewerFilter {
 	    public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
@@ -70,31 +71,38 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 	        return out.toArray();
 	    }
 	    
-	    
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			if (element instanceof BPELVariableTreeNode) {
 				Variable var = (Variable)((BPELVariableTreeNode)element).getModelObject();
-				if (var.getName().startsWith(theFilter))
+				if (var.getName().indexOf(theFilter) > -1)
 					return true;
 			}			
 			else if (element instanceof XSDElementDeclarationTreeNode) {
 				XSDElementDeclaration xsdelem = (XSDElementDeclaration)((XSDElementDeclarationTreeNode)element).getResolvedModelObject();
-				if (xsdelem.getName().startsWith(theFilter))
+				if (xsdelem.getName().indexOf(theFilter) > -1)
 					return true;
 				}
 			else if (element instanceof XSDAttributeDeclarationTreeNode) {
 				XSDAttributeDeclaration xsdattribute = (XSDAttributeDeclaration)((XSDAttributeDeclarationTreeNode)element).getResolvedModelObject();
-				if (xsdattribute.getName().startsWith(theFilter))
+				if (xsdattribute.getName().indexOf(theFilter) > -1)
 					return true;
 			}
 			else if (element instanceof PartTreeNode) {
 				Part part = (Part)((PartTreeNode)element).getModelObject();
-				if (part.getName().startsWith(theFilter))
+				if (part.getName().indexOf(theFilter) > -1)
 					return true;
 			}			
-			else {
-				return true;
+			
+			// determine if node has child nodes and see if they would
+			// pass the filter test
+			if (((TreeNode)element).hasChildren()) {
+				Object[] children = ((TreeNode)element).getChildren();
+				for (int i=0; i<children.length; i++) {
+					if (select(viewer, element, children[i]))
+						return true;
+				}
 			}
+
 			return false;
 		}
 	}
@@ -112,7 +120,7 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
     	
     	VariableTreeContentProvider contentProvider = (VariableTreeContentProvider)super.getTreeViewer().getContentProvider();
 		Object[] path = contentProvider.getPathToRoot(selection.getFirstElement());
-		String preview = "$";
+		String preview = "$"; //$NON-NLS-1$
 		if (path != null) {
 			Variable var = null;
 			for (int i=path.length-1; i >=0 ; i--) {
@@ -131,9 +139,9 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 					if (targetNamespace != null) {
 						namespacePrefix = BPELUtils.getNamespacePrefix( var, targetNamespace );
 						Assert.isNotNull(namespacePrefix, XPathExpressionUtil.MSG_NS_PREFIX_NULL);
-						segment = "/@" + namespacePrefix + ":" + att.getName();
+						segment = "/@" + namespacePrefix + ":" + att.getName(); //$NON-NLS-1$ //$NON-NLS-2$
 					} else {				 
-						segment = "/@" + att.getName();
+						segment = "/@" + att.getName(); //$NON-NLS-1$
 					}
 					
 				} else if (modelObject instanceof XSDElementDeclaration) {
@@ -150,19 +158,19 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 					if (targetNamespace != null) {
 						namespacePrefix = BPELUtils.getNamespacePrefix( var, targetNamespace );
 						Assert.isNotNull(namespacePrefix, XPathExpressionUtil.MSG_NS_PREFIX_NULL);
-						segment = "/" + namespacePrefix + ":" + elm.getName();
+						segment = "/" + namespacePrefix + ":" + elm.getName(); //$NON-NLS-1$ //$NON-NLS-2$
 					} else {				 
-						segment = "/" + elm.getName() ;
+						segment = "/" + elm.getName() ; //$NON-NLS-1$
 					}
 					
 					if (isArray) {
-						segment += "[1]";
+						segment += "[1]"; //$NON-NLS-1$
 					}
 					
 				}
 				else if (modelObject instanceof Part) {
 					Part part = (Part)modelObject;
-					segment = "." + part.getName();
+					segment = "." + part.getName(); //$NON-NLS-1$
 				}
 				
 				if (segment != null)
@@ -201,18 +209,9 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
     		public void keyReleased(KeyEvent e) {
        			theFilter = filterText.getText();
        			if (theFilter.length() > 0) {
-       				getTreeViewer().refresh();
-       				/*
        				// try to filter all leaf nodes as well
-       				if (getTreeViewer().getAutoExpandLevel() != TreeViewer.ALL_LEVELS) {
-       					getTreeViewer().expandAll();
-       					getTreeViewer().refresh();
-       				}
-       				else {
-       					getTreeViewer().expandAll();
-       	    			getTreeViewer().refresh(); 
-       	    		}
-       	    		*/
+  	    			getTreeViewer().refresh();
+  	    			getTreeViewer().expandAll();
        			}
        			else {
        				getTreeViewer().refresh(); 

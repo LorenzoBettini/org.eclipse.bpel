@@ -18,6 +18,13 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WordRule;
 
 
+/**
+ * Rule for recognizing axis.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Dec 20, 2006
+ *
+ */
 public class AxisRule extends WordRule {
 
 	/**

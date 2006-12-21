@@ -106,6 +106,6 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 	protected void createClient(Composite parent) {
 		super.createClient(parent);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			parentComposite, IHelpContextIds.PROPERTY_PAGE_REPEAT_ALARM);
+			fParentComposite, IHelpContextIds.PROPERTY_PAGE_REPEAT_ALARM);
 	}
 }

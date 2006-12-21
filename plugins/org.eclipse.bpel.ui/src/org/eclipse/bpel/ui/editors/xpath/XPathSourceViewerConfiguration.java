@@ -29,19 +29,38 @@ public class XPathSourceViewerConfiguration extends ExpressionSourceViewerConfig
 	private XPathSourceScanner scanner;
 	private ColorManager colorManager;
 
-	public XPathSourceViewerConfiguration(ColorManager colorManager) {
-		this.colorManager = colorManager;
+	/**
+	 * Create a brand new shining source viewer configuration.
+	 * 
+	 * @param manager
+	 */
+	
+	public XPathSourceViewerConfiguration(ColorManager manager) {
+		this.colorManager = manager;
 	}
+	
+	
+	/**
+	 * Get the configured content types.
+	 * 
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredContentTypes(org.eclipse.jface.text.source.ISourceViewer)
+	 */
+	
+	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
 		return new String[] {
 			IDocument.DEFAULT_CONTENT_TYPE 
-		};
-//			BPELSourcePartitionScanner.BPELSource_COMMENT,
-//			BPELSourcePartitionScanner.BPELSource_TAG };
+		};		
 	}
 	
 	
-	public ITextDoubleClickStrategy getDoubleClickStrategy(
+	/**
+	 * Return the double click strategy.
+	 * 
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getDoubleClickStrategy(org.eclipse.jface.text.source.ISourceViewer, java.lang.String)
+	 */
+	@Override
+	public ITextDoubleClickStrategy getDoubleClickStrategy (
 		ISourceViewer sourceViewer,
 		String contentType) {
 		
@@ -72,7 +91,12 @@ public class XPathSourceViewerConfiguration extends ExpressionSourceViewerConfig
 //		return tagScanner;
 //	}
 
+	/**
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getPresentationReconciler(org.eclipse.jface.text.source.ISourceViewer)
+	 */
+	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+		
 		PresentationReconciler reconciler = new PresentationReconciler();
 
 //		DefaultDamagerRepairer dr =

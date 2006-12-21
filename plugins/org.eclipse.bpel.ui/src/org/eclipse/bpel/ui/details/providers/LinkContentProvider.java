@@ -45,46 +45,4 @@ public class LinkContentProvider extends AbstractContentProvider  {
 			collectElements(((Activity)input).eContainer(), list);
 		}
 	}
-	/*
-	private void test(Object input) {
-		if (input == null) {
-			return;
-		}
-		
-		if (input instanceof Flow) {
-			Flow flow = (Flow) input;
-			Links links = flow.getLinks();
-			
-			EList elist = links.getChildren();
-			if (elist != null) {
-				Iterator iter = elist.iterator();
-				while (iter.hasNext()) {
-					Link lnk = (Link)iter.next();
-					String name = lnk.getName();
-					int i = 1;
-				}
-			}
-
-		}
-		
-		if (input instanceof Activity) {
-			Activity act = (Activity)input;
-			if (act.getTargets() != null) {
-				EList elist = act.getTargets().getChildren();
-				if (elist != null) {
-					Iterator iter = elist.iterator();
-					while (iter.hasNext()) {
-						Target tgt = (Target)iter.next();
-						if (tgt.getLink() != null) {
-							String name = tgt.getLink().getName();
-							int i = 1;
-						}
-					}
-				}
-			}
-			
-			test(act.eContainer());
-		}
-	}
-	*/
 }

@@ -29,6 +29,13 @@
             id="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor">
              <!-- TODO: remove the name="" in the future -->
       </editor>
+      <editor
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="org.eclipse.bpel.ui.editors.TextEditor"
+            name="Default Expression Editor"
+            id="org.eclipse.bpel.ui.editors.TextEditor">
+             <!-- TODO: remove the name="" in the future -->
+      </editor>
    </extension>
    
    <extension
@@ -76,10 +83,25 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            name="%PREFERENCE_PAGE"
+            category="org.eclipse.bpel.ui.preferences.BPELHomePreferencePage"
             class="org.eclipse.bpel.ui.preferences.BPELPreferencePage"
-            id="org.eclipse.bpel.ui.preferences">
+            id="org.eclipse.bpel.ui.preferences.BPELPreferencePage"
+            name="%PREFERENCE_PAGE_EDITOR">
       </page>
+      <page
+            category="org.eclipse.bpel.ui.preferences.ExpressionEditorsPreferencePage"
+            class="org.eclipse.bpel.ui.preferences.XPathTemplatePreferencePage"
+            id="org.eclipse.bpel.ui.preferences.BPELPreferencePage.XPathTemplatePreferencePage"
+            name="%PREFERENCE_PAGE_XPATH_EDITOR_TEMPLATES"/>
+      <page
+            class="org.eclipse.bpel.ui.preferences.BPELHomePreferencePage"
+            id="org.eclipse.bpel.ui.preferences.BPELHomePreferencePage"
+            name="%PREFERENCE_PAGE_HOME"/>
+      <page
+            category="org.eclipse.bpel.ui.preferences.BPELHomePreferencePage"
+            class="org.eclipse.bpel.ui.preferences.ExpressionEditorsPreferencePage"
+            id="org.eclipse.bpel.ui.preferences.ExpressionEditorsPreferencePage"
+            name="%PREFERENCE_PAGE_EXPRESSION_EDITOR"/>
    </extension>
 
   <extension
@@ -691,6 +713,22 @@
             id="org.eclipse.bpel.ui.newFile"
             name="%NEW_BPEL_FILE"
             project="false"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.eclipse.bpel.ui.preferences.PreferenceInitializer"/>
+      <initializer class="org.eclipse.bpel.ui.preferences.PreferenceInitializer"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.templates">
+      <contextType
+            class="org.eclipse.jface.text.templates.TemplateContextType"
+            id="xpath"
+            name="xpath"/>
+      <contextType
+            class="org.eclipse.jface.text.templates.TemplateContextType"
+            id="jscript"
+            name="jscript"/>
    </extension>
    
 </plugin>

@@ -10,13 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editors;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.texteditor.AbstractDocumentProvider;
 
@@ -25,7 +22,8 @@ import org.eclipse.ui.texteditor.AbstractDocumentProvider;
  */
 public class TextDocumentProvider extends AbstractDocumentProvider {
 
-	protected IDocument createDocument (Object element) throws CoreException {
+	@Override
+	protected IDocument createDocument (Object element) {
 		
 		if (element instanceof TextEditorInput) {
 			
@@ -34,32 +32,48 @@ public class TextDocumentProvider extends AbstractDocumentProvider {
 			input.setDocument ( doc );
 			
 			return doc;
-		}
-		
+		}		
 		return null;
 	}
 
-	protected IAnnotationModel createAnnotationModel(Object element) throws CoreException {
+	@Override
+	protected IAnnotationModel createAnnotationModel(Object element) {
 		return null;
 	}
 
 	/**
 	 * Does not do anything. For this editor we do not have a save concept. All the changes
 	 * are stored in a certain model object and saved in a model file.
+	 * 
 	 */
-	protected void doSaveDocument(IProgressMonitor monitor, Object element, IDocument document, boolean overwrite) throws CoreException {
+	
+	@Override
+	protected void doSaveDocument(IProgressMonitor monitor, Object element, IDocument document, boolean overwrite) {
+		
 	}
 
+	/**
+	 * @see org.eclipse.ui.texteditor.AbstractDocumentProvider#isReadOnly(java.lang.Object)
+	 */
+	@Override
 	public boolean isReadOnly(Object element) {
 		return false;
 	}
 
+	
+	/**
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractDocumentProvider#isModifiable(java.lang.Object)
+	 */
+	@Override
 	public boolean isModifiable(Object element) {
 		return true;
 	}
 
-	protected IRunnableContext getOperationRunner(IProgressMonitor monitor) {
-		// TODO Need to implement for 6.0
+	
+	@Override
+	protected IRunnableContext getOperationRunner (IProgressMonitor monitor) {
+		// TODO: Need to implement for 6.0
 		return null;
 	}
 }

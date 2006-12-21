@@ -122,7 +122,7 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 		super.createClient(parent);
 		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			parentComposite, IHelpContextIds.PROPERTY_PAGE_WAIT);
+			fParentComposite, IHelpContextIds.PROPERTY_PAGE_WAIT);
 	}
 	
 	

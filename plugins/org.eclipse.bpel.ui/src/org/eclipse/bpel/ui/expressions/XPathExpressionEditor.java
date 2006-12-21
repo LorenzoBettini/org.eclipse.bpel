@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.expressions;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
+import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.ui.BPELUIPlugin;
@@ -117,6 +118,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
 
 		this.mainComposite = wf.createComposite(parent, SWT.NONE);
+		
 		FlatFormLayout layout = new FlatFormLayout();
 		layout.marginWidth = layout.marginHeight = 0;
 		mainComposite.setLayout(layout);
@@ -199,14 +201,15 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	 */
 
 	Composite getTextEditorComposite() {
-
+				
 		if (textEditorComposite != null) {
 			return textEditorComposite;
 		}
 
 		// otherwise create it ...
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
-
+		
+		
 		textEditorComposite = wf.createComposite(editorComposite);
 		// Fill Layout ... and add border.
 		FillLayout layout = new FillLayout();
@@ -226,8 +229,10 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 			}
 		});
 
-		textEditor = (XPathTextEditor) createEditor(XPathTextEditor.EDITOR_ID,
-				this.textEditorInput, textEditorComposite);
+		textEditor = (XPathTextEditor) createEditor(
+				XPathTextEditor.XPATH_EDITOR_ID,
+				this.textEditorInput, 
+				textEditorComposite);
 
 		textEditor.addPropertyListener(getPropertyListener());	
 
@@ -269,7 +274,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		data.top = new FlatFormAttachment(0, 10);
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
 				label, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG));
-		// data.right = new FlatFormAttachment(100, 0);
+		// data.right = new FormAttachment(100, 0);
 		dateTimeSelector.setLayoutData(data);
 
 		dateTimeSelector.addSelectionListener(  new SelectionListener() {
@@ -329,7 +334,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	    data = new FlatFormData();
 	    data.top = new FlatFormAttachment(0, 10);
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(label, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG));
-		// data.right = new FlatFormAttachment(100, 0);
+		// data.right = new FormAttachment(100, 0);
 		durationSelector.setLayoutData(data);
 
 	    durationSelector.addSelectionListener( new SelectionListener() {	    	
@@ -461,7 +466,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 				rearrangeComboAndEditorComposite();
 
-				c.getParent().layout();
+				c.getParent().layout(true);
 			}
 		}
 	}
@@ -545,7 +550,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 		String value = (body instanceof String) ? (String) body : ""; //$NON-NLS-1$
 
-		this.textEditorInput = new TextEditorInput(value, getModelObject());
+		this.textEditorInput = new TextEditorInput(value, getModelObject(), getExprContext());
 		// Refresh the text editor input, if not set
 		if (textEditor != null) {
 			textEditor.setInput(this.textEditorInput);

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,10 +57,20 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	// The templates that are provided for new file creation
 	private Templates mTemplates;
 	
+
 	
 	public BPELUIPlugin() {
 		super();
 		plugin = this;
+	}
+	
+	/**
+	 * Returns this plug-in instance.
+	 *
+	 * @return the single instance of this plug-in runtime class
+	 */
+	public static BPELUIPlugin getDefault() {
+		return getPlugin();
 	}
 
 	/**
