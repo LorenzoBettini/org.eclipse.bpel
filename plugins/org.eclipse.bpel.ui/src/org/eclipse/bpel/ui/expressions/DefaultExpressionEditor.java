@@ -14,8 +14,9 @@ import org.eclipse.bpel.ui.editors.TextEditor;
 import org.eclipse.bpel.ui.editors.TextEditorInput;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.bpel.ui.properties.TextSection;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -88,11 +89,12 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 		IEditorInput input = new TextEditorInput((String)body, getModelObject(), getExprContext() );
 		
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
-		editorComposite = BPELUtil.createBorderComposite(parent, wf);		
+		
+		editorComposite = wf.createComposite(parent, SWT.BORDER);
+		editorComposite.setLayout( new FillLayout() );		
 		editor = (TextEditor) createEditor(TextEditor.TEXT_EDITOR_ID, 
 				input, 
 				editorComposite);
-		
 	}
 
 	/** (non-Javadoc)
