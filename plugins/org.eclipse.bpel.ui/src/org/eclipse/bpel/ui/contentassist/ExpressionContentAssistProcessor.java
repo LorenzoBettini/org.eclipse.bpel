@@ -10,36 +10,25 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.contentassist;
 
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Stack;
-import java.util.List;
-import java.util.Map;
-import java.util.Collection;
 import java.util.EmptyStackException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
-import org.eclipse.bpel.model.Link;
-import org.eclipse.bpel.model.Target;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.editors.xpath.templates.XPathEditorTemplateAccess;
-import org.eclipse.bpel.ui.expressions.Functions;
-import org.eclipse.bpel.ui.expressions.Function;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
-import org.eclipse.bpel.ui.expressions.XPathExpressionUtil;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.XSDUtils;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.contentassist.CompletionProposal;
+import org.eclipse.jface.text.contentassist.ContentAssistEvent;
 import org.eclipse.jface.text.contentassist.ICompletionListener;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -47,21 +36,14 @@ import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistantExtension2;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.contentassist.IContextInformationValidator;
-import org.eclipse.jface.text.contentassist.CompletionProposal;
-import org.eclipse.jface.text.contentassist.ContentAssistEvent;
-import org.eclipse.jface.text.templates.Template;
-import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
-import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
-
-import org.eclipse.jface.text.templates.persistence.TemplateStore;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTypeDefinition;
 
 @SuppressWarnings("unchecked") //$NON-NLS-1$
 
@@ -78,6 +60,7 @@ public class ExpressionContentAssistProcessor
 	 * The function templates content assist processor.
 	 */
     FunctionTemplatesContentAssistProcessor functionTemplates = new FunctionTemplatesContentAssistProcessor();
+    XPathTemplateCompletionProcessor xpathTemplates = new XPathTemplateCompletionProcessor();
     	
 	// public constants
     public static final String MINUS = "-"; //$NON-NLS-1$
@@ -755,16 +738,66 @@ public class ExpressionContentAssistProcessor
 		return Messages.getString("ExpressionContentAssistProcessor.32"); //$NON-NLS-1$
 	}
 	
-	public ICompletionProposal[] generateTemplateProposals(String t, int offset) {
-		TemplateStore store = XPathEditorTemplateAccess.getDefault().getTemplateStore();
-		Template[] templates = store.getTemplates("xpath");
-		Image img = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PROPERTY_16);
-		ICompletionProposal[] proposals = new ICompletionProposal[templates.length];
-		for (int i=0; i<templates.length; i++) {
-			proposals[i] = new CompletionProposal(templates[i].getPattern(), offset, 0, templates[i].getName().length(), img, templates[i].getName(), null, templates[i].getPattern());
-		}		
-		return proposals;	
-
+	/*
+	 * Second iteration of determining proposal type.  Attempts to parse the xpath 
+	 * expression until offset is reached or it can not ascertain what the expression
+	 * means.  If parsing fails, tries to identify the word located right before
+	 * the offset and provide proposal types based on that information.
+	 */
+	private ProposalType determineProposalType2(ITextViewer viewer, int offset) {
+		XPathStack callStack = new XPathStack(viewer, offset);
+		if (callStack.parse()) {
+			
+			ExpressionType expr = callStack.getSuggestion();
+			
+			if (expr != null) {		
+				switch (expr.theType) {
+				case ExpressionType.EXPRTYPE_VARIABLE:
+					if (callStack.theStatus == 1)
+						return (new ProposalType(ProposalType.PROPTYPE_VARIABLE, expr.theGrammar));
+					else
+						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, ""));  //$NON-NLS-1$
+				case ExpressionType.EXPRTYPE_FUNCTION:
+					if (callStack.theStatus == 1)
+						return (new ProposalType(ProposalType.PROPTYPE_FUNCTION, expr.theGrammar));
+					else
+						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, ""));				 //$NON-NLS-1$
+				case ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR:
+				case ExpressionType.EXPRTYPE_NUMERIC_OPERATOR:
+				case ExpressionType.EXPRTYPE_UNARY_OPERATOR:
+				case ExpressionType.EXPRTYPE_FUNCTION_ARGUMENTS:
+				case ExpressionType.EXPRTYPE_FUNCTION_ARGUMENT_SEPARATOR:
+				case ExpressionType.EXPRTYPE_NEW_EXPRESSION:
+					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
+				case ExpressionType.CLASS_BOOLEAN:
+				case ExpressionType.CLASS_NUMERIC:
+				case ExpressionType.CLASS_EXPRESSION:
+				case ExpressionType.EXPRTYPE_NUMBER:
+					return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, "")); //$NON-NLS-1$
+				case ExpressionType.EXPRTYPE_LITERAL:
+					if (callStack.theStatus == 1)
+						return (new ProposalType(0, "")); //$NON-NLS-1$
+					else
+						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, "")); //$NON-NLS-1$
+				default:
+					return (new ProposalType(0, "")); //$NON-NLS-1$
+				}
+			}
+			else	// try suggesting everything
+				return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
+		}
+		else { // try last ditch effort
+			String tempContext = startOfVariable(viewer, offset);
+			if (tempContext != null)
+				return (new ProposalType(ProposalType.PROPTYPE_VARIABLE, tempContext));
+			else {
+				tempContext = startOfFunction(viewer, offset);
+				if (tempContext != null)
+					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION, tempContext));
+				else
+					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
+			}		
+		}
 	}
 	
 	/*
@@ -836,73 +869,11 @@ public class ExpressionContentAssistProcessor
 				theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.48")); //$NON-NLS-1$
 			else
 				theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.49")); //$NON-NLS-1$
-			return generateTemplateProposals(tempStart, offset);
+			//return generateTemplateProposals(tempStart, offset);
+			return (xpathTemplates.computeCompletionProposals(viewer, offset));
 		}
 
 		return null;
-	}
-
-	
-	/*
-	 * Second iteration of determining proposal type.  Attempts to parse the xpath 
-	 * expression until offset is reached or it can not ascertain what the expression
-	 * means.  If parsing fails, tries to identify the word located right before
-	 * the offset and provide proposal types based on that information.
-	 */
-	private ProposalType determineProposalType2(ITextViewer viewer, int offset) {
-		XPathStack callStack = new XPathStack(viewer, offset);
-		if (callStack.parse()) {
-			
-			ExpressionType expr = callStack.getSuggestion();
-			
-			if (expr != null) {		
-				switch (expr.theType) {
-				case ExpressionType.EXPRTYPE_VARIABLE:
-					if (callStack.theStatus == 1)
-						return (new ProposalType(ProposalType.PROPTYPE_VARIABLE, expr.theGrammar));
-					else
-						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, ""));  //$NON-NLS-1$
-				case ExpressionType.EXPRTYPE_FUNCTION:
-					if (callStack.theStatus == 1)
-						return (new ProposalType(ProposalType.PROPTYPE_FUNCTION, expr.theGrammar));
-					else
-						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, ""));				 //$NON-NLS-1$
-				case ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR:
-				case ExpressionType.EXPRTYPE_NUMERIC_OPERATOR:
-				case ExpressionType.EXPRTYPE_UNARY_OPERATOR:
-				case ExpressionType.EXPRTYPE_FUNCTION_ARGUMENTS:
-				case ExpressionType.EXPRTYPE_FUNCTION_ARGUMENT_SEPARATOR:
-				case ExpressionType.EXPRTYPE_NEW_EXPRESSION:
-					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
-				case ExpressionType.CLASS_BOOLEAN:
-				case ExpressionType.CLASS_NUMERIC:
-				case ExpressionType.CLASS_EXPRESSION:
-				case ExpressionType.EXPRTYPE_NUMBER:
-					return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, "")); //$NON-NLS-1$
-				case ExpressionType.EXPRTYPE_LITERAL:
-					if (callStack.theStatus == 1)
-						return (new ProposalType(0, "")); //$NON-NLS-1$
-					else
-						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, "")); //$NON-NLS-1$
-				default:
-					return (new ProposalType(0, "")); //$NON-NLS-1$
-				}
-			}
-			else	// try suggesting everything
-				return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
-		}
-		else { // try last ditch effort
-			String tempContext = startOfVariable(viewer, offset);
-			if (tempContext != null)
-				return (new ProposalType(ProposalType.PROPTYPE_VARIABLE, tempContext));
-			else {
-				tempContext = startOfFunction(viewer, offset);
-				if (tempContext != null)
-					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION, tempContext));
-				else
-					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
-			}		
-		}
 	}
 	
 	/*
@@ -1002,6 +973,7 @@ public class ExpressionContentAssistProcessor
 		return proposals;
 		
 	}
+	
 	/*
 	 * From model, determine list of variables the user may want to choose from.
 	 */
@@ -1229,9 +1201,9 @@ public class ExpressionContentAssistProcessor
 				}
 				// search for parts
 				else if (context2.charAt(token) == '.') {
-					if (currVar.getMessageType() != null) {
-						if (currVar.getMessageType().getParts() != null) {
-							Iterator iter = currVar.getMessageType().getParts().values().iterator();
+					if (currMsg != null) {
+						if (currMsg.getParts() != null) {
+							Iterator iter = currMsg.getParts().values().iterator();
 							while (iter.hasNext()) {
 								Part item = (Part)iter.next();
 								if ((beginsWith.length() == 0) || (item.getName().startsWith(beginsWith))) {
