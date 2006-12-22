@@ -62,4 +62,11 @@ public class TextEditor extends AbstractDecoratedTextEditor {
 		// this is almost a no-op
 		doSave(null);
 	}
+	
+	
+	@Override
+	protected boolean isOverviewRulerVisible() {    	
+	   	return false;
+	}
+
 }
