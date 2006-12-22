@@ -3,7 +3,7 @@
 <plugin>
 
    <extension-point id="hoverHelpers" name="%HOVERHELP_HELPER_NAME"/>
-   <extension-point id="expressionEditors" name="%EXPRESSION_LANGUAGE_EDITORS_NAME"/>
+   <extension-point id="expressionEditors" name="Expression Language Editors" schema="schemas/expressionEditors.exsd"/>
    <extension-point id="actions" name="Actions" schema="schemas/actions.exsd"/>
    <extension-point id="modelListener" name="Model Listener" schema="schemas/modelListener.exsd"/>
 
@@ -11,12 +11,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="%BPEL_EDITOR_NAME"
-            icon="icons/obj16/bpel.gif"
-            extensions="bpel"
-            contributorClass="org.eclipse.bpel.ui.BPELActionBarContributor"
             class="org.eclipse.bpel.ui.BPELEditor"
-            id="org.eclipse.bpel.ui.bpeleditor">
+            contributorClass="org.eclipse.bpel.ui.BPELActionBarContributor"
+            default="true"
+            extensions="bpel"
+            icon="icons/obj16/bpel.gif"
+            id="org.eclipse.bpel.ui.bpeleditor"
+            name="%BPEL_EDITOR_NAME">
       </editor>
    </extension>
 
@@ -43,9 +44,7 @@
       <editor
             label="%XPATH_LABEL"
             class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
-            name=""
             expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
-             <!-- TODO: remove the name="" in the future -->
       </editor>
    </extension>
 
@@ -716,7 +715,6 @@
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
-      <initializer class="org.eclipse.bpel.ui.preferences.PreferenceInitializer"/>
       <initializer class="org.eclipse.bpel.ui.preferences.PreferenceInitializer"/>
    </extension>
    <extension
