@@ -11,10 +11,6 @@
 package org.eclipse.bpel.ui.expressions;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
-import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
-import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
@@ -35,6 +31,9 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -117,9 +116,8 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
 
-		this.mainComposite = wf.createComposite(parent, SWT.NONE);
-		
-		FlatFormLayout layout = new FlatFormLayout();
+		this.mainComposite = wf.createComposite( parent );
+		FormLayout layout = new FormLayout();
 		layout.marginWidth = layout.marginHeight = 0;
 		mainComposite.setLayout(layout);
 		mainComposite.setBackground(BPELUIPlugin.getPlugin().getColorRegistry()
@@ -128,8 +126,6 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 				Messages.XPathExpressionEditor_Expression_Type_2);
 
 		combo = new Combo(mainComposite, SWT.BORDER | SWT.READ_ONLY | SWT.FLAT);
-
-		// combo = wf.createCCombo(mainComposite);
 
 		combo.add(TEXT_STRING);
 		combo.add(LITERAL_STRING);
@@ -143,18 +139,17 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 			}
 		});
 
-		FlatFormData data = new FlatFormData();
-		data.top = new FlatFormAttachment(combo, 0, SWT.CENTER);
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(combo,
-				-IDetailsAreaConstants.HSPACE);
+		FormData data = new FormData();
+		data.top = new FormAttachment(combo, 0, SWT.CENTER);
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(combo,	-IDetailsAreaConstants.HSPACE);
 		comboLabel.setLayoutData(data);
 
-		data = new FlatFormData();
-		data.top = new FlatFormAttachment(0, 0);
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
+		data = new FormData();
+		data.top = new FormAttachment(0, IDetailsAreaConstants.VSPACE );
+		data.left = new FormAttachment(0, BPELUtil.calculateLabelWidth(
 				comboLabel, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG));
-		data.right = new FlatFormAttachment(100, 0);
+		data.right = new FormAttachment(100, 0);
 		combo.setLayoutData(data);
 
 		// Create the editor composite
@@ -164,12 +159,11 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		editorComposite = wf.createComposite(mainComposite);
 		editorComposite.setLayout(new StackLayout());
 
-		data = new FlatFormData();
-		data.top = new FlatFormAttachment(combo,
-				2 * IDetailsAreaConstants.VSPACE);
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(100, 0);
-		data.bottom = new FlatFormAttachment(100, 0);
+		data = new FormData();
+		data.top = new FormAttachment(combo,2 * IDetailsAreaConstants.VSPACE);
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(100, 0);
+		data.bottom = new FormAttachment(100, 0);
 		editorComposite.setLayoutData(data);
 	}
 
@@ -181,12 +175,12 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		comboLabel.setVisible(comboVisible);
 
 		if (editorComposite != null) {
-			FlatFormData data = (FlatFormData) editorComposite.getLayoutData();
+			FormData data = (FormData) editorComposite.getLayoutData();
 			if (comboVisible) {
-				data.top = new FlatFormAttachment(combo,
+				data.top = new FormAttachment(combo,
 						2 * IDetailsAreaConstants.VSPACE);
 			} else {
-				data.top = new FlatFormAttachment(0,
+				data.top = new FormAttachment(0,
 						2 * IDetailsAreaConstants.VSPACE);
 			}
 		}
@@ -208,27 +202,9 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 		// otherwise create it ...
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
-		
-		
-		textEditorComposite = wf.createComposite(editorComposite);
-		// Fill Layout ... and add border.
-		FillLayout layout = new FillLayout();
-		final int margin = 1;
-		layout.marginHeight = margin;
-		layout.marginWidth = margin;
-		textEditorComposite.setLayout(layout);
-		textEditorComposite.addPaintListener(new PaintListener() {
-			public void paintControl(PaintEvent e) {
-				org.eclipse.swt.graphics.Rectangle bounds = textEditorComposite
-						.getBounds();
-				bounds.x = margin - 1;
-				bounds.y = margin - 1;
-				bounds.width = bounds.width - (margin * 2) + 1;
-				bounds.height = bounds.height - (margin * 2) + 1;
-				e.gc.drawRectangle(bounds);
-			}
-		});
-
+				
+		textEditorComposite = wf.createComposite(editorComposite,SWT.BORDER);
+		textEditorComposite.setLayout(new FillLayout());
 		textEditor = (XPathTextEditor) createEditor(
 				XPathTextEditor.XPATH_EDITOR_ID,
 				this.textEditorInput, 
@@ -248,7 +224,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 		dateTimeEditorComposite = wf.createComposite(editorComposite, SWT.NONE);
 
-		FlatFormLayout layout = new FlatFormLayout();
+		FormLayout layout = new FormLayout();
 		layout.marginWidth = layout.marginHeight = 0;
 		dateTimeEditorComposite.setLayout(layout);
 
@@ -263,16 +239,16 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		int[] dateTime = BPELDateTimeHelpers.parseXPathDateTime(body, false);
 		dateTimeSelector.setValues(dateTime);
 
-		FlatFormData data = new FlatFormData();
-		data.top = new FlatFormAttachment(0, 10);
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(dateTimeSelector,
+		FormData data = new FormData();
+		data.top = new FormAttachment(0, 10);
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(dateTimeSelector,
 				-IDetailsAreaConstants.HSPACE);
 		label.setLayoutData(data);
 
-		data = new FlatFormData();
-		data.top = new FlatFormAttachment(0, 10);
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
+		data = new FormData();
+		data.top = new FormAttachment(0, 10);
+		data.left = new FormAttachment(0, BPELUtil.calculateLabelWidth(
 				label, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG));
 		// data.right = new FormAttachment(100, 0);
 		dateTimeSelector.setLayoutData(data);
@@ -318,22 +294,22 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		
 	    TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
 	    durationEditorComposite = wf.createComposite(editorComposite, SWT.NONE);
-	    FlatFormLayout layout = new FlatFormLayout();
+	    FormLayout layout = new FormLayout();
 	    layout.marginWidth = layout.marginHeight = 0;
 	    durationEditorComposite.setLayout(layout);
 	    
 	    Label label = wf.createLabel(durationEditorComposite, Messages.XPathExpressionEditor_Duration_4); 
 	    durationSelector = new DurationSelector(wf, durationEditorComposite, SWT.NONE);
 	    
-	    FlatFormData data = new FlatFormData();
-	    data.top = new FlatFormAttachment(0, 10);
-	    data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(durationSelector, -IDetailsAreaConstants.HSPACE);	    
+	    FormData data = new FormData();
+	    data.top = new FormAttachment(0, 10);
+	    data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(durationSelector, -IDetailsAreaConstants.HSPACE);	    
 	    label.setLayoutData(data);
 
-	    data = new FlatFormData();
-	    data.top = new FlatFormAttachment(0, 10);
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(label, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG));
+	    data = new FormData();
+	    data.top = new FormAttachment(0, 10);
+		data.left = new FormAttachment(0, BPELUtil.calculateLabelWidth(label, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG));
 		// data.right = new FormAttachment(100, 0);
 		durationSelector.setLayoutData(data);
 
