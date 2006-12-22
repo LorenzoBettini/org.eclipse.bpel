@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-   <extension-point id="embeddedEditors" name="%EMBEDDED_EDITORS_NAME"/>
-   <extension-point id="paletteAdditions" name="%PALETTE_ADDITIONS_NAME" schema="schema/paletteAdditions.exsd"/>
+   <extension-point id="embeddedEditors" name="Embedded Editors" schema="schema/embeddedEditors.exsd"/>
+   <extension-point id="paletteAdditions" name="Palette Additions" schema="schema/paletteAdditions.exsd"/>
    
    <extension
          id="uiModelMarker"
