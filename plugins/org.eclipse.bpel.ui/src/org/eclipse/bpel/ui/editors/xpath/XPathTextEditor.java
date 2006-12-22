@@ -197,11 +197,7 @@ public class XPathTextEditor extends TextEditor {
     
 	
     
-    @Override
-	protected boolean isOverviewRulerVisible() {    	
-    	return false;
-	}
-    
+   
     
     
     @Override
