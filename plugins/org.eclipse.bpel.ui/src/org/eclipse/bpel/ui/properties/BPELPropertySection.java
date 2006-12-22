@@ -44,6 +44,8 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 // import org.eclipse.wst.common.ui.properties.internal.provisional.AbstractPropertySection;
@@ -220,37 +222,44 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		}
 	}
 
-	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
-		//try {
-			super.createControls(parent, aTabbedPropertySheetPage);
-			this.tabbedPropertySheetPage = (BPELTabbedPropertySheetPage)aTabbedPropertySheetPage;
-			this.wf = getWidgetFactory();
-			Assert.isTrue(!isCreated);
-			
-			Composite marginComposite = wf.createComposite(parent); 
-			FillLayout fillLayout = new FillLayout();
-			fillLayout.marginWidth = IDetailsAreaConstants.HMARGIN;
-			fillLayout.marginHeight = IDetailsAreaConstants.VMARGIN/2;
-			marginComposite.setLayout(fillLayout);
-			createClient(marginComposite);
-			isHidden = true;
-			isCreated = true;
-			parent.addDisposeListener(new DisposeListener() {
-				public void widgetDisposed(DisposeEvent e) {
-					removeAllAdapters();
-				}
-			});
-		//} catch (RuntimeException e) {
-			// for debug purposes since some NPEs are not being logged for some reason
-			//BPELUIPlugin.log(e, IStatus.WARNING);
-		//}
+	/**
+	 * Create the controls.
+	 * 
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+	 */
+	
+	@Override
+	public void createControls (final Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+		
+		super.createControls(parent, aTabbedPropertySheetPage);
+		this.tabbedPropertySheetPage = (BPELTabbedPropertySheetPage)aTabbedPropertySheetPage;
+		this.wf = getWidgetFactory();
+		Assert.isTrue(!isCreated);
+		
+		Composite marginComposite = wf.createComposite(parent); 
+		FillLayout fillLayout = new FillLayout();
+		fillLayout.marginWidth = IDetailsAreaConstants.HMARGIN;
+		fillLayout.marginHeight = IDetailsAreaConstants.VMARGIN/2;
+		marginComposite.setLayout(fillLayout);
+		createClient(marginComposite);
+		isHidden = true;
+		isCreated = true;
+		parent.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				removeAllAdapters();
+			}
+		});
 	}
-
+	
 	/**
 	 * Subclasses should override this to create the child controls of the section.
 	 */
 	protected abstract void createClient(Composite parent);
 
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#dispose()
+	 */
+	@Override
 	public void dispose() {
 		if (isCreated) {
 			// TODO HACK: this shouldn't really be here!  But where should it be??
@@ -260,6 +269,10 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		}
 	}
 
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+	 */
+	@Override
 	public void refresh() {
 		super.refresh();
 		updateStatusLabels();
@@ -287,10 +300,17 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		return getBPELEditor().getCommandFramework();
 	}
 
+	/**
+	 * @return the BPELEditor
+	 */
+	
 	public BPELEditor getBPELEditor() {
 		return getTabbedPropertySheetPage().getEditor();
 	}
 
+	/**
+	 * @return the BPEL process
+	 */
 	public Process getProcess()  {
 		return getBPELEditor().getProcess();
 	}
@@ -391,23 +411,38 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		return result;
 	}
 	
+	/**
+	 * @return the BPEL Tabbed Property Sheet page.
+	 */
+	
 	public BPELTabbedPropertySheetPage getTabbedPropertySheetPage() {
 		return tabbedPropertySheetPage;
 	}
+	
+	
+	/**
+	 * @return the IFile that the editor is editing.
+	 */
 	
 	public IFile getBPELFile() {
 		return ((IFileEditorInput) getBPELEditor().getEditorInput()).getFile();
 	}
 
-	// Returns a token indicating which widget should have focus.  Note that the token can't
-	// be tied to this particular instance of the section; after the section is destroyed
-	// and re-created, the token must still be valid.
+	/** 
+	 * Returns a token indicating which widget should have focus.  Note that the token can't
+	 * be tied to this particular instance of the section; after the section is destroyed
+	 * and re-created, the token must still be valid.
+	 * @return the user context 
+	 */
 	public Object getUserContext() {
 		return null;
 	}
 
-	// Accepts a token created by getUserContext() and gives focus to the widget represented
-	// by the token.
+	/** 
+	 * Accepts a token created by getUserContext() and gives focus to the widget represented
+	 * by the token.
+	 * @param userContext the user context to restore.
+	 */
 	public void restoreUserContext(Object userContext) {
 	}
 	

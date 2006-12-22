@@ -88,9 +88,9 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 	protected void updateWidgets() {
 		super.updateWidgets();
 		boolean enable = (BPELUtil.getIContainerParent(getInput()) instanceof EventHandler);
-		expressionLanguageViewer.getCombo().setEnabled(enable);
+		expressionLanguageViewer.getControl().setEnabled(enable);
 		if (editor == null) {
-			expressionLanguageViewer.getCombo().setEnabled(enable);
+			expressionLanguageViewer.getControl().setEnabled(enable);
 			label1.setVisible(enable);
 			label2.setVisible(enable);
 			label3.setVisible(!enable);

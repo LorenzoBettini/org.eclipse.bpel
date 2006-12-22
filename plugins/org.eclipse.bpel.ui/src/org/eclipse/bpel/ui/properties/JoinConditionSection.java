@@ -114,7 +114,7 @@ public class JoinConditionSection extends ExpressionSection {
 		Targets targets = activity.getTargets();
 		boolean enable = (targets != null);
 				
-		expressionLanguageViewer.getCombo().setEnabled(enable);
+		expressionLanguageViewer.getControl().setEnabled(enable);
 		
 		if (hasEditor() == false) {
 			label2.setVisible(enable);

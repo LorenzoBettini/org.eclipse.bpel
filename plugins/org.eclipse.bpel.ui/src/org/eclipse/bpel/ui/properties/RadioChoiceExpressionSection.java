@@ -183,7 +183,7 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
-		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(), IDetailsAreaConstants.VSPACE + 2);
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getControl(), IDetailsAreaConstants.VSPACE + 2);
 		radioComposite.setLayoutData(data);
 	}
 

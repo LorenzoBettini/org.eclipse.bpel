@@ -35,6 +35,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -87,7 +88,7 @@ public abstract class ExpressionSection extends TextSection {
 	
 	protected String editorLanguage;
 	
-	protected ComboViewer expressionLanguageViewer;
+	protected ComboViewer expressionLanguageViewer;	
 	
 	protected ExpressionComboContentProvider expressionComboContentProvider;
 	
@@ -249,8 +250,8 @@ public abstract class ExpressionSection extends TextSection {
 		
 		Label expressionLanguageLabel = wf.createLabel(composite, Messages.ExpressionSection_Expression_language_1); 		//
 
-		expressionLanguageViewer = new ComboViewer(composite, SWT.FLAT | SWT.READ_ONLY );
-		expressionLanguageViewer.getCombo().setFont( expressionLanguageLabel.getFont() );
+		expressionLanguageViewer = new ComboViewer(composite, SWT.FLAT | SWT.READ_ONLY );		
+		expressionLanguageViewer.getControl().setFont( expressionLanguageLabel.getFont() );
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(expressionLanguageLabel, STANDARD_LABEL_WIDTH_LRG));
@@ -260,7 +261,8 @@ public abstract class ExpressionSection extends TextSection {
 		} else {
 			data.top = new FlatFormAttachment(0, 0);
 		}
-		expressionLanguageViewer.getCombo().setLayoutData(data);
+		expressionLanguageViewer.getControl().setLayoutData(data);
+
 
 		expressionLanguageViewer.setLabelProvider(new LabelProvider() {
 			@Override
@@ -279,8 +281,8 @@ public abstract class ExpressionSection extends TextSection {
 				return (text != null) ? text : descriptor.getExpressionLanguage();
 			}
 		});
-
-		expressionComboContentProvider = new ExpressionComboContentProvider();
+		
+		expressionComboContentProvider = new ExpressionComboContentProvider();		
 		expressionLanguageViewer.setContentProvider(expressionComboContentProvider);
 		expressionLanguageViewer.setSorter(ModelViewerSorter.getInstance());
 		expressionLanguageViewer.setInput( SAME_AS_PARENT );
@@ -288,8 +290,8 @@ public abstract class ExpressionSection extends TextSection {
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(expressionLanguageViewer.getCombo(), -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(), 0, SWT.CENTER);
+		data.right = new FlatFormAttachment(expressionLanguageViewer.getControl(), -IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getControl(), 0, SWT.CENTER);
 		expressionLanguageLabel.setLayoutData(data);
 		
 		// Selection on the combo.
@@ -507,7 +509,7 @@ public abstract class ExpressionSection extends TextSection {
 	protected void createClient (Composite parent) {
 		
 		fParentComposite =  createFlatFormComposite(parent);
-
+		
 		if (this.title != null) {
 			createBoldFont(fParentComposite);
 			createTitleWidgets(fParentComposite);
@@ -517,17 +519,17 @@ public abstract class ExpressionSection extends TextSection {
 		
 		FlatFormData data = new FlatFormData();
 		
-		data.top = new FlatFormAttachment(expressionLanguageViewer.getCombo(), IDetailsAreaConstants.VSPACE);
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(100, 0);
-		data.bottom = new FlatFormAttachment(100, 0);
+		data.top = new FlatFormAttachment(expressionLanguageViewer.getControl(),IDetailsAreaConstants.VSPACE);
+		data.left = new FlatFormAttachment(0,0);
+		data.right = new FlatFormAttachment(100,0);
+		data.bottom = new FlatFormAttachment(100,0);
 					
-		fEditorArea = wf.createComposite(fParentComposite);
-		fEditorArea.setLayoutData(data);		
+		fEditorArea = wf.createComposite(fParentComposite);			
 		
 		fEditorAreaStackLayout = new StackLayout();
-		fEditorArea.setLayout( fEditorAreaStackLayout );
-				
+		fEditorArea.setLayout( fEditorAreaStackLayout );		
+		fEditorArea.setLayoutData(data);
+		
 		fNoEditorWidgets = createNoEditorWidgets(fEditorArea);
 		
 		fEditorAreaStackLayout.topControl = fNoEditorWidgets;			
@@ -609,7 +611,7 @@ public abstract class ExpressionSection extends TextSection {
 		
 		if ( previousTop != fEditorAreaStackLayout.topControl ) {
 			// Layout is necessary after swapping the top element in the stack layout
-			fParentComposite.layout(true,true);
+			fEditorArea.layout(new Control[] { fEditorAreaStackLayout.topControl } );			
 		}				
 	}
 	
