@@ -99,6 +99,11 @@ public class XSDImportResolver implements ImportResolver {
         if (XSDUtil.isSchemaType(refType) == false && TOP.equals(refType) == false) {
         	return result;            
         }        
+        
+        if (imp.getLocation() == null) { 
+        	return result ; 
+        }
+        
         XSDSchema schema = findAndLoadSchema( imp );   
         
         if (TOP.equals(refType)) {
