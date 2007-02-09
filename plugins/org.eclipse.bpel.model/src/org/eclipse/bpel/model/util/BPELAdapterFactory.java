@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.16 2006/12/13 16:17:31 smoser Exp $
+ * $Id: BPELAdapterFactory.java,v 1.17 2007/02/09 09:13:43 smoser Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -21,7 +21,6 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
 import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
@@ -52,7 +51,6 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.MessageExchange;
@@ -61,7 +59,6 @@ import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.OpaqueActivity;
-import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -76,7 +73,6 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
@@ -200,12 +196,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			public Object caseSequence(Sequence object) {
 				return createSequenceAdapter();
 			}
-			public Object caseSwitch(Switch object) {
-				return createSwitchAdapter();
-			}
-			public Object caseCase(Case object) {
-				return createCaseAdapter();
-			}
 			public Object caseWhile(While object) {
 				return createWhileAdapter();
 			}
@@ -284,9 +274,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			public Object caseVariable(Variable object) {
 				return createVariableAdapter();
 			}
-			public Object caseOtherwise(Otherwise object) {
-				return createOtherwiseAdapter();
-			}
 			public Object caseUnknownExtensibilityAttribute(UnknownExtensibilityAttribute object) {
 				return createUnknownExtensibilityAttributeAdapter();
 			}
@@ -343,9 +330,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseIf(If object) {
 				return createIfAdapter();
-			}
-			public Object caseThen(Then object) {
-				return createThenAdapter();
 			}
 			public Object caseElseIf(ElseIf object) {
 				return createElseIfAdapter();
@@ -611,34 +595,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSequenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Switch <em>Switch</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.Switch
-	 * @generated
-	 */
-	public Adapter createSwitchAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Case <em>Case</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.Case
-	 * @generated
-	 */
-	public Adapter createCaseAdapter() {
 		return null;
 	}
 
@@ -1007,20 +963,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Otherwise <em>Otherwise</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.Otherwise
-	 * @generated
-	 */
-	public Adapter createOtherwiseAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.UnknownExtensibilityAttribute <em>Unknown Extensibility Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1283,20 +1225,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIfAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Then <em>Then</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.Then
-	 * @generated
-	 */
-	public Adapter createThenAdapter() {
 		return null;
 	}
 

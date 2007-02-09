@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.16 2006/12/13 16:17:31 smoser Exp $
+ * $Id: BPELFactory.java,v 1.17 2007/02/09 09:13:43 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -167,24 +167,6 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	Sequence createSequence();
-
-	/**
-	 * Returns a new object of class '<em>Switch</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Switch</em>'.
-	 * @generated
-	 */
-	Switch createSwitch();
-
-	/**
-	 * Returns a new object of class '<em>Case</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Case</em>'.
-	 * @generated
-	 */
-	Case createCase();
 
 	/**
 	 * Returns a new object of class '<em>While</em>'.
@@ -421,15 +403,6 @@ public interface BPELFactory extends EFactory{
 	Variable createVariable();
 
 	/**
-	 * Returns a new object of class '<em>Otherwise</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Otherwise</em>'.
-	 * @generated
-	 */
-	Otherwise createOtherwise();
-
-	/**
 	 * Returns a new object of class '<em>Unknown Extensibility Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -599,15 +572,6 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	If createIf();
-
-	/**
-	 * Returns a new object of class '<em>Then</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Then</em>'.
-	 * @generated
-	 */
-	Then createThen();
 
 	/**
 	 * Returns a new object of class '<em>Else If</em>'.

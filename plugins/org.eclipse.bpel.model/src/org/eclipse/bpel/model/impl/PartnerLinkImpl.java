@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
+ * $Id: PartnerLinkImpl.java,v 1.5 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,13 +23,11 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.w3c.dom.Element;
 
 /**

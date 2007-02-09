@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.26 2006/12/13 16:17:31 smoser Exp $
+ * $Id: BPELPackageImpl.java,v 1.27 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,7 +20,6 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
 import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
@@ -61,7 +60,6 @@ import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.OpaqueActivity;
-import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -76,11 +74,9 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
-import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -218,20 +214,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass sequenceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass switchEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass caseEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -420,13 +402,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass otherwiseEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass unknownExtensibilityAttributeEClass = null;
 
 	/**
@@ -554,13 +529,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass ifEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass thenEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1380,60 +1348,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getSequence_Activities() {
 		return (EReference)sequenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSwitch() {
-		return switchEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSwitch_Cases() {
-		return (EReference)switchEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSwitch_Otherwise() {
-		return (EReference)switchEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getCase() {
-		return caseEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCase_Activity() {
-		return (EReference)caseEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCase_Condition() {
-		return (EReference)caseEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2359,24 +2273,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOtherwise() {
-		return otherwiseEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getOtherwise_Activity() {
-		return (EReference)otherwiseEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getUnknownExtensibilityAttribute() {
 		return unknownExtensibilityAttributeEClass;
 	}
@@ -2854,7 +2750,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIf_Then() {
+	public EReference getIf_ElseIf() {
 		return (EReference)ifEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -2863,7 +2759,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIf_ElseIf() {
+	public EReference getIf_Else() {
 		return (EReference)ifEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -2872,26 +2768,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIf_Else() {
+	public EReference getIf_Activity() {
 		return (EReference)ifEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getThen() {
-		return thenEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getThen_Activity() {
-		return (EReference)thenEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -3219,14 +3097,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		sequenceEClass = createEClass(SEQUENCE);
 		createEReference(sequenceEClass, SEQUENCE__ACTIVITIES);
 
-		switchEClass = createEClass(SWITCH);
-		createEReference(switchEClass, SWITCH__CASES);
-		createEReference(switchEClass, SWITCH__OTHERWISE);
-
-		caseEClass = createEClass(CASE);
-		createEReference(caseEClass, CASE__ACTIVITY);
-		createEReference(caseEClass, CASE__CONDITION);
-
 		whileEClass = createEClass(WHILE);
 		createEReference(whileEClass, WHILE__ACTIVITY);
 		createEReference(whileEClass, WHILE__CONDITION);
@@ -3355,9 +3225,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(variableEClass, VARIABLE__TYPE);
 		createEReference(variableEClass, VARIABLE__FROM);
 
-		otherwiseEClass = createEClass(OTHERWISE);
-		createEReference(otherwiseEClass, OTHERWISE__ACTIVITY);
-
 		unknownExtensibilityAttributeEClass = createEClass(UNKNOWN_EXTENSIBILITY_ATTRIBUTE);
 
 		onEventEClass = createEClass(ON_EVENT);
@@ -3430,12 +3297,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		ifEClass = createEClass(IF);
 		createEReference(ifEClass, IF__CONDITION);
-		createEReference(ifEClass, IF__THEN);
 		createEReference(ifEClass, IF__ELSE_IF);
 		createEReference(ifEClass, IF__ELSE);
-
-		thenEClass = createEClass(THEN);
-		createEReference(thenEClass, THEN__ACTIVITY);
+		createEReference(ifEClass, IF__ACTIVITY);
 
 		elseIfEClass = createEClass(ELSE_IF);
 		createEReference(elseIfEClass, ELSE_IF__CONDITION);
@@ -3517,8 +3381,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		waitEClass.getESuperTypes().add(this.getActivity());
 		emptyEClass.getESuperTypes().add(this.getActivity());
 		sequenceEClass.getESuperTypes().add(this.getActivity());
-		switchEClass.getESuperTypes().add(this.getActivity());
-		caseEClass.getESuperTypes().add(this.getExtensibleElement());
 		whileEClass.getESuperTypes().add(this.getActivity());
 		pickEClass.getESuperTypes().add(this.getActivity());
 		flowEClass.getESuperTypes().add(this.getActivity());
@@ -3546,7 +3408,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		catchAllEClass.getESuperTypes().add(this.getExtensibleElement());
 		correlationsEClass.getESuperTypes().add(this.getExtensibleElement());
 		variableEClass.getESuperTypes().add(this.getExtensibleElement());
-		otherwiseEClass.getESuperTypes().add(this.getExtensibleElement());
 		unknownExtensibilityAttributeEClass.getESuperTypes().add(theWSDLPackage.getUnknownExtensibilityElement());
 		onEventEClass.getESuperTypes().add(this.getExtensibleElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
@@ -3561,7 +3422,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		terminationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
 		validateEClass.getESuperTypes().add(this.getActivity());
 		ifEClass.getESuperTypes().add(this.getActivity());
-		thenEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseIfEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseEClass.getESuperTypes().add(this.getExtensibleElement());
 		branchesEClass.getESuperTypes().add(this.getExpression());
@@ -3659,14 +3519,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(sequenceEClass, Sequence.class, "Sequence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSequence_Activities(), this.getActivity(), null, "activities", null, 1, -1, Sequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(switchEClass, Switch.class, "Switch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSwitch_Cases(), this.getCase(), null, "cases", null, 1, -1, Switch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSwitch_Otherwise(), this.getOtherwise(), null, "otherwise", null, 0, 1, Switch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(caseEClass, Case.class, "Case", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCase_Activity(), this.getActivity(), null, "activity", null, 1, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCase_Condition(), this.getCondition(), null, "condition", null, 1, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(whileEClass, While.class, "While", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWhile_Activity(), this.getActivity(), null, "activity", null, 1, 1, While.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3796,9 +3648,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getVariable_Type(), theXSDPackage.getXSDTypeDefinition(), null, "type", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_From(), this.getFrom(), null, "from", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(otherwiseEClass, Otherwise.class, "Otherwise", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOtherwise_Activity(), this.getActivity(), null, "activity", null, 1, 1, Otherwise.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(unknownExtensibilityAttributeEClass, UnknownExtensibilityAttribute.class, "UnknownExtensibilityAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(onEventEClass, OnEvent.class, "OnEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3871,12 +3720,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 		initEClass(ifEClass, If.class, "If", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIf_Then(), this.getThen(), null, "then", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIf_ElseIf(), this.getElseIf(), null, "elseIf", null, 0, -1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIf_Else(), this.getElse(), null, "else", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(thenEClass, Then.class, "Then", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getThen_Activity(), this.getActivity(), null, "activity", null, 1, 1, Then.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIf_Activity(), this.getActivity(), null, "activity", null, 1, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(elseIfEClass, ElseIf.class, "ElseIf", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getElseIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

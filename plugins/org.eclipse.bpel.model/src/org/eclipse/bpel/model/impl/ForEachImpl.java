@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.5 2006/12/13 16:17:31 smoser Exp $
+ * $Id: ForEachImpl.java,v 1.6 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -14,7 +14,6 @@ import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.ForEach;
-import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;

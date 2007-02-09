@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.16 2006/12/13 16:17:31 smoser Exp $
+ * $Id: BPELFactoryImpl.java,v 1.17 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,7 +20,6 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
 import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
@@ -53,7 +52,6 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.MessageExchange;
@@ -62,7 +60,6 @@ import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.OpaqueActivity;
-import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -77,11 +74,9 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
-import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -94,11 +89,7 @@ import org.eclipse.bpel.model.While;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -140,8 +131,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.WAIT: return createWait();
 			case BPELPackage.EMPTY: return createEmpty();
 			case BPELPackage.SEQUENCE: return createSequence();
-			case BPELPackage.SWITCH: return createSwitch();
-			case BPELPackage.CASE: return createCase();
 			case BPELPackage.WHILE: return createWhile();
 			case BPELPackage.PICK: return createPick();
 			case BPELPackage.FLOW: return createFlow();
@@ -168,7 +157,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.CATCH_ALL: return createCatchAll();
 			case BPELPackage.CORRELATIONS: return createCorrelations();
 			case BPELPackage.VARIABLE: return createVariable();
-			case BPELPackage.OTHERWISE: return createOtherwise();
 			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE: return createUnknownExtensibilityAttribute();
 			case BPELPackage.ON_EVENT: return createOnEvent();
 			case BPELPackage.IMPORT: return createImport();
@@ -188,7 +176,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.TERMINATION_HANDLER: return createTerminationHandler();
 			case BPELPackage.VALIDATE: return createValidate();
 			case BPELPackage.IF: return createIf();
-			case BPELPackage.THEN: return createThen();
 			case BPELPackage.ELSE_IF: return createElseIf();
 			case BPELPackage.ELSE: return createElse();
 			case BPELPackage.COMPLETION_CONDITION: return createCompletionCondition();
@@ -388,26 +375,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Sequence createSequence() {
 		SequenceImpl sequence = new SequenceImpl();
 		return sequence;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Switch createSwitch() {
-		SwitchImpl switch_ = new SwitchImpl();
-		return switch_;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Case createCase() {
-		CaseImpl case_ = new CaseImpl();
-		return case_;
 	}
 
 	/**
@@ -675,16 +642,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Otherwise createOtherwise() {
-		OtherwiseImpl otherwise = new OtherwiseImpl();
-		return otherwise;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public UnknownExtensibilityAttribute createUnknownExtensibilityAttribute() {
 		UnknownExtensibilityAttributeImpl unknownExtensibilityAttribute = new UnknownExtensibilityAttributeImpl();
 		return unknownExtensibilityAttribute;
@@ -868,16 +825,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public If createIf() {
 		IfImpl if_ = new IfImpl();
 		return if_;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Then createThen() {
-		ThenImpl then = new ThenImpl();
-		return then;
 	}
 
 	/**

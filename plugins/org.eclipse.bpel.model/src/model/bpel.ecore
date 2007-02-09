@@ -188,24 +188,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activities" lowerBound="1"
         upperBound="-1" eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Switch" eSuperTypes="#//Activity">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Allows selection of exactly one branch of execution from a set of choices. The choices are evaluated in order and the first one that is true is selected. If no case is selected, the otherwise activity is selected if any.&#xD;&#xA;"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cases" lowerBound="1" upperBound="-1"
-        eType="#//Case" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="otherwise" eType="#//Otherwise"
-        unsettable="true" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Case" eSuperTypes="#//ExtensibleElement">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A choice in a switch activity."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
-        eType="#//Activity" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
-        eType="#//Condition" containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Indicates an activity is to be repeated while a condition is met."/>
@@ -437,10 +419,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Otherwise" eSuperTypes="#//ExtensibleElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
-        eType="#//Activity" containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnknownExtensibilityAttribute" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//UnknownExtensibilityElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OnEvent" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"
@@ -533,12 +511,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="#//Then" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elseIf" upperBound="-1"
         eType="#//ElseIf" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//Else" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Then" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>

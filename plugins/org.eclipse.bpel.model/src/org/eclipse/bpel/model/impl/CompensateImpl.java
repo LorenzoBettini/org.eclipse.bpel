@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CompensateImpl.java,v 1.3 2006/12/13 16:17:31 smoser Exp $
+ * $Id: CompensateImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -30,7 +30,6 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.proxy.ScopeProxy;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -38,7 +37,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.w3c.dom.Element;
 
 /**
@@ -144,77 +142,6 @@ public class CompensateImpl extends ActivityImpl implements Compensate {
 		return eBasicSetContainer(null, featureID, msgs);
 	}
 
-	public void setScope(String scopeName) {
-		
-		// From the spec: 
-		//
-		// <quote>
-		//   This activity can be used only in the following parts of a business process: 
-		// - In a fault handler of the scope that immediately encloses the scope for which 
-		//   compensation is to be performed. 
-		// - In the compensation handler of the scope that immediately encloses the scope 
-		//   for which compensation is to be performed.
-		// </quote>
-		//
-		// JM: Modified this method to include a more sensible interpretation of
-		// "immediately encloses". Rather than a strict parent-child relationship,
-		// this simply means the closest enclosing Scope.
-		
-		EObject enclosingScopeOrProcess = null;
-		// Look for the closest enclosing Scope, or the process, ensuring that we pass a
-		// Catch, CatchAll or CompensationHandler on the way, as these are
-		// the only places where a Compensate activity is valid.
-		EObject container = eContainer();
-		boolean isValidLocation = false;
-		while (container != null) {
-			if (container instanceof Catch || container instanceof CatchAll || container instanceof CompensationHandler) {
-				isValidLocation = true;
-			} else if (container instanceof Scope || container instanceof Process) {
-				enclosingScopeOrProcess = container;
-				break;
-			}
-			container = container.eContainer();
-		}
-		if (enclosingScopeOrProcess == null) {
-			// Error, silently fail
-			return;
-		}
-		if (!isValidLocation) {
-			// Error, silently fail
-		    // CH: Allow this and let the validator mark it as an error.
-			//return;
-		}
-		
-		// Find the enclosed scope with the specified scopeName. Since there are
-		// many places where scope activities may appear, this search
-		// intentionally starts with a broad set of candidates (the entire
-		// containment hierarchy) and prunes away the uninteresting parts.
-		for (TreeIterator i = enclosingScopeOrProcess.eAllContents(); i.hasNext();) {
-			EObject next = (EObject) i.next();
-			if (next instanceof Scope) {
-				Scope candidate = (Scope) next;
-				if (scopeName.equals(candidate.getName())) {
-					setScope(candidate);
-					return;
-				}
-				// JM: Do not prune the subtree. A scope here which doesn't match
-				// may contain another scope which does.
-				//i.prune();
-			} else if (next instanceof Invoke) {
-				Invoke candidate = (Invoke) next;
-				if (scopeName.equals(candidate.getName())) {
-					setScope(candidate);
-					return;
-				}
-				i.prune();
-			}
-		}
-		
-		// In the case where a match was not found, install a proxy.
-		ScopeProxy scopeProxy = new ScopeProxy(eResource().getURI(), scopeName);
-		setScope(scopeProxy);
-	}
-	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -351,4 +278,75 @@ public class CompensateImpl extends ActivityImpl implements Compensate {
 		return eDynamicIsSet(eFeature);
 	}
 
+	public void setScope(String scopeName) {
+		
+		// From the spec: 
+		//
+		// <quote>
+		//   This activity can be used only in the following parts of a business process: 
+		// - In a fault handler of the scope that immediately encloses the scope for which 
+		//   compensation is to be performed. 
+		// - In the compensation handler of the scope that immediately encloses the scope 
+		//   for which compensation is to be performed.
+		// </quote>
+		//
+		// JM: Modified this method to include a more sensible interpretation of
+		// "immediately encloses". Rather than a strict parent-child relationship,
+		// this simply means the closest enclosing Scope.
+		
+		EObject enclosingScopeOrProcess = null;
+		// Look for the closest enclosing Scope, or the process, ensuring that we pass a
+		// Catch, CatchAll or CompensationHandler on the way, as these are
+		// the only places where a Compensate activity is valid.
+		EObject container = eContainer();
+		boolean isValidLocation = false;
+		while (container != null) {
+			if (container instanceof Catch || container instanceof CatchAll || container instanceof CompensationHandler) {
+				isValidLocation = true;
+			} else if (container instanceof Scope || container instanceof Process) {
+				enclosingScopeOrProcess = container;
+				break;
+			}
+			container = container.eContainer();
+		}
+		if (enclosingScopeOrProcess == null) {
+			// Error, silently fail
+			return;
+		}
+		if (!isValidLocation) {
+			// Error, silently fail
+		    // CH: Allow this and let the validator mark it as an error.
+			//return;
+		}
+		
+		// Find the enclosed scope with the specified scopeName. Since there are
+		// many places where scope activities may appear, this search
+		// intentionally starts with a broad set of candidates (the entire
+		// containment hierarchy) and prunes away the uninteresting parts.
+		for (TreeIterator i = enclosingScopeOrProcess.eAllContents(); i.hasNext();) {
+			EObject next = (EObject) i.next();
+			if (next instanceof Scope) {
+				Scope candidate = (Scope) next;
+				if (scopeName.equals(candidate.getName())) {
+					setScope(candidate);
+					return;
+				}
+				// JM: Do not prune the subtree. A scope here which doesn't match
+				// may contain another scope which does.
+				//i.prune();
+			} else if (next instanceof Invoke) {
+				Invoke candidate = (Invoke) next;
+				if (scopeName.equals(candidate.getName())) {
+					setScope(candidate);
+					return;
+				}
+				i.prune();
+			}
+		}
+		
+		// In the case where a match was not found, install a proxy.
+		ScopeProxy scopeProxy = new ScopeProxy(eResource().getURI(), scopeName);
+		setScope(scopeProxy);
+	}
+	
 } //CompensateImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: PartnerActivityImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -324,14 +324,6 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_ACTIVITY__OPERATION, oldOperation, operation));
 	}
 
-    /**
-     * Set the deserialized value of the operation name.
-     * @customized
-     */
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
-    }
-    
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -525,4 +517,12 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 		return eDynamicIsSet(eFeature);
 	}
 
+    /**
+     * Set the deserialized value of the operation name.
+     * @customized
+     */
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+    
 } //PartnerActivityImpl

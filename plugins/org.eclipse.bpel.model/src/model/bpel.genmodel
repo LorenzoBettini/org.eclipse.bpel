@@ -105,14 +105,6 @@
     <genClasses ecoreClass="bpel.ecore#//Sequence">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Sequence/activities"/>
     </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//Switch">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Switch/cases"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Switch/otherwise"/>
-    </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//Case">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Case/activity"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Case/condition"/>
-    </genClasses>
     <genClasses ecoreClass="bpel.ecore#//While">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//While/activity"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//While/condition"/>
@@ -240,9 +232,6 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//Variable/type"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//Variable/from"/>
     </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//Otherwise">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Otherwise/activity"/>
-    </genClasses>
     <genClasses ecoreClass="bpel.ecore#//UnknownExtensibilityAttribute"/>
     <genClasses ecoreClass="bpel.ecore#//OnEvent">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/activity"/>
@@ -310,12 +299,9 @@
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//If">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//If/condition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//If/then"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//If/elseIf"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//If/else"/>
-    </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//Then">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Then/activity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//If/activity"/>
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//ElseIf">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//ElseIf/condition"/>

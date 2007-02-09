@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.17 2006/12/13 16:17:31 smoser Exp $
+ * $Id: BPELSwitch.java,v 1.18 2007/02/09 09:13:43 smoser Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -23,7 +23,6 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BooleanExpression;
 import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
@@ -54,7 +53,6 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Iterator;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.MessageExchange;
@@ -63,7 +61,6 @@ import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.OpaqueActivity;
-import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -78,7 +75,6 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
@@ -327,25 +323,6 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.SWITCH: {
-				Switch switch_ = (Switch)theEObject;
-				Object result = caseSwitch(switch_);
-				if (result == null) result = caseActivity(switch_);
-				if (result == null) result = caseExtensibleElement(switch_);
-				if (result == null) result = caseWSDL_ExtensibleElement(switch_);
-				if (result == null) result = caseWSDLElement(switch_);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case BPELPackage.CASE: {
-				Case case_ = (Case)theEObject;
-				Object result = caseCase(case_);
-				if (result == null) result = caseExtensibleElement(case_);
-				if (result == null) result = caseWSDL_ExtensibleElement(case_);
-				if (result == null) result = caseWSDLElement(case_);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BPELPackage.WHILE: {
 				While while_ = (While)theEObject;
 				Object result = caseWhile(while_);
@@ -588,15 +565,6 @@ public class BPELSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.OTHERWISE: {
-				Otherwise otherwise = (Otherwise)theEObject;
-				Object result = caseOtherwise(otherwise);
-				if (result == null) result = caseExtensibleElement(otherwise);
-				if (result == null) result = caseWSDL_ExtensibleElement(otherwise);
-				if (result == null) result = caseWSDLElement(otherwise);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE: {
 				UnknownExtensibilityAttribute unknownExtensibilityAttribute = (UnknownExtensibilityAttribute)theEObject;
 				Object result = caseUnknownExtensibilityAttribute(unknownExtensibilityAttribute);
@@ -759,15 +727,6 @@ public class BPELSwitch {
 				if (result == null) result = caseExtensibleElement(if_);
 				if (result == null) result = caseWSDL_ExtensibleElement(if_);
 				if (result == null) result = caseWSDLElement(if_);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case BPELPackage.THEN: {
-				Then then = (Then)theEObject;
-				Object result = caseThen(then);
-				if (result == null) result = caseExtensibleElement(then);
-				if (result == null) result = caseWSDL_ExtensibleElement(then);
-				if (result == null) result = caseWSDLElement(then);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1063,36 +1022,6 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseSequence(Sequence object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Switch</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Switch</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseSwitch(Switch object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Case</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Case</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCase(Case object) {
 		return null;
 	}
 
@@ -1487,21 +1416,6 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Otherwise</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Otherwise</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseOtherwise(Otherwise object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpretting the object as an instance of '<em>Unknown Extensibility Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1783,21 +1697,6 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseIf(If object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Then</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Then</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseThen(Then object) {
 		return null;
 	}
 

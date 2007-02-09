@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.4 2006/01/19 21:08:48 james Exp $
+ * $Id: OnMessageImpl.java,v 1.5 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -441,14 +441,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		return fromPart;
 	}
 
-    /**
-     * Set the deserialized value of the operation name.
-     * @customized
-     */
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
-    }
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -631,5 +623,13 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		}
 		return eDynamicIsSet(eFeature);
 	}
+
+    /**
+     * Set the deserialized value of the operation name.
+     * @customized
+     */
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
 
 } //OnMessageImpl

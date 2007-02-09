@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.6 2006/12/13 16:17:31 smoser Exp $
+ * $Id: ProcessImpl.java,v 1.7 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -858,104 +858,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EventHandler getEventHandlers() {
-		return eventHandlers;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetEventHandlers(EventHandler newEventHandlers, NotificationChain msgs) {
-		EventHandler oldEventHandlers = eventHandlers;
-		eventHandlers = newEventHandlers;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS, oldEventHandlers, newEventHandlers);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEventHandlers(EventHandler newEventHandlers) {
-		if (newEventHandlers != eventHandlers) {
-			NotificationChain msgs = null;
-			if (eventHandlers != null)
-				msgs = ((InternalEObject)eventHandlers).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EVENT_HANDLERS, null, msgs);
-			if (newEventHandlers != null)
-				msgs = ((InternalEObject)newEventHandlers).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EVENT_HANDLERS, null, msgs);
-			msgs = basicSetEventHandlers(newEventHandlers, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS, newEventHandlers, newEventHandlers));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CorrelationSets getCorrelationSets() {
-		return correlationSets;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetCorrelationSets(CorrelationSets newCorrelationSets, NotificationChain msgs) {
-		CorrelationSets oldCorrelationSets = correlationSets;
-		correlationSets = newCorrelationSets;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS, oldCorrelationSets, newCorrelationSets);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCorrelationSets(CorrelationSets newCorrelationSets) {
-		if (newCorrelationSets != correlationSets) {
-			NotificationChain msgs = null;
-			if (correlationSets != null)
-				msgs = ((InternalEObject)correlationSets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__CORRELATION_SETS, null, msgs);
-			if (newCorrelationSets != null)
-				msgs = ((InternalEObject)newCorrelationSets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__CORRELATION_SETS, null, msgs);
-			msgs = basicSetCorrelationSets(newCorrelationSets, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS, newCorrelationSets, newCorrelationSets));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList getImports() {
-		if (imports == null) {
-			imports = new EObjectContainmentEList(Import.class, this, BPELPackage.PROCESS__IMPORTS);
-		}
-		return imports;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -1231,6 +1133,104 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				return messageExchanges != null;
 		}
 		return eDynamicIsSet(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EventHandler getEventHandlers() {
+		return eventHandlers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEventHandlers(EventHandler newEventHandlers, NotificationChain msgs) {
+		EventHandler oldEventHandlers = eventHandlers;
+		eventHandlers = newEventHandlers;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS, oldEventHandlers, newEventHandlers);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEventHandlers(EventHandler newEventHandlers) {
+		if (newEventHandlers != eventHandlers) {
+			NotificationChain msgs = null;
+			if (eventHandlers != null)
+				msgs = ((InternalEObject)eventHandlers).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EVENT_HANDLERS, null, msgs);
+			if (newEventHandlers != null)
+				msgs = ((InternalEObject)newEventHandlers).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EVENT_HANDLERS, null, msgs);
+			msgs = basicSetEventHandlers(newEventHandlers, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS, newEventHandlers, newEventHandlers));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorrelationSets getCorrelationSets() {
+		return correlationSets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCorrelationSets(CorrelationSets newCorrelationSets, NotificationChain msgs) {
+		CorrelationSets oldCorrelationSets = correlationSets;
+		correlationSets = newCorrelationSets;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS, oldCorrelationSets, newCorrelationSets);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCorrelationSets(CorrelationSets newCorrelationSets) {
+		if (newCorrelationSets != correlationSets) {
+			NotificationChain msgs = null;
+			if (correlationSets != null)
+				msgs = ((InternalEObject)correlationSets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__CORRELATION_SETS, null, msgs);
+			if (newCorrelationSets != null)
+				msgs = ((InternalEObject)newCorrelationSets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__CORRELATION_SETS, null, msgs);
+			msgs = basicSetCorrelationSets(newCorrelationSets, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS, newCorrelationSets, newCorrelationSets));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getImports() {
+		if (imports == null) {
+			imports = new EObjectContainmentEList(Import.class, this, BPELPackage.PROCESS__IMPORTS);
+		}
+		return imports;
 	}
 
 	/**

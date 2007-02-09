@@ -31,7 +31,6 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
@@ -71,7 +70,6 @@ import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.OpaqueActivity;
-import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -87,7 +85,6 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
@@ -1217,8 +1214,8 @@ public class BPELReader {
       		activity = xml2Empty(activityElement);
      	} else if (localName.equals("sequence")) {
       		activity = xml2Sequence(activityElement);
-     	} else if (localName.equals("switch")) {
-     		activity = xml2Switch(activityElement);
+//     	} else if (localName.equals("switch")) {
+//     		activity = xml2Switch(activityElement);
      	} else if (localName.equals("if")) {
      		activity = xml2If(activityElement);
      	} else if (localName.equals("while")) {
@@ -1796,54 +1793,23 @@ public class BPELReader {
 	}
 
 	/**
-	 * Converts an XML switch element to a BPEL Switch object.
-	 */
-	protected Activity xml2Switch(Element switchElement) {
-    	Switch _switch = BPELFactory.eINSTANCE.createSwitch();
-		if (switchElement == null) return _switch;
-
-
-		// Handle case
-		NodeList caseElements = getBPELChildElementsByLocalName(switchElement, "case");
-                 
-		if (caseElements != null && caseElements.getLength() > 0) {
-           for (int i = 0; i < caseElements.getLength(); i++) {			
-				Case _case = xml2Case((Element)caseElements.item(i)); 
-				_switch.getCases().add(_case);
-           }
-        }
-
-		// Handle otherwise
-		Element otherwiseElement = getBPELChildElementByLocalName(switchElement, "otherwise");
-		if (otherwiseElement != null) {
-			Otherwise otherwise = xml2Otherwise(otherwiseElement);
-			_switch.setOtherwise(otherwise);
-		}
-		
-		setStandardAttributes(switchElement, _switch);
-		
-		return _switch;		
-	}
-
-	/**
 	 * Converts an XML if element to a BPEL If object.
 	 */
 	protected Activity xml2If(Element ifElement) {
 		If _if = BPELFactory.eINSTANCE.createIf();
 		if (ifElement == null) return _if;
 
+		// Set activity
+		Activity activity = getChildActivity(ifElement);
+		if (activity != null) {
+			_if.setActivity(activity);
+		}
+		
 		// Handle condition element
 		Element conditionElement = getBPELChildElementByLocalName(ifElement, "condition");
 		if (conditionElement != null) {
 			Condition condition = xml2Condition(conditionElement);
 			_if.setCondition(condition);
-		}
-		
-		// Handle then element
-		Element thenElement = getBPELChildElementByLocalName(ifElement, "then");
-		if (thenElement != null) {
-			Then then = xml2Then(thenElement);
-			_if.setThen(then);
 		}
 		
 		// Handle elseif
@@ -1866,35 +1832,6 @@ public class BPELReader {
 		setStandardAttributes(ifElement, _if);
 		
 		return _if;		
-	}
-
-	/**
-	 * Converts an XML case element to a BPEL Case object.
-	 */
-	protected Case xml2Case(Element caseElement) {
-    	Case _case = BPELFactory.eINSTANCE.createCase();
-    	
-		// Save all the references to external namespaces		
-		saveNamespacePrefix(_case, caseElement);
-    	
-		if (caseElement == null) return _case;
-
-		// Handle condition element
-		Element conditionElement = getBPELChildElementByLocalName(caseElement, "condition");
-		if (conditionElement != null) {
-			Condition condition = xml2Condition(conditionElement);
-			_case.setCondition(condition);
-		}
-
-		// Set activity
-		Activity activity = getChildActivity(caseElement);
-		if (activity != null) {
-			_case.setActivity(activity);
-		}
-		
-		xml2ExtensibleElement(_case,caseElement);
-			  
-		return _case;
 	}
 
 	/**
@@ -2066,18 +2003,18 @@ public class BPELReader {
     	return xml2Expression(expressionElement, expression);
 	}
 
-	protected Otherwise xml2Otherwise(Element otherwiseElement) {
-		Otherwise otherwise = BPELFactory.eINSTANCE.createOtherwise();
-		
-		// Save all the references to external namespaces		
-		saveNamespacePrefix(otherwise, otherwiseElement);
-		
-		Activity activity = getChildActivity(otherwiseElement);
-		otherwise.setActivity(activity);
-		xml2ExtensibleElement(otherwise, otherwiseElement);
-		
-		return otherwise;
-	}
+//	protected Otherwise xml2Otherwise(Element otherwiseElement) {
+//		Otherwise otherwise = BPELFactory.eINSTANCE.createOtherwise();
+//		
+//		// Save all the references to external namespaces		
+//		saveNamespacePrefix(otherwise, otherwiseElement);
+//		
+//		Activity activity = getChildActivity(otherwiseElement);
+//		otherwise.setActivity(activity);
+//		xml2ExtensibleElement(otherwise, otherwiseElement);
+//		
+//		return otherwise;
+//	}
 
 	protected Else xml2Else(Element elseElement) {
 		Else _else = BPELFactory.eINSTANCE.createElse();
@@ -2089,18 +2026,6 @@ public class BPELReader {
 		_else.setActivity(activity);
 		
 		return _else;
-	}
-
-	protected Then xml2Then(Element thenElement) {
-		Then then = BPELFactory.eINSTANCE.createThen();
-		
-		// Save all the references to external namespaces		
-		saveNamespacePrefix(then, thenElement);
-		
-		Activity activity = getChildActivity(thenElement);
-		then.setActivity(activity);
-		
-		return then;
 	}
 
 	/**

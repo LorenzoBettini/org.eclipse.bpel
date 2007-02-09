@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionActivityImpl.java,v 1.3 2006/12/13 16:17:31 smoser Exp $
+ * $Id: ExtensionActivityImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -13,16 +13,11 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.w3c.dom.Element;
 
 /**

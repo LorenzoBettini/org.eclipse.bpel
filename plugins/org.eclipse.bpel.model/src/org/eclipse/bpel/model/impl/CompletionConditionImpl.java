@@ -2,14 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.3 2006/01/31 14:56:08 james Exp $
+ * $Id: CompletionConditionImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.CompletionCondition;
-import org.eclipse.bpel.model.Expression;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;

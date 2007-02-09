@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: If.java,v 1.1 2005/12/09 21:01:02 james Exp $
+ * $Id: If.java,v 1.2 2007/02/09 09:13:43 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -17,9 +17,9 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.If#getCondition <em>Condition</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.If#getThen <em>Then</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.If#getElseIf <em>Else If</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.If#getElse <em>Else</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.If#getActivity <em>Activity</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface If extends Activity {
+public interface If extends Activity{
 	/**
 	 * Returns the value of the '<em><b>Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -53,32 +53,6 @@ public interface If extends Activity {
 	 * @generated
 	 */
 	void setCondition(Condition value);
-
-	/**
-	 * Returns the value of the '<em><b>Then</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Then</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Then</em>' containment reference.
-	 * @see #setThen(Then)
-	 * @see org.eclipse.bpel.model.BPELPackage#getIf_Then()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Then getThen();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.If#getThen <em>Then</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Then</em>' containment reference.
-	 * @see #getThen()
-	 * @generated
-	 */
-	void setThen(Then value);
 
 	/**
 	 * Returns the value of the '<em><b>Else If</b></em>' containment reference list.
@@ -121,5 +95,31 @@ public interface If extends Activity {
 	 * @generated
 	 */
 	void setElse(Else value);
+
+	/**
+	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Activity</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Activity</em>' containment reference.
+	 * @see #setActivity(Activity)
+	 * @see org.eclipse.bpel.model.BPELPackage#getIf_Activity()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Activity getActivity();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.If#getActivity <em>Activity</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Activity</em>' containment reference.
+	 * @see #getActivity()
+	 * @generated
+	 */
+	void setActivity(Activity value);
 
 } // If

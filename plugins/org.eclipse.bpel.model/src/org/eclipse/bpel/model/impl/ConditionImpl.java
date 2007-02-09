@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ConditionImpl.java,v 1.2 2006/12/13 16:17:31 smoser Exp $
+ * $Id: ConditionImpl.java,v 1.3 2007/02/09 09:13:42 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,9 +19,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.w3c.dom.Element;
 
 /**
