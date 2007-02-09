@@ -13,13 +13,11 @@ package org.eclipse.bpel.ui.factories;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Policy;
@@ -57,7 +55,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		BPELPackage.eINSTANCE.getFlow(),
 		BPELPackage.eINSTANCE.getPick(),
 		BPELPackage.eINSTANCE.getScope(),
-		BPELPackage.eINSTANCE.getSwitch(),
+		BPELPackage.eINSTANCE.getIf(),
 		BPELPackage.eINSTANCE.getExit(),
 		BPELPackage.eINSTANCE.getThrow(),
 		BPELPackage.eINSTANCE.getRethrow(),
@@ -67,11 +65,10 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		BPELPackage.eINSTANCE.getForEach(),
 		BPELPackage.eINSTANCE.getRepeatUntil(),
 		BPELPackage.eINSTANCE.getLink(),
-		BPELPackage.eINSTANCE.getCase(),
-		BPELPackage.eINSTANCE.getOtherwise(),
+		BPELPackage.eINSTANCE.getElseIf(),
+		BPELPackage.eINSTANCE.getElse(),
 		BPELPackage.eINSTANCE.getOnMessage(),
 		BPELPackage.eINSTANCE.getOnAlarm(),
-		BPELPackage.eINSTANCE.getOtherwise(),
 		BPELPackage.eINSTANCE.getFaultHandler(),
 		BPELPackage.eINSTANCE.getCatch(),
 		BPELPackage.eINSTANCE.getCatchAll(),
@@ -140,12 +137,6 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			((Scope)result).setVariables(BPELFactory.eINSTANCE.createVariables());
 			((Scope)result).setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
 			((Scope)result).setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());			
-		}
-		if (result instanceof Switch) {
-			// create a free Case inside the Switch.
-			Case _case = (Case)UIObjectFactoryProvider.getInstance().getFactoryFor(
-				BPELPackage.eINSTANCE.getCase()).createInstance();
-			((Switch)result).getCases().add(_case);
 		}
 		if (result instanceof Pick) {
 			// create a free OnMessage inside the Pick.

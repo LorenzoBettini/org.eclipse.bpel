@@ -13,7 +13,7 @@ package org.eclipse.bpel.ui.editparts;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 
-public class SwitchEditPart extends SequenceEditPart {
+public class PickEditPart extends SequenceEditPart {
 	
 	protected void configureExpandedFigure(IFigure figure) {
 		super.configureExpandedFigure(figure);

@@ -19,7 +19,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
-import org.eclipse.bpel.ui.editparts.CaseEditPart;
+import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -31,18 +31,18 @@ import org.eclipse.gef.EditPartFactory;
 import org.eclipse.swt.graphics.Image;
 
 
-public class CaseAdapter extends ContainerAdapter implements ILabeledElement,
+public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
 	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, IExtensionFactory
 {
 
 	/* IContainer delegate */
 	
 	public IContainer createContainerDelegate() {
-		// TODO: SwitchAdapter ensures the Case always has an activity inside it,
-		// by creating an ImplicitSequence if the Case was empty.  We then make
-		// sure we don't delete the last activity from the Case.
-		// See also SwitchAdapter. Rethink this in the future.
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getCase_Activity()) {
+		// TODO: IfAdapter ensures the ElseIf always has an activity inside it,
+		// by creating an ImplicitSequence if the ElseIf was empty.  We then make
+		// sure we don't delete the last activity from the ElseIf.
+		// See also IfAdapter. Rethink this in the future.
+		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getElseIf_Activity()) {
 			public boolean removeChild(Object object, Object child) {
 				Object currentChild = getSingleChild(object);
 				if (currentChild == null)  return false;
@@ -63,7 +63,7 @@ public class CaseAdapter extends ContainerAdapter implements ILabeledElement,
 					}
 				}
 				// We have an implicit sequence.  Remove the child from it.
-				// Since Case must have an activity inside it (for runtime marker
+				// Since ElseIf must have an activity inside it (for runtime marker
 				// purposes), we won't remove the implicit sequence even if there is
 				// less than two children in it.
 				List list = getChildList(object);
@@ -83,7 +83,8 @@ public class CaseAdapter extends ContainerAdapter implements ILabeledElement,
 	}	
 	
 	public String getTypeLabel(Object object) {
-		return Messages.CaseAdapter_Case_1; 
+		String s = Messages.ElseIfAdapter_ElseIf_1; 
+		return s; 
 	}	
 	public String getLabel(Object object) {
 		String s = ModelHelper.getDisplayName(object);
@@ -94,7 +95,7 @@ public class CaseAdapter extends ContainerAdapter implements ILabeledElement,
 	/* EditPartFactory */
 	
 	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart result = new CaseEditPart();
+		EditPart result = new ElseIfEditPart();
 		result.setModel(model);
 		return result;
 	}

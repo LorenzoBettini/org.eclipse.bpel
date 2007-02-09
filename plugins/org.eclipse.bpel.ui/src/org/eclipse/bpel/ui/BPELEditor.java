@@ -33,18 +33,12 @@ import org.eclipse.bpel.common.ui.tray.GraphicalEditorWithPaletteAndTray;
 import org.eclipse.bpel.common.ui.tray.MultiViewerSelectionProvider;
 import org.eclipse.bpel.common.ui.tray.TrayComposite;
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSet;
-import org.eclipse.bpel.model.CorrelationSets;
-import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.terms.BPELTerms;
 import org.eclipse.bpel.ui.actions.AppendNewAction;
 import org.eclipse.bpel.ui.actions.AutoArrangeFlowsAction;
@@ -70,14 +64,12 @@ import org.eclipse.bpel.ui.editparts.CorrelationSetsEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
 import org.eclipse.bpel.ui.editparts.PartnerLinksEditPart;
 import org.eclipse.bpel.ui.editparts.ProcessTrayEditPart;
-import org.eclipse.bpel.ui.editparts.ReferencePartnerLinksEditPart;
 import org.eclipse.bpel.ui.editparts.VariablesEditPart;
 import org.eclipse.bpel.ui.editparts.util.BPELEditPartFactory;
 import org.eclipse.bpel.ui.editparts.util.BPELTrayEditPartFactory;
 import org.eclipse.bpel.ui.editparts.util.OutlineTreePartFactory;
 import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
 import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
-import org.eclipse.bpel.ui.palette.BPELSelectionToolEntry;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.bpel.ui.uiextensionmodel.ProcessExtension;
 import org.eclipse.bpel.ui.util.BPELCreationToolEntry;
@@ -133,8 +125,6 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.palette.PaletteCustomizer;
-import org.eclipse.gef.ui.palette.customize.PaletteCustomizerDialog;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.Action;
@@ -176,7 +166,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
-
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
 import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
@@ -474,9 +463,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 		controlCategory = new PaletteCategory("Control"); //$NON-NLS-1$
 		switchEntry = new BPELCreationToolEntry(
-			Messages.BPELEditor_Switch_17, 
-			Messages.BPELEditor_Switch_18, 
-			provider.getFactoryFor(bpelPackage.getSwitch()));
+			Messages.BPELEditor_If_17, 
+			Messages.BPELEditor_If_18, 
+			provider.getFactoryFor(bpelPackage.getIf()));
 		controlCategory.add(switchEntry);
 		controlCategory.add(new BPELCreationToolEntry(
 			Messages.BPELEditor_Pick_8, 

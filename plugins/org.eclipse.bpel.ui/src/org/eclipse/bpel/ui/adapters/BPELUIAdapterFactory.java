@@ -45,8 +45,8 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return provider.getAdapter(CopyAdapter.class);		
 	}
 	
-	public Adapter createCaseAdapter() {
-		return provider.getAdapter(CaseAdapter.class);		
+	public Adapter createElseIfAdapter() {
+		return provider.getAdapter(ElseIfAdapter.class);		
 	}
 	
 	public Adapter createCatchAdapter() {
@@ -113,8 +113,8 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return provider.getAdapter(ProcessAdapter.class);		
 	}
 	
-	public Adapter createSwitchAdapter() {
-		return provider.getAdapter(SwitchAdapter.class);
+	public Adapter createIfAdapter() {
+		return provider.getAdapter(IfAdapter.class);
 	}
 	
 	public Adapter createReceiveAdapter() {
@@ -169,8 +169,8 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return provider.getAdapter(CatchAllAdapter.class);		
 	}
 	
-	public Adapter createOtherwiseAdapter() {
-		return provider.getAdapter(OtherwiseAdapter.class);
+	public Adapter createElseAdapter() {
+		return provider.getAdapter(ElseAdapter.class);
 	}
 	
 	public Adapter createCompensateAdapter() {

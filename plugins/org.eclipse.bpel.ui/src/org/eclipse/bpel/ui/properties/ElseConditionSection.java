@@ -19,15 +19,15 @@ import org.eclipse.swt.widgets.Label;
 
 
 /**
- * Details section for the Otherwise
+ * Details section for the Else
  */
-public class OtherwiseConditionSection extends BPELPropertySection {
+public class ElseConditionSection extends BPELPropertySection {
 
 	protected void createClient(Composite parent) {
 		Composite composite = createFlatFormComposite(parent);
 		FlatFormData ffdata;
 		
-		Label nameLabel = wf.createLabel(composite, Messages.OtherwiseConditionDetails_0); 
+		Label nameLabel = wf.createLabel(composite, Messages.ElseConditionDetails_0); 
 		
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.actions;
 
-import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.ui.BPELEditor;
@@ -20,7 +19,6 @@ import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.editparts.CollapsableEditPart;
 import org.eclipse.bpel.ui.editparts.policies.BPELDirectEditPolicy;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.NameDialog;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
@@ -75,10 +73,8 @@ public class RenameAction extends SelectionAction {
 			ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
 			
 			boolean canSetName = (namedElement != null);
-			boolean canSetDisplayName = (model instanceof Activity )|| (model instanceof Process);
-			if (ModelHelper.supportsUIExtensionDisplayName(model)) canSetDisplayName = true;
 			
-			if (labeledElement != null && (canSetName || canSetDisplayName)) {
+			if (labeledElement != null && (canSetName)) {
 				String name = labeledElement.getLabel(model);
 				NameDialog nameDialog = new NameDialog(part.getViewer().getControl().getShell(),
 					Messages.BPELEditPart_Rename_2, Messages.BPELEditPart_Enter_a_new_name_3, name, null); 

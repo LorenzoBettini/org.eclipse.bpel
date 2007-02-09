@@ -11,7 +11,7 @@
 package org.eclipse.bpel.ui.actions.editpart;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Case;
+import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -27,29 +27,24 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 
-public class CreateCaseAction extends AbstractAction {
+public class CreateElseAction extends AbstractAction {
 
-	public CreateCaseAction(EditPart editPart) {
+	public CreateElseAction(EditPart editPart) {
 		super(editPart);
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_CASE);
+		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_OTHERWISE);
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_CASE);
-	}
-	
-	public Image getImageIcon() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_CASE);
+		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_OTHERWISE);
 	}
 
 	public boolean onButtonPressed() {
 		CompoundCommand command = new CompoundCommand();
-		final Case child = (Case)UIObjectFactoryProvider.getInstance().getFactoryFor(
-			BPELPackage.eINSTANCE.getCase()).createInstance();
-
+		Else child = (Else)UIObjectFactoryProvider.getInstance().getFactoryFor(
+			BPELPackage.eINSTANCE.getElse()).createInstance();
 		command.add(new InsertInContainerCommand((EObject)modelObject, child, null));
 		command.add(new SetNameAndDirectEditCommand(child, viewer));
 		BPELEditor bpelEditor = ModelHelper.getBPELEditor(modelObject);
@@ -58,7 +53,7 @@ public class CreateCaseAction extends AbstractAction {
 	}
 
 	public String getToolTip() {
-		return Messages.CreateCaseAction_Add_Case_1; 
+		return Messages.CreateElseAction_Add_Else_1; 
 	}
 	
 	public ImageDescriptor getDisabledIcon() { return ImageDescriptor.getMissingImageDescriptor(); }

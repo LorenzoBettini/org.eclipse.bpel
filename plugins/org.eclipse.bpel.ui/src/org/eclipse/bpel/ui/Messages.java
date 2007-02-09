@@ -163,8 +163,8 @@ public final class Messages extends NLS {
 	public static String BPELEditor_Selection_Tool_38;
 	public static String BPELEditor_Sequence_23;
 	public static String BPELEditor_Sequence_24;
-	public static String BPELEditor_Switch_17;
-	public static String BPELEditor_Switch_18;
+	public static String BPELEditor_If_17;
+	public static String BPELEditor_If_18;
 	public static String BPELEditor_Exit_26;
 	public static String BPELEditor_Exit_27;
 	public static String BPELEditor_Throw_28;
@@ -197,10 +197,10 @@ public final class Messages extends NLS {
 	public static String BPELVariableAdapter_Variable_1;
 	public static String BPELXYLayoutEditPolicy_Add_Part_1;
 	public static String BPELXYLayoutEditPolicy_Move_Part_2;
-	public static String CaseAdapter_Case_1;
-	public static String CaseConditionSection_Create_a_New_Condition_2;
-	public static String CaseConditionSection_Create_condition_text_2;
-	public static String CaseConditionSection_No_condition_specified_1;
+	public static String ElseIfAdapter_ElseIf_1;
+	public static String ElseIfConditionSection_Create_a_New_Condition_2;
+	public static String ElseIfConditionSection_Create_condition_text_2;
+	public static String ElseIfConditionSection_No_condition_specified_1;
 	public static String CatchAdapter_Catch_1;
 	public static String CatchAllAdapter_0;
 	public static String CatchAllDetails_0;
@@ -230,7 +230,7 @@ public final class Messages extends NLS {
 	public static String CorrelationSetsEditPart_Add_Correlation_Set_1;
 	public static String CorrelationSetsEditPart_Correlation_Sets_1;
 	public static String CorrelationSetsEditPart_Remove_Correlation_Set_1;
-	public static String CreateCaseAction_Add_Case_1;
+	public static String CreateElseIfAction_Add_ElseIf_1;
 	public static String CreateCatchAction_Add_Catch_1;
 	public static String CreateCatchAllAction_Add_Catch_All_1;
 	public static String CreateCompensationHandlerAction_Add_Compensation_Handler_1;
@@ -241,7 +241,7 @@ public final class Messages extends NLS {
 	public static String CreateOnAlarmAction_Add_OnAlarm_1;
 	public static String CreateOnEventAction_Add_OnEvent_1;
 	public static String CreateOnMessageAction_Add_OnMessage_1;
-	public static String CreateOtherwiseAction_Add_Otherwise_1;
+	public static String CreateElseAction_Add_Else_1;
 	public static String DeleteChildCommand_Delete_2;
 	public static String DeleteChildCommand_Item_1;
 	public static String DeleteSelectedAction_Delete_1;
@@ -426,8 +426,8 @@ public final class Messages extends NLS {
 	public static String OpaqueAssignCategory_An_Opaque_value_is_used_in_abstract_processes__2;
 	public static String OpaqueAssignCategory_Opaque_1;
 	public static String OperationAdapter_Operation_1;
-	public static String OtherwiseAdapter_0;
-	public static String OtherwiseConditionDetails_0;
+	public static String ElseAdapter_0;
+	public static String ElseConditionDetails_0;
 	public static String PartAdapter_Part_1;
 	public static String PartLabelProvider__none__1;
 	public static String PartLabelProvider_result_localPart;
@@ -623,6 +623,7 @@ public final class Messages extends NLS {
 	
 	
 	static {
+		
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}
 }

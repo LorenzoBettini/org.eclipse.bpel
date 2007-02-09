@@ -22,9 +22,10 @@ import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.ReorderInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
-import org.eclipse.bpel.ui.editparts.CaseEditPart;
+import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.CollapsableEditPart;
 import org.eclipse.bpel.ui.editparts.CompositeActivityEditPart;
+import org.eclipse.bpel.ui.editparts.IfEditPart;
 import org.eclipse.bpel.ui.editparts.ProcessEditPart;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -52,7 +53,7 @@ import org.eclipse.swt.graphics.Color;
 
 public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 
-	ArrayList polyLineConnectionList = new ArrayList();	
+	protected ArrayList polyLineConnectionList = new ArrayList();	
 	
 	// colour of the connection lines
 	Color arrowColor = BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
@@ -191,7 +192,9 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	protected boolean hasBottomParentLink() {
 		if (getHost() instanceof ProcessEditPart)
 			return false;
-		if (getHost() instanceof CaseEditPart)
+		if (getHost() instanceof ElseIfEditPart)
+			return false;
+		if (getHost() instanceof IfEditPart)
 			return false;
 		return true;
 	}
@@ -293,11 +296,11 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	/**
 	 * Does the edit part have children? If so, implicit connection logic will be
 	 * executed. The only edit parts which have children are CompositeActivityEditParts
-	 * (Sequence, While, Flow, RepeatUntil, etc.) and CaseEditPart (Case, OnMessage, OnAlarm).
+	 * (Sequence, While, Flow, RepeatUntil, etc.) and ElseElseIfEditPart (Case, OnMessage, OnAlarm).
 	 */
 	protected boolean hasChildren() {
 		EditPart host = getHost();
-		if (host instanceof CaseEditPart || host instanceof CompositeActivityEditPart || host instanceof ProcessEditPart) {
+		if (host instanceof ElseIfEditPart || host instanceof CompositeActivityEditPart || host instanceof ProcessEditPart) {
 			return true;
 		}
 		return false;

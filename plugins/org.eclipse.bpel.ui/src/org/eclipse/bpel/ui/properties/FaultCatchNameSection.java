@@ -24,9 +24,9 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Import;
@@ -40,7 +40,7 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
-import org.eclipse.bpel.model.Switch;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.While;
@@ -775,11 +775,11 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			getFaultNames(((While) activity).getActivity());
 		if (activity instanceof RepeatUntil)
 			getFaultNames(((RepeatUntil) activity).getActivity());
-		if (activity instanceof Switch) {
-			EList cases = ((Switch) activity).getCases();
-			for (Iterator caseIterator = cases.iterator(); caseIterator.hasNext();) {
-				Case _case = (Case) caseIterator.next();
-				getFaultNames(_case.getActivity());
+		if (activity instanceof If) {
+			EList elseifs = ((If) activity).getElseIf();
+			for (Iterator elifIterator = elseifs.iterator(); elifIterator.hasNext();) {
+				ElseIf elif = (ElseIf) elifIterator.next();
+				getFaultNames(elif.getActivity());
 			}
 		}
 		if (activity instanceof Pick) {

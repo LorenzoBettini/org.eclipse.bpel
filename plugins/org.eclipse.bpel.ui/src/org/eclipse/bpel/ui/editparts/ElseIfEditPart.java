@@ -15,13 +15,12 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
-import org.eclipse.bpel.ui.editparts.borders.CaseBorder;
+import org.eclipse.bpel.ui.editparts.borders.ElseElseIfBorder;
 import org.eclipse.bpel.ui.editparts.policies.BPELContainerEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
-import org.eclipse.bpel.ui.editparts.policies.CaseHighlightEditPolicy;
+import org.eclipse.bpel.ui.editparts.policies.ElseHighlightEditPolicy;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
@@ -37,26 +36,21 @@ import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.graphics.Image;
 
 
-public class CaseEditPart extends BPELEditPart implements NodeEditPart {
+public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 
 	private Image image;
-	private Label nameLabel;
+	public Label nameLabel;
 	private IFigure childFigure;
-	private CaseBorder border;
+	private ElseElseIfBorder border;
 	
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		
 		// Show the selection rectangle
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new CaseHighlightEditPolicy(false, true));
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ElseHighlightEditPolicy(false, true));
 		
 		// The case must lay out its child activity
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
-
-		// hack
-		if (!ModelHelper.supportsUIExtensionDisplayName(getModel())) {
-			installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, null);
-		}
 			
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new BPELContainerEditPolicy());
 	}
@@ -82,7 +76,7 @@ public class CaseEditPart extends BPELEditPart implements NodeEditPart {
 		
 		IFigure figure = new Figure();
 		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
-		figure.setForegroundColor(registry.get(IBPELUIConstants.COLOR_BLACK));		
+		figure.setForegroundColor(registry.get(IBPELUIConstants.COLOR_BLACK));	
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
 		layout.setHorizontal(false);
@@ -91,7 +85,7 @@ public class CaseEditPart extends BPELEditPart implements NodeEditPart {
 		figure.setLayoutManager(layout);
 		
 		nameLabel = new Label(element.getLabel(getModel()));
-		this.border = new CaseBorder();
+		this.border = new ElseElseIfBorder();
 		border.setColor(registry.get(IBPELUIConstants.COLOR_ACTIVITY_BORDER));
 		nameLabel.setBorder(border);
 		figure.add(nameLabel);
@@ -150,7 +144,7 @@ public class CaseEditPart extends BPELEditPart implements NodeEditPart {
 //			return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.TOP, getTopAnchorOffset());
 //		}
 		
-		// TODO: The -6 is a temporary hack until Case/OnMessage look and feel is determined
+		// TODO: The -6 is a temporary hack until ElseIf/OnMessage look and feel is determined
 		// See createFigure() and SwitchBorder.getInsets()
 		return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.BOTTOM, /*HACK*/6);
 	}
@@ -221,7 +215,7 @@ public class CaseEditPart extends BPELEditPart implements NodeEditPart {
 		// Force a repaint, as the drawer images may have changed.
 		getFigure().repaint();
 	}
-
+	
 	protected void refreshMarkerImages() {
 		if (image != null) {
 			image.dispose();

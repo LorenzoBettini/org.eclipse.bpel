@@ -42,7 +42,7 @@ public class CaseConditionSection extends ExpressionSection {
 		FlatFormData ffdata;
 		
 		Label label1 = wf.createLabel(section,
-			Messages.CaseConditionSection_No_condition_specified_1); 
+			Messages.ElseIfConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(0, 0);
@@ -50,14 +50,14 @@ public class CaseConditionSection extends ExpressionSection {
 		label1.setLayoutData(ffdata);
 
 		Label label2 = wf.createLabel(section,
-			Messages.CaseConditionSection_Create_condition_text_2); 
+			Messages.ElseIfConditionSection_Create_condition_text_2); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label1, IDetailsAreaConstants.VSPACE);
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label2.setLayoutData(ffdata);
 		
-		Button createDefaultButton = wf.createButton(section, Messages.CaseConditionSection_Create_a_New_Condition_2, SWT.PUSH); 
+		Button createDefaultButton = wf.createButton(section, Messages.ElseIfConditionSection_Create_a_New_Condition_2, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);

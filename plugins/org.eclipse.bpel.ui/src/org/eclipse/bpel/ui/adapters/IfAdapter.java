@@ -13,31 +13,33 @@ package org.eclipse.bpel.ui.adapters;
 import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Switch;
-import org.eclipse.bpel.ui.actions.editpart.CreateCaseAction;
-import org.eclipse.bpel.ui.actions.editpart.CreateOtherwiseAction;
+import org.eclipse.bpel.model.If;
+import org.eclipse.bpel.ui.actions.editpart.CreateElseAction;
+import org.eclipse.bpel.ui.actions.editpart.CreateElseIfAction;
+import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
+import org.eclipse.bpel.ui.editparts.IfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
-import org.eclipse.bpel.ui.editparts.SwitchEditPart;
 import org.eclipse.gef.EditPart;
 
 
-public class SwitchAdapter extends ContainerActivityAdapter {
+public class IfAdapter extends ContainerActivityAdapter {
 
 	/* IContainer delegate */
 		
 	public IContainer createContainerDelegate() {
 		MultiContainer omc = new MultiContainer();
-		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getSwitch_Cases()));
-		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getSwitch_Otherwise()));
+		omc.add(new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getIf_Activity()));
+		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getIf_ElseIf()));
+		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getIf_Else()));
 		return omc;
 	}
 
 	/* EditPartFactory */
 	
 	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart result = new SwitchEditPart();
+		EditPart result = new IfEditPart();
 		result.setModel(model);
 		return result;
 	}
@@ -55,13 +57,14 @@ public class SwitchAdapter extends ContainerActivityAdapter {
 	public List getEditPartActions(final EditPart editPart) {
 		List actions = super.getEditPartActions(editPart);
 		Object modelObject = editPart.getModel();
-
-		actions.add(new CreateCaseAction(editPart));
 		
-		if (((Switch)modelObject).getOtherwise() == null) {
-			actions.add(new CreateOtherwiseAction(editPart));
+		actions.add(new CreateElseIfAction(editPart));
+		  
+		if (((If)modelObject).getElse() == null) {
+			actions.add(new CreateElseAction(editPart));
 		}
 		return actions;
 	}
+	
 }
 	

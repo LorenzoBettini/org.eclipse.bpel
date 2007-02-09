@@ -347,9 +347,9 @@
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
-               class="org.eclipse.bpel.ui.properties.OtherwiseConditionSection"
+               class="org.eclipse.bpel.ui.properties.ElseConditionSection"
                id="org.eclipse.bpel.ui.sections.OtherwiseCondition">
-            <input type="org.eclipse.bpel.model.Otherwise"/>
+            <input type="org.eclipse.bpel.model.Else"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.joinBehaviour"
@@ -412,7 +412,13 @@
                tab="org.eclipse.bpel.ui.tabs.details"
                class="org.eclipse.bpel.ui.properties.CaseConditionSection"
                id="org.eclipse.bpel.ui.sections.CaseCondition">
-            <input type="org.eclipse.bpel.model.Case"/>
+            <input type="org.eclipse.bpel.model.ElseIf"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.CaseConditionSection"
+               id="org.eclipse.bpel.ui.sections.IfCondition">
+            <input type="org.eclipse.bpel.model.If"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
@@ -571,9 +577,9 @@
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
-               class="org.eclipse.bpel.ui.properties.OtherwiseConditionSection"
+               class="org.eclipse.bpel.ui.properties.ElseConditionSection"
                id="org.eclipse.bpel.ui.sections.OtherwiseCondition">
-            <input type="org.eclipse.bpel.model.Otherwise"/>
+            <input type="org.eclipse.bpel.model.Else"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.joinBehaviour"
@@ -593,7 +599,7 @@
                tab="org.eclipse.bpel.ui.tabs.details"
                class="org.eclipse.bpel.ui.properties.CaseConditionSection"
                id="org.eclipse.bpel.ui.sections.CaseCondition">
-            <input type="org.eclipse.bpel.model.Case"/>
+            <input type="org.eclipse.bpel.model.ElseIf"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"

@@ -11,7 +11,7 @@
 package org.eclipse.bpel.ui.actions.editpart;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Otherwise;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -27,24 +27,29 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 
-public class CreateOtherwiseAction extends AbstractAction {
+public class CreateElseIfAction extends AbstractAction {
 
-	public CreateOtherwiseAction(EditPart editPart) {
+	public CreateElseIfAction(EditPart editPart) {
 		super(editPart);
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_OTHERWISE);
+		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_CASE);
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_OTHERWISE);
+		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_CASE);
+	}
+	
+	public Image getImageIcon() {
+		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_CASE);
 	}
 
 	public boolean onButtonPressed() {
 		CompoundCommand command = new CompoundCommand();
-		Otherwise child = (Otherwise)UIObjectFactoryProvider.getInstance().getFactoryFor(
-			BPELPackage.eINSTANCE.getOtherwise()).createInstance();
+		final ElseIf child = (ElseIf)UIObjectFactoryProvider.getInstance().getFactoryFor(
+			BPELPackage.eINSTANCE.getElseIf()).createInstance();
+
 		command.add(new InsertInContainerCommand((EObject)modelObject, child, null));
 		command.add(new SetNameAndDirectEditCommand(child, viewer));
 		BPELEditor bpelEditor = ModelHelper.getBPELEditor(modelObject);
@@ -53,7 +58,7 @@ public class CreateOtherwiseAction extends AbstractAction {
 	}
 
 	public String getToolTip() {
-		return Messages.CreateOtherwiseAction_Add_Otherwise_1; 
+		return Messages.CreateElseIfAction_Add_ElseIf_1; 
 	}
 	
 	public ImageDescriptor getDisabledIcon() { return ImageDescriptor.getMissingImageDescriptor(); }

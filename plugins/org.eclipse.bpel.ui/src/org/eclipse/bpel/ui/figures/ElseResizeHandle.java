@@ -12,14 +12,14 @@ package org.eclipse.bpel.ui.figures;
 
 import org.eclipse.bpel.common.ui.figures.InsetRelativeHandleLocator;
 import org.eclipse.bpel.common.ui.figures.InsetResizeHandle;
-import org.eclipse.bpel.ui.editparts.CaseEditPart;
+import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 
 
-public class CaseResizeHandle extends InsetResizeHandle {
-	public CaseResizeHandle(GraphicalEditPart owner, int direction) {
+public class ElseResizeHandle extends InsetResizeHandle {
+	public ElseResizeHandle(GraphicalEditPart owner, int direction) {
 		super(owner, direction, 0, 0);
-		CaseEditPart editPart = (CaseEditPart)owner;
+		ElseIfEditPart editPart = (ElseIfEditPart)owner;
 		setLocator(new InsetRelativeHandleLocator(editPart.getNameLabel(), direction, 0, 0));
 	}
 }

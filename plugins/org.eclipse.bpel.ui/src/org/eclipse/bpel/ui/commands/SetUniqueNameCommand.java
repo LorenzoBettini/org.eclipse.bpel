@@ -16,7 +16,6 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CompoundCommand;
 
@@ -35,10 +34,7 @@ public class SetUniqueNameCommand extends CompoundCommand {
 		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
 		String name = (element != null) ? element.getTypeLabel(model) : ""; //$NON-NLS-1$
 		String uniqueModelName = BPELUtil.getUniqueModelName(process, name, Collections.singletonList(model));
-		if (ModelHelper.supportsUIExtensionDisplayName(model)) {
-			// set the display name (which happens to set the name too)
-			add(new SetDisplayNameCommand((EObject)model, uniqueModelName));
-		} else if (BPELUtil.adapt(model, INamedElement.class) != null) {
+		if (BPELUtil.adapt(model, INamedElement.class) != null) {
 			add(new SetNameCommand((EObject)model, uniqueModelName));
 		}
 	}

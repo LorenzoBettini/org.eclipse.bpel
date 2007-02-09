@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 
 /** 
  * Sets the expression property of a model object.  This includes the
- * Condition property of Case, the Condition property of While and RepeatUntil, and
+ * Condition property of ElseIf, the Condition property of While and RepeatUntil, and
  * the For/Until properties of Wait and OnAlarm.  Also used for Timeout,
  * Expiration, and RepeatEvery.
  */

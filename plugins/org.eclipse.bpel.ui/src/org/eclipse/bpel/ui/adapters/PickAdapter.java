@@ -18,7 +18,7 @@ import org.eclipse.bpel.ui.actions.editpart.CreateOnMessageAction;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
-import org.eclipse.bpel.ui.editparts.SwitchEditPart;
+import org.eclipse.bpel.ui.editparts.PickEditPart;
 import org.eclipse.gef.EditPart;
 
 
@@ -36,7 +36,7 @@ public class PickAdapter extends ContainerActivityAdapter {
 	/* EditPartFactory */
 	
 	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart result = new SwitchEditPart();
+		EditPart result = new PickEditPart();
 		result.setModel(model);
 		return result;
 	}

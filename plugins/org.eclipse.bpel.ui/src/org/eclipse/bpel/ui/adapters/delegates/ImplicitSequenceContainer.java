@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EReference;
 
 /**
  * An IContainer implementation for containers of a single Activity (such as While and
- * Case and RepeatUntil).  This container will actually allow multiple children, and will manage the
+ * ElseIf and RepeatUntil).  This container will actually allow multiple children, and will manage the
  * necessary implicit sequence without directly exposing it to the code above.
  */
 public class ImplicitSequenceContainer extends ReferenceContainer {

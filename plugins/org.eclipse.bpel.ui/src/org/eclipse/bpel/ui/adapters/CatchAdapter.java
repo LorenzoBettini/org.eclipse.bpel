@@ -18,7 +18,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
-import org.eclipse.bpel.ui.editparts.CaseEditPart;
+import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -59,7 +59,7 @@ public class CatchAdapter extends ContainerAdapter implements ILabeledElement,
 	/* EditPartFactory */
 	
 	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart result = new CaseEditPart();
+		EditPart result = new ElseIfEditPart();
 		result.setModel(model);
 		return result;
 	}

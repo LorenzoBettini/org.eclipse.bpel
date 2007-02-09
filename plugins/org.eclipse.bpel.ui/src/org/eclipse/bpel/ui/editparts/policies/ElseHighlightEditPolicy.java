@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.bpel.ui.figures.CaseResizeHandle;
+import org.eclipse.bpel.ui.figures.ElseResizeHandle;
 import org.eclipse.bpel.ui.util.BPELDragEditPartsTracker;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.emf.ecore.EObject;
@@ -23,9 +23,9 @@ import org.eclipse.gef.Handle;
 import org.eclipse.gef.SharedCursors;
 
 
-public class CaseHighlightEditPolicy extends ContainerHighlightEditPolicy {
+public class ElseHighlightEditPolicy extends ContainerHighlightEditPolicy {
 	
-	public CaseHighlightEditPolicy(boolean resizable, boolean movable) {
+	public ElseHighlightEditPolicy(boolean resizable, boolean movable) {
 		super(resizable, movable);
 	}
 	
@@ -45,7 +45,7 @@ public class CaseHighlightEditPolicy extends ContainerHighlightEditPolicy {
 		handles.add(createCaseHandle(part, PositionConstants.NORTH_EAST));
 	}
 	static Handle createCaseHandle(GraphicalEditPart owner, int direction) {
-		CaseResizeHandle handle = new CaseResizeHandle(owner, direction);
+		ElseResizeHandle handle = new ElseResizeHandle(owner, direction);
 		handle.setCursor(SharedCursors.SIZEALL);
 		handle.setDragTracker(new BPELDragEditPartsTracker(owner));
 		return handle;

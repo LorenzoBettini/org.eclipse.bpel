@@ -15,7 +15,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
-import org.eclipse.bpel.ui.editparts.CaseEditPart;
+import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -23,14 +23,14 @@ import org.eclipse.swt.graphics.Image;
 
 
 
-public class OtherwiseAdapter extends ContainerAdapter implements ILabeledElement,
+public class ElseAdapter extends ContainerAdapter implements ILabeledElement,
 	EditPartFactory, IOutlineEditPartFactory
 {	
 
 	/* IContainer delegate */
 	
 	public IContainer createContainerDelegate() {
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getOtherwise_Activity());
+		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getElse_Activity());
 	}
 
 	/* ILabeledElement */
@@ -44,7 +44,7 @@ public class OtherwiseAdapter extends ContainerAdapter implements ILabeledElemen
 	}
 		
 	public String getTypeLabel(Object object) {
-		return Messages.OtherwiseAdapter_0; 
+		return Messages.ElseAdapter_0; 
 	}	
 	
 	public String getLabel(Object object) {
@@ -54,7 +54,7 @@ public class OtherwiseAdapter extends ContainerAdapter implements ILabeledElemen
 	/* EditPartFactory */
 	
 	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart result = new CaseEditPart();
+		EditPart result = new ElseIfEditPart();
 		result.setModel(model);
 		return result;
 	}

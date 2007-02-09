@@ -17,7 +17,7 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
-public class CaseBorder extends LineBorder {
+public class ElseElseIfBorder extends LineBorder {
 
 	public static final int MARKER_WIDTH = 15;
 	private Image image;

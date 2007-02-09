@@ -31,7 +31,6 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Case;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
@@ -41,18 +40,20 @@ import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
-import org.eclipse.bpel.model.Otherwise;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Pick;
@@ -62,7 +63,6 @@ import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Source;
-import org.eclipse.bpel.model.Switch;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
@@ -79,7 +79,6 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.util.ImportResolver;
 import org.eclipse.bpel.model.util.ImportResolverRegistry;
-import org.eclipse.bpel.model.util.WSDLUtil;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Policy;
@@ -166,8 +165,8 @@ public class ModelHelper {
 	public static final int PARTNER_ROLE = 1;
 
 	public static String getDisplayName(Object context) {
-		if (context instanceof Case) {
-			CaseExtension extension = (CaseExtension)getExtension((Case)context);
+		if (context instanceof ElseIf) {
+			CaseExtension extension = (CaseExtension)getExtension((ElseIf)context);
 			return extension==null? null : extension.getDisplayName();
 		}
 		if (context instanceof OnMessage) {
@@ -183,42 +182,6 @@ public class ModelHelper {
 			return extension==null? null : extension.getDisplayName();
 		}
 		return null;
-	}
-	
-	public static boolean supportsUIExtensionDisplayName(Object context) {
-		if (context instanceof Case) return true;
-		if (context instanceof OnAlarm) return true;
-		if (context instanceof OnEvent) return true;
-		if (context instanceof OnMessage) return true;
-		return false;
-	}
-	
-	public static void setBPELUIExtensionDisplayName(Object context, String newDisplayName) {
-		if (context instanceof Case) {
-			CaseExtension extension = (CaseExtension)getExtension((Case)context);
-			if (extension == null) throw new IllegalStateException();
-			extension.setDisplayName(newDisplayName);
-			return;
-		}
-		if (context instanceof OnMessage) {
-			OnMessageExtension extension = (OnMessageExtension)getExtension((OnMessage)context);
-			if (extension == null) throw new IllegalStateException();
-			extension.setDisplayName(newDisplayName);
-			return;
-		}
-		if (context instanceof OnEvent) {
-			OnEventExtension extension = (OnEventExtension)getExtension((OnEvent)context);
-			if (extension == null) throw new IllegalStateException();
-			extension.setDisplayName(newDisplayName);
-			return;
-		}
-		if (context instanceof OnAlarm) {
-			OnAlarmExtension extension = (OnAlarmExtension)getExtension((OnAlarm)context);
-			if (extension == null) throw new IllegalStateException();
-			extension.setDisplayName(newDisplayName);
-			return;
-		}
-		throw new IllegalArgumentException();
 	}
 
 	public static boolean supportsJoinFailure(Object context) {
@@ -628,7 +591,8 @@ public class ModelHelper {
 	public static Expression getExpression(Object context, int exprKind) {
 		switch (exprKind) {
 		case DEFAULT_EXPR:
-			if (context instanceof Case)  return ((Case)context).getCondition();
+			if (context instanceof ElseIf)  return ((ElseIf)context).getCondition();
+			if (context instanceof If) return ((If)context).getCondition();
 			if (context instanceof While)  return ((While)context).getCondition();
 			if (context instanceof RepeatUntil)  return ((RepeatUntil)context).getCondition();
 			if (context instanceof From)  return ((From)context).getExpression();
@@ -713,8 +677,11 @@ public class ModelHelper {
 	public static void setExpression(Object context, int exprKind, int exprSubKind, Expression expr) {
 		switch (exprKind) {
 		case DEFAULT_EXPR:
-			if (context instanceof Case) {
-				((Case)context).setCondition(makeCondition(expr)); return;
+			if (context instanceof ElseIf) {
+				((ElseIf)context).setCondition(makeCondition(expr)); return;
+			}
+			if (context instanceof If) {
+				((If) context).setCondition(makeCondition(expr)); return;
 			}
 			if (context instanceof While) {
 				((While)context).setCondition(makeCondition(expr)); return;
@@ -928,8 +895,8 @@ public class ModelHelper {
 	}
 
 	public static boolean isSingleActivityContainer(Object context) {
-		if (context instanceof Case)  return true;
-		if (context instanceof Otherwise)  return true;
+		if (context instanceof ElseIf)  return true;
+		if (context instanceof Else)  return true;
 		if (context instanceof Catch)  return true;
 		if (context instanceof CatchAll)  return true;
 		if (context instanceof OnAlarm)  return true;
@@ -942,8 +909,8 @@ public class ModelHelper {
 	}
 
 	public static Activity getActivity(Object context) {
-		if (context instanceof Case)  return ((Case)context).getActivity();
-		if (context instanceof Otherwise)  return ((Otherwise)context).getActivity();
+		if (context instanceof ElseIf)  return ((ElseIf)context).getActivity();
+		if (context instanceof Else)  return ((Else)context).getActivity();
 		if (context instanceof Catch)  return ((Catch)context).getActivity();
 		if (context instanceof CatchAll)  return ((CatchAll)context).getActivity();
 		if (context instanceof OnAlarm)  return ((OnAlarm)context).getActivity();
@@ -956,16 +923,17 @@ public class ModelHelper {
 		if (context instanceof FaultHandler) return getCatchAll((FaultHandler)context);
 		if (context instanceof CompensationHandler)  return ((CompensationHandler)context).getActivity();
 		if (context instanceof TerminationHandler)  return ((TerminationHandler)context).getActivity();
-		if (context instanceof Switch) return getOtherwise((Switch)context);
+		if (context instanceof If) return ((If) context).getActivity();
 		throw new IllegalArgumentException();
 	}
 
+	// TODO: this method is never called - remove it???
 	public static void setActivity(Object context, Activity activity) {
-		if (context instanceof Case) {
-			((Case)context).setActivity(activity); return;
+		if (context instanceof ElseIf) {
+			((ElseIf)context).setActivity(activity); return;
 		}
-		if (context instanceof Otherwise) {
-			((Otherwise)context).setActivity(activity); return;
+		if (context instanceof Else) {
+			((Else)context).setActivity(activity); return;
 		}
 		if (context instanceof Catch) {
 			((Catch)context).setActivity(activity); return;
@@ -1003,15 +971,18 @@ public class ModelHelper {
 		if (context instanceof TerminationHandler) {
 			((TerminationHandler)context).setActivity(activity); return;
 		}
-		if (context instanceof Switch) {
-			setOtherwise((Switch)context, activity); return;
+		if (context instanceof If) {
+			setElse((If)context, activity); return;
 		}
+		//TODO: ELSEIF ???
+		
 		throw new IllegalArgumentException();
 	}
 	
+	// TODO: this method is never called - remove it???
 	public static boolean isActivityAffected(Object context, Notification n) {
-		if (context instanceof Case) {
-			return (n.getFeatureID(Case.class) == BPELPackage.CASE__ACTIVITY);
+		if (context instanceof ElseIf) {
+			return (n.getFeatureID(ElseIf.class) == BPELPackage.ELSE_IF__ACTIVITY);
 		}
 		if (context instanceof Catch) {
 			return (n.getFeatureID(Catch.class) == BPELPackage.CATCH__ACTIVITY);
@@ -1046,8 +1017,8 @@ public class ModelHelper {
 		if (context instanceof FaultHandler) {
 			return isCatchAllAffected((FaultHandler)context, n);
 		}
-		if (context instanceof Switch) {
-			return isOtherwiseAffected((Switch)context, n);
+		if (context instanceof If) {
+			return isElseAffected((If)context, n);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -1074,26 +1045,31 @@ public class ModelHelper {
 		return (n.getFeatureID(CatchAll.class) == BPELPackage.CATCH_ALL__ACTIVITY);
 	}
 	
-	public static Activity getOtherwise(Switch modelSwitch) {
-		Otherwise otherwise = modelSwitch.getOtherwise();
-		return (otherwise == null)? null : otherwise.getActivity();
+	// TODO: this method is never called - remove it???
+	public static Activity getElse(If _if) {
+		Else _else = _if.getElse();
+		return (_else == null)? null : _else.getActivity();
 	}
-	public static void setOtherwise(Switch modelSwitch, Activity activity) {
+	
+	//TODO: this method is never called - remove it???
+	public static void setElse(If _if, Activity activity) {
 		if (activity == null)  {
-			modelSwitch.setOtherwise(null);
-		} else if (modelSwitch.getOtherwise() == null) {
-			Otherwise otherwise = BPELFactory.eINSTANCE.createOtherwise();
-			modelSwitch.setOtherwise(otherwise);
-			otherwise.setActivity(activity);
+			_if.setElse(null);
+		} else if (_if.getElse() == null) {
+			Else _else = BPELFactory.eINSTANCE.createElse();
+			_if.setElse(_else);
+			_else.setActivity(activity);
 		} else {
-			modelSwitch.getOtherwise().setActivity(activity);
+			_if.getElse().setActivity(activity);
 		}
 	}
-	public static boolean isOtherwiseAffected(Switch modelSwitch, Notification n) {
-		if ((n.getNewValue() instanceof Switch) || (n.getOldValue() instanceof Switch)) {
-			return (n.getFeatureID(Switch.class) == BPELPackage.SWITCH__OTHERWISE);
+	
+	// TODO: this method is never called - remove it???
+	public static boolean isElseAffected(If _if, Notification n) {
+		if ((n.getNewValue() instanceof If) || (n.getOldValue() instanceof If)) {
+			return (n.getFeatureID(If.class) == BPELPackage.IF__ELSE);
 		}
-		return (n.getFeatureID(Otherwise.class) == BPELPackage.OTHERWISE__ACTIVITY);
+		return (n.getFeatureID(Else.class) == BPELPackage.ELSE__ACTIVITY);
 	}
 	
 	public static boolean isRoleAffected(Object context, Notification n, int who)  {
