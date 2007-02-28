@@ -18,17 +18,33 @@ import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDTypeDefinition;
 
+/**
+ * Help with resolution (lookup) of types and element declaration in schemas.
+ *  
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Feb 27, 2007
+ *
+ */
+
+@SuppressWarnings("nls")
 public class XSDUtil
 {
+	/** Lookup type definitions */
     public static final String XSD_TYPE_DEFINITION = XSDPackage.eINSTANCE.getXSDTypeDefinition().getName();
     
+    /** Lookup element declarations */
     public static final String XSD_ELEMENT_DECLARATION = XSDPackage.eINSTANCE.getXSDElementDeclaration().getName();
     
+    /** Lookup schema */
     public static final String XSD_SCHEMA = XSDPackage.eINSTANCE.getXSDSchema().getName();
 
     /**
      * Tests if <code>typeName</code> is a recognized reference type.
+     * @param typeName the thing that we can lookup
+     * @return true if we can, false if we cannot
      */
+    
     public static boolean isSchemaType(String typeName)
     {
         return typeName == null ? false :
@@ -37,9 +53,17 @@ public class XSDUtil
     }
 
     /**
-     * Resolve with the given schema.
+     * Resolve with the given schema the QName passed, given the hint on its refType 
+     * 
+     * @param schema the schema 
+     * @param qname the QName to resolve
+     * @param name  currently null
+     * @param refType the refType to resolve.
+     * 
+     * @return the resolved object, or null
      */
-    public static EObject resolve(XSDSchema schema, QName qname, String name, String refType)
+
+	public static EObject resolve(XSDSchema schema, QName qname, String name, String refType)
     {
         EObject resolvedObject = null;
         if (XSD_TYPE_DEFINITION.equals(refType))
@@ -61,15 +85,33 @@ public class XSDUtil
         return resolvedObject;
     }
 
+	
+    /**
+     * Find the element declaration pointed by the QName in the schema passed.
+     * 
+     * @param schema the schema
+     * @param qname the QName of the element declaration to find
+     * @return the element declaration or null
+     */
+	
     public static XSDElementDeclaration resolveElementDeclaration(XSDSchema schema, QName qname)
     {    	
         return schema.resolveElementDeclaration(XSDNamespaceAdjust (qname.getNamespaceURI()) , qname.getLocalPart());
     }
     
+    
+    /**
+     * Find the type definition pointed by the QName in the schema passed.
+     * 
+     * @param schema the schema
+     * @param qname the QName of the type definition to find
+     * @return the type definition or null
+     */
     public static XSDTypeDefinition resolveTypeDefinition(XSDSchema schema, QName qname)
     {
         return schema.resolveTypeDefinition(XSDNamespaceAdjust ( qname.getNamespaceURI() ), qname.getLocalPart());
     }
+    
     
     
     private static final String XSDNamespaceAdjust ( String nsURI ) {

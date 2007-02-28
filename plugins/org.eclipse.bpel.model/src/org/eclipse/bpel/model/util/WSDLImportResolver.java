@@ -28,14 +28,29 @@ import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 
 
+/**
+ * Resolve items from the imported WSDLs.
+ * 
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Feb 27, 2007
+ *
+ */
+
+@SuppressWarnings("nls")
+
 public class WSDLImportResolver implements ImportResolver {
         	
 	
+    /** 
+     * @return The import type for which this resolver resolves.
+     */
     public final static String getImportType() {
         return WSDLConstants.WSDL_NAMESPACE_URI;
     }
 
-    protected Definition findAndLoadWSDL ( Import imp) {
+    
+	protected Definition findAndLoadWSDL ( Import imp) {
         Resource baseResource = imp.eResource();
         String location = imp.getLocation();
         if (!baseResource.getURI().isRelative()) {
@@ -64,6 +79,9 @@ public class WSDLImportResolver implements ImportResolver {
         return null;
     }
     
+    /**
+     * @see org.eclipse.bpel.model.util.ImportResolver#resolve(org.eclipse.bpel.model.Import, javax.xml.namespace.QName, java.lang.String, java.lang.String)
+     */
     public EObject resolve(Import imp, QName qname, String name, String refType) {
     	
         EObject result = null;
@@ -94,13 +112,20 @@ public class WSDLImportResolver implements ImportResolver {
     }
 
 	/**
+	 * @param imp the import
+	 * @param what what to resolve (WSDLs or Schemas)
+	 * @return a list containing the resolved items (either WSDLs or schemas)
+	 * 
 	 * @see org.eclipse.bpel.model.util.ImportResolver#resolveSchemas(org.eclipse.bpel.model.Import)
 	 */
     
+	@SuppressWarnings("unchecked")
 	public List resolve (Import imp, int what ) {
+		
 		if (getImportType().equals(imp.getImportType()) == false) {
         	return Collections.EMPTY_LIST;
-        }        
+        }
+		
         Definition definition = findAndLoadWSDL ( imp );
         
         if (definition == null) {

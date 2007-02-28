@@ -15,16 +15,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Import Resolver Registry.
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Feb 27, 2007
+ *
+ */
+
 public class ImportResolverRegistry
 {
+    /** The singleton instance of the registry */
     public final static ImportResolverRegistry INSTANCE = new ImportResolverRegistry();
     
     /**
      * Maps from {@link String} import type to a {@link List} of {@link ImportResolver}s.
      */
-    private Map registry = new HashMap();
-
-    private final static ImportResolver[] EMPTY_RESOLVER_ARRAY = new ImportResolver[] {};
+    Map<String,List<ImportResolver>> registry = new HashMap<String,List<ImportResolver>>();
+    
+    final static ImportResolver[] EMPTY_RESOLVER_ARRAY = new ImportResolver[] {};
     
     /**
      * Hide the constructor.
@@ -35,24 +44,35 @@ public class ImportResolverRegistry
         registerResolver(WSDLImportResolver.getImportType(), new WSDLImportResolver());
     }
     
+    /**
+     * Register a resolver for the given import type
+     * @param importType import type
+     * @param resolver the resolver
+     */
+    
     public void registerResolver(String importType, ImportResolver resolver)
     {
-        List resolvers = (List) registry.get(importType);
-        if (resolvers == null)
-        {
-            resolvers = new ArrayList();
+        List<ImportResolver> resolvers = registry.get(importType);
+        if (resolvers == null) {
+            resolvers = new ArrayList<ImportResolver>();
             registry.put(importType, resolvers);
         }
         resolvers.add(resolver);
     }
     
+    
+    /**
+     * Get resolver for a particular import type.
+     * @param importType the import type
+     * @return the array of resolvers for this import type.
+     */
+    
     public ImportResolver[] getResolvers(String importType)
     {
-        List resolvers = (List) registry.get(importType);
-        if (resolvers == null)
-        {
+        List<ImportResolver> resolvers = registry.get(importType);
+        if (resolvers == null) {
             return EMPTY_RESOLVER_ARRAY;
         }
-        return (ImportResolver[]) resolvers.toArray(EMPTY_RESOLVER_ARRAY);        
+        return resolvers.toArray(EMPTY_RESOLVER_ARRAY);        
     }
 }
