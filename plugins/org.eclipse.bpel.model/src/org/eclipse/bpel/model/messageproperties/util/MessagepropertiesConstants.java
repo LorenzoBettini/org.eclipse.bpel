@@ -12,6 +12,12 @@ package org.eclipse.bpel.model.messageproperties.util;
 
 import org.w3c.dom.Element;
 
+/**
+ * Message Properties constants.
+ *
+ */
+
+@SuppressWarnings("nls")
 public final class MessagepropertiesConstants
 {
 	/**
@@ -20,9 +26,15 @@ public final class MessagepropertiesConstants
 	public static final String NAMESPACE_2004 = "http://schemas.xmlsoap.org/ws/2004/03/business-process/";
 
 	/**
+	 * The variable properties namespace from BPEL 2.0 onwards.
+	 */
+	
+	public static final String NAMESPACE_2007 = "http://docs.oasis-open.org/wsbpel/2.0/varprop";
+	
+	/**
 	 * The current namespace.
 	 */
-	public static String NAMESPACE = NAMESPACE_2004;
+	public static String NAMESPACE = NAMESPACE_2007;
 
 	/**
 	 * Tests if <code>namespace</code> equals any of the valid namespaces.
@@ -30,8 +42,10 @@ public final class MessagepropertiesConstants
 	public static boolean isMessagePropertiesNamespace(String namespace)
 	{
 		return namespace != null
-			&& namespace.equals(NAMESPACE_2004);
+			&& (namespace.equals(NAMESPACE_2004) ||
+				namespace.equals(NAMESPACE_2007));
 	}
+	
 	
     public static final String PROPERTY_ELEMENT_TAG = "property";
     public static final String PROPERTY_ALIAS_ELEMENT_TAG = "propertyAlias";
