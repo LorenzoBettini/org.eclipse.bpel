@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Quick comment about palette entries.
+
+   For most optimal source XML formatting,
+   the BPEL fragments that normally would contain other elements should
+   be written as <x>\n</x> not as <x/> even thougth it is semantically 
+   identical. Point is during formatting, the extra text node are important
+   for a more pleasing source view.
+ -->
+
+<palette xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpeld="http://schemas.oracle.com/bpel/extension/designer">
+    <description>
+     BPEL Core Elements as defined in by the BPEL standard.
+    </description>
+
+   	<palette-item label="assign"
+   	      title="Assign XML Documents"
+   	      icon="images/flow/assign.palette.gif"
+          dragimage="images/flow/assign.default.jpg"
+   	      >
+   	      <assign>
+          </assign>
+   	</palette-item>
+   	<palette-item label="invoke"
+   	      title="Invoke Operation"
+   	      icon="images/flow/invoke.palette.gif"
+          dragimage="images/flow/invoke.default.jpg"
+   	      >
+   	      <invoke />
+   	</palette-item>
+
+   	<palette-item label="reply"
+   	      title="Reply Synchronously"
+   	      icon="images/flow/invoke.palette.gif"
+          dragimage="images/flow/invoke.default.jpg"
+   	      >
+   	      <reply />
+   	</palette-item>
+
+   	<palette-item label="receive"
+   	      title="Receive Async. Callback"
+   	      icon="images/flow/receive.palette.gif"
+          dragimage="images/flow/receive.default.jpg"
+   	      >
+   	      <receive createInstance="no" />
+   	</palette-item>
+
+   	<palette-item label="wait"
+   	      title="Wait"
+   	      icon="images/flow/wait.palette.gif"
+          dragimage="images/flow/wait.default.jpg"
+   	      >
+   	      <wait for="PT1H" />
+   	</palette-item>
+
+   	<palette-item label="terminate"
+   	      title="Terminate Instance"
+   	      icon="images/flow/terminate.palette.gif"
+          dragimage="images/flow/terminate.default.jpg"
+   	      >
+   	      <terminate />
+   	</palette-item>
+
+   	<palette-item label="throw"
+   	      title="Throw Exception"
+   	      icon="images/flow/throw.palette.gif"
+          dragimage="images/flow/throw.default.jpg"
+   	      >
+   	      <throw />
+   	</palette-item>
+
+   	<palette-item label="compensate"
+   	      title="Compensate Scope"
+   	      icon="images/flow/compensate.palette.gif"
+          dragimage="images/flow/compensate.default.jpg"
+   	      >
+   	      <compensate/>
+   	</palette-item>
+
+   	<palette-item label="empty"
+   	      title="Empty Activity"
+   	      icon="images/flow/empty.palette.gif"
+          dragimage="images/flow/empty.default.jpg"
+
+   	      >
+   	      <empty/>
+   	</palette-item>
+
+   	<palette-item separator="true" />
+
+   	<palette-item label="scope"
+   	      title="Scope"
+   	      icon="images/flow/scope.palette.gif"
+          dragimage="images/flow/scope.default.jpg"
+   	      >
+   	      <scope>
+          </scope>
+   	</palette-item>
+
+   	<palette-item label="switch"
+   	      title="Switch between N Cases"
+   	      icon="images/flow/switch.palette.gif"
+          dragimage="images/flow/switch.default.jpg"
+   	      >
+   	      <switch>
+   	          <case>
+              </case>
+   	          <otherwise>
+              </otherwise>
+   	      </switch>
+   	</palette-item>
+
+   	<palette-item label="while"
+   	      title="Iterate while condition is true"
+   	      icon="images/flow/while.palette.gif"
+          dragimage="images/flow/while.default.jpg"
+   	      >
+   	      <while>
+          </while>
+   	</palette-item>
+
+   	<palette-item label="pick"
+   	      title="Pick 1 of N Messages"
+   	      icon="images/flow/pick.palette.gif"
+          dragimage="images/flow/pick.default.jpg"
+   	      >
+   	      <pick>
+   	          <onMessage>
+   	          </onMessage>
+   	          <onAlarm for="'PT1H'">
+   	          </onAlarm>
+   	      </pick>
+   	</palette-item>
+
+   	<palette-item label="flow"
+   	      title="Parallel Processing"
+   		  icon="images/flow/flow.palette.gif"
+          dragimage="images/flow/flow.default.jpg"
+   		  >
+        <flow>
+            <sequence name="flow-sequence-1">
+            </sequence>
+            <sequence name="flow-sequence-2">
+            </sequence>
+         </flow>
+    </palette-item>   
+
+
+   	<palette-item label="sequence"
+   	      title="Sequence"
+   	      icon="images/flow/sequence.palette.gif"
+          dragimage="images/flow/sequence.default.jpg"
+   	      >
+   	      <sequence>
+          </sequence>
+   	</palette-item>
+
+   
+    <!--  analysis palette items -->
+
+    <palette-item label="automated task"
+          title="An automated process step"
+   	      icon="images/flow/analysis.palette.automated.task.gif"
+          autoLabel="step"
+
+          paletteID="com.oracle.bpel.palette.analysis"
+          paletteName="Process Analysis" 
+          position="1"
+   	      >
+   	      <bpelx:abstract>
+              <bpelx:annotation>
+                  <bpelx:general>
+                       <bpelx:property name="label">Automated Task</bpelx:property>
+                  </bpelx:general>
+              </bpelx:annotation>
+   	      </bpelx:abstract>
+          <draghtml width="100" height="56">
+   	           <div class="BackgroundCenter AnalysisMapBackground"  
+   	                style="background-image: url(images/flow/a.automated.task.gif); border: 1px dashed #888;"> 
+                  <div class="AnalysisMapLabel" 
+                       style="font-size: 6pt; margin-left: 25px;">
+                     Automated Task
+                  </div>
+               </div>             	      
+   	      </draghtml>
+   	      
+    </palette-item>
+
+    <palette-item 
+           label="business rule" title="Business Rule" 
+           icon="images/flow/analysis.palette.business.rule.gif" 
+           dragimage="images/flow/a.business.rule.gif"
+           paletteID="com.oracle.bpel.palette.analysis" 
+           paletteName="Outline" position="10">           
+        <switch>
+            <case>
+            </case>
+   	        <otherwise>
+            </otherwise>
+   	     </switch>
+   	     
+    </palette-item>
+
+    <palette-item 
+           label="parallel flow" title="Parallel flow" 
+           icon="images/flow/analysis.palette.parallel.flow.gif" 
+           paletteID="com.oracle.bpel.palette.analysis" 
+           paletteName="Outline" position="11">           
+          <flow>
+            <sequence name="flow-sequence-1">
+            </sequence>
+            <sequence name="flow-sequence-2">
+            </sequence>
+         </flow>   
+         <draghtml width="96" height="52">
+   	           <div class="BackgroundCenter AnalysisMapBackground PaletteDragBorder" 
+   	                style="background-image: url(images/flow/a.parallel.process.gif);"> 
+                  <div class="AnalysisMapLabel">
+                     Parallel Flow
+                  </div>
+               </div>             	      
+   	      </draghtml>
+    </palette-item>
+
+    <palette-item label="business event"
+          title="Business event"
+   	      icon="images/flow/analysis.palette.business.event.gif"
+          autoLabel="event"
+
+          paletteID="com.oracle.bpel.palette.analysis"
+          paletteName="Outline" 
+          position="20"
+   	      >
+   	      <bpelx:abstract>
+            <bpelx:annotation> 
+               <bpelx:documentation></bpelx:documentation>
+               <bpelx:general>
+                   <bpelx:property name="label">Business Event</bpelx:property>
+               </bpelx:general>
+               <bpelx:analysis>
+                   <bpelx:property name="view.type">event</bpelx:property>
+               </bpelx:analysis>
+            </bpelx:annotation>
+   	      </bpelx:abstract>
+   	      
+   	      <draghtml width="128" height="52">
+   	           <div class="BackgroundCenter AnalysisMapBackground PaletteDragBorder" 
+   	                style="width: 126px; height: 50px;  background-image: url(images/flow/a.business.event.gif);"> 
+                  <div class="AnalysisMapLabel" 
+                       style="margin-left: 42px; margin-top: 12px; width: 75px; height: 28px;">
+                     Business Event
+                  </div>
+               </div>             	      
+   	      </draghtml>
+   	      
+	</palette-item>
+
+	<palette-item label="human task"
+          title="Human task activity"
+   	      icon="images/flow/analysis.palette.human.task.gif"
+          autoLabel="human-task"
+
+          paletteID="com.oracle.bpel.palette.analysis"
+          paletteName="Outline" 
+          position="22"
+   	      >   	         	      
+   	      <bpelx:abstract>
+            <bpelx:annotation> 
+               <bpelx:documentation></bpelx:documentation>
+               <bpelx:general>
+                   <bpelx:property name="label">a Human Task</bpelx:property>
+               </bpelx:general>
+               <bpelx:analysis>
+                   <bpelx:property name="view.type">approval</bpelx:property>
+               </bpelx:analysis>
+            </bpelx:annotation>
+   	      </bpelx:abstract>
+   	      
+   	      <draghtml width="96" height="52">
+   	           <div class="BackgroundCenter AnalysisMapBackground PaletteDragBorder" 
+   	                style="background-image: url(images/flow/a.human.task.gif);"> 
+                  <div class="AnalysisMapLabel">                       
+                     Human Approval
+                  </div>
+               </div>             	      
+   	      </draghtml>
+   	      
+	</palette-item>
+
+	<palette-item label="subprocess"
+          title="Subprocess or complex activity modelled as a set of activities"
+   	      icon="images/flow/analysis.palette.sub.process.gif"
+          autoLabel="complex"
+
+          paletteID="com.oracle.bpel.palette.analysis"
+          paletteName="Outline" 
+          position="23"
+   	      >
+   	      <bpelx:abstract>
+            <bpelx:annotation> 
+               <bpelx:documentation></bpelx:documentation>
+               <bpelx:general>
+                   <bpelx:property name="label">a Subprocess</bpelx:property>
+               </bpelx:general>
+               <bpelx:analysis>
+                   <bpelx:property name="view.type">complex</bpelx:property>
+               </bpelx:analysis>
+            </bpelx:annotation>
+
+   	      </bpelx:abstract>
+   	      
+   	      <draghtml width="96" height="52">
+   	           <div class="BackgroundCenter AnalysisMapBackground PaletteDragBorder"
+   	                style="background-image: url(images/flow/a.sub.process.gif);"> 
+                  <div class="AnalysisMapLabel">
+                     Sub Process
+                  </div>
+               </div>             	      
+   	      </draghtml>
+   	      
+	</palette-item>
+
+
+    <palette-item label="notification"
+          title="Notifications are outbound process events"
+   	      icon="images/flow/analysis.palette.notification.gif"
+          autoLabel="notification"
+          paletteID="com.oracle.bpel.palette.analysis"
+          paletteName="Outline" 
+          position="25"
+   	      >
+   	      <bpelx:abstract>
+            <bpelx:annotation> 
+               <bpelx:documentation></bpelx:documentation>
+               <bpelx:general>
+                   <bpelx:property name="label">a Notification</bpelx:property>
+               </bpelx:general>
+               <bpelx:analysis>
+                   <bpelx:property name="view.type">notification</bpelx:property>
+               </bpelx:analysis>
+            </bpelx:annotation>
+
+   	      </bpelx:abstract>
+   	      
+   	      <draghtml width="96" height="56">
+   	           <div class="BackgroundCenter AnalysisMapBackground PaletteDragBorder" 
+   	                style="background-image: url(images/flow/a.notification.gif);"> 
+                  <div class="AnalysisMapLabel"
+                       style="font-size: 6pt;">
+                     Notification
+                  </div>
+               </div>             	      
+   	      </draghtml>
+   	      
+	</palette-item>
+	
+	
+	  <palette-item label="stop"
+          title="End the process here"
+   	      icon="images/flow/analysis.palette.end.gif"
+          autoLabel="process stop"
+          paletteID="com.oracle.bpel.palette.analysis"
+          paletteName="Outline" 
+          position="30"
+   	      >
+   	      <terminate>
+            <bpelx:annotation> 
+               <bpelx:documentation></bpelx:documentation>
+               <bpelx:general>
+                   <bpelx:property name="label">terminate</bpelx:property>
+               </bpelx:general>
+            </bpelx:annotation>
+
+   	      </terminate>
+   	      
+   	      <draghtml width="100" height="56">
+   	           <div class="BackgroundCenter AnalysisMapBackground PaletteDragBorder" 
+   	                style="width: 100px; height: 56px; padding: 5px; text-align: center;">
+                  <img src="images/flow/a.end.gif"/>                      	              
+                  <div style="font: 8pt Verdana; font-weight: bold; text-align: center;">
+                     Process Stop
+                  </div>
+               </div>             	      
+   	      </draghtml>
+   	      
+	</palette-item>
+</palette>
+
+
+
