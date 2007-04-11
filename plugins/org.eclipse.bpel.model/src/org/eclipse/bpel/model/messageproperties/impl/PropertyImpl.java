@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.2 2006/08/16 22:11:16 mchmielewski Exp $
+ * $Id: PropertyImpl.java,v 1.3 2007/04/11 20:55:29 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -384,9 +384,12 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	    {
 	    	Definition definition = getEnclosingDefinition();
 	    	QName qname = createQName(definition, element.getAttribute(MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE));
-	    	XSDTypeDefinition xsdType = ((DefinitionImpl) definition).resolveTypeDefinition(qname.getNamespaceURI(), qname.getLocalPart());
-	    	if (xsdType != null && getType() != xsdType)
-	    		setType(xsdType);
+	    	if (qname != null) {
+	    		XSDTypeDefinition xsdType = ((DefinitionImpl) definition).resolveTypeDefinition(qname.getNamespaceURI(), qname.getLocalPart());
+	    		if (xsdType != null && getType() != xsdType) {
+	    			setType(xsdType);
+	    		}
+	    	}
 	    }
 		super.reconcileReferences(deep);		
 	}

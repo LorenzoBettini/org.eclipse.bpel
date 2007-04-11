@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackageImpl.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
+ * $Id: MessagepropertiesPackageImpl.java,v 1.3 2007/04/11 20:55:29 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.wst.wsdl.WSDLPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
 
 import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
+import org.eclipse.wst.wsdl.util.ExtensibilityElementFactory;
 import org.eclipse.wst.wsdl.util.ExtensibilityElementFactoryRegistry;
 
 import org.eclipse.xsd.impl.XSDPackageImpl;
@@ -155,7 +156,11 @@ public class MessagepropertiesPackageImpl extends EPackageImpl implements Messag
 		if (WSDLPlugin.getPlugin() == null)
 		{
 			ExtensibilityElementFactoryRegistry registry = WSDLPlugin.INSTANCE.getExtensibilityElementFactoryRegistry();
-			registry.registerFactory(MessagepropertiesConstants.NAMESPACE_2004, new MessagepropertiesExtensibilityElementFactory());
+			
+			ExtensibilityElementFactory eef = new MessagepropertiesExtensibilityElementFactory();
+			
+			registry.registerFactory(MessagepropertiesConstants.NAMESPACE_2004, eef);
+			registry.registerFactory(MessagepropertiesConstants.NAMESPACE_2007, eef);			
 		}
 		
 		return theMessagepropertiesPackage;
