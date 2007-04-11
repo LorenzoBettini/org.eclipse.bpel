@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackageImpl.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerlinktypePackageImpl.java,v 1.3 2007/04/11 20:57:11 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.wst.wsdl.WSDLPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
 import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
+import org.eclipse.wst.wsdl.util.ExtensibilityElementFactory;
 import org.eclipse.wst.wsdl.util.ExtensibilityElementFactoryRegistry;
 import org.eclipse.xsd.impl.XSDPackageImpl;
 
@@ -142,7 +143,11 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		if (WSDLPlugin.getPlugin() == null)
 		{
 			ExtensibilityElementFactoryRegistry registry = WSDLPlugin.INSTANCE.getExtensibilityElementFactoryRegistry();
-			registry.registerFactory(PartnerlinktypeConstants.NAMESPACE_2004, new PartnerlinktypeExtensibilityElementFactory());
+			
+			ExtensibilityElementFactory eef = new PartnerlinktypeExtensibilityElementFactory();
+			
+			registry.registerFactory(PartnerlinktypeConstants.NAMESPACE_2004, eef);
+			registry.registerFactory(PartnerlinktypeConstants.NAMESPACE_2007, eef);
 		}
 
 		return thePartnerlinktypePackage;

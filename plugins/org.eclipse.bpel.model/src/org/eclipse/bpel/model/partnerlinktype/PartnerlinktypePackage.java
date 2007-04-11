@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackage.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerlinktypePackage.java,v 1.3 2007/04/11 20:57:11 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -51,7 +51,7 @@ public interface PartnerlinktypePackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://schemas.xmlsoap.org/ws/2003/05/partner-link/";
+	String eNS_URI = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
 
 	/**
 	 * The package namespace name.
@@ -143,7 +143,7 @@ public interface PartnerlinktypePackage extends EPackage{
 	int PARTNER_LINK_TYPE__ROLE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Partner Link Type</em>' class.
+	 * The number of structural features of the the '<em>Partner Link Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -225,7 +225,7 @@ public interface PartnerlinktypePackage extends EPackage{
 	int ROLE__PORT_TYPE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Role</em>' class.
+	 * The number of structural features of the the '<em>Role</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
