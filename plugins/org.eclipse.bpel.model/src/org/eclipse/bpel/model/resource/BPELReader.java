@@ -25,78 +25,9 @@ import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 
-import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.Assign;
-import org.eclipse.bpel.model.BPELFactory;
-import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.BPELPlugin;
-import org.eclipse.bpel.model.Branches;
-import org.eclipse.bpel.model.Catch;
-import org.eclipse.bpel.model.CatchAll;
-import org.eclipse.bpel.model.Compensate;
-import org.eclipse.bpel.model.CompensationHandler;
-import org.eclipse.bpel.model.CompletionCondition;
-import org.eclipse.bpel.model.Condition;
-import org.eclipse.bpel.model.Copy;
-import org.eclipse.bpel.model.Correlation;
-import org.eclipse.bpel.model.CorrelationPattern;
-import org.eclipse.bpel.model.CorrelationSet;
-import org.eclipse.bpel.model.CorrelationSets;
-import org.eclipse.bpel.model.Correlations;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.Else;
-import org.eclipse.bpel.model.ElseIf;
-import org.eclipse.bpel.model.Empty;
-import org.eclipse.bpel.model.EndpointReferenceRole;
-import org.eclipse.bpel.model.EventHandler;
-import org.eclipse.bpel.model.Exit;
-import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.ExtensibleElement;
-import org.eclipse.bpel.model.Extension;
-import org.eclipse.bpel.model.Extensions;
-import org.eclipse.bpel.model.FaultHandler;
-import org.eclipse.bpel.model.Flow;
-import org.eclipse.bpel.model.ForEach;
-import org.eclipse.bpel.model.From;
-import org.eclipse.bpel.model.FromPart;
-import org.eclipse.bpel.model.If;
-import org.eclipse.bpel.model.Import;
-import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Link;
-import org.eclipse.bpel.model.Links;
-import org.eclipse.bpel.model.MessageExchange;
-import org.eclipse.bpel.model.MessageExchanges;
-import org.eclipse.bpel.model.OnAlarm;
-import org.eclipse.bpel.model.OnEvent;
-import org.eclipse.bpel.model.OnMessage;
-import org.eclipse.bpel.model.OpaqueActivity;
-import org.eclipse.bpel.model.PartnerActivity;
-import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.PartnerLinks;
-import org.eclipse.bpel.model.Pick;
+import org.apache.xerces.parsers.DOMParser;
+import org.eclipse.bpel.model.*;
 import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.model.Query;
-import org.eclipse.bpel.model.Receive;
-import org.eclipse.bpel.model.RepeatUntil;
-import org.eclipse.bpel.model.Reply;
-import org.eclipse.bpel.model.Rethrow;
-import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Sequence;
-import org.eclipse.bpel.model.ServiceRef;
-import org.eclipse.bpel.model.Source;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Target;
-import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.TerminationHandler;
-import org.eclipse.bpel.model.Then;
-import org.eclipse.bpel.model.Throw;
-import org.eclipse.bpel.model.To;
-import org.eclipse.bpel.model.ToPart;
-import org.eclipse.bpel.model.Validate;
-import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.model.Variables;
-import org.eclipse.bpel.model.Wait;
-import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.extensions.BPELActivityDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
@@ -118,6 +49,7 @@ import org.eclipse.bpel.model.proxy.RoleProxy;
 import org.eclipse.bpel.model.proxy.VariableProxy;
 import org.eclipse.bpel.model.proxy.XSDElementDeclarationProxy;
 import org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.WrappedException;
@@ -136,6 +68,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -143,6 +76,9 @@ import org.xml.sax.SAXParseException;
  * BPELReader is invoked from BPELResourceImpl to parse the BPEL file and
  * create a Process object.
  */
+
+@SuppressWarnings("nls")
+
 public class BPELReader {
 
 	// The process we are reading
@@ -153,29 +89,20 @@ public class BPELReader {
 	private DocumentBuilder docBuilder = null;
 	// Registry for extensibility element serializers and deserializers
 	private BPELExtensionRegistry extensionRegistry = BPELExtensionRegistry.getInstance();
+	
+	private DOMParser domParser;
+	
 	// The WS-BPEL Specification says how to resolve variables, taking into
-	// account scopes, etc. Technically, no one should override this behaviour,
+	// account scopes, etc. Technically, no one should override this behavior,
 	// but replacing this field with another implementation could allow
-	// you to optimize the search or provide different behaviour.
+	// you to optimize the search or provide different behavior.
 	public static VariableResolver VARIABLE_RESOLVER = new BPELVariableResolver();
 	// The WS-BPEL Specification says how to resolve links, taking into
-	// account scopes, etc. Technically, no one should override this behaviour,
+	// account scopes, etc. Technically, no one should override this behavior,
 	// but replacing this field with another implementation could allow
-	// you to optimize the search or provide different behaviour.
+	// you to optimize the search or provide different behavior.
 	public static LinkResolver LINK_RESOLVER = new BPELLinkResolver();
 	
-	/**
-	 * A simple NodeList that is an ArrayList
-	 */
-	class BPELNodeList extends ArrayList implements NodeList {
-		public Node item(int index) {
-			return (Node)get(index);
-		}
-
-		public int getLength() {
-			return this.size();
-		}
-	}
 	
 	/**
 	 * Construct a new BPELReader using the given DocumentBuilder to determine
@@ -184,13 +111,17 @@ public class BPELReader {
 	 * @param builder  the document builder to use when parsing the file
 	 * @throws IOException if no document builder is specified
 	 */
-	public BPELReader(DocumentBuilder builder) throws IOException {
+	public BPELReader (DocumentBuilder builder) throws IOException {
 		if (builder == null) {
 			throw new IOException(BPELPlugin.INSTANCE.getString("%BPELReader.missing_doc_builder"));
 		}
 		this.docBuilder = builder;
 	}
 
+	public BPELReader (DOMParser parser )  {		
+		this.domParser = parser;
+	}
+	
 	/**
 	 * Read from the given input stream into the given resource.
 	 * 
@@ -200,7 +131,15 @@ public class BPELReader {
 	 */
 	public void read(BPELResource resource, InputStream inputStream) throws IOException {
 		try {
-			Document doc = docBuilder.parse(inputStream);
+			
+			Document doc = null;
+			if (docBuilder != null) {
+				doc = docBuilder.parse(inputStream);
+			} else if (domParser != null) {
+				domParser.parse(new InputSource(inputStream));
+				doc = domParser.getDocument();
+			}
+			
 			// After the document has successfully parsed, it's okay
 			// to assign the resource.
 			this.resource = resource;
@@ -209,7 +148,7 @@ public class BPELReader {
 			// In pass 1 we parse and create the structural elements and attributes. 
 			pass1(doc);
 			// In pass 2, we run any postLoadRunnables which need to happen after
-			// pass 1 (for example, establishing object links to varables).
+			// pass 1 (for example, establishing object links to variables).
 			pass2();
 		} catch (SAXParseException exc) {
 			// TODO: Error handling
@@ -222,6 +161,8 @@ public class BPELReader {
 		} catch (IOException ioe) {
 			// TODO: Error handling
 			ioe.printStackTrace();
+		} catch (RuntimeException rte) {
+			rte.printStackTrace();			
 		}
 	}
 
@@ -231,7 +172,10 @@ public class BPELReader {
 	 * @param document  the DOM document to parse
 	 */
 	protected void pass1(Document document) {
-		resource.getContents().add(xml2Resource(document));		
+		Process p = xml2Resource(document);
+		if (p != null) {
+			resource.getContents().add(p);
+		}
 	}
 	
 	/**
@@ -255,12 +199,12 @@ public class BPELReader {
 	 * @param parentElement  the element to find the children of
 	 * @return a node list of the children of parentElement
 	 */
-	protected BPELNodeList getChildElements(Element parentElement) {
-		BPELNodeList list = new BPELNodeList();
+	protected List<Element> getChildElements(Element parentElement) {
+		List<Element> list = new ArrayList<Element>();
 		NodeList children = parentElement.getChildNodes();		
 		for (int i=0; i < children.getLength(); i++) {
 			if (children.item(i).getNodeType() == Node.ELEMENT_NODE)
-				list.add(children.item(i));
+				list.add( (Element) children.item(i));
 		}
 		return list;
 	}
@@ -274,13 +218,13 @@ public class BPELReader {
 	 * @param localName  the localName to match against
 	 * @return a node list of the matching children of parentElement
      */
-	protected BPELNodeList getBPELChildElementsByLocalName(Element parentElement, String localName) {
-		BPELNodeList list = new BPELNodeList();
+	protected List<Element> getBPELChildElementsByLocalName(Element parentElement, String localName) {
+		List<Element> list = new ArrayList<Element>();
 		NodeList children = parentElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
 			if (localName.equals(node.getLocalName()) && BPELUtils.isBPELElement(node)) {
-                list.add(node);
+                list.add((Element) node);
 			}
 		}
 		return list;
@@ -481,10 +425,10 @@ public class BPELReader {
 	 * Sets a FaultHandler element for a given extensibleElement.
 	 */
 	protected void setFaultHandler(Element element, ExtensibleElement extensibleElement) {
-		NodeList faultHandlerElements = getBPELChildElementsByLocalName(element, "faultHandlers");
+		List<Element> faultHandlerElements = getBPELChildElementsByLocalName(element, "faultHandlers");
 		
-		if (faultHandlerElements != null && faultHandlerElements.getLength() > 0) {
-			FaultHandler faultHandler =	xml2FaultHandler((Element)faultHandlerElements.item(0)); 
+		if (faultHandlerElements.size() > 0) {
+			FaultHandler faultHandler =	xml2FaultHandler(faultHandlerElements.get(0)); 
 			
 			if (extensibleElement instanceof Process) {
 				((Process)extensibleElement).setFaultHandlers(faultHandler);
@@ -498,10 +442,10 @@ public class BPELReader {
 	 * Sets a EventHandler element for a given extensibleElement.
 	 */
 	protected void setEventHandler(Element element, ExtensibleElement extensibleElement) {
-		NodeList eventHandlerElements = getBPELChildElementsByLocalName(element, "eventHandlers");
+		List<Element> eventHandlerElements = getBPELChildElementsByLocalName(element, "eventHandlers");
                  
-		if (eventHandlerElements != null && eventHandlerElements.getLength() > 0) {
-			EventHandler eventHandler =	xml2EventHandler((Element)eventHandlerElements.item(0)); 
+		if (eventHandlerElements.size() > 0) {
+			EventHandler eventHandler =	xml2EventHandler(eventHandlerElements.get(0)); 
 
 			if (extensibleElement instanceof Process) ((Process)extensibleElement).setEventHandlers(eventHandler);
 				else if (extensibleElement instanceof Scope) ((Scope)extensibleElement).setEventHandlers(eventHandler);
@@ -666,19 +610,24 @@ public class BPELReader {
 	 */
 	protected Process xml2Resource(Document document) {
 		Element processElement = (document != null)? document.getDocumentElement(): null;
-		Process process = xml2Process(processElement);
-		return process;	
+		return xml2Process(processElement);
 	}
 
 
 	/**
 	 * Converts an XML process to a BPEL Process object.
 	 */
+	@SuppressWarnings("nls")
 	protected Process xml2Process(Element processElement) {
-		if (!processElement.getLocalName().equals("process"))
+		if (!processElement.getLocalName().equals("process")) {
 			return null;
-			
+		}
+		if (!BPELConstants.isBPELNamespace(processElement.getNamespaceURI())) {
+			return null;
+		}
+		
 		process = BPELFactory.eINSTANCE.createProcess();
+		process.setElement(processElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(process, processElement);
@@ -706,12 +655,10 @@ public class BPELReader {
 			process.setExpressionLanguage(processElement.getAttribute("expressionLanguage"));
 			
 		// Handle Import Elements
-		BPELNodeList importElements = getBPELChildElementsByLocalName(processElement, "import");
-		for (int i=0; i < importElements.getLength(); i++) {
-			Element importElement = (Element)importElements.item(i);
-			Import imp = xml2Import(importElement);
-			process.getImports().add(imp);
+		for(Element e : getBPELChildElementsByLocalName(processElement, "import")) {
+			process.getImports().add(xml2Import(e));
 		}
+		
 		
 		// Handle PartnerLinks Element
 		Element partnerLinksElement = getBPELChildElementByLocalName(processElement, "partnerLinks");
@@ -761,44 +708,37 @@ public class BPELReader {
 	 * Converts an XML partnerLinks
 	 */
 	protected PartnerLinks xml2PartnerLinks(Element partnerLinksElement) {
-		if (!partnerLinksElement.getLocalName().equals("partnerLinks"))
+		if (!partnerLinksElement.getLocalName().equals("partnerLinks")) {
 			return null;
+		}
 			
-		PartnerLinks partnerLinks = BPELFactory.eINSTANCE.createPartnerLinks();
-
+		PartnerLinks partnerLinks = BPELFactory.eINSTANCE.createPartnerLinks();		
+		partnerLinks.setElement(partnerLinksElement);		
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(partnerLinks, partnerLinksElement);
 		
-		BPELNodeList partnerLinkElements = getBPELChildElementsByLocalName(partnerLinksElement, "partnerLink");
-		for (int i=0; i < partnerLinkElements.getLength(); i++) {
-			Element partnerLinkElement = (Element)partnerLinkElements.item(i);
-			PartnerLink partnerLink = xml2PartnerLink(partnerLinkElement);
-			partnerLinks.getChildren().add(partnerLink);
-		}
-		
+		for(Element e : getBPELChildElementsByLocalName(partnerLinksElement, "partnerLink")) {
+			partnerLinks.getChildren().add( xml2PartnerLink(e) );
+		}		
 		xml2ExtensibleElement(partnerLinks, partnerLinksElement);
 	
 		return partnerLinks;
 	}
+
 
 	protected Variables xml2Variables(Element variablesElement) {
 		if (!variablesElement.getLocalName().equals("variables"))
 			return null;
 			
 		Variables variables = BPELFactory.eINSTANCE.createVariables();
-		
+		variables.setElement(variablesElement);
+						
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(variables, variablesElement);		
-		
-		BPELNodeList variableElements = getBPELChildElementsByLocalName(variablesElement, "variable");
-		for (int i=0; i < variableElements.getLength(); i++) {
-			Element variableElement = (Element)variableElements.item(i);
-			if (BPELUtils.isBPELNamespace(variableElement.getNamespaceURI())) {
-				Variable variable = xml2Variable(variableElement);
-				variables.getChildren().add(variable);
-			}
-		}
-		
+		for(Element e : getBPELChildElementsByLocalName(variablesElement, "variable")) {
+			variables.getChildren().add( xml2Variable( e ) );
+		}				
 		xml2ExtensibleElement(variables, variablesElement);
 		
 		// Move variables that are extensibility elements to the list of children
@@ -826,17 +766,15 @@ public class BPELReader {
 			return null;
 			
 		CorrelationSets correlationSets = BPELFactory.eINSTANCE.createCorrelationSets();
+		correlationSets.setElement(correlationSetsElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(correlationSets, correlationSetsElement);		
 		
-		BPELNodeList correlationSetElements = getBPELChildElementsByLocalName(correlationSetsElement, "correlationSet");
-		for (int i=0; i < correlationSetElements.getLength(); i++) {
-			Element correlationSetElement = (Element)correlationSetElements.item(i);
-			CorrelationSet correlationSet = xml2CorrelationSet(correlationSetElement);
-			correlationSets.getChildren().add(correlationSet);
+		for(Element e : getBPELChildElementsByLocalName(correlationSetsElement, "correlationSet")) {
+			correlationSets.getChildren().add(xml2CorrelationSet(e));
 		}
-		
+
 		xml2ExtensibleElement(correlationSets, correlationSetsElement);
 		
 		return correlationSets;
@@ -851,11 +789,8 @@ public class BPELReader {
 		// Save all the references to external namespaces
 		saveNamespacePrefix(messageExchanges, messageExchangesElement);
 		
-		BPELNodeList messageExchangeElements = getBPELChildElementsByLocalName(messageExchangesElement, "messageExchange");
-		for (int i = 0; i < messageExchangeElements.getLength(); i++) {
-			Element messageExchangeElement = (Element)messageExchangeElements.item(i);
-			MessageExchange messageExchange = xml2MessageExchange(messageExchangeElement);
-			messageExchanges.getChildren().add(messageExchange);
+		for(Element e : getBPELChildElementsByLocalName(messageExchangesElement, "messageExchange")) {
+			messageExchanges.getChildren().add(xml2MessageExchange(e));
 		}
 		
 		xml2ExtensibleElement(messageExchanges, messageExchangesElement);
@@ -868,15 +803,12 @@ public class BPELReader {
 			return null;
 			
 		Extensions extensions = BPELFactory.eINSTANCE.createExtensions();
+		extensions.setElement(extensionsElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(extensions, extensionsElement);		
-		
-		BPELNodeList extensionElements = getBPELChildElementsByLocalName(extensionsElement, "extension");
-		for (int i=0; i < extensionElements.getLength(); i++) {
-			Element extensionElement = (Element)extensionElements.item(i);
-			Extension extension = xml2Extension(extensionElement);
-			extensions.getChildren().add(extension);
+		for(Element e : getBPELChildElementsByLocalName(extensionsElement, "extension")) {
+			extensions.getChildren().add(xml2Extension(e));
 		}
 		
 		xml2ExtensibleElement(extensions, extensionsElement);
@@ -889,6 +821,7 @@ public class BPELReader {
 	 */
 	protected CompensationHandler xml2CompensationHandler(Element activityElement) {
 		CompensationHandler compensationHandler = BPELFactory.eINSTANCE.createCompensationHandler();
+		compensationHandler.setElement(activityElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(compensationHandler, activityElement);
@@ -904,6 +837,7 @@ public class BPELReader {
 	 */
 	protected CorrelationSet xml2CorrelationSet(Element correlationSetElement) {
 		CorrelationSet correlationSet = BPELFactory.eINSTANCE.createCorrelationSet();		
+		correlationSet.setElement(correlationSetElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(correlationSet, correlationSetElement);		
@@ -949,6 +883,7 @@ public class BPELReader {
 	 */
 	protected Extension xml2Extension(Element extensionElement) {
 		Extension extension = BPELFactory.eINSTANCE.createExtension();
+		extension.setElement(extensionElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(extension, extensionElement);		
@@ -975,7 +910,9 @@ public class BPELReader {
 		if (!partnerLinkElement.getLocalName().equals("partnerLink"))
 			return null;
 			 
-		PartnerLink partnerLink = BPELFactory.eINSTANCE.createPartnerLink();		
+		PartnerLink partnerLink = BPELFactory.eINSTANCE.createPartnerLink();
+		partnerLink.setElement(partnerLinkElement);
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(partnerLink, partnerLinkElement);
 		
@@ -1020,7 +957,9 @@ public class BPELReader {
 		if (!variableElement.getLocalName().equals("variable"))
 			return null;
 			 
-		Variable variable = BPELFactory.eINSTANCE.createVariable();		
+		Variable variable = BPELFactory.eINSTANCE.createVariable();
+		variable.setElement(variableElement);
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(variable, variableElement);
 
@@ -1054,6 +993,8 @@ public class BPELReader {
         Element fromElement = getBPELChildElementByLocalName(variableElement, "from");
         if (fromElement != null) {
             From from = BPELFactory.eINSTANCE.createFrom();
+            from.setElement(fromElement);
+            
             xml2From(from, fromElement); 
             variable.setFrom(from);
         }
@@ -1066,21 +1007,24 @@ public class BPELReader {
 	/**
 	 * Converts an XML faultHandler element to a BPEL FaultHandler object.
 	 */
- 	protected FaultHandler xml2FaultHandler(Element faultHandlerElement) { 
- 		if (!(faultHandlerElement.getLocalName().equals("faultHandlers") ||
- 			faultHandlerElement.getLocalName().equals("invoke")))
+ 	protected FaultHandler xml2FaultHandler(Element faultHandlerElement) {
+ 		String localName = faultHandlerElement.getLocalName();
+ 		if (!(localName.equals("faultHandlers") ||
+ 				localName.equals("invoke")))
  			return null;
  			
 		FaultHandler faultHandler = BPELFactory.eINSTANCE.createFaultHandler();
 		
+		if (localName.equals("faultHandlers")) {
+			// This is "overloaded", what's the proper facade for the fault handler element in this case.
+			faultHandler.setElement(faultHandlerElement);
+		}
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(faultHandler, faultHandlerElement);
 				
-		BPELNodeList catchElements = getBPELChildElementsByLocalName(faultHandlerElement, "catch");
-		for (int i=0; i < catchElements.getLength(); i++) { 
-			Element catchElement = (Element)catchElements.item(i);				              
-			Catch _catch = xml2Catch(catchElement); 
-			faultHandler.getCatch().add(_catch); 			
+		for(Element e : getBPELChildElementsByLocalName(faultHandlerElement, "catch")) { 
+			faultHandler.getCatch().add( xml2Catch(e)); 			
 		}
 
 		Element catchAllElement = getBPELChildElementByLocalName(faultHandlerElement, "catchAll");
@@ -1106,14 +1050,13 @@ public class BPELReader {
 			return null;
 			
 		CatchAll catchAll = BPELFactory.eINSTANCE.createCatchAll();
+		catchAll.setElement(catchAllElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(catchAll, catchAllElement);		
 		
-		BPELNodeList elements = getChildElements(catchAllElement);
-		for (int i=0; i < elements.getLength(); i++) {
-			Element element = (Element)elements.item(i);
-			Activity activity = xml2Activity(element);
+		for(Element e : getChildElements(catchAllElement)) {
+			Activity activity = xml2Activity(e);
 			if (activity != null) {
 				catchAll.setActivity(activity);
 				break;
@@ -1130,6 +1073,7 @@ public class BPELReader {
 	 */
 	protected Catch xml2Catch(Element catchElement) {
 		Catch _catch = BPELFactory.eINSTANCE.createCatch();
+		_catch.setElement(catchElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(_catch, catchElement);
@@ -1143,7 +1087,8 @@ public class BPELReader {
 
 		if (catchElement.hasAttribute("faultVariable")) {
 			// Set fault variable
-			Variable variable = BPELFactory.eINSTANCE.createVariable();		
+			Variable variable = BPELFactory.eINSTANCE.createVariable();
+			// TODO: Should not this be the variable proxy ?
 			variable.setName(catchElement.getAttribute("faultVariable"));
 			_catch.setFaultVariable(variable);					
 		}		
@@ -1168,13 +1113,16 @@ public class BPELReader {
 		if (catchElements != null && catchElements.getLength() > 0) {
           
            for (int i = 0; i < catchElements.getLength(); i++) {
-           	   if (catchElements.item(i).getNodeType() != Node.ELEMENT_NODE)
+           	   if (catchElements.item(i).getNodeType() != Node.ELEMENT_NODE) {
            	   	  continue;
+           	   }
            	
                activityElement = (Element)catchElements.item(i); 
                Activity activity = xml2Activity(activityElement);
-               if (activity != null) 
-               	_catch.setActivity(activity); 
+               if (activity != null) { 
+               		_catch.setActivity(activity);
+               		break;
+               }
            }
         }		
 
@@ -1275,11 +1223,10 @@ public class BPELReader {
 
  	protected Targets xml2Targets(Element targetsElement) {
 		Targets targets = BPELFactory.eINSTANCE.createTargets();
-		NodeList targetElements = getBPELChildElementsByLocalName(targetsElement, "target");
-		for (int i = 0; i < targetElements.getLength(); i++) {
-			Element targetElement = (Element)targetElements.item(i);				
-			Target target = xml2Target(targetElement);
-			targets.getChildren().add(target);          				
+		targets.setElement(targetsElement);
+		
+		for(Element e :  getBPELChildElementsByLocalName(targetsElement, "target")) {			
+			targets.getChildren().add( xml2Target(e));          				
 		}
 		// Join condition
 		Element joinConditionElement = getBPELChildElementByLocalName(targetsElement, "joinCondition");
@@ -1294,7 +1241,8 @@ public class BPELReader {
 	protected Target xml2Target(Element targetElement) {
 		
 		final Target target = BPELFactory.eINSTANCE.createTarget();
-				
+		target.setElement(targetElement);
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(target, targetElement);
 		
@@ -1317,11 +1265,9 @@ public class BPELReader {
 	
 	protected Sources xml2Sources(Element sourcesElement) {
 		Sources sources = BPELFactory.eINSTANCE.createSources();
-		NodeList sourceElements = getBPELChildElementsByLocalName(sourcesElement, "source");
-		for (int i = 0; i < sourceElements.getLength(); i++) {
-			Element sourceElement = (Element)sourceElements.item(i);
-			Source source = xml2Source(sourceElement);
-			sources.getChildren().add(source);          				
+		sources.setElement(sourcesElement);
+		for(Element e : getBPELChildElementsByLocalName(sourcesElement, "source")) {
+			sources.getChildren().add( xml2Source(e));          				
 		}
 		xml2ExtensibleElement(sources, sourcesElement);
 
@@ -1331,6 +1277,7 @@ public class BPELReader {
 	protected Source xml2Source(Element sourceElement) {
 		final String linkName = sourceElement.getAttribute("linkName");		
 		final Source source = BPELFactory.eINSTANCE.createSource();
+		source.setElement(sourceElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(source, sourceElement);
@@ -1361,8 +1308,13 @@ public class BPELReader {
 	 * Converts an XML scope element to a BPEL Scope object.
 	 */
 	protected Activity xml2Scope(Element scopeElement) {
+		
     	Scope scope = BPELFactory.eINSTANCE.createScope();
-		if (scopeElement == null) return scope;
+		scope.setElement(scopeElement);
+		
+    	//if (scopeElement == null) {
+		//	return scope;
+		//}
 
 		Attr name = scopeElement.getAttributeNode("name");
 		
@@ -1438,18 +1390,23 @@ public class BPELReader {
 		if (scopeElements != null && scopeElements.getLength() > 0) {
           
            for (int i = 0; i < scopeElements.getLength(); i++) {
-				if (scopeElements.item(i).getNodeType() != Node.ELEMENT_NODE)
-           	   	  continue;
+				if (scopeElements.item(i).getNodeType() != Node.ELEMENT_NODE) {
+           	   	  	continue;
+				}
            	   	             	
                	activityElement = (Element)scopeElements.item(i); 
                
 				if (activityElement.getLocalName().equals("faultHandlers") || 
 					activityElement.getLocalName().equals("compensationHandler"))
+				{
 					continue;
+				}
                
                Activity activity = xml2Activity(activityElement);
-               if (activity != null) 
-               	scope.setActivity(activity); 
+               if (activity != null) { 
+               		scope.setActivity(activity);
+               		break;
+               }
            }
         }
         		
@@ -1460,8 +1417,14 @@ public class BPELReader {
 	 * Converts an XML flow element to a BPEL Flow object.
 	 */
 	protected Activity xml2Flow(Element flowElement) {
-    	Flow flow = BPELFactory.eINSTANCE.createFlow();
-		if (flowElement == null) return flow;		
+    	
+		Flow flow = BPELFactory.eINSTANCE.createFlow();
+		flow.setElement(flowElement);
+		
+    	// if (flowElement == null) {
+		//	return flow;		
+		// }
+		
 		Attr name = flowElement.getAttributeNode("name");
 		
 		if (name != null && name.getSpecified()) 
@@ -1494,8 +1457,9 @@ public class BPELReader {
            	   	             	
                activityElement = (Element)flowElements.item(i); 
                Activity activity = xml2Activity(activityElement);
-               if (activity != null) 
-               	flow.getActivities().add(activity); 
+               if (activity != null) {
+               		flow.getActivities().add(activity);
+               }
            }
         }
 		
@@ -1507,15 +1471,13 @@ public class BPELReader {
 			return null;
 			
 		Links links = BPELFactory.eINSTANCE.createLinks();
-
+		links.setElement(linksElement);
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(links, linksElement);
 		
-		BPELNodeList linkElements = getBPELChildElementsByLocalName(linksElement, "link");
-		for (int i=0; i < linkElements.getLength(); i++) {
-			Element linkElement = (Element)linkElements.item(i);
-			Link link = xml2Link(linkElement);
-			links.getChildren().add(link);
+		for(Element e :  getBPELChildElementsByLocalName(linksElement, "link")) {
+			links.getChildren().add( xml2Link (e));
 		}
 		
 		// extensibility elements
@@ -1529,11 +1491,10 @@ public class BPELReader {
 	 */
 	protected Link xml2Link(Element linkElement) {
 		Link link = BPELFactory.eINSTANCE.createLink();
+		link.setElement(linkElement);
 		
 		// Save all the references to external namespaces		
-		saveNamespacePrefix(link, linkElement);
-		
-		if (linkElement == null) return link;
+		saveNamespacePrefix(link, linkElement);				
 
 		Attr name = linkElement.getAttributeNode("name");
 		
@@ -1550,7 +1511,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Pick(Element pickElement) {
     	Pick pick = BPELFactory.eINSTANCE.createPick();
-		if (pickElement == null) return pick;
+		pick.setElement(pickElement);
 
 		// Set name
 		Attr name = pickElement.getAttributeNode("name");
@@ -1600,11 +1561,10 @@ public class BPELReader {
 	 */
 	protected EventHandler xml2EventHandler(Element eventHandlerElement) {
 		EventHandler eventHandler = BPELFactory.eINSTANCE.createEventHandler();
+		eventHandler.setElement(eventHandlerElement);
 		
 		// Save all the references to external namespaces		
-		saveNamespacePrefix(eventHandler, eventHandlerElement);
-		
-		if (eventHandlerElement == null) return eventHandler;
+		saveNamespacePrefix(eventHandler, eventHandlerElement);			
 	
 		NodeList eventHandlerElements = eventHandlerElement.getChildNodes();        
 		Element eventHandlerInstanceElement = null;
@@ -1635,11 +1595,10 @@ public class BPELReader {
 	 */
 	protected OnMessage xml2OnMessage(Element onMessageElement) {
  		OnMessage onMessage = BPELFactory.eINSTANCE.createOnMessage();
-
-		// Save all the references to external namespaces		
-		saveNamespacePrefix(onMessage, onMessageElement);
+ 		onMessage.setElement(onMessageElement);
  		
-		if (onMessageElement == null) return onMessage;
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(onMessage, onMessageElement); 			
 
 		// Set several parms
 		setOperationParmsOnMessage(onMessageElement, onMessage);
@@ -1648,14 +1607,8 @@ public class BPELReader {
 		onMessage.setActivity(getChildActivity(onMessageElement));
 
 		// Set the FromPart
-		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(onMessageElement, "fromPart");
-		Iterator it = fromPartElements.iterator();
-		while (it.hasNext()) {
-			Element fromPartElement = (Element)it.next();
-			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
-				FromPart fromPart = xml2FromPart(fromPartElement);
-				onMessage.getFromPart().add(fromPart);
-			}
+		for(Element e :  getBPELChildElementsByLocalName(onMessageElement, "fromPart")) {
+			onMessage.getFromPart().add( xml2FromPart ( e ));
 		}		
 
 		xml2ExtensibleElement(onMessage, onMessageElement);
@@ -1668,11 +1621,10 @@ public class BPELReader {
 	 */
 	protected OnEvent xml2OnEvent(Element onEventElement) {
 		OnEvent onEvent = BPELFactory.eINSTANCE.createOnEvent();
-
+		onEvent.setElement(onEventElement);
+		
 		// Save all the references to external namespaces		
-		saveNamespacePrefix(onEvent, onEventElement);
- 		
-		if (onEventElement == null) return onEvent;
+		saveNamespacePrefix(onEvent, onEventElement); 			
 
 		// Set several parms
 		setOperationParmsOnEvent(onEventElement, onEvent);
@@ -1681,14 +1633,8 @@ public class BPELReader {
 		onEvent.setActivity(getChildActivity(onEventElement));
 
 		// Set the FromPart
-		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(onEventElement, "fromPart");
-		Iterator it = fromPartElements.iterator();
-		while (it.hasNext()) {
-			Element fromPartElement = (Element)it.next();
-			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
-				FromPart fromPart = xml2FromPart(fromPartElement);
-				onEvent.getFromPart().add(fromPart);
-			}
+		for(Element e :  getBPELChildElementsByLocalName(onEventElement, "fromPart")) {
+			onEvent.getFromPart().add(xml2FromPart(e));
 		}		
 		
 		// Handle CorrelationSets Element
@@ -1706,11 +1652,10 @@ public class BPELReader {
 	 */
 	protected OnAlarm xml2OnAlarm(Element onAlarmElement) {
    		OnAlarm onAlarm = BPELFactory.eINSTANCE.createOnAlarm();
-
-		// Save all the references to external namespaces		
-		saveNamespacePrefix(onAlarm, onAlarmElement);
+   		onAlarm.setElement(onAlarmElement);
    		
-		if (onAlarmElement == null) return onAlarm;
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(onAlarm, onAlarmElement);   			
 		
 		// Set for element
 		Element forElement = getBPELChildElementByLocalName(onAlarmElement, "for");
@@ -1746,7 +1691,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2While(Element whileElement) {
     	While _while = BPELFactory.eINSTANCE.createWhile();
-		if (whileElement == null) return _while;
+		_while.setElement(whileElement);
 
 		// Handle condition element
 		Element conditionElement = getBPELChildElementByLocalName(whileElement, "condition");
@@ -1760,14 +1705,20 @@ public class BPELReader {
         Element activityElement = null;
 
 		if (whileElements != null && whileElements.getLength() > 0) {
+			
 			for (int i = 0; i < whileElements.getLength(); i++) {			
-				if (whileElements.item(i).getNodeType() != Node.ELEMENT_NODE)
+				if (whileElements.item(i).getNodeType() != Node.ELEMENT_NODE) {
            	   	  continue;
+				}
            	   	  			
-				activityElement = (Element)whileElements.item(i); 
+				activityElement = (Element) whileElements.item(i); 
             	Activity activity = xml2Activity(activityElement);
-            	if (activity != null) 
-         	   		_while.setActivity(activity); 
+            	if (activity != null) { 
+         	   		_while.setActivity(activity);
+         	   		// only the first one
+         	   		break ;
+            	}
+            	
 			}
         }
         
@@ -1781,6 +1732,7 @@ public class BPELReader {
 	 */
 	protected TerminationHandler xml2TerminationHandler(Element terminationHandlerElement) {
 		TerminationHandler terminationHandler = BPELFactory.eINSTANCE.createTerminationHandler();
+		terminationHandler.setElement(terminationHandlerElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(terminationHandler, terminationHandlerElement);
@@ -1792,12 +1744,14 @@ public class BPELReader {
 		return terminationHandler;
 	}
 
+
+
 	/**
 	 * Converts an XML if element to a BPEL If object.
 	 */
 	protected Activity xml2If(Element ifElement) {
-		If _if = BPELFactory.eINSTANCE.createIf();
-		if (ifElement == null) return _if;
+		If _if = BPELFactory.eINSTANCE.createIf();		
+		_if.setElement(ifElement);
 
 		// Set activity
 		Activity activity = getChildActivity(ifElement);
@@ -1813,15 +1767,10 @@ public class BPELReader {
 		}
 		
 		// Handle elseif
-		NodeList elseifElements = getBPELChildElementsByLocalName(ifElement, "elseif");
-                 
-		if (elseifElements != null && elseifElements.getLength() > 0) {
-           for (int i = 0; i < elseifElements.getLength(); i++) {			
-				ElseIf elseIf = xml2ElseIf((Element)elseifElements.item(i)); 
-				_if.getElseIf().add(elseIf);
-           }
+		for(Element e : getBPELChildElementsByLocalName(ifElement, "elseif")) { 
+			_if.getElseIf().add( xml2ElseIf ( e ));
         }
-
+        
 		// Handle else
 		Element elseElement = getBPELChildElementByLocalName(ifElement, "else");
 		if (elseElement != null) {
@@ -1839,11 +1788,10 @@ public class BPELReader {
 	 */
 	protected ElseIf xml2ElseIf(Element elseIfElement) {
 		ElseIf elseIf = BPELFactory.eINSTANCE.createElseIf();
+    	elseIf.setElement(elseIfElement);
     	
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(elseIf, elseIfElement);
-    	
-		if (elseIfElement == null) return elseIf;
 
 		// Handle condition element
 		Element conditionElement = getBPELChildElementByLocalName(elseIfElement, "condition");
@@ -1866,11 +1814,10 @@ public class BPELReader {
 	 */
 	protected Condition xml2Condition(Element conditionElement) {
 		Condition condition = BPELFactory.eINSTANCE.createCondition();
+    	condition.setElement(conditionElement);
     	
 		// Save all the references to external namespaces		
-		saveNamespacePrefix(condition, conditionElement);
-    	
-		if (conditionElement == null) return condition;
+		saveNamespacePrefix(condition, conditionElement);    			
 
 		if (conditionElement.hasAttribute("expressionLanguage")) {
 			// Set expressionLanguage
@@ -2000,24 +1947,14 @@ public class BPELReader {
 	 */
 	protected Expression xml2Expression(Element expressionElement) {
 		Expression expression = BPELFactory.eINSTANCE.createExpression();
+		expression.setElement(expressionElement);
+		
     	return xml2Expression(expressionElement, expression);
 	}
 
-//	protected Otherwise xml2Otherwise(Element otherwiseElement) {
-//		Otherwise otherwise = BPELFactory.eINSTANCE.createOtherwise();
-//		
-//		// Save all the references to external namespaces		
-//		saveNamespacePrefix(otherwise, otherwiseElement);
-//		
-//		Activity activity = getChildActivity(otherwiseElement);
-//		otherwise.setActivity(activity);
-//		xml2ExtensibleElement(otherwise, otherwiseElement);
-//		
-//		return otherwise;
-//	}
-
 	protected Else xml2Else(Element elseElement) {
 		Else _else = BPELFactory.eINSTANCE.createElse();
+		_else.setElement(elseElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(_else, elseElement);
@@ -2028,18 +1965,20 @@ public class BPELReader {
 		return _else;
 	}
 
+
 	/**
 	 * Converts an XML sequence element to a BPEL Sequence object.
 	 */
 	protected Activity xml2Sequence(Element sequenceElement) {
     	Sequence sequence = BPELFactory.eINSTANCE.createSequence();
-		if (sequenceElement == null) return sequence;
+    	sequence.setElement(sequenceElement);   	
 	
 		// Set name
 		Attr name = sequenceElement.getAttributeNode("name");
 		
-		if (name != null && name.getSpecified())
+		if (name != null && name.getSpecified()) {
 			sequence.setName(name.getValue());
+		}
 		
         NodeList sequenceElements = sequenceElement.getChildNodes();
         
@@ -2048,13 +1987,15 @@ public class BPELReader {
 		if (sequenceElements != null && sequenceElements.getLength() > 0) {
           
            for (int i = 0; i < sequenceElements.getLength(); i++) {
-			if (sequenceElements.item(i).getNodeType() != Node.ELEMENT_NODE)
+        	   if (sequenceElements.item(i).getNodeType() != Node.ELEMENT_NODE) {
            	   	  continue;
+        	   }
            	   	             	
                activityElement = (Element)sequenceElements.item(i); 
                Activity activity = xml2Activity(activityElement);
-               if (activity != null) 
-               	sequence.getActivities().add(activity); 
+               if (activity != null) { 
+               		sequence.getActivities().add(activity);               	
+               }
            }
         }
         
@@ -2068,6 +2009,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Empty(Element emptyElement) {
 		Empty empty = BPELFactory.eINSTANCE.createEmpty();
+		empty.setElement(emptyElement);
 		
 		setStandardAttributes(emptyElement, empty);
 		 
@@ -2079,6 +2021,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2OpaqueActivity(Element opaqueActivityElement) {
 		OpaqueActivity opaqueActivity = BPELFactory.eINSTANCE.createOpaqueActivity();
+		opaqueActivity.setElement(opaqueActivityElement);
 		
 		setStandardAttributes(opaqueActivityElement, opaqueActivity);
 		 
@@ -2090,6 +2033,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Validate(Element validateElement) {
 		final Validate validate = BPELFactory.eINSTANCE.createValidate();
+		validate.setElement(validateElement);
 		
 		setStandardAttributes(validateElement, validate);
 		if (validateElement.hasAttribute("variables")) {
@@ -2119,6 +2063,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Rethrow(Element rethrowElement) {
 		Rethrow rethrow = BPELFactory.eINSTANCE.createRethrow();
+		rethrow.setElement(rethrowElement);
 		
 		setStandardAttributes(rethrowElement, rethrow);
 		 
@@ -2133,29 +2078,28 @@ public class BPELReader {
 		// doesn't have them.
 
 		// Find the child element.
-		NodeList nodeList = getChildElements(extensionActivityElement);
-		if (nodeList.getLength() == 1) {
-			Node child = (Element)nodeList.item(0);
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				// We found a child element. Look up a deserializer for this
-				// activity and call it.
-				String localName = child.getLocalName();
-				String namespace = child.getNamespaceURI();
-				QName qname = new QName(namespace, localName);
-				BPELActivityDeserializer deserializer = extensionRegistry.getActivityDeserializer(qname);
-				if (deserializer != null) {
-					// Deserialize the DOM element and return the new Activity
-					Map nsMap = getAllNamespacesForElement((Element)child);
-					Activity activity = deserializer.unmarshall(qname,child,process,nsMap,extensionRegistry,resource.getURI(), this);
-					// Now let's do the standard attributes and elements
-					setStandardAttributes((Element)child, activity);
-					setStandardElements((Element)child, activity);
-					
-					// Don't do extensibility because extensionActivity is not extensible.
-					// If individual extensionActivity subclasses are actually extensible, they
-					// have to do this themselves in their deserializer.
-					return activity;
-				}
+		List<Element> nodeList = getChildElements(extensionActivityElement);
+		
+		if (nodeList.size() == 1) {
+			Element child = nodeList.get(0);
+			// We found a child element. Look up a deserializer for this
+			// activity and call it.
+			String localName = child.getLocalName();
+			String namespace = child.getNamespaceURI();
+			QName qname = new QName(namespace, localName);
+			BPELActivityDeserializer deserializer = extensionRegistry.getActivityDeserializer(qname);
+			if (deserializer != null) {
+				// Deserialize the DOM element and return the new Activity
+				Map nsMap = getAllNamespacesForElement((Element)child);
+				Activity activity = deserializer.unmarshall(qname,child,process,nsMap,extensionRegistry,resource.getURI(), this);
+				// Now let's do the standard attributes and elements
+				setStandardAttributes((Element)child, activity);
+				setStandardElements((Element)child, activity);
+				
+				// Don't do extensibility because extensionActivity is not extensible.
+				// If individual extensionActivity subclasses are actually extensible, they
+				// have to do this themselves in their deserializer.
+				return activity;
 			}
 		}
 		// Fallback is to create a new extensionActivity.
@@ -2168,7 +2112,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Wait(Element waitElement) {
     	Wait wait = BPELFactory.eINSTANCE.createWait();
-		if (waitElement == null) return wait;
+    	wait.setElement(waitElement);
 		
 		// Set name
 		Attr name = waitElement.getAttributeNode("name");
@@ -2200,7 +2144,8 @@ public class BPELReader {
 	 */
 	protected Activity xml2Exit(Element exitElement) {
     	Exit exit = BPELFactory.eINSTANCE.createExit();
-
+    	exit.setElement(exitElement);
+    	
 		Attr name = exitElement.getAttributeNode("name");
 		
 		if (name != null && name.getSpecified())
@@ -2216,7 +2161,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Throw(Element throwElement) {
 		Throw _throw = BPELFactory.eINSTANCE.createThrow();
-		if (throwElement == null) return _throw;
+		_throw.setElement(throwElement);			
 		
 		if (throwElement.hasAttribute("name")) {
 			_throw.setName(throwElement.getAttribute("name"));
@@ -2239,7 +2184,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Assign(Element assignElement) {
 		Assign assign = BPELFactory.eINSTANCE.createAssign();
-		if (assignElement == null) return assign;
+		assign.setElement(assignElement);			
         
 		if (assignElement.hasAttribute("validate"))
 			assign.setValidate(new Boolean(assignElement.getAttribute("validate").equals("yes")));
@@ -2260,7 +2205,8 @@ public class BPELReader {
 	 */
 	protected Copy xml2Copy(Element copyElement) {
 		Copy copy = BPELFactory.eINSTANCE.createCopy();
-        if (copyElement == null) return copy;
+		copy.setElement(copyElement);
+        
 
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(copy, copyElement);
@@ -2268,6 +2214,8 @@ public class BPELReader {
         Element fromElement = getBPELChildElementByLocalName(copyElement, "from");
         if (fromElement != null) {
             From from = BPELFactory.eINSTANCE.createFrom();
+            from.setElement(fromElement);
+            
             xml2From(from, fromElement); 
             copy.setFrom(from);
         }
@@ -2275,6 +2223,8 @@ public class BPELReader {
         Element toElement = getBPELChildElementByLocalName(copyElement, "to");
         if (toElement != null) {
             To to = BPELFactory.eINSTANCE.createTo();
+            to.setElement(toElement);
+            
             xml2To(to, toElement); 
             copy.setTo(to);
         }
@@ -2295,7 +2245,8 @@ public class BPELReader {
 	 */
 	protected ToPart xml2ToPart(Element toPartElement) {
 		ToPart toPart = BPELFactory.eINSTANCE.createToPart();
-        if (toPartElement == null) return toPart;
+		
+		toPart.setElement(toPartElement);        
 
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(toPart, toPartElement);
@@ -2308,6 +2259,8 @@ public class BPELReader {
         Element fromElement = getBPELChildElementByLocalName(toPartElement, "from");
         if (fromElement != null) {
             From from = BPELFactory.eINSTANCE.createFrom();
+            from.setElement(fromElement);
+            
             xml2From(from, fromElement); 
             toPart.setFrom(from);
         }
@@ -2321,7 +2274,7 @@ public class BPELReader {
 	 */
 	protected FromPart xml2FromPart(Element fromPartElement) {
 		FromPart fromPart = BPELFactory.eINSTANCE.createFromPart();
-        if (fromPartElement == null) return fromPart;
+		fromPart.setElement(fromPartElement);		       
 
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(fromPart, fromPartElement);
@@ -2334,6 +2287,8 @@ public class BPELReader {
 		Element toElement = getBPELChildElementByLocalName(fromPartElement, "to");
         if (toElement != null) {
             To to = BPELFactory.eINSTANCE.createTo();
+            to.setElement(toElement);
+            
             xml2To(to, toElement); 
             fromPart.setTo(to);
         }
@@ -2381,6 +2336,8 @@ public class BPELReader {
 		Element queryElement = getBPELChildElementByLocalName(toElement, "query");
 		if (queryElement != null) {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
+			
+			queryObject.setElement(queryElement);
 			to.setQuery(queryObject);
 			
 			// Set queryLanguage
@@ -2447,6 +2404,8 @@ public class BPELReader {
 		if (serviceRefElement != null) {
 					
 			ServiceRef serviceRef = BPELFactory.eINSTANCE.createServiceRef();
+			// TODO: ? serviceRef.setElement(serviceRefElement);
+			
 			from.setServiceRef(serviceRef);
 			
 			// Set reference scheme
@@ -2524,6 +2483,8 @@ public class BPELReader {
 		
 			// must be expression
 			Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
+			expressionObject.setElement(fromElement);
+			
 			from.setExpression(expressionObject);
 			
 			// Set expressionLanguage
@@ -2564,7 +2525,8 @@ public class BPELReader {
 			return null;
 			
 		Import imp = BPELFactory.eINSTANCE.createImport();
-
+		imp.setElement(importElement);
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(imp, importElement);
 		
@@ -2589,7 +2551,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Invoke(Element invokeElement) {
 		Invoke invoke = BPELFactory.eINSTANCE.createInvoke();
-		if (invokeElement == null) return invoke;
+		invoke.setElement(invokeElement);			
 		
 		// Set several parms
 		setStandardAttributes(invokeElement, invoke);
@@ -2605,26 +2567,13 @@ public class BPELReader {
 			invoke.setFaultHandler(faultHandler);
 		}
 
-		// Set the ToPart
-		BPELNodeList toPartElements = getBPELChildElementsByLocalName(invokeElement, "toPart");
-		Iterator it = toPartElements.iterator();
-		while (it.hasNext()) {
-			Element toPartElement = (Element)it.next();
-			if (BPELUtils.isBPELNamespace(toPartElement.getNamespaceURI())) {
-				ToPart toPart = xml2ToPart(toPartElement);
-				invoke.getToPart().add(toPart);
-			}
+		// Set the ToPart		
+		for(Element e : getBPELChildElementsByLocalName(invokeElement, "toPart") ) {			
+			invoke.getToPart().add( xml2ToPart(e) );
 		}
-
 		// Set the FromPart
-		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(invokeElement, "fromPart");
-		it = fromPartElements.iterator();
-		while (it.hasNext()) {
-			Element fromPartElement = (Element)it.next();
-			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
-				FromPart fromPart = xml2FromPart(fromPartElement);
-				invoke.getFromPart().add(fromPart);
-			}
+		for(Element e : getBPELChildElementsByLocalName(invokeElement, "fromPart")) {
+			invoke.getFromPart().add( xml2FromPart(e) );
 		}		
 		return invoke;
 	}
@@ -2635,7 +2584,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Reply(Element replyElement) {
 		Reply reply = BPELFactory.eINSTANCE.createReply();
-		if (replyElement == null) return reply;
+		reply.setElement(replyElement);			
 		
 		// Set several parms
 		setStandardAttributes(replyElement, reply);
@@ -2647,16 +2596,9 @@ public class BPELReader {
 		}
 
 		// Set the ToPart
-		BPELNodeList toPartElements = getBPELChildElementsByLocalName(replyElement, "toPart");
-		Iterator it = toPartElements.iterator();
-		while (it.hasNext()) {
-			Element toPartElement = (Element)it.next();
-			if (BPELUtils.isBPELNamespace(toPartElement.getNamespaceURI())) {
-				ToPart toPart = xml2ToPart(toPartElement);
-				reply.getToPart().add(toPart);
-			}
+		for(Element e :  getBPELChildElementsByLocalName(replyElement, "toPart")) {
+			reply.getToPart().add( xml2ToPart ( e ));
 		}
-
 		
 		return reply;		
 	}
@@ -2667,7 +2609,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2Receive(Element receiveElement) {
 		Receive receive = BPELFactory.eINSTANCE.createReceive();
-		if (receiveElement == null) return receive;
+		receive.setElement(receiveElement);				
 	
 		// Set several parms
 		setStandardAttributes(receiveElement, receive);
@@ -2680,14 +2622,8 @@ public class BPELReader {
 		}
 
 		// Set the FromPart
-		BPELNodeList fromPartElements = getBPELChildElementsByLocalName(receiveElement, "fromPart");
-		Iterator it = fromPartElements.iterator();
-		while (it.hasNext()) {
-			Element fromPartElement = (Element)it.next();
-			if (BPELUtils.isBPELNamespace(fromPartElement.getNamespaceURI())) {
-				FromPart fromPart = xml2FromPart(fromPartElement);
-				receive.getFromPart().add(fromPart);
-			}
+		for(Element e : getBPELChildElementsByLocalName(receiveElement, "fromPart")) {
+			receive.getFromPart().add( xml2FromPart (e) );
 		}		
 		
 		return receive;
@@ -2698,7 +2634,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2ForEach(Element forEachElement) {
 		ForEach forEach = BPELFactory.eINSTANCE.createForEach();
-		if (forEachElement == null) return forEach;
+		forEach.setElement(forEachElement);			
 		
 		// Set several parms
 		setStandardAttributes(forEachElement, forEach);
@@ -2710,6 +2646,7 @@ public class BPELReader {
 		// Set counterName variable
 		if (forEachElement.hasAttribute("counterName")) {
 			Variable variable = BPELFactory.eINSTANCE.createVariable();
+			// TODO: How to facade this ?
 			variable.setName(forEachElement.getAttribute("counterName"));
 			QName qName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, "unsignedInt");
 			XSDTypeDefinition type = new XSDTypeDefinitionProxy(resource.getURI(), qName);
@@ -2752,7 +2689,7 @@ public class BPELReader {
 	 */
 	protected CompletionCondition xml2CompletionCondition(Element completionConditionElement) {
 		CompletionCondition completionCondition = BPELFactory.eINSTANCE.createCompletionCondition();
-		if (completionConditionElement == null) return completionCondition;
+		completionCondition.setElement(completionConditionElement);			
 		
 		// Set branches element
 		Element branchesElement = getBPELChildElementByLocalName(completionConditionElement, "branches");
@@ -2769,6 +2706,8 @@ public class BPELReader {
 	 */
 	protected Branches xml2Branches(Element branchesElement) {
 		Branches branches = BPELFactory.eINSTANCE.createBranches();
+		branches.setElement(branchesElement);
+		
 		xml2Expression(branchesElement, branches);
 
 		if (branchesElement.hasAttribute("successfulBranchesOnly"))
@@ -2782,7 +2721,9 @@ public class BPELReader {
 	 */
 	protected Documentation xml2Documentation(Element documentationElement) {
 		Documentation documentation = BPELFactory.eINSTANCE.createDocumentation();
-
+		// TODO: Facade ? 
+		// documentation.setElement(// documentationElement);
+		
 		if (documentationElement.hasAttribute("lang"))
 			documentation.setLang(documentationElement.getAttribute("lang"));
 		if (documentationElement.hasAttribute("source"))
@@ -2802,8 +2743,7 @@ public class BPELReader {
 	 */
 	protected Activity xml2RepeatUntil(Element repeatUntilElement) {
 		RepeatUntil repeatUntil = BPELFactory.eINSTANCE.createRepeatUntil();
-		
-		if (repeatUntilElement == null) return repeatUntil;
+		repeatUntil.setElement(repeatUntilElement);		
 		
 		// Set several parms
 		setStandardAttributes(repeatUntilElement, repeatUntil);
@@ -2820,14 +2760,18 @@ public class BPELReader {
         Element activityElement = null;
 
 		if (repeatUntilElements != null && repeatUntilElements.getLength() > 0) {
-			for (int i = 0; i < repeatUntilElements.getLength(); i++) {			
-				if (repeatUntilElements.item(i).getNodeType() != Node.ELEMENT_NODE)
-           	   	  continue;
+			for (int i = 0; i < repeatUntilElements.getLength(); i++) {
+				
+				if (repeatUntilElements.item(i).getNodeType() != Node.ELEMENT_NODE) {
+           	   		continue;
+				}
            	   	  			
 				activityElement = (Element)repeatUntilElements.item(i); 
             	Activity activity = xml2Activity(activityElement);
-            	if (activity != null) 
-            		repeatUntil.setActivity(activity); 
+            	if (activity != null) {
+            		repeatUntil.setActivity(activity);
+            		break;
+            	}
 			}
         }
         
@@ -2839,15 +2783,13 @@ public class BPELReader {
 			return null;
 			
 		Correlations correlations = BPELFactory.eINSTANCE.createCorrelations();
+		correlations.setElement(correlationsElement);
 		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(correlations, correlationsElement);
-
-		BPELNodeList correlationElements = getBPELChildElementsByLocalName(correlationsElement, "correlation");
-		for (int i=0; i < correlationElements.getLength(); i++) {
-			Element correlationElement = (Element)correlationElements.item(i);
-			Correlation correlation = xml2Correlation(correlationElement);
-			correlations.getChildren().add(correlation);			
+		
+		for(Element e : getBPELChildElementsByLocalName(correlationsElement, "correlation")) {
+			correlations.getChildren().add( xml2Correlation(e));			
 		}
 		
 		// extensibility elements
@@ -2861,6 +2803,7 @@ public class BPELReader {
 	 */
 	protected Correlation xml2Correlation(Element correlationElement) {
     	final Correlation correlation = BPELFactory.eINSTANCE.createCorrelation();
+    	correlation.setElement(correlationElement);
 
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(correlation, correlationElement);
@@ -2912,6 +2855,8 @@ public class BPELReader {
 	
 	protected Compensate xml2Compensate(Element compensateElement) {
 		final Compensate compensate = BPELFactory.eINSTANCE.createCompensate();
+		compensate.setElement(compensateElement);
+		
 		final Attr scope = compensateElement.getAttributeNode("scope");
 		
 		if (scope != null && scope.getSpecified()) {
@@ -2928,8 +2873,9 @@ public class BPELReader {
 	}
 	
 	/**
-	 * Converts an XML extensiible element to a BPEL extensible element
+	 * Converts an XML extensible element to a BPEL extensible element
 	 */
+	
 	protected void xml2ExtensibleElement(ExtensibleElement extensibleElement, Element element) {
 		if (extensionRegistry==null)
 			return;
@@ -2947,7 +2893,7 @@ public class BPELReader {
 		for (int i=0, n=nodeList.getLength(); i<n; i++) {
 			if (nodeList.item(i) instanceof Element) {
 				final String namespaceURI = ((Element)nodeList.item(i)).getNamespaceURI();
-				if (!(BPELUtils.isBPELNamespace(namespaceURI)))
+				if (!(BPELConstants.isBPELNamespace(namespaceURI)))
 					nodes.add(nodeList.item(i)); 
 			}
 		}
@@ -3036,7 +2982,7 @@ public class BPELReader {
 	
 	String slurpTextualNodes ( Element node ) {
 		
-		StringBuffer sb = new StringBuffer(128);
+		StringBuilder sb = new StringBuilder(128);
 		Node n = node.getFirstChild();
 		while (n != null) {
 			switch (n.getNodeType()) {
@@ -3077,17 +3023,18 @@ public class BPELReader {
 	 */
 	private String getText (Node node) {
 		
-		String data = "";
+		StringBuilder sb = new StringBuilder(128);
+		
 		boolean containsValidData = false;
 		while (node != null) {
 			if (node.getNodeType() == Node.TEXT_NODE) {
 				Text text = (Text)node;
-				data += text.getData();
+				sb.append(text.getData());
 			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-				data="";
+				sb.setLength(0);
 				do {
 					CDATASection cdata = (CDATASection) node;
-					data += cdata.getData();
+					sb.append(cdata.getData());
 					node = node.getNextSibling();
 					containsValidData = true;
 				} while (node != null && node.getNodeType() == Node.CDATA_SECTION_NODE);
@@ -3097,8 +3044,8 @@ public class BPELReader {
 		}
 		
 		if (!containsValidData) {
-			for (int i = 0; i < data.length(); i++) {
-				char charData = data.charAt(i);
+			for (int i = 0; i < sb.length(); i++) {
+				char charData = sb.charAt(i);
 				if (charData == '\n' || Character.isWhitespace(charData)){}//ignore
 				else { //valid data
 					containsValidData = true;
@@ -3107,7 +3054,7 @@ public class BPELReader {
 			}
 		}
 		if (containsValidData) {
-			return data;
+			return sb.toString();
 		} else {
 			return null;
 		}

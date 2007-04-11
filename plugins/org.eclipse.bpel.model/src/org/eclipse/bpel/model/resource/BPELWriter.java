@@ -30,6 +30,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xerces.util.DOMUtil;
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
@@ -213,7 +215,7 @@ public class BPELWriter {
 				
 			if (namespace != null && namespace.length() > 0) {
 				// Transform BPEL namespaces to the latest version so that references to the old namespace are not serialized.
-				if (BPELUtils.isBPELNamespace(namespace)) {
+				if (BPELConstants.isBPELNamespace(namespace)) {
 					namespace = BPELConstants.NAMESPACE;
 				}
 				while (context != null) {
@@ -356,11 +358,16 @@ public class BPELWriter {
 	 */
 	public void write(BPELResource resource, OutputStream out, Map args) throws IOException
 	{
+		
 		try 
 		{
 			// Create a DOM document.
 			
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			final DocumentBuilderFactory documentBuilderFactory = 
+				    // DocumentBuilderFactory.newInstance();
+				    // new org.apache.crimson.jaxp.DocumentBuilderFactoryImpl();				
+					new org.apache.xerces.jaxp.DocumentBuilderFactoryImpl();
+
 			documentBuilderFactory.setNamespaceAware(true);
 			documentBuilderFactory.setValidating(false);
 			DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
@@ -380,27 +387,39 @@ public class BPELWriter {
 			
 			document = resource2XML(resource);			
 
-			// Transform the DOM document to its serialized form.
+			// Transform the DOM document to its serialized form.							
+
+			OutputFormat fmt = new OutputFormat(document);
+			fmt.setIndenting(true);
+			fmt.setIndent(4);			
 			
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
+			XMLSerializer serializer = new XMLSerializer( out, fmt );
+			serializer.serialize(document);
 
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-		      
-			// Unless a width is set, there will be only line breaks but no indentation.
-			// The IBM JDK and the Sun JDK don't agree on the property name,
-			// so we set them both.
-			//
-			transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-			// TODO Do we need to support different encodings?
-//			if (encoding != null)
-//			{
-//				transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
-//			}
-
-			transformer.transform(new DOMSource(document), new StreamResult(out));
+			// The code below does not indent, due to bug in JDK 1.5. Read it here.
+			// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5064280
+			
+//
+//			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//			Transformer transformer = transformerFactory.newTransformer();
+//
+//			
+//			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+//		      
+//			// Unless a width is set, there will be only line breaks but no indentation.
+//			// The IBM JDK and the Sun JDK don't agree on the property name,
+//			// so we set them both.
+//			//
+//			transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
+//			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+//			// TODO Do we need to support different encodings?
+////			if (encoding != null)
+////			{
+////				transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+////			}
+//
+//			transformer.transform(new DOMSource(document), new StreamResult(out));
 		}
 		catch (Exception ex)
 		{

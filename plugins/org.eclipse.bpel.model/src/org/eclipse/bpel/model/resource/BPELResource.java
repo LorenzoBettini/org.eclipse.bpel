@@ -22,10 +22,13 @@ public interface BPELResource extends Resource {
 
     /**
      * Converts the BPEL model to an XML DOM model and then write the DOM model to the output stream.
+     * @param out 
+     * @param args 
+     * @throws Exception 
 	 * 
 	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#doSave(OutputStream, Map)
 	 */
-	void doSave(OutputStream out, Map args) throws IOException;
+	void doSave(OutputStream out, Map args) throws Exception;
     
     /**
      * Returns the BPEL process contained by this resource or <code>null</code> if there is none.
