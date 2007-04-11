@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.18 2007/02/09 09:13:43 smoser Exp $
+ * $Id: BPELSwitch.java,v 1.19 2007/04/11 21:14:07 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -587,6 +587,7 @@ public class BPELSwitch {
 			case BPELPackage.IMPORT: {
 				Import import_ = (Import)theEObject;
 				Object result = caseImport(import_);
+				if (result == null) result = caseWSDLElement(import_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -631,12 +632,14 @@ public class BPELSwitch {
 			case BPELPackage.QUERY: {
 				Query query = (Query)theEObject;
 				Object result = caseQuery(query);
+				if (result == null) result = caseWSDLElement(query);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SERVICE_REF: {
 				ServiceRef serviceRef = (ServiceRef)theEObject;
 				Object result = caseServiceRef(serviceRef);
+				if (result == null) result = caseWSDLElement(serviceRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -662,12 +665,14 @@ public class BPELSwitch {
 			case BPELPackage.FROM_PART: {
 				FromPart fromPart = (FromPart)theEObject;
 				Object result = caseFromPart(fromPart);
+				if (result == null) result = caseWSDLElement(fromPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.TO_PART: {
 				ToPart toPart = (ToPart)theEObject;
 				Object result = caseToPart(toPart);
+				if (result == null) result = caseWSDLElement(toPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -751,6 +756,7 @@ public class BPELSwitch {
 			case BPELPackage.COMPLETION_CONDITION: {
 				CompletionCondition completionCondition = (CompletionCondition)theEObject;
 				Object result = caseCompletionCondition(completionCondition);
+				if (result == null) result = caseWSDLElement(completionCondition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
