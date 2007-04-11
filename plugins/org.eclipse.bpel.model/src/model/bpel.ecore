@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
-    nsURI="http:///org/eclipse/bpel/model/bpel.ecore" nsPrefix="org.eclipse.bpel">
+    nsURI="http://docs.oasis-open.org/wsbpel/2.0/process/executable" nsPrefix="bpws">
   <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Describes behavior based on interactions between the activities performed by partners through Web Service interfaces. Defines how individual or composite activities are coordinated to achieve a business goal, as well as the state and logic necessary for this coordination. Represents stateful, long-running interactions in which each interaction has a beginning, defined behavior during its lifetime, and an end.&#xD;&#xA;&#xD;&#xA;Abstract processes approach data handling in a way that reflects the level of abstraction required to describe the public aspects of the business protocol. Abstract processes handle only protocol-relevant data as defined by message properties.&#xD;&#xA;&#xD;&#xA;Processes and Partners are modeled as WSDL services."/>
@@ -440,7 +440,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlationSets" eType="#//CorrelationSets"
         defaultValueLiteral="" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Import">
+  <eClassifiers xsi:type="ecore:EClass" name="Import" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -457,11 +457,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Source" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Query">
+  <eClassifiers xsi:type="ecore:EClass" name="Query" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryLanguage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ServiceRef">
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRef" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceScheme" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
   </eClassifiers>
@@ -470,11 +470,11 @@
         eType="#//Extension" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtensionActivity" eSuperTypes="#//Activity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="FromPart">
+  <eClassifiers xsi:type="ecore:EClass" name="FromPart" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//To"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ToPart">
+  <eClassifiers xsi:type="ecore:EClass" name="ToPart" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
@@ -527,7 +527,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition">
+  <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="branches" eType="#//Branches"
         defaultValueLiteral="" containment="true"/>
   </eClassifiers>

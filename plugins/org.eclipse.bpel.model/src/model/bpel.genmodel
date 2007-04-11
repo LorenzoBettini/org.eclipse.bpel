@@ -5,7 +5,6 @@
     editDirectory="/org.eclipse.bpel.model.edit/src" editorDirectory="/org.eclipse.bpel.model.editor/src"
     modelPluginID="org.eclipse.bpel.model" modelName="Bpel" modelPluginClass="" importerID="org.eclipse.emf.importer.ecore"
     usedGenPackages="../../../../plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore messageproperties.genmodel#//messageproperties partnerlinktype.genmodel#//partnerlinktype ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.genmodel#//wsdl ../../../org.eclipse.xsd/src-xsd/model/XSD.genmodel#//xsd">
-  <foreignModel>bpel.ecore</foreignModel>
   <genPackages prefix="BPEL" basePackage="org.eclipse.bpel" disposableProviderFactory="true"
       ecorePackage="bpel.ecore#/">
     <genEnums ecoreEnum="bpel.ecore#//CorrelationPattern">
