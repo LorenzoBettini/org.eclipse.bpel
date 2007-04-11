@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: ImportImpl.java,v 1.3 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,6 +20,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
+
+import org.w3c.dom.Element;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -37,7 +42,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ImportImpl extends EObjectImpl implements Import {
+public class ImportImpl extends WSDLElementImpl implements Import {
 	/**
 	 * The default value of the '{@link #getNamespace() <em>Namespace</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -186,6 +191,10 @@ public class ImportImpl extends EObjectImpl implements Import {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.IMPORT__DOCUMENTATION_ELEMENT:
+				return getDocumentationElement();
+			case BPELPackage.IMPORT__ELEMENT:
+				return getElement();
 			case BPELPackage.IMPORT__NAMESPACE:
 				return getNamespace();
 			case BPELPackage.IMPORT__LOCATION:
@@ -203,6 +212,12 @@ public class ImportImpl extends EObjectImpl implements Import {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.IMPORT__DOCUMENTATION_ELEMENT:
+				setDocumentationElement((Element)newValue);
+				return;
+			case BPELPackage.IMPORT__ELEMENT:
+				setElement((Element)newValue);
+				return;
 			case BPELPackage.IMPORT__NAMESPACE:
 				setNamespace((String)newValue);
 				return;
@@ -223,6 +238,12 @@ public class ImportImpl extends EObjectImpl implements Import {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.IMPORT__DOCUMENTATION_ELEMENT:
+				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.IMPORT__ELEMENT:
+				setElement(ELEMENT_EDEFAULT);
+				return;
 			case BPELPackage.IMPORT__NAMESPACE:
 				setNamespace(NAMESPACE_EDEFAULT);
 				return;
@@ -243,6 +264,10 @@ public class ImportImpl extends EObjectImpl implements Import {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.IMPORT__DOCUMENTATION_ELEMENT:
+				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
+			case BPELPackage.IMPORT__ELEMENT:
+				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.IMPORT__NAMESPACE:
 				return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
 			case BPELPackage.IMPORT__LOCATION:

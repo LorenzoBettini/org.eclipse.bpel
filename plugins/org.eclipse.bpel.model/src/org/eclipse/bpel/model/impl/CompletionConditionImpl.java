@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
+ * $Id: CompletionConditionImpl.java,v 1.5 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -15,7 +15,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
+import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
+
+import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +35,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class CompletionConditionImpl extends EObjectImpl implements CompletionCondition {
+public class CompletionConditionImpl extends WSDLElementImpl implements CompletionCondition {
 	/**
 	 * The cached value of the '{@link #getBranches() <em>Branches</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -126,6 +131,10 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION_ELEMENT:
+				return getDocumentationElement();
+			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
+				return getElement();
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return getBranches();
 		}
@@ -139,6 +148,12 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION_ELEMENT:
+				setDocumentationElement((Element)newValue);
+				return;
+			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
+				setElement((Element)newValue);
+				return;
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				setBranches((Branches)newValue);
 				return;
@@ -153,6 +168,12 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION_ELEMENT:
+				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
+				setElement(ELEMENT_EDEFAULT);
+				return;
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				setBranches((Branches)null);
 				return;
@@ -167,6 +188,10 @@ public class CompletionConditionImpl extends EObjectImpl implements CompletionCo
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION_ELEMENT:
+				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
+			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
+				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return branches != null;
 		}

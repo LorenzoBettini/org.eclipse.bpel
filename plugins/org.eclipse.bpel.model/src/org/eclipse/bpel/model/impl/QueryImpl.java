@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: QueryImpl.java,v 1.3 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,6 +20,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
+
+import org.w3c.dom.Element;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -36,7 +40,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class QueryImpl extends EObjectImpl implements Query {
+public class QueryImpl extends WSDLElementImpl implements Query {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -144,6 +148,10 @@ public class QueryImpl extends EObjectImpl implements Query {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.QUERY__DOCUMENTATION_ELEMENT:
+				return getDocumentationElement();
+			case BPELPackage.QUERY__ELEMENT:
+				return getElement();
 			case BPELPackage.QUERY__VALUE:
 				return getValue();
 			case BPELPackage.QUERY__QUERY_LANGUAGE:
@@ -159,6 +167,12 @@ public class QueryImpl extends EObjectImpl implements Query {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.QUERY__DOCUMENTATION_ELEMENT:
+				setDocumentationElement((Element)newValue);
+				return;
+			case BPELPackage.QUERY__ELEMENT:
+				setElement((Element)newValue);
+				return;
 			case BPELPackage.QUERY__VALUE:
 				setValue((String)newValue);
 				return;
@@ -176,6 +190,12 @@ public class QueryImpl extends EObjectImpl implements Query {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.QUERY__DOCUMENTATION_ELEMENT:
+				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.QUERY__ELEMENT:
+				setElement(ELEMENT_EDEFAULT);
+				return;
 			case BPELPackage.QUERY__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
@@ -193,6 +213,10 @@ public class QueryImpl extends EObjectImpl implements Query {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.QUERY__DOCUMENTATION_ELEMENT:
+				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
+			case BPELPackage.QUERY__ELEMENT:
+				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.QUERY__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 			case BPELPackage.QUERY__QUERY_LANGUAGE:

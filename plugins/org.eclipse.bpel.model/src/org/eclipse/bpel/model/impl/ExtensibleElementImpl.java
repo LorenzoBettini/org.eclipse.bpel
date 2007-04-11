@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.1 2006/01/19 21:08:48 james Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.2 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.w3c.dom.Element;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -270,4 +271,32 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 		return eDynamicIsSet(eFeature);
 	}
 
+	/**
+	 * Set the DOM element which has been read and which is the facade for this EMF 
+	 * object.
+	 * 
+	 * @see org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl#setElement(org.w3c.dom.Element)
+	 */
+	
+	@Override
+	public void setElement(Element elm) {		
+		super.setElement(elm);
+		// a pointer back to the EMF model.
+		elm.setUserData("emf.model", this, null); //$NON-NLS-1$
+	}
+	
+	/**
+	 * @see org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl#getElement()
+	 */
+	
+	@Override
+	public Element getElement () {
+		return super.getElement();
+	}
+	
+	
+	/**
+	 *  
+	 */	
+	
 } //ExtensibleElementImpl

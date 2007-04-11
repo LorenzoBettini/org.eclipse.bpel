@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.17 2007/02/09 09:13:42 smoser Exp $
+ * $Id: BPELFactoryImpl.java,v 1.18 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -89,7 +89,11 @@ import org.eclipse.bpel.model.While;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->

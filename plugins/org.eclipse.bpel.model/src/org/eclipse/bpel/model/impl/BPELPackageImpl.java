@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.27 2007/02/09 09:13:42 smoser Exp $
+ * $Id: BPELPackageImpl.java,v 1.28 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -3410,12 +3410,17 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		variableEClass.getESuperTypes().add(this.getExtensibleElement());
 		unknownExtensibilityAttributeEClass.getESuperTypes().add(theWSDLPackage.getUnknownExtensibilityElement());
 		onEventEClass.getESuperTypes().add(this.getExtensibleElement());
+		importEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
 		conditionEClass.getESuperTypes().add(this.getExpression());
 		targetsEClass.getESuperTypes().add(this.getExtensibleElement());
 		sourcesEClass.getESuperTypes().add(this.getExtensibleElement());
+		queryEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
+		serviceRefEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
 		extensionsEClass.getESuperTypes().add(this.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
+		fromPartEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
+		toPartEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
 		forEachEClass.getESuperTypes().add(this.getActivity());
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
@@ -3424,6 +3429,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		ifEClass.getESuperTypes().add(this.getActivity());
 		elseIfEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseEClass.getESuperTypes().add(this.getExtensibleElement());
+		completionConditionEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
 		branchesEClass.getESuperTypes().add(this.getExpression());
 		extensibleElementEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		messageExchangesEClass.getESuperTypes().add(this.getExtensibleElement());

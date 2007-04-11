@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPartImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: FromPartImpl.java,v 1.3 2007/04/11 20:45:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -14,6 +14,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
+
+import org.w3c.dom.Element;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -30,7 +34,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class FromPartImpl extends EObjectImpl implements FromPart {
+public class FromPartImpl extends WSDLElementImpl implements FromPart {
 	/**
 	 * The default value of the '{@link #getPart() <em>Part</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -145,6 +149,10 @@ public class FromPartImpl extends EObjectImpl implements FromPart {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
+				return getDocumentationElement();
+			case BPELPackage.FROM_PART__ELEMENT:
+				return getElement();
 			case BPELPackage.FROM_PART__PART:
 				return getPart();
 			case BPELPackage.FROM_PART__TO:
@@ -161,6 +169,12 @@ public class FromPartImpl extends EObjectImpl implements FromPart {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
+				setDocumentationElement((Element)newValue);
+				return;
+			case BPELPackage.FROM_PART__ELEMENT:
+				setElement((Element)newValue);
+				return;
 			case BPELPackage.FROM_PART__PART:
 				setPart((String)newValue);
 				return;
@@ -178,6 +192,12 @@ public class FromPartImpl extends EObjectImpl implements FromPart {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
+				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
+				return;
+			case BPELPackage.FROM_PART__ELEMENT:
+				setElement(ELEMENT_EDEFAULT);
+				return;
 			case BPELPackage.FROM_PART__PART:
 				setPart(PART_EDEFAULT);
 				return;
@@ -195,6 +215,10 @@ public class FromPartImpl extends EObjectImpl implements FromPart {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
+				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
+			case BPELPackage.FROM_PART__ELEMENT:
+				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
 			case BPELPackage.FROM_PART__PART:
 				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT.equals(part);
 			case BPELPackage.FROM_PART__TO:
