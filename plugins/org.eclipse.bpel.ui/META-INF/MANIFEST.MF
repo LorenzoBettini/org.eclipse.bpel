@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.bpel.common.ui,
  org.eclipse.bpel.common.model,
  org.eclipse.bpel.model,
- org.eclipse.wst.xml.core
+ org.eclipse.wst.xml.core,
+ org.eclipse.bpel.wsil.model
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.bpel.ui,
  org.eclipse.bpel.ui.actions,
@@ -59,5 +60,5 @@ Export-Package: org.eclipse.bpel.ui,
  org.eclipse.bpel.ui.util.filedialog,
  org.eclipse.bpel.ui.util.marker,
  org.eclipse.bpel.ui.wizards
-Bundle-ClassPath: code.jar
+Bundle-ClassPath: bin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
