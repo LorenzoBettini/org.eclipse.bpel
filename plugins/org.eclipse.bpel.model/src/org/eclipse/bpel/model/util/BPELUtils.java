@@ -384,17 +384,7 @@ public class BPELUtils {
 		return writer.getBuffer().toString();
 	}
 	
-	/**
-	 * Tests if <code>namespace</code> equals the BPEL namespace.
-	 * @param namespace the namespace 
-	 * @return true of BPEL namespace, false otherwise.
-	 */
 	
-	public static final boolean isBPELNamespace(String namespace) {
-		return namespace != null
-			&& namespace.equals(BPELConstants.NAMESPACE_2004);
-	}
-
 	
 	/**
 	 * Create attribute value.
@@ -566,7 +556,7 @@ public class BPELUtils {
 	public static final boolean isBPELElement(Node node) {
 	    return node != null
 	    && node.getNodeType() == Node.ELEMENT_NODE 
-	    && isBPELNamespace(node.getNamespaceURI());
+	    && BPELConstants.isBPELNamespace(node.getNamespaceURI());
 	}
 
 	/**
