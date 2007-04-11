@@ -10,9 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRef.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: ServiceRef.java,v 1.2 2007/04/11 20:42:39 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
+
+import org.eclipse.wst.wsdl.WSDLElement;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -33,7 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ServiceRef extends EObject {
+public interface ServiceRef extends WSDLElement {
 	/**
 	 * Returns the value of the '<em><b>Reference Scheme</b></em>' attribute.
 	 * <!-- begin-user-doc -->

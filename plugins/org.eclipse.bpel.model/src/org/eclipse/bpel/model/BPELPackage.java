@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.27 2007/02/09 09:13:43 smoser Exp $
+ * $Id: BPELPackage.java,v 1.28 2007/04/11 20:42:38 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -4761,13 +4761,31 @@ public interface BPELPackage extends EPackage{
 	int ON_EVENT_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__NAMESPACE = 0;
+	int IMPORT__NAMESPACE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4776,7 +4794,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__LOCATION = 1;
+	int IMPORT__LOCATION = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Import Type</b></em>' attribute.
@@ -4785,7 +4803,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__IMPORT_TYPE = 2;
+	int IMPORT__IMPORT_TYPE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the the '<em>Import</em>' class.
@@ -4794,7 +4812,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_FEATURE_COUNT = 3;
+	int IMPORT_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5067,13 +5085,31 @@ public interface BPELPackage extends EPackage{
 	int SOURCES_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int QUERY__VALUE = 0;
+	int QUERY__VALUE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Query Language</b></em>' attribute.
@@ -5082,7 +5118,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int QUERY__QUERY_LANGUAGE = 1;
+	int QUERY__QUERY_LANGUAGE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>Query</em>' class.
@@ -5091,7 +5127,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int QUERY_FEATURE_COUNT = 2;
+	int QUERY_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_REF__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_REF__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Reference Scheme</b></em>' attribute.
@@ -5100,7 +5154,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF__REFERENCE_SCHEME = 0;
+	int SERVICE_REF__REFERENCE_SCHEME = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -5109,7 +5163,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF__VALUE = 1;
+	int SERVICE_REF__VALUE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>Service Ref</em>' class.
@@ -5118,7 +5172,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF_FEATURE_COUNT = 2;
+	int SERVICE_REF_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5256,13 +5310,31 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION_ACTIVITY_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Part</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART__PART = 0;
+	int FROM_PART__PART = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>To</b></em>' reference.
@@ -5271,7 +5343,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART__TO = 1;
+	int FROM_PART__TO = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>From Part</em>' class.
@@ -5280,7 +5352,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART_FEATURE_COUNT = 2;
+	int FROM_PART_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Part</b></em>' attribute.
@@ -5289,7 +5379,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART__PART = 0;
+	int TO_PART__PART = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>From</b></em>' reference.
@@ -5298,7 +5388,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART__FROM = 1;
+	int TO_PART__FROM = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>To Part</em>' class.
@@ -5307,7 +5397,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART_FEATURE_COUNT = 2;
+	int TO_PART_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6013,13 +6103,31 @@ public interface BPELPackage extends EPackage{
 	int ELSE_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Branches</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION__BRANCHES = 0;
+	int COMPLETION_CONDITION__BRANCHES = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the the '<em>Completion Condition</em>' class.
@@ -6028,7 +6136,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION_FEATURE_COUNT = 1;
+	int COMPLETION_CONDITION_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.

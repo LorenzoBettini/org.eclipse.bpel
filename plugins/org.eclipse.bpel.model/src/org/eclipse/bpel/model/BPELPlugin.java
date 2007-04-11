@@ -10,13 +10,18 @@
  *******************************************************************************/
 package org.eclipse.bpel.model;
 
+import org.eclipse.core.internal.runtime.RuntimeLog;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
+
+import sun.security.action.GetLongAction;
 
 /**
  * The {@link org.eclipse.core.runtime.Plugin} for the BPEL model.
@@ -141,7 +146,28 @@ public class BPELPlugin extends EMFPlugin
 					
 			status = new Status(severity, PLUGIN_ID, 0, m, e); //$NON-NLS-1$
 		}		
-		INSTANCE.getPluginLogger().log(status);
+		Logger logger = INSTANCE.getPluginLogger();
+		if (logger != null) {
+			logger.log(status);
+		} else if (Platform.isRunning()) {
+			RuntimeLog.log(status);
+		} else {
+			
+			String msg = java.text.MessageFormat.format(
+					"{1,choice,0#msg|1#Info|2#Warning|4#Error}@{0}: {3}",
+					status.getPlugin(), 
+					status.getSeverity(),
+					status.getCode(), 
+					status.getMessage() );
+			
+			System.err.println(msg);
+			
+			if (status.getException() != null) {
+				status.getException().printStackTrace(System.err);
+			}
+		}
+		
+		
 	}
 	
 	public static void log (String message, Exception e) 

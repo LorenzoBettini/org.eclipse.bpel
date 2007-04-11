@@ -2,9 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionCondition.java,v 1.2 2006/01/31 14:56:08 james Exp $
+ * $Id: CompletionCondition.java,v 1.3 2007/04/11 20:42:39 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
+
+import org.eclipse.wst.wsdl.WSDLElement;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface CompletionCondition extends EObject{
+public interface CompletionCondition extends WSDLElement {
 	/**
 	 * Returns the value of the '<em><b>Branches</b></em>' containment reference.
 	 * The default value is <code>""</code>.
