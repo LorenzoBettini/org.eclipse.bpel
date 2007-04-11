@@ -1,0 +1,969 @@
+<dump xmlns='http://emf/dump'>
+<EObject count="1">org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+<getChildren result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getChildren>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLinks: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.ProcessImpl' isProxy='false'>org.eclipse.bpel.model.impl.ProcessImpl@1543c88 (documentationElement: null, element: [bpws:process: null]) (name: Simple, targetNamespace: http://eclipse.org/bpel/sample, queryLanguage: &lt;unset&gt;, expressionLanguage: &lt;unset&gt;, suppressJoinFailure: true, variableAccessSerializable: &lt;unset&gt;, exitOnStandardFault: true)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinksImpl
+</getClass>
+</EObject>
+<EObject count="2">org.eclipse.bpel.model.impl.PartnerLinkImpl@15212bc (documentationElement: null, element: [bpws:partnerLink: null]) (name: client, initializePartnerRole: &lt;unset&gt;)
+<getMyRole result='class org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl@b8deef (documentationElement: null, element: [plnk:role: null]) (required: false, elementType: null) (name: SimpleProvider, portType: org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@1342ba4 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}Simple, undefined: false, proxy: false, resourceURI: null))
+</getMyRole>
+<getPartnerRole result='class org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl@1d332b (documentationElement: null, element: [plnk:role: null]) (required: false, elementType: null) (name: SimpleRequester, portType: org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@10a6ae2 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}SimpleCallback, undefined: false, proxy: false, resourceURI: null))
+</getPartnerRole>
+<getPartnerLinkType result='class org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl@ef2c60 (documentationElement: null, element: [plnk:partnerLinkType: null]) (required: false, elementType: null) (name: Simple)
+</getPartnerLinkType>
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>client
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="3">org.eclipse.bpel.model.impl.PartnerLinkImpl@4a6cbf (documentationElement: null, element: [bpws:partnerLink: null]) (name: pl1, initializePartnerRole: &lt;unset&gt;)
+<getPartnerRole result='class org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl@b76fa (documentationElement: null, element: [plnk:role: null]) (required: false, elementType: null) (name: trafficRequester, portType: null)
+</getPartnerRole>
+<getPartnerLinkType result='class org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl@b01d43 (documentationElement: null, element: [plnk:partnerLinkType: null]) (required: false, elementType: null) (name: pltTraffic)
+</getPartnerLinkType>
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>pl1
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="4">org.eclipse.bpel.model.impl.PartnerLinkImpl@513cf0 (documentationElement: null, element: [bpws:partnerLink: null]) (name: , initializePartnerRole: &lt;unset&gt;)
+<getPartnerRole result='class org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl@b76fa (documentationElement: null, element: [plnk:role: null]) (required: false, elementType: null) (name: trafficRequester, portType: null)
+</getPartnerRole>
+<getPartnerLinkType result='class org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl@b01d43 (documentationElement: null, element: [plnk:partnerLinkType: null]) (required: false, elementType: null) (name: pltTraffic)
+</getPartnerLinkType>
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="5">org.eclipse.bpel.model.impl.PartnerLinkImpl@177b3cd (documentationElement: null, element: [bpws:partnerLink: null]) (name: badMyRole, initializePartnerRole: &lt;unset&gt;)
+<getMyRole result='class org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl@b76fa (documentationElement: null, element: [plnk:role: null]) (required: false, elementType: null) (name: trafficRequester, portType: null)
+</getMyRole>
+<getPartnerLinkType result='class org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl@b01d43 (documentationElement: null, element: [plnk:partnerLinkType: null]) (required: false, elementType: null) (name: pltTraffic)
+</getPartnerLinkType>
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>badMyRole
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="6">org.eclipse.bpel.model.impl.PartnerLinkImpl@1bd7848 (documentationElement: null, element: [bpws:partnerLink: null]) (name: noRole, initializePartnerRole: &lt;unset&gt;)
+<getPartnerLinkType result='class org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl' isProxy='false'>org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl@b01d43 (documentationElement: null, element: [plnk:partnerLinkType: null]) (required: false, elementType: null) (name: pltTraffic)
+</getPartnerLinkType>
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>noRole
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="7">org.eclipse.bpel.model.impl.PartnerLinkImpl@23e5d1 (documentationElement: null, element: [bpws:partnerLink: null]) (name: badPLT, initializePartnerRole: &lt;unset&gt;)
+<getPartnerLinkType result='class org.eclipse.bpel.model.proxy.PartnerLinkTypeProxy' isProxy='true'>org.eclipse.bpel.model.proxy.PartnerLinkTypeProxy@c4fe76 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#PartnerLinkType{http://eclipse.org/bpel/sampleArtifacts}pltTraffic-xxx)
+</getPartnerLinkType>
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>badPLT
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="8">org.eclipse.bpel.model.impl.PartnerLinkImpl@11e1e67 (documentationElement: null, element: [bpws:partnerLink: null]) (name: nothing, initializePartnerRole: &lt;unset&gt;)
+<isSetInitializePartnerRole result='class java.lang.Boolean'>false
+</isSetInitializePartnerRole>
+<getName result='class java.lang.String'>nothing
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:partnerLink: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PartnerLinksImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinksImpl@b64435 (documentationElement: null, element: [bpws:partnerLinks: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PartnerLinkImpl
+</getClass>
+</EObject>
+<EObject count="9">org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+<getChildren result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getChildren>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variables: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.ProcessImpl' isProxy='false'>org.eclipse.bpel.model.impl.ProcessImpl@1543c88 (documentationElement: null, element: [bpws:process: null]) (name: Simple, targetNamespace: http://eclipse.org/bpel/sample, queryLanguage: &lt;unset&gt;, expressionLanguage: &lt;unset&gt;, suppressJoinFailure: true, variableAccessSerializable: &lt;unset&gt;, exitOnStandardFault: true)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariablesImpl
+</getClass>
+</EObject>
+<EObject count="10">org.eclipse.bpel.model.impl.VariableImpl@1549f94 (documentationElement: null, element: [bpws:variable: null]) (name: input)
+<getMessageType result='class org.eclipse.wst.wsdl.internal.impl.MessageImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.MessageImpl@b8c8e6 (documentationElement: null, element: [message: null]) (qName: {http://eclipse.org/bpel/sample}SimpleRequestMessage, undefined: false, proxy: false, resourceURI: null)
+</getMessageType>
+<getName result='class java.lang.String'>input
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="11">org.eclipse.bpel.model.impl.VariableImpl@18d9850 (documentationElement: null, element: [bpws:variable: null]) (name: output)
+<getMessageType result='class org.eclipse.wst.wsdl.internal.impl.MessageImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.MessageImpl@10ab323 (documentationElement: null, element: [message: null]) (qName: {http://eclipse.org/bpel/sample}SimpleResponseMessage, undefined: false, proxy: false, resourceURI: null)
+</getMessageType>
+<getName result='class java.lang.String'>output
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="12">org.eclipse.bpel.model.impl.VariableImpl@176e552 (documentationElement: null, element: [bpws:variable: null]) (name: xxx.)
+<getName result='class java.lang.String'>xxx.
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="13">org.eclipse.bpel.model.impl.VariableImpl@c980c9 (documentationElement: null, element: [bpws:variable: null]) (name: z01)
+<getName result='class java.lang.String'>z01
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="14">org.eclipse.bpel.model.impl.VariableImpl@12611a7 (documentationElement: null, element: [bpws:variable: null]) (name: x01)
+<getMessageType result='class org.eclipse.bpel.model.proxy.MessageProxy' isProxy='true'>org.eclipse.bpel.model.proxy.MessageProxy@51052d (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#Message{http://eclipse.org/bpel/sample}BadType)
+</getMessageType>
+<getName result='class java.lang.String'>x01
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="15">org.eclipse.bpel.model.impl.VariableImpl@12ad19e (documentationElement: null, element: [bpws:variable: null]) (name: x02)
+<getMessageType result='class org.eclipse.bpel.model.proxy.MessageProxy' isProxy='true'>org.eclipse.bpel.model.proxy.MessageProxy@281d4b (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#Message{}BadType)
+</getMessageType>
+<getName result='class java.lang.String'>x02
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="16">org.eclipse.bpel.model.impl.VariableImpl@19b5217 (documentationElement: null, element: [bpws:variable: null]) (name: y01)
+<getName result='class java.lang.String'>y01
+</getName>
+<getType result='class org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy' isProxy='true'>org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy@2a6f16 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#XSDTypeDefinition{http://eclipse.org/bpel/sample}BadType)
+</getType>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="17">org.eclipse.bpel.model.impl.VariableImpl@1e3118a (documentationElement: null, element: [bpws:variable: null]) (name: y02)
+<getXSDElement result='class org.eclipse.bpel.model.proxy.XSDElementDeclarationProxy' isProxy='true'>org.eclipse.bpel.model.proxy.XSDElementDeclarationProxy@94884d (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#XSDElementDeclaration{http://eclipse.org/bpel/sample}BadElement)
+</getXSDElement>
+<getName result='class java.lang.String'>y02
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@5e176f (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="18">org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+<getActivities result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getActivities>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>main
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:sequence: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.ProcessImpl' isProxy='false'>org.eclipse.bpel.model.impl.ProcessImpl@1543c88 (documentationElement: null, element: [bpws:process: null]) (name: Simple, targetNamespace: http://eclipse.org/bpel/sample, queryLanguage: &lt;unset&gt;, expressionLanguage: &lt;unset&gt;, suppressJoinFailure: true, variableAccessSerializable: &lt;unset&gt;, exitOnStandardFault: true)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.SequenceImpl
+</getClass>
+</EObject>
+<EObject count="19">org.eclipse.bpel.model.impl.EmptyImpl@ce2187 (documentationElement: null, element: [bpws:empty: null]) (name: x, suppressJoinFailure: &lt;unset&gt;)
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>x
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:empty: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.EmptyImpl
+</getClass>
+</EObject>
+<EObject count="20">org.eclipse.bpel.model.impl.EmptyImpl@fb56b1 (documentationElement: null, element: [bpws:empty: null]) (name: y, suppressJoinFailure: &lt;unset&gt;)
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>y
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:empty: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.EmptyImpl
+</getClass>
+</EObject>
+<EObject count="21">org.eclipse.bpel.model.impl.PickImpl@f8968f (documentationElement: null, element: [bpws:pick: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (createInstance: true)
+<getAlarm result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getAlarm>
+<getMessages result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getMessages>
+<getCreateInstance result='class java.lang.Boolean'>true
+</getCreateInstance>
+<isSetCreateInstance result='class java.lang.Boolean'>true
+</isSetCreateInstance>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:pick: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PickImpl
+</getClass>
+</EObject>
+<EObject count="22">org.eclipse.bpel.model.impl.OnAlarmImpl@64c34e (documentationElement: null, element: [bpws:onAlarm: null])
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:onAlarm: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.PickImpl' isProxy='false'>org.eclipse.bpel.model.impl.PickImpl@f8968f (documentationElement: null, element: [bpws:pick: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (createInstance: true)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.OnAlarmImpl
+</getClass>
+</EObject>
+<EObject count="23">org.eclipse.bpel.model.impl.ReceiveImpl@15253d5 (documentationElement: null, element: [bpws:receive: null]) (name: receiveInput, suppressJoinFailure: &lt;unset&gt;) (createInstance: true)
+<getFromPart result='class org.eclipse.emf.ecore.util.EObjectResolvingEList'></getFromPart>
+<getVariable result='class org.eclipse.bpel.model.impl.VariableImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariableImpl@18d9850 (documentationElement: null, element: [bpws:variable: null]) (name: output)
+</getVariable>
+<getCreateInstance result='class java.lang.Boolean'>true
+</getCreateInstance>
+<isSetCreateInstance result='class java.lang.Boolean'>true
+</isSetCreateInstance>
+<getPortType result='class org.eclipse.bpel.model.proxy.PortTypeProxy' isProxy='true'>org.eclipse.bpel.model.proxy.PortTypeProxy@1fddc31 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#PortType{http://eclipse.org/bpel/sample}Simple-bad)
+</getPortType>
+<getOperation result='class org.eclipse.bpel.model.proxy.OperationProxy' isProxy='true'>org.eclipse.bpel.model.proxy.OperationProxy@1835282 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#Operation{http://eclipse.org/bpel/sample}Simple-bad:initiate)
+</getOperation>
+<getPartnerLink result='class org.eclipse.bpel.model.impl.PartnerLinkImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinkImpl@15212bc (documentationElement: null, element: [bpws:partnerLink: null]) (name: client, initializePartnerRole: &lt;unset&gt;)
+</getPartnerLink>
+<getPortTypeGen result='class org.eclipse.bpel.model.proxy.PortTypeProxy' isProxy='true'>org.eclipse.bpel.model.proxy.PortTypeProxy@1fddc31 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#PortType{http://eclipse.org/bpel/sample}Simple-bad)
+</getPortTypeGen>
+<getOperationGen result='class org.eclipse.bpel.model.proxy.OperationProxy' isProxy='true'>org.eclipse.bpel.model.proxy.OperationProxy@1835282 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#Operation{http://eclipse.org/bpel/sample}Simple-bad:initiate)
+</getOperationGen>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>receiveInput
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:receive: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ReceiveImpl
+</getClass>
+</EObject>
+<EObject count="24">org.eclipse.bpel.model.impl.ReceiveImpl@9df354 (documentationElement: null, element: [bpws:receive: null]) (name: receiveInput, suppressJoinFailure: &lt;unset&gt;) (createInstance: &lt;unset&gt;)
+<getFromPart result='class org.eclipse.emf.ecore.util.EObjectResolvingEList'></getFromPart>
+<getVariable result='class org.eclipse.bpel.model.impl.VariableImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariableImpl@1549f94 (documentationElement: null, element: [bpws:variable: null]) (name: input)
+</getVariable>
+<getCreateInstance result='class java.lang.Boolean'>false
+</getCreateInstance>
+<isSetCreateInstance result='class java.lang.Boolean'>false
+</isSetCreateInstance>
+<getPortType result='class org.eclipse.wst.wsdl.internal.impl.PortTypeImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@1342ba4 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}Simple, undefined: false, proxy: false, resourceURI: null)
+</getPortType>
+<getOperation result='class org.eclipse.wst.wsdl.internal.impl.OperationImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.OperationImpl@1d225a7 (documentationElement: null, element: [operation: null]) (style: ONE_WAY, name: initiate, undefined: false, proxy: false, resourceURI: null)
+</getOperation>
+<getPartnerLink result='class org.eclipse.bpel.model.impl.PartnerLinkImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinkImpl@15212bc (documentationElement: null, element: [bpws:partnerLink: null]) (name: client, initializePartnerRole: &lt;unset&gt;)
+</getPartnerLink>
+<getPortTypeGen result='class org.eclipse.wst.wsdl.internal.impl.PortTypeImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@1342ba4 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}Simple, undefined: false, proxy: false, resourceURI: null)
+</getPortTypeGen>
+<getOperationGen result='class org.eclipse.wst.wsdl.internal.impl.OperationImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.OperationImpl@1d225a7 (documentationElement: null, element: [operation: null]) (style: ONE_WAY, name: initiate, undefined: false, proxy: false, resourceURI: null)
+</getOperationGen>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>receiveInput
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:receive: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ReceiveImpl
+</getClass>
+</EObject>
+<EObject count="25">org.eclipse.bpel.model.impl.ReceiveImpl@1a62c31 (documentationElement: null, element: [bpws:receive: null]) (name: receiveInput, suppressJoinFailure: &lt;unset&gt;) (createInstance: &lt;unset&gt;)
+<getFromPart result='class org.eclipse.emf.ecore.util.EObjectResolvingEList'></getFromPart>
+<getVariable result='class org.eclipse.bpel.model.impl.VariableImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariableImpl@1549f94 (documentationElement: null, element: [bpws:variable: null]) (name: input)
+</getVariable>
+<getCreateInstance result='class java.lang.Boolean'>false
+</getCreateInstance>
+<isSetCreateInstance result='class java.lang.Boolean'>false
+</isSetCreateInstance>
+<getPortType result='class org.eclipse.wst.wsdl.internal.impl.PortTypeImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@1342ba4 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}Simple, undefined: false, proxy: false, resourceURI: null)
+</getPortType>
+<getOperation result='class org.eclipse.bpel.model.proxy.OperationProxy' isProxy='true'>org.eclipse.bpel.model.proxy.OperationProxy@9f5011 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#Operation{http://eclipse.org/bpel/sample}Simple:init-xxx)
+</getOperation>
+<getPartnerLink result='class org.eclipse.bpel.model.impl.PartnerLinkImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinkImpl@15212bc (documentationElement: null, element: [bpws:partnerLink: null]) (name: client, initializePartnerRole: &lt;unset&gt;)
+</getPartnerLink>
+<getPortTypeGen result='class org.eclipse.wst.wsdl.internal.impl.PortTypeImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@1342ba4 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}Simple, undefined: false, proxy: false, resourceURI: null)
+</getPortTypeGen>
+<getOperationGen result='class org.eclipse.bpel.model.proxy.OperationProxy' isProxy='true'>org.eclipse.bpel.model.proxy.OperationProxy@9f5011 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#Operation{http://eclipse.org/bpel/sample}Simple:init-xxx)
+</getOperationGen>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>receiveInput
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:receive: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ReceiveImpl
+</getClass>
+</EObject>
+<EObject count="26">org.eclipse.bpel.model.impl.WhileImpl@141b571 (documentationElement: null, element: [bpws:while: null]) (name: While, suppressJoinFailure: &lt;unset&gt;)
+<getCondition result='class org.eclipse.bpel.model.impl.ConditionImpl' isProxy='false'>org.eclipse.bpel.model.impl.ConditionImpl@ef137d (documentationElement: null, element: [bpws:condition: null]) (required: false, elementType: {http:///org/eclipse/bpel/model/bpel.ecore}Condition) (body: $input.payload/tns:input &gt; 1, expressionLanguage: http://www.w3.org/TR/1999/REC-xpath-19991116, opaque: &lt;unset&gt;)
+</getCondition>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>While
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:while: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.WhileImpl
+</getClass>
+</EObject>
+<EObject count="27">org.eclipse.bpel.model.impl.ConditionImpl@ef137d (documentationElement: null, element: [bpws:condition: null]) (required: false, elementType: {http:///org/eclipse/bpel/model/bpel.ecore}Condition) (body: $input.payload/tns:input &gt; 1, expressionLanguage: http://www.w3.org/TR/1999/REC-xpath-19991116, opaque: &lt;unset&gt;)
+<getExpressionLanguage result='class java.lang.String'>http://www.w3.org/TR/1999/REC-xpath-19991116
+</getExpressionLanguage>
+<isSetExpressionLanguage result='class java.lang.Boolean'>true
+</isSetExpressionLanguage>
+<isSetOpaque result='class java.lang.Boolean'>false
+</isSetOpaque>
+<getBody result='class java.lang.String'>$input.payload/tns:input &gt; 1
+</getBody>
+<getElementType result='class javax.xml.namespace.QName'>{http:///org/eclipse/bpel/model/bpel.ecore}Condition
+</getElementType>
+<isRequired result='class java.lang.Boolean'>false
+</isRequired>
+<getRequired result='class java.lang.Boolean'>false
+</getRequired>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:condition: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.WhileImpl' isProxy='false'>org.eclipse.bpel.model.impl.WhileImpl@141b571 (documentationElement: null, element: [bpws:while: null]) (name: While, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ConditionImpl
+</getClass>
+</EObject>
+<EObject count="28">org.eclipse.bpel.model.impl.RepeatUntilImpl@1e87719 (documentationElement: null, element: [bpws:repeatUntil: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<getCondition result='class org.eclipse.bpel.model.impl.ConditionImpl' isProxy='false'>org.eclipse.bpel.model.impl.ConditionImpl@e32802 (documentationElement: null, element: [bpws:condition: null]) (required: false, elementType: {http:///org/eclipse/bpel/model/bpel.ecore}Condition) (body: 
+					true
+			, expressionLanguage: http://www.w3.org/TR/1999/js, opaque: &lt;unset&gt;)
+</getCondition>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:repeatUntil: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.RepeatUntilImpl
+</getClass>
+</EObject>
+<EObject count="29">org.eclipse.bpel.model.impl.ConditionImpl@e32802 (documentationElement: null, element: [bpws:condition: null]) (required: false, elementType: {http:///org/eclipse/bpel/model/bpel.ecore}Condition) (body: 
+					true
+			, expressionLanguage: http://www.w3.org/TR/1999/js, opaque: &lt;unset&gt;)
+<getExpressionLanguage result='class java.lang.String'>http://www.w3.org/TR/1999/js
+</getExpressionLanguage>
+<isSetExpressionLanguage result='class java.lang.Boolean'>true
+</isSetExpressionLanguage>
+<isSetOpaque result='class java.lang.Boolean'>false
+</isSetOpaque>
+<getBody result='class java.lang.String'>
+					true
+			
+</getBody>
+<getElementType result='class javax.xml.namespace.QName'>{http:///org/eclipse/bpel/model/bpel.ecore}Condition
+</getElementType>
+<isRequired result='class java.lang.Boolean'>false
+</isRequired>
+<getRequired result='class java.lang.Boolean'>false
+</getRequired>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:condition: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.RepeatUntilImpl' isProxy='false'>org.eclipse.bpel.model.impl.RepeatUntilImpl@1e87719 (documentationElement: null, element: [bpws:repeatUntil: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ConditionImpl
+</getClass>
+</EObject>
+<EObject count="30">org.eclipse.bpel.model.impl.InvokeImpl@157c2bd (documentationElement: null, element: [bpws:invoke: null]) (name: callbackClient, suppressJoinFailure: &lt;unset&gt;)
+<getFromPart result='class org.eclipse.emf.ecore.util.EObjectResolvingEList'></getFromPart>
+<getToPart result='class org.eclipse.emf.ecore.util.EObjectResolvingEList'></getToPart>
+<getInputVariable result='class org.eclipse.bpel.model.impl.VariableImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariableImpl@18d9850 (documentationElement: null, element: [bpws:variable: null]) (name: output)
+</getInputVariable>
+<getPortType result='class org.eclipse.wst.wsdl.internal.impl.PortTypeImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@10a6ae2 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}SimpleCallback, undefined: false, proxy: false, resourceURI: null)
+</getPortType>
+<getOperation result='class org.eclipse.wst.wsdl.internal.impl.OperationImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.OperationImpl@b23210 (documentationElement: null, element: [operation: null]) (style: ONE_WAY, name: onResult, undefined: false, proxy: false, resourceURI: null)
+</getOperation>
+<getPartnerLink result='class org.eclipse.bpel.model.impl.PartnerLinkImpl' isProxy='false'>org.eclipse.bpel.model.impl.PartnerLinkImpl@15212bc (documentationElement: null, element: [bpws:partnerLink: null]) (name: client, initializePartnerRole: &lt;unset&gt;)
+</getPartnerLink>
+<getPortTypeGen result='class org.eclipse.wst.wsdl.internal.impl.PortTypeImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.PortTypeImpl@10a6ae2 (documentationElement: null, element: [portType: null]) (qName: {http://eclipse.org/bpel/sample}SimpleCallback, undefined: false, proxy: false, resourceURI: null)
+</getPortTypeGen>
+<getOperationGen result='class org.eclipse.wst.wsdl.internal.impl.OperationImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.OperationImpl@b23210 (documentationElement: null, element: [operation: null]) (style: ONE_WAY, name: onResult, undefined: false, proxy: false, resourceURI: null)
+</getOperationGen>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<getName result='class java.lang.String'>callbackClient
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:invoke: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.InvokeImpl
+</getClass>
+</EObject>
+<EObject count="31">org.eclipse.bpel.model.impl.ScopeImpl@f4f44a (documentationElement: null, element: [bpws:scope: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (isolated: &lt;unset&gt;, exitOnStandardFault: &lt;unset&gt;)
+<getVariables result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@1d256fa (documentationElement: null, element: [bpws:variables: null])
+</getVariables>
+<getExitOnStandardFault result='class java.lang.Boolean'>false
+</getExitOnStandardFault>
+<getIsolated result='class java.lang.Boolean'>false
+</getIsolated>
+<isSetIsolated result='class java.lang.Boolean'>false
+</isSetIsolated>
+<isSetExitOnStandardFault result='class java.lang.Boolean'>false
+</isSetExitOnStandardFault>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:scope: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ScopeImpl
+</getClass>
+</EObject>
+<EObject count="32">org.eclipse.bpel.model.impl.VariablesImpl@1d256fa (documentationElement: null, element: [bpws:variables: null])
+<getChildren result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getChildren>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variables: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.ScopeImpl' isProxy='false'>org.eclipse.bpel.model.impl.ScopeImpl@f4f44a (documentationElement: null, element: [bpws:scope: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (isolated: &lt;unset&gt;, exitOnStandardFault: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariablesImpl
+</getClass>
+</EObject>
+<EObject count="33">org.eclipse.bpel.model.impl.VariableImpl@4c4975 (documentationElement: null, element: [bpws:variable: null]) (name: input)
+<getMessageType result='class org.eclipse.wst.wsdl.internal.impl.MessageImpl' isProxy='false'>org.eclipse.wst.wsdl.internal.impl.MessageImpl@b8c8e6 (documentationElement: null, element: [message: null]) (qName: {http://eclipse.org/bpel/sample}SimpleRequestMessage, undefined: false, proxy: false, resourceURI: null)
+</getMessageType>
+<getName result='class java.lang.String'>input
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@1d256fa (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="34">org.eclipse.bpel.model.impl.VariableImpl@1ec8909 (documentationElement: null, element: [bpws:variable: null]) (name: s_xxx)
+<getName result='class java.lang.String'>s_xxx
+</getName>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@1d256fa (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="35">org.eclipse.bpel.model.impl.VariableImpl@18c56d (documentationElement: null, element: [bpws:variable: null]) (name: s_xxx)
+<getName result='class java.lang.String'>s_xxx
+</getName>
+<getType result='class org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy' isProxy='true'>org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy@497934 (eProxyURI: file:/C:/Documents%20and%20Settings/mchmiele/runtime-EclipseApplication/XSimple/t1/t1.bpel#XSDTypeDefinition{}integer)
+</getType>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:variable: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.VariablesImpl' isProxy='false'>org.eclipse.bpel.model.impl.VariablesImpl@1d256fa (documentationElement: null, element: [bpws:variables: null])
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.VariableImpl
+</getClass>
+</EObject>
+<EObject count="36">org.eclipse.bpel.model.impl.SequenceImpl@1b48197 (documentationElement: null, element: [bpws:sequence: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<getActivities result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getActivities>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:sequence: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.SequenceImpl
+</getClass>
+</EObject>
+<EObject count="37">org.eclipse.bpel.model.impl.PickImpl@1a80a69 (documentationElement: null, element: [bpws:pick: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (createInstance: &lt;unset&gt;)
+<getAlarm result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getAlarm>
+<getMessages result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getMessages>
+<getCreateInstance result='class java.lang.Boolean'>false
+</getCreateInstance>
+<isSetCreateInstance result='class java.lang.Boolean'>false
+</isSetCreateInstance>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:pick: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.PickImpl
+</getClass>
+</EObject>
+<EObject count="38">org.eclipse.bpel.model.impl.RethrowImpl@14384c2 (documentationElement: null, element: [bpws:rethrow: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:rethrow: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.RethrowImpl
+</getClass>
+</EObject>
+<EObject count="39">org.eclipse.bpel.model.impl.WaitImpl@1c0ec97 (documentationElement: null, element: [bpws:wait: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:wait: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.WaitImpl
+</getClass>
+</EObject>
+<EObject count="40">org.eclipse.bpel.model.impl.ExitImpl@ecb281 (documentationElement: null, element: [bpws:exit: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:exit: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ExitImpl
+</getClass>
+</EObject>
+<EObject count="41">org.eclipse.bpel.model.impl.ThrowImpl@b6e39f (documentationElement: null, element: [bpws:throw: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (faultName: null)
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:throw: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ThrowImpl
+</getClass>
+</EObject>
+<EObject count="42">org.eclipse.bpel.model.impl.AssignImpl@119dc16 (documentationElement: null, element: [bpws:assign: null]) (name: null, suppressJoinFailure: &lt;unset&gt;) (validate: false)
+<getCopy result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getCopy>
+<getValidate result='class java.lang.Boolean'>false
+</getValidate>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:assign: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.AssignImpl
+</getClass>
+</EObject>
+<EObject count="43">org.eclipse.bpel.model.impl.FlowImpl@c05d3b (documentationElement: null, element: [bpws:flow: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<getActivities result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getActivities>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:flow: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.FlowImpl
+</getClass>
+</EObject>
+<EObject count="44">org.eclipse.bpel.model.impl.IfImpl@128f6ee (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<getElseIf result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getElseIf>
+<getCondition result='class org.eclipse.bpel.model.impl.ConditionImpl' isProxy='false'>org.eclipse.bpel.model.impl.ConditionImpl@6bade9 (documentationElement: null, element: [bpws:condition: null]) (required: false, elementType: {http:///org/eclipse/bpel/model/bpel.ecore}Condition) (body: 1 + 3, expressionLanguage: &lt;unset&gt;, opaque: &lt;unset&gt;)
+</getCondition>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:if: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.IfImpl
+</getClass>
+</EObject>
+<EObject count="45">org.eclipse.bpel.model.impl.ConditionImpl@6bade9 (documentationElement: null, element: [bpws:condition: null]) (required: false, elementType: {http:///org/eclipse/bpel/model/bpel.ecore}Condition) (body: 1 + 3, expressionLanguage: &lt;unset&gt;, opaque: &lt;unset&gt;)
+<isSetExpressionLanguage result='class java.lang.Boolean'>false
+</isSetExpressionLanguage>
+<isSetOpaque result='class java.lang.Boolean'>false
+</isSetOpaque>
+<getBody result='class java.lang.String'>1 + 3
+</getBody>
+<getElementType result='class javax.xml.namespace.QName'>{http:///org/eclipse/bpel/model/bpel.ecore}Condition
+</getElementType>
+<isRequired result='class java.lang.Boolean'>false
+</isRequired>
+<getRequired result='class java.lang.Boolean'>false
+</getRequired>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:condition: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.IfImpl' isProxy='false'>org.eclipse.bpel.model.impl.IfImpl@128f6ee (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ConditionImpl
+</getClass>
+</EObject>
+<EObject count="46">org.eclipse.bpel.model.impl.IfImpl@166afb3 (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<getElseIf result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getElseIf>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:if: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.IfImpl
+</getClass>
+</EObject>
+<EObject count="47">org.eclipse.bpel.model.impl.ElseIfImpl@9945ce (documentationElement: null, element: [bpws:elseif: null])
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:elseif: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.IfImpl' isProxy='false'>org.eclipse.bpel.model.impl.IfImpl@166afb3 (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ElseIfImpl
+</getClass>
+</EObject>
+<EObject count="48">org.eclipse.bpel.model.impl.IfImpl@b5dac4 (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+<getElseIf result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getElseIf>
+<getElse result='class org.eclipse.bpel.model.impl.ElseImpl' isProxy='false'>org.eclipse.bpel.model.impl.ElseImpl@12d96f2 (documentationElement: null, element: [bpws:else: null])
+</getElse>
+<isSetSuppressJoinFailure result='class java.lang.Boolean'>false
+</isSetSuppressJoinFailure>
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:if: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.SequenceImpl' isProxy='false'>org.eclipse.bpel.model.impl.SequenceImpl@1807ca8 (documentationElement: null, element: [bpws:sequence: null]) (name: main, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.IfImpl
+</getClass>
+</EObject>
+<EObject count="49">org.eclipse.bpel.model.impl.ElseIfImpl@110003 (documentationElement: null, element: [bpws:elseif: null])
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:elseif: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.IfImpl' isProxy='false'>org.eclipse.bpel.model.impl.IfImpl@b5dac4 (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ElseIfImpl
+</getClass>
+</EObject>
+<EObject count="50">org.eclipse.bpel.model.impl.ElseImpl@12d96f2 (documentationElement: null, element: [bpws:else: null])
+<isSetDocumentation result='class java.lang.Boolean'>false
+</isSetDocumentation>
+<getEExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getEExtensibilityElements>
+<getExtensibilityElements result='class org.eclipse.emf.ecore.util.EObjectContainmentEList'></getExtensibilityElements>
+<getWSDLContents result='class org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl$WSDLContentsEList'></getWSDLContents>
+<getElement result='class org.apache.xerces.dom.ElementNSImpl'>[bpws:else: null]
+</getElement>
+<getContainer result='class org.eclipse.bpel.model.impl.IfImpl' isProxy='false'>org.eclipse.bpel.model.impl.IfImpl@b5dac4 (documentationElement: null, element: [bpws:if: null]) (name: null, suppressJoinFailure: &lt;unset&gt;)
+</getContainer>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ElseImpl
+</getClass>
+</EObject>
+<EObject count="51">org.eclipse.bpel.model.impl.ImportImpl@17e4ca (namespace: http://eclipse.org/bpel/sample, location: t1.wsdl, importType: http://schemas.xmlsoap.org/wsdl/)
+<getNamespace result='class java.lang.String'>http://eclipse.org/bpel/sample
+</getNamespace>
+<getImportType result='class java.lang.String'>http://schemas.xmlsoap.org/wsdl/
+</getImportType>
+<getLocation result='class java.lang.String'>t1.wsdl
+</getLocation>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ImportImpl
+</getClass>
+</EObject>
+<EObject count="52">org.eclipse.bpel.model.impl.ImportImpl@adb1d4 (namespace: http://eclipse.org/bpel/sampleArtifacts, location: null, importType: http://schemas.xmlsoap.org/wsdl/)
+<getNamespace result='class java.lang.String'>http://eclipse.org/bpel/sampleArtifacts
+</getNamespace>
+<getImportType result='class java.lang.String'>http://schemas.xmlsoap.org/wsdl/
+</getImportType>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ImportImpl
+</getClass>
+</EObject>
+<EObject count="53">org.eclipse.bpel.model.impl.ImportImpl@175d6ab (namespace: http://eclipse.org/bpel/sampleArtifacts, location: t1Artifacts.wsdl, importType: http://schemas.xmlsoap.org/wsdl/)
+<getNamespace result='class java.lang.String'>http://eclipse.org/bpel/sampleArtifacts
+</getNamespace>
+<getImportType result='class java.lang.String'>http://schemas.xmlsoap.org/wsdl/
+</getImportType>
+<getLocation result='class java.lang.String'>t1Artifacts.wsdl
+</getLocation>
+<getClass result='class java.lang.Class'>class org.eclipse.bpel.model.impl.ImportImpl
+</getClass>
+</EObject>
+</dump>
