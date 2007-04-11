@@ -49,6 +49,7 @@ public interface IBPELUIConstants {
 	public final String PREF_USE_ANIMATION = "pref_use_animation"; //$NON-NLS-1$
 	public final String PREF_BPEL_TERMS_PATH = BPELTerms.PREF_BPEL_TERMS_PATH;
 	public final String PREF_CREATE_SPEC_COMPLIANT_PROCESS = "pref_create_spec_compliant"; //$NON-NLS-1$
+	public final String PREF_WSIL_URL = "pref_wsil_url"; //$NON-NLS-1$
 	
 	// Eclipse property view ID
 	public static final String PROPERTY_VIEW_ID = "org.eclipse.ui.views.PropertySheet"; //$NON-NLS-1$
@@ -203,6 +204,11 @@ public interface IBPELUIConstants {
 	public final String ICON_XSD_SIMPLE_TYPE_DEFINITION_16 = "obj16/XSDSimpleTypeDefinition.gif"; //$NON-NLS-1$
 	public final String ICON_XSD_TYPE_DEFINITION_16 = "obj16/XSDTypeDefinition.gif"; //$NON-NLS-1$
 
+	// WSIL related icons
+	
+	public final String ICON_WSIL = "obj16/wsil.gif"; //$NON-NLS-1$
+	public final String ICON_WSIL_SERVICE = "obj16/service.gif"; //$NON-NLS-1$
+	public final String ICON_WSIL_LINK = "obj16/wsil_link.gif"; //$NON-NLS-1$
 	
 	// Link images
 	public final String ICON_LINK_BOTTOMLEFT = "ovr16/link_bottomleft.png"; //$NON-NLS-1$

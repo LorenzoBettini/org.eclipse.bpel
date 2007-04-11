@@ -1706,7 +1706,7 @@ public class BPELUtil {
 			
 			String href = null;
 			try {
-				href = (String) marker.getAttribute( "href" ); //$NON-NLS-1$
+				href = (String) marker.getAttribute( "address.model" ); //$NON-NLS-1$
 			} catch (CoreException ex) {
 				continue;
 			}
@@ -1754,36 +1754,18 @@ public class BPELUtil {
 		String href = null;
 				
 		try {
-			href = (String) marker.getAttribute ("href"); //$NON-NLS-1$
+			href = (String) marker.getAttribute ("address.model"); //$NON-NLS-1$
 			if (href == null) {
 				return null;
 			}
 		} catch (CoreException ce) {
 			return null;
 		}
-				
-		// We have a the "href" and the Resource on which the marker is
-		// created.
-		
-		IResource fileResource = marker.getResource();
-		if (IFile.class.isInstance( fileResource ) == false) {
-			return null;
-		}
-		
-		IFile file = (IFile) fileResource;
-		
-		// now we have to find the resource set from the passed refObject
-		URI uri = URI.createPlatformResourceURI( file.getFullPath().toString() );
-		ResourceSet resourceSet = ref.eResource().getResourceSet();
 		
 		try {
-			 Resource resource = resourceSet.getResource(uri, true);
-		   	 if (resource == null) {
-		   		 return null;
-		   	 }
-		   	 return resource.getEObject( href );
-		} catch (Exception ex) {
-		  	 return null;
+			return ref.eResource().getEObject( href );
+		} catch (Throwable t) {
+			return null;
 		}
 	}
 	

@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.preferences;
 
+
+import java.io.File;
+import java.net.URI;
+import java.net.MalformedURLException;
+
 import org.eclipse.bpel.model.terms.BPELTerms;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -22,25 +27,66 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.FileDialog;
 
 
 public class BPELPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private Button useAnimation;
+	private Text wsilURL;
 	
 	protected Control createContents(Composite parent) {
 		Composite result = new Composite(parent, SWT.NONE);	
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 1;
+		layout.numColumns = 3;
+		layout.verticalSpacing = 10;
 		result.setLayout(layout);
-		result.setLayoutData(new GridData(GridData.FILL_BOTH));
+		GridData data = new GridData(GridData.FILL_BOTH);
+		result.setLayoutData(data);
 
 		useAnimation = new Button(result, SWT.CHECK);
 		useAnimation.setText(Messages.BPELPreferencePage_0); 
 		useAnimation.setToolTipText(Messages.BPELPreferencePage_1); 
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		useAnimation.setLayoutData(data);
+		
+		// wsil directory
+		Label wsilLabel = new Label(result, SWT.NONE);
+		wsilLabel.setText(Messages.BPELPreferencePage_2);
+		wsilLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		
+		wsilURL = new Text(result, SWT.BORDER);
+		wsilURL.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		Button browse = new Button(result, SWT.NONE);
+		browse.setText(Messages.BPELPreferencePage_3);
+		browse.setLayoutData(new GridData(SWT.RIGHT));
+		browse.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
+				String fileName = fd.open();
+				if ((fileName != null) && (fileName.length() > 0)) {
+					// parse to file url
+					File file = new File(fileName);
+					URI uri = file.toURI();
+					try {
+						wsilURL.setText(uri.toURL().toString());
+					}
+					catch (MalformedURLException ex) {
+						// do nothing
+					}
+				}
+			}
+		}
+		);
 
 		initializeValues();
 		
@@ -79,6 +125,7 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 	 */
 	private void initializeValues() {
 		useAnimation.setSelection(BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(IBPELUIConstants.PREF_USE_ANIMATION));
+		wsilURL.setText(BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL));
 	}
 
 	/**
@@ -86,6 +133,7 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 	 */
 	private void storeValues() {
 		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_USE_ANIMATION, useAnimation.getSelection());
+		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_WSIL_URL, wsilURL.getText());
 		BPELTerms.getDefault().savePluginPreferences();
 	}
 }

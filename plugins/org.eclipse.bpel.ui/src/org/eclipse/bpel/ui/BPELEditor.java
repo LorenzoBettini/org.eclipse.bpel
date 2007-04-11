@@ -826,7 +826,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		
 		String href = null;
 		try {
-			href = (String) marker.getAttribute( "href" );
+			href = (String) marker.getAttribute( "address.model" );
 		} catch (CoreException ex) {
 			BPELUIPlugin.log(ex);
 		}		

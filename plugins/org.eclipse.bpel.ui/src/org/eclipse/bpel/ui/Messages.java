@@ -93,6 +93,8 @@ public final class Messages extends NLS {
 	public static String SchemaImportDialog_12;
 	public static String SchemaImportDialog_13;
 	public static String SchemaImportDialog_14;
+	public static String SchemaImportDialog_15;
+	public static String SchemaImportDialog_16;
 	public static String SchemaImportDialog_2;
 	public static String SchemaImportDialog_4;
 	public static String SchemaImportDialog_5;
@@ -190,6 +192,8 @@ public final class Messages extends NLS {
 	public static String BPELPasteAction_Paste_3;
 	public static String BPELPreferencePage_0;
 	public static String BPELPreferencePage_1;
+	public static String BPELPreferencePage_2;
+	public static String BPELPreferencePage_3;
 	public static String BPELUIRegistry_Expression_language_editors_must_provide_expressionLanguage_and_class__8;
 	public static String BPELUtil__unknown_URI__54;
 	public static String BPELUtil_HiddenSequence_2;
