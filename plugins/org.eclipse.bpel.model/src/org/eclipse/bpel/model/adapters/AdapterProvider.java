@@ -113,7 +113,7 @@ public final class AdapterProvider {
 	 * @return the appropriate adapter
 	 */
 	
-	public Adapter getAdapter ( Class adapterClass ) {
+	public Adapter getAdapter ( Class<? extends Adapter> adapterClass ) {
 		
 		String name = adapterClass.getName();
 		Adapter singleton = map.get( name );

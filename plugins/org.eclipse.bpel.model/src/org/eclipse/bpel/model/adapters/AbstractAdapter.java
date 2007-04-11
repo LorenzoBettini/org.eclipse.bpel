@@ -81,7 +81,7 @@ public class AbstractAdapter implements Adapter {
 	 */
 	
 	public boolean isAdapterForType (Object type) {
-		Class clazz = null;
+		Class<?> clazz = null;
 		// what is type ? (an interface)
 		if (type instanceof Class) {
 			clazz = (Class) type;
@@ -120,7 +120,7 @@ public class AbstractAdapter implements Adapter {
 	 * @return the target object
 	 */
 	
-	public Object getTarget ( Object obj , Class clazz ) {
+	public Object getTarget ( Object obj , Class<?> clazz ) {
 
 		// If the object is passed and it matches the adapted object class,
 		// then we return it, because most likely it is it.
