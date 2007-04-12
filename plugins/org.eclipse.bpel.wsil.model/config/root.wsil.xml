@@ -3,26 +3,19 @@
 <inspection xmlns="http://schemas.xmlsoap.org/ws/2001/10/inspection/">
 
 <link referencedNamespace="http://schemas.xmlsoap.org/ws/2001/10/inspection/"
-      location="builtinServices.xml">
-	<abstract>Built in services</abstract>
-</link>
-
-<link referencedNamespace="http://schemas.xmlsoap.org/ws/2001/10/inspection/"
-      location="http://localhost:9700/BPELConsole/xmlGetProcessList.jsp?domainId=default&amp;password=bpel">
-	<abstract>Local BPEL Server</abstract>
-</link>
-
-<link referencedNamespace="http://schemas.xmlsoap.org/ws/2001/10/inspection/"
       location="xmethodsBookmark.xml">
 	<abstract>Local XMethods Bookmarks</abstract>
 </link>
 
 <link referencedNamespace="http://schemas.xmlsoap.org/ws/2001/10/inspection/"
-      location="http://www.xmethods.net/inspection.wsil">
-	<abstract>Live XMethods Bookmarks</abstract>
+      location="xmethods.cached.wsil.xml">
+	<abstract>XMethods - Cached</abstract>
 </link>
 
-
+<link referencedNamespace="http://schemas.xmlsoap.org/ws/2001/10/inspection/"
+      location="http://www.xmethods.net/inspection.wsil">
+	<abstract>XMethods - Live</abstract>
+</link>
 
 </inspection >
 
