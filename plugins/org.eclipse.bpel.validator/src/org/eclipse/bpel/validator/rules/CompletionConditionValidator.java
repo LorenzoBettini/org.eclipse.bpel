@@ -27,7 +27,7 @@ public class CompletionConditionValidator extends CValidator {
 	 * Parent node names.
 	 */
 		
-	static IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_FOR_EACH );
+	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_FOR_EACH );
 	
 	/**
 	 * @see org.eclipse.bpel.validator.rules.CValidator#checkChildren()

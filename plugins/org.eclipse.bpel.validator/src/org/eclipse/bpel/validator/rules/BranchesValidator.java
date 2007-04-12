@@ -23,7 +23,7 @@ public class BranchesValidator extends ConditionValidator {
 	
 	/** Parent node names */	
 	@SuppressWarnings("hiding")
-	static IFilter<INode> PARENTS = new Filters.NodeNameFilter ( ND_COMPLETION_CONDITION );
+	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter ( ND_COMPLETION_CONDITION );
 	
 	protected String fSuccessfulBranchesOnly;
 

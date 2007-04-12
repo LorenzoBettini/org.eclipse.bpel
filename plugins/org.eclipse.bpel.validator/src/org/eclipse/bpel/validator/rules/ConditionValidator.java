@@ -34,7 +34,8 @@ import org.eclipse.bpel.validator.model.Validator;
 public class ConditionValidator extends CValidator {
 			
 	/** list of my parents */	
-	static final IFilter<INode> PARENTS = new Filters.NodeNameFilter ( 			
+	static public final IFilter<INode> PARENTS = new Filters.NodeNameFilter ( 	
+		ND_WHILE,
 		ND_IF,
 		ND_ELSEIF,
 		ND_WHILE,

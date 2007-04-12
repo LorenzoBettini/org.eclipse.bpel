@@ -33,7 +33,7 @@ public class ExtensionsValidator extends CContainerValidator {
 	 * Parent node names.
 	 */
 	
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter(  ND_PROCESS );
+	static public IFilter<INode> PARENTS = Filters.PROCESS;
 	
 			
 	/** Check children
