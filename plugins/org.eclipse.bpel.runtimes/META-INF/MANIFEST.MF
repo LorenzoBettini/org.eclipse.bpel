@@ -8,7 +8,6 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
- org.eclipse.ui.ide,
  org.eclipse.wst.server.core,
  org.eclipse.wst.web.ui,
  org.eclipse.wst.common.project.facet.ui,
@@ -18,14 +17,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.common.frameworks.ui,
  org.eclipse.jst.server.generic.core,
  org.eclipse.jem.util,
- org.eclipse.debug.ui,
- org.eclipse.jst.ws.consumption
+ org.eclipse.debug.ui
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.bpel.runtimes,
  org.eclipse.bpel.runtimes.facets,
  org.eclipse.bpel.runtimes.module,
  org.eclipse.bpel.runtimes.publishers,
  org.eclipse.bpel.runtimes.ui.wizards
-Bundle-ClassPath: code.jar
+Bundle-ClassPath: bin
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -10,23 +10,22 @@
  *******************************************************************************/
 package org.eclipse.bpel.runtimes.facets;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.bpel.runtimes.IBPELModuleFacetConstants;
-import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jem.util.logger.proxy.Logger;
-import org.eclipse.wst.common.componentcore.datamodel.FacetDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
-import org.eclipse.wst.common.componentcore.internal.operation.FacetDataModelOperation;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-import org.eclipse.wst.common.frameworks.datamodel.IDataModelOperation;
 import org.eclipse.wst.common.frameworks.internal.datamodel.DataModelImpl;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
-import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 
 /**
  * BPEL Facet implementation of <code>IDelegate</code>. 
@@ -44,24 +43,26 @@ public class BPELCoreFacetInstallDelegate implements IDelegate {
 	 * Maybe some common requirements will become apparent at some later stage.
 	 */
 	
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
+	@SuppressWarnings("nls")
 	public void execute(IProject proj, 
 						IProjectFacetVersion ver, 
 						Object obj,
-						IProgressMonitor monitor) 
+						IProgressMonitor progMon) 
 		throws CoreException 
 	{
-		monitor.beginTask("", 3);
-		monitor.worked(1);
-		
+		progMon.beginTask( "Configuring ...", 3 ); //$NON-NLS-1$
+
 		FacetInstallDataModelProvider dmProvider = new FacetInstallDataModelProvider();
-		IDataModel dataModel = new DataModelImpl(dmProvider);
-		monitor.worked(1);
+		IDataModel dataModel = new DataModelImpl (dmProvider);
 		
-		try {
-			dataModel.setProperty(
+		progMon.worked(1);		
+        try
+        {        
+        
+        	dataModel.setProperty(
 					IFacetDataModelProperties.FACET_ID, 
 					IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
 			dataModel.setProperty(
@@ -74,12 +75,61 @@ public class BPELCoreFacetInstallDelegate implements IDelegate {
 					IFacetDataModelProperties.FACET_VERSION_STR, 
 					ver.getVersionString());
 			dataModel.setProperty(IFacetDataModelProperties.SHOULD_EXECUTE, Boolean.TRUE);
-
-			monitor.worked(1);
-
-		} catch (Exception e) {
-			Logger.getLogger().logError(e);
-		}		
-		monitor.done();
+        
+        	progMon.worked(1);                
+        	
+        	
+        	// Add the builder to the project description
+        	IProjectDescription description = proj.getDescription();
+        	
+    		// Our builder name
+        	String builderName = "org.eclipse.bpel.validator.builder"; //$NON-NLS-1$
+        	
+        	// Install the builder (validator)
+        	
+    		ICommand buildCommand = description.newCommand();
+    		
+    		// We only support 1 argument now, its "debug"
+    		Map<String,String> args = new HashMap<String,String>();
+    		args.put("debug","false");
+    		buildCommand.setArguments(args);
+    		
+    		buildCommand.setBuilderName( builderName );
+    		
+    		
+    		ICommand [] commands = description.getBuildSpec();
+    		
+    		if (commands == null) {    			    			
+    			description.setBuildSpec( new ICommand[] { buildCommand } );
+    			proj.setDescription(description, IResource.KEEP_HISTORY, progMon);
+    			
+    		} else {
+    			
+    			boolean bFound = false;
+    			for(ICommand c : commands) {
+    				if (builderName.equals(c.getBuilderName())) {
+    					bFound = true;
+    					break;
+    				}
+    			}    		
+    			
+    			//  not found
+    			if (bFound == false) {
+    				int i = commands.length;
+    				ICommand [] newCommands = new ICommand [ i + 1 ];
+    				System.arraycopy(commands, 0, newCommands, 0, i);
+    				newCommands [ i ] = buildCommand;
+    				description.setBuildSpec( newCommands );
+    				proj.setDescription(description, IResource.KEEP_HISTORY, progMon);
+    			}    			
+    		}    		    		
+    		
+        	progMon.worked( 1 );
+        }
+        finally
+        {
+            progMon.done();
+        }
 	}
+	
 }
