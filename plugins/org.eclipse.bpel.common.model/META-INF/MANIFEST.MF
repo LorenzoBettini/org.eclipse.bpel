@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Extension Model
+Bundle-Name: Extension Model (Incubation)
 Bundle-SymbolicName: org.eclipse.bpel.common.model; singleton:=true
 Bundle-Version: 0.2.0
 Bundle-Activator: org.eclipse.bpel.common.extension.model.Activator
