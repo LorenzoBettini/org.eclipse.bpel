@@ -5,9 +5,9 @@
       BPEL Designer for Eclipse
    </description>
    <feature url="features/org.eclipse.bpel.feature_0.2.0.jar" id="org.eclipse.bpel.feature" version="0.2.0">
-      <category name="Eclipse BPEL Designer"/>
+      <category name="Eclipse BPEL Designer (Incubation)"/>
    </feature>
-   <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer">
+   <category-def name="Eclipse BPEL Designer (Incubation)" label="Eclipse BPEL Designer (Incubation)">
       <description>
          BPEL Designer for Eclipse.
       </description>
