@@ -28,6 +28,16 @@ import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDResourceImpl;
 
 
+/**
+ * XSD Import resolver.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Apr 17, 2007
+ *
+ */
+
+@SuppressWarnings("nls")
+
 public class XSDImportResolver implements ImportResolver {
     
 	/**
@@ -35,18 +45,19 @@ public class XSDImportResolver implements ImportResolver {
 	 * @return the schema for schema URI.
 	 */
 	
-    public final static String getImportType() {
+    public String getImportType() {
         return XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001;
     }
     
     /**
      * Find and load the schema based on the import statement
      * 
-     * @param imp the import statement from the bpel source
+     * @param imp the import statement from the BPEL source
      * @return the schema that it references
      */
     
-    protected XSDSchema findAndLoadSchema ( Import imp ) 
+    
+	protected <T extends EObject> T findAndLoad ( Import imp , String kind ) 
     {
     	Resource baseResource = imp.eResource();
         String location = imp.getLocation();
@@ -56,33 +67,29 @@ public class XSDImportResolver implements ImportResolver {
         
         URI locationURI = URI.createURI(location);
         
-        ResourceSet resourceSet = baseResource.getResourceSet();
-        Resource resource = null;
+        ResourceSet resourceSet = baseResource.getResourceSet();        
+        Resource result = resourceSet.createResource(URI.createURI("*." + kind)); 
+		result.setURI( locationURI );			
+		
         try {
-        	resource = resourceSet.getResource(locationURI, true);
+        	result.load( resourceSet.getLoadOptions() );        	
         } catch (Exception ex) {
            	BPELPlugin.log("The resource " + locationURI + " cannot be read.",ex,IStatus.WARNING) ;
         	return null;       	
         }
         
-        //Really make sure it is an XSDResource
-        if (resource instanceof XSDResourceImpl) {
-        	return ((XSDResourceImpl) resource).getSchema();
-        }
-        
-        if (resource != null) {
-        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " is not an XML schema.") );
-        } else  {
-        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " cannot be read." )) ;
-        }
-        
+        try {
+        	return (T) result.getContents().get(0);
+        } catch (Throwable t) {
+           	BPELPlugin.log("The resource " + locationURI + " cannot be read.",t,IStatus.WARNING) ;        	
+        }                
         return null;
     }
 
     
     /**
      * Resolve an object from the import.
-     * @param import to resolve from.
+     * @param imp to resolve from.
      * @param qname of the object.
      * @param name ?
      * @param refType the type of resolution that we are doing.
@@ -104,7 +111,7 @@ public class XSDImportResolver implements ImportResolver {
         	return result ; 
         }
         
-        XSDSchema schema = findAndLoadSchema( imp );   
+        XSDSchema schema = findAndLoad( imp , "xsd");   
         
         if (TOP.equals(refType)) {
         	return schema;
@@ -118,21 +125,24 @@ public class XSDImportResolver implements ImportResolver {
     
 	/** 
 	 * Each XSDImport currently contributes only 1 schema.
+	 * @param imp the import location
+	 * @param what what to resolve
+	 * @return the list of resolved items.
 	 *  
 	 * @see org.eclipse.bpel.model.util.ImportResolver#resolveSchemas(org.eclipse.bpel.model.Import)
 	 */
     
-	public List resolve (Import imp, int what) {
+	public List<Object> resolve (Import imp, int what) {
 				
 		if (getImportType().equals(imp.getImportType()) == false) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		if (what == RESOLVE_DEFINITION) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		
-		List list = new ArrayList(1);
-		XSDSchema schema = findAndLoadSchema(imp);
+		List<Object> list = new ArrayList<Object>(1);
+		XSDSchema schema = findAndLoad(imp,"xsd");
 		if (schema != null) {
 			list.add ( schema );
 		}

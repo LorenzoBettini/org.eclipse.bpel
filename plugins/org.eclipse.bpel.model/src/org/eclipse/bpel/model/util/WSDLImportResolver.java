@@ -16,16 +16,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Import;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.util.WSDLConstants;
-import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 
 
 /**
@@ -39,50 +33,22 @@ import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 
 @SuppressWarnings("nls")
 
-public class WSDLImportResolver implements ImportResolver {
+public class WSDLImportResolver extends XSDImportResolver {
         	
 	
     /** 
      * @return The import type for which this resolver resolves.
      */
-    public final static String getImportType() {
+    @Override
+	public String getImportType() {
         return WSDLConstants.WSDL_NAMESPACE_URI;
-    }
-
-    
-	protected Definition findAndLoadWSDL ( Import imp) {
-        Resource baseResource = imp.eResource();
-        String location = imp.getLocation();
-        if (!baseResource.getURI().isRelative()) {
-            location = URI.createURI(location).resolve(baseResource.getURI()).toString();
-        }
-        
-        URI locationURI = URI.createURI(location);
-        ResourceSet resourceSet = baseResource.getResourceSet();
-        Resource resource = null;
-        try {
-        	resource = resourceSet.getResource(locationURI, true);
-        } catch (Exception ex) {
-        	BPELPlugin.log("The resource " + locationURI + " cannot be read.",ex,IStatus.WARNING) ;
-        	return null;
-        }
-        
-        if (resource instanceof WSDLResourceImpl) {
-        	return ((WSDLResourceImpl)resource).getDefinition();
-        }
-        
-        if (resource != null) {
-        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " is not a WSDL definition."),IStatus.WARNING );
-        } else  {
-        	BPELPlugin.log(null, new Exception("The resource " + locationURI + " cannot be read." ),IStatus.WARNING) ;
-        }
-        return null;
     }
     
     /**
      * @see org.eclipse.bpel.model.util.ImportResolver#resolve(org.eclipse.bpel.model.Import, javax.xml.namespace.QName, java.lang.String, java.lang.String)
      */
-    public EObject resolve(Import imp, QName qname, String name, String refType) {
+    @Override
+	public EObject resolve(Import imp, QName qname, String name, String refType) {
     	
         EObject result = null;
         
@@ -98,7 +64,7 @@ public class WSDLImportResolver implements ImportResolver {
         	return result ; 
         }
         
-        Definition definition = findAndLoadWSDL ( imp );
+        Definition definition = findAndLoad ( imp , "wsdl" );
         
         if (refType.equals(TOP)) {
         	return definition;
@@ -116,30 +82,29 @@ public class WSDLImportResolver implements ImportResolver {
 	 * @param what what to resolve (WSDLs or Schemas)
 	 * @return a list containing the resolved items (either WSDLs or schemas)
 	 * 
-	 * @see org.eclipse.bpel.model.util.ImportResolver#resolveSchemas(org.eclipse.bpel.model.Import)
 	 */
     
-	@SuppressWarnings("unchecked")
-	public List resolve (Import imp, int what ) {
+	@Override	
+	public List<Object> resolve (Import imp, int what ) {
 		
 		if (getImportType().equals(imp.getImportType()) == false) {
-        	return Collections.EMPTY_LIST;
+        	return Collections.emptyList();
         }
 		
-        Definition definition = findAndLoadWSDL ( imp );
+        Definition definition = findAndLoad ( imp , "wsdl" );
         
         if (definition == null) {
-        	return Collections.EMPTY_LIST;
+        	return Collections.emptyList();
         }
         
         if (what == RESOLVE_DEFINITION) {
-        	ArrayList al = new ArrayList(1);
+        	ArrayList<Object> al = new ArrayList<Object>(1);
         	al.add(definition);
         	return al;
         }
         
         if (definition.getETypes() == null) {
-        	return Collections.EMPTY_LIST;
+        	return Collections.emptyList();
         }
         
         return definition.getETypes().getSchemas();        	

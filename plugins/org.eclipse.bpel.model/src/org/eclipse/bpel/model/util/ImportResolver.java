@@ -18,6 +18,14 @@ import org.eclipse.bpel.model.Import;
 import org.eclipse.emf.ecore.EObject;
 
 
+/**
+ * Import resolver
+ * 
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Apr 17, 2007
+ */
+
 public interface ImportResolver
 {   
 	/** Resolve the schema from the import */	
@@ -29,9 +37,30 @@ public interface ImportResolver
 	/** The top element, which implies the model behind the import */
 	String TOP = "top.element"; //$NON-NLS-1$
 	
+	/**  
+	 * @return the import type for this resolver
+	 */
+	
+	String getImportType();
+	
+	/**
+	 * Resolve the import
+	 * @param imp
+	 * @param qname
+	 * @param name
+	 * @param refType
+	 * @return the resolved object
+	 */
 	
     EObject resolve(Import imp, QName qname, String name, String refType);
     
-    /** Resolve something from the import */
-    List resolve ( Import imp , int what );    
+    /** 
+     * Resolve something from the import
+     *  
+     * @param imp the import
+     * @param what the thing to resolve 
+     * @return the resolved list of objects (never null)
+     */
+    
+    List<Object> resolve ( Import imp , int what );    
 }

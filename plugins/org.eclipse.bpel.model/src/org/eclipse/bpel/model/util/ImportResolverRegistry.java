@@ -40,18 +40,18 @@ public class ImportResolverRegistry
      */
     private ImportResolverRegistry() {
         // Register the default resolvers. 
-        registerResolver(XSDImportResolver.getImportType(), new XSDImportResolver());
-        registerResolver(WSDLImportResolver.getImportType(), new WSDLImportResolver());
+        registerResolver(new XSDImportResolver());
+        registerResolver(new WSDLImportResolver());
     }
     
     /**
      * Register a resolver for the given import type
-     * @param importType import type
      * @param resolver the resolver
      */
     
-    public void registerResolver(String importType, ImportResolver resolver)
+    public void registerResolver(ImportResolver resolver)
     {
+    	String importType = resolver.getImportType();
         List<ImportResolver> resolvers = registry.get(importType);
         if (resolvers == null) {
             resolvers = new ArrayList<ImportResolver>();
