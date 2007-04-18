@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.dialogs;
 
-import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -19,14 +19,14 @@ import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTypeTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.WSILContentProvider;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.filedialog.FileSelectionGroup;
-import org.eclipse.bpel.wsil.model.inspection.util.InspectionResourceFactoryImpl;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -50,6 +50,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
@@ -58,10 +59,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
-import org.eclipse.ui.progress.IProgressService;
-import org.eclipse.wst.wsdl.Definition;
 
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -74,6 +72,7 @@ import org.eclipse.bpel.wsil.model.inspection.Service;
 import org.eclipse.bpel.wsil.model.inspection.TypeOfAbstract;
 import org.eclipse.ui.part.DrillDownComposite;
 import org.eclipse.jface.viewers.ViewerComparator;
+
 
 
 /**
@@ -129,7 +128,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	protected TreeViewer fWSILTreeViewer;
 	protected Tree fWSILTree;
 	protected Text filterText;
-	private String theFilter = ""; //$NON-NLS-1$
+	String fFilter = ""; //$NON-NLS-1$
 	
     
 	private Button fBrowseButton;
@@ -145,10 +144,15 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	private ITreeContentProvider fTreeContentProvider;
 
 	protected Object fInput;
-
-	private IRunnableWithProgress fRunnableWithProgress;
 	
-	private boolean WSDL = true;
+	protected ResourceSet fResourceSet;
+	
+	protected String fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_XSD;
+
+	long fRunnableStart;
+	URI fRunnableLoadURI;
+	Job fLoaderJob;
+	
 	/**
 	 * Create a brand new shiny Schema Import Dialog.
 	 * 
@@ -183,7 +187,9 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		this(parent);
 		
 		this.modelObject = eObject;		
-		setTitle(Messages.SchemaImportDialog_2);					
+		setTitle(Messages.SchemaImportDialog_2);
+		
+		fResourceSet = eObject.eResource().getResourceSet();
 	}
 	
 	
@@ -195,7 +201,8 @@ public class SchemaImportDialog extends SelectionStatusDialog {
      * @return the composite it created to be used in the dialog area.
      */
 	
-    public Control createDialogArea(Composite parent) {
+    @Override
+	public Control createDialogArea(Composite parent) {
     	    	    	
         Composite contents = (Composite) super.createDialogArea(parent);
         
@@ -207,6 +214,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
     }
 	
 		
+	@Override
 	protected void buttonPressed (int buttonId) {
 		switch (buttonId) {
 		case BID_BROWSE : 
@@ -220,7 +228,16 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			fLocation.setText( path );
 			attemptLoad ( path );
 			break;
+			
+		case IDialogConstants.CANCEL_ID :
+			if (fLoaderJob != null) {
+				if (fLoaderJob.getState() == Job.RUNNING) {
+					fLoaderJob.cancel();					
+				}
+			}			
+			break;
 		}
+		
 		super.buttonPressed(buttonId);
 	}
 	
@@ -239,11 +256,11 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			setVisibleControl(fWSILComposite, id == BID_BROWSE_WSIL);
 			
 			fBrowseButton.setEnabled( (id == BID_BROWSE_FILE) || (id == BID_BROWSE_WSIL) );
-			fLocation.setText(EMPTY); 
-			fTreeViewer.setInput(null);
-			updateOK(false);			
+			fLocation.setText(EMPTY);
+			
+			markEmptySelection();
 			KIND = id;
-			WSDL = !(KIND == BID_BROWSE_WSIL);
+			
 			fSettings.put(IMPORT_KIND, KIND);
 			
 			fGroup.getParent().layout(true);								
@@ -268,6 +285,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	 * 
 	 */
 	
+	@Override
 	public void create() {		
 		super.create();
 		buttonPressed(KIND, true);		
@@ -372,6 +390,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			public void keyPressed(KeyEvent event) {
 				if (event.keyCode == SWT.CR) {
 					attemptLoad(fLocation.getText());
+					event.doit = false;
 				}						
 			}
 
@@ -394,9 +413,8 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 						if (resource.getType() == IResource.FILE) {
 							// only attempt to load a resource which is not a container
 							attemptLoad ( (IFile) resource );							
-						} else {						
-							updateStatus ( Status.OK_STATUS );
-							updateOK(false);
+						} else {
+							markEmptySelection();							
 							return ;
 						}						
 					}        	
@@ -429,7 +447,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         data.grabExcessHorizontalSpace = true;
         data.horizontalAlignment = GridData.FILL;
         data.verticalAlignment = GridData.FILL;
-        data.minimumHeight = 300;
+        data.minimumHeight = 220;
         fWSILComposite.setLayoutData(data);
         
 		Label location = new Label(fWSILComposite, SWT.NONE);
@@ -445,22 +463,29 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	    filterText.setLayoutData(data);
 	    
     	filterText.addKeyListener(new KeyListener() {
+    		
     		public void keyPressed(KeyEvent e) {
+    			// set the value of the filter.
+    			fFilter = filterText.getText().trim().toLowerCase();
+    			    		
+    			if (e.keyCode == SWT.CR) {
+
+        			// now arm the refresh to execute 1 second later.
+        			    			     			       		
+           			if (fFilter.length() > 0) {
+           				/* for the time being, only filter 3 levels deep 
+           				 * since link references within WSIL are rare at 
+           				 * this time.  when adoption of WSIL directories
+           				 * take off, this needs to be rehashed */ 
+           				fWSILTreeViewer.expandToLevel(3);
+           			}
+           			fWSILTreeViewer.refresh();
+           			e.doit = false;
+				}	
     		}
+    		
     		public void keyReleased(KeyEvent e) {
-       			theFilter = filterText.getText();
-       			if (theFilter.length() > 0) {
-       				/* for the time being, only filter 3 levels deep 
-       				 * since link references within WSIL are rare at 
-       				 * this time.  when adoption of WSIL directories
-       				 * take off, this needs to be rehashed */ 
-       				fWSILTreeViewer.expandToLevel(3);
-       				fWSILTreeViewer.refresh();
-       			}
-       			else {
-       				fWSILTreeViewer.refresh(); 
-       				//fWSILTreeViewer.collapseAll();
-       			}      				
+    			
     		}
     	});
 	    
@@ -492,11 +517,15 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         String basePath = BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL);  
 		WSILContentProvider wsilCP = new WSILContentProvider(basePath.substring(0, basePath.lastIndexOf('/')+1));
 		
-		fWSILTreeViewer = new TreeViewer(fWSILTree);
+		fWSILTreeViewer = new TreeViewer( fWSILTree );
 		fWSILTreeViewer.setContentProvider( wsilCP );
 		fWSILTreeViewer.setLabelProvider( wsilCP);
-		WSDL = false;
-		fWSILTreeViewer.setInput ( attemptLoad(URI.createURI(BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL))) );
+		
+		
+		fWSILTreeViewer.setInput ( 
+				attemptLoad(URI.createURI(BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL)),
+							IBPELUIConstants.EXTENSION_STAR_DOT_WSIL)) ;
+				
 		// set default tree expansion to the 2nd level
 		fWSILTreeViewer.expandToLevel(2);
 		fWSILTreeViewer.addFilter(new TreeFilter());
@@ -512,13 +541,13 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 				if (sel.getFirstElement() instanceof Service) {
 					Service serv = (Service)sel.getFirstElement();
 					Description descr = (Description)serv.getDescription().get(0);
-					WSDL = true;
-					attemptLoad(descr.getLocation());
+					attemptLoad(descr.getLocation() );
+				} else {
+					markEmptySelection();
 				}
 			}			
 		});
 		// end tree viewer for variable structure
-
         
 		return fWSILComposite;
 	}
@@ -550,58 +579,33 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	}
 
 
-	Object attemptLoad ( URI uri ) {
-		ResourceSet resourceSet = BPELUtil.createResourceSetImpl();	
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("wsil", new InspectionResourceFactoryImpl()); //$NON-NLS-1$
-		
-		/* old code:
- 		Resource resource = resourceSet.getResource(uri, true);
-		 */
-		
-		Resource resource = null;
+	Object attemptLoad ( URI uri, String kind) {
 
-		if (fStructureTitle.compareTo(Messages.SchemaImportDialog_14) == 0) {
-			if (WSDL)
-				resource = resourceSet.createResource(URI.createURI("*.wsdl")); //$NON-NLS-1$
-			else {
-				resource = resourceSet.createResource(URI.createURI("*.wsil")); //$NON-NLS-1$
+ 		Resource resource = null;
+ 		
+		if (kind == null) {
+			resource = fResourceSet.getResource(uri, true);
+		} else {
+			resource = fResourceSet.createResource(URI.createURI( kind )); 
+			resource.setURI( uri );
+			try {
+				resource.load(fResourceSet.getLoadOptions());
+			} catch (Exception ex) {
+				BPELUIPlugin.log(ex);
+				return ex;			
 			}
 		}
-		else if (fStructureTitle.compareTo(Messages.SchemaImportDialog_11) == 0) {
-			resource = resourceSet.createResource(URI.createURI("*.xsd")); //$NON-NLS-1$
-		}
-		else {
-			// ask resourceset for "correct" resource
-			resource = resourceSet.getResource(uri, true);
-		}	
-		resource.setURI(uri);
 		
-		try {
-			resource.load(resourceSet.getLoadOptions());
+		if (resource.getErrors().isEmpty() && resource.isLoaded() ) {
+			return resource.getContents().get(0);
 		}
-		catch (Exception ex) {
-			System.out.println(ex.toString());
-			return null;
-		}
-		
-		if (!(resource.getErrors().isEmpty())) {
-			/*
-			System.out.println("errors detected");
-			java.util.Iterator iter = resource.getErrors().iterator();
-			while (iter.hasNext()) {
-				System.out.println(iter.next().toString());
-			}
-			*/
-			return null;
-		}
-		
-		if (resource.isLoaded()) {
-			return  resource.getContents().get(0);
-		}
-		else
-			return null;
+		return null;
 	}
-
+	
+	Object  attemptLoad ( URI uri ) {
+		return attemptLoad (uri, fResourceKind );
+	}
+	
 	
 	void attemptLoad ( IFile file ) {
 		attemptLoad ( file.getFullPath().toString() );
@@ -609,8 +613,11 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 		
 	void attemptLoad ( String path ) {
-		if (fRunnableWithProgress != null) {
-			return ;
+		
+		if (fLoaderJob != null) {			
+			if (fLoaderJob.getState() == Job.RUNNING) {
+				fLoaderJob.cancel();
+			}			
 		}
 		
 		updateStatus ( Status.OK_STATUS );		
@@ -626,62 +633,78 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			return ;
 		}
 		
-		final URI theURI;
+		
 		if (uri.isRelative()) {
 			// construct absolute path
 	        String basePath = BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL);   
 
 			String absolutepath = basePath.substring(0, basePath.lastIndexOf('/')+1) + path;
-			theURI = URI.createURI(absolutepath);
+			uri = URI.createURI(absolutepath);
 		}
-		else
-			theURI = uri;
+				
 		
-		fRunnableWithProgress = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor)  {
-				fInput = attemptLoad(theURI);
+		
+		fRunnableLoadURI = uri;		
+		final String msg = MessageFormat.format(Messages.SchemaImportDialog_17,fRunnableLoadURI);		 	    
+		fLoaderJob = new Job("Loading") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				monitor.beginTask(msg, 1);				
+				
+				fInput = attemptLoad(fRunnableLoadURI);
+				monitor.worked(1);
 				
 				fTree.getDisplay().asyncExec(new Runnable() {
 					public void run() {
 						loadDone();						
 					}						
 				});
-			}
-		 };
-			
+				return Status.OK_STATUS;
+			}			 		
+		 };	
 		 
-		 IProgressService progressService = PlatformUI.getWorkbench().getProgressService();		 
-		 try {			 
-			progressService.busyCursorWhile(fRunnableWithProgress);			
-		} catch (InvocationTargetException ite)  {			
-			updateStatus ( new Status(IStatus.ERROR, BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_12,ite.getTargetException() ) );			
-			BPELUIPlugin.log( ite.getTargetException() );
-			fRunnableWithProgress = null;
-		} catch (InterruptedException e) {
-			BPELUIPlugin.log( e );
-			fRunnableWithProgress = null;
-		}
+		 fLoaderJob.schedule();		 
+		 fRunnableStart = System.currentTimeMillis();
+
+		 
+		 updateStatus ( new Status(IStatus.INFO, BPELUIPlugin.getPlugin().getID(),0,msg,null));
 	}
 
 	
 	 
+	@SuppressWarnings("boxing")
 	void loadDone () {
 		
-		fRunnableWithProgress = null;
-		
-		if (fInput instanceof Definition) {
-			if (((Definition)fInput).getTargetNamespace() == null) {
-				System.out.println("null targetnamespace");
-				updateStatus( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,"empty message",null) );
-			}
-		}
-		fTreeViewer.setInput(fInput);
-		
-		
-		if (fInput != null) {
-			fTree.getVerticalBar().setSelection(0);
+		if (fBrowseButton.isDisposed()) {
+			// we were closed before this is being called. Quit.
+			return ;
 		}
 		
+		long elapsed = System.currentTimeMillis() - fRunnableStart;
+		
+		if (fInput == null || fInput instanceof Throwable) {
+			updateStatus( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,
+					MessageFormat.format(Messages.SchemaImportDialog_19,fRunnableLoadURI,elapsed),(Throwable) fInput) );						
+						
+			markEmptySelection();
+			fInput = null;
+			
+		} else {
+			
+			updateStatus ( new Status(IStatus.INFO, BPELUIPlugin.getPlugin().getID(),0,
+					MessageFormat.format(Messages.SchemaImportDialog_18,fRunnableLoadURI,elapsed),null)) ;
+				
+			fTreeViewer.setInput(fInput);				
+			fTree.getVerticalBar().setSelection(0);			
+		}
+	}
+	
+	
+	void markEmptySelection () {
+		updateStatus ( Status.OK_STATUS );
+		updateOK(false);
+		fTreeViewer.setInput(null);
 	}
 	
 	
@@ -746,7 +769,8 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 	public void configureAsSchemaImport ( ) {
 		setTitle(Messages.SchemaImportDialog_2);
-		fStructureTitle = Messages.SchemaImportDialog_11;		        
+		fStructureTitle = Messages.SchemaImportDialog_11;
+		fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_XSD;
 	}
 	
 	/**
@@ -760,31 +784,22 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		setTitle(Messages.SchemaImportDialog_0);
 		fStructureTitle = Messages.SchemaImportDialog_14;
 		fTreeContentProvider = new PartnerLinkTypeTreeContentProvider(true);
-		
+		fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_WSDL;
 	}
 	
-	public void configureAsWSILImport() {
-        String basePath = BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL);  
-		WSILContentProvider provider = new WSILContentProvider(basePath.substring(0, basePath.lastIndexOf('/')+1));
-		fTreeViewer.setLabelProvider(provider);
-	}
+
 	
 	public class TreeFilter extends ViewerFilter {
-	    public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
-	        int size = elements.length;
-	        ArrayList out = new ArrayList(size);
-	        for (int i = 0; i < size; ++i) {
-	            Object element = elements[i];
-	            if (select(viewer, parent, element)) {
-					out.add(element);
-				}
-	        }
-	        return out.toArray();
-	    }
-	    
-		public boolean select(Viewer viewer, Object parentElement, Object element) {
-			if ((theFilter == null) || (theFilter.length() == 0))
+			   	    
+		/** (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ViewerFilter#select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		 */
+		@Override
+		public boolean select (Viewer viewer, Object parentElement, Object element) {
+						
+			if (fFilter == null || fFilter.length() == 0) {
 				return true;
+			}						
 			
 			if (element instanceof Service) {
 				String text = ""; //$NON-NLS-1$
@@ -792,26 +807,18 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 				if (service.getName().size() > 0) {
 					Name name = (Name)service.getName().get(0);
 					text += name.getValue();
-				}
-				
+				}				
 				if (service.getAbstract().size() > 0) {
 					TypeOfAbstract abst = (TypeOfAbstract)service.getAbstract().get(0);
 					text += abst.getValue();
 				}
-				if (text.indexOf(theFilter) > -1)
-					return true;
+				return (text.toLowerCase().indexOf(fFilter) > -1);
 			}
 			
-			if (element instanceof Inspection) 
-				return true;
-			
-			if (element instanceof Link) {
-				return true;
-			}
-			
-			return false;
+			return true;
 		}
 	}
+	
 	
 	public class WSILViewerComparator extends ViewerComparator {
 		public int category(Object element) {
