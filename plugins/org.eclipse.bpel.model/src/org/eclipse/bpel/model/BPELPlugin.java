@@ -21,7 +21,6 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
 
-import sun.security.action.GetLongAction;
 
 /**
  * The {@link org.eclipse.core.runtime.Plugin} for the BPEL model.
@@ -32,6 +31,9 @@ import sun.security.action.GetLongAction;
  * or stand-alone outside of Eclipse.
  * To support this BPELPlugin extends {@link org.eclipse.emf.common.EMFPlugin}.
  */
+
+@SuppressWarnings({ "nls", "boxing" })
+
 public class BPELPlugin extends EMFPlugin 
 {
 	/**
@@ -122,8 +124,12 @@ public class BPELPlugin extends EMFPlugin
 	
 	/**
 	 * Utility methods for logging exceptions.
+	 * @param message 
+	 * @param t 
+	 * @param severity 
 	 */
-	public static void log (String message, Exception e, int severity) {
+	
+	public static void log (String message, Throwable e, int severity) {
 		
 		IStatus status = null;
 		
@@ -170,7 +176,12 @@ public class BPELPlugin extends EMFPlugin
 		
 	}
 	
-	public static void log (String message, Exception e) 
+	/** Log a throwable in the error log.
+	 * 
+	 * @param message
+	 * @param e
+	 */
+	public static void log (String message, Throwable e) 
 	{ 
 		log (message, e, IStatus.ERROR); 
 	}	
