@@ -17,8 +17,9 @@
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http:///org/eclipse/bpel/model/bpel.ecore"
-            class="org.eclipse.bpel.model.BPELPackage">
+            class="org.eclipse.bpel.model.BPELPackage"
+            genModel="src/model/bpel.genmodel"
+            uri="http:///org/eclipse/bpel/model/bpel.ecore">
       </package>
    </extension>
 
