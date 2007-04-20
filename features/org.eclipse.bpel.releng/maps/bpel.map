@@ -4,3 +4,5 @@ plugin@org.eclipse.bpel.common.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsro
 plugin@org.eclipse.bpel.model=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.model
 plugin@org.eclipse.bpel.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.ui
 plugin@org.eclipse.bpel.runtimes=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.runtimes
+plugin@org.eclipse.bpel.validator=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.validator
+plugin@org.eclipse.bpel.wsil=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.wsil
