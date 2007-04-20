@@ -193,11 +193,12 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		isHidden = false;
 	}
 
-	protected EObject getModel() {
-		return modelObject;
+	@SuppressWarnings("unchecked")
+	protected <T extends EObject> T getModel() {
+		return (T) modelObject;
 	}
 
-	protected final EObject getInput() {
+	protected final <T extends EObject> T getInput() {
 		return getModel();
 	}
 

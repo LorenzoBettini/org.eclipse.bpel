@@ -10,14 +10,19 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import java.util.List;
 
-/**
- * 
- * @IBM
- * @author Michal Chmielewski (michal.chmielewski@oracle.com)
- * @date Apr 18, 2007
- *
- */
-public class CompensateAdapter extends ActivityAdapter {
+import org.eclipse.bpel.ui.actions.editpart.SetCompensateLinkAction;
+import org.eclipse.gef.EditPart;
 
+
+public class CompensateScopeAdapter extends ActivityAdapter {
+
+	/* IEditPartActionContributor */
+	
+	public List getEditPartActions(final EditPart editPart) {
+		List actions = super.getEditPartActions(editPart);
+		actions.add(new SetCompensateLinkAction(editPart));
+		return actions;
+	}	
 }

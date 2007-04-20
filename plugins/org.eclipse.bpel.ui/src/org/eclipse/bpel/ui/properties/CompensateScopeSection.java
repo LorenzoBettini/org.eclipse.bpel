@@ -14,7 +14,7 @@ import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.SetCompensateCommand;
@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * Details section for the Compensate properties of a
  * Compensate activity.
  */
-public class CompensateImplSection extends BPELPropertySection {
+public class CompensateScopeSection extends BPELPropertySection {
 
 	protected Composite parentComposite;
 	protected Composite activityComposite;	
@@ -49,12 +49,20 @@ public class CompensateImplSection extends BPELPropertySection {
 	protected CComboViewer activityViewer;
 	protected AddSelectedObjectFilter addSelectedObjectFilter;
 	
-	public CompensateImplSection(){
+	
+	/**
+	 * Brand new shiny compensate scope section.
+	 */
+	
+	public CompensateScopeSection(){
 		super();
 	}
+	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 				new MultiObjectAdapter(){
+					@Override
 					public void notify(Notification n) {
 						// TODO: isCompensateAffected() ?
 						refresh();
@@ -86,19 +94,31 @@ public class CompensateImplSection extends BPELPropertySection {
 		addSelectedObjectFilter = new AddSelectedObjectFilter(); 
 		activityViewer.addFilter(addSelectedObjectFilter);
 		activityViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
 			public void selectionChanged(SelectionChangedEvent event) {				
 				IStructuredSelection sel = (IStructuredSelection)activityViewer.getSelection();
-				EObject compensate = (EObject)sel.getFirstElement();
-				((Compensate)getInput()).setScope(compensate);
 				
-				CompoundCommand cmd = new CompoundCommand();
-				Command child = new SetCompensateCommand((Compensate)getInput(), compensate);
-				if (child.canExecute())  cmd.add(child);				
+				EObject compensate = (EObject) sel.getFirstElement();
+				
+				CompensateScope compensateScope = getInput();
+				
+				if (compensate instanceof Activity) {
+					compensateScope.setTarget( (Activity) compensate);
+					
+					CompoundCommand cmd = new CompoundCommand();
+					Command child = new SetCompensateCommand(compensateScope, (Activity) compensate);
+					
+					if (child.canExecute()) {
+						cmd.add(child);				
+					}
+				}
 			}
 		});	
+		
 		activityViewer.setInput(getInput());	
 	}	
 
+	@Override
 	protected void createClient(Composite parent) {	
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 		createActivityWidgets(composite);
@@ -107,18 +127,33 @@ public class CompensateImplSection extends BPELPropertySection {
 			parentComposite, IHelpContextIds.PROPERTY_PAGE_COMPENSATE_IMPLEMENTATION);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#refresh()
+	 */
+	@Override
 	public void refresh() {
+		
 		super.refresh();
-		Activity targetActivity = (Activity)((Compensate)getInput()).getScope();
-		addSelectedObjectFilter.setSelectedObject(targetActivity);
+		
+		CompensateScope compensateScope = getInput();
+		Activity targetActivity = compensateScope.getTarget();
+		addSelectedObjectFilter.setSelectedObject( targetActivity );
 		activityViewer.setInput(getInput());
 		refreshCCombo(activityViewer, targetActivity);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */	
+	@Override
 	public void restoreUserContext(Object userContext) {
 		activityViewer.getCCombo().setFocus();
 	}

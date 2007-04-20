@@ -31,7 +31,13 @@ public abstract class SetCommand extends AutoUndoCommand {
 
 	public String getDefaultLabel() { return Messages.SetCommand_Change_1; } 
 
-	public SetCommand(EObject target, Object newValue)  {
+	/**
+	 * Brand new shiny set command.
+	 * @param target
+	 * @param newValue
+	 */
+	
+	public SetCommand (EObject target, Object newValue)  {
 		super(target);
 		this.target = target;
 		this.newValue = newValue;
@@ -48,10 +54,18 @@ public abstract class SetCommand extends AutoUndoCommand {
 		return newValue.equals(oldValue);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#canDoExecute()
+	 */
+	@Override
 	public boolean canDoExecute() {
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
 		oldValue = get();
 		if (hasNoEffect()) {
@@ -60,7 +74,8 @@ public abstract class SetCommand extends AutoUndoCommand {
 			set(newValue);
 		}
 	}
-
+	
+	
 	// TODO!
 //	public Resource[] getModifiedResources() {
 //		if (executeWasSkipped) return EMPTY_RESOURCE_ARRAY;

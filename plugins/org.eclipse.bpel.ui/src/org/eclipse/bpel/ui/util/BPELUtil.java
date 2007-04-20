@@ -34,6 +34,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Flow;
@@ -1298,10 +1299,10 @@ public class BPELUtil {
 	//			can validly point to
 	public static ArrayList getCompensableActivities(Object context){
 		final ArrayList returnObjects = new ArrayList();		
-		if (context instanceof Compensate) {
-			Compensate compensate = (Compensate) context;
-			EObject enclosingContainer = compensate;
-			if (compensate.eContainer() != null) {
+		if (context instanceof CompensateScope) {
+			CompensateScope compensateScope = (CompensateScope) context;
+			EObject enclosingContainer = compensateScope;
+			if (compensateScope.eContainer() != null) {
 				enclosingContainer = enclosingContainer.eContainer();
 				// Go to parent scope where compensate is contained
 				while (!(enclosingContainer instanceof Scope)

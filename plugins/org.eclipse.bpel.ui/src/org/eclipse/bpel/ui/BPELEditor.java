@@ -520,6 +520,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			Messages.BPELEditor_Compensate_1, 
 			Messages.BPELEditor_Compensate_2, 
 			provider.getFactoryFor(bpelPackage.getCompensate())));
+		faultCategory.add(new BPELCreationToolEntry(
+			Messages.BPELEditor_CompensateScope_1, 
+			Messages.BPELEditor_CompensateScope_2, 
+			provider.getFactoryFor(bpelPackage.getCompensateScope())));
+		
 		palette.add(faultCategory);
 					
 	}

@@ -17,6 +17,7 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.PartnerLink;
@@ -119,7 +120,7 @@ public class BPELGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 			Activity activity = getActivity();
 			if (activity == null)
 				return null;
-			SetCompensateCommand command = new SetCompensateCommand((Compensate)activity, null);
+			SetCompensateCommand command = new SetCompensateCommand((CompensateScope)activity, null);
 			request.setStartCommand(command);
 			return command;
 		}		

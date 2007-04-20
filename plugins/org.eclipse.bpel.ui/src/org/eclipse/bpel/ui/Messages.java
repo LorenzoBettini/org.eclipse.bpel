@@ -16,6 +16,7 @@ public final class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages";//$NON-NLS-1$
 	
+	
 
 	private Messages() {
 		// Do not instantiate
@@ -95,6 +96,9 @@ public final class Messages extends NLS {
 	public static String SchemaImportDialog_14;
 	public static String SchemaImportDialog_15;
 	public static String SchemaImportDialog_16;
+	public static String SchemaImportDialog_17;
+	public static String SchemaImportDialog_18;
+	public static String SchemaImportDialog_19;
 	public static String SchemaImportDialog_2;
 	public static String SchemaImportDialog_4;
 	public static String SchemaImportDialog_5;
@@ -145,6 +149,8 @@ public final class Messages extends NLS {
 	public static String BPELEditor_Cant_read_input_file_1;
 	public static String BPELEditor_Compensate_1;
 	public static String BPELEditor_Compensate_2;
+	public static String BPELEditor_CompensateScope_1;
+	public static String BPELEditor_CompensateScope_2;	
 	public static String BPELEditor_Flow_1;
 	public static String BPELEditor_Flow_2;
 	public static String BPELEditor_Invoke_35;

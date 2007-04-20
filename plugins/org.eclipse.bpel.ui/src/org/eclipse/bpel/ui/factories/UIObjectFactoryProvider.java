@@ -28,7 +28,11 @@ import org.eclipse.jface.util.Assert;
 public class UIObjectFactoryProvider {
 
     private static UIObjectFactoryProvider instance;
-	protected Map eClass2factory = new HashMap();
+	protected Map<EClass,AbstractUIObjectFactory> eClass2factory = new HashMap<EClass,AbstractUIObjectFactory>();
+	
+	/**
+	 * @return the instance
+	 */
 	
 	public static UIObjectFactoryProvider getInstance() {
 	    if (instance == null) {
@@ -38,10 +42,9 @@ public class UIObjectFactoryProvider {
 	    return instance;
 	}
 	
-	protected static void createUIObjectFactories(UIObjectFactoryProvider provider) {
+	protected static void createUIObjectFactories (UIObjectFactoryProvider provider) {
 		// TODO: temporary HACK!
-		for (int i = 0; i<BPELUIObjectFactory.classArray.length; i++) {
-			EClass modelType = BPELUIObjectFactory.classArray[i];
+		for (EClass modelType : BPELUIObjectFactory.classArray) {
 			provider.register(modelType, new BPELUIObjectFactory(modelType));
 		}
 
@@ -53,21 +56,35 @@ public class UIObjectFactoryProvider {
 		
 		// TODO: We are currently overwritting the ones already provided above.
 		// We should change that so that we do not create the ones for action twice.
-		// (i.e. we should not use BPELUIObjectFactory.classArray neither BPELUIObjectFactory.bpelPlusClassArray
-		ActionDescriptor[] descriptors = BPELUIRegistry.getInstance().getActionDescriptors();
-		for (int i = 0; i < descriptors.length; i++) {
-            AbstractBPELAction action = descriptors[i].getAction();
+		// (i.e. we should not use BPELUIObjectFactory.classArray neither BPELUIObjectFactory.bpelPlusClassArray		
+
+		for(ActionDescriptor descriptor : BPELUIRegistry.getInstance().getActionDescriptors() ) {
+            AbstractBPELAction action = descriptor.getAction();
             provider.register(action.getModelType(), new ActionUIObjectFactory(action));
         }
 	}
 	
-	public AbstractUIObjectFactory getFactoryFor(EClass modelType) {
-		return (AbstractUIObjectFactory) eClass2factory.get(modelType);
+	/**
+	 * 
+	 * @param modelType
+	 * @return the UI Object factory for the given model type.
+	 */
+	
+	public AbstractUIObjectFactory getFactoryFor (EClass modelType) {
+		return  eClass2factory.get(modelType);
 	}
 	
-	public void register(EClass modelType, AbstractUIObjectFactory factory) {
+	/**
+	 * @param modelType
+	 * @param factory
+	 */
+	
+	public void register (EClass modelType, AbstractUIObjectFactory factory) {
 		Assert.isTrue(factory.getModelType() == modelType);
+		
 		eClass2factory.put(modelType, factory);
-		if (Policy.DEBUG) System.out.println("BPELUIObjectFactoryProvider registering EClass: "+modelType.getInstanceClassName()); //$NON-NLS-1$
+		if (Policy.DEBUG) {
+			System.out.println("BPELUIObjectFactoryProvider registering EClass: "+modelType.getInstanceClassName()); //$NON-NLS-1$
+		}
 	}
 }

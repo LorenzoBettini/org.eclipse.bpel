@@ -176,7 +176,11 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	public Adapter createCompensateAdapter() {
 		return provider.getAdapter(CompensateAdapter.class);		
 	}
-	
+
+	public Adapter createCompensateScopeAdapter() {
+		return provider.getAdapter(CompensateScopeAdapter.class);		
+	}
+
 	public Adapter createCustomActivityAdapter() {
 		return provider.getAdapter(CustomActivityAdapter.class);		
 	}

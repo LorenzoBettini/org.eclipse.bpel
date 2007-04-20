@@ -33,7 +33,6 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
-import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
@@ -258,18 +257,6 @@ public class ModelHelper {
 		return false;
 	}			
 
-	public static EObject getCompensated(Object context){
-		if (context instanceof Compensate) return (((Compensate)context).getScope());
-		throw new IllegalArgumentException();
-	}
-	public static void setCompensated(Object context, EObject e){
-		if (context instanceof Compensate) {
-			((Compensate)context).setScope(e);
-			return;
-		}
-		throw new IllegalArgumentException();
-	}	
-	
 	public static Variable getVariable(Object context, int direction) {
 		
 		// This is the only activity that has 2 variables at this point.

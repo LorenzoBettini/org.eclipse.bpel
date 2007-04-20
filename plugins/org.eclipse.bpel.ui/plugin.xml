@@ -46,6 +46,10 @@
             class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
             expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
       </editor>
+      <editor
+            class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
+            expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"
+            label="%XPATH_LABEL20"/>
    </extension>
 
 <!-- Markers -->
@@ -323,9 +327,9 @@
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
-               class="org.eclipse.bpel.ui.properties.CompensateImplSection"
-               id="org.eclipse.bpel.ui.sections.CompensateImpl">
-            <input type="org.eclipse.bpel.model.Compensate"/>
+               class="org.eclipse.bpel.ui.properties.CompensateScopeSection"
+               id="org.eclipse.bpel.ui.sections.CompensateScope">
+            <input type="org.eclipse.bpel.model.CompensateScope"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"

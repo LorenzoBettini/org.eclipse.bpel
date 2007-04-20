@@ -13,8 +13,6 @@ package org.eclipse.bpel.ui.adapters;
 import java.util.HashMap;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.notify.Notifier;
 
 /**
  * The primary motivation for this class is to delegate the decision
@@ -37,19 +35,19 @@ import org.eclipse.emf.common.notify.Notifier;
 
 public final class AdapterProvider {
 
-	HashMap map = new HashMap();
+	HashMap<Class<? extends Adapter>,Adapter> map = new HashMap<Class<? extends Adapter>,Adapter>();
 	
 	/**
 	 * Get an adapter of the class passed. 
 	 * 
 	 *  
-	 * @param clazz
+	 * @param adapterClass
 	 * @return the appropriate adapter
 	 */
 	
-	public Adapter getAdapter ( Class adapterClass ) {
+	public Adapter getAdapter ( Class<? extends Adapter> adapterClass ) {
 		
-		Adapter singleton = (Adapter) map.get(adapterClass);
+		Adapter singleton = map.get(adapterClass);
 		if (singleton == null) {
 			singleton = newAdapter( adapterClass );			  
 			map.put(adapterClass,singleton);
@@ -63,9 +61,9 @@ public final class AdapterProvider {
 	}
 	
 	
-	Adapter newAdapter ( Class clazz ) {
+	Adapter newAdapter ( Class<? extends Adapter> clazz ) {
 		try {
-			return (Adapter) clazz.newInstance();
+			return clazz.newInstance();
 		} catch (Exception ex) {
 			throw new RuntimeException( ex );
 		}

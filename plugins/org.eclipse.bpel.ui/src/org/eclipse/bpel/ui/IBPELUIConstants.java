@@ -16,16 +16,19 @@ public interface IBPELUIConstants {
 	// File extensions
 	public final String EXTENSION_BPEL = "bpel"; //$NON-NLS-1$
 	public final String EXTENSION_WSDL = "wsdl"; //$NON-NLS-1$
+	public final String EXTENSION_WSIL = "wsil"; //$NON-NLS-1$
 	public final String EXTENSION_XSD = "xsd"; //$NON-NLS-1$
 	
 	public final String EXTENSION_MODEL_EXTENSIONS = "bpelex"; //$NON-NLS-1$
 	
 	public final String EXTENSION_DOT_BPEL = "." + EXTENSION_BPEL; //$NON-NLS-1$
 	public final String EXTENSION_DOT_WSDL = "." + EXTENSION_WSDL; //$NON-NLS-1$
-	public final String EXTENSION_DOT_XSD = "." + EXTENSION_XSD; //$NON-NLS-1$
+	public final String EXTENSION_DOT_WSIL = "." + EXTENSION_WSIL; //$NON-NLS-1$
+	public final String EXTENSION_DOT_XSD  = "." + EXTENSION_XSD; //$NON-NLS-1$
 	
 	public final String EXTENSION_STAR_DOT_XSD  = "*" + EXTENSION_DOT_XSD;
 	public final String EXTENSION_STAR_DOT_WSDL = "*" + EXTENSION_DOT_WSDL;
+	public final String EXTENSION_STAR_DOT_WSIL = "*" + EXTENSION_DOT_WSIL;
 	public final String EXTENSION_STAR_DOT_ANY = "*.*";
 	
 	public final String EXTENSION_XSD_NAME = "XML Schema Files";
@@ -89,6 +92,9 @@ public interface IBPELUIConstants {
 	public final String ICON_RETHROW_32 = "obj20/rethrow.png"; //$NON-NLS-1$
 	public final String ICON_COMPENSATE_16 = "obj16/compensate.gif"; //$NON-NLS-1$  
 	public final String ICON_COMPENSATE_32 = "obj20/compensate.png"; //$NON-NLS-1$
+	public final String ICON_COMPENSATE_SCOPE_16 = "obj16/compensatescope.gif"; //$NON-NLS-1$  
+	public final String ICON_COMPENSATE_SCOPE_32 = "obj20/compensatescope.png"; //$NON-NLS-1$
+
 	public final String ICON_WAIT_16 = "obj16/wait.gif"; //$NON-NLS-1$
 	public final String ICON_WAIT_32 = "obj20/wait.png"; //$NON-NLS-1$
 	public final String ICON_WHILE_16 = "obj16/while.gif"; //$NON-NLS-1$

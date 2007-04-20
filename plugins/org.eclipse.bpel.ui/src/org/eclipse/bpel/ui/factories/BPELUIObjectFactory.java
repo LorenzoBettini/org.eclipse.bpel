@@ -60,6 +60,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 		BPELPackage.eINSTANCE.getThrow(),
 		BPELPackage.eINSTANCE.getRethrow(),
 		BPELPackage.eINSTANCE.getCompensate(),
+		BPELPackage.eINSTANCE.getCompensateScope(),
 		BPELPackage.eINSTANCE.getWait(),
 		BPELPackage.eINSTANCE.getWhile(),
 		BPELPackage.eINSTANCE.getForEach(),
