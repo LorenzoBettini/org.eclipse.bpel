@@ -10,7 +10,9 @@
 
 <plugin>
 
-  <extension point="org.eclipse.emf.ecore.generated_package">
+  <extension
+        name="WSIL Model"
+        point="org.eclipse.emf.ecore.generated_package">
     <package 
        uri = "http://schemas.xmlsoap.org/ws/2001/10/inspection/" 
        class = "org.eclipse.bpel.wsil.model.inspection.InspectionPackage"
@@ -19,7 +21,7 @@
 
   <extension point="org.eclipse.emf.ecore.extension_parser">
     <parser 
-       type="inspection" 
+       type="wsil" 
        class="org.eclipse.bpel.wsil.model.inspection.util.InspectionResourceFactoryImpl" />
   </extension>
 
