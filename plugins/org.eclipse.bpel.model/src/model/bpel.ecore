@@ -10,9 +10,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryLanguage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="http://www.w3.org/TR/1999/REC-xpath-19991116" unsettable="true"/>
+        defaultValueLiteral="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expressionLanguage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="http://www.w3.org/TR/1999/REC-xpath-19991116" unsettable="true"/>
+        defaultValueLiteral="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressJoinFailure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -283,11 +283,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="exitOnStandardFault" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Compensate" eSuperTypes="#//Activity">
+  <eClassifiers xsi:type="ecore:EClass" name="CompensateScope" eSuperTypes="#//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Used to invoke compensation of an inner scope that has already completed its execution normally. This construct can  be invoked only from within a fault handler or the compensation handler of the scope that immediately encloses the scope for which compensation is to be performed."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="ecore:EClass ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Activity">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the scope whose compensation handler is to be invoked."/>
       </eAnnotations>
@@ -440,7 +440,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlationSets" eType="#//CorrelationSets"
         defaultValueLiteral="" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Import" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Import" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -461,7 +461,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryLanguage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ServiceRef" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRef" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceScheme" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
   </eClassifiers>
@@ -470,11 +470,11 @@
         eType="#//Extension" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtensionActivity" eSuperTypes="#//Activity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="FromPart" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
+  <eClassifiers xsi:type="ecore:EClass" name="FromPart" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//To"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ToPart" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ToPart" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
@@ -527,7 +527,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
+  <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="branches" eType="#//Branches"
         defaultValueLiteral="" containment="true"/>
   </eClassifiers>
@@ -552,4 +552,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="MessageExchange" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Compensate" eSuperTypes="#//Activity"/>
 </ecore:EPackage>

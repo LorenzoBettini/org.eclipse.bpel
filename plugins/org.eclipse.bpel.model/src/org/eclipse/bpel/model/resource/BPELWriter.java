@@ -40,6 +40,7 @@ import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
@@ -940,8 +941,6 @@ public class BPELWriter {
 			activityElement = exit2XML(activity);
 		else if (activity instanceof Flow)
 			activityElement = flow2XML(activity);
-//		else if (activity instanceof Switch)
-//			activityElement = switch2XML(activity);
 		else if (activity instanceof If)
 			activityElement = if2XML(activity);
 		else if (activity instanceof While)
@@ -954,6 +953,8 @@ public class BPELWriter {
 			activityElement = scope2XML(activity);
 		else if (activity instanceof Compensate)
 			activityElement = compensate2XML(activity);
+		else if (activity instanceof CompensateScope)
+			activityElement = compensateScope2XML(activity);
 		else if (activity instanceof Rethrow)
 			activityElement = rethrow2XML(activity);
 		else if (activity instanceof OpaqueActivity)
@@ -1834,12 +1835,17 @@ public class BPELWriter {
 		return activityElement;
 	}
 
+	protected Element compensateScope2XML (Activity activity) {
+		Element compensateScopeElement = createBPELElement("compensateScope");
+		Activity scopeOrInvoke = ((CompensateScope)activity).getTarget();
+		if ( scopeOrInvoke != null ) {			
+			compensateScopeElement.setAttribute("scope",scopeOrInvoke.getName());
+		}
+		return compensateScopeElement;
+	}
+	
 	protected Element compensate2XML(Activity activity) {
 		Element compensateElement = createBPELElement("compensate");
-		if ( ((Compensate)activity).getScope() != null ) {
-			Activity scopeOrInvoke = (Activity)((Compensate)activity).getScope();
-			compensateElement.setAttribute("scope",scopeOrInvoke.getName());
-		}
 		return compensateElement;
 	}
 	

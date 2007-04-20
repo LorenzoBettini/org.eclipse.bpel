@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.28 2007/04/11 20:42:38 mchmielewski Exp $
+ * $Id: BPELPackage.java,v 1.29 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -51,7 +51,7 @@ public interface BPELPackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http:///org/eclipse/bpel/model/bpel.ecore";
+	String eNS_URI = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
 
 	/**
 	 * The package namespace name.
@@ -59,7 +59,7 @@ public interface BPELPackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "org.eclipse.bpel";
+	String eNS_PREFIX = "bpws";
 
 	/**
 	 * The singleton instance of the package.
@@ -3330,22 +3330,13 @@ public interface BPELPackage extends EPackage{
 	int COMPENSATE__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The feature id for the '<em><b>Scope</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPENSATE__SCOPE = ACTIVITY_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the the '<em>Compensate</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
+	int COMPENSATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4767,7 +4758,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+	int IMPORT__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -4776,7 +4767,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+	int IMPORT__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' attribute.
@@ -4785,7 +4794,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__NAMESPACE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
+	int IMPORT__NAMESPACE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4794,7 +4803,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__LOCATION = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
+	int IMPORT__LOCATION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Import Type</b></em>' attribute.
@@ -4803,7 +4812,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__IMPORT_TYPE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
+	int IMPORT__IMPORT_TYPE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the the '<em>Import</em>' class.
@@ -4812,7 +4821,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 3;
+	int IMPORT_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5136,7 +5145,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+	int SERVICE_REF__DOCUMENTATION_ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -5145,7 +5154,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+	int SERVICE_REF__ELEMENT = WSDLPackage.EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_REF__EEXTENSIBILITY_ELEMENTS = WSDLPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Reference Scheme</b></em>' attribute.
@@ -5154,7 +5172,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF__REFERENCE_SCHEME = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
+	int SERVICE_REF__REFERENCE_SCHEME = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -5163,7 +5181,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF__VALUE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
+	int SERVICE_REF__VALUE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>Service Ref</em>' class.
@@ -5172,7 +5190,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_REF_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
+	int SERVICE_REF_FEATURE_COUNT = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5316,7 +5334,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+	int FROM_PART__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -5325,7 +5343,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+	int FROM_PART__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_PART__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Part</b></em>' attribute.
@@ -5334,7 +5370,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART__PART = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
+	int FROM_PART__PART = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>To</b></em>' reference.
@@ -5343,7 +5379,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART__TO = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
+	int FROM_PART__TO = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>From Part</em>' class.
@@ -5352,7 +5388,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_PART_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
+	int FROM_PART_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5361,7 +5397,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+	int TO_PART__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -5370,7 +5406,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+	int TO_PART__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_PART__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Part</b></em>' attribute.
@@ -5379,7 +5433,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART__PART = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
+	int TO_PART__PART = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>From</b></em>' reference.
@@ -5388,7 +5442,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART__FROM = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
+	int TO_PART__FROM = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>To Part</em>' class.
@@ -5397,7 +5451,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int TO_PART_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 2;
+	int TO_PART_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6109,7 +6163,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION__DOCUMENTATION_ELEMENT = WSDLPackage.WSDL_ELEMENT__DOCUMENTATION_ELEMENT;
+	int COMPLETION_CONDITION__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -6118,7 +6172,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION__ELEMENT = WSDLPackage.WSDL_ELEMENT__ELEMENT;
+	int COMPLETION_CONDITION__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETION_CONDITION__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Branches</b></em>' containment reference.
@@ -6127,7 +6199,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION__BRANCHES = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 0;
+	int COMPLETION_CONDITION__BRANCHES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the the '<em>Completion Condition</em>' class.
@@ -6136,7 +6208,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPLETION_CONDITION_FEATURE_COUNT = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
+	int COMPLETION_CONDITION_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6394,6 +6466,106 @@ public interface BPELPackage extends EPackage{
 	int MESSAGE_EXCHANGE_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompensateScopeImpl <em>Compensate Scope</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.CompensateScopeImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensateScope()
+	 * @generated
+	 */
+	int COMPENSATE_SCOPE = 69;
+
+	/**
+	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__ELEMENT = ACTIVITY__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__NAME = ACTIVITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+
+	/**
+	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__TARGETS = ACTIVITY__TARGETS;
+
+	/**
+	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__SOURCES = ACTIVITY__SOURCES;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE__TARGET = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the the '<em>Compensate Scope</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6401,7 +6573,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
 	 * @generated
 	 */
-	int CORRELATION_PATTERN = 69;
+	int CORRELATION_PATTERN = 70;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
@@ -6411,7 +6583,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
 	 * @generated
 	 */
-	int ENDPOINT_REFERENCE_ROLE = 70;
+	int ENDPOINT_REFERENCE_ROLE = 71;
 
 
 	/**
@@ -7632,17 +7804,6 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EClass getCompensate();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Compensate#getScope <em>Scope</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Scope</em>'.
-	 * @see org.eclipse.bpel.model.Compensate#getScope()
-	 * @see #getCompensate()
-	 * @generated
-	 */
-	EReference getCompensate_Scope();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.CompensationHandler <em>Compensation Handler</em>}'.
@@ -9116,6 +9277,27 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	EAttribute getMessageExchange_Name();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.bpel.model.CompensateScope <em>Compensate Scope</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Compensate Scope</em>'.
+	 * @see org.eclipse.bpel.model.CompensateScope
+	 * @generated
+	 */
+	EClass getCompensateScope();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.CompensateScope#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see org.eclipse.bpel.model.CompensateScope#getTarget()
+	 * @see #getCompensateScope()
+	 * @generated
+	 */
+	EReference getCompensateScope_Target();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}'.

@@ -2,18 +2,25 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.3 2007/04/11 20:45:15 mchmielewski Exp $
+ * $Id: ToPartImpl.java,v 1.4 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
+import java.util.Collection;
+
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 
 import org.w3c.dom.Element;
@@ -34,7 +41,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ToPartImpl extends WSDLElementImpl implements ToPart {
+public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	/**
 	 * The default value of the '{@link #getPart() <em>Part</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -147,12 +154,35 @@ public class ToPartImpl extends WSDLElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.TO_PART__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.TO_PART__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.TO_PART__DOCUMENTATION_ELEMENT:
 				return getDocumentationElement();
 			case BPELPackage.TO_PART__ELEMENT:
 				return getElement();
+			case BPELPackage.TO_PART__EEXTENSIBILITY_ELEMENTS:
+				return getEExtensibilityElements();
+			case BPELPackage.TO_PART__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.TO_PART__PART:
 				return getPart();
 			case BPELPackage.TO_PART__FROM:
@@ -174,6 +204,13 @@ public class ToPartImpl extends WSDLElementImpl implements ToPart {
 				return;
 			case BPELPackage.TO_PART__ELEMENT:
 				setElement((Element)newValue);
+				return;
+			case BPELPackage.TO_PART__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.TO_PART__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.TO_PART__PART:
 				setPart((String)newValue);
@@ -198,6 +235,12 @@ public class ToPartImpl extends WSDLElementImpl implements ToPart {
 			case BPELPackage.TO_PART__ELEMENT:
 				setElement(ELEMENT_EDEFAULT);
 				return;
+			case BPELPackage.TO_PART__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				return;
+			case BPELPackage.TO_PART__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.TO_PART__PART:
 				setPart(PART_EDEFAULT);
 				return;
@@ -219,6 +262,10 @@ public class ToPartImpl extends WSDLElementImpl implements ToPart {
 				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
 			case BPELPackage.TO_PART__ELEMENT:
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
+			case BPELPackage.TO_PART__EEXTENSIBILITY_ELEMENTS:
+				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.TO_PART__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.TO_PART__PART:
 				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT.equals(part);
 			case BPELPackage.TO_PART__FROM:

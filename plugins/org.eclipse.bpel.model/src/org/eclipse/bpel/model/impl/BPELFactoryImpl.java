@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.18 2007/04/11 20:45:15 mchmielewski Exp $
+ * $Id: BPELFactoryImpl.java,v 1.19 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
@@ -188,6 +189,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.DOCUMENTATION: return createDocumentation();
 			case BPELPackage.MESSAGE_EXCHANGES: return createMessageExchanges();
 			case BPELPackage.MESSAGE_EXCHANGE: return createMessageExchange();
+			case BPELPackage.COMPENSATE_SCOPE: return createCompensateScope();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -919,6 +921,16 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public MessageExchange createMessageExchange() {
 		MessageExchangeImpl messageExchange = new MessageExchangeImpl();
 		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CompensateScope createCompensateScope() {
+		CompensateScopeImpl compensateScope = new CompensateScopeImpl();
+		return compensateScope;
 	}
 
 	/**

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.7 2007/02/09 09:13:42 smoser Exp $
+ * $Id: ProcessImpl.java,v 1.8 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -117,7 +117,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String QUERY_LANGUAGE_EDEFAULT = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+	protected static final String QUERY_LANGUAGE_EDEFAULT = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
 
 	/**
 	 * The cached value of the '{@link #getQueryLanguage() <em>Query Language</em>}' attribute.
@@ -146,7 +146,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String EXPRESSION_LANGUAGE_EDEFAULT = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+	protected static final String EXPRESSION_LANGUAGE_EDEFAULT = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
 
 	/**
 	 * The cached value of the '{@link #getExpressionLanguage() <em>Expression Language</em>}' attribute.

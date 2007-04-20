@@ -10,13 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Import.java,v 1.2 2007/04/11 20:42:39 mchmielewski Exp $
+ * $Id: Import.java,v 1.3 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.wst.wsdl.WSDLElement;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Import extends WSDLElement {
+public interface Import extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Namespace</b></em>' attribute.
 	 * <!-- begin-user-doc -->

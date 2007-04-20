@@ -2,19 +2,25 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.5 2007/04/11 20:45:15 mchmielewski Exp $
+ * $Id: CompletionConditionImpl.java,v 1.6 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
+
+import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.CompletionCondition;
+import org.eclipse.bpel.model.Documentation;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -35,7 +41,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class CompletionConditionImpl extends WSDLElementImpl implements CompletionCondition {
+public class CompletionConditionImpl extends ExtensibleElementImpl implements CompletionCondition {
 	/**
 	 * The cached value of the '{@link #getBranches() <em>Branches</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -115,6 +121,10 @@ public class CompletionConditionImpl extends WSDLElementImpl implements Completi
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.COMPLETION_CONDITION__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
 				case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 					return basicSetBranches(null, msgs);
 				default:
@@ -135,6 +145,10 @@ public class CompletionConditionImpl extends WSDLElementImpl implements Completi
 				return getDocumentationElement();
 			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
 				return getElement();
+			case BPELPackage.COMPLETION_CONDITION__EEXTENSIBILITY_ELEMENTS:
+				return getEExtensibilityElements();
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return getBranches();
 		}
@@ -153,6 +167,13 @@ public class CompletionConditionImpl extends WSDLElementImpl implements Completi
 				return;
 			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
 				setElement((Element)newValue);
+				return;
+			case BPELPackage.COMPLETION_CONDITION__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				setBranches((Branches)newValue);
@@ -174,6 +195,12 @@ public class CompletionConditionImpl extends WSDLElementImpl implements Completi
 			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
 				setElement(ELEMENT_EDEFAULT);
 				return;
+			case BPELPackage.COMPLETION_CONDITION__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				return;
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				setBranches((Branches)null);
 				return;
@@ -192,6 +219,10 @@ public class CompletionConditionImpl extends WSDLElementImpl implements Completi
 				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
 			case BPELPackage.COMPLETION_CONDITION__ELEMENT:
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
+			case BPELPackage.COMPLETION_CONDITION__EEXTENSIBILITY_ELEMENTS:
+				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.COMPLETION_CONDITION__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return branches != null;
 		}

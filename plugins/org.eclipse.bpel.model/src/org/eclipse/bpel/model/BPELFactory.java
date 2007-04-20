@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.17 2007/02/09 09:13:43 smoser Exp $
+ * $Id: BPELFactory.java,v 1.18 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -653,6 +653,15 @@ public interface BPELFactory extends EFactory{
 	 * @generated
 	 */
 	MessageExchange createMessageExchange();
+
+	/**
+	 * Returns a new object of class '<em>Compensate Scope</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Compensate Scope</em>'.
+	 * @generated
+	 */
+	CompensateScope createCompensateScope();
 
 	/**
 	 * Returns the package supported by this factory.

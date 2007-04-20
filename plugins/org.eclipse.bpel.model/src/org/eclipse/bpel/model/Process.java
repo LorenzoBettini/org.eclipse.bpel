@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.6 2006/12/13 16:17:31 smoser Exp $
+ * $Id: Process.java,v 1.7 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -110,7 +110,7 @@ public interface Process extends ExtensibleElement{
 
 	/**
 	 * Returns the value of the '<em><b>Query Language</b></em>' attribute.
-	 * The default value is <code>"http://www.w3.org/TR/1999/REC-xpath-19991116"</code>.
+	 * The default value is <code>"urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Query Language</em>' attribute isn't clear,
@@ -122,7 +122,7 @@ public interface Process extends ExtensibleElement{
 	 * @see #unsetQueryLanguage()
 	 * @see #setQueryLanguage(String)
 	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_QueryLanguage()
-	 * @model default="http://www.w3.org/TR/1999/REC-xpath-19991116" unsettable="true"
+	 * @model default="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" unsettable="true"
 	 * @generated
 	 */
 	String getQueryLanguage();
@@ -164,7 +164,7 @@ public interface Process extends ExtensibleElement{
 
 	/**
 	 * Returns the value of the '<em><b>Expression Language</b></em>' attribute.
-	 * The default value is <code>"http://www.w3.org/TR/1999/REC-xpath-19991116"</code>.
+	 * The default value is <code>"urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Expression Language</em>' attribute isn't clear,
@@ -176,7 +176,7 @@ public interface Process extends ExtensibleElement{
 	 * @see #unsetExpressionLanguage()
 	 * @see #setExpressionLanguage(String)
 	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_ExpressionLanguage()
-	 * @model default="http://www.w3.org/TR/1999/REC-xpath-19991116" unsettable="true"
+	 * @model default="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" unsettable="true"
 	 * @generated
 	 */
 	String getExpressionLanguage();
@@ -576,8 +576,9 @@ public interface Process extends ExtensibleElement{
 	/**
 	 * Returns a list of objects that implement Runnable
 	 * The objects in this list will be run after loading the process.
+	 * @return a list of tasks to do in pass 2
 	 * @customized
 	 */
-	java.util.List getPostLoadRunnables();		
+	java.util.List<Runnable> getPostLoadRunnables();		
 	
 } // Process

@@ -182,13 +182,13 @@ public class BPELReader {
 	 * In pass 2, we run any post load runnables which were queued during pass 1.
 	 */
 	protected void pass2() {
-		if (process != null && process.getPostLoadRunnables() != null) {
-			for (Iterator it = process.getPostLoadRunnables().iterator(); it.hasNext();) {
-				Runnable runnable = (Runnable)it.next();
-				runnable.run();
-			}
-			process.getPostLoadRunnables().clear();
-		}	
+		if (process == null) {
+			return ;
+		}
+		for(Runnable r : process.getPostLoadRunnables()) {
+			r.run();
+		}
+		process.getPostLoadRunnables().clear();
 	}
 	
 	/**
@@ -1162,8 +1162,6 @@ public class BPELReader {
       		activity = xml2Empty(activityElement);
      	} else if (localName.equals("sequence")) {
       		activity = xml2Sequence(activityElement);
-//     	} else if (localName.equals("switch")) {
-//     		activity = xml2Switch(activityElement);
      	} else if (localName.equals("if")) {
      		activity = xml2If(activityElement);
      	} else if (localName.equals("while")) {
@@ -1176,6 +1174,8 @@ public class BPELReader {
      		activity = xml2Scope(activityElement);
      	} else if (localName.equals("compensate")) {
      		activity = xml2Compensate(activityElement);
+     	} else if (localName.equals("compensateScope")) {
+     		activity = xml2CompensateScope(activityElement);     		
      	} else if (localName.equals("rethrow")) {
      		activity = xml2Rethrow(activityElement);
      	} else if (localName.equals("extensionActivity")) {
@@ -2856,20 +2856,29 @@ public class BPELReader {
 	protected Compensate xml2Compensate(Element compensateElement) {
 		final Compensate compensate = BPELFactory.eINSTANCE.createCompensate();
 		compensate.setElement(compensateElement);
+		setStandardAttributes(compensateElement, compensate);		
+		return compensate;
+	}
+	
+	
+	protected CompensateScope xml2CompensateScope (Element compensateScopeElement) {
 		
-		final Attr scope = compensateElement.getAttributeNode("scope");
+		final CompensateScope compensateScope = BPELFactory.eINSTANCE.createCompensateScope();
+		compensateScope.setElement(compensateScopeElement);
 		
-		if (scope != null && scope.getSpecified()) {
+		final String target = compensateScopeElement.getAttribute("target");
+		
+		if (target != null && target.length() > 0) {
 			process.getPostLoadRunnables().add(new Runnable() {
 				public void run() {
-					compensate.setScope(scope.getValue());
+					compensateScope.setTarget(target);
 				}
 			});
 		}
 
-		setStandardAttributes(compensateElement, compensate);
+		setStandardAttributes(compensateScopeElement, compensateScope);
 		
-		return compensate;
+		return compensateScope;
 	}
 	
 	/**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPart.java,v 1.2 2007/04/11 20:42:39 mchmielewski Exp $
+ * $Id: FromPart.java,v 1.3 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface FromPart extends WSDLElement {
+public interface FromPart extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Part</b></em>' attribute.
 	 * <!-- begin-user-doc -->

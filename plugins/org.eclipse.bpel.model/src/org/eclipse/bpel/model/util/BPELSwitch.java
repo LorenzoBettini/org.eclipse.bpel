@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.19 2007/04/11 21:14:07 mchmielewski Exp $
+ * $Id: BPELSwitch.java,v 1.20 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -26,6 +26,7 @@ import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
@@ -587,6 +588,8 @@ public class BPELSwitch {
 			case BPELPackage.IMPORT: {
 				Import import_ = (Import)theEObject;
 				Object result = caseImport(import_);
+				if (result == null) result = caseExtensibleElement(import_);
+				if (result == null) result = caseWSDL_ExtensibleElement(import_);
 				if (result == null) result = caseWSDLElement(import_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -639,6 +642,7 @@ public class BPELSwitch {
 			case BPELPackage.SERVICE_REF: {
 				ServiceRef serviceRef = (ServiceRef)theEObject;
 				Object result = caseServiceRef(serviceRef);
+				if (result == null) result = caseWSDL_ExtensibleElement(serviceRef);
 				if (result == null) result = caseWSDLElement(serviceRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -665,6 +669,8 @@ public class BPELSwitch {
 			case BPELPackage.FROM_PART: {
 				FromPart fromPart = (FromPart)theEObject;
 				Object result = caseFromPart(fromPart);
+				if (result == null) result = caseExtensibleElement(fromPart);
+				if (result == null) result = caseWSDL_ExtensibleElement(fromPart);
 				if (result == null) result = caseWSDLElement(fromPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -672,6 +678,8 @@ public class BPELSwitch {
 			case BPELPackage.TO_PART: {
 				ToPart toPart = (ToPart)theEObject;
 				Object result = caseToPart(toPart);
+				if (result == null) result = caseExtensibleElement(toPart);
+				if (result == null) result = caseWSDL_ExtensibleElement(toPart);
 				if (result == null) result = caseWSDLElement(toPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -756,6 +764,8 @@ public class BPELSwitch {
 			case BPELPackage.COMPLETION_CONDITION: {
 				CompletionCondition completionCondition = (CompletionCondition)theEObject;
 				Object result = caseCompletionCondition(completionCondition);
+				if (result == null) result = caseExtensibleElement(completionCondition);
+				if (result == null) result = caseWSDL_ExtensibleElement(completionCondition);
 				if (result == null) result = caseWSDLElement(completionCondition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -799,6 +809,16 @@ public class BPELSwitch {
 				if (result == null) result = caseExtensibleElement(messageExchange);
 				if (result == null) result = caseWSDL_ExtensibleElement(messageExchange);
 				if (result == null) result = caseWSDLElement(messageExchange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BPELPackage.COMPENSATE_SCOPE: {
+				CompensateScope compensateScope = (CompensateScope)theEObject;
+				Object result = caseCompensateScope(compensateScope);
+				if (result == null) result = caseActivity(compensateScope);
+				if (result == null) result = caseExtensibleElement(compensateScope);
+				if (result == null) result = caseWSDL_ExtensibleElement(compensateScope);
+				if (result == null) result = caseWSDLElement(compensateScope);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1853,6 +1873,21 @@ public class BPELSwitch {
 	 * @generated
 	 */
 	public Object caseMessageExchange(MessageExchange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Compensate Scope</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Compensate Scope</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCompensateScope(CompensateScope object) {
 		return null;
 	}
 

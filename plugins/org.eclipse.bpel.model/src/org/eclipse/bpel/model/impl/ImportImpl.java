@@ -10,16 +10,25 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.3 2007/04/11 20:45:15 mchmielewski Exp $
+ * $Id: ImportImpl.java,v 1.4 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
+import java.util.Collection;
+
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 
@@ -42,7 +51,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ImportImpl extends WSDLElementImpl implements Import {
+public class ImportImpl extends ExtensibleElementImpl implements Import {
 	/**
 	 * The default value of the '{@link #getNamespace() <em>Namespace</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -189,12 +198,35 @@ public class ImportImpl extends WSDLElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.IMPORT__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				case BPELPackage.IMPORT__DOCUMENTATION:
+					return basicUnsetDocumentation(msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.IMPORT__DOCUMENTATION_ELEMENT:
 				return getDocumentationElement();
 			case BPELPackage.IMPORT__ELEMENT:
 				return getElement();
+			case BPELPackage.IMPORT__EEXTENSIBILITY_ELEMENTS:
+				return getEExtensibilityElements();
+			case BPELPackage.IMPORT__DOCUMENTATION:
+				return getDocumentation();
 			case BPELPackage.IMPORT__NAMESPACE:
 				return getNamespace();
 			case BPELPackage.IMPORT__LOCATION:
@@ -217,6 +249,13 @@ public class ImportImpl extends WSDLElementImpl implements Import {
 				return;
 			case BPELPackage.IMPORT__ELEMENT:
 				setElement((Element)newValue);
+				return;
+			case BPELPackage.IMPORT__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				getEExtensibilityElements().addAll((Collection)newValue);
+				return;
+			case BPELPackage.IMPORT__DOCUMENTATION:
+				setDocumentation((Documentation)newValue);
 				return;
 			case BPELPackage.IMPORT__NAMESPACE:
 				setNamespace((String)newValue);
@@ -244,6 +283,12 @@ public class ImportImpl extends WSDLElementImpl implements Import {
 			case BPELPackage.IMPORT__ELEMENT:
 				setElement(ELEMENT_EDEFAULT);
 				return;
+			case BPELPackage.IMPORT__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				return;
+			case BPELPackage.IMPORT__DOCUMENTATION:
+				unsetDocumentation();
+				return;
 			case BPELPackage.IMPORT__NAMESPACE:
 				setNamespace(NAMESPACE_EDEFAULT);
 				return;
@@ -268,6 +313,10 @@ public class ImportImpl extends WSDLElementImpl implements Import {
 				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
 			case BPELPackage.IMPORT__ELEMENT:
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
+			case BPELPackage.IMPORT__EEXTENSIBILITY_ELEMENTS:
+				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+			case BPELPackage.IMPORT__DOCUMENTATION:
+				return isSetDocumentation();
 			case BPELPackage.IMPORT__NAMESPACE:
 				return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
 			case BPELPackage.IMPORT__LOCATION:

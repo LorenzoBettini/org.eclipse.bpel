@@ -10,16 +10,26 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.3 2007/04/11 20:45:15 mchmielewski Exp $
+ * $Id: ServiceRefImpl.java,v 1.4 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
+
+import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
+
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 
 import org.w3c.dom.Element;
@@ -40,7 +50,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ServiceRefImpl extends WSDLElementImpl implements ServiceRef {
+public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef {
 	/**
 	 * The default value of the '{@link #getReferenceScheme() <em>Reference Scheme</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -146,12 +156,31 @@ public class ServiceRefImpl extends WSDLElementImpl implements ServiceRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case BPELPackage.SERVICE_REF__EEXTENSIBILITY_ELEMENTS:
+					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case BPELPackage.SERVICE_REF__DOCUMENTATION_ELEMENT:
 				return getDocumentationElement();
 			case BPELPackage.SERVICE_REF__ELEMENT:
 				return getElement();
+			case BPELPackage.SERVICE_REF__EEXTENSIBILITY_ELEMENTS:
+				return getEExtensibilityElements();
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
 				return getReferenceScheme();
 			case BPELPackage.SERVICE_REF__VALUE:
@@ -172,6 +201,10 @@ public class ServiceRefImpl extends WSDLElementImpl implements ServiceRef {
 				return;
 			case BPELPackage.SERVICE_REF__ELEMENT:
 				setElement((Element)newValue);
+				return;
+			case BPELPackage.SERVICE_REF__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				getEExtensibilityElements().addAll((Collection)newValue);
 				return;
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
 				setReferenceScheme((String)newValue);
@@ -196,6 +229,9 @@ public class ServiceRefImpl extends WSDLElementImpl implements ServiceRef {
 			case BPELPackage.SERVICE_REF__ELEMENT:
 				setElement(ELEMENT_EDEFAULT);
 				return;
+			case BPELPackage.SERVICE_REF__EEXTENSIBILITY_ELEMENTS:
+				getEExtensibilityElements().clear();
+				return;
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
 				setReferenceScheme(REFERENCE_SCHEME_EDEFAULT);
 				return;
@@ -217,6 +253,8 @@ public class ServiceRefImpl extends WSDLElementImpl implements ServiceRef {
 				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
 			case BPELPackage.SERVICE_REF__ELEMENT:
 				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
+			case BPELPackage.SERVICE_REF__EEXTENSIBILITY_ELEMENTS:
+				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
 				return REFERENCE_SCHEME_EDEFAULT == null ? referenceScheme != null : !REFERENCE_SCHEME_EDEFAULT.equals(referenceScheme);
 			case BPELPackage.SERVICE_REF__VALUE:

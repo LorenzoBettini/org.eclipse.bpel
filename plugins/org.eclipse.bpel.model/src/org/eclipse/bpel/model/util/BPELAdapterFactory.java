@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.17 2007/02/09 09:13:43 smoser Exp $
+ * $Id: BPELAdapterFactory.java,v 1.18 2007/04/20 23:31:44 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -24,6 +24,7 @@ import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
@@ -354,6 +355,9 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseMessageExchange(MessageExchange object) {
 				return createMessageExchangeAdapter();
+			}
+			public Object caseCompensateScope(CompensateScope object) {
+				return createCompensateScopeAdapter();
 			}
 			public Object caseWSDLElement(WSDLElement object) {
 				return createWSDLElementAdapter();
@@ -1365,6 +1369,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMessageExchangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.CompensateScope <em>Compensate Scope</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.CompensateScope
+	 * @generated
+	 */
+	public Adapter createCompensateScopeAdapter() {
 		return null;
 	}
 
