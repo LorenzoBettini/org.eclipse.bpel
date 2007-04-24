@@ -630,6 +630,11 @@ public class BPELUtils {
 	 */
 	
 	public static BPELResourceSetImpl slightlyHackedResourceSet (ResourceSet resourceSet) {
+		
+		if (resourceSet instanceof BPELResourceSetImpl) {
+			return (BPELResourceSetImpl) resourceSet;
+		}
+		
 		Map map = resourceSet.getLoadOptions();
 		BPELResourceSetImpl result = (BPELResourceSetImpl) map.get("slightlyHackedResourceSet");
 		if (result == null) {
