@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.resource;
 
-import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 
@@ -22,16 +24,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  * @date Apr 17, 2007
  *
  */
+
+
 public class BPELResourceSetImpl extends ResourceSetImpl {
-
-	/**
-	 * @see org.eclipse.emf.ecore.resource.impl.ResourceSetImpl#getResource(org.eclipse.emf.common.util.URI, boolean)
-	 */
-	@Override
-	public Resource getResource(URI arg0, boolean arg1) {		
-		return super.getResource(arg0, arg1);
-	}
-
 	
 	/**
 	 * Load the resource from the resource set, assuming that it is the kind
@@ -42,18 +37,87 @@ public class BPELResourceSetImpl extends ResourceSetImpl {
 	 * is "wrong".
 	 * 
 	 * @param uri the URI of the resource.
-	 * @param b
+	 * @param loadOnDemand load on demand
 	 * @param kind the resource kind. It has to be of the form "*.wsdl", or "*.xsd", or "*.bpel"
-	 * @return the loaded resource.
-	 * @throws IOException 
+	 * @return the loaded resource. 
 	 */
 	
-	public Resource getResource (URI uri, boolean b, String kind) throws IOException {
+	@SuppressWarnings("nls")
+	public Resource getResource(URI uri, boolean loadOnDemand, String kind)  {
+
+		Map<URI, Resource> map = getURIResourceMap();
 		
-		Resource result = createResource(URI.createURI(kind)); 
-		result.setURI(uri);		
-		result.load( getLoadOptions() );
-		return result;
+		if (map != null) {
+			Resource resource = map.get(uri);
+			if (resource != null) {
+				if (loadOnDemand && !resource.isLoaded()) {
+					demandLoadHelper(resource);
+				}
+				return resource;
+			}
+		}
+
+		URIConverter theURIConverter = getURIConverter();
+		URI normalizedURI = theURIConverter.normalize(uri);
 		
+		Iterator<Resource> it = getResources().iterator();
+		while (it.hasNext()) {
+			Resource resource = it.next();
+			if (theURIConverter.normalize(resource.getURI()).equals(
+					normalizedURI)) {
+				if (loadOnDemand && !resource.isLoaded()) {
+					demandLoadHelper(resource);
+				}
+
+				if (map != null) {
+					map.put(uri, resource);
+				}
+				return resource;
+			}			
+		}
+		
+		if (loadOnDemand) {
+			Resource resource = demandCreateResource(uri,kind);
+			if (resource == null) {
+				throw new RuntimeException("Cannot create a resource for '"
+						+ uri + "'; a registered resource factory is needed");
+			}
+
+			demandLoadHelper(resource);
+
+			if (map != null) {
+				map.put(uri, resource);
+			}
+			return resource;
+		}
+
+		return null;
 	}
+	
+	
+	protected Resource demandCreateResource ( URI uri, String kind ) {
+		return createResource ( uri, kind );
+	}
+	
+	
+	/**
+	 * Create the resource based on the kind.
+	 * @param uri
+	 * @param kind
+	 * @return the created resource
+	 */
+	
+	@SuppressWarnings("nls")
+	public Resource createResource ( URI uri, String kind ) {
+		
+		if (kind == null) {
+			return super.createResource(uri);
+		}
+		
+		Resource resource = createResource(URI.createURI("*." + kind)); 
+		resource.setURI(uri);		
+		return resource;
+	}
+	
+	
 }

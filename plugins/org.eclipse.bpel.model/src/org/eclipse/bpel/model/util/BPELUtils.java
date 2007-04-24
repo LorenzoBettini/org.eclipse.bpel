@@ -36,10 +36,12 @@ import org.eclipse.bpel.model.proxy.OperationProxy;
 import org.eclipse.bpel.model.proxy.PortTypeProxy;
 import org.eclipse.bpel.model.reordering.IExtensibilityElementListHandler;
 import org.eclipse.bpel.model.resource.BPELResource;
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
@@ -616,5 +618,36 @@ public class BPELUtils {
 	    }
 	    
 	    return result.toString();
+	}
+
+	/**
+	 * This is a slightly hacked resource set that we will be using for to solve the problem
+	 * of loading the right resources from URLs that betray no information on the type of the resource. 
+	 * @param resourceSet
+	 * 
+	 * @return the BPELResourceSetImpl that walks around the problem indicated.
+	 *  
+	 */
+	
+	public static BPELResourceSetImpl slightlyHackedResourceSet (ResourceSet resourceSet) {
+		Map map = resourceSet.getLoadOptions();
+		BPELResourceSetImpl result = (BPELResourceSetImpl) map.get("slightlyHackedResourceSet");
+		if (result == null) {
+			result = new BPELResourceSetImpl();
+			map.put("slightlyHackedResourceSet", result);			
+		}
+		return result;
+	}
+	
+	/**
+	 * Return the resource set that we should be using to load "specific" type of resources.
+	 * The "slightlyHacked" resource set is kept in the load options map.
+	 * 
+	 * @param eObj
+	 * @return the slightly hacked resource set. 
+	 * 
+	 */
+	public static BPELResourceSetImpl slightlyHackedResourceSet (EObject eObj) {
+		return slightlyHackedResourceSet ( eObj.eResource().getResourceSet() );
 	}
 }

@@ -13,11 +13,13 @@ package org.eclipse.bpel.model.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -61,22 +63,22 @@ public class XSDImportResolver implements ImportResolver {
     {
     	Resource baseResource = imp.eResource();
         String location = imp.getLocation();
+        
         if (!baseResource.getURI().isRelative()) {
             location = URI.createURI(location).resolve(baseResource.getURI()).toString();
         }
         
-        URI locationURI = URI.createURI(location);
+        URI locationURI = URI.createURI(location);        
+       
+        BPELResourceSetImpl hackedResourceSet = BPELUtils.slightlyHackedResourceSet ( imp );
         
-        ResourceSet resourceSet = baseResource.getResourceSet();        
-        Resource result = resourceSet.createResource(URI.createURI("*." + kind)); 
-		result.setURI( locationURI );			
-		
-        try {
-        	result.load( resourceSet.getLoadOptions() );        	
-        } catch (Exception ex) {
-           	BPELPlugin.log("The resource " + locationURI + " cannot be read.",ex,IStatus.WARNING) ;
-        	return null;       	
+        Resource result = hackedResourceSet.getResource(locationURI, true, kind);
+        
+        if (result.getContents().size() == 0) {
+        	BPELPlugin.log("The resource " + locationURI + " cannot be read.",null,IStatus.WARNING) ;
+        	return null;
         }
+        
         
         try {
         	return (T) result.getContents().get(0);
