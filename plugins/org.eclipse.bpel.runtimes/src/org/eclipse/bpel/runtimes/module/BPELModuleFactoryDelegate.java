@@ -26,6 +26,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jem.util.logger.proxy.Logger;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.server.core.IModule;
 import org.eclipse.wst.server.core.internal.Trace;
@@ -220,6 +221,7 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 	 * TODO in case fixed BPEL facet is not set anymore, may be able to set
 	 * the facet programmatically as a fix for the time being
 	 */
+	@SuppressWarnings("nls")
 	private String getVersion(IProject project) {
 		IFacetedProject facetedProject = null;
 		try {
@@ -228,8 +230,11 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 					&& ProjectFacetsManager.isProjectFacetDefined(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET)) 
 			{
 				IProjectFacet projectFacet = ProjectFacetsManager.getProjectFacet(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
-
-				return facetedProject.getInstalledVersion(projectFacet).getVersionString();
+				IProjectFacetVersion pfv = facetedProject.getInstalledVersion(projectFacet);
+				if (pfv != null) {
+					pfv.getVersionString();
+				}
+				return "2.0";
 			}
 		} catch (Exception e) {
 			Logger.getLogger().write(e);
