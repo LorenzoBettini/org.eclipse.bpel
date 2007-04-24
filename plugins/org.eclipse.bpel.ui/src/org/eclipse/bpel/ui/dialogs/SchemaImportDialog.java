@@ -11,7 +11,9 @@
 package org.eclipse.bpel.ui.dialogs;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
+
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
@@ -24,7 +26,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -50,7 +51,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
@@ -145,7 +145,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 
 	protected Object fInput;
 	
-	protected ResourceSet fResourceSet;
+	protected BPELResourceSetImpl fHackedResourceSet;
 	
 	protected String fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_XSD;
 
@@ -189,7 +189,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		this.modelObject = eObject;		
 		setTitle(Messages.SchemaImportDialog_2);
 		
-		fResourceSet = eObject.eResource().getResourceSet();
+		fHackedResourceSet = BPELUtils.slightlyHackedResourceSet(eObject);
 	}
 	
 	
@@ -581,21 +581,8 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 
 	Object attemptLoad ( URI uri, String kind) {
 
- 		Resource resource = null;
+ 		Resource resource = fHackedResourceSet.getResource(uri, true, kind);
  		
-		if (kind == null) {
-			resource = fResourceSet.getResource(uri, true);
-		} else {
-			resource = fResourceSet.createResource(URI.createURI( kind )); 
-			resource.setURI( uri );
-			try {
-				resource.load(fResourceSet.getLoadOptions());
-			} catch (Exception ex) {
-				BPELUIPlugin.log(ex);
-				return ex;			
-			}
-		}
-		
 		if (resource.getErrors().isEmpty() && resource.isLoaded() ) {
 			return resource.getContents().get(0);
 		}
@@ -770,7 +757,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	public void configureAsSchemaImport ( ) {
 		setTitle(Messages.SchemaImportDialog_2);
 		fStructureTitle = Messages.SchemaImportDialog_11;
-		fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_XSD;
+		fResourceKind = IBPELUIConstants.EXTENSION_XSD;
 	}
 	
 	/**
@@ -784,7 +771,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		setTitle(Messages.SchemaImportDialog_0);
 		fStructureTitle = Messages.SchemaImportDialog_14;
 		fTreeContentProvider = new PartnerLinkTypeTreeContentProvider(true);
-		fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_WSDL;
+		fResourceKind = IBPELUIConstants.EXTENSION_WSDL;
 	}
 	
 
