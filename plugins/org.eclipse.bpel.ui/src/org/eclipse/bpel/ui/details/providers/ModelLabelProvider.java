@@ -23,31 +23,52 @@ import org.eclipse.swt.graphics.Image;
  * A label provider for objects which adapt to the ILabeledElement interface.
  * This can be used as a "generic" label provider for details pages, etc.
  */
+
+
 public class ModelLabelProvider implements ILabelProvider {
 
-	public static final Object[] EMPTY_ARRAY = new Object[0];
 
 	private Object context = null;
 	
-	/* ILabelProvider */
+	/**
+	 * Create a new shiny label provider.
+	 */
 	public ModelLabelProvider () {
 		
 	}
 	
-	public ModelLabelProvider (Object obj) {
-		context = obj;
+	/**
+	 * Create a new shiny label provider with the context object.
+	 * @param contextObject 
+	 * 
+	 */
+	public ModelLabelProvider (Object contextObject) {
+		context = contextObject;
 	}
+	
+	/**
+	 * Default implementation does nothing.
+	 * 
+	 * @param viewer
+	 * @param oldInput
+	 * @param newInput
+	 */
 	
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// TODO: hook model listener?
 	}
 
-	public Image getImage(Object object) {
+	
+	/**
+	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+	 */
+	
+	public Image getImage (Object object) {
 		
 		if (object == null) {
 			return null;
 		}
-		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(object, ILabeledElement.class, context);
+		ILabeledElement label = (ILabeledElement) BPELUtil.adapt(object, ILabeledElement.class, context);
 		if (label == null) {
 			return null;
 		}
@@ -61,7 +82,11 @@ public class ModelLabelProvider implements ILabelProvider {
 		return image;
 	}
 
-	public String getText(Object object) {
+	/**
+	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+	 */
+	
+	public String getText (Object object) {
 		if (object == null) {
 			return Messages.ModelLabelProvider____None____1; 
 		}
@@ -72,26 +97,31 @@ public class ModelLabelProvider implements ILabelProvider {
 		return label.getLabel(object);
 	}
 
-	/* IBaseLabelProvider */
-
+	/** (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+	 */
+	
 	public void dispose() {
-		// Dispose images in hashmap- not registry
-		//System.out.println("ModelLabelProvider dispose!");
-//		if (stringToImage != null) {
-//			for (Iterator it = stringToImage.values().iterator(); it.hasNext(); ) {
-//				Image image = (Image)it.next();
-//				image.dispose();
-//			}
-//		}
-//		stringToImage = null;
+		
 	}
 
-	public boolean isLabelProperty(Object element, String property) {
+	/**
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+	 */
+	public boolean isLabelProperty (Object element, String property) {
 		return true;
 	}
+	
+	/**
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 */
 	public void addListener(ILabelProviderListener listener) {
 		// do nothing
 	}
+	
+	/** (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 */
 	public void removeListener(ILabelProviderListener listener) {
 		// do nothing
 	}
