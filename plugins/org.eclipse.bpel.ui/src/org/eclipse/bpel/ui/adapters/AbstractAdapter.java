@@ -29,7 +29,7 @@ public class AbstractAdapter implements Adapter {
 	static public final int CONTEXT_UPDATE_EVENT_TYPE = 101;
 		
 	/** Makes sense only when adapters are statefull */
-	private Notifier target = null;
+	private Object target = null;
 	
 	/** additional context that is needed by the adapter to wrap the object */
 	private Object context = null;	
@@ -44,6 +44,10 @@ public class AbstractAdapter implements Adapter {
 		
 	}
 	
+	
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
 	
 	public void notifyChanged (Notification notification) {
 		
@@ -61,7 +65,7 @@ public class AbstractAdapter implements Adapter {
 	 */
 	
 	public Notifier getTarget() {
-		return target;
+		return (Notifier) getTarget(target,Notifier.class);		
 	}
 	
 	/**
@@ -70,13 +74,27 @@ public class AbstractAdapter implements Adapter {
 	 * @param newTarget set the target
 	 */
 	
-	public void setTarget(Notifier newTarget) {		
+	public void setTarget (Notifier newTarget) {		
 		if ( isStatefull() ) {
 			target = newTarget;
 		}
 		 		
 	}
 
+	
+	
+	/**
+	 * 
+	 * @param newTarget
+	 */
+	
+	public void setTarget (Object newTarget) {		
+		if ( isStatefull() ) {
+			target = newTarget;
+		}		 	
+	}
+	
+	
 	/**
 	 * Answer true if we are an adapter for the type given.
 	 * 
@@ -84,11 +102,10 @@ public class AbstractAdapter implements Adapter {
 	 * @return true/false if we can adapt to it.
 	 */
 	
-	public boolean isAdapterForType (Object type) {
-		Class clazz = null;
+	public boolean isAdapterForType (Object type) {		
 		// what is type ? (an interface)
 		if (type instanceof Class) {
-			clazz = (Class) type;
+			Class<?> clazz = (Class) type;
 			return clazz.isInstance(this);
 		}
 		// what else could it be ?
@@ -106,7 +123,7 @@ public class AbstractAdapter implements Adapter {
 	}
 	
 	/**
-	 * Answer if we ware statfull or stateless ...
+	 * Answer if we ware state-full or stateless ...
 	 * 
 	 * @return true if stateful, false if stateless.
 	 */
@@ -126,7 +143,7 @@ public class AbstractAdapter implements Adapter {
 	 * @return the target object
 	 */
 	
-	public Object getTarget ( Object obj , Class clazz ) {
+	public Object getTarget ( Object obj , Class<?> clazz ) {
 
 		// If the object is passed and it matches the adapted object class,
 		// then we return it, because most likely it is it.
