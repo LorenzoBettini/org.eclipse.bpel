@@ -18,4 +18,13 @@ package org.eclipse.bpel.model.adapters;
 public class AbstractStatefulAdapter extends AbstractAdapter implements
 		IStatefullAdapter {
 
+	/**
+	 * @see org.eclipse.bpel.model.adapters.IStatefullAdapter#setTarget(java.lang.Object)
+	 */
+	
+	@Override
+	public void setTarget (Object newTarget) {		
+		super.setTarget(newTarget);
+	}
+
 }

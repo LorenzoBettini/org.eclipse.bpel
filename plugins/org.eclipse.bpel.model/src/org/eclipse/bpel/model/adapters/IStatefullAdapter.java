@@ -21,5 +21,12 @@ package org.eclipse.bpel.model.adapters;
  */
 
 public interface IStatefullAdapter {
+	
+	/**
+	 * Set the target object.
+	 * 
+	 * @param target the target object
+	 */
+	public void setTarget (Object target);
 
 }

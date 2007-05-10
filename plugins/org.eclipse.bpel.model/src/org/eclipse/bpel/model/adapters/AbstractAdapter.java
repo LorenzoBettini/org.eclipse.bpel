@@ -29,7 +29,7 @@ public class AbstractAdapter implements Adapter {
 	static public final int CONTEXT_UPDATE_EVENT_TYPE = 101;
 		
 	/** Makes sense only when adapters are statefull */
-	private Notifier target = null;
+	private Object target = null;
 	
 	/** additional context that is needed by the adapter to wrap the object */
 	private Object context = null;	
@@ -58,7 +58,7 @@ public class AbstractAdapter implements Adapter {
 	 */
 	
 	public Notifier getTarget() {
-		return target;
+		return (Notifier) getTarget(target,Notifier.class);
 	}
 	
 	/**
@@ -70,10 +70,22 @@ public class AbstractAdapter implements Adapter {
 	public void setTarget(Notifier newTarget) {		
 		if ( isStatefull() ) {
 			target = newTarget;
-		}
-		 		
+		}		 		
 	}
 
+	
+	/**
+	 * 
+	 * @param newTarget
+	 */
+	
+	public void setTarget (Object newTarget) {
+		if (isStatefull()) {
+			target = newTarget;
+		}
+	}
+	
+	
 	/**
 	 * Answer true if we are an adapter for the type given
 	 * @param type the object type to check. 

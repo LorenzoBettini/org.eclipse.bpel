@@ -81,9 +81,9 @@ public final class AdapterProvider {
 		if (absNameIdx > 0) {
 			// absolute specification
 			singleton = map.get(className);			
-		} else {
-			for(int i=0; i < packageList.length; i++) {
-				className = packageList[i] + "." + name; //$NON-NLS-1$
+		} else {			
+			for(String packageName : packageList) {
+				className = packageName + "." + name; //$NON-NLS-1$
 				singleton = map.get( className );
 			}
 		}
