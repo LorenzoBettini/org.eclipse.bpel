@@ -11,15 +11,14 @@
 package org.eclipse.bpel.ui.preferences;
 
 
-import java.io.File;
-import java.net.URI;
-import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import org.eclipse.bpel.model.terms.BPELTerms;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -27,21 +26,33 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.FileDialog;
 
 
+/**
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 2, 2007
+ *
+ */
+
+@SuppressWarnings("nls")
 public class BPELPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
-	private Button useAnimation;
-	private Text wsilURL;
+	static String PREFERENCE = "preference";
 	
+	Button fUseAnimation;
+	Button fShowFreeFormFlow;
+	Button fWarnOnLinks;
+	Button fAutoFlowLayout;
+	Button fSpecCompliantProcess;
+
+	
+	ArrayList<Button> fButtons = new ArrayList<Button>(8);
+	
+	@Override
 	protected Control createContents(Composite parent) {
 		Composite result = new Composite(parent, SWT.NONE);	
 		GridLayout layout = new GridLayout();
@@ -51,43 +62,53 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 		GridData data = new GridData(GridData.FILL_BOTH);
 		result.setLayoutData(data);
 
-		useAnimation = new Button(result, SWT.CHECK);
-		useAnimation.setText(Messages.BPELPreferencePage_0); 
-		useAnimation.setToolTipText(Messages.BPELPreferencePage_1); 
+		
+		fUseAnimation = new Button(result, SWT.CHECK);
+		fUseAnimation.setText(Messages.BPELPreferencePage_0); 
+		fUseAnimation.setToolTipText(Messages.BPELPreferencePage_0TT); 
+		fUseAnimation.setData(PREFERENCE, IBPELUIConstants.PREF_USE_ANIMATION);
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
-		useAnimation.setLayoutData(data);
+		fUseAnimation.setLayoutData(data);
+		fButtons.add(fUseAnimation);
 		
-		// wsil directory
-		Label wsilLabel = new Label(result, SWT.NONE);
-		wsilLabel.setText(Messages.BPELPreferencePage_2);
-		wsilLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		fShowFreeFormFlow = new Button(result, SWT.CHECK);
+		fShowFreeFormFlow.setText(Messages.BPELPreferencePage_1); 
+		fShowFreeFormFlow.setData(PREFERENCE,IBPELUIConstants.PREF_SHOW_FREEFORM_FLOW);
+		fShowFreeFormFlow.setToolTipText(Messages.BPELPreferencePage_1TT); 	
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		fShowFreeFormFlow.setLayoutData(data);
+		fButtons.add(fShowFreeFormFlow);
 		
-		wsilURL = new Text(result, SWT.BORDER);
-		wsilURL.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		fWarnOnLinks = new Button(result, SWT.CHECK);
+		fWarnOnLinks.setText(Messages.BPELPreferencePage_2); 
+		fWarnOnLinks.setToolTipText(Messages.BPELPreferencePage_2TT);
+		fWarnOnLinks.setData(PREFERENCE,IBPELUIConstants.PREF_WARN_LINKS);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		fWarnOnLinks.setLayoutData(data);
+		fButtons.add(fWarnOnLinks);
 		
-		Button browse = new Button(result, SWT.NONE);
-		browse.setText(Messages.BPELPreferencePage_3);
-		browse.setLayoutData(new GridData(SWT.RIGHT));
-		browse.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
-				String fileName = fd.open();
-				if ((fileName != null) && (fileName.length() > 0)) {
-					// parse to file url
-					File file = new File(fileName);
-					URI uri = file.toURI();
-					try {
-						wsilURL.setText(uri.toURL().toString());
-					}
-					catch (MalformedURLException ex) {
-						// do nothing
-					}
-				}
-			}
-		}
-		);
+		fAutoFlowLayout = new Button(result, SWT.CHECK);
+		fAutoFlowLayout.setText(Messages.BPELPreferencePage_3); 
+		fAutoFlowLayout.setToolTipText(Messages.BPELPreferencePage_3TT);
+		fAutoFlowLayout.setData(PREFERENCE,IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		fAutoFlowLayout.setLayoutData(data);
+		fButtons.add(fAutoFlowLayout);
 
+		fSpecCompliantProcess = new Button(result, SWT.CHECK);
+		fSpecCompliantProcess.setText(Messages.BPELPreferencePage_4); 
+		fSpecCompliantProcess.setToolTipText(Messages.BPELPreferencePage_4TT);
+		fSpecCompliantProcess.setData(PREFERENCE,IBPELUIConstants.PREF_CREATE_SPEC_COMPLIANT_PROCESS);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		fSpecCompliantProcess.setLayoutData(data);
+		fButtons.add(fSpecCompliantProcess);
+		
+		
 		initializeValues();
 		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
@@ -96,19 +117,30 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 		return result;
 	}
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
+	
 	public void init(IWorkbench workbench) {
 	}
 	
+	
+	@Override
 	protected void performDefaults() {
 		super.performDefaults();
 		initializeDefaults();
 	}
 
+	/**
+	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
+	 */
+	@Override
 	public boolean performOk() {
 		storeValues();
 		return true;
 	}
 
+	@Override
 	protected void performApply() {
 		performOk();
 	}
@@ -117,23 +149,36 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 	 * Initializes states of the controls using default values in the preference store.
 	 */
 	private void initializeDefaults() {
-		useAnimation.setSelection(BPELUIPlugin.getPlugin().getPreferenceStore().getDefaultBoolean(IBPELUIConstants.PREF_USE_ANIMATION));
+		fUseAnimation.setSelection(BPELUIPlugin.getPlugin().getPreferenceStore().getDefaultBoolean(IBPELUIConstants.PREF_USE_ANIMATION));
 	}
 
 	/**
 	 * Initializes states of the controls from the preference store.
 	 */
 	private void initializeValues() {
-		useAnimation.setSelection(BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(IBPELUIConstants.PREF_USE_ANIMATION));
-		wsilURL.setText(BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL));
+		IPreferenceStore store = BPELUIPlugin.getPlugin().getPreferenceStore();
+		
+		for(Button b : fButtons) {
+			String pref = (String) b.getData(PREFERENCE);
+			if (pref != null) {
+				b.setSelection( store.getBoolean(pref) );
+			}
+		}		
 	}
 
 	/**
 	 * Stores the values of the controls back to the preference store.
 	 */
 	private void storeValues() {
-		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_USE_ANIMATION, useAnimation.getSelection());
-		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_WSIL_URL, wsilURL.getText());
+		IPreferenceStore store = BPELUIPlugin.getPlugin().getPreferenceStore();
+
+		for(Button b : fButtons) {
+			String pref = (String) b.getData(PREFERENCE);
+			if (pref != null) {
+				store.setValue(pref, b.getSelection() );
+			}
+		}					
+
 		BPELTerms.getDefault().savePluginPreferences();
 	}
 }
