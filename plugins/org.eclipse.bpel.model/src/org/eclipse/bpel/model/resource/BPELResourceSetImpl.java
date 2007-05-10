@@ -26,7 +26,14 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  */
 
 
+@SuppressWarnings("nls")
+
 public class BPELResourceSetImpl extends ResourceSetImpl {
+	 
+	/**
+	 * Used to force loading using the right resource loaders.
+	 */
+	static public final String SLIGHTLY_HACKED_KEY = "slightly.hacked.resource.set";
 	
 	/**
 	 * Load the resource from the resource set, assuming that it is the kind
