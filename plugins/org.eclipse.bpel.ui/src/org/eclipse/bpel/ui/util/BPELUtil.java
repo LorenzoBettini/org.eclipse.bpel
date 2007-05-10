@@ -31,9 +31,7 @@ import org.eclipse.bpel.common.ui.details.viewers.ComboViewer;
 import org.eclipse.bpel.common.ui.markers.ModelMarkerUtil;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.model.Catch;
-import org.eclipse.bpel.model.Compensate;
 import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
@@ -56,11 +54,13 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.Policy;
+import org.eclipse.bpel.ui.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.adapters.BPELUIAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIExtensionAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIMessagePropertiesAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIPartnerLinkTypeAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIWSDLAdapterFactory;
+import org.eclipse.bpel.ui.adapters.BPELUIWSILAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIXSDAdapterFactory;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
@@ -78,6 +78,8 @@ import org.eclipse.bpel.ui.extensions.ActionDescriptor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.uiextensionmodel.ActivityExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
+import org.eclipse.bpel.wsil.model.inspection.InspectionPackage;
+import org.eclipse.bpel.wsil.model.inspection.util.InspectionAdapterFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -86,6 +88,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -152,7 +155,6 @@ import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDPackage;
-import org.eclipse.bpel.ui.adapters.AbstractAdapter;
 
 
 /**
@@ -183,27 +185,48 @@ public class BPELUtil {
 	 */
 	public static IPath lastXSDFilePath;
 	
-	private static Map keyToAdapterFactory;
+	private static Map<Object,AdapterFactory> keyToAdapterFactory;
 	
 	
 	static {
-	    keyToAdapterFactory = new HashMap();
+	    keyToAdapterFactory = new HashMap<Object,AdapterFactory>();
+	    
+	    //	    
 	    keyToAdapterFactory.put(BPELPackage.eINSTANCE, BPELUIAdapterFactory.getInstance());
 	    keyToAdapterFactory.put(WSDLPackage.eINSTANCE, BPELUIWSDLAdapterFactory.getInstance());
 	    keyToAdapterFactory.put(PartnerlinktypePackage.eINSTANCE, BPELUIPartnerLinkTypeAdapterFactory.getInstance());
 	    keyToAdapterFactory.put(XSDPackage.eINSTANCE, BPELUIXSDAdapterFactory.getInstance());
 	    keyToAdapterFactory.put(MessagepropertiesPackage.eINSTANCE, BPELUIMessagePropertiesAdapterFactory.getInstance());
 	    keyToAdapterFactory.put(UiextensionmodelPackage.eINSTANCE, BPELUIExtensionAdapterFactory.getInstance());
+	    keyToAdapterFactory.put(InspectionPackage.eINSTANCE, BPELUIWSILAdapterFactory.getInstance() );
+	    
 	}
 
+	
+	/**
+	 * Register adapter factory for the given EClass.
+	 * 
+	 * @param key
+	 * @param factory
+	 */
+	
 	public static void registerAdapterFactory(EClass key, AdapterFactory factory) {
 	    keyToAdapterFactory.put(key, factory);
 	}
 	
-	static Class adapterInterface ( Object type ) {
+	
+	static Class<?> adapterInterface ( Object type ) {
 		
 		if (type instanceof Class) {
 			return (Class) type;
+		}
+		
+		if (type instanceof String) {
+			try {
+				return Class.forName((String)type);
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
+			}				
 		}
 		
 		throw new RuntimeException("Adapter type " + type + " is not understood.");		 //$NON-NLS-1$ //$NON-NLS-2$
@@ -214,30 +237,41 @@ public class BPELUtil {
 	 * This method tries the registered adapter factories one by one, returning
 	 * the first non-null result it gets.  If none of the factories can adapt
 	 * the result, it returns null.
+	 * @param target target object 
+	 * @param type type of the adapter to find
+	 * @return the adapter for the target.
 	 */
-	public static Object adapt(Object target, Object type) {
+	
+	public static Object adapt (Object target, Object type) {
 
 		// If the target is already an instance of the type to adapt,
 		// we return it. Presumably, the target might already speak the requested
 		// type. The type argument, is 
 
-		Class clazz = adapterInterface(type);
+		Class<?> clazz = adapterInterface(type);
+		
 		if ( clazz.isInstance( target ) ) {
 			return target;
 		}
-		
-	    AdapterFactory factory = null;
-	    EClass effectiveClass = getEClassFor(target);
-	    if (effectiveClass != null) {
-		    factory = (AdapterFactory)keyToAdapterFactory.get(effectiveClass);
-		    if (factory == null) {
-		        factory = (AdapterFactory)keyToAdapterFactory.get(effectiveClass.getEPackage());
+
+		if (target instanceof EObject) {
+		    AdapterFactory factory = null;
+		    EClass effectiveClass = getEClassFor(target);
+		    if (effectiveClass != null) {
+			    factory = keyToAdapterFactory.get(effectiveClass);
+			    if (factory == null) {
+			        factory = keyToAdapterFactory.get(effectiveClass.getEPackage());
+			    }
 		    }
-	    }
-	    if (factory == null) {
-	        factory = BPELUIAdapterFactory.getInstance();
-	    }
-	    return factory.adapt(target, type);
+		    if (factory == null) {	    	
+		        factory = BPELUIAdapterFactory.getInstance();
+		    }
+		    
+		    return factory.adapt(target, type);
+		}
+		
+		// otherwise, the object we are adapting is not an EObject, try any other adapters.		
+	    return Platform.getAdapterManager().getAdapter(target, clazz);
 	}
 	
 	
@@ -256,7 +290,7 @@ public class BPELUtil {
 	 * @param type the type it wants to adapt to
 	 * @param context the context object
 	 * 
-	 * @return
+	 * @return the adapter
 	 */
 	public static Object adapt (Object target, Object type, Object context) {
 		
