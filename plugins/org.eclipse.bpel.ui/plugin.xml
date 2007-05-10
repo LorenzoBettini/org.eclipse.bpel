@@ -105,6 +105,11 @@
             class="org.eclipse.bpel.ui.preferences.ExpressionEditorsPreferencePage"
             id="org.eclipse.bpel.ui.preferences.ExpressionEditorsPreferencePage"
             name="%PREFERENCE_PAGE_EXPRESSION_EDITOR"/>
+      <page
+            category="org.eclipse.bpel.ui.preferences.BPELHomePreferencePage"
+            class="org.eclipse.bpel.ui.preferences.WSILPreferencePage"
+            id="org.eclipse.bpel.ui.preferences.WSILPreferencePage"
+            name="%PREFERENCE_PAGE_WSIL"/>
    </extension>
 
   <extension
@@ -737,6 +742,16 @@
             class="org.eclipse.jface.text.templates.TemplateContextType"
             id="jscript"
             name="jscript"/>
+   </extension>
+   <extension
+         id="org.eclipse.bpel.ui.adapters.1"
+         name="Runtime Adapters"
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="java.lang.Throwable"
+            class="org.eclipse.bpel.ui.adapters.AdapterFactory">
+         <adapter type="org.eclipse.bpel.ui.adapters.ILabeledElement"/>
+      </factory>
    </extension>
    
 </plugin>
