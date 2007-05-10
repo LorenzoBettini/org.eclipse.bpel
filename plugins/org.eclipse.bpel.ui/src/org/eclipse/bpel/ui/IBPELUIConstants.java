@@ -12,6 +12,8 @@ package org.eclipse.bpel.ui;
 
 import org.eclipse.bpel.model.terms.BPELTerms;
 
+@SuppressWarnings({"nls"})
+
 public interface IBPELUIConstants {
 	// File extensions
 	public final String EXTENSION_BPEL = "bpel"; //$NON-NLS-1$
@@ -210,6 +212,8 @@ public interface IBPELUIConstants {
 	public final String ICON_XSD_SIMPLE_TYPE_DEFINITION_16 = "obj16/XSDSimpleTypeDefinition.gif"; //$NON-NLS-1$
 	public final String ICON_XSD_TYPE_DEFINITION_16 = "obj16/XSDTypeDefinition.gif"; //$NON-NLS-1$
 
+	public final String ICON_EXCEPTION_16 = "obj16/exception.gif";
+	
 	// WSIL related icons
 	
 	public final String ICON_WSIL = "obj16/wsil.gif"; //$NON-NLS-1$
@@ -397,7 +401,9 @@ public interface IBPELUIConstants {
 	// The colors of the flow links
 	public final String COLOR_LINK_ONE = "linkOne"; //$NON-NLS-1$
 	public final String COLOR_LINK_TWO = "linkTwo"; //$NON-NLS-1$
-	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$		
+	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$
+	
+	
 	
 	
 	

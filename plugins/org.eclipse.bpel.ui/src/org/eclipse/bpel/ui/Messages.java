@@ -14,9 +14,7 @@ import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
 
-	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages";//$NON-NLS-1$
-	
-	
+	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages";//$NON-NLS-1		
 
 	private Messages() {
 		// Do not instantiate
@@ -197,9 +195,32 @@ public final class Messages extends NLS {
 	public static String BPELPasteAction_Paste_2;
 	public static String BPELPasteAction_Paste_3;
 	public static String BPELPreferencePage_0;
+	public static String BPELPreferencePage_0TT;
 	public static String BPELPreferencePage_1;
+	public static String BPELPreferencePage_1TT;	
 	public static String BPELPreferencePage_2;
-	public static String BPELPreferencePage_3;
+	public static String BPELPreferencePage_2TT;	
+	public static String BPELPreferencePage_3;	
+	public static String BPELPreferencePage_3TT;
+	public static String BPELPreferencePage_4;
+	public static String BPELPreferencePage_4TT;
+	public static String BPELPreferencePage_5;
+	public static String BPELPreferencePage_5TT;	
+	public static String BPELPreferencePage_WSIL_1;
+	public static String BPELPreferencePage_WSIL_2;
+	public static String BPELPreferencePage_WSIL_Location;
+	public static String BPELPreferencePage_WSIL_Abstract;
+	public static String BPELPreferencePage_WSIL_Namespace;
+	public static String BPELPreferencePage_WSIL_Index;
+	public static String BPELPreferencePage_WSIL_Add;
+	public static String BPELPreferencePage_WSIL_Remove;
+	public static String BPELPreferencePage_WSIL_Description;
+	public static String BPELPreferencePage_WSIL_MoveDown;
+	public static String BPELPreferencePage_WSIL_MoveUp;
+	public static String BPELPreferencePage_WSIL_OpenInBrowser;
+	public static String BPELPreferencePage_WSIL_DocumentNotLoaded;
+	public static String BPELPreferencePage_WSIL_EnterLocation;
+	public static String BPELPreferencePage_WSIL_EnterDescription;
 	public static String BPELUIRegistry_Expression_language_editors_must_provide_expressionLanguage_and_class__8;
 	public static String BPELUtil__unknown_URI__54;
 	public static String BPELUtil_HiddenSequence_2;
