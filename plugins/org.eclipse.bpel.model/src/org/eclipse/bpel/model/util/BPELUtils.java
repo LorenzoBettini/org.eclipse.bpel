@@ -636,10 +636,10 @@ public class BPELUtils {
 		}
 		
 		Map map = resourceSet.getLoadOptions();
-		BPELResourceSetImpl result = (BPELResourceSetImpl) map.get("slightlyHackedResourceSet");
+		BPELResourceSetImpl result = (BPELResourceSetImpl) map.get(BPELResourceSetImpl.SLIGHTLY_HACKED_KEY);
 		if (result == null) {
 			result = new BPELResourceSetImpl();
-			map.put("slightlyHackedResourceSet", result);			
+			map.put(BPELResourceSetImpl.SLIGHTLY_HACKED_KEY, result);			
 		}
 		return result;
 	}
