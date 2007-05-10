@@ -17,11 +17,18 @@ import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.details.providers.ModelLabelProvider;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTypeTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.WSILContentProvider;
 import org.eclipse.bpel.ui.util.filedialog.FileSelectionGroup;
+import org.eclipse.bpel.wsil.model.inspection.Description;
+import org.eclipse.bpel.wsil.model.inspection.Inspection;
+import org.eclipse.bpel.wsil.model.inspection.Link;
+import org.eclipse.bpel.wsil.model.inspection.Name;
+import org.eclipse.bpel.wsil.model.inspection.Service;
+import org.eclipse.bpel.wsil.model.inspection.TypeOfAbstract;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -31,15 +38,18 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -60,18 +70,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
-
-
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.bpel.wsil.model.inspection.Description;
-import org.eclipse.bpel.wsil.model.inspection.Inspection;
-import org.eclipse.bpel.wsil.model.inspection.Link;
-import org.eclipse.bpel.wsil.model.inspection.Name;
-import org.eclipse.bpel.wsil.model.inspection.Service;
-import org.eclipse.bpel.wsil.model.inspection.TypeOfAbstract;
 import org.eclipse.ui.part.DrillDownComposite;
-import org.eclipse.jface.viewers.ViewerComparator;
 
 
 
@@ -153,12 +152,16 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	URI fRunnableLoadURI;
 	Job fLoaderJob;
 	
+	IPreferenceStore fPrefStore = BPELUIPlugin.getPlugin().getPreferenceStore();	
+	String fBasePath = fPrefStore.getString(IBPELUIConstants.PREF_WSIL_URL);
+	
 	/**
 	 * Create a brand new shiny Schema Import Dialog.
 	 * 
 	 * @param parent
 	 */
 	public SchemaImportDialog (Shell parent) {
+		
 		super(parent);
 		setStatusLineAboveButtons(true);		
 		int shellStyle = getShellStyle();		
@@ -301,6 +304,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {
+			@Override
 			public void widgetSelected (SelectionEvent event) {
 				Button b = (Button) event.widget;
 				int bid = ((Integer) b.getData()).intValue();
@@ -410,13 +414,12 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         		new Listener() {
 					public void handleEvent(Event event) {
 						IResource resource = fResourceComposite.getSelectedResource();
-						if (resource.getType() == IResource.FILE) {
+						if (resource != null && resource.getType() == IResource.FILE) {
 							// only attempt to load a resource which is not a container
-							attemptLoad ( (IFile) resource );							
-						} else {
-							markEmptySelection();							
+							attemptLoad ( (IFile) resource );
 							return ;
-						}						
+						} 
+						markEmptySelection();						
 					}        	
         		},
         		
@@ -465,28 +468,23 @@ public class SchemaImportDialog extends SelectionStatusDialog {
     	filterText.addKeyListener(new KeyListener() {
     		
     		public void keyPressed(KeyEvent e) {
-    			// set the value of the filter.
-    			fFilter = filterText.getText().trim().toLowerCase();
-    			    		
-    			if (e.keyCode == SWT.CR) {
-
-        			// now arm the refresh to execute 1 second later.
-        			    			     			       		
-           			if (fFilter.length() > 0) {
-           				/* for the time being, only filter 3 levels deep 
-           				 * since link references within WSIL are rare at 
-           				 * this time.  when adoption of WSIL directories
-           				 * take off, this needs to be rehashed */ 
-           				fWSILTreeViewer.expandToLevel(3);
-           			}
-           			fWSILTreeViewer.refresh();
-           			e.doit = false;
-				}	
+    			
     		}
     		
     		public void keyReleased(KeyEvent e) {
-    			
-    		}
+    			// set the value of the filter.
+    			fFilter = filterText.getText().trim().toLowerCase();
+    			    		
+       			if (fFilter.length() > 0) {
+       				/* for the time being, only filter 3 levels deep 
+       				 * since link references within WSIL are rare at 
+       				 * this time.  when adoption of WSIL directories
+       				 * take off, this needs to be rehashed */ 
+       				fWSILTreeViewer.expandToLevel(3);
+       			}
+       			fWSILTreeViewer.refresh();
+       			e.doit = false;
+			}	
     	});
 	    
 	    DrillDownComposite wsilTreeComposite = new DrillDownComposite(fWSILComposite, SWT.BORDER);
@@ -513,18 +511,13 @@ public class SchemaImportDialog extends SelectionStatusDialog {
         data.verticalAlignment = GridData.FILL;
         data.minimumHeight = 200;
         fWSILTree.setLayoutData(data);
-		
-        String basePath = BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL);  
-		WSILContentProvider wsilCP = new WSILContentProvider(basePath.substring(0, basePath.lastIndexOf('/')+1));
-		
+		  		
 		fWSILTreeViewer = new TreeViewer( fWSILTree );
-		fWSILTreeViewer.setContentProvider( wsilCP );
-		fWSILTreeViewer.setLabelProvider( wsilCP);
+		fWSILTreeViewer.setContentProvider( new WSILContentProvider() );
+		fWSILTreeViewer.setLabelProvider( new ModelLabelProvider() );
 		
 		
-		fWSILTreeViewer.setInput ( 
-				attemptLoad(URI.createURI(BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL)),
-							IBPELUIConstants.EXTENSION_STAR_DOT_WSIL)) ;
+		fWSILTreeViewer.setInput ( 	attemptLoad(URI.createURI(fBasePath),IBPELUIConstants.EXTENSION_STAR_DOT_WSIL) ) ;
 				
 		// set default tree expansion to the 2nd level
 		fWSILTreeViewer.expandToLevel(2);
@@ -622,10 +615,8 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		
 		
 		if (uri.isRelative()) {
-			// construct absolute path
-	        String basePath = BPELUIPlugin.getPlugin().getPreferenceStore().getString(IBPELUIConstants.PREF_WSIL_URL);   
-
-			String absolutepath = basePath.substring(0, basePath.lastIndexOf('/')+1) + path;
+			// construct absolute path	          
+			String absolutepath = fBasePath.substring(0, fBasePath.lastIndexOf('/')+1) + path;
 			uri = URI.createURI(absolutepath);
 		}
 				
@@ -735,10 +726,11 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		}
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#computeResult()
 	 */
 	
+	@Override
 	protected void computeResult() {
 		Object object = fTreeViewer.getInput();
 		if (object == null) {
@@ -776,6 +768,12 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 
 	
+	/**
+	 * 
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date May 4, 2007
+	 *
+	 */
 	public class TreeFilter extends ViewerFilter {
 			   	    
 		/** (non-Javadoc)
@@ -807,7 +805,18 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	}
 	
 	
+	/**
+	 * 
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date May 10, 2007
+	 *
+	 */
 	public class WSILViewerComparator extends ViewerComparator {
+		
+		/**
+		 * @see org.eclipse.jface.viewers.ViewerComparator#category(java.lang.Object)
+		 */
+		@Override
 		public int category(Object element) {
 			if (element instanceof Inspection)
 				return 1;
