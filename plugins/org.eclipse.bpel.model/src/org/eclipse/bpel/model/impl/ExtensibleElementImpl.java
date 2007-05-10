@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.2 2007/04/11 20:45:15 mchmielewski Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.3 2007/05/10 23:11:06 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -281,8 +281,12 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	@Override
 	public void setElement(Element elm) {		
 		super.setElement(elm);
+		
 		// a pointer back to the EMF model.
-		elm.setUserData("emf.model", this, null); //$NON-NLS-1$
+		
+		if (elm != null) {
+			elm.setUserData("emf.model", this, null); //$NON-NLS-1$
+		}
 	}
 	
 	/**
