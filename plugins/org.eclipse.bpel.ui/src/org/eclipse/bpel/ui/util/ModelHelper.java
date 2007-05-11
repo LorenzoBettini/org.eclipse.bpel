@@ -808,19 +808,19 @@ public class ModelHelper {
 		if (context instanceof Throw) {
 			String oldNS = getFaultNamespace(context);
 			QName newQName = null;
-			if (oldNS != null || faultName != null)  newQName = new QName(oldNS, faultName);
+			newQName = new QName(oldNS, faultName == null || faultName.equals("") ? ((Throw)context).getName() + "DefaultFaultName" : faultName);
 			((Throw)context).setFaultName(newQName); return;
 		}
 		if (context instanceof Catch) {
 			String oldNS = getFaultNamespace(context);
 			QName newQName = null;
-			if (oldNS != null || faultName != null)  newQName = new QName(oldNS, faultName);
+			if (faultName != null)  newQName = new QName(oldNS, faultName);
 			((Catch)context).setFaultName(newQName); return;
 		}
 		if (context instanceof Reply) {
 			String oldNS = getFaultNamespace(context);
 			QName newQName = null;
-			if (oldNS != null || faultName != null)  newQName = new QName(oldNS, faultName);
+			if (faultName != null)  newQName = new QName(oldNS, faultName);
 			((Reply)context).setFaultName(newQName); return;
 		}
 		throw new IllegalArgumentException();
@@ -859,19 +859,19 @@ public class ModelHelper {
 		if (context instanceof Throw) {
 			String oldName = getFaultName(context);
 			QName newQName = null;
-			if (oldName != null || faultNS != null)  newQName = new QName(faultNS, oldName);
+			newQName = new QName(faultNS, oldName == null || oldName.equals("") ? ((Throw)context).getName() + "DefaultFaultName" : oldName);
 			((Throw)context).setFaultName(newQName); return;
 		}
 		if (context instanceof Catch) {
 			String oldName = getFaultName(context);
 			QName newQName = null;
-			if (oldName != null || faultNS != null)  newQName = new QName(faultNS, oldName);
+			if (oldName != null)  newQName = new QName(faultNS, oldName);
 			((Catch)context).setFaultName(newQName); return;
 		}
 		if (context instanceof Reply) {
 			String oldName = getFaultName(context);
 			QName newQName = null;
-			if (oldName != null || faultNS != null)  newQName = new QName(faultNS, oldName);
+			if (oldName != null)  newQName = new QName(faultNS, oldName);
 			((Reply)context).setFaultName(newQName); return;
 		}
 		throw new IllegalArgumentException();

@@ -466,8 +466,13 @@ public class FaultThrowNameSection extends BPELPropertySection {
 			faultNamespaceTracker.stopTracking();
 			try {
 				String s = ModelHelper.getFaultNamespace(getInput());
-				if (s == null)  s = ""; //$NON-NLS-1$
-				if (!s.equals(faultNamespaceText.getText()))  faultNamespaceText.setText(NamespaceUtils.convertUriToNamespace(s));
+				if (s == null) {
+					faultNamespaceText.setText("");//$NON-NLS-1$
+				} else {
+					if (!s.equals(faultNamespaceText.getText())) {
+						faultNamespaceText.setText(NamespaceUtils.convertUriToNamespace(s));
+					}
+				}
 			} finally {
 				faultNamespaceTracker.startTracking();
 			}
