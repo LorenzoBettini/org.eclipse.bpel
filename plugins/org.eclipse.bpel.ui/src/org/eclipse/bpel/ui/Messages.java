@@ -308,6 +308,9 @@ public final class Messages extends NLS {
 	public static String EndNodeAdapter_End_1;
 	public static String EndpointReferenceAssignCategory_Endpoint_Reference;
 	public static String EventHandlerAdapter_Event_Handlers_1;
+	public static String ExitOnStandardFault_1;
+	public static String ExitOnStandardFault_Yes_2;
+	public static String ExitOnStandardFault_No_3;
 	public static String ExpressionAssignCategory_Expression_1;
 	public static String ExpressionSection_Expression_language_1;
 	public static String ExpressionSection_No_Expression_2;
@@ -365,6 +368,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Delete_Property_19;
 	public static String IBPELUIConstants_Delete_Property_Alias_20;
 	public static String IBPELUIConstants_Delete_Role_24;
+	public static String IBPELUIConstants_Exit_On_Standard_Fault_1;
 	public static String IBPELUIConstants_Expression_Body_Change_63;
 	public static String IBPELUIConstants_Expression_Change_63;
 	public static String IBPELUIConstants_Expression_Language_Change_67;

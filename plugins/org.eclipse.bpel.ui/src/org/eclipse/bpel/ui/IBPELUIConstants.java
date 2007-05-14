@@ -291,7 +291,7 @@ public interface IBPELUIConstants {
 	public final String CMD_SELECT_INTERFACE = Messages.IBPELUIConstants_Interface_Change_45; 
 	public final String CMD_SELECT_METHOD = Messages.IBPELUIConstants_Method_Change_46; 
 	public final String CMD_SELECT_VARIABLE_TYPE = Messages.IBPELUIConstants_Variable_Type_Change_1; 
-
+	public final String CMD_SELECT_STANDARD_FAULT = Messages.IBPELUIConstants_Exit_On_Standard_Fault_1;
 	public final String CMD_SELECT_JOINFAILURE = Messages.IBPELUIConstants_Join_Failure_Change_50; 
 	public final String CMD_SELECT_CREATEINSTANCE = Messages.IBPELUIConstants_Create_Instance_Change_51; 
 	public final String CMD_VALIDATE_XML = Messages.IBPELUIConstants_Assign_Validate_XML_52;
@@ -402,6 +402,7 @@ public interface IBPELUIConstants {
 	public final String COLOR_LINK_ONE = "linkOne"; //$NON-NLS-1$
 	public final String COLOR_LINK_TWO = "linkTwo"; //$NON-NLS-1$
 	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$
+	
 	
 	
 	
