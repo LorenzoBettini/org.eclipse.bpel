@@ -319,6 +319,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 				public void run() {
 					showPage(ID_OUTLINE);
 				}
+                
+                public String getToolTipText() {
+                    return Messages.OutlinePage_showOutlineView;
+                }
 			};
 			showOutlineAction.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_OUTLINE_16)); 
 			tbm.add(showOutlineAction);
@@ -326,6 +330,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 				public void run() {
 					showPage(ID_OVERVIEW);
 				}
+                
+                public String getToolTipText() {
+                    return Messages.OutlinePage_showOverviewView;
+                }
 			};
 			showOverviewAction.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_OVERVIEW_16)); 	
 			tbm.add(showOverviewAction);

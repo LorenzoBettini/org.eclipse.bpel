@@ -655,8 +655,10 @@ public final class Messages extends NLS {
 	public static String BPELWSDLComponentSelectionDialog;
 
 	public static String ShowPropertiesViewAction_actionText;
-	
-	
+
+    public static String OutlinePage_showOverviewView;
+    public static String OutlinePage_showOutlineView;
+
 	static {
 		
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
