@@ -17,20 +17,40 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.jface.viewers.CellEditor;
+
+
+/**
+ * @author IBM 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 16, 2007
+ */
 
 
 public class BPELDirectEditPolicy extends DirectEditPolicy {
-
-	protected Command getDirectEditCommand(DirectEditRequest edit) {
-		String labelText = ""; //$NON-NLS-1$
+	
+	@Override
+	protected Command getDirectEditCommand(DirectEditRequest edit) {		
 		Command cmd = null;
-		if (edit.getCellEditor() != null
-			&& ((labelText = (String) edit.getCellEditor().getValue()) != null)) {
-			cmd = getFinalizeCommand(getHost().getModel(), labelText);
+		CellEditor editor = edit.getCellEditor();
+		if (editor == null) {
+			return cmd;
 		}
+		
+		// Only allow return the command if the label is non-empty.
+		
+		String labelText = (String) editor.getValue();
+		if (labelText != null) {
+			labelText = labelText.trim();
+			if (labelText.length() > 0 && labelText.length() < 128 ) {
+				cmd = getFinalizeCommand(getHost().getModel(), labelText);
+			}
+		}
+		
 		return cmd;
 	}
 
+	@Override
 	protected void showCurrentEditValue(DirectEditRequest request) {
 		String value = (String) request.getCellEditor().getValue();
 		if (getHost() instanceof BPELEditPart) {
@@ -44,15 +64,27 @@ public class BPELDirectEditPolicy extends DirectEditPolicy {
 		getHostFigure().getUpdateManager().performUpdate();
 	}
 
+	/**
+	 * 
+	 * @param model
+	 * @param name
+	 * @return the command to finalize the edit
+	 */
 	static public Command getFinalizeCommand(Object model, String name) {
+		
 		Command command = null;
+		
 		// JM - btw, is this a bug? missing supports uiextensionmodel
 		/*if (ModelHelper.supportsUIExtension etc.) {
 			command = new SetDisplayNameCommand((EObject)model, name);
 		} else {*/
 			command = new SetNameCommand((EObject)model, name);
 		//}
-		if (command.canExecute()) return command;
+			
+		if (command.canExecute()) {
+			return command;
+		}
+		
 		return null;
 	}
 }

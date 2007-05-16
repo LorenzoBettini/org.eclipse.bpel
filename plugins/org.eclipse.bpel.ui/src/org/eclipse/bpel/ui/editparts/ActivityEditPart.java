@@ -324,10 +324,5 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 		}
 		return null;
 	}
-
-	protected IInputValidator getLabelValidator() {		
-		return BPELUtil.getNCNameValidator();
-	}
-	
 	
 }
