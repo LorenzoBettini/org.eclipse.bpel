@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.w3c.dom.Element;
 
@@ -103,9 +104,11 @@ public class AdapterFactory implements IAdapterFactory {
 	 */
 	
 	IResource adapt_EObject2IResource (EObject eObj) {
-		
-		return getFileFromURI( eObj.eResource().getURI() );
-		
+		Resource r = eObj.eResource();
+		if (r == null) {
+			return null;
+		}
+		return getFileFromURI ( r.getURI() );		
 	}
 
 	IResource adapt_Element2IResource ( Element elm ) {
