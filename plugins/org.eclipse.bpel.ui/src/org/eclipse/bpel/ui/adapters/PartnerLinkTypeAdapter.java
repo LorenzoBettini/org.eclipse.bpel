@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
+import org.eclipse.bpel.model.adapters.IStatefullAdapter;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.ui.BPELUIPlugin;

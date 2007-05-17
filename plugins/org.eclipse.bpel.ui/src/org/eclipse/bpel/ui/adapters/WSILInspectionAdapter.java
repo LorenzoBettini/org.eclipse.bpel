@@ -5,6 +5,7 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.List;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.wsil.model.inspection.Inspection;

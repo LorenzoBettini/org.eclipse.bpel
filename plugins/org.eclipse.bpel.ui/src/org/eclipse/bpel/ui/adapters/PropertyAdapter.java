@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.ui.BPELUIPlugin;

@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.HashMap;
 
+import org.eclipse.bpel.model.adapters.IStatefullAdapter;
 import org.eclipse.emf.common.notify.Adapter;
 
 /**
@@ -58,6 +59,32 @@ public final class AdapterProvider {
 		}
 		
 		return singleton;
+	}
+	
+	
+	/**
+	 * Get an adapter of the class passed. 
+	 * 
+	 *  
+	 * @param adapterClass
+	 * @param target the target object
+	 * @return the appropriate adapter
+	 */
+	
+	public Adapter getAdapter ( Class<? extends Adapter> adapterClass , Object target ) {
+		
+		Adapter adapter = getAdapter(adapterClass);
+		
+		if (adapter == null) {
+			return null;
+		}
+		
+		if (adapter instanceof IStatefullAdapter) {
+			IStatefullAdapter statefullAdapter = (IStatefullAdapter) adapter;
+			statefullAdapter.setTarget(target);
+		}
+		
+		return adapter;
 	}
 	
 	

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 import org.eclipse.emf.ecore.EObject;
 

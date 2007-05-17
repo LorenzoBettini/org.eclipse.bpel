@@ -1,7 +1,9 @@
 package org.eclipse.bpel.ui.adapters;
 
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.IStatus;
 
 
 /**
@@ -19,11 +21,11 @@ public class AdapterFactory implements IAdapterFactory {
 	/** We adapt to these types ... */	
 	
 	static Class<?> [] adapterList = { 
-			ILabeledElement.class 
+			ILabeledElement.class ,
+			IStatus.class
 	};
 	
 	AdapterProvider provider = new AdapterProvider();
-	
 	
 	/**
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
@@ -43,13 +45,19 @@ public class AdapterFactory implements IAdapterFactory {
 	 */
 	
 	@SuppressWarnings("unchecked")
-	public Object getAdapter (Object adaptableObject, Class adapterType) {
+	public Object getAdapter ( Object adaptableObject, Class adapterType ) {
 		
 		if (adapterType == ILabeledElement.class) {								
 			if (adaptableObject instanceof Throwable) {
-				return provider.getAdapter( JavaThrowableAdapter.class );				
+				return provider.getAdapter( JavaThrowableAdapter.class , adaptableObject );				
 			}			
-		} 
+		} else if (adapterType == IStatus.class) {
+			if (adaptableObject instanceof IMarker) {
+				return provider.getAdapter( MarkerAdapter.class, adaptableObject );
+			}
+		}
+			
+		
 		return null;
 	}
 

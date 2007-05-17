@@ -12,6 +12,8 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.List;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
+
 /**
  * Adapter for an object which may (or may not) support IContainer.
  * This class forwards the IContainer methods to a delegate which subclasses

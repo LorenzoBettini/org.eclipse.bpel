@@ -5,6 +5,8 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.Map;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
+import org.eclipse.bpel.model.adapters.IStatefullAdapter;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;

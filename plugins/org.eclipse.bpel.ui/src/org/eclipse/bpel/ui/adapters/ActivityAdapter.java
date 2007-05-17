@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.actions.editpart.CreateCompensationHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateEventHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateFaultHandlerAction;

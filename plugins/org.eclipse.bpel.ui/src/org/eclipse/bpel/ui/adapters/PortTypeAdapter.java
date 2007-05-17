@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.adapters;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
