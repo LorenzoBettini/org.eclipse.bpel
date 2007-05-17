@@ -28,6 +28,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.common.ui.ImageUtils;
 import org.eclipse.bpel.common.ui.details.viewers.ComboViewer;
+import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
 import org.eclipse.bpel.common.ui.markers.ModelMarkerUtil;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
@@ -46,15 +47,16 @@ import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.Policy;
-import org.eclipse.bpel.ui.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.adapters.BPELUIAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIExtensionAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIMessagePropertiesAdapterFactory;
@@ -67,6 +69,7 @@ import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.bpelactions.AbstractBPELAction;
+import org.eclipse.bpel.ui.dialogs.NamespaceMappingDialog;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
 import org.eclipse.bpel.ui.editparts.InvokeEditPart;
@@ -79,7 +82,6 @@ import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.uiextensionmodel.ActivityExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
 import org.eclipse.bpel.wsil.model.inspection.InspectionPackage;
-import org.eclipse.bpel.wsil.model.inspection.util.InspectionAdapterFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -112,6 +114,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Tool;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Assert;
@@ -137,6 +140,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Widget;
@@ -232,28 +236,24 @@ public class BPELUtil {
 		throw new RuntimeException("Adapter type " + type + " is not understood.");		 //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
-	
 	/**
-	 * This method tries the registered adapter factories one by one, returning
-	 * the first non-null result it gets.  If none of the factories can adapt
-	 * the result, it returns null.
-	 * @param target target object 
-	 * @param type type of the adapter to find
-	 * @return the adapter for the target.
+	 * @param <T>
+	 * @param target
+	 * @param clazz
+	 * @return the adapted interface or object
 	 */
 	
-	public static Object adapt (Object target, Object type) {
-
-		// If the target is already an instance of the type to adapt,
-		// we return it. Presumably, the target might already speak the requested
-		// type. The type argument, is 
-
-		Class<?> clazz = adapterInterface(type);
+	@SuppressWarnings("unchecked")
+	
+	public static <T extends Object> T adapt ( Object target,  Class<T> clazz) {
 		
-		if ( clazz.isInstance( target ) ) {
-			return target;
+		if (target == null) {
+			return null;
 		}
-
+		if (clazz.isInstance(target)) {
+			return (T) target;
+		}
+		
 		if (target instanceof EObject) {
 		    AdapterFactory factory = null;
 		    EClass effectiveClass = getEClassFor(target);
@@ -267,11 +267,30 @@ public class BPELUtil {
 		        factory = BPELUIAdapterFactory.getInstance();
 		    }
 		    
-		    return factory.adapt(target, type);
+		    return (T) factory.adapt(target, clazz);
 		}
 		
 		// otherwise, the object we are adapting is not an EObject, try any other adapters.		
-	    return Platform.getAdapterManager().getAdapter(target, clazz);
+	    return (T) Platform.getAdapterManager().getAdapter(target, clazz);
+	}
+	
+	
+	
+	/**
+	 * This method tries the registered adapter factories one by one, returning
+	 * the first non-null result it gets.  If none of the factories can adapt
+	 * the result, it returns null.
+	 * @param target target object 
+	 * @param type type of the adapter to find
+	 * @return the adapter for the target.
+	 */
+	
+	public static Object adapt (Object target, Object type) {
+
+		if (target == null) {
+			return null;
+		}		 
+		return adapt ( target, adapterInterface(type) );
 	}
 	
 	
@@ -299,13 +318,11 @@ public class BPELUtil {
 			return adapter;
 		}
 		
-		if ((target instanceof EObject) == false) {
-			return adapter;
+		if (target instanceof EObject) {				
+			EObject eObject = (EObject) target;		
+			Notification n = new NotificationImpl(AbstractAdapter.CONTEXT_UPDATE_EVENT_TYPE, null, context);		
+			eObject.eNotify(n);
 		}
-		
-		EObject eObject = (EObject) target;		
-		Notification n = new NotificationImpl(AbstractAdapter.CONTEXT_UPDATE_EVENT_TYPE, null, context);		
-		eObject.eNotify(n);
 		
 		return adapter;
 	}
@@ -903,7 +920,17 @@ public class BPELUtil {
 			gc.dispose();
 			
 			return Math.max(width, defaultSize);			
+		}
+		if (widget instanceof DecoratedLabel) {
+			DecoratedLabel w = (DecoratedLabel)widget;
+			gc = new GC(w);
+			gc.setFont(w.getFont());			
+			width = gc.textExtent(w.getText()).x + 17;			
+			gc.dispose();			
+			return Math.max(width, defaultSize);			
 		}		
+
+		
 		if (widget instanceof Label) {
 			Label w = (Label)widget;
 			gc = new GC(w);
@@ -1677,6 +1704,25 @@ public class BPELUtil {
 		return getFileFromURI(process.eResource().getURI());
 	}
 
+	
+	
+	public static String lookupOrCreateNamespacePrefix ( EObject context, String namespace, Shell shell ) {
+		
+		String nsPrefix = BPELUtils.getNamespacePrefix(context, namespace);
+		if (nsPrefix != null && nsPrefix.length() > 0) {
+			return nsPrefix;
+		}
+		
+		NamespaceMappingDialog dialog = new NamespaceMappingDialog (shell, context);
+		dialog.setNamespace(namespace);
+		if (dialog.open() == Dialog.CANCEL) {
+			return nsPrefix;
+		}
+		
+		nsPrefix = dialog.getPrefix();
+		BPELUtils.setNamespacePrefix(context, namespace, nsPrefix);
+		return nsPrefix;				
+	}
 	
 	
 	static final IMarker EMPTY_MARKERS[] = {}; 
