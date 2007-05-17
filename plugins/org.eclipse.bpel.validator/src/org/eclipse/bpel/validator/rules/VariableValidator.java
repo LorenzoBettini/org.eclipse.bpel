@@ -80,7 +80,9 @@ public class VariableValidator extends CValidator {
 	public void rule_CheckName_1 () {			
 		
 		// Must be a valid NCName ...
-		mChecks.checkNCName(mNode, ncName, AT_NAME );
+		if (mChecks.checkNCName(mNode, ncName, AT_NAME ) == false) {
+			return ;
+		}
 		
 		IProblem problem ;
 		// ... and not contain a .
