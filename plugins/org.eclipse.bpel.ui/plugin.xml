@@ -528,9 +528,10 @@
          name="Runtime Adapters"
          point="org.eclipse.core.runtime.adapters">
       <factory
-            adaptableType="java.lang.Throwable"
+            adaptableType="java.lang.Object"
             class="org.eclipse.bpel.ui.adapters.AdapterFactory">
          <adapter type="org.eclipse.bpel.ui.adapters.ILabeledElement"/>
+         <adapter type="org.eclipse.core.runtime.IStatus"/>
       </factory>
    </extension>
    
