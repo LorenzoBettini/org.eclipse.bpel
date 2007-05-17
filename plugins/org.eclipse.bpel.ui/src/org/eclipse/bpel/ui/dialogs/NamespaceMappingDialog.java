@@ -19,6 +19,7 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -35,25 +36,27 @@ import org.eclipse.swt.widgets.Text;
 
 
 /**
- * Browse for complex/simple types available in the procoess and choose
- * that simple type.
- * 
+ * A simple dialog that helps the user choose the right namespace prefix
+ * for the given namespace.
+ *  
  */
+
+@SuppressWarnings("nls")
 
 public class NamespaceMappingDialog extends StatusDialog {
 				
-	protected static final String NS_PREFIX = "ns" ; //$NON-NLS-1$
+	protected static final String NS_PREFIX = "ns" ; 
 	
 	protected EObject modelObject;
 	
-	private Text fTargetNamespace;
-	private Text fPrefixName;    		
+	protected Text fTargetNamespace;
+	protected Text fPrefixName;    		
 		
-	private Map fNamespaceMappings;
+	protected Map<Object,Object> fNamespaceMappings;
 
 	private String fTargetNamespaceValue = ""; //$NON-NLS-1$
 
-	private String fPrefixValue = ""; //$NON-NLS-1$
+	protected String fPrefixValue = ""; //$NON-NLS-1$
 	
 	
 	
@@ -67,7 +70,10 @@ public class NamespaceMappingDialog extends StatusDialog {
 	/**
 	 * The modelObject is the model element that indicates the scope in which the
 	 * variable should be visible.
+	 * @param parent the parent shell
+	 * @param eObject the model object 
 	 */
+	
 	public NamespaceMappingDialog (Shell parent, EObject eObject) {
 		this(parent);
 		setStatusLineAboveButtons(true);	
@@ -75,6 +81,11 @@ public class NamespaceMappingDialog extends StatusDialog {
 		setTitle(Messages.NamespaceMappingDialog_3);
 		computeNamespacePrefix();
 	}
+	
+	/**
+	 * Set the target namespace for which we want to establish the prefix for.
+	 * @param namespace
+	 */
 	
 	public void setNamespace ( String namespace ) {
 		
@@ -84,6 +95,11 @@ public class NamespaceMappingDialog extends StatusDialog {
 			fTargetNamespace.setText( namespace );
 		}				
 	}
+	
+	
+	/**
+	 * Compute the next available namespace prefix. 
+	 */
 	
 	public void computeNamespacePrefix ( ) {
 		
@@ -104,6 +120,11 @@ public class NamespaceMappingDialog extends StatusDialog {
 	
 	
 	
+	/**
+	 * Set the prefix name.
+	 * @param value
+	 */
+	
 	public void setPrefix ( String value ) {
 		fPrefixValue = value;
 		
@@ -114,16 +135,23 @@ public class NamespaceMappingDialog extends StatusDialog {
 
 	
 	
+	/**
+	 * Get the prefix value
+	 * 
+	 * @return the prefix value
+	 */
+	
 	public String getPrefix () {
 		return fPrefixValue;
 	}
 	
 	
-	/*
+	/**
      * @see Dialog#createDialogArea(Composite)
      */
 	
-    public Control createDialogArea(Composite parent) {
+    @Override
+	public Control createDialogArea(Composite parent) {
     	    	    	
         Composite contents = (Composite) super.createDialogArea(parent);               
         createNamespaceArea (contents);
@@ -229,9 +257,14 @@ public class NamespaceMappingDialog extends StatusDialog {
         data.verticalAlignment = GridData.FILL;        
         fPrefixName.setLayoutData(data);
                         
-        // End of target namesspace variant.                       
+        // End of target namespace variant.                       
 	}
 
+	
+	@Override
+	protected void updateStatus (IStatus status) {
+		super.updateStatus(status);
+	}
 	
 	
 }
