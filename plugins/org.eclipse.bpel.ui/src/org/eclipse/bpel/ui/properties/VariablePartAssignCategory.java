@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
@@ -21,34 +22,29 @@ import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
-import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTreeContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.wst.wsdl.Part;
 import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFeature;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDTypeDefinition;
-
-import org.eclipse.wst.wsdl.Part;
 
 /**
  * An AssignCategory presenting a tree from which the user can select any of:
@@ -56,24 +52,36 @@ import org.eclipse.wst.wsdl.Part;
  *  - a Part within a Variable
  *  - some XSD element within a Part within a Variable.
  */
+
+
 public class VariablePartAssignCategory extends AssignCategoryBase {
 
 	Label nameLabel;
 	Text nameText;
 	Tree variableTree;
-	TreeViewer variableViewer;
-	Button wizardButton = null;
+	TreeViewer variableViewer;	
 
 	VariableTreeContentProvider variableContentProvider;
+	Shell shell;
 
-	protected VariablePartAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
-		super(isFrom, ownerSection);
+	protected VariablePartAssignCategory(boolean aIsFrom, BPELPropertySection anOwnerSection) {
+		super(aIsFrom, anOwnerSection);
 	}
 
-	public String getName() { return Messages.VariablePartAssignCategory_Variable_or_Part_1; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() {
+		return Messages.VariablePartAssignCategory_Variable_or_Part_1; 
+	} 
 
-	protected boolean isPropertyTree() { return false; }
 	
+	protected boolean isPropertyTree() {
+		return false; 
+	}
+	
+	
+	@SuppressWarnings("nls")
 	protected void updateQueryFieldFromTreeSelection() {
 		
 		if (displayQuery() == false || 
@@ -82,44 +90,41 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		{
 			return ;
 		}
-		
-		IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
+				
+		IStructuredSelection sel = (IStructuredSelection) variableViewer.getSelection();
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
+				
+		StringBuilder builder = new StringBuilder();
+		ArrayList<String> querySegments = new ArrayList<String>();
 		
-		String query = ""; //$NON-NLS-1$
-		
-		Variable variable = null;
-		
-		for (int i=path.length-1; i >=0 ; i--) {
+		for(Object next : path ) {
 			
-			Object modelObject = BPELUtil.resolveXSDObject(((ITreeNode)path[i]).getModelObject());
-			
-			String targetNamespace = null;
-			String namespacePrefix = null;			
-			String segment = null;
+			Object eObj = BPELUtil.resolveXSDObject( BPELUtil.adapt(next,ITreeNode.class).getModelObject() );
+			builder.setLength(0);
 						
-			// Note that the first model object in the path must be 
-			// the variable. We need this model object to reference
-			// the namespace mappings, that is to be able to construct
-			// the query correctly.
-			
-			if (modelObject instanceof Variable) {
-				variable = (Variable) modelObject;				
-			} else if (modelObject instanceof XSDAttributeDeclaration) {
+			String targetNamespace = null;
+			String namespacePrefix = null;						
+						
+			if (eObj instanceof XSDAttributeDeclaration) {
 				
-				XSDAttributeDeclaration att = (XSDAttributeDeclaration) modelObject;
+				XSDAttributeDeclaration att = (XSDAttributeDeclaration) eObj;
 				targetNamespace = att.getTargetNamespace();
+				builder.append("/@");
+				
 				if (targetNamespace != null) {
-					namespacePrefix = BPELUtils.getNamespacePrefix( variable, targetNamespace );
-					Assert.isNotNull(namespacePrefix, "Namespace prefix cannot be null here"); //$NON-NLS-1$
-					segment = "/@" + namespacePrefix + ":" + att.getName(); //$NON-NLS-1$ //$NON-NLS-2$
-				} else {				 
-					segment = "/@" + att.getName() ; //$NON-NLS-1$
+					
+					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( modelObject , targetNamespace , shell);
+					if (namespacePrefix == null) {						
+						break ;
+					}
+					
+					builder.append(namespacePrefix).append(":");				
 				}
+				builder.append(att.getName());
 				
-			} else if (modelObject instanceof XSDElementDeclaration) {
+			} else if (eObj instanceof XSDElementDeclaration) {
 				
-				XSDElementDeclaration elm = (XSDElementDeclaration) modelObject;
+				XSDElementDeclaration elm = (XSDElementDeclaration) eObj;
 				targetNamespace = elm.getTargetNamespace();
 				
 				XSDTypeDefinition typeDef = elm.getType();				
@@ -128,63 +133,75 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				boolean isArray = particle != null && 
 									(particle.getMaxOccurs() == XSDParticle.UNBOUNDED || particle.getMaxOccurs() > 1);
 				
+				builder.append("/");
 				if (targetNamespace != null) {
-					namespacePrefix = BPELUtils.getNamespacePrefix( variable, targetNamespace );
-					Assert.isNotNull(namespacePrefix, "Namespace prefix cannot be null here"); //$NON-NLS-1$
-					segment = "/" + namespacePrefix + ":" + elm.getName(); //$NON-NLS-1$ //$NON-NLS-2$
-				} else {				 
-					segment = "/" + elm.getName() ; //$NON-NLS-1$
+					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( modelObject , targetNamespace , shell);
+					if (namespacePrefix == null) {
+						break;
+					}
+					builder.append(namespacePrefix).append(":");
 				}
 				
+				builder.append(elm.getName()) ;
 				if (isArray) {
-					segment += "[1]"; //$NON-NLS-1$
-				}
-				
+					builder.append("[1]");					
+				}				
 			}
 			
-			if (segment != null) {
-				query += segment;
+			// If the current builder has length > 0, then there is a query segment for us to put in.
+			if (builder.length() > 0) {
+				querySegments.add( builder.toString() );
 			}								
-		}					
-		nameText.setText(query);
-		nameText.setEnabled(true);
-		nameLabel.setEnabled(true);
+		}
 		
+		Collections.reverse(querySegments);
+		builder.setLength(0);
+		for(String s : querySegments ) {
+			builder.append(s);
+		}
+		
+		nameText.setText( builder.toString() );
+		nameText.setEnabled(true);
+		nameLabel.setEnabled(true);		
 	}
+	
+	
+	
 	
 	
 	protected ITreeNode getSelectedPart() {
 		ITreeNode node = null;
-		Copy modelCopy = (Copy) getInput();
-		To toOrFrom;
-		if (isFrom)
-			toOrFrom = modelCopy.getFrom();
-		else
-			toOrFrom = modelCopy.getTo();
+		Copy copyRule = (Copy) getInput();
+		To toOrFrom = isFrom ? copyRule.getFrom()  : copyRule.getTo(); 
 
 		// First, find the variable node.
-		Object modelObject = toOrFrom.getVariable();
-		if (modelObject != null) {
+		Object context = toOrFrom.getVariable();
+		if (context != null) {
 			Object[] items = variableContentProvider.getElements(variableViewer.getInput());
-			node = variableContentProvider.findModelNode(items, modelObject, 0);
-			if (node == null)
+			node = variableContentProvider.findModelNode(items, context, 0);
+			if (node == null) {
 				return null;
+			}
 		}
 
 		// Find the part (or property) node within the container node.
-		modelObject = toOrFrom.getPart();
-		if (node != null && modelObject != null) {
+		context = toOrFrom.getPart();
+		if (node != null && context != null) {
 			Object[] items = variableContentProvider.getChildren(node);
-			node =	variableContentProvider.findModelNode(items, modelObject, variableContentProvider.isCondensed() ? 0 : 1);
+			node =	variableContentProvider.findModelNode(items, context, variableContentProvider.isCondensed() ? 0 : 1);
 		}
 		
 		return node;
 	}
 
+	
+	
+	@Override
 	protected void createClient2(Composite parent) {
+		
 		FlatFormData data; 
 		
-		variableTree = wf.createTree(parent, SWT.NONE/*SWT.BORDER*/);
+		variableTree = wf.createTree(parent, SWT.NONE /*SWT.BORDER*/);
 
 		if (displayQuery()) {
 			// area for query string and wizard button
@@ -206,94 +223,17 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			data.right = new FlatFormAttachment(nameText, -IDetailsAreaConstants.HSPACE);
 			data.top = new FlatFormAttachment(nameText, 0, SWT.CENTER);
 			nameLabel.setLayoutData(data);
-
-//TODO: This won't work....so disabled for now
-//			if (false)	{
-//			wizardButton = wf.createButton(parent, "Build Query...", SWT.PUSH);
-//			data = new FlatFormData();
-//			data.left = new FlatFormAttachment(100, - STANDARD_BUTTON_WIDTH * 2 -IDetailsAreaConstants.HSPACE);
-//			data.right = new FlatFormAttachment(100, 0);
-//			data.top = new FlatFormAttachment(nameText, 0, SWT.TOP);
-//			data.bottom = new FlatFormAttachment(nameText, 0, SWT.BOTTOM);
-//			wizardButton.setLayoutData(data);
-//			
-//			final Shell shell = parent.getShell();
-//			wizardButton.addSelectionListener(new SelectionListener() {
-//				public void widgetSelected(SelectionEvent e) {
-//					ITreeNode node = getSelectedPart();
-//					if (node == null)
-//						return;
-//						
-//					PartTreeNode tn = (PartTreeNode) node;
-//					XSDTypeDefinitionTreeNode xtn = tn.getXSDTypeDefinitionTreeNode();
-//					if (xtn == null)
-//						return;
-//						
-//					XSDTypeDefinition td = (XSDTypeDefinition) xtn.getModelObject();
-//					XSDParticle pc = null;
-//					URI uri = null;
-//					if (td instanceof XSDComplexTypeDefinition) {
-//						pc = (XSDParticle) ((XSDComplexTypeDefinition)td).getContent();
-//						Resource r = td.eResource();
-//						uri = r.getURI();
-//					}
-//					else
-//						return;
-//						
-//					if (uri == null)
-//						return;
-//						
-//					Document xmlDocument = null;
-//					try {
-//						//TODO: we have to provide an xml file with the schema element for the type we are interested in.
-//						// unfortunately, this CMDocument api isn't flexible enough to allow us to construct a CMDocument
-//						// from the XSDType that we have on hand. Need alternate solutions!!!!!!!!
-//					
-//						CMDocument cmDocument =	CMDocumentBuilderRegistry.getInstance().buildCMDocument(uri.devicePath());
-//						CMNamedNodeMap elements = cmDocument.getElements();
-//						
-//						Iterator iter = elements.iterator();
-//						CMElementDeclaration cmElementDeclaration = null;
-//						while (iter.hasNext()) {
-//							CMElementDeclaration temp = (CMElementDeclaration) iter.next();
-//							if (true) {
-//								cmElementDeclaration = temp;
-//							}
-//						}
-//						xmlDocument = new org.apache.xerces.dom.DocumentImpl();
-//						DOMContentBuilderImpl contentBuilder = new DOMContentBuilderImpl(xmlDocument);
-//						contentBuilder.createDefaultRootContent(cmDocument, cmElementDeclaration, Collections.EMPTY_LIST);
-//					} catch (Exception e) {
-//						BPELUIPlugin.log(e);
-//					}
-//					
-//					if (xmlDocument == null)
-//						return;
-//
-//					XPathWizard wizard = new XPathWizard();
-//					BPELEditor bpelEditor = ModelHelper.getBPELEditor(getInput());
-//					wizard.init(bpelEditor.getSite().getWorkbenchWindow().getWorkbench(), (IStructuredSelection) StructuredSelection.EMPTY);
-//					WizardDialog dialog = new WizardDialog(shell, wizard);
-//					dialog.create();
-//					dialog.open();
-//					if (dialog.getReturnCode() == Dialog.OK)
-//						nameText.setText(wizard.getXPathQuery());
-//				}
-//				public void widgetDefaultSelected(SelectionEvent e) {
-//					widgetSelected(e);
-//				}
-//			});
-//			} // end false
 		} 
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0); 
 		data.top = new FlatFormAttachment(0, 0); 
 		data.right = new FlatFormAttachment(100, 0); 
-		if (displayQuery())
+		if (displayQuery()) {
 			data.bottom = new FlatFormAttachment(nameText, -IDetailsAreaConstants.VSPACE, SWT.TOP);
-		else
+		} else {
 			data.bottom = new FlatFormAttachment(100, 0);
+		}
 			
 //		data.borderType = IBorderConstants.BORDER_2P2_BLACK;
 		variableTree.setLayoutData(data);
@@ -304,7 +244,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		variableViewer.setLabelProvider(new ModelTreeLabelProvider());
 		// TODO: does this sorter work at the top level?  does it affect nested levels too?
 		//variableViewer.setSorter(ModelViewerSorter.getInstance());
-		variableViewer.setInput(((AssignImplSection)ownerSection).getModel());
+		variableViewer.setInput(ownerSection.getModel());
 		
 		variableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -315,6 +255,10 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		getChangeHelper().startListeningTo(variableTree);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.bpel.model.To)
+	 */
+	
 	public boolean isCategoryForModel(To toOrFrom) {
 		if (toOrFrom == null)  return false;
 		if (toOrFrom.getVariable() != null &&
@@ -322,6 +266,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		return false;
 	}
 	
+	
+	@Override
 	protected void loadToOrFrom(To toOrFrom) {
 		if (toOrFrom == null)  return;
 
@@ -341,34 +287,37 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		// toOrFrom, we could add some sort of placeholder/proxy objects to pathToNode,
 		// and then take that into account somehow in the tree, e.g. by recreating it with
 		// the necessary proxies??
-		Vector pathToNode = new Vector();
+		
+		ArrayList<ITreeNode> pathToNode = new ArrayList<ITreeNode>();
 		ITreeNode node = null;
 
 		// First, find the variable node.
-		Object modelObject = toOrFrom.getVariable();
-		if (modelObject != null) {
+		Object context = toOrFrom.getVariable();
+		if (context != null) {
 			Object[] items = variableContentProvider.getElements(variableViewer.getInput());
 			//TODO: if (items.length > 0)  firstTreeNode = items[0];  // for later
-			node = variableContentProvider.findModelNode(items, modelObject, 0);
-			if (node != null)  pathToNode.add(node);
+			node = variableContentProvider.findModelNode(items, context, 0);
+			if (node != null)  {
+				pathToNode.add(node);
+			}
 		}
 		// Find the part (or property) node within the container node.
+		
 		if (isPropertyTree())  {
-			modelObject = toOrFrom.getProperty();
+			context = toOrFrom.getProperty();
 		} else {
-			modelObject = toOrFrom.getPart();
+			context = toOrFrom.getPart();
 		}
 		
-		if (node != null && modelObject != null) {
+		if (node != null && context != null) {
 			Object[] items = variableContentProvider.getChildren(node);
-			node = variableContentProvider.findModelNode(items, modelObject,
-				variableContentProvider.isCondensed()? 0 : 1);
+			node = variableContentProvider.findModelNode(items, context, variableContentProvider.isCondensed()? 0 : 1);
 			if (node != null) {
 				pathToNode.add(node);
 			}
 		}
-		if (modelObject == null) {
-			modelObject = toOrFrom.getVariable();
+		if (context == null) {
+			context = toOrFrom.getVariable();
 		}
 		
 		String query = ""; //$NON-NLS-1$
@@ -376,7 +325,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			nameText.setEnabled(true);
 			nameLabel.setEnabled(true);
 			
-			if (node != null && modelObject != null) {
+			if (node != null && context != null) {
 				Query queryObject = toOrFrom.getQuery();
 				query = null;
 				if (queryObject != null) {
@@ -386,7 +335,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				if (query != null && !query.equals("")) { //$NON-NLS-1$
 					Object[] items = variableContentProvider.getChildren(node);
 	
-					// decompose the xpath query string and try to match it up in the tree				
+					// decompose the XPath query string and try to match it up in the tree				
 					int index = 0;
 					String token;
 					boolean continueLoop = true;
@@ -409,7 +358,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 								if (match instanceof XSDElementDeclaration || match instanceof XSDAttributeDeclaration) {
 									if (token.equals(((XSDNamedComponent)match).getName())) {
 										// NOTE: use originalMatch here, because the TreeNode contains
-										// the original model object (which is not neccesarily the same as
+										// the original model object (which is not always the same as
 										// the resolved object).
 										node = variableContentProvider.findModelNode(items, originalMatch, 0);
 										if (node != null)  {
@@ -427,15 +376,16 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			}
 		}
 		
-		if (pathToNode.size() > 0) {  
-			node = (ITreeNode)pathToNode.get(pathToNode.size()-1);
+		if (pathToNode.size() > 0) {			
+			node = pathToNode.get(pathToNode.size()-1);
 		}
 		
 		if (node != null)  {
 			getChangeHelper().startNonUserChange();
 			try {
-				if (displayQuery()) 
+				if (displayQuery()) {
 					nameText.setText(query == null? "" : query); //$NON-NLS-1$
+				}
 				variableViewer.expandToLevel(node, 0);
 				variableViewer.setSelection(new StructuredSelection(node), true);
 			} finally {	
@@ -444,24 +394,33 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		}			
 	}
 
+	
+	
+	@Override
 	protected void storeToOrFrom(To toOrFrom) {
 		IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
+		
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
 		String query = displayQuery() ? nameText.getText() : ""; //$NON-NLS-1$
-		for (int i = 0; i<path.length; i++) {
-			Object modelObject = ((ITreeNode)path[i]).getModelObject();
-			if (modelObject instanceof Variable) {
-				toOrFrom.setVariable((Variable)modelObject);
+		
+		for(Object n : path ) {
+			ITreeNode treeNode = BPELUtil.adapt(n, ITreeNode.class);			
+			
+			Object model = treeNode.getModelObject();
+			if (model instanceof Variable) {
+				toOrFrom.setVariable((Variable)model);
 			}
-			if (modelObject instanceof Part) {
-				toOrFrom.setPart((Part)modelObject);
+			if (model instanceof Part) {
+				toOrFrom.setPart((Part)model);
 			}
-			if (modelObject instanceof Property) {
-				toOrFrom.setProperty((Property)modelObject);
+			if (model instanceof Property) {
+				toOrFrom.setProperty((Property)model);
 			}
 		}
-		if (query != null && query.trim().length() == 0)
+		
+		if (query != null && query.trim().length() == 0) {
 			query = null;
+		}
 		
 		if (displayQuery() && query != null) {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
@@ -473,13 +432,23 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		}
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 		variableTree.setFocus();
 	}
+	
 	
 	private boolean displayQuery() {
 		return !isPropertyTree();

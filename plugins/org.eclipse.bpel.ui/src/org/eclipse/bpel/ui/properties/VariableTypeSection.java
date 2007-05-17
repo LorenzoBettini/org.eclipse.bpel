@@ -17,9 +17,12 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.commands.SetVariableKindCommand;
 import org.eclipse.bpel.ui.commands.SetVariableTypeCommand;
 import org.eclipse.bpel.ui.uiextensionmodel.VariableExtension;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -62,18 +65,24 @@ public class VariableTypeSection extends BPELPropertySection {
 	protected boolean isElementAffected(Notification n) {
 		return (n.getFeatureID(Variable.class) == BPELPackage.VARIABLE__ELEMENT);
 	}
-	
+
+
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new BatchedMultiObjectAdapter() {
 				boolean update = false;
+				
+				@Override
 				public void notify(Notification n) {
 					if (isMessageTypeAffected(n)) update = true;
 					if (isTypeAffected(n)) update = true;
 					if (isElementAffected(n)) update = true;
 					if (n.getNotifier() instanceof VariableExtension) update = true;
 				}
+				
+				@Override
 				public void finish() {
 					if (update) {
 						updateVariableTypeSelector();
@@ -84,13 +93,27 @@ public class VariableTypeSection extends BPELPropertySection {
 		};
 	}
 
+	
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		VariableExtension varExt = (VariableExtension)ModelHelper.getExtension(getInput());
 		if (varExt != null) adapters[0].addToObject(varExt);
 	}
 	
+	
+	/**
+	 * @author IBM
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date May 15, 2007
+	 */
+	
 	public class VariableTypeCallback implements VariableTypeSelector.Callback {
+		
+		/**
+		 * @see org.eclipse.bpel.ui.properties.VariableTypeSelector.Callback#selectRadioButton(int)
+		 */
+		
 		public void selectRadioButton(int index) {
 			Variable var = (Variable)getInput();
 			VariableExtension varExt = (VariableExtension)ModelHelper.getExtension(var);
@@ -103,16 +126,30 @@ public class VariableTypeSection extends BPELPropertySection {
 			}
 			if (!command.isEmpty()) getCommandFramework().execute(wrapInShowContextCommand(command));
 		}
+		
+		/**
+		 * @see org.eclipse.bpel.ui.properties.VariableTypeSelector.Callback#selectXSDType(org.eclipse.xsd.XSDTypeDefinition)
+		 */
 		public void selectXSDType(XSDTypeDefinition xsdType) {
 			Variable variable = (Variable)getInput();
 	    	Command cmd = new SetVariableTypeCommand(variable, xsdType);
 			getCommandFramework().execute(wrapInShowContextCommand(cmd));
 		}
+		
+		/** (non-Javadoc)
+		 * @see org.eclipse.bpel.ui.properties.VariableTypeSelector.Callback#selectXSDElement(org.eclipse.xsd.XSDElementDeclaration)
+		 */
+		
 		public void selectXSDElement(XSDElementDeclaration xsdElement) {
 			Variable variable = (Variable)getInput();
 	    	Command cmd = new SetVariableTypeCommand(variable, xsdElement);
 			getCommandFramework().execute(wrapInShowContextCommand(cmd));
 		}
+		
+		/**
+		 * @see org.eclipse.bpel.ui.properties.VariableTypeSelector.Callback#selectMessageType(org.eclipse.wst.wsdl.Message)
+		 */
+		
 		public void selectMessageType(Message message) {
 			Variable variable = (Variable)getInput();
 			Command cmd = new SetVariableTypeCommand(variable, message);
@@ -120,6 +157,8 @@ public class VariableTypeSection extends BPELPropertySection {
 		}
 	}
 	
+	
+	@Override
 	protected void createClient(Composite parent) {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 		
@@ -133,22 +172,73 @@ public class VariableTypeSection extends BPELPropertySection {
 		variableTypeSelector.setLayoutData(data);
 	}
 	
+	/**
+	 * 
+	 */
 	public void updateVariableTypeSelector() {
 		variableTypeSelector.setVariable((Variable)getInput());
-		//variableTypeSelector.refresh();
+		updateMarkers();
 	}
 	
 	
+	@Override
 	protected void basicSetInput(EObject newInput) {
 		super.basicSetInput(newInput);
 		updateVariableTypeSelector();
 	}
 
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return variableTypeSelector.getUserContext();
 	}
+	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	
+	@Override
 	public void restoreUserContext(Object userContext) {
 		variableTypeSelector.restoreUserContext(userContext);
 	}
+	
+		
+	/**
+	 * 
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#isValidMarker(org.eclipse.core.resources.IMarker)
+	 */
+	
+	@SuppressWarnings("nls")
+	@Override
+	public boolean isValidMarker (IMarker marker) {
+
+		boolean isValid = super.isValidMarker(marker);
+		
+		if (!isValid) {
+			return false;
+		}
+		
+		String context = null;
+		try {
+			context = (String) marker.getAttribute("href.context");
+		} catch (Exception ex) {
+			return false;
+		}
+		
+		return "name".equals (context) == false; 
+	}	
+	
+	
+
+	protected void updateMarkers () {				
+		variableTypeSelector.dataTypeLabel.clear();		
+		for(IMarker m : getMarkers(getInput())) {
+			variableTypeSelector.dataTypeLabel.addStatus((IStatus) BPELUtil.adapt(m, IStatus.class));
+		}		
+	}
+	
 }

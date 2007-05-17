@@ -15,6 +15,8 @@ import java.util.Iterator;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
+import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
+import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
@@ -97,7 +99,7 @@ public class VariableTypeSelector extends Composite {
 
 	protected int kindHint = KIND_UNKNOWN;
 	
-	public static final int STANDARD_LABEL_WIDTH_SM = 85;
+	public static final int STANDARD_LABEL_WIDTH_SM = 125;
 	public static final int STANDARD_LABEL_WIDTH_AVG = STANDARD_LABEL_WIDTH_SM * 5/4;
 	
 	// private static final StructuredViewer dataTypeViewer = null;
@@ -126,7 +128,7 @@ public class VariableTypeSelector extends Composite {
 	protected Hyperlink dataTypeNameText;
 	protected Tree dataTypeTree;
 	protected TreeViewer dataTypeTreeViewer;
-	protected Label dataTypeLabel;
+	protected StatusLabel2 dataTypeLabel;
 
 	protected BPELEditor bpelEditor;
 	protected Callback callback;
@@ -303,6 +305,10 @@ public class VariableTypeSelector extends Composite {
 		dataTypeComposite.layout(true);
 	}
 
+	/**
+	 * 
+	 */
+	
 	public void refresh() {
 		// updateInterfaceWidgets();
 		updateDataTypeWidgets();
@@ -311,8 +317,12 @@ public class VariableTypeSelector extends Composite {
 
 	/**
 	 * Returns either a WSDL message, an XSD type, an XSD element, or null.
+	 * @return the variable type
 	 */
-	public EObject getVariableType() { return variableType; }
+	
+	public EObject getVariableType() { 
+		return variableType; 
+	}
 	
 	protected Composite createFlatFormComposite(Composite parent) {
 		Composite result = createComposite(parent);
@@ -351,13 +361,23 @@ public class VariableTypeSelector extends Composite {
 	
 	class RadioListener implements SelectionListener {
 		int index;
-		public RadioListener(int index) { this.index = index; }
+
+		/** Radio listener for indexed button index.
+		 * @param index
+		 */
+		public RadioListener(int index) {
+			this.index = index;
+		}
+
 		public void widgetSelected(SelectionEvent e) {
-			if (!((Button)e.widget).getSelection()) return;
+			if (!((Button) e.widget).getSelection())
+				return;
 			lastChangeContext = index;
 			callback.selectRadioButton(index);
 		}
-		public void widgetDefaultSelected(SelectionEvent e) { }
+
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
 	}
 	
 	protected void createRadioButtonWidgets(Composite composite) {
@@ -583,8 +603,11 @@ public class VariableTypeSelector extends Composite {
 		dataTypeComposite.setLayoutData(data);
 		
 		
-		dataTypeBrowseButton = createButton(composite, Messages.VariableTypeSelector_Browse_2, SWT.PUSH); 
-		dataTypeLabel = createLabel(composite, Messages.VariableTypeSelector_Data_Type_2); 
+		dataTypeBrowseButton = createButton(composite, Messages.VariableTypeSelector_Browse_2, SWT.PUSH);
+		DecoratedLabel label = new DecoratedLabel(composite,SWT.LEFT);
+		label.setText(Messages.VariableTypeSelector_Data_Type_2);
+		wf.adapt(label);
+		dataTypeLabel = new StatusLabel2( label );		 
 		
 		dataTypeNameText = createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
 		dataTypeNameText.setToolTipText(Messages.VariableTypeSelector_3);
@@ -608,7 +631,8 @@ public class VariableTypeSelector extends Composite {
 				
 		// layout data type label
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel, STANDARD_LABEL_WIDTH_SM));
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel.getControl(), 
+				  STANDARD_LABEL_WIDTH_SM));
 		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
 		data.right = new FlatFormAttachment(60,0);
 		dataTypeNameText.setLayoutData(data);
@@ -616,15 +640,16 @@ public class VariableTypeSelector extends Composite {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0,IDetailsAreaConstants.HSPACE);
 		data.right = new FlatFormAttachment(dataTypeNameText, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(dataTypeNameText, IDetailsAreaConstants.VSPACE, SWT.TOP);
+		// data.top = new FlatFormAttachment(dataTypeNameText, IDetailsAreaConstants.VSPACE, SWT.TOP);
+		data.bottom = new FlatFormAttachment(dataTypeNameText,0,SWT.BOTTOM);
 		dataTypeLabel.setLayoutData(data);
 				
 		data = new FlatFormData();
 		data.top = new FlatFormAttachment(dataTypeNameText, -2, SWT.TOP);
-		data.bottom = new FlatFormAttachment(dataTypeLabel, +2, SWT.BOTTOM);
-		data.right = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
-		
+		data.bottom = new FlatFormAttachment(dataTypeLabel.getLabel(), +2, SWT.BOTTOM);
+		data.right = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);		
 		dataTypeBrowseButton.setLayoutData(data);
+		
 		dataTypeBrowseButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				
@@ -646,11 +671,11 @@ public class VariableTypeSelector extends Composite {
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);		
-		data.top = new FlatFormAttachment(dataTypeLabel, 3*IDetailsAreaConstants.VSPACE, SWT.BOTTOM);
+		data.top = new FlatFormAttachment(dataTypeLabel.getLabel(), 3*IDetailsAreaConstants.VSPACE, SWT.BOTTOM);
 		dataTypeTreeLabel.setLayoutData(data);
 
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel, STANDARD_LABEL_WIDTH_SM));
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel.getLabel(), STANDARD_LABEL_WIDTH_SM));
 		data.top = new FlatFormAttachment(dataTypeTreeLabel,0, SWT.TOP);
 		data.right = new FlatFormAttachment(100,  -IDetailsAreaConstants.HSPACE) ;		
 		data.bottom = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);	

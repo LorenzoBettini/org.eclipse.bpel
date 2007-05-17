@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,6 +70,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 public abstract class BPELPropertySection extends AbstractPropertySection 	
 {
 	protected static final String EMPTY_STRING = ""; //$NON-NLS-1$
+	
+	protected static final IMarker EMPTY_MARKERS[] = new IMarker[] {};
 	
 	protected static final MultiObjectAdapter[] EMPTY_MULTI_OBJECT_ARRAY = new MultiObjectAdapter[0];
 	protected static final List NULL_LIST = Collections.singletonList(null);
@@ -289,12 +293,22 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * Gets all IMarker according to the passed input model.
 	 * @see IMarkerHolder.getMarkers 
 	 */
-	protected IMarker[] getMarker(Object input) {
+	
+	protected IMarker[] getMarkers (Object input) {
+		
 		IMarkerHolder markerHolder = (IMarkerHolder) BPELUtil.adapt(input, IMarkerHolder.class);
 		if (markerHolder != null) {
-			return markerHolder.getMarkers(input);
+			ArrayList<IMarker> filteredMarkers = new ArrayList<IMarker>(4);			
+			for(IMarker m : markerHolder.getMarkers(input)) {
+				if (isValidMarker(m)) {
+					filteredMarkers.add(m);
+				}
+			}
+			if (filteredMarkers.size() > 0) {
+				return filteredMarkers.toArray(EMPTY_MARKERS);
+			}
 		}
-		return new IMarker[0];
+		return EMPTY_MARKERS;
 	}
 
 	protected ICommandFramework getCommandFramework() {

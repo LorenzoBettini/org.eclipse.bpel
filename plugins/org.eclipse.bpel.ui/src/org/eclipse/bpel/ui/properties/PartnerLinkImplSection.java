@@ -12,9 +12,10 @@ package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
+import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
+import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
@@ -24,62 +25,38 @@ import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
-import org.eclipse.bpel.ui.commands.AddPartnerLinkCommand;
 import org.eclipse.bpel.ui.commands.SetPartnerLinkTypeCommand;
 import org.eclipse.bpel.ui.commands.SetRoleCommand;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
-import org.eclipse.bpel.ui.details.providers.AddNullFilter;
 import org.eclipse.bpel.ui.details.providers.AddSelectedObjectFilter;
-import org.eclipse.bpel.ui.details.providers.ModelLabelProvider;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
-import org.eclipse.bpel.ui.details.providers.ModelViewerSorter;
 import org.eclipse.bpel.ui.details.providers.OperationsTreeContentProvider;
-import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeContentProvider;
-import org.eclipse.bpel.ui.details.providers.PartnerLinkTypeTreeContentProvider;
-import org.eclipse.bpel.ui.details.providers.PortTypeContentProvider;
-import org.eclipse.bpel.ui.proposal.providers.CommandProposal;
-import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
-import org.eclipse.bpel.ui.proposal.providers.RunnableProposal;
-import org.eclipse.bpel.ui.proposal.providers.Separator;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.BrowseUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.fieldassist.ContentProposalAdapter;
-import org.eclipse.jface.fieldassist.TextContentAdapter;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.fieldassist.ContentAssistCommandAdapter;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.AbstractHyperlink;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
@@ -88,6 +65,9 @@ import org.eclipse.wst.wsdl.PortType;
  * VariableTypeSection provides viewing and editing of the type of a BPEL variable
  * (whether that be an XSD type, WSDL message, or built-in simple type).
  */
+
+@SuppressWarnings("boxing")
+
 public class PartnerLinkImplSection extends BPELPropertySection {
 
 	protected static final int INTERFACE_COMBO_CONTEXT = 1;
@@ -110,7 +90,13 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	private static final Role[] NO_ROLES = {};		
 	
 	
-	public boolean shouldUseExtraSpace() { return true; }
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#shouldUseExtraSpace()
+	 */
+	@Override
+	public boolean shouldUseExtraSpace() { 
+		return true; 
+	}
 	
 	protected boolean inUpdate = false;
 	
@@ -127,11 +113,9 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	protected AddSelectedObjectFilter referenceAddSelectedObjectFilter;
 
 	protected int lastChangeContext = -1;
-	private CComboViewer partnerLinkTypeViewer;
+	
 	private Button partnerLinkTypeBrowseButton;
-	private CComboViewer myRoleViewer;
-	private CComboViewer partnerRoleViewer;
-	private Text partnerLinkTypeName;
+	
 	private Button fMyRole1;
 	private Button fMyRole2;
 	private Button fMyRoleNone;
@@ -144,7 +128,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	private TreeViewer fPartnerOperationsTreeViewer;
 	
 	private Hyperlink fPartnerLinkTypeHref;
-	private TextContentAdapter fTextContentAdapter;
+	
+	private StatusLabel2 fPartnerLinkTypeLabel;
 	
 
 	protected boolean isPartnerLinkAffected(Notification n) {
@@ -171,12 +156,16 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		return false;
 	}
 	
+	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new BatchedMultiObjectAdapter() {
 				boolean updateInterface = false;
 				boolean refreshAdapters = false;
+				
+				@Override
 				public void notify(Notification n) {
 					updateInterface = updateInterface
 						|| isPartnerLinkAffected(n)
@@ -184,6 +173,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 						|| isRoleAffected(n);
 					refreshAdapters = refreshAdapters || updateInterface;
 				}
+				
+				@Override
 				public void finish() {
 					if (updateInterface) {
 						updatePartnerLinkTypeWidgets();
@@ -199,6 +190,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		};
 	}
 
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		if (adapters.length > 0) {
@@ -236,75 +228,16 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			
 		partnerLinkTypeBrowseButton = wf.createButton(composite, Messages.PartnerLinkImplSection_Browse_1, SWT.PUSH); 
 
-		Label partnerLinkTypeLabel = wf.createLabel(composite, Messages.PartnerLinkImplSection_0 ); 
-
-//		
-//		CommandProposal cmdProposal = new CommandProposal ( getCommandFramework() ) {
-//			
-//			public Command getCommand () {
-//				if (fCmd == null) {
-//					fCmd = new AddPartnerLinkCommand( 
-//							ModelHelper.getProcess( getInput() ), 
-//							BPELFactory.eINSTANCE.createPartnerLink(),
-//							null );
-//				}
-//				return fCmd;
-//			}			
-//		};
-//		
-//		
-//		// Runnable proposal.
-//		RunnableProposal runProposal = new RunnableProposal () {			
-//			public String getLabel () {
-//				return "Browse for Partner Link Type ...";
-//			}			
-//			public void run() {
-//				browseForPartnerLink();				
-//			}			
-//		};
-//		
-//		fTextContentAdapter = new TextContentAdapter() {
-//			public void insertControlContents(Control control, String text, int cursorPosition) {
-//				if (text != null) {
-//					super.insertControlContents(control, text, cursorPosition);
-//				}
-//			}
-//
-//			public void setControlContents(Control control, String text, int cursorPosition) {
-//				if (text != null) {
-//					super.setControlContents(control, text, cursorPosition);
-//				}
-//			}			
-//		};
-//		
-//		
-//		PartnerLinkTypeContentProvider pltcp = new PartnerLinkTypeContentProvider();
-//		ModelContentProposalProvider proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
-//			public Object value() {
-//				return getInput();
-//			}			
-//		}, pltcp);
-//		proposalProvider.addProposalToEnd( new Separator () );
-//		proposalProvider.addProposalToEnd( cmdProposal );
-//		proposalProvider.addProposalToEnd( runProposal );
-//		
-//		partnerLinkTypeName = wf.createText(composite, "", SWT.NONE);
-//		ContentAssistCommandAdapter contentAssist = new ContentAssistCommandAdapter (
-//				partnerLinkTypeName, 
-//				fTextContentAdapter, 
-//				proposalProvider, 
-//				null, 	
-//				null );
-//		// 
-//		contentAssist.setLabelProvider( new ModelLabelProvider () );		
-//		contentAssist.setPopupSize( new Point(300,100) );
-//		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-//		contentAssist.setProposalAcceptanceStyle( ContentProposalAdapter.PROPOSAL_REPLACE );
-//		contentAssist.addContentProposalListener( cmdProposal );
-//		contentAssist.addContentProposalListener( runProposal );		
+		DecoratedLabel label = new DecoratedLabel ( composite, SWT.LEFT );
+		label.setText( Messages.PartnerLinkImplSection_0 );
+		wf.adapt(label);
 		
+		fPartnerLinkTypeLabel = new StatusLabel2 ( label ); 
+
 		fPartnerLinkTypeHref = wf.createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
 		fPartnerLinkTypeHref.addHyperlinkListener(new HyperlinkAdapter() {
+			
+			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				PartnerLinkType plt = getPartnerLinkType();
 				if (plt == null) {
@@ -333,7 +266,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0,IDetailsAreaConstants.HSPACE);		
 		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE );
-		partnerLinkTypeLabel.setLayoutData(data);
+		fPartnerLinkTypeLabel.setLayoutData(data);
 	
 //		data = new FlatFormData();
 //		data.left = new FlatFormAttachment(partnerLinkTypeLabel, IDetailsAreaConstants.HSPACE);
@@ -344,8 +277,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 						
 		data = new FlatFormData();
 		data.right = new FlatFormAttachment( 60, 0 );
-		data.left = new FlatFormAttachment ( partnerLinkTypeLabel , 20);
-		// data.bottom = new FlatFormAttachment ( partnerLinkTypeLabel, 0 , SWT.BOTTOM);
+		data.left = new FlatFormAttachment ( fPartnerLinkTypeLabel.getLabel() , 20);
+		data.bottom = new FlatFormAttachment ( fPartnerLinkTypeLabel.getLabel(), -1 , SWT.BOTTOM);
 		fPartnerLinkTypeHref.setLayoutData(data);
 		
 		return composite;
@@ -512,6 +445,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	}
 	
 	
+	
+	@Override
 	protected void createClient(Composite parent) {
 		
 		Composite composite = parentComposite = createFlatFormComposite(parent);
@@ -587,6 +522,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	protected void updateMyRolePartnerRoleWidgets ( PartnerLink pl ) {
 		
 		PartnerLinkType plt = pl.getPartnerLinkType();
@@ -668,6 +604,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		
 		fMyOperationsTreeViewer.setInput( ModelHelper.getPartnerPortType(pl, ModelHelper.INCOMING) );
 		fPartnerOperationsTreeViewer.setInput( ModelHelper.getPartnerPortType(pl, ModelHelper.OUTGOING ) );
+		
+		updateMarkers();
 	}
 	
 	
@@ -677,6 +615,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	}
 	
 	
+	
+	@Override
 	protected void basicSetInput(EObject newInput) {
 		
 		super.basicSetInput(newInput);
@@ -685,10 +625,20 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		doChildLayout();		
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return new Integer(lastChangeContext);
 	}
 	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 		
 		
@@ -702,7 +652,12 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 //		throw new IllegalStateException();
 	}
 
-	public void storeInterface(final PortType portType, final int whichRole) {
+	
+	/**
+	 * @param portType
+	 * @param whichRole
+	 */
+	public void storeInterface (final PortType portType, final int whichRole) {
 		final PartnerLink partnerLink = (PartnerLink)getInput();
 		CompoundCommand cmd = new CompoundCommand();
 		PartnerLinkType plt = partnerLink.getPartnerLinkType();
@@ -715,7 +670,9 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		if (plt != null) {
 			// set port type
 			cmd.add(new AutoUndoCommand(plt) {
-	            public void doExecute() {
+				
+	            @Override
+				public void doExecute() {
 	            	Role role = (whichRole == ModelHelper.MY_ROLE) ? partnerLink.getMyRole() : partnerLink.getPartnerRole();
 	            	role.setPortType(portType);
 	            }
@@ -725,6 +682,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		// lastChangeContext is set by caller
 		if (!cmd.isEmpty()) getCommandFramework().execute(wrapInShowContextCommand(cmd));
 	}
+	
 	
 	protected Button createRadioButton (Composite parent, String label, int id, boolean checked) {
 		
@@ -736,11 +694,11 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {
+			
+			@Override
 			public void widgetSelected (SelectionEvent event) {
-				Button button = (Button) event.widget;
-				int id = ((Integer) button.getData()).intValue();
-				
-				buttonPressed(id, button.getSelection(),true);
+				Button b = (Button) event.widget;				
+				buttonPressed(((Integer) b.getData()), b.getSelection(),true);
 			}
 		});
 		
@@ -849,7 +807,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			getCommandFramework().execute( cmd );
 		}
 		
-		// System.out.println("Buttonid=" + id + "; selection=" + selection);
+		// System.out.println("ButtonID=" + id + "; selection=" + selection);
 	}
 	
 	
@@ -866,5 +824,38 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		getCommandFramework().execute(cmd);	
 	}
 
+	/**
+	 * 
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#isValidMarker(org.eclipse.core.resources.IMarker)
+	 */
+	
+	@Override
+	public boolean isValidMarker (IMarker marker) {
+
+		boolean isValid = super.isValidMarker(marker);
+		
+		if (!isValid) {
+			return false;
+		}
+		
+		String context = null;
+		try {
+			context = (String) marker.getAttribute("href.context");
+		} catch (Exception ex) {
+			return false;
+		}
+		
+		return "name".equals (context) == false; 
+	}	
+	
+	
+
+	protected void updateMarkers () {				
+		fPartnerLinkTypeLabel.clear();		
+		for(IMarker m : getMarkers(getInput())) {
+			fPartnerLinkTypeLabel.addStatus((IStatus) BPELUtil.adapt(m, IStatus.class));
+		}		
+	}
+	
 	
 }
