@@ -72,10 +72,17 @@ public class XSDImportResolver implements ImportResolver {
        
         BPELResourceSetImpl hackedResourceSet = BPELUtils.slightlyHackedResourceSet ( imp );
         
-        Resource result = hackedResourceSet.getResource(locationURI, true, kind);
+        Resource result = null;
+        try {
+        	result = hackedResourceSet.getResource(locationURI, true, kind);
+        } catch (Throwable t) {
+        	BPELPlugin.log("Resource " + locationURI + " cannot be read.",t,IStatus.WARNING);
+        	return null;
+        }
         
+        // There is something here
         if (result.getContents().size() == 0) {
-        	BPELPlugin.log("The resource " + locationURI + " cannot be read.",null,IStatus.WARNING) ;
+        	BPELPlugin.log("Resource " + locationURI + " is empty.",null,IStatus.WARNING) ;
         	return null;
         }
         
@@ -83,7 +90,7 @@ public class XSDImportResolver implements ImportResolver {
         try {
         	return (T) result.getContents().get(0);
         } catch (Throwable t) {
-           	BPELPlugin.log("The resource " + locationURI + " cannot be read.",t,IStatus.WARNING) ;        	
+           	BPELPlugin.log("Resource " + locationURI + " is not of the expected kind.",t,IStatus.WARNING) ;        	
         }                
         return null;
     }
