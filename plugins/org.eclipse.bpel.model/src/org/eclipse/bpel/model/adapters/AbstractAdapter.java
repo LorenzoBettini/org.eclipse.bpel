@@ -58,7 +58,7 @@ public class AbstractAdapter implements Adapter {
 	 */
 	
 	public Notifier getTarget() {
-		return (Notifier) getTarget(target,Notifier.class);
+		return getTarget(target,Notifier.class);
 	}
 	
 	/**
@@ -127,23 +127,25 @@ public class AbstractAdapter implements Adapter {
 	 * Some adapters rely on interfaces that are stateless, where the target
 	 * is passed as an argument to the adapter. This is not necessarily true for
 	 * some interfaces we cannot control (like IContentProposal).
+	 * @param <T> The type class
 	 * @param obj the object which might be the adapted target
 	 * @param clazz the class that the target must be an instance of. 
 	 * @return the target object
 	 */
 	
-	public Object getTarget ( Object obj , Class<?> clazz ) {
+	@SuppressWarnings("unchecked")	
+	public <T extends Object> T getTarget ( Object obj , Class<T> clazz ) {
 
 		// If the object is passed and it matches the adapted object class,
 		// then we return it, because most likely it is it.
 		if ( obj != null && clazz.isInstance(obj) ) {
-			return obj ;
+			return (T) obj ;
 		}
 		
 		// if the adapter is stateful
 		if ( isStatefull() ) {
 			if (clazz.isInstance(target)) {
-				return target;
+				return (T) target;
 			}
 		}		
 	
