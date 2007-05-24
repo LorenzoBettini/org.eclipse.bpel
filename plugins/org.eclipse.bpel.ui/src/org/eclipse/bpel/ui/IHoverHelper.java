@@ -13,22 +13,30 @@ package org.eclipse.bpel.ui;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * The hover helper is used to provide hover help for model objects.
+ * It is an interface that can be implemented by extension points.
+ * 
+ * @author IBM 
+ */
+
+
 public interface IHoverHelper {
 	/**
-	 * Return a figure which will be used as the hoverhelp figure for the
+	 * Return a string which will be used as the hover help figure for the
 	 * specified model object.
 	 * 
-	 * @param modelObject  The model object to create hoverhelp for
-	 * @return a string which will be displayed in the popup window
+	 * @param modelObject  The model object to create hover help for
+	 * @return a string which will be displayed in the hover tool-tip window
 	 */
-	public String getHoverFigure(EObject modelObject);
+	public String getHoverFigure (EObject modelObject);
 	
 	/**
-	 * Return a string which will be used as the hoverhelp for the
+	 * Return a string which will be used as the hover-help for the
 	 * specified marker.
 	 * 
 	 * @param marker  The marker which the user is hovering over
-	 * @return a string which will be displayed in the popup window
+	 * @return a string which will be displayed in the tool-tip window
 	 */
 	public String getHoverHelp(IMarker marker);
 }
