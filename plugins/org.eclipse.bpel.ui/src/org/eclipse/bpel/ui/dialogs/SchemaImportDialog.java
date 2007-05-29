@@ -146,7 +146,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 	protected BPELResourceSetImpl fHackedResourceSet;
 	
-	protected String fResourceKind = IBPELUIConstants.EXTENSION_STAR_DOT_XSD;
+	protected String fResourceKind = IBPELUIConstants.EXTENSION_XSD;
 
 	long fRunnableStart;
 	URI fRunnableLoadURI;
@@ -154,6 +154,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 	IPreferenceStore fPrefStore = BPELUIPlugin.getPlugin().getPreferenceStore();	
 	String fBasePath = fPrefStore.getString(IBPELUIConstants.PREF_WSIL_URL);
+
+	// The WSIL radio box is turned off if the WSIL document is not set in the preferences.	
+	Button fBtnWSIL;
+	
 	
 	/**
 	 * Create a brand new shiny Schema Import Dialog.
@@ -353,7 +357,8 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 				KIND == BID_BROWSE_URL  );
 		
 		// Add WSIL option
-		createRadioButton(container, Messages.SchemaImportDialog_15, BID_BROWSE_WSIL, KIND == BID_BROWSE_WSIL);
+		fBtnWSIL = createRadioButton(container, Messages.SchemaImportDialog_15, BID_BROWSE_WSIL, 
+				KIND == BID_BROWSE_WSIL);
 				
 		
 		// Create  location variant 
@@ -516,9 +521,15 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		fWSILTreeViewer.setContentProvider( new WSILContentProvider() );
 		fWSILTreeViewer.setLabelProvider( new ModelLabelProvider() );
 		
+		Object wsilDoc = attemptLoad(URI.createURI(fBasePath),IBPELUIConstants.EXTENSION_WSIL);
+		fWSILTreeViewer.setInput ( 	wsilDoc ) ;
+		if (wsilDoc == null || wsilDoc instanceof Throwable  ) {
+			fBtnWSIL.setEnabled(false);
+			// that's always available.
+			KIND = BID_BROWSE_RESOURCE;
+		}
 		
-		fWSILTreeViewer.setInput ( 	attemptLoad(URI.createURI(fBasePath),IBPELUIConstants.EXTENSION_STAR_DOT_WSIL) ) ;
-				
+		
 		// set default tree expansion to the 2nd level
 		fWSILTreeViewer.expandToLevel(2);
 		fWSILTreeViewer.addFilter(new TreeFilter());
@@ -574,7 +585,13 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 
 	Object attemptLoad ( URI uri, String kind) {
 
- 		Resource resource = fHackedResourceSet.getResource(uri, true, kind);
+ 		Resource resource = null;
+ 		try {
+ 			resource = fHackedResourceSet.getResource(uri, true, kind);
+ 		} catch (Throwable t) {
+			// BPELUIPlugin.log(t);
+			return t;
+ 		}
  		
 		if (resource.getErrors().isEmpty() && resource.isLoaded() ) {
 			return resource.getContents().get(0);
@@ -624,7 +641,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		
 		fRunnableLoadURI = uri;		
 		final String msg = MessageFormat.format(Messages.SchemaImportDialog_17,fRunnableLoadURI);		 	    
-		fLoaderJob = new Job("Loading") {
+		fLoaderJob = new Job(msg) {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -654,6 +671,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	@SuppressWarnings("boxing")
 	void loadDone () {
 		
+		
 		if (fBrowseButton.isDisposed()) {
 			// we were closed before this is being called. Quit.
 			return ;
@@ -662,10 +680,10 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		long elapsed = System.currentTimeMillis() - fRunnableStart;
 		
 		if (fInput == null || fInput instanceof Throwable) {
-			updateStatus( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,
-					MessageFormat.format(Messages.SchemaImportDialog_19,fRunnableLoadURI,elapsed),(Throwable) fInput) );						
-						
 			markEmptySelection();
+			
+			updateStatus( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,
+					MessageFormat.format(Messages.SchemaImportDialog_19,fRunnableLoadURI,elapsed),(Throwable) fInput) );
 			fInput = null;
 			
 		} else {
@@ -677,6 +695,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			fTree.getVerticalBar().setSelection(0);			
 		}
 	}
+	
 	
 	
 	void markEmptySelection () {
