@@ -16,6 +16,7 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
+import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.OnMessage;
@@ -168,23 +169,27 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			((ForEach) result).setActivity(scope);
 		}
 		/**
-		 * This is per bug#132153.
+		 * This is per bug#132153 and bug#132154.
 		 * 
 		 */
 		
-		if (result instanceof CatchAll || result instanceof Catch) {
+		if (result instanceof CatchAll || result instanceof Catch || result instanceof CompensationHandler) {
 			//  create an empty scope inside the Catch
 			Sequence sequence = BPELFactory.eINSTANCE.createSequence();			
 			sequence.getActivities().add( BPELFactory.eINSTANCE.createCompensate() );
 			sequence.getActivities().add( BPELFactory.eINSTANCE.createRethrow() );
 
+			
 			if (result instanceof Catch) {
 				Catch _catch = (Catch) result;
 				_catch.setActivity(sequence);
-			} else {
+			} else if (result instanceof CatchAll){
 				CatchAll _catchAll = (CatchAll) result;
 				_catchAll.setActivity(sequence);
-			}			
+			} else if (result instanceof CompensationHandler) {
+				CompensationHandler _compensationHandler = (CompensationHandler)result;
+				_compensationHandler.setActivity(sequence);
+			}
 		}
 		
 		return result;
