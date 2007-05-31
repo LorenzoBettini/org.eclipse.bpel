@@ -10,38 +10,52 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.actions.editpart;
 
-import org.eclipse.bpel.model.BPELFactory;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
+import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
 
 
+/**
+ * @IBM Original contribution
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ *
+ */
 public class CreateTerminationHandlerAction extends AbstractAction {
 
-	public CreateTerminationHandlerAction(EditPart editPart) {
-		super(editPart);
+	/**
+	 * Brand new CreateTerminationHandlerAction action.
+	 * @param anEditPart
+	 */
+	public CreateTerminationHandlerAction(EditPart anEditPart) {
+		super(anEditPart);
 	}
 
-	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_TERMINATIONHANDLER);
-	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_TERMINATIONHANDLER);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#onButtonPressed()
+	 */
 	public boolean onButtonPressed() {
 		CompoundCommand command = new CompoundCommand(IBPELUIConstants.CMD_ADD_TERMINATIONHANDLER);
-		final EObject child = BPELFactory.eINSTANCE.createTerminationHandler();
+		final EObject child = UIObjectFactoryProvider.getInstance().getFactoryFor(
+				BPELPackage.eINSTANCE.getTerminationHandler()).createInstance();
+		
 		command.add(new InsertInContainerCommand((EObject)modelObject, child, null));
 		command.add(new SetNameAndDirectEditCommand(child, viewer));
 		ModelHelper.getBPELEditor(modelObject).getCommandStack().execute(command);
@@ -49,10 +63,13 @@ public class CreateTerminationHandlerAction extends AbstractAction {
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getToolTip()
+	 */
 	public String getToolTip() {
 		return Messages.CreateTerminationHandlerAction_Add_Termination_Handler_1;
 	}
 
-	public ImageDescriptor getDisabledIcon() { return ImageDescriptor.getMissingImageDescriptor(); }
-	public boolean isEnabled() { return true; }
+	
+	
 }
