@@ -23,23 +23,36 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
 
-
+/**
+ * CreateCatchAllAction
+ * 
+ * @author IBM Original contribution.  
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ */
 public class CreateCatchAllAction extends AbstractAction {
 
-	public CreateCatchAllAction(EditPart editPart) {
-		super(editPart);
+	/**
+	 * Create a brand new CreateCatchAllAction object.
+	 * 
+	 * @param anEditPart the edit part to create the action on.
+	 */
+	
+	public CreateCatchAllAction(EditPart anEditPart) {
+		super(anEditPart);
 	}
 	
-	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_CATCHALL);
-	}
-
+	
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_CATCHALL);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#onButtonPressed()
+	 */
 	public boolean onButtonPressed() {
 		CompoundCommand command = new CompoundCommand();
 		final CatchAll child = (CatchAll)UIObjectFactoryProvider.getInstance().getFactoryFor(
@@ -50,10 +63,10 @@ public class CreateCatchAllAction extends AbstractAction {
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getToolTip()
+	 */
 	public String getToolTip() {
 		return Messages.CreateCatchAllAction_Add_Catch_All_1; 
 	}
-	
-	public ImageDescriptor getDisabledIcon() { return ImageDescriptor.getMissingImageDescriptor(); }
-	public boolean isEnabled() { return true; }	
 }

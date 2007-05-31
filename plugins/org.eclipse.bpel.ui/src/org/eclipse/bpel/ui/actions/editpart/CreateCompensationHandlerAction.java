@@ -74,18 +74,4 @@ public class CreateCompensationHandlerAction extends AbstractAction {
 	public String getToolTip() {
 		return Messages.CreateCompensationHandlerAction_Add_Compensation_Handler_1; 
 	}
-	
-	/**
-	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getDisabledIcon()
-	 */
-	public ImageDescriptor getDisabledIcon() { 
-		return ImageDescriptor.getMissingImageDescriptor(); 
-	}
-	
-	/**
-	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#isEnabled()
-	 */
-	public boolean isEnabled() { 
-		return true; 
-	}	
 }

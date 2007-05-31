@@ -12,21 +12,60 @@ package org.eclipse.bpel.ui.actions.editpart;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.jface.resource.ImageDescriptor;
 
+
+/**
+ * @author IBM Original contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ *
+ */
 
 public abstract class AbstractAction implements IEditPartAction {
+	
 	protected final Object modelObject;
 	protected final EditPart editPart;
 	protected final EditPartViewer viewer;
 
-	public AbstractAction(EditPart editPart) {
+	/**
+	 * Brand new shiny AbstractAction object.
+	 * @param anEditPart
+	 */
+	public AbstractAction(EditPart anEditPart) {
 		super();
-		this.modelObject = editPart.getModel();
-		this.editPart = editPart;
-		this.viewer = editPart.getViewer();
+		this.editPart = anEditPart;
+		
+		this.modelObject = anEditPart.getModel();		
+		this.viewer = anEditPart.getViewer();
 	}
 
 	// default implementations for uncommonly-used methods
-	public void onDispose() { }
-	public void onCreate() { }
+	
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#onDispose()
+	 */
+	public void onDispose() { 		
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#onCreate()
+	 */
+	public void onCreate() { 
+		
+	}
+	
+	/** 
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getDisabledIcon()
+	 */
+	public ImageDescriptor getDisabledIcon() { 
+		return ImageDescriptor.getMissingImageDescriptor(); 
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#isEnabled()
+	 */
+	public boolean isEnabled() { 
+		return true; 
+	}
+	
 }
