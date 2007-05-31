@@ -18,6 +18,8 @@ import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.ForEach;
+import org.eclipse.bpel.model.OnAlarm;
+import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
@@ -289,6 +291,18 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			terminationHandler.setActivity(BPELFactory.eINSTANCE
 					.createCompensate());
 
+		} else if (result instanceof OnEvent) {
+			
+			/** Per bug# 133170 */
+			OnEvent onEvent = (OnEvent) result;
+			onEvent.setActivity( BPELFactory.eINSTANCE.createScope());
+			
+		} else if (result instanceof OnAlarm) {
+			
+			/** Per bug# 133170 */
+			OnAlarm onAlarm = (OnAlarm) result;
+			onAlarm.setActivity( BPELFactory.eINSTANCE.createScope());
+			
 		}
 
 		return result;
