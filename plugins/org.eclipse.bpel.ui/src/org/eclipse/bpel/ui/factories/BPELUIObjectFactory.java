@@ -10,14 +10,18 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.factories;
 
+
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Catch;
+import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Policy;
@@ -163,6 +167,26 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			Scope scope = BPELFactory.eINSTANCE.createScope();
 			((ForEach) result).setActivity(scope);
 		}
+		/**
+		 * This is per bug#132153.
+		 * 
+		 */
+		
+		if (result instanceof CatchAll || result instanceof Catch) {
+			//  create an empty scope inside the Catch
+			Sequence sequence = BPELFactory.eINSTANCE.createSequence();			
+			sequence.getActivities().add( BPELFactory.eINSTANCE.createCompensate() );
+			sequence.getActivities().add( BPELFactory.eINSTANCE.createRethrow() );
+
+			if (result instanceof Catch) {
+				Catch _catch = (Catch) result;
+				_catch.setActivity(sequence);
+			} else {
+				CatchAll _catchAll = (CatchAll) result;
+				_catchAll.setActivity(sequence);
+			}			
+		}
+		
 		return result;
 	}
 }
