@@ -12,44 +12,89 @@ package org.eclipse.bpel.common.ui.figures;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.RelativeHandleLocator;
 
 /**
- * Override the normal relative handle locator. This is required
- * to move the handles out of the absolute corners and closer to
- * the "apparent" bounds of the figure.
+ * Override the normal relative handle locator. This is required to move the
+ * handles out of the absolute corners and closer to the "apparent" bounds of
+ * the figure.
  */
 public class InsetRelativeHandleLocator extends RelativeHandleLocator {
-	int verticalInset;
-	int horizontalInset;
-	int location;
-	
-	public InsetRelativeHandleLocator(IFigure reference, int location, int verticalInset, int horizontalInset) {
-		super(reference, location);
-		this.verticalInset = verticalInset;
-		this.horizontalInset = horizontalInset;
-		this.location = location;
+
+	int fVerticalInset;
+
+	int fHorizontalInset;
+
+	int fLocation;
+
+	/**
+	 * @param reference
+	 * @param aLocation
+	 * @param verticalInset
+	 * @param horizontalInset
+	 */
+
+	public InsetRelativeHandleLocator(IFigure reference, int aLocation,
+			int verticalInset, int horizontalInset) {
+		super(reference, aLocation);
+
+		this.fVerticalInset = verticalInset;
+		this.fHorizontalInset = horizontalInset;
+		this.fLocation = aLocation;
 	}
+
+	/**
+	 * @see org.eclipse.draw2d.RelativeLocator#relocate(org.eclipse.draw2d.IFigure)
+	 */
+	@Override
 	public void relocate(IFigure target) {
-		super.relocate(target);
-		Rectangle bounds = target.getBounds();
-		switch (location & PositionConstants.EAST_WEST) {
+
+		IFigure reference = getReferenceFigure();
+		Rectangle targetBounds = new PrecisionRectangle(getReferenceBox()
+				.getResized(-1, -1));
+		reference.translateToAbsolute(targetBounds);
+		target.translateToRelative(targetBounds);
+		targetBounds.resize(1, 1);
+
+		Dimension targetSize = target.getPreferredSize();
+
+		switch (fLocation & PositionConstants.EAST_WEST) {
 			case PositionConstants.WEST:
-				bounds.x += horizontalInset;
+				targetBounds.x -= (targetSize.width) / 2;
+				targetBounds.x += fHorizontalInset;
 				break;
 			case PositionConstants.EAST:
-				bounds.x -= horizontalInset;
+				targetBounds.x += targetBounds.width - (targetSize.width) / 2;
+				targetBounds.x -= fHorizontalInset;
+				break;
+			
+			// Only North || South is given
+			default :
+				targetBounds.x += targetBounds.width/2  ;
 				break;
 		}
-		switch (location & PositionConstants.NORTH_SOUTH) {
+		switch (fLocation & PositionConstants.NORTH_SOUTH) {
 			case PositionConstants.NORTH:
-				bounds.y += verticalInset;
+				targetBounds.y -= (targetSize.height) / 2;
+				targetBounds.y += fVerticalInset;
 				break;
 			case PositionConstants.SOUTH:
-				bounds.y -= verticalInset;
+				targetBounds.y += targetBounds.height - (targetSize.height + 2)	/ 2;
+				targetBounds.y -= fVerticalInset;
 				break;
+				
+				// Only West || East is given
+			default :
+				targetBounds.y += targetBounds.height/2 ;
+				break;
+				
 		}
-		target.setBounds(bounds);
+
+		targetBounds.setSize(targetSize);
+		target.setBounds(targetBounds);
 	}
+
 }

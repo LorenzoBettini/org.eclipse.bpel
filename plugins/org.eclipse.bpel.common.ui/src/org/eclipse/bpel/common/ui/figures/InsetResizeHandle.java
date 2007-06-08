@@ -10,14 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.common.ui.figures;
 
-import org.eclipse.bpel.common.ui.CommonUIPlugin;
-import org.eclipse.bpel.common.ui.ICommonUIConstants;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.handles.ResizeHandle;
-import org.eclipse.jface.resource.ColorRegistry;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 
 /**
@@ -26,16 +20,25 @@ import org.eclipse.swt.widgets.Display;
  * corners and closer to the actual figure outline.
  */
 public class InsetResizeHandle extends ResizeHandle {
-	protected int direction;
-	protected Color selectionColor, selectionCornerColor;
 	
+	protected int fDirection;	
+	
+	/**
+	 * 
+	 * @param owner
+	 * @param direction
+	 * @param verticalInset
+	 * @param horizontalInset
+	 */
 	public InsetResizeHandle(GraphicalEditPart owner, int direction, int verticalInset, int horizontalInset) {
-		super(owner, direction);
-		this.direction = direction;
+		
+		super (owner, direction);
+		this.fDirection = direction;
 		setLocator(new InsetRelativeHandleLocator(owner.getContentPane(), direction, verticalInset, horizontalInset));
-		selectionColor = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION);
-		ColorRegistry registry = CommonUIPlugin.getDefault().getColorRegistry();
-		selectionCornerColor = registry.get(ICommonUIConstants.COLOR_SELECTION_HANDLE_CORNER);
+		
+//		selectionColor = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION);
+//		ColorRegistry registry = CommonUIPlugin.getDefault().getColorRegistry();
+//		selectionCornerColor = registry.get(ICommonUIConstants.COLOR_SELECTION_HANDLE_CORNER);
 	}
 	
 }
