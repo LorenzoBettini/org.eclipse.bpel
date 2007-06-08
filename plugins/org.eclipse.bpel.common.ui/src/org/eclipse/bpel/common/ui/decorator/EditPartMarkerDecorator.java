@@ -11,10 +11,13 @@
 package org.eclipse.bpel.common.ui.decorator;
  
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.bpel.common.ui.Messages;
 import org.eclipse.bpel.common.ui.layouts.AlignedFlowLayout;
 import org.eclipse.bpel.common.ui.layouts.FillParentLayout;
 import org.eclipse.bpel.common.ui.markers.IModelMarkerConstants;
@@ -29,6 +32,7 @@ import org.eclipse.draw2d.Layer;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
 
@@ -47,16 +51,13 @@ import org.eclipse.swt.graphics.Image;
 
 public class EditPartMarkerDecorator {
 
-	private EObject modelObject;
+	protected EObject modelObject;
 	
 	// Multiple model objects that use this decorator to display markers
-	private List modelObjects = new ArrayList();
+	private List<EObject> modelObjects = new ArrayList<EObject>();
 	
 	private boolean fillParent = false;
 	
-    public void setFillParent(boolean fillParent) {
-        this.fillParent = fillParent;
-    }
 	// A Layer to contain the Marker Images.
 	protected Layer decorationLayer;
 	// The layout for the decorationLayer
@@ -71,57 +72,148 @@ public class EditPartMarkerDecorator {
 
 	private Object defaultConstraint = IMarkerConstants.CENTER;
 
-	public EditPartMarkerDecorator(EObject modelObject) {
-		this(modelObject, null, null);
+	/**
+	 * Brand new shiny EditPartMarkerDecorator with the model object given.
+	 * 
+	 * @param aModelObject  the model object.
+	 */
+	
+	public EditPartMarkerDecorator(EObject aModelObject) {
+		this(aModelObject, null, null);
 	}
 	
-	public EditPartMarkerDecorator(List modelObjects) {
-		this(modelObjects, null, null);
+	/**
+	 * Brand new shiny EditPartMarkerDecorator with a list of model objects.
+	 * 
+	 * @param aListOfModelObjects  the model object list.
+	 */
+
+	public EditPartMarkerDecorator(List<EObject> aListOfModelObjects) {
+		this(aListOfModelObjects, null, null);
 	}
 	
-	public EditPartMarkerDecorator(EObject modelObject, AbstractLayout figureLayout) {
-		this(modelObject, figureLayout, null);
+	/**
+	 * Brand new shiny EditPartMarkerDecorator with a model object and a layout.
+	 * 
+	 * @param aModelObject
+	 * @param aLayout  the layout to use.
+	 */
+
+	public EditPartMarkerDecorator (EObject aModelObject, AbstractLayout aLayout) {
+		this(aModelObject, aLayout, null);
 	}
 	
-	public EditPartMarkerDecorator(List modelObjects, AbstractLayout figureLayout) {
-		this(modelObjects, figureLayout, null);
+	/**
+	 * Brand new shiny EditPartMarkerDecorator with a list of model objects and a
+	 * layout.
+	 * 
+	 * @param aListOfModelObjects
+	 *            the list of model objects
+	 * @param aLayout
+	 *            the layout to use.
+	 */
+	
+	public EditPartMarkerDecorator(List<EObject> aListOfModelObjects, AbstractLayout aLayout) {
+		this(aListOfModelObjects, aLayout, null);
 	}
 	
-	public EditPartMarkerDecorator(EObject modelObject, AbstractLayout figureLayout, AbstractLayout decorationLayout) {
-		this.modelObject = modelObject;
-		setFigureLayout(figureLayout);
-		if (decorationLayout == null) {
-			decorationLayout = new DecorationLayout();
+	/**
+	 * @param aModelObject
+	 * @param aFigureLayout
+	 * @param aDecorationLayout
+	 */
+	
+	public EditPartMarkerDecorator(EObject aModelObject, AbstractLayout aFigureLayout, AbstractLayout aDecorationLayout) {
+		this.modelObject = aModelObject;
+		
+		setFigureLayout(aFigureLayout);
+		
+		if (aDecorationLayout == null) {
+			aDecorationLayout = new DecorationLayout();
 		}
-		setDecorationLayout(decorationLayout);
+		setDecorationLayout(aDecorationLayout);
 	}
 	
-	public EditPartMarkerDecorator(List modelObjects, AbstractLayout figureLayout, AbstractLayout decorationLayout) {
-		this((EObject)null, figureLayout, decorationLayout);
-		this.modelObjects = modelObjects;
+	/**
+	 * @param aListOfModelObjects
+	 * @param aLayout
+	 * @param aDecorationLayout
+	 */
+	
+	public EditPartMarkerDecorator(List<EObject> aListOfModelObjects, AbstractLayout aLayout, AbstractLayout aDecorationLayout) {
+		this((EObject)null, aLayout, aDecorationLayout);
+		this.modelObjects = aListOfModelObjects;
 	}
 
+	
+    /**
+     * 
+     * @param fillParentSwitch
+     */
+    public void setFillParent(boolean fillParentSwitch) {
+        this.fillParent = fillParentSwitch;
+    }
+
+    
+    static IMarker[] EMPTY_MARKERS = {};
+    
+    
 	/**
-	 * Draws the markers. This method should be called from the EditPart's refreshVisuals()
-	 * method.
+	 * Draws the markers. 
+	 * This method should be called from the EditPart's refreshVisuals() method.
 	 */
+    
 	protected void refreshMarkers() {
-		//	Refresh any decorations on this edit part
-		 if(decorationLayer != null) {	
-			 IMarker[] markers = getMarkers();
-			 for (int i = 0; i < markers.length; i++) {			 
-			 	IMarker marker = markers[i];
-				Object constraint = getConstraint(markers[i]);
-			 	IFigure markerFigure = createFigureForMarker(marker);
-			 	if (markerFigure != null) {
-			 		decorationLayer.add(markerFigure, constraint);
-			 	}
-			 }
-		 }
+		
+		if (decorationLayer == null) {
+			return ;
+		}
+		
+		for (List<IMarker> markerList : sortByType ( getMarkers())) {
+			
+			IMarker[] list = markerList.toArray( EMPTY_MARKERS );
+			Object constraint = getConstraint(list[0]);
+			IFigure markerFigure = createFigureForMarkers(list);
+			if (markerFigure != null) {
+				decorationLayer.add(markerFigure, constraint);
+			}
+		}
 	}
 	
+	
 	/**
-	 * Draws the markers. This method should be called from the EditPart's refreshVisuals() method.
+	 * Subclasses may override this. Here we sort the  markers by type into several lists.
+	 * Equivalent markers are displayed as "multiple" errors.
+	 * 
+	 * @param markers an array of markers.
+	 * @return a collection of lists of markers.
+	 */
+	
+	protected Collection<List<IMarker>> sortByType ( IMarker[] markers ) {
+		
+		Map <String,List<IMarker>> sorter = new HashMap<String,List<IMarker>>();
+		
+		for(IMarker m : markers) {
+			String type = null;
+			try {
+				type = m.getType();
+			} catch (CoreException e) {
+				continue;
+			}
+			List<IMarker> list = sorter.get(type);
+			if (list == null) {
+				list = new ArrayList<IMarker>();
+				sorter.put(type, list);
+			}
+			list.add(m);			
+		}
+		return sorter.values();		
+	}
+	
+	
+	/**
+	 * Draws the markers. This method should be called from the EditPart's
+	 * refreshVisuals() method.
 	 */
 	public void refresh(){
 		 if(decorationLayer != null) {
@@ -136,7 +228,7 @@ public class EditPartMarkerDecorator {
 	 * If we can't find an image using the content provider we check to see if the
 	 * marker is a problem marker and get the correct icon for it.
 	 * 
-	 * May be overriden by subclasses to change the image.
+	 * May be overridden by subclasses to change the image.
 	 * 
 	 * @param marker 
 	 * @return an image representing the marker or null if none is available
@@ -146,7 +238,8 @@ public class EditPartMarkerDecorator {
 	}
 	
 	protected IMarker[] getMarkers() {
-		return (IMarker[]) getMarkerMap().values().toArray(new IMarker[getMarkerMap().values().size()]);
+		return getMarkerMap().values().toArray(EMPTY_MARKERS);
+		
 	}
 
 	/**
@@ -154,7 +247,9 @@ public class EditPartMarkerDecorator {
 	 * it's figure.
 	 * 
 	 * @param figure The figure to be decorated
+	 * @return the created figure.
 	 */
+	
 	public IFigure createFigure(IFigure figure) {
 		LayeredPane pane = new LayeredPane();
 		Layer layer = new Layer();
@@ -163,6 +258,8 @@ public class EditPartMarkerDecorator {
 		        figureLayout = new FillParentLayout();
 		    } else {
 				figureLayout = new AlignedFlowLayout() {
+					
+					@Override
 					protected void setBoundsOfChild(IFigure parent,	IFigure child,	Rectangle bounds) {
 						parent.getClientArea(Rectangle.SINGLETON);
 						bounds.translate(Rectangle.SINGLETON.x, Rectangle.SINGLETON.y);
@@ -187,6 +284,12 @@ public class EditPartMarkerDecorator {
 		return pane;
 	}
 
+	/**
+	 * Set the decoration layout.
+	 * 
+	 * @param layout the layout to use
+	 */
+	
 	public void setDecorationLayout(AbstractLayout layout) {
 		decorationLayout = layout;
 		if(decorationLayer != null) {
@@ -194,10 +297,22 @@ public class EditPartMarkerDecorator {
 		}
 	}
 
-	public void setResizeChildren(boolean resizeChildren) {
-		this.resizeChildren = resizeChildren;
+	/**
+	 * Resize children flag.
+	 * 
+	 * @param resizeChildrenFlag
+	 */
+	
+	public void setResizeChildren (boolean resizeChildrenFlag) {
+		this.resizeChildren = resizeChildrenFlag;
 	}
 
+	/**
+	 * Set the figure layout the layout given.
+	 * 
+	 * @param layout
+	 */
+	
 	public void setFigureLayout(AbstractLayout layout) {
 		figureLayout = layout;
 	}
@@ -209,7 +324,12 @@ public class EditPartMarkerDecorator {
 		return modelObject;
 	}
 	
-	public List getModelObjects() {
+	/**
+	 * Return the list of model objects.
+	 * @return the list of model objects.
+	 */
+	
+	public List<EObject> getModelObjects() {
 		return modelObjects;
 	}
 
@@ -217,20 +337,22 @@ public class EditPartMarkerDecorator {
 	 * Returns a map where the keys are layout constraints and the values are the
 	 * IMarkers that should be displayed for the corresponding constraint.
 	 * 
-	 * May be overriden by subclasses.
+	 * May be overridden by subclasses.
 	 * 
 	 * @return Map
 	 */
-	protected Map getMarkerMap() {
-		return Collections.EMPTY_MAP;
+	
+	protected Map<Object,IMarker> getMarkerMap() {
+		return Collections.emptyMap();
 	}
 	
 	/**
 	 * Returns the priority of the given marker
 	 * @param marker
-	 * @return
+	 * @return the marker priority.
 	 */
-	protected int getPriority(IMarker marker) {
+	protected int getPriority (IMarker marker) {
+		
 		Integer priority = null;
 		// first see if we have a priority attribute
 		try {
@@ -263,17 +385,20 @@ public class EditPartMarkerDecorator {
 	}
 
 	/**
-	 * Default behavior.  May be overriden by subclasses.
+	 * Default behavior.  May be overridden by subclasses.
 	 * 
 	 * @param marker 
 	 * @return a layout constraint
 	 */
-	protected Object getConstraint(IMarker marker) {
+	protected Object getConstraint (IMarker marker) {
+		
 		try {
 			if (marker.isSubtypeOf(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ID)) {
 				String key = marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, ""); //$NON-NLS-1$
 				Object constraint = convertAnchorKeyToConstraint(key);
-				if (constraint != null) return constraint;
+				if (constraint != null) {
+					return constraint;
+				}
 			}
 		} catch (CoreException e) {
         	// Just ignore exceptions getting marker info.
@@ -297,21 +422,34 @@ public class EditPartMarkerDecorator {
 		return null;
 	}
 	
+	/**
+	 * Return the default constraint.
+	 * 
+	 * @return the default constraint.
+	 */
+	
 	public Object getDefaultConstraint() {
 		return defaultConstraint;
 	}
 
-	public void setDefaultConstraint(Object defaultConstraint) {
-		this.defaultConstraint = defaultConstraint;
+	/**
+	 * Set the default constraint.
+	 * 
+	 * @param aDefaultContraint the new default constraint.
+	 */
+	
+	public void setDefaultConstraint(Object aDefaultContraint) {
+		this.defaultConstraint = aDefaultContraint;
 	}
 
 	/**
 	 * Creates a figure for the given marker.
 	 * 
-	 * May be overriden by subclasses to change the figure created.
+	 * May be overridden by subclasses to change the figure created.
 	 * @param marker
-	 * @return
+	 * @return the figure for the marker
 	 */
+	
 	protected IFigure createFigureForMarker(IMarker marker) {
 		Image image = getImage(marker);
 		String text = getText(marker);
@@ -324,6 +462,44 @@ public class EditPartMarkerDecorator {
 		}
 		return null;
 	}
+
+	/**
+	 * Creates a figure for the given markers.
+	 * 
+	 * May be overridden by subclasses to change the figure created.
+	 * @param marker
+	 * @return the figure for the marker
+	 */
+	
+	@SuppressWarnings({ "boxing", "nls" })
+	protected IFigure createFigureForMarkers ( IMarker[] markers ) {
+		
+		if (markers.length == 1) {
+			return createFigureForMarker(markers[0]);
+		}
+		
+		Image image = null;
+		
+		StringBuilder builder = new StringBuilder(128);				
+		builder.append( NLS.bind(Messages.EditPartMarkerEectorator_1, (new Object[] { markers.length })) );
+		
+		for(IMarker m : markers) {
+			if (image == null) {
+				image = getImage(m);
+			}
+			String text = getText(m);
+			if (text != null) {
+				builder.append("\no ").append(text);
+			}
+		}
+				
+		if (image != null) {
+			ImageFigure imageFigure = new ImageFigure(image);
+			imageFigure.setToolTip(new Label( builder.toString() ));
+			return imageFigure;
+		}
+		return null;
+	}
 	
 	/** 
 	 * Get the tooltip text for the marker's figure.  This is obtained 
@@ -331,9 +507,9 @@ public class EditPartMarkerDecorator {
 	 * If we can't get the text using a content provider we check to see if the
 	 * marker is a problem marker and get the correct text for it.
 	 * 
-	 * May be overriden by subclasses to change the tooltip text.
+	 * May be overridden by subclasses to change the tooltip text.
 	 * 
-	 * @param  marker for which to retrieve the tolltip text
+	 * @param  marker for which to retrieve the tooltip text
 	 * @return a String of text to display as a tooltip for the marker
 	 */
 	protected String getText(IMarker marker) {
