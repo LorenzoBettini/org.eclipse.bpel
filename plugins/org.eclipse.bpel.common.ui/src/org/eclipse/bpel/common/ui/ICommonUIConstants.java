@@ -49,7 +49,10 @@ public interface ICommonUIConstants {
 	// actions
 	public final String ICON_SHOW_PROP_VIEW_D = "dlcl16/showproperties_obj.gif"; //$NON-NLS-1$
 	public final String ICON_SHOW_PROP_VIEW_E = "elcl16/showproperties_obj.gif"; //$NON-NLS-1$
-	
+
+	public final String ICON_SHOW_PALETTE_VIEW_D = "dlcl16/palette.gif"; //$NON-NLS-1$
+	public final String ICON_SHOW_PALETTE_VIEW_E = "elcl16/palette.gif"; //$NON-NLS-1$
+
 	// tools icons
 	public final String ICON_ZOOM_IN_TOOL = "elcl16/zoomin.gif"; //$NON-NLS-1$
 	public final String ICON_ZOOM_OUT_TOOL = "elcl16/zoomout.gif"; //$NON-NLS-1$

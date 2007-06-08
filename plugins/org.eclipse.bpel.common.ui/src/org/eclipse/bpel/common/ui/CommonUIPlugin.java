@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.bpel.common.ui;
 
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.bpel.common.ui.details.IDetailsColors;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -30,9 +34,14 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The main plugin class to be used in the desktop.
+ * The main plug-in class to be used in the desktop.
  */
+
+@SuppressWarnings("nls")
+
 public class CommonUIPlugin extends AbstractUIPlugin {
+	
+	/** Our plug-in id */
 	public static final String PLUGIN_ID = "org.eclipse.bpel.common.ui"; //$NON-NLS-1$
 
 	//The shared instance.
@@ -52,6 +61,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	/**
 	 * This method is called upon plug-in activation
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 	}
@@ -59,6 +69,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugin = null;
@@ -66,6 +77,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance.
+	 * @return the plugin singleton
 	 */
 	public static CommonUIPlugin getDefault() {
 		return plugin;
@@ -78,16 +90,25 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	 * @param path the path
 	 * @return the image descriptor
 	 */
+	
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.bpel.common.ui", path);
 	}
 	
+	/**
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#getImageRegistry()
+	 */
+	@Override
 	public ImageRegistry getImageRegistry() {
 		ImageRegistry result = super.getImageRegistry();
 		initialize();
 		return result;
 	}
 	
+	/**
+	 * Return color registry.
+	 * @return the color registry.
+	 */
 	public ColorRegistry getColorRegistry() {
 		if (colorRegistry == null) {
 			colorRegistry = new ColorRegistry();
@@ -112,43 +133,41 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	/**
 	 * Initializes the table of images used in this plugin.
 	 */
-	private void initializeImages(Display display) {
+	private void initializeImages (Display display) {
 		URL baseURL = getBundle().getEntry("/"); //$NON-NLS-1$
 
-		// edit part icons
-		createImageDescriptor(ICommonUIConstants.ICON_TRAY_CATEGORY_ADD_BUTTON, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_TRAY_CATEGORY_REMOVE_BUTTON, baseURL);
+		// A little reflection magic ... so that we don't
+		// have to add the createImageDescriptor every time
+		// we add it to the IBPELUIConstants ..
+		Field fields[] = ICommonUIConstants.class.getFields();	
+		for(int i=0; i < fields.length; i++) {
+			Field f = fields[i];
+			if (f.getType() != String.class) { 
+				continue;
+			}
+			String name = f.getName();
+			if (name.startsWith("ICON_") || name.startsWith("CURSOR_")) {   //$NON-NLS-1$ //$NON-NLS-2$
+				try {
+					String value = (String) f.get(null);
+					createImageDescriptor(value, baseURL);
+				} catch (Exception e) {
+					log(e);
+				}
+			}			
+		}
 		
-		// message icons
-		createImageDescriptor(ICommonUIConstants.ICON_SM_BLANK, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_SM_INFO, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_SM_WARN, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_SM_ERROR, baseURL);
-		
-		// marker icons
-		createImageDescriptor(ICommonUIConstants.ICON_ERROR, baseURL);		
-		createImageDescriptor(ICommonUIConstants.ICON_WARNING, baseURL);		
-		createImageDescriptor(ICommonUIConstants.ICON_INFO, baseURL);
-		
-		// tray buttons
-		createImageDescriptor(ICommonUIConstants.ICON_TRAY_EXPAND_ARROW, baseURL);
+		//	tray buttons
 		ImageRegistry registry = getImageRegistry();
 		ImageDescriptor desc = registry.getDescriptor(ICommonUIConstants.ICON_TRAY_EXPAND_ARROW);
+		
+		registry.remove(ICommonUIConstants.ICON_KEY_TRAY_COLLAPSE_BUTTON );
+		registry.remove(ICommonUIConstants.ICON_KEY_TRAY_EXPAND_BUTTON );
+		
 		registry.put(ICommonUIConstants.ICON_KEY_TRAY_COLLAPSE_BUTTON, desc.createImage());
 		ImageData data = ImageUtils.flip(desc.getImageData());
-		registry.put(ICommonUIConstants.ICON_KEY_TRAY_EXPAND_BUTTON, new Image(display, data));
-		
-		// actions
-		createImageDescriptor(ICommonUIConstants.ICON_SHOW_PROP_VIEW_D, baseURL);		
-		createImageDescriptor(ICommonUIConstants.ICON_SHOW_PROP_VIEW_E, baseURL);
-		
-		// tools icons
-		createImageDescriptor(ICommonUIConstants.ICON_ZOOM_IN_TOOL, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_ZOOM_IN_TOOL_DISABLED, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_ZOOM_OUT_TOOL, baseURL);
-		createImageDescriptor(ICommonUIConstants.ICON_ZOOM_OUT_TOOL_DISABLED, baseURL);
+		registry.put(ICommonUIConstants.ICON_KEY_TRAY_EXPAND_BUTTON, new Image(display, data));		
 	}
-
+	
 	/**
 	 * Register the colors used by the details editor and its parts. 
 	 */
@@ -212,6 +231,8 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	
 	/**
 	 * Utility methods for logging exceptions.
+	 * @param e exception
+	 * @param severity severity
 	 */
 	public static void log(Exception e, int severity) {
 		IStatus status = null;
@@ -225,5 +246,33 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 		CommonUIPlugin.getDefault().getLog().log(status);
 	}
 
-	public static void log(Exception e) { log(e, IStatus.ERROR); }
+	/**
+	 * Log an exception.
+	 * 
+	 * @param e
+	 */
+	
+	public static void log(Exception e) { 
+		log(e, IStatus.ERROR); 
+	}
+	
+	
+	/**
+	 * The configuration elements for our extension points
+	 * 
+	 * @param extensionPointId our extension points 
+	 * 
+	 * @return the configuration elements.
+	 * 
+	 */
+	
+	public static IConfigurationElement[] getConfigurationElements (String extensionPointId) {
+		
+		IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(PLUGIN_ID, extensionPointId);
+		if (extensionPoint == null) {
+			return new IConfigurationElement[0];
+		}
+		return extensionPoint.getConfigurationElements();
+	}
+	
 }

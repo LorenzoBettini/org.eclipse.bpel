@@ -15,6 +15,7 @@ import org.eclipse.osgi.util.NLS;
 public final class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.eclipse.bpel.common.ui.messages";//$NON-NLS-1$
+	
 
 	private Messages() {
 		// Do not instantiate
@@ -30,6 +31,7 @@ public final class Messages extends NLS {
 	public static String CalendarPopup_todayButton_text;
 	public static String EditModelCommandStack_validateEdit_message1;
 	public static String EditModelCommandStack_validateEdit_message0;
+	public static String EditPartMarkerEectorator_1 ;
 	public static String CompositeEditor_3;
 	public static String CompositeEditor_2;
 	public static String DatePicker_button_text;
