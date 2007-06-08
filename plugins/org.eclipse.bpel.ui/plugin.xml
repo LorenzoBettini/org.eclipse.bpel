@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-   <extension-point id="hoverHelpers" name="%HOVERHELP_HELPER_NAME"/>
+   <extension-point id="hoverHelpers" name="%HOVERHELP_HELPER_NAME" schema="schema/hoverHelpers.exsd"/>
    <extension-point id="expressionEditors" name="Expression Language Editors" schema="schemas/expressionEditors.exsd"/>
    <extension-point id="actions" name="Actions" schema="schemas/actions.exsd"/>
    <extension-point id="modelListener" name="Model Listener" schema="schemas/modelListener.exsd"/>
@@ -20,36 +20,25 @@
             name="%BPEL_EDITOR_NAME">
       </editor>
    </extension>
-
    <extension
-         point="org.eclipse.bpel.common.ui.embeddedEditors">
-      <editor
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            class="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor"
-            name="XPath 1.0 Text Editor."
-            id="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor">
-             <!-- TODO: remove the name="" in the future -->
-      </editor>
-      <editor
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            class="org.eclipse.bpel.ui.editors.TextEditor"
-            name="Default Expression Editor"
-            id="org.eclipse.bpel.ui.editors.TextEditor">
-             <!-- TODO: remove the name="" in the future -->
-      </editor>
-   </extension>
-   
-   <extension
-         point="org.eclipse.bpel.ui.expressionEditors">
-      <editor
-            label="%XPATH_LABEL"
-            class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
-            expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
-      </editor>
-      <editor
-            class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
-            expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"
-            label="%XPATH_LABEL20"/>
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="org.eclipse.bpel.ui.bpel.editor.contribution"
+            targetID="org.eclipse.bpel.ui.bpeleditor">
+         <action
+               accelerator="Ctrl+D"
+               class="org.eclipse.bpel.ui.actions.BPELDuplicateAction"
+               definitionId="Ctrl+D"
+               disabledIcon="icons/dlcl16/overview.gif"
+               enablesFor="*"
+               icon="icons/elcl16/overview.gif"
+               id="org.eclipse.bpel.ui.duplicate.action"
+               label="Duplicate"
+               menubarPath="edit/paste"
+               style="push"
+               toolbarPath="edit/paste"
+               tooltip="Duplicate the selected object."/>
+      </editorContribution>
    </extension>
 
 <!-- Markers -->
@@ -444,12 +433,12 @@
            id="org.eclipse.bpel.ui.actions.category.basic"/>
      <action
            class="org.eclipse.bpel.ui.bpelactions.SimpleAction"
-           specCompliant="true"
+           specCompliant="false"
            categoryId="org.eclipse.bpel.ui.actions.category.basic"
            id="org.eclipse.bpel.ui.action.empty"/>
      <action
            class="org.eclipse.bpel.ui.bpelactions.InvokeAction"
-           specCompliant="true"
+           specCompliant="false"
            categoryId="org.eclipse.bpel.ui.actions.category.basic"
            id="org.eclipse.bpel.ui.action.invoke"/>
      <action
@@ -533,6 +522,52 @@
          <adapter type="org.eclipse.bpel.ui.adapters.ILabeledElement"/>
          <adapter type="org.eclipse.core.runtime.IStatus"/>
       </factory>
+   </extension>
+
+   <extension
+         point="org.eclipse.bpel.common.ui.embeddedEditors">
+      <editor
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor"
+            name="XPath 1.0 Text Editor."
+            id="org.eclipse.bpel.ui.editors.xpath.XPathTextEditor">
+             <!-- TODO: remove the name="" in the future -->
+      </editor>
+      <editor
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="org.eclipse.bpel.ui.editors.TextEditor"
+            name="Default Expression Editor"
+            id="org.eclipse.bpel.ui.editors.TextEditor">
+             <!-- TODO: remove the name="" in the future -->
+      </editor>
+   </extension>
+   
+   <extension
+         point="org.eclipse.bpel.ui.expressionEditors">
+      <editor
+            label="%XPATH_LABEL"
+            class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
+            expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
+      </editor>
+      <editor
+            class="org.eclipse.bpel.ui.expressions.XPathExpressionEditor"
+            expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"
+            label="%XPATH_LABEL20"/>
+   </extension>
+   <extension
+         id="org.eclipse.bpel.ui.bpel.provider"
+         name="BPEL Palette Provider"
+         point="org.eclipse.bpel.common.ui.paletteAdditions">
+      <additions
+            importance="10"
+            provider="org.eclipse.bpel.ui.palette.PaletteFactory"
+            targetEditor="org.eclipse.bpel.ui.bpeleditor"/>
+   </extension>
+   <extension
+         id="org.eclipse.bpel.ui.hover.simple.hover.helper"
+         name="Marker Hover Help"
+         point="org.eclipse.bpel.ui.hoverHelpers">
+      <hoverHelper class="org.eclipse.bpel.ui.hovers.SimpleHoverHelper"/>
    </extension>
    
 </plugin>
