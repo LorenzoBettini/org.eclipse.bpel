@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="embeddedEditors" name="Embedded Editors" schema="schema/embeddedEditors.exsd"/>
    <extension-point id="paletteAdditions" name="Palette Additions" schema="schema/paletteAdditions.exsd"/>
+   <extension-point id="resourceSetProvider" name="Resource Set Provider" schema="schema/resourceSetProvider.exsd"/>
    
    <extension
          id="uiModelMarker"
