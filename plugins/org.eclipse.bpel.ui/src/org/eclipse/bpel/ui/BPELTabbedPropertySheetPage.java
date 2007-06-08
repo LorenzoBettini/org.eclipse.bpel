@@ -95,10 +95,11 @@ public class BPELTabbedPropertySheetPage extends TabbedPropertySheetPage {
 	
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		selection = calculateSelection(selection);
-		TabDescriptor[] descriptors = getRegistry().getTabDescriptors(part, selection);
-		if (descriptors.length > 0) {
-			super.selectionChanged(part, selection);
-		}
+		super.selectionChanged(part, selection);
+//		TabDescriptor[] descriptors = getRegistry().getTabDescriptors(part, selection);
+//		if (descriptors.length > 0) {
+//			super.selectionChanged(part, selection);
+//		}
 	}
 	
 	/**

@@ -22,12 +22,14 @@ import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTreeContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -81,12 +83,18 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	}
 	
 	
+	/**
+	 * This is for XPath specific queries.
+	 * 
+	 * TODO: Need to somehow externalized this for for non-XPath languages.
+	 */
+	
 	@SuppressWarnings("nls")
 	protected void updateQueryFieldFromTreeSelection() {
 		
 		if (displayQuery() == false || 
 				getChangeHelper().isNonUserChange() || 
-				modelCopy == null) 
+				fModelCopy == null) 
 		{
 			return ;
 		}
@@ -172,7 +180,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	protected ITreeNode getSelectedPart() {
 		ITreeNode node = null;
 		Copy copyRule = (Copy) getInput();
-		To toOrFrom = isFrom ? copyRule.getFrom()  : copyRule.getTo(); 
+		To toOrFrom = fIsFrom ? copyRule.getFrom()  : copyRule.getTo(); 
 
 		// First, find the variable node.
 		Object context = toOrFrom.getVariable();
@@ -244,7 +252,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		variableViewer.setLabelProvider(new ModelTreeLabelProvider());
 		// TODO: does this sorter work at the top level?  does it affect nested levels too?
 		//variableViewer.setSorter(ModelViewerSorter.getInstance());
-		variableViewer.setInput(ownerSection.getModel());
+		variableViewer.setInput(fOwnerSection.getModel());
 		
 		variableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -267,27 +275,28 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	}
 	
 	
+	@SuppressWarnings("nls")
 	@Override
 	protected void loadToOrFrom(To toOrFrom) {
-		if (toOrFrom == null)  return;
 
 		getChangeHelper().startNonUserChange();
 		try {
 			variableViewer.setSelection(StructuredSelection.EMPTY, false);
-			variableViewer.collapseAll();
+			if (displayQuery()) {
+				nameText.setText( EMPTY_STRING );
+				nameText.setEnabled(true);
+				nameLabel.setEnabled(true);
+			}	
+			
 		} finally {
 			getChangeHelper().finishNonUserChange();
 		}
+
+		if (toOrFrom == null)  {
+			return;
+		}
 		
-		//TODO: we need this in the future
-		//Object firstTreeNode = null;
-		//Object selNode = null;
-		
-		// TODO: in the future, if we can't find the item referenced by some part of the
-		// toOrFrom, we could add some sort of placeholder/proxy objects to pathToNode,
-		// and then take that into account somehow in the tree, e.g. by recreating it with
-		// the necessary proxies??
-		
+			
 		ArrayList<ITreeNode> pathToNode = new ArrayList<ITreeNode>();
 		ITreeNode node = null;
 
@@ -295,19 +304,19 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		Object context = toOrFrom.getVariable();
 		if (context != null) {
 			Object[] items = variableContentProvider.getElements(variableViewer.getInput());
-			//TODO: if (items.length > 0)  firstTreeNode = items[0];  // for later
 			node = variableContentProvider.findModelNode(items, context, 0);
 			if (node != null)  {
 				pathToNode.add(node);
 			}
 		}
-		// Find the part (or property) node within the container node.
 		
+		// Find the part (or property) node within the container node.		
 		if (isPropertyTree())  {
 			context = toOrFrom.getProperty();
 		} else {
 			context = toOrFrom.getPart();
 		}
+		
 		
 		if (node != null && context != null) {
 			Object[] items = variableContentProvider.getChildren(node);
@@ -316,65 +325,81 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				pathToNode.add(node);
 			}
 		}
+		
 		if (context == null) {
 			context = toOrFrom.getVariable();
 		}
 		
-		String query = ""; //$NON-NLS-1$
-		if (displayQuery()) {
-			nameText.setEnabled(true);
-			nameLabel.setEnabled(true);
+		
+		String query = null;		
+		
+		if (node != null && context != null) {
 			
-			if (node != null && context != null) {
-				Query queryObject = toOrFrom.getQuery();
-				query = null;
-				if (queryObject != null) {
-					// TODO: we shouldn't ignore the queryLanguage here!!
-					query = queryObject.getValue();
-				}
-				if (query != null && !query.equals("")) { //$NON-NLS-1$
+			Query queryObject = toOrFrom.getQuery();			
+			if (queryObject != null) {				
+				// TODO: we shouldn't ignore the queryLanguage here!!
+				query = queryObject.getValue();
+			}
+			
+			if (query != null && !query.equals(EMPTY_STRING)) {
+				
+				int tokenCount = 0;
+				outer: for (String token : query.split("\\/") ) {
+					tokenCount += 1;					
+					if (token.length() == 0) {
+						// Is it the first empty string preceeding the first / 
+						if (tokenCount == 1) {
+							continue;
+						}						
+						// could be // , as in //foo:bar/bar, which is impossible to show here.
+						break outer;
+					}
+																		
+					QueryStep step = new QueryStep(token);
+					step.updateNamespaceURI( toOrFrom );
+					
+					if (step.fAxis.equals("child") == false) {
+						break outer;
+					}
+					
 					Object[] items = variableContentProvider.getChildren(node);
-	
-					// decompose the XPath query string and try to match it up in the tree				
-					int index = 0;
-					String token;
-					boolean continueLoop = true;
-					while (index >= 0 && index < query.length() && continueLoop) {
-						int end = query.indexOf('/', index);
-						if (end >= 0) {
-							token = query.substring(index, end);
-							index = end + 1; // skip over delimiter
-						}
-						else {
-							token = query.substring(index);
-							index = -1;
-						}
-						if (token.length() > 0) { //TODO: possible bug if user has two // in a row
-							// match it against the part children
-							continueLoop = false;
-							for (int j = 0; j < items.length; j++) {
-								Object originalMatch = ((ITreeNode)items[j]).getModelObject();
-								Object match = BPELUtil.resolveXSDObject(originalMatch);
-								if (match instanceof XSDElementDeclaration || match instanceof XSDAttributeDeclaration) {
-									if (token.equals(((XSDNamedComponent)match).getName())) {
-										// NOTE: use originalMatch here, because the TreeNode contains
-										// the original model object (which is not always the same as
-										// the resolved object).
-										node = variableContentProvider.findModelNode(items, originalMatch, 0);
-										if (node != null)  {
-											pathToNode.add(node);
-											continueLoop = true;
-											items = variableContentProvider.getChildren(node);
-											break;
-										}
-									}
-								}	
+					
+					inner: for (Object item : items ) {
+						
+						Object originalMatch = ((ITreeNode) item).getModelObject();
+						Object match = BPELUtil.resolveXSDObject(originalMatch);
+						
+						if (match instanceof XSDElementDeclaration) {
+							XSDElementDeclaration elmDecl = (XSDElementDeclaration) match;
+							
+							if (match(step,elmDecl) == false) {
+								continue;
 							}
+							node = variableContentProvider.findModelNode(items, originalMatch, 0);
+							// no matching node, we are done
+							if (node == null) {
+								break outer;
+							}
+							pathToNode.add(node);								
+							break inner;																
+							
+						} else if (match instanceof XSDAttributeDeclaration) {
+							
+							XSDAttributeDeclaration attrDecl = (XSDAttributeDeclaration) match;
+							if (match(step,attrDecl)) {
+								node = variableContentProvider.findModelNode(items, originalMatch, 0);
+								if (node != null)  {
+									pathToNode.add(node);	
+								}
+							}
+							// attribute is the leaf node
+							break outer;							
 						}
 					}
 				}
-			}
-		}
+			}			
+		}		
+		
 		
 		if (pathToNode.size() > 0) {			
 			node = pathToNode.get(pathToNode.size()-1);
@@ -384,7 +409,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			getChangeHelper().startNonUserChange();
 			try {
 				if (displayQuery()) {
-					nameText.setText(query == null? "" : query); //$NON-NLS-1$
+					nameText.setText(query == null? EMPTY_STRING : query);
 				}
 				variableViewer.expandToLevel(node, 0);
 				variableViewer.setSelection(new StructuredSelection(node), true);
@@ -395,13 +420,24 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	}
 
 	
+	boolean match ( QueryStep step, XSDNamedComponent xsdNamed) {
+		// local name
+		if (step.fLocalPart.equals ( xsdNamed.getName() ) == false) {
+			return false;
+		}
+		
+		// namespace
+		return  (step.fNamespaceURI.equals( xsdNamed.getTargetNamespace()) || 
+				 (step.fNamespaceURI.equals(EMPTY_STRING) && xsdNamed.getTargetNamespace() == null) ); 
+	}
+	
 	
 	@Override
 	protected void storeToOrFrom(To toOrFrom) {
 		IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
 		
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
-		String query = displayQuery() ? nameText.getText() : ""; //$NON-NLS-1$
+		String query = displayQuery() ? nameText.getText() : EMPTY_STRING;
 		
 		for(Object n : path ) {
 			ITreeNode treeNode = BPELUtil.adapt(n, ITreeNode.class);			
@@ -418,11 +454,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			}
 		}
 		
-		if (query != null && query.trim().length() == 0) {
-			query = null;
-		}
 		
-		if (displayQuery() && query != null) {
+		if (displayQuery() && query.trim().length() >= 0) {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
 			queryObject.setQueryLanguage(IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH);
 			queryObject.setValue(query);
@@ -452,5 +485,55 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	
 	private boolean displayQuery() {
 		return !isPropertyTree();
+	}
+	
+	
+	/**
+	 * TODO: This has to be externalized someplace. We can't just assume it is XPath all the time ...
+	 */
+	
+	@SuppressWarnings("nls")
+	
+	class QueryStep {
+		
+		String fAxis = "child";		
+		
+		String fPrefix = EMPTY_STRING;
+		String fLocalPart  = EMPTY_STRING;
+		String fNamespaceURI = EMPTY_STRING;
+		
+		@SuppressWarnings("nls")
+		QueryStep (String step) {
+			
+			int axisMark = step.indexOf("::");
+			if (axisMark >= 0) {
+				fAxis = step.substring(0,axisMark);
+				step = step.substring(axisMark+2);
+			}
+		
+			int qnameMark = step.indexOf(":");
+			if (qnameMark < 0) {
+				fLocalPart = step;
+			} else {
+				fLocalPart = step.substring(qnameMark + 1);
+				fPrefix = step.substring(0,qnameMark);				
+			}
+			
+			if (fLocalPart.charAt(0) == '@') {
+				fLocalPart = fLocalPart.substring(1);
+			}
+		}
+		
+		void updateNamespaceURI ( EObject eObj ) {
+			if (fPrefix.length() > 0) {
+				fNamespaceURI = BPELUtils.getNamespace(eObj, fPrefix);
+				if (fNamespaceURI == null) {
+					fNamespaceURI = "urn:unresolved:" + System.currentTimeMillis() + ":" + fPrefix;
+				}
+			} else {
+				fNamespaceURI = EMPTY_STRING;
+			}
+		}
+		
 	}
 }

@@ -38,29 +38,38 @@ import org.eclipse.swt.graphics.Rectangle;
 
 
 public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
-	Image image;
-	int imageWidth;
-	int imageHeight;
+	
+	protected Image image;
+	protected int imageWidth;
+	protected int imageHeight;
 	
 	// Whether the process has a fault handler and event handler
-	private boolean hasFH, hasEH;
+	protected boolean hasFH, hasEH;
 	
 	// Whether to show each of the actual handlers.
 	// TODO: Initialize these from the preferences store
-	private boolean showFH = false, showEH = false;
+	protected boolean showFH = false, showEH = false;
 
 	// Fault handler, Compensation handler and Event handler support
-	private int faultImageWidth, faultImageHeight;
-	private int eventImageWidth, eventImageHeight;
-	private Image faultImage;
-	private Image eventImage;
-	private Rectangle rectFault;
-	private Rectangle rectEvent;
+	protected int faultImageWidth, faultImageHeight;
+	protected int eventImageWidth, eventImageHeight;
+	protected Image faultImage;
+	protected Image eventImage;
+	protected Rectangle rectFault;
+	protected Rectangle rectEvent;
 
 	private class StartNodeFigure extends ImageFigure {
+		/**
+		 * 
+		 */
 		public StartNodeFigure() {
 			super(image);
 		}
+		
+		/**
+		 * @see org.eclipse.draw2d.Figure#paint(org.eclipse.draw2d.Graphics)
+		 */
+		@Override
 		public void paint(Graphics graphics) {
 			org.eclipse.draw2d.geometry.Rectangle bounds = getBounds();
 			super.paint(graphics);
@@ -75,6 +84,9 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		}
 	}
 	
+	/** 
+	 * Brand new shiny start edit part.
+	 */
 	public StartNodeEditPart() {
 		// Initialize images for fault and event handler decorations
 		this.faultImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
@@ -88,14 +100,23 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		this.eventImageHeight = r.height;
 	}
 	
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		adapter.addToObject(getProcess());
 	}
-
+	
+	
+	@Override
+	protected void removeAllAdapters() {
+		adapter.removedFrom(getProcess());
+		super.removeAllAdapters();
+	} 
+	
+	@Override
 	protected IFigure createFigure() {
 		if (image == null) {
-			ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getStartNode(), ILabeledElement.class);
+			ILabeledElement element = BPELUtil.adapt(getStartNode(), ILabeledElement.class);
 			image = element.getSmallImage(getStartNode());
 			Rectangle rect = image.getBounds();
 			imageWidth = rect.width;
@@ -106,6 +127,10 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		return new StartNodeFigure();
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.editparts.BPELEditPart#refreshVisuals()
+	 */
+	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
 		// Refresh any decorations on this edit part
@@ -114,14 +139,25 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		// Force a repaint, as the decorations.
 		getFigure().repaint();
 	}
+	
+	/**
+	 * Return the start node.
+	 * @return return the start node.
+	 */
 	public StartNode getStartNode() {
 		return (StartNode)getModel();
 	}
 
+	/**
+	 * Return the process.
+	 * @return the process
+	 */
+	
 	public Process getProcess() {
 		return getStartNode().getProcess();
 	}
 	
+	@Override
 	protected void createEditPolicies() {
 		// Don't call super because we don't want a component edit policy
 		// or a direct edit policy.
@@ -176,8 +212,10 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 	public boolean getShowEventHandler() {
 		return showEH;
 	}
+	
+	
 	public FaultHandler getFaultHandler() {
-		IFaultHandlerHolder holder = (IFaultHandlerHolder)BPELUtil.adapt(getProcess(), IFaultHandlerHolder.class);
+		IFaultHandlerHolder holder = BPELUtil.adapt(getProcess(), IFaultHandlerHolder.class);
 		if (holder != null) {
 			return holder.getFaultHandler(getProcess());
 		}
@@ -185,13 +223,18 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 	}
 		
 	public EventHandler getEventHandler() {
-		IEventHandlerHolder holder = (IEventHandlerHolder)BPELUtil.adapt(getProcess(), IEventHandlerHolder.class);
+		IEventHandlerHolder holder = BPELUtil.adapt(getProcess(), IEventHandlerHolder.class);
 		if (holder != null) {
 			return holder.getEventHandler(getProcess());
 		}
 		return null;
 	}
-
+	/**
+	 * Is point in fault image.
+	 * @param x
+	 * @param y
+	 * @return true if it is, false if its not.
+	 */
 	public boolean isPointInFaultImage(int x, int y) {
 		if (hasFH) {
 			Point p = new Point(x, y);
@@ -201,6 +244,12 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		return false;
 	}	
 
+	/**
+	 * Is point in event image.
+	 * @param x
+	 * @param y
+	 * @return true if it is, false if its not.
+	 */
 	public boolean isPointInEventImage(int x, int y) {
 		if (hasEH) {
 			Point p = new Point(x, y);
@@ -210,12 +259,19 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		return false;
 	}	
 	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.editparts.BPELEditPart#getDragTracker(org.eclipse.gef.Request)
+	 */
+	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new BPELDragEditPartsTracker(this) {
+			@Override
 			protected boolean handleDoubleClick(int button) {
 				return true;
 			}
 			
+			@Override
 			protected boolean handleButtonDown(int button) {
 				Point point = getLocation();
 				if (isPointInFaultImage(point.x, point.y)) {

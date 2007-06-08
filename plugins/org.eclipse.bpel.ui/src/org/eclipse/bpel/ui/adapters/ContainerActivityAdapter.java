@@ -51,4 +51,8 @@ public abstract class ContainerActivityAdapter extends ActivityAdapter implement
 	public boolean canAddObject(Object object, Object child, Object insertBefore) {
 		return getContainerDelegate(object).canAddObject(object, child, insertBefore);
 	}
+	
+	public boolean canRemoveChild (Object object, Object child) {
+		return getContainerDelegate(object).canRemoveChild(object, child);
+	}
 }

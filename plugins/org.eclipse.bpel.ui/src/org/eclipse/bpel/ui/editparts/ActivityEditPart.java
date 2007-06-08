@@ -49,12 +49,11 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.jface.dialogs.IInputValidator;
 
 
 /**
  * ActivityEditPart is the graphical GEF edit part representing a BPEL Activity.
- * It implements NodeEditPart because activites can be the source and the target of
+ * It implements NodeEditPart because activities can be the source and the target of
  * connections in the graph. These connections include flow links as well as implicit
  * control flow connections, often determined by the node's parent.
  */
@@ -211,56 +210,77 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	public ConnectionAnchor getTargetConnectionAnchorForTargetChild(ConnectionEditPart connEditPart) {
 		return null;
 	}
+	
 	protected void refreshDrawerHoverHelp() {
+		
+		IHoverHelper helper = null;
+		
 		try {
-			IHoverHelper helper = BPELUIRegistry.getInstance().getHoverHelper();
-			if (helper != null) {
-				// Get the marker and pass it to the hover helper
-				IMarker marker = null;
-				IMarkerHolder holder = (IMarkerHolder)BPELUtil.adapt(getActivity(), IMarkerHolder.class);
-				IMarker[] markers = holder.getMarkers(getActivity());
-				if (mouseLocation == 1) {
-					// Get top drawer marker
-					int currentPriority = Integer.MIN_VALUE;
-					for (int i = 0; i < markers.length; i++) {
-						if (markers[i].getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, "").equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) { //$NON-NLS-1$
-							if (markers[i].getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true)) {
-								int priority = markers[i].getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, Integer.MIN_VALUE);
-								if (priority > currentPriority) {
-									currentPriority = priority;
-									marker = markers[i];
-								}
-							}
-						}
-					}
-				} else {
-					// Get bottom drawer marker
-					int currentPriority = Integer.MIN_VALUE;
-					for (int i = 0; i < markers.length; i++) {
-						if (markers[i].getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, "").equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)) { //$NON-NLS-1$
-							if (markers[i].getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true)) {
-								int priority = markers[i].getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, Integer.MIN_VALUE);
-								if (priority > currentPriority) {
-									currentPriority = priority;
-									marker = markers[i];
-								}
-							}
-						}
-					}
-				}
-				if (marker == null) return;
-				String text = helper.getHoverHelp(marker);
-				if (text == null) {
-					getFigure().setToolTip(null);
-				} else {
-					getFigure().setToolTip(new Label(text));
-				}
+			helper = BPELUIRegistry.getInstance().getHoverHelper();
+			if (helper == null) {
+				return ;
 			}
-		} catch (CoreException e) {
+		}  catch (CoreException ce) {
 			getFigure().setToolTip(null);
-			BPELUIPlugin.log(e);
-		}				
+			BPELUIPlugin.log(ce);
+			return ;
+		}
+		
+	
+		// Get the marker and pass it to the hover helper
+		ArrayList<IMarker> listOfMarkers = new ArrayList<IMarker>();
+		
+		IMarkerHolder holder = BPELUtil.adapt(getActivity(), IMarkerHolder.class);
+		
+		for (IMarker m : holder.getMarkers(getActivity()) ) {
+			
+			// if we can't see it, then we will not look at it
+			if (m.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true) == false) {
+				continue;
+			}
+			
+			String where = m.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR,EMPTY_STRING); 
+			
+			if (mouseLocation == 1) {
+				// Top drawer
+				if (where.equals( IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP )) {
+					listOfMarkers.add(m);
+				}
+								
+			} else {
+				// bottom drawer
+				if (where.equals( IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM )) {
+					listOfMarkers.add(m);
+				}
+			}			
+		}
+		
+		if (listOfMarkers.size() == 0) {
+			return;
+		}
+		String text = null;
+		
+		if (listOfMarkers.size() == 1) {
+			text = helper.getHoverHelp( listOfMarkers.get(0) );
+		} else {
+			StringBuilder sb = new StringBuilder();
+			sb.append("There are ").append(listOfMarkers.size()).append(" issues here:\n");
+			for(IMarker m : listOfMarkers) {
+				String t = helper.getHoverHelp (m) ;
+				sb.append("o ").append(t).append("\n");
+			}
+			text = sb.toString();
+		}
+				
+		if (text == null || text.length() < 1) {
+			getFigure().setToolTip(null);
+		} else {
+			getFigure().setToolTip(new Label(text));
+		}
 	}
+	
+	
+	
 	protected MouseMotionListener getMouseMotionListener() {
 		if (mouseMotionListener == null) {
 			this.mouseMotionListener = new MouseMotionListener() {
@@ -294,6 +314,8 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	 * will refresh either the regular hover help, or the drawer hover help
 	 * if that is what is currently being displayed.
 	 */
+	
+	@Override
 	public void refreshHoverHelp() {
 		switch (mouseLocation) {
 			case 1:

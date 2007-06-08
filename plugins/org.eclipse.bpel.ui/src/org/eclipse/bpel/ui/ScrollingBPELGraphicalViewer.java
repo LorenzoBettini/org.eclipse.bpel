@@ -48,7 +48,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	protected List selectionList = null;
 	protected int indexVisit = 0;
 	protected boolean hasFocus;
-	protected boolean updatingPropertiesViewInput;
+	protected boolean notifyingOfSelectionChange;
 
 	protected void createDefaultRoot() {
 		setRootEditPart(new GraphicalBPELRootEditPart());
@@ -82,6 +82,10 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 		}
 	}
 	
+	/**
+	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#appendSelection(org.eclipse.gef.EditPart)
+	 */
+	@Override
 	public void appendSelection(EditPart editpart) {
 		super.appendSelection(editpart);
 		
@@ -152,6 +156,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	 * super's implementation has completed.
 	 * @see org.eclipse.gef.EditPartViewer#reveal(org.eclipse.gef.EditPart)
 	 */
+	@Override
 	public void reveal(EditPart part) {
 		// New rule: Don't scroll *up* if it would cause any currently visible
 		// part of the edit part to disappear off the bottom.
@@ -193,7 +198,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 		int topVisibleBefore = Math.max(figureY, oldViewportY);
 		int topVisibleAfter = Math.max(figureY, finalLocation.y);
 		if (topVisibleAfter > topVisibleBefore && bottomVisibleAfter < bottomVisibleBefore) {
-			// Moving it would change both the top and bottom. Don't do anyting.
+			// Moving it would change both the top and bottom. Don't do anything.
 			finalLocation.y = oldViewportY;
 		}
 		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);
@@ -202,12 +207,19 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	/**
 	 * @see GraphicalViewerImpl#setRootFigure(IFigure)
 	 */
+	@Override
 	protected void setRootFigure(IFigure figure) {
 		// Warning: The super does more work than the old method did.
 		super.setRootFigure(figure);
 		installRootFigure();
 	}
 	
+	/**
+	 * Scroll vertical. If the argument is true, it scrolls up by 100 pixels,
+	 * otherwise it scrolls down by 100 pixels.
+	 * 
+	 * @param up if true scroll up, if false scrolls down.
+	 */
 	public void scrollVertical(boolean up) {
 		Viewport port = getFigureCanvas().getViewport();
 		Point finalLocation = port.getViewLocation().getCopy();
@@ -215,7 +227,13 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);
 	}
 	
-	public void scrollHorizontal(boolean left) {
+	/**
+	 * Scroll horizontal. If left is true scrolls left, if false scrolls right.
+	 * 
+	 * @param left if true, it will scroll left.
+	 */
+	
+	public void scrollHorizontal (boolean left) {
 		Viewport port = getFigureCanvas().getViewport();
 		Point finalLocation = port.getViewLocation().getCopy();
 		finalLocation.x += left ? -100: 100;
@@ -225,14 +243,17 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	/**
 	 * See comments in BPELSelectionTool.handleFocusLost().
 	 */
-	protected void fireSelectionChanged() {
+	
+	@Override
+	protected void fireSelectionChanged() {		
 		try {
-			updatingPropertiesViewInput = true;
+			notifyingOfSelectionChange = true;
 			super.fireSelectionChanged();
 		} finally {
-			updatingPropertiesViewInput = false;
+			notifyingOfSelectionChange = false;
 		}
 	}
+	
 	
 	/**
 	 * Returns true if it is sending an event that updates the
@@ -240,10 +261,27 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	 * 
 	 * See comments in BPELSelectionTool.handleFocusLost().
 	 */
-	public boolean isUpdatingPropertiesViewInput() {
-		return updatingPropertiesViewInput;
+//	public boolean isUpdatingPropertiesViewInput() {
+//		return updatingPropertiesViewInput;
+//	}
+
+	/** (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#setSelection(org.eclipse.jface.viewers.ISelection)
+	 */
+	@Override
+	public void setSelection( ISelection arg0 ) {
+		
+		if (notifyingOfSelectionChange) { 
+			return ;
+		}
+		super.setSelection(arg0);
 	}
 
+	/**
+	 * 
+	 */
+	
+	@Override
 	public ISelection getSelection() {
 		if (getSelectedEditParts().isEmpty()) {
 			return StructuredSelection.EMPTY;

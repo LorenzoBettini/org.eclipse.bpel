@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.model.To;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 
 
@@ -26,10 +27,24 @@ import org.eclipse.ui.views.properties.tabbed.ISection;
  */
 public interface IAssignCategory extends ISection {
 
+	/** Get the composite on which teh section had been created
+	 *  
+	 * @return the composite on which this section had been created.
+	 */
+	
+	public Composite getComposite ();
+	
+	
+	/**
+	 * Answer if hidden.
+	 * 
+	 * @return true of hidden, false if not.
+	 */
 	public boolean isHidden();
 	
 	/**
 	 * Returns a label for the category (e.g. to show in a combo).
+	 * @return name
 	 */
 	public String getName();
 

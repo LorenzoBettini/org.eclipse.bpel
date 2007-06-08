@@ -55,8 +55,8 @@ public class ModelContentProposalProvider implements
 	
 	private ValueProvider valueProvider;
 
-	private List fEndProposals = new LinkedList();
-	private List fStartProposals = new LinkedList();
+	private List<IContentProposal> fEndProposals = new ArrayList<IContentProposal>();
+	private List<IContentProposal> fStartProposals = new LinkedList<IContentProposal>();
 	
 	private IStructuredContentProvider contentProvider;
 
@@ -64,53 +64,71 @@ public class ModelContentProposalProvider implements
 	
 	/** 
 	 * A simple input provider to delay input providing when we don't have it
-	 * 
-	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
-	 * @date Jul 27, 2006
 	 */
 	
 	static public abstract class ValueProvider {
+		/**
+		 * The value for the value provider.
+		 * 
+		 * @return the value for the value provider.
+		 */
 		public abstract Object value () ;
 	}
 	
 
-	public ModelContentProposalProvider (ValueProvider valueProvider, IStructuredContentProvider contentProvider ) {
-		this (valueProvider,contentProvider, null);
+	/**
+	 * Brand new shiny ModelContentProposalProvider 
+	 * @param aValueProvider
+	 * @param aContentProvider
+	 */
+	public ModelContentProposalProvider (ValueProvider aValueProvider, IStructuredContentProvider aContentProvider ) {
+		this (aValueProvider,aContentProvider, null);
 	}
 	
 	/**
-	 * @param valueProvider the value provider for the model object.
-	 * @param contentProvider the content provider to use
-	 * @param filter to filter out proposal given by the content provider
+	 * @param aValueProvider the value provider for the model object.
+	 * @param aContentProvider the content provider to use
+	 * @param aFilter to filter out proposal given by the content provider
 	 */
 	
-	public ModelContentProposalProvider(ValueProvider valueProvider, IStructuredContentProvider contentProvider, IFilter filter) {
+	public ModelContentProposalProvider(ValueProvider aValueProvider, IStructuredContentProvider aContentProvider, IFilter aFilter) {
 		super();
-		this.valueProvider = valueProvider;
-		this.contentProvider = contentProvider;
-		this.filter = filter;
+		this.valueProvider = aValueProvider;
+		this.contentProvider = aContentProvider;
+		this.filter = aFilter;
 	}
 
+	
+	/**
+	 * Add proposal to start.
+	 * 
+	 * @param proposal
+	 */
 	
 	public void addProposalToStart ( IContentProposal proposal ) {
 		fStartProposals.add ( proposal );
 	}
 	
+	/**
+	 * Add proposal to end.
+	 * 
+	 * @param proposal
+	 */
 	public void addProposalToEnd ( IContentProposal proposal ) {
 		fEndProposals.add ( proposal );
 	}
 	
 		
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.fieldassist.IContentProposalProvider#getProposals(java.lang.String, int)
 	 */
 	public IContentProposal[] getProposals (String contents, int position) {
 				
-		List all = new LinkedList();
+		List<IContentProposal> all = new ArrayList<IContentProposal>();
 		
 		all.addAll ( fStartProposals );
-				
-		all.addAll ( (List) ListMap.Map ( 
+		
+		IContentProposal[] proposals = (IContentProposal[]) ListMap.Map ( 
 
 				// provider gives us the right elements, which we then filter, and ... 
 				doFilter(  contentProvider.getElements( valueProvider.value() ) ),
@@ -121,12 +139,18 @@ public class ModelContentProposalProvider implements
 						Object adapter = BPELUtil.adapt(obj, IContentProposal.class );
 						return (adapter != null ? adapter : ListMap.IGNORE);
 					}			
-				}					
-		)) ;
+				},
+				
+				NO_PROPOSALS			
+		) ;
 
+		for (IContentProposal p : proposals) {
+			all.add(p);
+		}
+		
 		all.addAll ( fEndProposals );
 		
-		return (IContentProposal[]) all.toArray( NO_PROPOSALS );
+		return all.toArray( NO_PROPOSALS );
 	}
 	
 
@@ -138,11 +162,10 @@ public class ModelContentProposalProvider implements
 		}
 		
 		int size = elements.length;
-		ArrayList out = new ArrayList(size);
-		for (int i = 0; i < size; ++i) {
-			Object element = elements[i];
-			if (filter.select(element)) {
-				out.add(element);
+		ArrayList<Object> out = new ArrayList<Object>(size);
+		for(Object e : elements) {
+			if (filter.select(e)) {
+				out.add(e);
 			}
 		}
 		return out.toArray();

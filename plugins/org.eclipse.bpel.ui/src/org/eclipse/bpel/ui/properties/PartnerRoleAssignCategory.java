@@ -66,7 +66,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 	protected void createClient2(Composite parent) {
 		FlatFormData data; 
 		
-		if (isFrom)  {
+		if (fIsFrom)  {
 			roleChangeHelper = new ChangeHelper(getCommandFramework()) {
 				public String getLabel() {
 					return Messages.PartnerRoleAssignCategory_Role_Change_2; 
@@ -121,7 +121,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 		data.left = new FlatFormAttachment(0, 0); 
 		data.top = new FlatFormAttachment(0, 0); 
 		data.right = new FlatFormAttachment(100, 0); 
-		if (isFrom) {
+		if (fIsFrom) {
 			data.bottom = new FlatFormAttachment(roleCombo, -IDetailsAreaConstants.VSPACE);
 		} else {
 			data.bottom = new FlatFormAttachment(100, 0);
@@ -168,7 +168,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 
 		PartnerLink selPartnerLink = toOrFrom.getPartnerLink();
 		boolean isMyRole = false;
-		if (isFrom)  {
+		if (fIsFrom)  {
 			EndpointReferenceRole reference = ((From)toOrFrom).getEndpointReference();
 			if (reference != null) {
 				int roleMarker = reference.getValue();
@@ -216,7 +216,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 		PartnerLink partnerLink = (PartnerLink)sel.getFirstElement();
 		toOrFrom.setPartnerLink(partnerLink);
 		
-		if (isFrom) {
+		if (fIsFrom) {
 			Object role = ((IStructuredSelection)roleViewer.getSelection()).getFirstElement();
 			if (role != null) {
 				if (role.equals(partnerLink.getMyRole())) {

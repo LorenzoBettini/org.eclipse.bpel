@@ -28,27 +28,52 @@ public class InsertInContainerCommand extends AutoUndoCommand {
 	protected EObject child, parent, before;
 	protected Rectangle rect;
 	
-	public InsertInContainerCommand(EObject parent, EObject child, EObject before) {
-		super(Messages.InsertInContainerCommand_Add_Node_1, parent); 
-		this.parent = parent;
-		this.child = child;
-		this.before = before;
-		ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(child, ILabeledElement.class);
+	/**
+	 * 
+	 * @param aParent parent container
+	 * @param aChild the child object
+	 * @param aBeforeMarker the before marker object
+	 */
+	public InsertInContainerCommand(EObject aParent, EObject aChild, EObject aBeforeMarker) {
+		super(Messages.InsertInContainerCommand_Add_Node_1, aParent); 
+		
+		this.parent = aParent;
+		this.child = aChild;
+		this.before = aBeforeMarker;
+		
+		ILabeledElement labeledElement = BPELUtil.adapt(child, ILabeledElement.class);
 		String childType = null;
-		if (labeledElement != null) childType = labeledElement.getTypeLabel(child);
-		if (childType == null) childType = Messages.InsertInContainerCommand_Node_3; 
+		
+		if (labeledElement != null) {
+			childType = labeledElement.getTypeLabel(child);
+		}
+		if (childType == null) {
+			childType = Messages.InsertInContainerCommand_Node_3; 
+		}
+		
 		setLabel(NLS.bind(Messages.InsertInContainerCommand_Add_1, (new Object[] { childType }))); 
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#canDoExecute()
+	 */
+	@Override
 	public boolean canDoExecute() {
-		IContainer container = (IContainer)BPELUtil.adapt(parent, IContainer.class);
+		IContainer container = BPELUtil.adapt(parent, IContainer.class);
 		return container.canAddObject(parent, child, before);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
-		IContainer container = (IContainer)BPELUtil.adapt(parent, IContainer.class);		
+		IContainer container = BPELUtil.adapt(parent, IContainer.class);		
 		container.addChild(parent, child, before);
 	}
 	
+	/**
+	 * @return the child object.
+	 */
 	public EObject getChild() { return child; }
 }

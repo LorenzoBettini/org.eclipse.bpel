@@ -59,10 +59,11 @@ public class BPELUIRegistry {
 	private static BPELUIRegistry instance;
 
 	private Map languageToEditorDescriptor;
-	private HoverHelperDescriptor hoverHelper;
+	private HoverHelperDescriptor hoverHelperDescriptor;
 	private ActionCategoryDescriptor[] actionCategoryDescriptors;
 	private ActionDescriptor[] actionDescriptors;
 	private ListenerDescriptor[] listenerDescriptors;
+	private IHoverHelper hoverHelper;
 	
 	private BPELUIRegistry() {
 		readExpressionLanguageEditors();
@@ -78,9 +79,16 @@ public class BPELUIRegistry {
 		return instance;
 	}
 
+	
 	public IHoverHelper getHoverHelper() throws CoreException {
-		if (hoverHelper == null) return null;
-		return hoverHelper.createHoverHelper();
+		
+		if (hoverHelperDescriptor == null) {
+			return null;
+		}
+		if (hoverHelper == null) {
+			hoverHelper = hoverHelperDescriptor.createHoverHelper();			
+		}
+		return hoverHelper;		
 	}
 	
 	/**
@@ -152,18 +160,21 @@ public class BPELUIRegistry {
 	}
 	
 	private void readHoverHelpers() {
-		IConfigurationElement[] extensions = getConfigurationElements(EXTPT_HOVERHELPERS);
-		for (int i = 0; i < extensions.length; i++) {
-			IConfigurationElement helper = extensions[i];
-			if (helper.getName().equals(ELEMENT_HOVERHELPER)) {
-				String clazz = helper.getAttribute(ATT_CLASS);
-				if (clazz != null) {
-					HoverHelperDescriptor descriptor = new HoverHelperDescriptor();
-					descriptor.setElement(helper);
-					this.hoverHelper = descriptor;
-				}
+		
+		for (IConfigurationElement helper : getConfigurationElements(EXTPT_HOVERHELPERS) ) {
+			if (helper.getName().equals(ELEMENT_HOVERHELPER) == false) {
+				continue;
 			}
-		}
+			
+			String clazz = helper.getAttribute(ATT_CLASS);
+			if (clazz == null) {
+				continue;
+			}
+			
+			HoverHelperDescriptor descriptor = new HoverHelperDescriptor();
+			descriptor.setElement(helper);
+			this.hoverHelperDescriptor = descriptor;
+		}		
 	}
 
 	/**

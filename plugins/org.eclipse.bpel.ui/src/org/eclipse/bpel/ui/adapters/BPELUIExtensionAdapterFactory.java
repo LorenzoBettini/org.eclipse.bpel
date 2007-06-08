@@ -10,23 +10,39 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.bpel.ui.uiextensionmodel.util.UiextensionmodelAdapterFactory;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 
+
+/**
+ * BPELUIMessagePropertiesAdapterFactory for generating adapters.
+ * 
+ * We use an instance of AdapterProvider that caches singleton adapters.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 23, 2007
+ *
+ */
+
 public class BPELUIExtensionAdapterFactory extends UiextensionmodelAdapterFactory {
-	
-	StartNodeAdapter startNodeAdapter;
-	EndNodeAdapter endNodeAdapter;
-	ReferencePartnerLinksAdapter referencePartnerLinkAdapter;
+			
 	static BPELUIExtensionAdapterFactory instance = null;
+	
 	AdapterProvider provider = new AdapterProvider();
 	
 	private BPELUIExtensionAdapterFactory () {
 		provider = new AdapterProvider();
 	}
 	
+	/**
+	 * Get the instance of this factory.
+	 * 
+	 * @return an instance of this factory.
+	 */
+		
 	public static BPELUIExtensionAdapterFactory getInstance() {
 		if (instance == null) {
 			instance = new BPELUIExtensionAdapterFactory();
@@ -34,29 +50,48 @@ public class BPELUIExtensionAdapterFactory extends UiextensionmodelAdapterFactor
 		return instance;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.uiextensionmodel.util.UiextensionmodelAdapterFactory#createStartNodeAdapter()
+	 */
+	@Override
 	public Adapter createStartNodeAdapter() {
 		return provider.getAdapter( StartNodeAdapter.class);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.uiextensionmodel.util.UiextensionmodelAdapterFactory#createEndNodeAdapter()
+	 */
+	@Override
 	public Adapter createEndNodeAdapter() {
 		return provider.getAdapter( EndNodeAdapter.class);
 	}
 	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.uiextensionmodel.util.UiextensionmodelAdapterFactory#createReferencePartnerLinksAdapter()
+	 */
+	@Override
 	public Adapter createReferencePartnerLinksAdapter() {
 		return provider.getAdapter( ReferencePartnerLinksAdapter.class );
 	}
 
 	
+	
+	/**
+	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
+	 */
+	@Override
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
-		if (adapter != null && adapter.isAdapterForType(type)) {
-			associate(adapter, target);
-			return adapter;
+		if (adapter == null) {
+			return null;
 		}
-		return null;
+		associate(adapter,target);
+		return adapter.isAdapterForType(type) ? adapter : null;		
 	}
 	
-	protected Object resolve(Object object, Object type) {
+	@Override
+	protected Object resolve (Object object, Object type) {
 		return null;
 	}
 }

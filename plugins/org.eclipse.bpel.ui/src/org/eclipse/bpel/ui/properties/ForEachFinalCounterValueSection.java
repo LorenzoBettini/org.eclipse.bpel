@@ -86,8 +86,7 @@ public class ForEachFinalCounterValueSection extends ExpressionSection {
 	 */
 	public boolean isValidMarker (IMarker marker ) {
 		
-		EObject errObj = BPELUtil.getObjectFromMarker( marker, getInput());
-		return (Condition.class.isInstance( errObj ));
+		return false;
 	}
 	
 	@Override

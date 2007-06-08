@@ -34,11 +34,15 @@ public abstract class RunnableProposal
 	implements IContentProposalListener, Runnable {
 
 	
+	/**
+	 * @see org.eclipse.bpel.ui.proposal.providers.AbstractContentProposal#getImage(java.lang.Object)
+	 */
+	@Override
 	public Image getImage(Object element) {		
 		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMMAND_16);
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.fieldassist.IContentProposalListener#proposalAccepted(org.eclipse.jface.fieldassist.IContentProposal)
 	 */
 	public void proposalAccepted (IContentProposal proposal) {

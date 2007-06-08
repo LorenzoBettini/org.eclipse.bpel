@@ -13,13 +13,11 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -90,18 +88,42 @@ public class WhileConditionSection extends ExpressionSection {
 	
 	
 	
+	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getMarkers(java.lang.Object)
+	 */
+	@Override
+	protected IMarker[] getMarkers (Object input) {
+		
+		if ( input instanceof While ) {
+			While _while = (While) input;
+			return super.getMarkers( _while.getCondition() );
+		}
+		
+		return EMPTY_MARKERS;
+	}
+
+
 	/**
 	 * Return true if the marker is valid for this section.
 	 * @return true if so, false otherwise.
 	 */
 	
-	
+
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#isValidMarker(org.eclipse.core.resources.IMarker)
+	 */
 	@Override
-	public boolean isValidMarker (IMarker marker ) {
+	public boolean isValidMarker (IMarker marker) {
+		String context = null;
+		try {
+			context = (String) marker.getAttribute("href.context");
+		} catch (Exception ex) {
+			return false;
+		}
 		
-		EObject errObj = BPELUtil.getObjectFromMarker( marker, getInput());
-		return (Condition.class.isInstance( errObj ));
-	}
-	
+		return "name".equals (context) == false ;
+	}	
 	
 }

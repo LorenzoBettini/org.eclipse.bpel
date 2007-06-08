@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,43 +30,70 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class BPELAdaptingSelectionProvider extends AdaptingSelectionProvider {
 
-	protected ISelection cachedEditPartSelection;
+	protected IStructuredSelection cachedEditPartSelection;
+	
+	/**
+	 * Brand new shiny BPELAdaptingSelectionProvider ...
+	 * @param viewer
+	 */
 	
 	public BPELAdaptingSelectionProvider(EditPartViewer viewer) {
 		super(viewer);
 	}
+	
+	
+	/**
+	 * Brand new shiny BPELAdaptingSelectionProvider ...
+	 */
 	public BPELAdaptingSelectionProvider() {
 		super();
 	}
 
-	public void setSelection(ISelection selection) {
-		if (!(selection instanceof IStructuredSelection)) return;
-		cachedSelection = calculateSelection(selection);
+	/**
+	 * @see org.eclipse.bpel.common.ui.tray.MultiViewerSelectionProvider#setSelection(org.eclipse.jface.viewers.ISelection)
+	 */
+	@Override
+	public void setSelection (ISelection selection) {
+		if (selection instanceof IStructuredSelection == false) {
+			return;
+		}
+		
+		cachedSelection = calculateSelection((IStructuredSelection) selection);
 		internalSetSelection(cachedSelection);
 		cachedEditPartSelection = calculateEditPartSelection();
 		fireSelectionChanged(this, cachedSelection);
 	}
 	
-	protected ISelection calculateEditPartSelection() {
-		List result = new ArrayList();
-		Iterator it = viewers.iterator();
-		Set modelObjectSet = new HashSet();
-		while (it.hasNext()) {
-			List viewerParts = ((EditPartViewer)it.next()).getSelectedEditParts();
+	
+	protected IStructuredSelection calculateEditPartSelection() {
+		
+		List<EditPart> result = new ArrayList<EditPart>();		
+		Set<Object> modelObjectSet = new HashSet<Object>();
+		
+		for(EditPartViewer v  : viewers ) {
+			List<EditPart> viewerParts = v.getSelectedEditParts();
+						
 			// NOTE: filter out duplicate edit parts, so that we only return
 			// one edit part per model object.
-			for (Iterator it2 = viewerParts.iterator(); it2.hasNext(); ) {
-				EditPart ep = (EditPart)it2.next();
+			for(EditPart ep : viewerParts) {
 				Object model = ep.getModel();
-				if (modelObjectSet.add(model)) result.add(ep);
+				if (modelObjectSet.add(model)) {
+					result.add(ep);
+				}
 			}
 		}
-		if (result.isEmpty()) return StructuredSelection.EMPTY;
+		if (result.isEmpty()) {
+			return StructuredSelection.EMPTY;
+		}
 		return new StructuredSelection(result);
 	}
 	
-	// This is for the benefit of our actions which require an EditPart-based selection.
-	public ISelection getEditPartSelection() {
+	/**
+	 * This is for the benefit of our actions which require an EditPart-based selection. 
+	 * @return the selection of edit parts. 
+	 */ 
+	
+	public IStructuredSelection getEditPartSelection() {
 		if (cachedEditPartSelection == null) {
 			cachedEditPartSelection = calculateEditPartSelection();
 		}

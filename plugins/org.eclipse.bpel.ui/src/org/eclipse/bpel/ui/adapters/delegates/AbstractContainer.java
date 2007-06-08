@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters.delegates;
 
-import java.util.Iterator;
 
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.emf.ecore.EObject;
@@ -27,18 +26,29 @@ public abstract class AbstractContainer implements IContainer {
 
 	protected abstract boolean isValidChild(Object object, EObject child);
 
-	/* IContainer */
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#canAddObject(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */	
 
 	public boolean canAddObject(Object object, Object child, Object insertBefore) {
-		if (!(child instanceof EObject)) return false;
-		return isValidChild(object, (EObject)child);
+		if (child instanceof EObject == false) {
+			return false;
+		}
+		return isValidChild(object, (EObject) child);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#getNextSiblingChild(java.lang.Object, java.lang.Object)
+	 */
+	
 	public final Object getNextSiblingChild(Object object, Object child) {
-		for (Iterator it = getChildren(object).iterator(); it.hasNext(); ) {
-			if (child == it.next()) {
-				if (it.hasNext()) return it.next();
-				break;
+		
+		boolean bNext = false;
+		for(Object next : getChildren(object)) {
+			if (next == child) {
+				bNext = true;
+			} else if (bNext) {
+				return next;
 			}
 		}
 		return null;

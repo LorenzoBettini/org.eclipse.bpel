@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.util.marker;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bpel.common.ui.decorator.EditPartMarkerDecorator;
@@ -19,29 +18,55 @@ import org.eclipse.bpel.common.ui.decorator.IMarkerConstants;
 import org.eclipse.bpel.common.ui.markers.IModelMarkerConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.editparts.util.BPELDecorationLayout;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.Layer;
 import org.eclipse.emf.ecore.EObject;
 
 
+/**
+ * 
+ * @author IBM
+ * @date May 23, 2007
+ *
+ */
 public class BPELEditPartMarkerDecorator extends EditPartMarkerDecorator {
 	
-	protected List listeners = new ArrayList();
+	protected List<MarkerMotionListener> listeners = new ArrayList<MarkerMotionListener>();
+	
+	/**
+	 * Marker Motion Listener.
+	 * @author IBM
+	 * @date May 23, 2007
+	 */
 	
 	public interface MarkerMotionListener {
+		/**
+		 * Marker has been entered ...
+		 * @param marker
+		 */
+		
 		public void markerEntered(IMarker marker);
 	}
 	
-	public BPELEditPartMarkerDecorator(EObject modelObject, BPELDecorationLayout decorationLayout) {
-		super(modelObject, null, decorationLayout);
+	/**
+	 * Brand new shiny BPELEditPartMarkerDecorator ...
+	 * 
+	 * @param aModelObject the model object
+	 * @param decorationLayout 
+	 */
+	public BPELEditPartMarkerDecorator (EObject aModelObject, BPELDecorationLayout decorationLayout) {
+		
+		super(aModelObject, null, decorationLayout);
+		
 		decorationLayout.addAnchorMotionListener(new BPELDecorationLayout.AnchorMotionListener() {
+			
 			public void anchorEntered(int position) {
 				// Look up the marker for the anchor and fire the listeners
-				IMarker[] markers = getMarkers();
-				for (int i = 0; i < markers.length; i++) {
-					IMarker marker = markers[i];
+				for(IMarker marker : getMarkers()) {
 					Object constraint = getConstraint(marker);
 					if (constraint instanceof Integer) {
 						int value = ((Integer)constraint).intValue();
@@ -55,21 +80,49 @@ public class BPELEditPartMarkerDecorator extends EditPartMarkerDecorator {
 		});
 	}
 	
+	
+	@Override
+	protected IMarker[] getMarkers () {
+		
+		IMarkerHolder holder = BPELUtil.adapt(modelObject, IMarkerHolder.class);
+		
+		if (holder != null) {
+			return holder.getMarkers(modelObject);
+		}
+		
+		return super.getMarkers();
+	}
+	
+	/**
+	 * Add marker motion listener.
+	 * 
+	 * @param listener
+	 */
+	
 	public void addMarkerMotionListener(MarkerMotionListener listener) {
 		listeners.add(listener);
 	}
+	
+	/**
+	 * Remove marker motion listener.
+	 * @param listener
+	 */
 	
 	public void removeMarkerMotionListener(MarkerMotionListener listener) {
 		listeners.remove(listener);
 	}
 	
-	private void fireMarkerMotionListeners(IMarker marker) {
-		Iterator it = listeners.iterator();
-		while (it.hasNext()) {
-			MarkerMotionListener listener = (MarkerMotionListener)it.next();
+	protected void fireMarkerMotionListeners(IMarker marker) {
+		for(MarkerMotionListener listener : listeners) {
 			listener.markerEntered(marker);
 		}
 	}
+	
+	/**
+	 * Return the decoration layer.
+	 * 
+	 * @return return the decoration layer.
+	 */
 	
 	public Layer getDecorationLayer() {
 		if(decorationLayer == null) {
@@ -78,18 +131,26 @@ public class BPELEditPartMarkerDecorator extends EditPartMarkerDecorator {
 		return decorationLayer;
 	}
 
-	protected boolean isAcceptable(IMarker marker) {
+	
+	@Override
+	protected boolean isAcceptable (IMarker marker) {
 		boolean isVisible = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true);
-		if (!isVisible) return false;
+		if (!isVisible) {
+			return false;
+		}
+		
 		// If the marker isn't for this decorator, skip it.
 		String anchorString = marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, ""); //$NON-NLS-1$
 		if (anchorString.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)
 				|| anchorString.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) {
 			return false;
 		}
+		
 		return super.isAcceptable(marker);
 	}
 	
+	
+	@Override
 	protected Object getConstraint(IMarker marker) {
 		try {
 			// problem markers are always placed in the top left
@@ -102,9 +163,15 @@ public class BPELEditPartMarkerDecorator extends EditPartMarkerDecorator {
 		return super.getConstraint(marker);
 	}
 	
+	
+	@Override
 	protected Object convertAnchorKeyToConstraint(String key) {
-		if (key.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) return new Integer(64);
-		if (key.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)) return new Integer(128);
+		if (key.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) {
+			return new Integer(64);
+		}
+		if (key.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)) {
+			return new Integer(128);
+		}
 		return super.convertAnchorKeyToConstraint(key);
 	}
 }

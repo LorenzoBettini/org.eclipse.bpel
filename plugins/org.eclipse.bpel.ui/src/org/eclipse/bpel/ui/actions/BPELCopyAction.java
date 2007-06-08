@@ -11,33 +11,39 @@
 package org.eclipse.bpel.ui.actions;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.BPELCopyCommand;
-import org.eclipse.bpel.ui.editparts.ActivityEditPart;
+import org.eclipse.bpel.ui.commands.RestoreSelectionCommand;
 import org.eclipse.bpel.ui.util.SharedImages;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
 
-public class BPELCopyAction extends SelectionAction {
-
-	List objects;
-	Command command;
+/**
+ * @author IBM Original Contribution
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jun 4, 2007
+ *
+ */
+public class BPELCopyAction extends EditAction {
 	
+	/**
+	 * Brand new shiny copy action.
+	 * 
+	 * @param editorPart
+	 */
 	public BPELCopyAction(IWorkbenchPart editorPart) {
 		super(editorPart);
 	}
 
+	
+	@Override
 	protected void init() {
 		super.init();
 		setText(Messages.BPELCopyAction_Copy_1); 
@@ -50,53 +56,28 @@ public class BPELCopyAction extends SelectionAction {
 		setEnabled(false);
 	}
 
-	protected Command createCopyCommand(List objects) {
-		if (objects.isEmpty()) return null;
-		if (!(getWorkbenchPart() instanceof BPELEditor)) return null;
-
-		CompoundCommand compoundCmd = new CompoundCommand(Messages.BPELCopyAction_Copy_3); 
-		
-		List modelObjects = new ArrayList();
-		for (Iterator it = objects.iterator(); it.hasNext(); ) {
-			Object object = it.next();
-			if (object instanceof EObject) modelObjects.add(object);
-		}
-		
-		BPELEditor bpelEditor = (BPELEditor)getWorkbenchPart();
-		//compoundCmd.add(new RestoreSelectionCommand(viewer, true, false));
-		
-		BPELCopyCommand cmd = new BPELCopyCommand(bpelEditor);
-		cmd.setObjectList(modelObjects);
-		compoundCmd.add(cmd);
-		
-		return compoundCmd;
-	}
 
 	/**
-	 * Returns <code>true</code> if the selected objects can
-	 * be copied.  Returns <code>false</code> if there are
-	 * no objects selected or the selected objects are not
-	 * {@link ActivityEditPart}s.
+	 * @see org.eclipse.bpel.ui.actions.EditAction#getCommand()
 	 */
-	protected boolean calculateEnabled() {
-		if (!(getWorkbenchPart() instanceof BPELEditor)) return false;
+	@Override
+	protected Command getCommand() {
 		
-		List objects = getSelectedObjects();
-		if (objects.isEmpty()) return false;
+		CompoundCommand cmd = new CompoundCommand(Messages.BPELCopyAction_Copy_3); 
+		
+		final BPELEditor bpelEditor = (BPELEditor) getWorkbenchPart();
+		
+		// 1. Restore selection
+		cmd.add(new RestoreSelectionCommand(bpelEditor.getAdaptingSelectionProvider(), true, true));
 
-		// make sure all the selected objects are activities!
-		for (Iterator it = objects.iterator(); it.hasNext(); ) {
-			Object object = it.next();
-			if (!(object instanceof Activity)) return false;
-		}
-		return true;
+		// 2. Copy the selected objects
+		BPELCopyCommand copyCmd = new BPELCopyCommand(bpelEditor);
+		copyCmd.setObjectList( new ArrayList<EObject>(fSelection) );
+		cmd.add(copyCmd);
+		
+		
+		return cmd;
 	}
+
 	
-	/**
-	 * Performs the copy action on the selected objects.
-	 */
-	public void run() {
-		List selList = getSelectedObjects();
-		execute(createCopyCommand(selList));
-	}
 }

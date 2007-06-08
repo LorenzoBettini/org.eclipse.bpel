@@ -10,64 +10,128 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import java.util.ArrayList;
+
+import org.eclipse.bpel.common.ui.markers.ModelMarkerUtil;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.model.adapters.AbstractAdapter;
-import org.eclipse.bpel.model.adapters.IStatefullAdapter;
+import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.IHoverHelper;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.VariableEditPart;
 import org.eclipse.bpel.ui.properties.PropertiesLabelProvider;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.jface.fieldassist.IContentProposal;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
 
-public class VariableAdapter extends AbstractAdapter implements INamedElement, ILabeledElement,
+/**
+ * Variable adapter.
+ * 
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 23, 2007
+ *
+ */
+public class VariableAdapter extends AbstractStatefulAdapter implements INamedElement, ILabeledElement,
 	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, 
-	ITrayEditPartFactory, IExtensionFactory, IContentProposal,
-	IStatefullAdapter
+	ITrayEditPartFactory, IExtensionFactory, IContentProposal, IHoverHelper, AdapterNotification
 {
-
-	Variable myVariable ( Object obj ) {
-		return (Variable) getTarget(obj, Variable.class) ;
-	}
-	/* INamedElement */
 	
-	public String getName(Object modelObject) {
-		return myVariable(modelObject).getName();
+
+	/**
+	 * @see org.eclipse.bpel.model.adapters.AbstractAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	@Override
+	public void notifyChanged(Notification notification) {		
+		super.notifyChanged(notification);
+		switch (notification.getEventType()) {
+			case NOTIFICATION_MARKERS_STALE : 
+				fMarkers.clear();
+				break;
+			case NOTIFICATION_MARKER_ADDED :
+				fMarkers.add ( (IMarker) notification.getNewValue() );
+				break;
+			case NOTIFICATION_MARKER_DELETED :
+				fMarkers.remove ( notification.getOldValue() );
+				break;								
+		}				
 	}
+	
+	ArrayList<IMarker> fMarkers = new ArrayList<IMarker>();
+
+	static IMarker [] EMPTY_MARKERS = {};
+	
+	/** (non-Javadoc)
+	 * @see org.eclipse.bpel.ui.adapters.IMarkerHolder#getMarkers(java.lang.Object)
+	 */
+
+	public IMarker[] getMarkers (Object object) {
+		
+		if (fMarkers.size() == 0) {
+			return EMPTY_MARKERS;
+		}
+		return fMarkers.toArray( EMPTY_MARKERS );						
+	}
+	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.INamedElement#getName(java.lang.Object)
+	 */	
+	public String getName(Object modelObject) {
+		return getTarget(modelObject, Variable.class).getName();
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.INamedElement#setName(java.lang.Object, java.lang.String)
+	 */
 	
 	public void setName(Object modelObject, String name) {
-		myVariable(modelObject).setName(name);
+		getTarget(modelObject, Variable.class).setName(name);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.INamedElement#isNameAffected(java.lang.Object, org.eclipse.emf.common.notify.Notification)
+	 */
 	public boolean isNameAffected(Object modelObject, Notification n) {
 		return (n.getFeatureID(Variable.class) == BPELPackage.VARIABLE__NAME);
 	}
 
-	/* ILabeledElement */
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
+	 */
 	
 	public Image getSmallImage(Object object) {
 		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_VARIABLE_16);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLargeImage(java.lang.Object)
+	 */
 	public Image getLargeImage(Object object) {
 		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_VARIABLE_32);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getTypeLabel(java.lang.Object)
+	 */
 	public String getTypeLabel(Object object) {
 		return Messages.BPELVariableAdapter_Variable_1; 
 	}	
 	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLabel(java.lang.Object)
+	 */
 	public String getLabel(Object object) {
 		String name = getName(object);
 		if (name != null) {
@@ -76,7 +140,11 @@ public class VariableAdapter extends AbstractAdapter implements INamedElement, I
 		return getTypeLabel(object);
 	}
 	
-	/* EditPartFactory */
+	
+	/**
+	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
+	 */
+
 	
 	public EditPart createEditPart(EditPart context, Object model) {
 		VariableEditPart result = new VariableEditPart();
@@ -85,7 +153,10 @@ public class VariableAdapter extends AbstractAdapter implements INamedElement, I
 		return result;
 	}
 
-	/* IOutlineEditPartFactory */
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IOutlineEditPartFactory#createOutlineEditPart(org.eclipse.gef.EditPart, java.lang.Object)
+	 */
 	
 	public EditPart createOutlineEditPart(EditPart context, Object model) {
 		EditPart result = new OutlineTreeEditPart();
@@ -93,41 +164,38 @@ public class VariableAdapter extends AbstractAdapter implements INamedElement, I
 		return result;
 	}
 
-	/* ITrayEditPartFactory */
+	/** (non-Javadoc)
+	 * @see org.eclipse.bpel.ui.adapters.ITrayEditPartFactory#createTrayEditPart(org.eclipse.gef.EditPart, java.lang.Object)
+	 */	
 	
 	public EditPart createTrayEditPart(EditPart context, Object model) {
 		return createEditPart(context, model);
 	}
 	
-	/* IMarkerHolder */
-
-	public IMarker[] getMarkers(Object object) {
-		return BPELUtil.getMarkers(object);
-	}
-
-	/* IExtensionFactory */
 	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IExtensionFactory#createExtension(org.eclipse.emf.ecore.EObject)
+	 */
 	public EObject createExtension(EObject object) {
 		return UiextensionmodelFactory.eINSTANCE.createVariableExtension();
 	}
 	
 	
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.fieldassist.IContentProposal#getContent()
 	 */
 	public String getContent() {
 		return getLabel ( getTarget() );		
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.fieldassist.IContentProposal#getCursorPosition()
 	 */
-	public int getCursorPosition() {
-		// TODO Auto-generated method stub
+	public int getCursorPosition() {		
 		return -1;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.jface.fieldassist.IContentProposal#getDescription()
 	 */
 	public String getDescription() {
@@ -139,13 +207,32 @@ public class VariableAdapter extends AbstractAdapter implements INamedElement, I
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.jface.fieldassist.IContentProposal#getLabel()
 	 */
+	
 	public String getLabel() {
-		return Messages.bind(Messages.VariableAdapter_0, 
+		return NLS.bind(Messages.VariableAdapter_0, 
 				getLabel( getTarget() ),
 				getLabel ( getTarget() ) );
+	}
+
+	
+	/**
+	 * @see org.eclipse.bpel.ui.IHoverHelper#getHoverFigure(org.eclipse.emf.ecore.EObject)
+	 */
+	
+	public String getHoverFigure (EObject modelObject) {
+		Variable v = getTarget(modelObject, Variable.class);
+		return "Variable \"" + v.getName() + "\"";
+	}
+
+	
+	/**
+	 * @see org.eclipse.bpel.ui.IHoverHelper#getHoverHelp(org.eclipse.core.resources.IMarker)
+	 */
+	public String getHoverHelp (IMarker marker) {		
+		return ModelMarkerUtil.getText(marker);
 	}
 		
 }

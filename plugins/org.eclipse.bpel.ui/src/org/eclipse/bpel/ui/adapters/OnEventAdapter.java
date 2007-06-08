@@ -82,11 +82,6 @@ public class OnEventAdapter extends ContainerAdapter implements ILabeledElement,
 		return result;
 	}
 	
-	/* IMarkerHolder */
-	
-	public IMarker[] getMarkers(Object object) {
-		return BPELUtil.getMarkers(object);
-	}
 
 	/* IExtensionFactory */
 	

@@ -108,25 +108,31 @@ public class ScopeEditPart extends CollapsableEditPart {
 		}		
 	}
 	
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		
 		// Show the selection rectangle
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ContainerHighlightEditPolicy(false, true) {
+			@Override
 			protected int getDrawerInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH;
 			}
+			@Override
 			protected int getNorthInset() {
-				return 5;
+				return 0;
 			}
+			@Override
 			protected int getSouthInset() {
 				return 3;
 			}
+			@Override
 			protected int getEastInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH;
 			}
+			@Override
 			protected int getWestInset() {
-				return LeafBorder.DRAWER_WIDTH + 2;
+				return DrawerBorder.DRAWER_WIDTH;
 			}			
 		});
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedLayoutEditPolicy());

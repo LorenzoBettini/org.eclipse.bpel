@@ -15,6 +15,7 @@ import java.util.List;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.util.TransferBuffer;
+import org.eclipse.emf.ecore.EObject;
 
 
 /**
@@ -23,27 +24,48 @@ import org.eclipse.bpel.ui.util.TransferBuffer;
 public class BPELCopyCommand extends AutoUndoCommand {
 
 	TransferBuffer.Contents undo, redo;
-	BPELEditor bpelEditor;
-	List originalObjects;
+	BPELEditor fBpelEditor;
 	
-	public BPELCopyCommand(BPELEditor bpelEditor) {
+	List<EObject> fOriginalObjects;
+	
+	/**
+	 * Brand new shiny copy command.
+	 * 
+	 * @param bpelEditor
+	 */
+	
+	public BPELCopyCommand (BPELEditor bpelEditor) {
 		// TODO: hack: use process as modelRoot
 		super(bpelEditor.getProcess());
-		this.bpelEditor = bpelEditor;
+		this.fBpelEditor = bpelEditor;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#canDoExecute()
+	 */
+	@Override
 	public boolean canDoExecute() {
-		return originalObjects != null && originalObjects.size() > 0;
+		return fOriginalObjects != null && fOriginalObjects.size() > 0;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
-		TransferBuffer transferBuffer = bpelEditor.getTransferBuffer();
+		TransferBuffer transferBuffer = fBpelEditor.getTransferBuffer();
 		undo = transferBuffer.getContents();
-		transferBuffer.copyObjectsToTransferBuffer(originalObjects, bpelEditor.getExtensionMap());
+		transferBuffer.copyObjectsToTransferBuffer(fOriginalObjects, fBpelEditor.getExtensionMap());
 		redo = transferBuffer.getContents();
 	}
 	
-	public void setObjectList(List originalObjects) {
-		this.originalObjects = originalObjects;
+	/**
+	 * Set the list of objects to copy.
+	 * 
+	 * @param copyList the list of objects to copy.
+	 */
+	
+	public void setObjectList(List<EObject> copyList) {
+		this.fOriginalObjects = copyList;
 	}
 }

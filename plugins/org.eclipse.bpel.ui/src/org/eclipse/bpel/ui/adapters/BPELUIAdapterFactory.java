@@ -10,11 +10,24 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.bpel.model.util.BPELAdapterFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
+
+
+
+/**
+ * BPELUIAdapterFactory for generating adapters.
+ * 
+ * We use an instance of AdapterProvider that caches singleton adapters.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 23, 2007
+ *
+ */
 
 public class BPELUIAdapterFactory extends BPELAdapterFactory {
 
@@ -26,6 +39,12 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		provider = new AdapterProvider();
 	}
 	
+	/**
+	 * Get the instance of this factory.
+	 * 
+	 * @return an instance of this factory.
+	 */
+	
 	public static BPELUIAdapterFactory getInstance() {
 		if (instance == null) {
 			instance = new BPELUIAdapterFactory();
@@ -33,6 +52,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return instance;
 	}
 	
+	@Override
 	public Adapter createRepeatUntilAdapter() {
 		return provider.getAdapter(RepeatUntilAdapter.class);
 	}
@@ -196,23 +216,40 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	public Adapter createValidateAdapter() {
 		return provider.getAdapter(ValidateAdapter.class);		
 	}
+	
+	
+	
+	/**
+	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createExpressionAdapter()
+	 */
+	@Override
+	public Adapter createExpressionAdapter() {		
+		return provider.getAdapter(ExpressionAdapter.class);
+	}
+	
 
-
-	// Anyone creating a new adapter factory needs these three methods verbatim.
+	/**
+	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
+	 */
+	@Override
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
-		if (adapter != null && adapter.isAdapterForType(type)) {
-			associate(adapter, target);
-			return adapter;
+		if (adapter == null) {
+			return null;
 		}
+		associate(adapter,target);
+		return adapter.isAdapterForType(type) ? adapter : null;		
+	}
+	
+	@Override
+	protected Object resolve (Object object, Object type) {
 		return null;
 	}
 	
-	protected Object resolve(Object object, Object type) {
-		return null;
-	}
-
-    protected Adapter createAdapter(Notifier target, Object type) {
+	
+	
+    @Override
+	protected Adapter createAdapter(Notifier target, Object type) {
     	if (BPELUtil.isCustomActivity(target)) {
             // If we have a custom activity that did not provide a
             // custom adapter we create a default adapter. 

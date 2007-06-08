@@ -1,6 +1,7 @@
 package org.eclipse.bpel.ui.adapters;
 
 
+import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IStatus;

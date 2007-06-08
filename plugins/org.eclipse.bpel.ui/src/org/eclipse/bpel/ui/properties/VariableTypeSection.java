@@ -14,6 +14,7 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.commands.SetVariableKindCommand;
 import org.eclipse.bpel.ui.commands.SetVariableTypeCommand;
 import org.eclipse.bpel.ui.uiextensionmodel.VariableExtension;
@@ -72,14 +73,37 @@ public class VariableTypeSection extends BPELPropertySection {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new BatchedMultiObjectAdapter() {
+				
 				boolean update = false;
 				
 				@Override
-				public void notify(Notification n) {
-					if (isMessageTypeAffected(n)) update = true;
-					if (isTypeAffected(n)) update = true;
-					if (isElementAffected(n)) update = true;
-					if (n.getNotifier() instanceof VariableExtension) update = true;
+				public void notify (Notification n) {
+					if (update) {
+						return ;
+					}
+					
+					int eventGroup = n.getEventType() / 100; 
+					if (eventGroup == AdapterNotification.NOTIFICATION_MARKERS_CHANGED_GROUP) {
+						update = true;
+						return;
+					}
+
+					if (isMessageTypeAffected(n)) {
+						update = true;
+						return;
+					}
+					if (isTypeAffected(n)) {
+						update = true;
+						return ;
+					}
+					if (isElementAffected(n)) {
+						update = true;
+						return;
+					}
+					if (n.getNotifier() instanceof VariableExtension) {
+						update = true;
+						return ;
+					}
 				}
 				
 				@Override
@@ -216,12 +240,6 @@ public class VariableTypeSection extends BPELPropertySection {
 	@Override
 	public boolean isValidMarker (IMarker marker) {
 
-		boolean isValid = super.isValidMarker(marker);
-		
-		if (!isValid) {
-			return false;
-		}
-		
 		String context = null;
 		try {
 			context = (String) marker.getAttribute("href.context");
@@ -237,7 +255,7 @@ public class VariableTypeSection extends BPELPropertySection {
 	protected void updateMarkers () {				
 		variableTypeSelector.dataTypeLabel.clear();		
 		for(IMarker m : getMarkers(getInput())) {
-			variableTypeSelector.dataTypeLabel.addStatus((IStatus) BPELUtil.adapt(m, IStatus.class));
+			variableTypeSelector.dataTypeLabel.addStatus(BPELUtil.adapt(m, IStatus.class));
 		}		
 	}
 	

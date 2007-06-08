@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
-import java.util.Map;
-
-import org.eclipse.bpel.ui.editparts.borders.ContainerBorder;
-import org.eclipse.bpel.ui.editparts.borders.LeafBorder;
+import org.eclipse.bpel.ui.editparts.borders.DrawerBorder;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.ContainerHighlightEditPolicy;
 import org.eclipse.draw2d.FlowLayout;
@@ -21,42 +18,46 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 
 
+/**
+ * @author IBM, Original contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com) 
+ */
+
+
 public class SequenceEditPart extends CollapsableEditPart {
-
-	protected Map sourceMap, targetMap;
-
+	
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		
 		// Show the selection rectangle
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ContainerHighlightEditPolicy(false, true) {
+			@Override
 			protected int getDrawerInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH;
 			}
+			@Override
 			protected int getNorthInset() {
 				if (isCollapsed()) {
-					return 2;
-				} else {
-					// This one is tricky, it depends on the font size.
-					// Ask the border for help.
-					ContainerBorder border = (ContainerBorder)getContentPane().getBorder();
-					// HACK!
-					if (border == null) return 2;
-					return border.getTopInset() + 2;
+					return 0;
 				}
+				
+				// This one is tricky, it depends on the font size.
+				
+				return 10 ;
 			}
+			
+			@Override
 			protected int getSouthInset() {
-				if (isCollapsed()) {
-					return 9;
-				} else {
-					return 3;
-				}
+				return isCollapsed() ? 8 : 2;
 			}
+			@Override
 			protected int getEastInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH ;
 			}
+			@Override
 			protected int getWestInset() {
-				return LeafBorder.DRAWER_WIDTH + 2;
+				return DrawerBorder.DRAWER_WIDTH ;
 			}
 		});
 		
@@ -64,12 +65,14 @@ public class SequenceEditPart extends CollapsableEditPart {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
 	}
 	
-	protected void configureExpandedFigure(IFigure figure) {
+	@Override
+	protected void configureExpandedFigure(IFigure aFigure) {
+		
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
 		layout.setHorizontal(false);
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);
-		figure.setLayoutManager(layout);
+		aFigure.setLayoutManager(layout);
 	}
 }

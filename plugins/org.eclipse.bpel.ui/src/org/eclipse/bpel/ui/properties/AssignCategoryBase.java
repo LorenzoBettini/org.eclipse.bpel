@@ -40,21 +40,23 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * of From/To contents.  Subclasses of AssignCategory can answer whether they apply
  * to the contents of a particular From or To, and they provide widgets specific to
  * that kind of contents.
- * 
- * @see AssignImplSection.categories
+ *  
  */
+
 public abstract class AssignCategoryBase extends BPELPropertySection implements IAssignCategory {
 
-	protected boolean isFrom;
-	protected BPELPropertySection ownerSection;
+	protected boolean fIsFrom;
+	protected BPELPropertySection fOwnerSection;
 
-	protected Copy modelCopy;
-	protected Composite composite;
-	protected ChangeHelper changeHelper;
+	protected Copy fModelCopy;
+	protected Composite fComposite;
+	protected ChangeHelper fChangeHelper;
+	protected Composite fParent;
+	
 	
 	protected AssignCategoryBase(boolean isFrom, BPELPropertySection ownerSection) {
-		this.isFrom = isFrom;
-		this.ownerSection = ownerSection;
+		this.fIsFrom = isFrom;
+		this.fOwnerSection = ownerSection;
 	}
 
 	/**
@@ -80,44 +82,58 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		return IBPELUIConstants.FORMAT_CMD_SELECT;
 	}
 	
-	protected ChangeHelper getChangeHelper() { return changeHelper; }
+	protected ChangeHelper getChangeHelper() { return fChangeHelper; }
 
 	/**
 	 * Policy: wrap the command with contexts from the ownerSection (rather
 	 * than from the category itself).  On undo, the ownerSection will delegate
 	 * to the category's methods. 
 	 */
+		@Override
 	protected Command wrapInShowContextCommand(Command inner) {
-		return super.wrapInShowContextCommand(inner, ownerSection);
+		return super.wrapInShowContextCommand(inner, fOwnerSection);
 	}
 	
 	protected boolean isToOrFromAffected(Notification n) {
-		if (isFrom) {
+		if (fIsFrom) {
 			return (n.getFeatureID(Copy.class) == BPELPackage.COPY__FROM);
 		}
 		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__TO);
 	}
 
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new MultiObjectAdapter() {
+				@Override
 				public void notify(Notification n) {
 					if (isToOrFromAffected(n))  updateCategoryWidgets();
 				}
 			},
 		};
 	}
+	
+	/**
+	 * Return the composite that was used in createControls call.
+	 * 
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getComposite()
+	 */	
+	public Composite getComposite () {
+		return fParent;		
+	}
 
+	
+	
 	/**
 	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
 	 */
 	@Override
-	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+	public void createControls (Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		// hack - we have to do this in order to get the command framework before calling super.createControls
 		ICommandFramework commandFramework = ((BPELTabbedPropertySheetPage)aTabbedPropertySheetPage).getEditor().getCommandFramework();
 		
-		changeHelper = new ChangeHelper(commandFramework) {
+		fChangeHelper = new ChangeHelper(commandFramework) {
 			public String getLabel() {
 				return BPELUtil.formatString(getLabelFlatFormatString(), getName());
 			}
@@ -131,6 +147,8 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		
 		super.createControls(parent, aTabbedPropertySheetPage);
 		
+		fParent = parent;
+		
 //		createClient(parent);
 //		parent.addDisposeListener(new DisposeListener() {
 //			public void widgetDisposed(DisposeEvent e) {
@@ -139,33 +157,47 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 //		});
 	}
 
+	@Override
 	protected void basicSetInput(EObject newInput) {
 		super.basicSetInput(newInput);
-		this.modelCopy = (Copy)newInput;
+		this.fModelCopy = (Copy)newInput;
 	}
 
 	protected void updateCategoryWidgets() {
-		if (isFrom) {
-			loadToOrFrom((modelCopy==null)? null : modelCopy.getFrom());
+		if (fIsFrom) {
+			loadToOrFrom((fModelCopy==null)? null : fModelCopy.getFrom());
 		} else {
-			loadToOrFrom((modelCopy==null)? null : modelCopy.getTo());
+			loadToOrFrom((fModelCopy==null)? null : fModelCopy.getTo());
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	
 	public Command newStoreModelCommand()  {
-		if (modelCopy == null)  return null;
-		if (isFrom) {
+		
+		if (fModelCopy == null)  {
+			return null;
+		}
+		
+		if (fIsFrom) {
 			From newFrom = BPELFactory.eINSTANCE.createFrom();
 			storeToOrFrom(newFrom);
-			return new SetCopyFromCommand(modelCopy, newFrom);
+			return new SetCopyFromCommand(fModelCopy, newFrom);
 		}
 		To newTo = BPELFactory.eINSTANCE.createTo();
 		storeToOrFrom(newTo);
-		return new SetCopyToCommand(modelCopy, newTo);
+		return new SetCopyToCommand(fModelCopy, newTo);
 	}
 
-	protected boolean isDefaultCompositeOpaque() { return true; }
+	
+	protected boolean isDefaultCompositeOpaque() { 
+		return true; 
+	}
 
+	@Override
 	protected final void createClient(Composite parent) {
 		// ugly HACK to make subclasses work
 		FlatFormLayout layout = new FlatFormLayout();
@@ -180,28 +212,38 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 */
 	protected void createClient2(Composite parent) {
 		if (isDefaultCompositeOpaque()) {
-			composite = wf.createPlainComposite(parent, SWT.NONE);
+			fComposite = wf.createPlainComposite(parent, SWT.NONE);
 		} else {
-			composite = wf.createComposite(parent);
+			fComposite = wf.createComposite(parent);
 		}
 		FlatFormLayout layout = new FlatFormLayout();
 		layout.marginWidth = 0;//IDetailsAreaConstants.HMARGIN;
 		layout.marginHeight = 0;//IDetailsAreaConstants.VMARGIN;
-		composite.setLayout(layout);
+		fComposite.setLayout(layout);
 		FlatFormData data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
 		data.top = new FlatFormAttachment(0, 0);
 		data.bottom = new FlatFormAttachment(100, 0);
 //		data.borderType = IBorderConstants.BORDER_1P1_BLACK;
-		composite.setLayoutData(data);
+		fComposite.setLayoutData(data);
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#refresh()
+	 */
+	@Override
 	public void refresh() {
 		super.refresh();
 		updateCategoryWidgets();
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#aboutToBeHidden()
+	 */
+	@Override
 	public void aboutToBeHidden() {
 		if (isCreated) {
 			// hack!
@@ -213,11 +255,18 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	
 	/**
 	 * This is just a workaround to keep the AssignCategory from changing too much.
+	 * @param model the model object
 	 */
-	public void setInput(EObject model) {
+	
+	public void setInput (EObject model) {
 		this.modelObject = model;
 		basicSetInput(model);
 	}
 	
-	public boolean isHidden() { return isHidden; }
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isHidden()
+	 */
+	public boolean isHidden() { 
+		return isHidden; 
+	}
 }

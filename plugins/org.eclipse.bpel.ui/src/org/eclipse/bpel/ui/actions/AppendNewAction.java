@@ -12,14 +12,13 @@ package org.eclipse.bpel.ui.actions;
 
 import java.util.List;
 
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
-import org.eclipse.bpel.ui.editparts.BPELEditPart;
-import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
-import org.eclipse.bpel.ui.editparts.util.ReferencedAddRequest;
+import org.eclipse.bpel.ui.commands.SetSelectionCommand;
 import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
@@ -33,18 +32,51 @@ import org.eclipse.ui.IWorkbenchPart;
 
 
 
+/**
+ * This action appends a new object to the container object that is currently <b>selected</b>.
+ * 
+ * The selection must be of type ExtensibleElement and it must allow an addition of such an object
+ * to the list of children (via the IContainer interface).
+ * 
+ * 
+ * @author IBM Original contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 31, 2007
+ *
+ */
+
+
 public class AppendNewAction extends SelectionAction {
 	
 	protected AbstractUIObjectFactory factory;
 	protected Object cachedInstance;  // used for IContainer.canAddObject()
 	
-	public AppendNewAction(IWorkbenchPart editor, AbstractUIObjectFactory factory) {
-		this(editor, factory, factory.getTypeLabel());
+	/** the computed selection */
+	protected ExtensibleElement fSelection;
+	
+	
+	/**
+	 * Brand new AppendNewAction action object.
+	 * 
+	 * @param editor the editor
+	 * @param aFactory the factory
+	 */
+	public AppendNewAction(IWorkbenchPart editor, AbstractUIObjectFactory aFactory) {
+		this(editor, aFactory, aFactory.getTypeLabel());
 	}
 	
-	public AppendNewAction(IWorkbenchPart editor, AbstractUIObjectFactory factory, String label) {
+	/**
+	 * Brand new AppendNewAction action object.
+	 * 
+	 * @param editor
+	 * @param aFactory
+	 * @param label 
+	 */
+	
+	public AppendNewAction(IWorkbenchPart editor, AbstractUIObjectFactory aFactory, String label) {
 		super(editor);
-		this.factory = factory;
+		this.factory = aFactory;
+		
 		cachedInstance = factory.getNewObject();
 		setId(calculateID());
 		setText(label);
@@ -52,85 +84,95 @@ public class AppendNewAction extends SelectionAction {
 		setImageDescriptor(factory.getSmallImageDescriptor());
 	}
 
+	@Override
 	protected void init() {
 		super.init();
 		setEnabled(false);
 	}
 
+	
 	protected String calculateID() {
 		return "appendNew."+factory.getUniqueIdString(); //$NON-NLS-1$
 	}
 	
-	// TODO: fix the getCreateCommand() story so this can go away
-	protected Object findModelObject(Command cmd) {
-		if (cmd instanceof InsertInContainerCommand) {
-			return ((InsertInContainerCommand)cmd).getChild();
-		}
-		if (cmd instanceof CompoundCommand) {
-			CompoundCommand compoundCmd = (CompoundCommand)cmd;
-			Object[] cmds = compoundCmd.getChildren();
-			for (int i = 0; i<cmds.length; i++) {
-				Object result = findModelObject((Command)cmds[i]);
-				if (result != null)  return null;
-			}
-		}
-		return null;
-	}
-
-	public Command createAppendNewCommand(List objects) {
-		if (objects.isEmpty()) return null;
-		if (!(getWorkbenchPart() instanceof BPELEditor)) return null;
-
-		if (!(objects.get(0) instanceof BPELEditPart) &&
-			(!(objects.get(0) instanceof OutlineTreeEditPart)))
+	
+	/**
+	 * Return the create command.
+	 * 
+	 * @return the create command for add the new activity.
+	 */
+	
+	public Command getCreateCommand () {
+		
+		if (fSelection == null) {
 			return null;
-
-		// TODO: how to do this without relying on the viewer??
-
-		BPELEditor bpelEditor = (BPELEditor)getWorkbenchPart();
-		EditPartViewer viewer = bpelEditor.getGraphicalViewer();
-			
-		ReferencedAddRequest addreq = new ReferencedAddRequest();
-		addreq.setType(ReferencedAddRequest.typeString);
-		addreq.setFactory(factory);
-		CompoundCommand compoundCmd = new CompoundCommand();
-		for (int i = 0; i < objects.size(); i++) {
-			EditPart object = (EditPart) objects.get(i);
-			Command cmd = object.getCommand(addreq);
-			if (cmd != null) {
-				compoundCmd.add(cmd);
-				compoundCmd.setLabel(cmd.getLabel());
-				// hack!
-				Object model = findModelObject(cmd);
-				if (model != null) {
-					compoundCmd.add(new SetNameAndDirectEditCommand(model, viewer));
-				}
-			}
 		}
+		
+		CompoundCommand compoundCmd = new CompoundCommand();
+		
+		BPELEditor bpelEditor = (BPELEditor) getWorkbenchPart();
+		EditPartViewer viewer = bpelEditor.getGraphicalViewer();
+		
+		EObject model = (EObject) factory.getNewObject();
+		
+		compoundCmd.add( new InsertInContainerCommand( fSelection,model,null ) );
+		compoundCmd.add( new SetSelectionCommand ( fSelection, true ) );
+		compoundCmd.add( new SetSelectionCommand ( model, false ) );
+		compoundCmd.add( new SetNameAndDirectEditCommand (model, viewer) );
+		
 		return compoundCmd;
 	}
-
+	
+	
+	
+	@Override
 	protected boolean calculateEnabled() {
-		if (!(getWorkbenchPart() instanceof BPELEditor)) return false;
-
-		List objects = getSelectedObjects();
-		if (objects.size() != 1) return false;
-
-		if (!(objects.get(0) instanceof BPELEditPart)
-			&& (!(objects.get(0) instanceof OutlineTreeEditPart)))
+			
+		List<?> objects = getSelectedObjects();
+		
+		if ( objects.size() != 1 ) {
+			
+			fSelection = null;
 			return false;
+		}
 
-		// not enabled unless the selected object is a container
-		Object modelObject = ((EditPart)objects.get(0)).getModel();
-		if (!(modelObject instanceof EObject)) return false;
-		IContainer container = (IContainer)BPELUtil.adapt(modelObject, IContainer.class);
-		if (container == null) return false;
+		Object sel = objects.get(0);		
+		
+		if (sel instanceof EditPart) {
+			EditPart part = (EditPart) sel;
+			sel = part.getModel();
+		} 
+		
+		if (sel instanceof ExtensibleElement) {
+			fSelection = (ExtensibleElement) sel;
+		} 
+		
+		if (fSelection == null) {
+			fSelection = null;
+			return false;
+		}
+		
+		IContainer container = BPELUtil.adapt(fSelection, IContainer.class);
+		if (container == null) {
+			fSelection = null;
+			return false;
+		}
 		// make sure it can contain something of this type
-		return (container.canAddObject(modelObject, cachedInstance, null));
+		if ( container.canAddObject(fSelection, cachedInstance, null) == false ) {
+			fSelection = null; 
+			return false;
+		}
+		
+		return true;
 	}
 
-	public void run() {
-		execute(createAppendNewCommand(getSelectedObjects()));
+	
+	/**
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
+	@Override
+	public void run() {		
+		execute( getCreateCommand() );
 	}
 	
 }

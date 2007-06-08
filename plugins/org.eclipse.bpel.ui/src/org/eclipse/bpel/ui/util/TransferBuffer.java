@@ -12,151 +12,279 @@ package org.eclipse.bpel.ui.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author IBM, Original contribution. 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jun 4, 2007
+ * 
+ */
 
 public class TransferBuffer {
 
 	protected static final boolean DEBUG = false;
-	
+
+	/**
+	 * @author IBM, Original contribution.
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date Jun 4, 2007
+	 *
+	 */
 	public static class Contents {
-		Map extensionMap;
-		List rootObjects;
-		Contents(Map extensionMap, List rootObjects) {
-			this.extensionMap = extensionMap;
-			this.rootObjects = rootObjects;
+		
+		Map fExtensionMap;
+		List<EObject> fRootObjects;
+
+		Contents(Map extensionMap, List<EObject> rootList ) {
+			this.fExtensionMap = extensionMap;
+			this.fRootObjects = rootList;
 		}
 	}
 
-	Contents contents;
+	Contents fContents;
+
+	/**
+	 * Return the contents of the transfer buffer.
+	 * 
+	 * @return contents of the transfer buffer.
+	 */
+
+	public Contents getContents() {
+		return fContents;
+	}
+
+	/**
+	 * Set the contents of this transfer buffer.
+	 * 
+	 * @param aContents
+	 *            contents of this transfer buffer.
+	 */
+
+	public void setContents(Contents aContents) {
+		this.fContents = aContents;
+	}
+
+	/**
+	 * Get the list of outermost objects from the list of objects passed.
+	 * If a sequence and an activity in the sequence are present in aList, then only
+	 * the sequence is returned.
+	 * 
+	 * @param aList
+	 * @return the list of outermost objects.
+	 */
 	
-	public Contents getContents() { return contents; }
-	public void setContents(Contents contents) { this.contents = contents; }
+	public List<EObject> getOutermostObjects(List<EObject> aList) {
 
+		ArrayList<EObject> trimmedList = new ArrayList<EObject>(aList.size());
 
-	public List getOutermostObjects(List sourceObjects) {
-		List result = new ArrayList();
-
-		// Find all source objects which are not contained (directly or indirectly)
-		// inside another source object.
-		for (int i = 0; i<sourceObjects.size(); i++) {
-			EObject model1 = (EObject)sourceObjects.get(i);
-			if (model1 == null)  continue;
-			boolean isOutermost = true;
-			for (int j = 0; j<sourceObjects.size(); j++) {
-				if (i == j) continue;
-				EObject model2 = (EObject)sourceObjects.get(j);
-				if (model2 != null && ModelHelper.isChildContainedBy(model2, model1)) {
-					isOutermost = false; break;
+		for (EObject next : aList) {
+			boolean skipNext = false;
+			for (EObject parent : aList) {
+				if (next != parent
+						&& ModelHelper.isChildContainedBy(parent, next)) {
+					skipNext = true;
+					break;
 				}
 			}
-			if (isOutermost) result.add(model1);
+
+			if (skipNext) {
+				continue;
+			}
+
+			trimmedList.add(next);
 		}
-		return result;
+		return trimmedList;
 	}
+
 	
-	public void copyObjectsToTransferBuffer(List sourceObjects, ExtensionMap sourceMap) {
-		if (DEBUG) System.out.println("copyObjectsToTransferBuffer("+sourceObjects.size()+")");  //$NON-NLS-1$ //$NON-NLS-2$
+	
+	
+	/**
+	 * Copy the passed source objects to the transfer buffer.
+	 * 
+	 * @param sourceObjects
+	 * @param sourceMap
+	 */
+	
+	public void copyObjectsToTransferBuffer(List<EObject> sourceObjects, ExtensionMap sourceMap) {
+		if (DEBUG) {
+			System.out
+					.println("copyObjectsToTransferBuffer(" + sourceObjects.size() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		
 		Map targetMap = new HashMap();
-		List sourceList = getOutermostObjects(sourceObjects);
-		List targetList = new ArrayList();
-		// TODO: are there issues here with processsing subtrees one-by-one?  E.g. references
-		// to an object which is copied in a different subtree?  (Probably not, for our model)
-		for (int i = 0; i<sourceList.size(); i++) {
-			EObject source = (EObject)sourceList.get(i);
-			EObject target = BPELUtil.cloneSubtree(source, sourceMap, targetMap).targetRoot;
+		List<EObject> sourceList = getOutermostObjects (sourceObjects);
+		List<EObject> targetList = new ArrayList<EObject>();
+		
+		// TODO: are there issues here with processing subtrees one-by-one?
+		// E.g. references
+		// to an object which is copied in a different subtree? (Probably not,
+		// for our model)
+		
+		for (EObject source : sourceList) {
+			EObject target = BPELUtil
+					.cloneSubtree(source, sourceMap, targetMap).targetRoot;
 			targetList.add(target);
 		}
-		
+
 		// Remove links which are referenced by root activities and were not
-		// copied!  Otherwise, when the root activites are pasted the stale references from
+		// copied! Otherwise, when the root activities are pasted the stale
+		// references from
 		// roots to these links will be pasted too.
-		for (int i = 0; i<targetList.size(); i++) {
-			EObject targetObject = (EObject)targetList.get(i);
-			if (targetObject instanceof Activity) {
-				Activity activity = (Activity)targetObject;
-				Sources sources = activity.getSources();
-				if (sources != null) {
-					for (Iterator it = sources.getChildren().iterator(); it.hasNext(); ) {
-						Source source = (Source)it.next();
-						if (!targetMap.containsValue(source.getLink())) {
-							source.setLink(null);
-							it.remove(); 
-						}
-					}
-					if (sources.getChildren().isEmpty()) {
-						activity.setSources(null);
-					}
-				}
-				
-				Targets targets = activity.getTargets();
-				if (targets != null) {
-					for (Iterator it = targets.getChildren().iterator(); it.hasNext(); ) {
-						Target target = (Target)it.next();
-						if (!targetMap.containsValue(target.getLink())) {
-							target.setLink(null);
-							it.remove(); 
-						}
-					}
-					if (targets.getChildren().isEmpty()) {
-						activity.setTargets(null);
-					}
-				}
-			}
-		}
 		
-		setContents(new Contents(targetMap, targetList));
-	}
-	
-	public boolean canCopyTransferBufferToIContainer(Object targetObject) {
-		IContainer container = (IContainer)BPELUtil.adapt(targetObject, IContainer.class);
-		if (container == null) return false;
-		// check each root object's type against the container..
-		for (Iterator it = getContents().rootObjects.iterator(); it.hasNext(); ) {
-			EObject source = (EObject)it.next();
-			// TODO: do we need to be aware of implicit sequences here??
-			if (!container.canAddObject(targetObject, source, null)) return false; 
-		}
-		return true;
-	}
-	
-	public boolean copyTransferBufferToIContainer(EObject targetObject, ExtensionMap targetMap) {
-		if (DEBUG) System.out.println("copyTransferBufferToIContainer("+targetObject+")"); //$NON-NLS-1$ //$NON-NLS-2$
-		//if (!canCopyTransferBufferToIContainer(targetObject)) throw new IllegalStateException();
-		IContainer container = (IContainer)BPELUtil.adapt(targetObject, IContainer.class);
-	
-		Process process = ModelHelper.getProcess(targetObject);
-
-		for (Iterator it = getContents().rootObjects.iterator(); it.hasNext(); ) {
-			EObject source = (EObject)it.next();
-			BPELUtil.CloneResult cloneResult = BPELUtil.cloneSubtree(source,
-				getContents().extensionMap, targetMap);
-
-			// Resolve name of the source activity to be unique
-			if (source instanceof Activity) {
-			    Activity activity = (Activity)cloneResult.targetRoot;
-			    String uniqueName = BPELUtil.getUniqueModelName(process, activity.getName(), null);
-			    activity.setName(uniqueName);
+		for (EObject targetObject : targetList ) {
+			if (targetObject instanceof Activity == false) {
+				continue;
 			}
 			
-			container.addChild(targetObject, cloneResult.targetRoot, null);
+			Activity activity = (Activity) targetObject;
+			Sources sources = activity.getSources();
+			if (sources != null) {
+				for(Object n : sources.getChildren()) {
+					Source source = (Source) n;
+					if (!targetMap.containsValue(source.getLink())) {
+						source.setLink(null);
+						sources.getChildren().remove(source);						
+					}
+				}
+				if (sources.getChildren().isEmpty()) {
+					activity.setSources(null);
+				}
+			}
+
+			Targets targets = activity.getTargets();
+			if (targets != null) {
+				for (Object n : targets.getChildren()) {
+					Target target = (Target) n;
+					if (!targetMap.containsValue(target.getLink())) {
+						target.setLink(null);
+						targets.getChildren().remove(target);
+					}
+				}
+				if (targets.getChildren().isEmpty()) {
+					activity.setTargets(null);
+				}
+			}
+		}
+
+		setContents(new Contents(targetMap, targetList));
+	}
+
+	/**
+	 * Copy the transfer buffer to the targetObject.
+	 * 
+	 * @param targetObject
+	 *            the target object to act as an anchor point.
+	 * 
+	 * @param targetMap
+	 * @param bReference treat target as reference.
+	 * 
+	 * @return the list of new objects added.
+	 */
+
+	public List<EObject> copyTransferBuffer(EObject targetObject,
+			ExtensionMap targetMap, boolean bReference ) {
+
+		EObject target = targetObject;
+		EObject refObj = null;
+		IContainer container = BPELUtil.adapt(target, IContainer.class);
+
+		if (container == null || bReference) {
+			// check its container
+			refObj = targetObject;
+			target = targetObject.eContainer();
+			container = BPELUtil.adapt(target, IContainer.class);
 		}
 		
-		// TODO: return the root objects pasted (i.e. set of targetObjects), so that the
-		// Paste command can select them!
+		Process process = ModelHelper.getProcess(targetObject);
+		ArrayList<EObject> newObjects = new ArrayList<EObject>();
+
+		for (EObject source : getContents().fRootObjects) {
+
+			BPELUtil.CloneResult cloneResult = BPELUtil.cloneSubtree(source,
+					getContents().fExtensionMap, targetMap);
+						
+			// Resolve name of the source activity to be unique
+			if (source instanceof Activity) {
+				Activity node = (Activity) cloneResult.targetRoot;								
+				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );				
+				node.setName(BPELUtil.upperCaseFirstLetter (uniqueName) );
+				
+			} else if (source instanceof Variable) {
+				Variable node = (Variable) cloneResult.targetRoot;								
+				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );
+				node.setName(uniqueName);				
+			} else if (source instanceof PartnerLink) {
+				PartnerLink node = (PartnerLink) cloneResult.targetRoot;								
+				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );
+				node.setName(uniqueName);								
+			} else if (source instanceof CorrelationSet ) {
+				CorrelationSet node = (CorrelationSet) cloneResult.targetRoot;								
+				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );
+				node.setName(uniqueName);								
+			}
+
+			container.addChild(target, cloneResult.targetRoot, refObj);
+			newObjects.add(cloneResult.targetRoot);
+		}
+
+		return newObjects;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param targetObject
+	 *            the target reference object around which the copy-from-buffer
+	 *            should be made.
+	 * @param bReference - treat the target as a reference, even if it is a container.
+	 * @return true of copy of transfer buffer can be made, false otherwise.
+	 */
+
+	public boolean canCopyTransferBufferTo (EObject targetObject, boolean bReference  ) {
 		
-		return true;
-	}	
+		if (targetObject == null) {
+			return false;
+		}
+		
+		EObject target = targetObject;
+		EObject refObj = null;
+		IContainer container = BPELUtil.adapt(target, IContainer.class);
+
+		if (container == null || bReference ) {
+			// check its container
+			refObj = targetObject;
+			target = targetObject.eContainer();
+			container = BPELUtil.adapt(target, IContainer.class);
+		}
+
+		if (container != null && fContents != null ) {
+			// check each root object's type against the container..
+			for (EObject next : fContents.fRootObjects ) {				
+				if (container.canAddObject(target, next, refObj) == false) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		
+		return false;
+	}
+
 }

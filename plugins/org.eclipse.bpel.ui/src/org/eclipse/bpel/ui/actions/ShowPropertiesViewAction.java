@@ -20,38 +20,58 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Show the properties view in the current perspective.
  */
+
 public class ShowPropertiesViewAction extends ShowViewAction {
 
+	/**
+	 * The action ID.
+	 */
+	
 	public static final String ACTION_ID = "org.eclipse.bpel.common.ui.actions.ShowPropertiesAction"; //$NON-NLS-1$
-	public static final String PROPERTY_VIEW_ID = "org.eclipse.ui.views.PropertySheet"; //$NON-NLS-1$
+	
+	/** 
+	 * The view ID.
+	 */
+	
+	public static final String VIEW_ID = "org.eclipse.ui.views.PropertySheet"; //$NON-NLS-1$
+	
+	/**
+	 * Brand new shiny Show Properties View action.
+	 */
 	
 	public ShowPropertiesViewAction() {
 		super();
 		setPage(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage());
-		setViewID(PROPERTY_VIEW_ID);
+		setViewID(VIEW_ID);
 		setId(ACTION_ID);
 		setText(Messages.ShowPropertiesViewAction_actionText); 
 		setToolTipText(getText());
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.action.IAction#getDisabledImageDescriptor()
 	 */
+	@Override
 	public ImageDescriptor getDisabledImageDescriptor() {
-		if (disabledImage == null) disabledImage = CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_SHOW_PROP_VIEW_D);
-
+		if (disabledImage == null) {
+			disabledImage = CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_SHOW_PROP_VIEW_D);
+		}
 		return disabledImage;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.action.IAction#getImageDescriptor()
 	 */
+	
+	@Override
 	public ImageDescriptor getImageDescriptor() {
-		if (enabledImage == null) enabledImage = CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_SHOW_PROP_VIEW_E);
+		if (enabledImage == null) {
+			enabledImage = CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_SHOW_PROP_VIEW_E);
+		}
 
 		return enabledImage;
 	}

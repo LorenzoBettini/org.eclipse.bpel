@@ -1483,6 +1483,7 @@ public class ModelHelper {
 			if (r != null) {
 				return BPELEditor.getBPELEditor(r.getResourceSet());
 			}
+			System.out.println("modelObject: does not have a eResource() == null ??!!!!");
 		} else if (modelObject instanceof Resource) {
 			return BPELEditor.getBPELEditor(((Resource)modelObject).getResourceSet());
 		} else if (modelObject instanceof ResourceSet) {

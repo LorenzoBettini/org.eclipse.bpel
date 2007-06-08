@@ -27,6 +27,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 
 /**
@@ -53,11 +54,31 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 
 	protected Composite composite;
 	
+	protected Composite fParent;
+	
+	
 	protected ExpressionAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
 		this.isFrom = isFrom;
 		this.ownerSection = ownerSection;
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+	 */
+	@Override
+	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {		
+		super.createControls(parent, aTabbedPropertySheetPage);
+		fParent = parent;
+	}
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getComposite()
+	 */
+	public Composite getComposite() {
+		return fParent;
+	}
+	
+	
 	// This is used by changeHelper to determine what shows up in Undo/Redo.
 	// The return value is FlatFormatted with getName() as the only argument.
 	// Subclasses may override.
@@ -162,13 +183,16 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		fillLayout.marginHeight = fillLayout.marginWidth = 0;
 		parent.setLayout(fillLayout);
 		super.createClient(parent);
-		
-		
 	}
+	
+	
+	
 	
 	// HACK
 	protected EObject getModel() {
 		if (modelObject == null) return null;
 		return ((Copy)modelObject).getFrom();
 	}
+	
 }
+

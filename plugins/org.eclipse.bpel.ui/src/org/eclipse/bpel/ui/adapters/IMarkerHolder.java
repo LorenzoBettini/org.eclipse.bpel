@@ -29,7 +29,11 @@ import org.eclipse.core.resources.IMarker;
  */
 public interface IMarkerHolder {
 	/**
+	 * 
 	 * Return an array of all markers attached to the given model object.
+	 * @param object the object (model object)
+	 * 
+	 * @return the markers it holds on to. 
 	 */
-	public IMarker[] getMarkers(Object object);
+	public IMarker[] getMarkers (Object object) ;
 }

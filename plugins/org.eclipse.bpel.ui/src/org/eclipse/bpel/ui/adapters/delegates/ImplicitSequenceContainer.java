@@ -28,19 +28,32 @@ import org.eclipse.emf.ecore.EReference;
  */
 public class ImplicitSequenceContainer extends ReferenceContainer {
 
-	public ImplicitSequenceContainer(EReference feature) {
-		super(feature);
+	/**
+	 * Brand new shiny ImplicitSequenceContainer 
+	 * @param aFeature
+	 */
+	public ImplicitSequenceContainer(EReference aFeature) {
+		super(aFeature);
 	}
 	
-	protected boolean isMany() { return true; }
 	
-	public List getChildList(Object object) {
+	@Override
+	protected boolean isMany() { 
+		return true; 
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#getChildList(java.lang.Object)
+	 */
+	@Override
+	public List<Object> getChildList(Object object) {
 		Object child = getSingleChild(object);
 		if (child != null && isImplicitSequence(child)) {
 			return ((Sequence)child).getActivities();
 		}
 		return null;
 	}
+	
 	
 	protected static boolean isImplicitSequence(Object child) {
 		if (!(child instanceof Sequence)) return false;
@@ -50,21 +63,33 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 		return extension.isImplicit();
 	}
 	
-	/* IContainer */
+	
 
-	public List getChildren(Object object) {
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#getChildren(java.lang.Object)
+	 */
+	@Override
+	public List<?> getChildren(Object object) {
 		Object child = getSingleChild(object);
 		if (child != null && isImplicitSequence(child)) {
 			return super.getChildren(object);
 		}
 
 		// if we got here, we don't have an implicit sequence inside.
-		if (child == null) return Collections.EMPTY_LIST;
+		if (child == null) {
+			return Collections.EMPTY_LIST;
+		}
 		// one child
 		return Collections.singletonList(child);
 	}
 	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	@Override
 	public boolean addChild(Object object, Object newChild, Object insertBefore) {
+		
 		Object currentChild = getSingleChild(object);
 		if (currentChild != null && isImplicitSequence(currentChild)) {
 			return super.addChild(object, newChild, insertBefore);
@@ -100,9 +125,17 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 		return true;
 	}
 	
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#removeChild(java.lang.Object, java.lang.Object)
+	 */
+	@Override
 	public boolean removeChild(Object object, Object child) {
 		Object currentChild = getSingleChild(object);
-		if (currentChild == null)  return false;
+		if (currentChild == null)  {
+			return false;
+		}
+		
 		if (!isImplicitSequence(currentChild)) {
 			// we have a child, but not an implicit sequence.  just remove it.
 			// TODO: should we check that child is actually the correct object??
@@ -127,12 +160,18 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 		return super.removeChild(object, child);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	@Override
 	public boolean replaceChild(Object object, Object oldChild, Object newChild) {
 		if (getChildList(object) != null) {
 			return super.replaceChild(object, oldChild, newChild);
 		}
 		// handle single child.
-		if (getSingleChild(object) != oldChild)  return false;
+		if (getSingleChild(object) != oldChild)  {
+			return false;
+		}
 		
 		setSingleChild(object, newChild);
 		return true;

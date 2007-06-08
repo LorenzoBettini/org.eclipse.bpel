@@ -13,6 +13,8 @@ package org.eclipse.bpel.ui.properties;
 import java.util.ArrayList;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
+import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
+import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
@@ -30,7 +32,9 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.Gate;
 import org.eclipse.bpel.ui.util.IGate;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -123,6 +127,8 @@ public abstract class ExpressionSection extends TextSection {
 	StackLayout fEditorAreaStackLayout;
 
 	Composite fEditorComposite;
+
+	protected StatusLabel2 expressionLanguageLabel;
 
 	
 	protected static boolean objectsEqual(Object lhs, Object rhs) {
@@ -248,13 +254,16 @@ public abstract class ExpressionSection extends TextSection {
 
 		FlatFormData data;
 		
-		Label expressionLanguageLabel = wf.createLabel(composite, Messages.ExpressionSection_Expression_language_1); 		//
+		DecoratedLabel nameLabel = new DecoratedLabel(composite,SWT.LEFT);
+		wf.adapt(nameLabel);		
+		nameLabel.setText( Messages.ExpressionSection_Expression_language_1); 
+		expressionLanguageLabel = new StatusLabel2( nameLabel );				
 
 		expressionLanguageViewer = new ComboViewer(composite, SWT.FLAT | SWT.READ_ONLY );		
-		expressionLanguageViewer.getControl().setFont( expressionLanguageLabel.getFont() );
+		expressionLanguageViewer.getControl().setFont( nameLabel.getFont() );
 		
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(expressionLanguageLabel, STANDARD_LABEL_WIDTH_LRG));
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameLabel, STANDARD_LABEL_WIDTH_LRG));
 		data.right = new FlatFormAttachment(100, 0);
 		if (this.title != null) {
 			data.top = new FlatFormAttachment(this.titleLabel, IDetailsAreaConstants.VSPACE);
@@ -377,7 +386,10 @@ public abstract class ExpressionSection extends TextSection {
 		fListenerGate.off();
 		
 		// Reflect the model in the editor
-		updateEditor();               
+		updateEditor();
+		
+		// Markers
+		updateMarkers();
     }
 	
 	
@@ -658,6 +670,14 @@ public abstract class ExpressionSection extends TextSection {
 		}
 		super.dispose();
 	}
+	
+	protected void updateMarkers () {				
+		expressionLanguageLabel.clear();		
+		for(IMarker m : getMarkers(getInput())) {
+			expressionLanguageLabel.addStatus( BPELUtil.adapt(m, IStatus.class) );
+		}		
+	}	
+	
 	
 //	public void aboutToBeHidden() {
 //		super.aboutToBeHidden();

@@ -31,25 +31,39 @@ public class CommandProposal extends AbstractContentProposal
 	protected ICommandFramework fCmdFramework;
 	
 	/**
-	 * @param cmd
+	 * @param cmdFramework
 	 */
 	public CommandProposal ( ICommandFramework cmdFramework ) {
 		super();
 		fCmdFramework = cmdFramework;		
 	}
 
+	/** 
+	 * @return the command
+	 */
 	public Command getCommand () {
 		return fCmd;
 	}
 	
+	/**
+	 * @param cmd
+	 */
 	public void setCommand ( Command cmd ) {
 		fCmd = cmd;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.proposal.providers.AbstractContentProposal#getImage(java.lang.Object)
+	 */
+	@Override
 	public Image getImage(Object element) {
 		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMMAND_16);		
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.proposal.providers.AbstractContentProposal#getLabel()
+	 */
+	@Override
 	public String getLabel()
 	{
 		Command cmd = getCommand ();
@@ -61,7 +75,7 @@ public class CommandProposal extends AbstractContentProposal
 	
 
 	
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.fieldassist.IContentProposalListener#proposalAccepted(org.eclipse.jface.fieldassist.IContentProposal)
 	 */
 	

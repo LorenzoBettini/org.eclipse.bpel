@@ -19,6 +19,7 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -36,6 +37,8 @@ public class JoinConditionSection extends ExpressionSection {
 	protected Label label2, label3;
 	protected Button createDefaultButton;
 
+	
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		Activity activity = (Activity)getInput();
@@ -45,10 +48,20 @@ public class JoinConditionSection extends ExpressionSection {
 		}
 	}
 	
-	protected String getExpressionType() { return IEditorConstants.ET_BOOLEAN; }
-	protected String getExpressionContext() { return IEditorConstants.EC_JOIN; }
+	@Override
+	protected String getExpressionType() { 
+		return IEditorConstants.ET_BOOLEAN; 
+	}
 	
-	protected boolean isExpressionOptional() { return true; }
+	@Override
+	protected String getExpressionContext() { 
+		return IEditorConstants.EC_JOIN; 
+	}
+	
+	@Override
+	protected boolean isExpressionOptional() { 
+		return true; 
+	}
 	
 	
 	@Override
@@ -138,4 +151,47 @@ public class JoinConditionSection extends ExpressionSection {
 	protected boolean isValidClientUseType(String useType) {
 		return IBPELUIConstants.USE_TYPE_JOIN_CONDITION.equals(useType);
 	}
+	
+
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getMarkers(java.lang.Object)
+	 */
+	@Override
+	protected IMarker[] getMarkers (Object input) {
+		
+		if ( input instanceof Activity ) {
+			Activity activity = (Activity) input;
+			Targets targets = activity.getTargets();
+			if (targets != null) {
+				return super.getMarkers( targets.getJoinCondition() );	
+			}			
+		}
+		
+		return EMPTY_MARKERS;
+	}
+
+
+	/**
+	 * Return true if the marker is valid for this section.
+	 * @return true if so, false otherwise.
+	 */
+	
+
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#isValidMarker(org.eclipse.core.resources.IMarker)
+	 */
+	@SuppressWarnings("nls")
+	@Override
+	public boolean isValidMarker (IMarker marker) {
+		String context = null;
+		try {
+			context = (String) marker.getAttribute("href.context");
+		} catch (Exception ex) {
+			return false;
+		}
+		
+		return "name".equals (context) == false ;
+	}	
+	
+	
 }

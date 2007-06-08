@@ -10,13 +10,14 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui;
 
-import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.bpel.common.ui.tray.AddChildInTrayAction;
 import org.eclipse.bpel.ui.actions.AutoArrangeFlowsAction;
-import org.eclipse.bpel.ui.actions.BPELAddChildInTrayAction;
+import org.eclipse.bpel.ui.actions.BPELDuplicateAction;
 import org.eclipse.bpel.ui.actions.EditPartContextAction;
 import org.eclipse.bpel.ui.actions.MakePartner2WayAction;
+import org.eclipse.bpel.ui.actions.ShowPaletteInPaletteViewAction;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
 import org.eclipse.bpel.ui.actions.ToggleAutoFlowLayout;
 import org.eclipse.bpel.ui.actions.ToggleShowCompensationHandler;
@@ -41,12 +42,26 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 
+
+/**
+ * Process Context Menu Provider.
+ * 
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com) 
+ *
+ */
 
 public class ProcessContextMenuProvider extends ContextMenuProvider {
 	private ActionRegistry actionRegistry;
 
+	/**
+	 * @param viewer
+	 * @param registry
+	 */
+	
 	public ProcessContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
 		this.actionRegistry = registry;
@@ -54,13 +69,20 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 
 	protected static final String EDITPART_ACTIONS = "org.eclipse.bpel.ui.EditPartActions"; //$NON-NLS-1$
 	protected static final String FREQUENT_ACTIONS = "org.eclipse.bpel.ui.FrequentActions"; //$NON-NLS-1$
-	protected static final String ADVANCED_ACTIONS = GEFActionConstants.MB_ADDITIONS;
-	//protected static final String ZOOM_ACTIONS = GEFActionConstants.GROUP_VIEW;
+	
+	protected static final String ADVANCED_ACTIONS = IWorkbenchActionConstants.MB_ADDITIONS;
+
 	protected static final String LAYOUT_ACTIONS = "org.eclipse.bpel.ui.LayoutActions"; //$NON-NLS-1$
 	protected static final String DEBUG_ACTIONS = "org.eclipse.bpel.ui.DebugActions"; //$NON-NLS-1$
 	
 	
+	/**
+	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+	 */
+	
+	@Override
 	public void buildContextMenu(IMenuManager menu) {
+		
 		IAction action, action2;
 
 		menu.add(new Separator(GEFActionConstants.GROUP_UNDO));
@@ -73,7 +95,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		menu.add(new Separator(GEFActionConstants.GROUP_VIEW));
 		menu.add(new Separator(LAYOUT_ACTIONS));
 		menu.add(new Separator(DEBUG_ACTIONS));
-		menu.add(new Separator(GEFActionConstants.GROUP_SHOW_IN));
+		menu.add(new Separator(IWorkbenchActionConstants.GROUP_SHOW_IN));
 
 		// Undo, Redo (always shown) and Revert (if appropriate)
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, actionRegistry.getAction(ActionFactory.UNDO.getId()));
@@ -85,6 +107,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.CUT.getId()));
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.COPY.getId()));
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.PASTE.getId()));
+		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(BPELDuplicateAction.ACTION_ID));
 
 		// Frequently-used actions
 		List selected = getViewer().getSelectedEditParts();
@@ -92,7 +115,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 			if (selected.get(0) instanceof BPELEditPart) {
 				BPELEditPart p = (BPELEditPart)selected.get(0);
 				Object model = p.getModel();
-				IEditPartActionContributor contributor = (IEditPartActionContributor)BPELUtil.adapt(model, IEditPartActionContributor.class);
+				IEditPartActionContributor contributor = BPELUtil.adapt(model, IEditPartActionContributor.class);
 				if (contributor != null) {
 					List actions = contributor.getEditPartActions(p);
 					for (int k = 0; k < actions.size(); k++) {
@@ -124,45 +147,51 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		// add all the possible actions
 		// TODO: need to be more selective here!  Only add actions that make sense for this
 		// context..
-		for (Iterator it = bpelEditor.getAppendNewActions().iterator(); it.hasNext(); ) {
-			action = (IAction)it.next();
-			if (action != null && action.isEnabled()) addMenu.add(action);
+		for (IAction anAction : bpelEditor.getAppendNewActions()) {
+			if (anAction != null && anAction.isEnabled()) {
+				addMenu.add(anAction);
+			}			
 		}
-		for (Iterator it = bpelEditor.getInsertNewActions().iterator(); it.hasNext(); ) {
-			action = (IAction)it.next();
-			if (action != null && action.isEnabled()) insertMenu.add(action);
+		for (IAction anAction : bpelEditor.getInsertNewActions()) {
+			if (anAction != null && anAction.isEnabled()) {
+				insertMenu.add(anAction);
+			}
 		}
 		
-		if (!addMenu.isEmpty())
+		if (!addMenu.isEmpty()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, addMenu);
-		if (!insertMenu.isEmpty())
+		}
+		if (!insertMenu.isEmpty()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, insertMenu);
+		}
 		
 		// Change Type Actions
-		MenuManager changeTypeMenu = new MenuManager(Messages.ProcessContextMenuProvider_Change_Type_3); 
-		for (Iterator it = bpelEditor.getChangeTypeActions().iterator(); it.hasNext(); ) {
-			action = (IAction)it.next();
-			if (action != null && action.isEnabled()) changeTypeMenu.add(action);
+		MenuManager changeTypeMenu = new MenuManager(Messages.ProcessContextMenuProvider_Change_Type_3);
+		
+		for(IAction anAction : bpelEditor.getChangeTypeActions()) {
+			if (anAction != null && anAction.isEnabled()) {
+				changeTypeMenu.add( anAction );
+			}
 		}
 		
 		menu.appendToGroup(FREQUENT_ACTIONS, changeTypeMenu);
 
-		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(PartnerLinksEditPart.class));
+		action = actionRegistry.getAction(AddChildInTrayAction.calculateId(PartnerLinksEditPart.class));
 		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, action);
 		}
 		
-		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(ReferencePartnerLinksEditPart.class));
+		action = actionRegistry.getAction(AddChildInTrayAction.calculateId(ReferencePartnerLinksEditPart.class));
 		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, action);
 		}
 		
-		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(VariablesEditPart.class));
+		action = actionRegistry.getAction(AddChildInTrayAction.calculateId(VariablesEditPart.class));
 		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, action);
 		}
 		
-		action = actionRegistry.getAction(BPELAddChildInTrayAction.calculateId(CorrelationSetsEditPart.class));
+		action = actionRegistry.getAction(AddChildInTrayAction.calculateId(CorrelationSetsEditPart.class));
 		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, action);
 		}
@@ -224,7 +253,13 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		
 		action = actionRegistry.getAction(ShowPropertiesViewAction.ACTION_ID);
 		if (action != null && action.isEnabled()) {
-			menu.appendToGroup(GEFActionConstants.GROUP_SHOW_IN, action);
+			menu.appendToGroup(IWorkbenchActionConstants.GROUP_SHOW_IN, action);
+			action.setChecked(false);
+		}
+		
+		action = actionRegistry.getAction(ShowPaletteInPaletteViewAction.ACTION_ID);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(IWorkbenchActionConstants.GROUP_SHOW_IN, action);
 			action.setChecked(false);
 		}
 	}

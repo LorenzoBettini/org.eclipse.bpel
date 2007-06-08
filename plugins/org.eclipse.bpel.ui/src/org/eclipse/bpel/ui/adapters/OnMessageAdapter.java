@@ -31,7 +31,7 @@ import org.eclipse.wst.wsdl.Operation;
 
 
 public class OnMessageAdapter extends ContainerAdapter implements ILabeledElement,
-	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, IExtensionFactory
+	EditPartFactory, IOutlineEditPartFactory, IExtensionFactory
 {	
 
 	/* IContainer delegate */
@@ -83,11 +83,6 @@ public class OnMessageAdapter extends ContainerAdapter implements ILabeledElemen
 		return result;
 	}
 	
-	/* IMarkerHolder */
-	
-	public IMarker[] getMarkers(Object object) {
-		return BPELUtil.getMarkers(object);
-	}
 	
 	/* IExtensionFactory */
 	

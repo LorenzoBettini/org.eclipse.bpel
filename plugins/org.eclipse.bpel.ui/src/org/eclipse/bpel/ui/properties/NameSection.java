@@ -20,6 +20,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.commands.SetNameCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -37,6 +38,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.views.markers.internal.MarkerSupportRegistry;
 
 
 /**
@@ -59,6 +61,11 @@ public class NameSection extends BPELPropertySection {
 				
 				@Override
 				public void notify (Notification n) {
+					if (markersHaveChanged(n)) {
+						updateMarkers();
+						return ;
+					}
+					
 					if (namedElement.isNameAffected(getInput(), n))  {
 						updateNameWidgets();
 					}
@@ -74,7 +81,7 @@ public class NameSection extends BPELPropertySection {
 		if (input == null)  {
 			namedElement = null;
 		} else  {
-			namedElement = (INamedElement)BPELUtil.adapt(input, INamedElement.class);
+			namedElement = BPELUtil.adapt(input, INamedElement.class);
 		}
 
 		updateNameWidgets();
@@ -159,11 +166,13 @@ public class NameSection extends BPELPropertySection {
 		
 		updateMarkers();
 	}
-		
+	
+	
+	@Override
 	protected void updateMarkers () {				
 		statusLabel.clear();		
 		for(IMarker m : getMarkers(getInput())) {
-			statusLabel.addStatus((IStatus) BPELUtil.adapt(m, IStatus.class));
+			statusLabel.addStatus( BPELUtil.adapt(m, IStatus.class) );
 		}		
 	}
 	
@@ -266,13 +275,6 @@ public class NameSection extends BPELPropertySection {
 	
 	@Override
 	public boolean isValidMarker (IMarker marker) {
-
-		boolean isValid = super.isValidMarker(marker);
-		
-		if (!isValid) {
-			return false;
-		}
-		
 		String context = null;
 		try {
 			context = (String) marker.getAttribute("href.context");

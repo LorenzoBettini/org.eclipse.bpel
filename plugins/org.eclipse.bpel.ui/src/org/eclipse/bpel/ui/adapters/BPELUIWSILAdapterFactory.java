@@ -10,13 +10,17 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.bpel.wsil.model.inspection.util.InspectionAdapterFactory;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 
 /**
+ * BPELUIWSILAdapterFactory for generating adapters.
  * 
+ * We use an instance of AdapterProvider that caches singleton adapters.
+ *
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date May 10, 2007
  *
@@ -78,19 +82,19 @@ public class BPELUIWSILAdapterFactory extends InspectionAdapterFactory {
 		return provider.getAdapter(WSILServiceAdapter.class);
 	}
 
-	
 	/**
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
 	@Override
-	public Adapter adaptNew (Notifier target, Object type) {
+	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
-		if (adapter != null && adapter.isAdapterForType(type)) {
-			associate(adapter, target);
-			return adapter;
+		if (adapter == null) {
+			return null;
 		}
-		return null;
+		associate(adapter, target);
+		return adapter.isAdapterForType(type) ? adapter : null;
 	}
+	
 
 	@Override
 	protected Object resolve(Object object, Object type) {

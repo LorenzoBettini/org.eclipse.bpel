@@ -24,43 +24,72 @@ import org.eclipse.emf.ecore.EReference;
  */
 public class IndirectContainer extends AbstractContainer {
 
-	protected EReference indirectionFeature;
-	protected AbstractContainer innerContainer;
+	protected EReference fIndirectionFeature;
+	protected AbstractContainer fInnerContainer;
 	
-	public IndirectContainer(EReference feature, AbstractContainer innerContainer) {
+	/**
+	 * Brand new shiny IndirectContainer 
+	 * @param feature
+	 * @param innerContainer
+	 */
+	public IndirectContainer (EReference feature, AbstractContainer innerContainer) {
 		if (feature.isMany()) throw new IllegalArgumentException();
-		this.indirectionFeature = feature;
-		this.innerContainer = innerContainer;
+		this.fIndirectionFeature = feature;
+		this.fInnerContainer = innerContainer;
 	}
 
 	protected EObject getTarget(Object object) {
-		return (EObject)((EObject)object).eGet(indirectionFeature);
+		return (EObject)((EObject)object).eGet(fIndirectionFeature);
 	}
 	
 	// TODO: this is kind of a hack.  We shouldn't need to know it's an AbstractContainer :(
+	
+	@Override
 	protected boolean isValidChild(Object object, EObject child) {
-		return innerContainer.isValidChild(object, child);
+		return fInnerContainer.isValidChild(object, child);
 	}
 
-	/* IContainer */
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */	
 	
 	public boolean addChild(Object object, Object child, Object insertBefore) {
 		EObject target = getTarget(object);
-		return (target == null)? false : innerContainer.addChild(target, child, insertBefore);
+		return (target == null)? false : fInnerContainer.addChild(target, child, insertBefore);
 	}
 	
-	public List getChildren(Object object) {
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#getChildren(java.lang.Object)
+	 */
+	
+	public List<?> getChildren(Object object) {
 		EObject target = getTarget(object);
-		return (target == null)? Collections.EMPTY_LIST : innerContainer.getChildren(target);
+		return (target == null)? Collections.EMPTY_LIST : fInnerContainer.getChildren(target);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#removeChild(java.lang.Object, java.lang.Object)
+	 */
 	public boolean removeChild(Object object, Object child) {
 		EObject target = getTarget(object);
-		return (target == null)? false : innerContainer.removeChild(target, child);
+		return (target == null)? false : fInnerContainer.removeChild(target, child);
 	}
 	
-	public boolean replaceChild(Object object, Object oldChild, Object newChild) {
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	public boolean replaceChild(Object object, Object oldChild, Object newChild) {		
 		EObject target = getTarget(object);
-		return (target == null)? false : innerContainer.replaceChild(target, oldChild, newChild);
+		return (target == null)? false : fInnerContainer.replaceChild(target, oldChild, newChild);
 	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#canRemoveChild(java.lang.Object, java.lang.Object)
+	 */
+	public boolean canRemoveChild (Object object, Object child) {
+		EObject target = getTarget(object);
+		return (target == null)? false : fInnerContainer.canRemoveChild(target, child);
+	}
+	
+	
 }

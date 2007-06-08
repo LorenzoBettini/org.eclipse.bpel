@@ -13,9 +13,17 @@ package org.eclipse.bpel.ui.actions;
 import org.eclipse.bpel.common.ui.CommonUIPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 
+
+/**
+ * Show view action. This action attempts to show the given view.
+ * 
+ * @author IBM
+ * 
+ */
 
 public class ShowViewAction extends Action {
 
@@ -23,9 +31,9 @@ public class ShowViewAction extends Action {
 
 	protected String viewID;
 
-	protected static ImageDescriptor enabledImage;
+	protected ImageDescriptor enabledImage;
 
-	protected static ImageDescriptor disabledImage;
+	protected ImageDescriptor disabledImage;
 
 	/**
 	 *  
@@ -52,28 +60,28 @@ public class ShowViewAction extends Action {
 	/**
 	 * @param text
 	 * @param image
-	 * @param page -
+	 * @param aPage -
 	 *            workbench page to open view on
-	 * @param viewID -
+	 * @param aViewId -
 	 *            ID of the view to open
 	 */
-	public ShowViewAction(String text, ImageDescriptor image, IWorkbenchPage page, String viewID) {
+	public ShowViewAction(String text, ImageDescriptor image, IWorkbenchPage aPage, String aViewId) {
 		super(text, image);
-		setPage(page);
-		setViewID(viewID);
+		setPage(aPage);
+		setViewID(aViewId);
 	}
 
 	/**
 	 * @param text
-	 * @param page -
+	 * @param aPage -
 	 *            workbench page to open view on
-	 * @param viewID -
+	 * @param aViewID -
 	 *            ID of the view to open
 	 */
-	public ShowViewAction(String text, IWorkbenchPage page, String viewID) {
+	public ShowViewAction(String text, IWorkbenchPage aPage, String aViewID) {
 		super(text);
-		setPage(page);
-		setViewID(viewID);
+		setPage(aPage);
+		setViewID(aViewID);
 	}
 
 	/**
@@ -92,11 +100,11 @@ public class ShowViewAction extends Action {
 	}
 
 	/**
-	 * @param page
+	 * @param aPage
 	 *            The page to set.
 	 */
-	public void setPage(IWorkbenchPage page) {
-		this.page = page;
+	public void setPage(IWorkbenchPage aPage) {
+		this.page = aPage;
 	}
 
 	/**
@@ -107,23 +115,49 @@ public class ShowViewAction extends Action {
 	}
 
 	/**
-	 * @param viewID
+	 * @param aViewID
 	 *            The viewID to set.
 	 */
-	public void setViewID(String viewID) {
-		this.viewID = viewID;
+	public void setViewID(String aViewID) {
+		this.viewID = aViewID;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/** 
 	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	
+	@Override
 	public void run() {
+		if (page == null || viewID == null) {
+			return ;
+		}
+				
 		try {
-			if (page != null && viewID != null) page.showView(viewID);
+			for(IViewReference reference : page.getViewReferences() ) {
+				if (viewID.equals( reference.getId() ) ) {
+					// that's our view.
+					page.showView(viewID,null,IWorkbenchPage.VIEW_ACTIVATE);
+					return ;
+				}
+			}
+
+			page.showView(viewID, null, IWorkbenchPage.VIEW_CREATE);
+			page.showView(viewID, null,  IWorkbenchPage.VIEW_ACTIVATE);
+			
 		} catch (PartInitException pie) {
 			CommonUIPlugin.log(pie);
 		}
 	}
+
+	/**
+	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		return super.isEnabled();
+	}
+	
+	
+	
 }

@@ -142,7 +142,7 @@ public class FlowHighlightEditPolicy extends ContainerHighlightEditPolicy {
 	
 	// make this visible so the editpart can poke it when the collapsed state changes
 	public void setResizable(boolean resizable) {
-		this.resizable = resizable;
+		this.fResizable = resizable;
 		if (selectedState != -1) {
 			// force selection handles to be refreshed.
 			int previousState = selectedState;

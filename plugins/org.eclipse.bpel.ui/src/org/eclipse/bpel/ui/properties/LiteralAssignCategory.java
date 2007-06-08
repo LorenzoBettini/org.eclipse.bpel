@@ -18,89 +18,45 @@ import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.details.providers.AbstractContentProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.util.XSDConstants;
 
 
 /**
  * An AssignCategory where the user can type in a literal value (note: NOT an expression).
+ * 
+ * TODO: his could be an XML editor one day ...
  */
+
 public class LiteralAssignCategory extends AssignCategoryBase {
 
 	Text literalText;
-	//CComboViewer typeViewer;
 	
-	static class XSDContentProvider extends AbstractContentProvider  {
-	
-		protected static Object[] builtins;
-		// TODO: Yet another simple type declaration
-		protected static final String[] xsdBuiltinTypes = {
-			"string", /*"integer",*/ "boolean", "float", "double", "base64Binary", "hexBinary", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-			"long", "int", "short", "decimal", "byte", "QName", "date", "time", "unsignedInt", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
-			"unsignedShort", "unsignedByte", "anySimpleType", "anyURI" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		};
-		
-		static {
-			builtins = new Object[xsdBuiltinTypes.length];
-			for (int i = 0; i<xsdBuiltinTypes.length; i++) {
-				XSDSimpleTypeDefinition st = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
-				st.setName(xsdBuiltinTypes[i]);
-				st.setTargetNamespace(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
-				builtins[i] = st;
-			}
-		}
-		
-		public Object[] getElements(Object input)  {
-			return builtins;
-		}
-
-	}
-	
-	protected LiteralAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
+	protected LiteralAssignCategory (boolean isFrom, BPELPropertySection ownerSection) {
 		super(isFrom, ownerSection);
 	}
 
-	public String getName() { return Messages.LiteralAssignCategory_Fixed_Value_1; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	
+	public String getName() { 
+		return Messages.LiteralAssignCategory_Fixed_Value_1;
+	} 
 
+	@Override
 	protected String getLabelFlatFormatString() {
 		return IBPELUIConstants.FORMAT_CMD_EDIT;
 	}
 
+	@Override
 	protected void createClient2(Composite parent) {
 		FlatFormData data;
 
-		//Composite typeComposite = createFlatFormComposite(parent);
-
-//		Label label = wf.createLabel(typeComposite, Messages.getString("LiteralAssignCategory.25")); //$NON-NLS-1$
-
-//		CCombo combo = wf.createCCombo(typeComposite);
-//		this.typeViewer = new CComboViewer(combo);
-//		typeViewer.setContentProvider(new XSDContentProvider());
-//		typeViewer.setLabelProvider(new ModelLabelProvider());
-//		typeViewer.setSorter(ModelViewerSorter.getInstance());
-//		typeViewer.setInput(new Object());
-
-//		data = new FlatFormData();
-//		data.left = new FlatFormAttachment(0, 0);
-//		data.right = new FlatFormAttachment(combo, 0);
-//		data.top = new FlatFormAttachment(0, 0);
-//		label.setLayoutData(data);
-
-//		data = new FlatFormData();
-//		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(label, STANDARD_LABEL_WIDTH_SM));
-//		data.right = new FlatFormAttachment(100, 0);
-//		data.top = new FlatFormAttachment(0, 0);
-//		combo.setLayoutData(data);
 		
-//		getChangeHelper().startListeningTo(combo);
-		
-		literalText = wf.createText(parent, "", SWT.V_SCROLL | SWT.MULTI); //$NON-NLS-1$
+		literalText = wf.createText(parent, EMPTY_STRING, SWT.V_SCROLL | SWT.MULTI);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
@@ -112,60 +68,54 @@ public class LiteralAssignCategory extends AssignCategoryBase {
 		getChangeHelper().startListeningTo(literalText);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.bpel.model.To)
+	 */
 	public boolean isCategoryForModel(To toOrFrom) {
-		if (!isFrom || toOrFrom == null)  return false;
+		if (!fIsFrom || toOrFrom == null)  {
+			return false;
+		}
 		From from = (From)toOrFrom;
-		if (from.getLiteral() != null)  return true;
-		//Literal literal = (Literal)ModelHelper.getExtensibilityElement(from, Literal.class);
-		//if (literal != null) return true;
+		if (from.getLiteral() != null) {
+			return true;
+		}
 		return false;
 	}
+	
+	@Override
 	protected void loadToOrFrom(To toOrFrom) {
-		if (!isFrom)  return;
+		if (!fIsFrom) {
+			return;
+		}
+		
 		From from = (From)toOrFrom;
 
 		getChangeHelper().startNonUserChange();
 		try {
-			String fromString = ""; //$NON-NLS-1$
-//			XSDSimpleTypeDefinition def = null;
-//			Literal literal = null;
+			String fromString = EMPTY_STRING;
 			if (from != null) {
 				fromString = from.getLiteral();
-
-//				literal = (Literal)ModelHelper.getExtensibilityElement(from, Literal.class);
-//				if (literal != null) {
-//					fromString = literal.getValue();
-//					def = (XSDSimpleTypeDefinition)literal.getType();
-//				}
 			}
-			if (fromString == null) fromString = ""; //$NON-NLS-1$
-			if (!fromString.equals(literalText.getText())) literalText.setText(fromString);
-//			if (def == null) {
-				// Default to xsd:string
-//				def = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
-//				def.setName("string"); //$NON-NLS-1$
-//				def.setTargetNamespace(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
-//			}
-			// We can't set this selection into the combo, because the actual instances
-			// may differ. Find the right one in the content provider.
-//			Object[] elements = ((XSDContentProvider)typeViewer.getContentProvider()).getElements(new Object());
-//			for (int i = 0; i < elements.length; i++) {
-//				XSDSimpleTypeDefinition candidate = (XSDSimpleTypeDefinition)elements[i];
-//				if (candidate.getName().equals(def.getName()) && candidate.getTargetNamespace().equals(def.getTargetNamespace())) {
-//					typeViewer.setSelection(new StructuredSelection(candidate));
-//					break;
-//				}
-//			}
+			if (fromString == null) {
+				fromString = EMPTY_STRING;
+			}
+			
+			literalText.setText(fromString);			
 		} finally {
 			getChangeHelper().finishNonUserChange();
 		}
 	}
+	
+	
+	@Override
 	protected void storeToOrFrom(To toOrFrom) {
-		if (!isFrom)  return;
+		if (!fIsFrom) {
+			return;
+		}
+		
 		From from = (From)toOrFrom;
 		
 		String expr = literalText.getText();
-		if ("".equals(expr)) expr = null;  //$NON-NLS-1$
 
 		from.setLiteral(expr);
 
@@ -183,15 +133,21 @@ public class LiteralAssignCategory extends AssignCategoryBase {
 			}
 		}
 		
-//		StructuredSelection selection = (StructuredSelection)typeViewer.getSelection();
-//		XSDSimpleTypeDefinition def = (XSDSimpleTypeDefinition)selection.getFirstElement();
-//		literal.setType(def);
-		//from.getEExtensibilityElements().add(literal);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	
+	@Override
 	public void restoreUserContext(Object userContext) {
 		literalText.setFocus();
 	}

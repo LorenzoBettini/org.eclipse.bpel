@@ -22,14 +22,24 @@ public interface IContainer {
 	 * Return an ordered list of all children of the container.
 	 * The returned list may or may not be a copy of the list held
 	 * by the model, and as such should be considered read-only.
+	 * 
+	 * @param object the parent container 
+	 * @return the list of children	
 	 */
-	public List getChildren(Object object);
+	
+	public List<?> getChildren(Object object);
 	
 	/** 
 	 * returns the next sibling in the list of children of this parent
 	 * returns null if the object is a singular child and has no direct
 	 * siblings.
+	 *
+	 * @param object the parent container
+	 * @param child the child object 
+	 * @return the next sibling object.
+	
 	 */
+	
 	public Object getNextSiblingChild(Object object, Object child);
 	
 	/**
@@ -44,6 +54,12 @@ public interface IContainer {
 	 * cause the insertion to occur between the last Partner and the first Container.
 	 * 
 	 * Returns true if the child is added successfully, otherwise false.
+	 * 
+	 * @param object the parent container
+	 * @param child the child object
+	 * @param insertBefore the reference point for insertion
+	 * @return true if added, false otherwise.
+	 * 
 	 */
 	public boolean addChild(Object object, Object child, Object insertBefore);
 	
@@ -53,15 +69,34 @@ public interface IContainer {
 	 * 
 	 * for this function to be more useful, always try to pass a value for the
 	 * insertBefore so we can do addition validity checks
+	 * 
+	 * @param object the parent container
+	 * @param child the child object
+	 * @param insertBefore the reference point for insertion
+	 * @return true if can be added, false otherwise.
 	 */
 	
 	public boolean canAddObject(Object object, Object child, Object insertBefore);
 
 	/**
+	 * Answer if the child can be removed from the parent container.
+	 * 
+	 * @param object the parent container
+	 * @param child the child object
+	 * @return true if can be removed, false otherwise.
+	 */
+	
+	public boolean canRemoveChild (Object object, Object child);
+	
+	/**
 	 * Removes the given child from the container.
 	 * 
 	 * Returns true if the child is removed successfully, otherwise false.
+	 * @param object the parent container
+	 * @param child the child object
+	 * @return true if removed, false otherwise.
 	 */
+	
 	public boolean removeChild(Object object, Object child); 
 
 	/**
@@ -70,6 +105,11 @@ public interface IContainer {
 	 * the old child and return a Token which can be passed to the undo()/redo() methods.
 	 * 
 	 * Returns true if the child is replaced successfully, otherwise false.
+	 * 
+	 * @param object the parent container
+	 * @param oldChild the old child object
+	 * @param newChild the new child object
+	 * @return true if removed, false otherwise.
 	 */
 	public boolean replaceChild(Object object, Object oldChild, Object newChild);
 	

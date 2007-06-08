@@ -22,37 +22,64 @@ import org.eclipse.emf.ecore.EReference;
  */
 public class ReferenceContainer extends AbstractContainer {
 
-	EReference feature;
+	EReference fFeature;
 	
 	boolean allowMixedTypeReplace = false;
 	
-	public ReferenceContainer(EReference feature) {
+	/**
+	 * Brand new ReferenceContainer
+	 * @param aFeature
+	 */
+	
+	public ReferenceContainer(EReference aFeature) {
 		super();
-		this.feature = feature;
+		this.fFeature = aFeature;
 	}
 	
-	protected boolean isMany() { return feature.isMany(); }
-
-	protected List getChildList(Object object) {
-		return (List)((EObject)object).eGet(feature);
+	protected boolean isMany() { 
+		return fFeature.isMany();
 	}
+
+	protected List<Object> getChildList(Object object) {
+		return (List)((EObject)object).eGet(fFeature);
+	}
+	
+	/**
+	 * Return the single child.
+	 * 
+	 * @param object
+	 * @return the single child, or null
+	 */
 	
 	public EObject getSingleChild(Object object) {
-		return (EObject)((EObject)object).eGet(feature);
+		return (EObject)((EObject)object).eGet(fFeature);
 	}
+	
+	/**
+	 * Set the single child of this container.
+	 * 
+	 * @param object the container
+	 * @param child the child.
+	 */
 	
 	public void setSingleChild(Object object, Object child) {
-		((EObject)object).eSet(feature, child);
+		((EObject)object).eSet(fFeature, child);
 	}
 	
-	protected final boolean isValidChild(Object object, EObject child) {
-		return feature.getEReferenceType().isSuperTypeOf(child.eClass());
+	@Override
+	protected final boolean isValidChild (Object object, EObject child) {
+		return fFeature.getEReferenceType().isSuperTypeOf(child.eClass());
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
 	public boolean addChild(Object object, Object child, Object insertBefore) {
-		if (!isValidChild(object, (EObject)child)) return false;
+		if (!isValidChild(object, (EObject)child)) {
+			return false;
+		}
 		if (isMany()) {
-			List list = getChildList(object);
+			List<Object> list = getChildList(object);
 			if (insertBefore == null) {
 				// insert at the end.
 				list.add(child);
@@ -74,30 +101,49 @@ public class ReferenceContainer extends AbstractContainer {
 		return true;
 	}
 
-	public List getChildren(Object object) {
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#getChildren(java.lang.Object)
+	 */
+	public List<?> getChildren(Object object) {
 		if (isMany()) {
-			List list = getChildList(object);
-			if (list.isEmpty()) return Collections.EMPTY_LIST;
+			List<?> list = getChildList(object);
+			if (list.isEmpty()) {
+				return Collections.EMPTY_LIST;
+			}
 			return Collections.unmodifiableList(list);
 		}
 		EObject value = getSingleChild(object);
-		if (value == null) return Collections.EMPTY_LIST;
+		if (value == null) {
+			return Collections.EMPTY_LIST;
+		}
 		return Collections.singletonList(value);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#removeChild(java.lang.Object, java.lang.Object)
+	 */
 	public boolean removeChild(Object object, Object child) {
-		if (!isValidChild(object, (EObject)child)) return false;
+		
+		if (!isValidChild(object, (EObject)child)) {
+			return false;
+		}
 		if (isMany()) {
-			List list = getChildList(object);
+			List<?> list = getChildList(object);
 			return list.remove(child);
 		}
 		EObject value = getSingleChild(object);
-		if (value != child) return false;
+		if (value != child) {
+			return false;
+		}
 		setSingleChild(object, null);
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
 	public boolean replaceChild(Object object, Object oldChild, Object newChild) {
+		
 		if (!isValidChild(object, (EObject)oldChild)) return false;
 		if (!isValidChild(object, (EObject)newChild)) return false;
 		if (isMany()) {
@@ -113,9 +159,36 @@ public class ReferenceContainer extends AbstractContainer {
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.AbstractContainer#canAddObject(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	@Override
 	public boolean canAddObject(Object object, Object child, Object insertBefore) {
-		if (!super.canAddObject(object, child, insertBefore)) return false;
-		if (isMany()) return true;
+		if (!super.canAddObject(object, child, insertBefore)) {
+			return false;
+		}
+		if (isMany()) {
+			return true;
+		}
 		return (getSingleChild(object) == null);
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#canRemoveChild(java.lang.Object, java.lang.Object)
+	 */
+	
+	public boolean canRemoveChild (Object object, Object child) {
+		
+		if (!isValidChild(object, (EObject)child)) {
+			return false;
+		}
+		
+		if (isMany() == false) {
+			EObject value = getSingleChild(object);
+			if (value != child) {
+				return false;
+			}
+		}		
+		return true;
 	}
 }

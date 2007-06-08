@@ -26,13 +26,13 @@ public class OptionalIndirectContainer extends IndirectContainer {
 	}
 
 	protected void createTarget(Object object) {
-		EClass targetClass = indirectionFeature.getEReferenceType(); 
+		EClass targetClass = fIndirectionFeature.getEReferenceType(); 
 		EObject newTarget = targetClass.getEPackage().getEFactoryInstance().create(targetClass);
-		((EObject)object).eSet(indirectionFeature, newTarget);
+		((EObject)object).eSet(fIndirectionFeature, newTarget);
 	}
 	
 	protected void discardTarget(Object object) {
-		((EObject)object).eSet(indirectionFeature, null);
+		((EObject)object).eSet(fIndirectionFeature, null);
 	}
 	
 	/* IContainer */

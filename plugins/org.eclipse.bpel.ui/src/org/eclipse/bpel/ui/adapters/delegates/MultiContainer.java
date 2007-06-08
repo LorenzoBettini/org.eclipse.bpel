@@ -27,30 +27,49 @@ public class MultiContainer extends AbstractContainer {
 
 	boolean allowMixedTypeReplace = false;
 
-	public List containers = new ArrayList();
-	public void add(AbstractContainer container) { containers.add(container); }
+	protected List<AbstractContainer> fContainers = new ArrayList<AbstractContainer>();
 	
-	public AbstractContainer[] getSubContainers() {
-		return (AbstractContainer[])containers.toArray(new AbstractContainer[containers.size()]);
+	/**
+	 * Add the container.
+	 * @param container
+	 */
+	public void add (AbstractContainer container) { 
+		fContainers.add(container); 
 	}
 
-	// TODO
+	/**
+	 * Return the sub container for the given container.
+	 * 
+	 * @param object the container object
+	 * @param child the child objects
+	 * 
+	 * @return the sub container for the child
+	 * 
+	 */
+
 	public final AbstractContainer getSubContainer(Object object, Object child) {
-		if (!(child instanceof EObject)) return null;
-		AbstractContainer[] subContainers = getSubContainers();
-		for (int i = 0; i<subContainers.length; i++) {
-			if (subContainers[i].isValidChild(object, (EObject)child)) return subContainers[i];
+		
+		if (child instanceof EObject == false) {
+			return null;
+		}
+		for(AbstractContainer sub : fContainers) {
+			if (sub.isValidChild(object, (EObject)child)) {
+				return sub;
+			}
 		}
 		return null;
 	}
 	
+	@Override
 	protected final boolean isValidChild(Object object, EObject child) {
 		return getSubContainer(object, child) != null;
 	}
 
-	/* IContainer */
-
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */	
 	public boolean addChild(Object object, Object child, Object insertBefore) {
+		
 		AbstractContainer childContainer = getSubContainer(object, child);
 		if (insertBefore == null) {
 			return childContainer.addChild(object, child, null);
@@ -60,18 +79,19 @@ public class MultiContainer extends AbstractContainer {
 		if (childContainer == insertBeforeContainer) {
 			return childContainer.addChild(object, child, insertBefore);
 		}
+		
 		// Child either belongs at the beginning of its sub-container, or the end.
 		// Which sub-container comes first?
 		int childRange = 0;
 		int insertBeforeRange = 0;
-		AbstractContainer[] containers = getSubContainers();
+		Object[] containers = fContainers.toArray();
 		for (int i = 0; i<containers.length; i++) {
 			if (containers[i] == childContainer)  childRange = i;
 			if (containers[i] == insertBeforeContainer)  insertBeforeRange = i;
 		}
 		if (childRange > insertBeforeRange) {
 			// child should go at beginning of sub-container.
-			List children = childContainer.getChildren(object);
+			List<?> children = childContainer.getChildren(object);
 			if (children.size() > 0) {
 				return childContainer.addChild(object, child, children.get(0));
 			}
@@ -80,20 +100,35 @@ public class MultiContainer extends AbstractContainer {
 		return childContainer.addChild(object, child, null); 
 	}
 
-	public List getChildren(Object object) {
-		List result = new ArrayList();
-		AbstractContainer[] containers = getSubContainers();
-		for (int i = 0; i<containers.length; i++)  result.addAll(containers[i].getChildren(object));
-		if (result.isEmpty())  return Collections.EMPTY_LIST;
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#getChildren(java.lang.Object)
+	 */
+	
+	public List<?> getChildren(Object object) {
+		
+		List<Object> result = new ArrayList<Object>();
+		for (AbstractContainer container : fContainers) {
+			result.addAll( container.getChildren( object ) ) ;
+		}
+		if (result.isEmpty()) {
+			return Collections.EMPTY_LIST;
+		}
 		return Collections.unmodifiableList(result);
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#removeChild(java.lang.Object, java.lang.Object)
+	 */
+	
 	public boolean removeChild(Object object, Object child) {
 		return getSubContainer(object, child).removeChild(object, child);
 	}
 
-	public boolean replaceChild(Object object, Object oldChild,
-		Object newChild) 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	public boolean replaceChild(Object object, Object oldChild,	Object newChild) 
 	{
 		AbstractContainer oldSubContainer = getSubContainer(object, oldChild);
 		AbstractContainer newSubContainer = getSubContainer(object, newChild);
@@ -101,7 +136,9 @@ public class MultiContainer extends AbstractContainer {
 			return oldSubContainer.replaceChild(object, oldChild, newChild);
 		}
 		// the elements are in different subContainers.
-		if (!allowMixedTypeReplace)  return false;
+		if (!allowMixedTypeReplace)  {
+			return false;
+		}
 		return replaceMixedTypeChild(object, oldChild, newChild);		
 	}
 
@@ -117,8 +154,24 @@ public class MultiContainer extends AbstractContainer {
 		return true;
 	}
 
-	public boolean canAddObject(Object object, Object child, Object insertBefore) {
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.delegates.AbstractContainer#canAddObject(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	
+	@Override
+	public boolean canAddObject (Object object, Object child, Object insertBefore) {
 		AbstractContainer ac = getSubContainer(object, child);
 		return (ac == null)? false : ac.canAddObject(object, child, insertBefore);
 	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#canRemoveChild(java.lang.Object, java.lang.Object)
+	 */
+	
+	public boolean canRemoveChild(Object object, Object child) {
+		AbstractContainer ac = getSubContainer(object, child);
+		return (ac == null)? false : ac.canRemoveChild( object, child );
+	}	
+	
 }

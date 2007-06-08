@@ -476,35 +476,38 @@ public abstract class CollapsableEditPart extends CompositeActivityEditPart {
 			bottomImage.dispose();
 			bottomImage = null;
 		}
-		IMarkerHolder holder = (IMarkerHolder)BPELUtil.adapt(getActivity(), IMarkerHolder.class);
-		IMarker[] markers = holder.getMarkers(getActivity());
+		IMarkerHolder holder = BPELUtil.adapt(getActivity(), IMarkerHolder.class);
+		
 		int topMarkerPriority = Integer.MIN_VALUE;
 		int bottomMarkerPriority = Integer.MIN_VALUE;
 		IMarker topMarker = null;
 		IMarker bottomMarker = null;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			String value = marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, ""); //$NON-NLS-1$
+		
+		for (IMarker marker : holder.getMarkers(getActivity())) {
+			
+			if (marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true) == false) {
+				continue;
+			}
+			
+			String value = marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR,EMPTY_STRING);  
+			
 			if (value.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) {
-				if (marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true)) {
-					int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, Integer.MIN_VALUE);
-					if (priority > topMarkerPriority) {
-						topMarkerPriority = priority;
-						topImage = BPELUtil.getImage(marker);
-						topMarker = marker;
-					}
+				int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, 0);
+				if (priority > topMarkerPriority) {
+					topMarkerPriority = priority;
+					topImage = BPELUtil.getImage(marker);
+					topMarker = marker;
 				}
 			} else if (value.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)) {
-				if (marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true)) {
-					int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, Integer.MIN_VALUE);
-					if (priority > bottomMarkerPriority) {
-						bottomMarkerPriority = priority;
-						bottomImage = BPELUtil.getImage(marker);
-						bottomMarker = marker;
-					}
-				}	
+				int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, 0);
+				if (priority > bottomMarkerPriority) {
+					bottomMarkerPriority = priority;
+					bottomImage = BPELUtil.getImage(marker);
+					bottomMarker = marker;
+				}
 			}
 		}
+		
 		border.setTopImage(topImage);
 		border.setBottomImage(bottomImage);
 		border.setTopMarker(topMarker);

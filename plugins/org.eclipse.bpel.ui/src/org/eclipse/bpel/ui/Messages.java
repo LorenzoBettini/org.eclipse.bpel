@@ -15,6 +15,7 @@ import org.eclipse.osgi.util.NLS;
 public final class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages";//$NON-NLS-1		
+	
 
 	private Messages() {
 		// Do not instantiate
@@ -130,6 +131,9 @@ public final class Messages extends NLS {
 	public static String BPELCopyAction_Copy_1;
 	public static String BPELCopyAction_Copy_2;
 	public static String BPELCopyAction_Copy_3;
+	public static String BPELDuplicateAction_Duplicate_1;
+	public static String BPELDuplicateAction_Duplicate_2;
+	public static String BPELDuplicateAction_Duplicate_3;	
 	public static String BPELCutAction_Cut_1;
 	public static String BPELCutAction_Cut_2;
 	public static String BPELCutAction_Cut_3;
@@ -655,6 +659,7 @@ public final class Messages extends NLS {
 	public static String BPELWSDLComponentSelectionDialog;
 
 	public static String ShowPropertiesViewAction_actionText;
+	public static String ShowPaletteInPaletteViewAction_actionText;
 
     public static String OutlinePage_showOverviewView;
     public static String OutlinePage_showOutlineView;

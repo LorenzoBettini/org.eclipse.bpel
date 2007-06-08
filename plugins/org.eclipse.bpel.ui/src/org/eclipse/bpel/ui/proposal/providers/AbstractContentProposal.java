@@ -34,59 +34,100 @@ public class AbstractContentProposal
 		super();
 	}
 
+	/**
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getContent()
+	 */
 	public String getContent() {
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getCursorPosition()
+	 */
 	public int getCursorPosition() {
 		return (-1);
 	}
 
+	/**
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getDescription()
+	 */
 	public String getDescription() {
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.jface.fieldassist.IContentProposal#getLabel()
+	 */
 	public String getLabel() {
 		return "----------------------------------------"; //$NON-NLS-1$
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+	 */
 	public Image getImage (Object element) {			
 		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_SEPARATOR_16);
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+	 */
 	public String getText (Object element) {
 		return getLabel();
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 */
 	public void addListener(ILabelProviderListener listener) {		
 		
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+	 */
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+	 */
 	public boolean isLabelProperty(Object element, String property) {
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 */
 	public void removeListener(ILabelProviderListener listener) {
 		
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLabel(java.lang.Object)
+	 */
 	public String getLabel(Object object) {
 		return getLabel();
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLargeImage(java.lang.Object)
+	 */
 	public Image getLargeImage(Object object) {		
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
+	 */
 	public Image getSmallImage(Object object) {
 		return getImage( object );
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getTypeLabel(java.lang.Object)
+	 */
 	public String getTypeLabel(Object object) {	
 		return null;
 	}

@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.adapters.AbstractAdapter;
+import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
 import org.eclipse.bpel.ui.actions.editpart.CreateCompensationHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateEventHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateFaultHandlerAction;
@@ -37,11 +37,57 @@ import org.eclipse.gef.EditPartFactory;
 import org.eclipse.swt.graphics.Image;
 
 
-public abstract class ActivityAdapter extends AbstractAdapter implements INamedElement,
+/**
+ * General activity adapter.
+ * 
+ * @IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 23, 2007
+ *
+ */
+
+public abstract class ActivityAdapter extends AbstractStatefulAdapter implements INamedElement,
 	ILabeledElement, EditPartFactory, IOutlineEditPartFactory, IMarkerHolder,
-	IEditPartActionContributor, IExtensionFactory
+	IEditPartActionContributor, IExtensionFactory, AdapterNotification
 {
 
+	
+	/**
+	 * @see org.eclipse.bpel.model.adapters.AbstractAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	@Override
+	public void notifyChanged(Notification notification) {		
+		super.notifyChanged(notification);
+		switch (notification.getEventType()) {
+			case NOTIFICATION_MARKERS_STALE : 
+				fMarkers.clear();
+				break;
+			case NOTIFICATION_MARKER_ADDED :
+				fMarkers.add ( (IMarker) notification.getNewValue() );
+				break;
+			case NOTIFICATION_MARKER_DELETED :
+				fMarkers.remove ( notification.getOldValue() );
+				break;								
+		}				
+	}
+	
+	ArrayList<IMarker> fMarkers = new ArrayList<IMarker>();
+
+	static IMarker [] EMPTY_MARKERS = {};
+	
+	/** (non-Javadoc)
+	 * @see org.eclipse.bpel.ui.adapters.IMarkerHolder#getMarkers(java.lang.Object)
+	 */
+
+	public IMarker[] getMarkers (Object object) {
+		
+		if (fMarkers.size() == 0) {
+			return EMPTY_MARKERS;
+		}
+		return fMarkers.toArray( EMPTY_MARKERS );						
+	}
+	
+	
 	/**
 	 * Helper method for getting an AbstractUIObjectFactory from a model object.
 	 */
@@ -55,7 +101,7 @@ public abstract class ActivityAdapter extends AbstractAdapter implements INamedE
 	
 	/* INamedElement */
 
-	public String getName(Object modelObject) {
+	public String getName (Object modelObject) {
 		return ((Activity) modelObject).getName();
 	}
 
@@ -105,12 +151,7 @@ public abstract class ActivityAdapter extends AbstractAdapter implements INamedE
 		return result;
 	}
 	
-	/* IMarkerHolder */
-	
-	public IMarker[] getMarkers(Object object) {
-		return BPELUtil.getMarkers(object);
-	}
-	
+
 	/* IEditPartActionContributor */
 	
 	public List getEditPartActions(final EditPart editPart) {

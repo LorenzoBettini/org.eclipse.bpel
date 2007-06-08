@@ -25,6 +25,7 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELTabbedPropertySheetPage;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
+import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -33,6 +34,7 @@ import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
@@ -163,7 +165,13 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		modelObject = newInput;
 	}
 	
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 */
+	@Override
 	public final void setInput(IWorkbenchPart part, ISelection selection) {
+		
+		super.setInput(part, selection);
 		
 		if ((selection instanceof IStructuredSelection) == false) {
 			return ;
@@ -296,7 +304,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	
 	protected IMarker[] getMarkers (Object input) {
 		
-		IMarkerHolder markerHolder = (IMarkerHolder) BPELUtil.adapt(input, IMarkerHolder.class);
+		IMarkerHolder markerHolder = BPELUtil.adapt(input, IMarkerHolder.class);
 		if (markerHolder != null) {
 			ArrayList<IMarker> filteredMarkers = new ArrayList<IMarker>(4);			
 			for(IMarker m : markerHolder.getMarkers(input)) {
@@ -309,6 +317,17 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 			}
 		}
 		return EMPTY_MARKERS;
+	}
+	
+	
+	protected boolean markersHaveChanged  ( Notification n ) {		
+		int eventGroup = n.getEventType() / 100; 
+		return eventGroup == AdapterNotification.NOTIFICATION_MARKERS_CHANGED_GROUP ;
+	}
+	
+	
+	protected void updateMarkers ( ) {
+		
 	}
 
 	protected ICommandFramework getCommandFramework() {
@@ -477,19 +496,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	
 	public boolean isValidMarker (IMarker marker) {
-		
-		EObject obj = BPELUtil.getObjectFromMarker( marker, modelObject );
-		
-		if (obj == null) {
-			return false ;
-		}
-		
-		// do the easy check
-		if ( obj.equals( modelObject ) ) {
-			return true;
-		}
-		
-		return false;
+		return true;
 	}
 
 	

@@ -32,7 +32,7 @@ import org.eclipse.swt.graphics.Image;
 
 
 public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
-	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, IExtensionFactory
+	EditPartFactory, IOutlineEditPartFactory, IExtensionFactory
 {
 
 	/* IContainer delegate */
@@ -106,12 +106,6 @@ public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);
 		return result;
-	}
-
-	/* IMarkerHolder */
-	
-	public IMarker[] getMarkers(Object object) {
-		return BPELUtil.getMarkers(object);
 	}
 
 	/* IExtensionFactory */

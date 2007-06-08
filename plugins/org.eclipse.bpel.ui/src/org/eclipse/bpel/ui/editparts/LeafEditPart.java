@@ -52,48 +52,66 @@ public class LeafEditPart extends ActivityEditPart {
 	protected IFigure contentFigure;
 	protected BPELEditPartMarkerDecorator editPartMarkerDecorator;
 		
+	/**
+	 * 
+	 * @author IBM
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date May 23, 2007
+	 *
+	 */
 	public static class LeafDecorationLayout extends BPELDecorationLayout {
+		
+		@Override
 		protected Point calculateLocation(int locationHint, IFigure container, Dimension childDimension) {
 			Point result = super.calculateLocation(locationHint, container, childDimension);
 			// if it is somewhere on the left we need to add the drawer space
 			if ((locationHint & PositionConstants.LEFT) != 0) {
-				result.x += LeafBorder.DRAWER_WIDTH;
+				result.x += DrawerBorder.DRAWER_WIDTH;
 			}
 			// if it is somewhere on the right we need to remove the drawer space
 			if ((locationHint & PositionConstants.RIGHT) != 0) {
-				result.x -= LeafBorder.DRAWER_WIDTH;
+				result.x -= DrawerBorder.DRAWER_WIDTH;
 			}
 			return result;
 		}
 	}
 	
+	
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		
 		// Show the selection rectangle
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new BPELSelectionEditPolicy(false, true) {
+			@Override
 			protected int getDrawerInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH;
 			}
+			@Override
 			protected int getWestInset() {
-				return LeafBorder.DRAWER_WIDTH + 2;
+				return DrawerBorder.DRAWER_WIDTH ;
 			}
+			@Override
 			protected int getEastInset() {
-				return LeafBorder.DRAWER_WIDTH - 1;
+				return DrawerBorder.DRAWER_WIDTH ;
 			}
+			@Override
 			protected int getNorthInset() {
-				return 2;
+				return 0;
 			}
+			@Override
 			protected int getSouthInset() {
 				return 0;
 			}
 		});
 	}
 	
+	
+	@Override
 	protected IFigure createFigure() {
 		if (image == null) {
 			// Create the actual figure for the edit part
-			ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getActivity(), ILabeledElement.class);
+			ILabeledElement element = BPELUtil.adapt(getActivity(), ILabeledElement.class);
 			image = element.getSmallImage(getActivity());
 		}
 		IFigure gradient = new GradientFigure(getModel());
@@ -136,53 +154,67 @@ public class LeafEditPart extends ActivityEditPart {
 			bottomImage.dispose();
 			bottomImage = null;
 		}
-		IMarkerHolder holder = (IMarkerHolder)BPELUtil.adapt(getActivity(), IMarkerHolder.class);
-		IMarker[] markers = holder.getMarkers(getActivity());
+		
+		IMarkerHolder holder = BPELUtil.adapt(getActivity(), IMarkerHolder.class);
+		
 		int topMarkerPriority = Integer.MIN_VALUE;
 		int bottomMarkerPriority = Integer.MIN_VALUE;
+		
 		IMarker topMarker = null;
 		IMarker bottomMarker = null;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			String value = marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, ""); //$NON-NLS-1$
+		
+		for(IMarker marker : holder.getMarkers(getActivity()))  {
+			
+			if (marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true) == false) {
+				continue;
+			}
+			
+			String value = marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR, EMPTY_STRING); 
+			
 			if (value.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) {
-				if (marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true)) {
-					int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, Integer.MIN_VALUE);
-					if (priority > topMarkerPriority) {
-						topMarkerPriority = priority;
-						topImage = BPELUtil.getImage(marker);
-						topMarker = marker;
-					}
+				int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, 0);
+				if (priority > topMarkerPriority) {
+					topMarkerPriority = priority;
+					topImage = BPELUtil.getImage(marker);
+					topMarker = marker;
 				}
 			} else if (value.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)) {
-				if (marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_VISIBLE_ATTR, true)) {
-					int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, Integer.MIN_VALUE);
-					if (priority > bottomMarkerPriority) {
-						bottomMarkerPriority = priority;
-						bottomImage = BPELUtil.getImage(marker);
-						bottomMarker = marker;
-					}
+				int priority = marker.getAttribute(IModelMarkerConstants.DECORATION_MARKER_PRIORITY_ATTR, 0);
+				if (priority > bottomMarkerPriority) {
+					bottomMarkerPriority = priority;
+					bottomImage = BPELUtil.getImage(marker);
+					bottomMarker = marker;
 				}
 			}
 		}
+		
 		border.setTopImage(topImage);
 		border.setBottomImage(bottomImage);
 		border.setTopMarker(topMarker);
 		border.setBottomMarker(bottomMarker);
 	}
 	
-	/* overrides for direct edit */
+	/**
+	 * Overrides for direct edit 
+	 */
+	@Override
 	public Label getLabelFigure() {
 		return nameLabel;
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.editparts.BPELEditPart#getLabelContent()
+	 */
+	@Override
 	public String getLabelContent() {
 		return getLabel();
 	}
-	/* end overrides for direct edit */
+		
 	
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
+	@Override
 	public void refreshVisuals() {
 		refreshDrawerImages();
 		super.refreshVisuals();
@@ -194,10 +226,12 @@ public class LeafEditPart extends ActivityEditPart {
 	}
 	
 	protected String getLabel() {
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getActivity(), ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(getActivity(), ILabeledElement.class);
 		return element.getLabel(getActivity());
 	}
 	
+	
+	@Override
 	protected void unregisterVisuals() {
 		if (contentFigure != null) {
 			contentFigure.removeMouseMotionListener(getMouseMotionListener());
@@ -218,6 +252,7 @@ public class LeafEditPart extends ActivityEditPart {
 	 *
 	 * @return  ConnectionAnchor.
 	 */
+	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connEditPart) {
 		// This may be called when the model is disconnected. If so, return null.
 		if (getActivity().eResource() == null) return null;
@@ -233,9 +268,12 @@ public class LeafEditPart extends ActivityEditPart {
 	 *
 	 * @return  ConnectionAnchor.
 	 */
+	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connEditPart) {
 		// This may be called when the model is disconnected. If so, return null.
-		if (getActivity().eResource() == null) return null;
+		if (getActivity().eResource() == null) {
+			return null;
+		}
 		
 		ConnectionAnchor anc = null;
 		
@@ -246,10 +284,18 @@ public class LeafEditPart extends ActivityEditPart {
 		return anc;
 	}
 	
+	
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
+	
+	@Override
 	public IFigure getContentPane() {
 		return contentFigure;
 	}
 
+	
+	@Override
 	protected DrawerBorder getDrawerBorder() {
 		return border;
 	}

@@ -106,7 +106,7 @@ public abstract class CollapsableBorder extends GradientBorder {
 	 * Throw away computed values that determine the layout
 	 */
 	public void invalidate() {
-		rectCollapsed = null;
+		// rectCollapsed = null;
 		collapsedBounds = null;
 	}
 	

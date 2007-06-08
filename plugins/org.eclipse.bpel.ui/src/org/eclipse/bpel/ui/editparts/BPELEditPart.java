@@ -18,6 +18,7 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IHoverHelper;
 import org.eclipse.bpel.ui.IHoverHelperSupport;
+import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.editparts.policies.BPELComponentEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELDirectEditPolicy;
@@ -57,11 +58,15 @@ import org.eclipse.jface.viewers.TextCellEditor;
  * The superclass of all BPEL edit parts. Provides a listener on the model
  * which calls the handleModelChanged() method.
  */
+@SuppressWarnings("nls")
 public abstract class BPELEditPart extends AbstractGraphicalEditPart implements IHoverHelperSupport {
 
-	// The amount of spacing to place between child items. Subclasses
-	// may use this value when creating a flow layout
+	/**
+	 *  The amount of spacing to place between child items. Subclasses
+	 */
 	public static final int SPACING = 14;
+	
+	static protected String EMPTY_STRING = "";
 	
 	protected AccessibleEditPart acc;
 
@@ -82,9 +87,20 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	 */
 	public BPELEditPart() {
 		adapter = new MultiObjectAdapter() {
+			
+			@Override
 			public void notify(Notification n) {
+				int eventGroup = n.getEventType() / 100;
+				if (eventGroup == AdapterNotification.NOTIFICATION_MARKERS_CHANGED_GROUP ) {					
+					refreshVisuals();
+					return ;
+				}
+				
+				
 				// TODO: check if we care about this notification
-				if (isActive()) handleModelChanged();
+				if (isActive()) {
+					handleModelChanged();
+				}
 				refreshAdapters();
 			}
 		};
@@ -94,8 +110,9 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	 * Default implementation based on IContainer.  Should be sufficient except in
 	 * special cases (such as ProcessEditPart?). 
 	 */
+	@Override
 	protected List getModelChildren() {
-		IContainer container = (IContainer)BPELUtil.adapt(getModel(), IContainer.class);
+		IContainer container = BPELUtil.adapt(getModel(), IContainer.class);
 		if (container != null) {
 			return container.getChildren(getModel());
 		}
@@ -132,19 +149,33 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		addAllAdapters();
 	}
 	
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
+	 */
+	@Override
 	public void activate() {
-		if (isActive()) return;
+		if (isActive()) {
+			return;
+		}
 		super.activate();
 		addAllAdapters();
 	}
 
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
+	 */
+	@Override
 	public void deactivate() {
-		if (!isActive()) return;		
+		if (!isActive()) {
+			return;		
+		}
 		removeAllAdapters();
 		super.deactivate();
 		clearConnections();					
 	}
 
+	
+	@Override
 	protected void createEditPolicies() {
 		// The COMPONENT_ROLE policy determines how an edit part is deleted.
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new BPELComponentEditPolicy());
@@ -165,7 +196,7 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		// If property name is size or location, refresh visuals.
 		// TODO: refresh connections in there somewhere too!
 		refreshChildren();
-//		refreshVisuals();
+		refreshVisuals();
 		
 		refresh();
 	}
@@ -174,6 +205,8 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	 * Get an anchor at the given location for this edit part.
 	 * 
 	 * This must be called after the figure for this edit part has been created.
+	 * @param location 
+	 * @return 
 	 */
 	public ConnectionAnchor getConnectionAnchor(int location) {
 		return new CenteredConnectionAnchor(getFigure(), location, 0);
@@ -183,6 +216,8 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	 * Return whether or not the edit part can execute the given request.
 	 * The answer is determined by asking each edit policy and returning
 	 * true if any policy can execute the request.
+	 * @param request 
+	 * @return 
 	 */
 	public boolean canExecuteRequest(Request request) {
 		EditPolicyIterator i = getEditPolicyIterator();
@@ -267,6 +302,8 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	 * TODO: visibility increased (from protected) so I could move the edit
 	 * policies to a separate package.  In future, we should change it back.
 	 */
+	
+	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
 		refreshHoverHelp();

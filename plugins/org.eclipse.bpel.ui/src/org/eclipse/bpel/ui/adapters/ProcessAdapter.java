@@ -37,7 +37,7 @@ import org.eclipse.swt.graphics.Image;
 
 public class ProcessAdapter extends ContainerAdapter implements INamedElement,
 	EditPartFactory, IOutlineEditPartFactory, IFaultHandlerHolder,
-	ILabeledElement, IMarkerHolder, IEventHandlerHolder, ITrayEditPartFactory,
+	ILabeledElement, IEventHandlerHolder, ITrayEditPartFactory,
 	IExtensionFactory
 {
 	
@@ -138,11 +138,6 @@ public class ProcessAdapter extends ContainerAdapter implements INamedElement,
 		return Messages.ProcessAdapter_Process_1; 
 	}
 
-	/* IMarkerHolder */
-	
-	public IMarker[] getMarkers(Object object) {
-		return BPELUtil.getMarkers(object);
-	}
 
 	/* IExtensionFactory */
 	

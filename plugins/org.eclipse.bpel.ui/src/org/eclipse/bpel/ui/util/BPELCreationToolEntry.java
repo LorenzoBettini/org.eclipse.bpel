@@ -12,27 +12,50 @@ package org.eclipse.bpel.ui.util;
 
 import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
 import org.eclipse.gef.Tool;
-import org.eclipse.gef.palette.CreationToolEntry;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
 
 
-public class BPELCreationToolEntry extends CreationToolEntry {
+/**
+ * @author IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date January 2006
+ *
+ */
 
-	public BPELCreationToolEntry(String label, String shortDesc, AbstractUIObjectFactory factory) {
-		super(label, shortDesc, factory, factory.getSmallImageDescriptor(), factory.getLargeImageDescriptor());
-		setType("not-a-builtin-type"); // hack! //$NON-NLS-1$
+public class BPELCreationToolEntry extends CombinedTemplateCreationEntry  {
+
+	/**
+	 * Return a brand new shiny Creation Tool Entry.
+	 * @param label
+	 * @param shortDesc
+	 * @param aFactory
+	 */
+	
+	public BPELCreationToolEntry(String label, String shortDesc, AbstractUIObjectFactory aFactory) {
+		super(label, shortDesc, aFactory, aFactory.getSmallImageDescriptor(), aFactory.getLargeImageDescriptor());
+		// setType("not-a-builtin-type"); // hack! //$NON-NLS-1$
 	}
 
+	/**
+	 * @see org.eclipse.gef.palette.ToolEntry#createTool()
+	 */
+	@Override
 	public Tool createTool() {
-		CreationFactory factory = (CreationFactory)getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
-		CreationTool tool = new BPELCreationTool(factory);
-//		tool.setUnloadWhenFinished(false);
+		CreationFactory aFactory = (CreationFactory)getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
+		CreationTool tool = new BPELCreationTool(aFactory);
+		tool.setUnloadWhenFinished(true);
 		return tool;
 	}
 
+	/**
+	 * 
+	 * @return Return the UI object factory.
+	 */
+	
 	public AbstractUIObjectFactory getUIObjectFactory() {
-		CreationFactory factory = (CreationFactory)getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
-		return (AbstractUIObjectFactory)factory;
+		CreationFactory aFactory = (CreationFactory) getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
+		return (AbstractUIObjectFactory) aFactory;
 	}
 }

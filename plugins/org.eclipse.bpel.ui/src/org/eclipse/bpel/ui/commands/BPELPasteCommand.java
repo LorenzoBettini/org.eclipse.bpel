@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import java.util.List;
+
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.util.TransferBuffer;
@@ -21,26 +23,64 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class BPELPasteCommand extends AutoUndoCommand {
 
-	BPELEditor bpelEditor;
-	EObject targetObject;
+	BPELEditor fBpelEditor;
+	
+	EObject fTargetObject;
+	boolean fReference = false;
+
+	protected List<EObject> fPastedObjects;
+	
+	
+	/**
+	 * Brand new shiny paste command.
+	 * 
+	 * @param bpelEditor the BPEL editor reference.
+	 */
 	
 	public BPELPasteCommand(BPELEditor bpelEditor) {
-		// TODO: hack: use process as modelRoot
-		super(bpelEditor.getProcess());
-		this.bpelEditor = bpelEditor;
+		// TODO: hack: use process as modelRoot		
+		super(bpelEditor.getProcess());		
+		this.fBpelEditor = bpelEditor;
 	}
 	
-	public boolean canDoExecute() {
-		if (targetObject == null) return false;
-		return bpelEditor.getTransferBuffer().canCopyTransferBufferToIContainer(targetObject);
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#canDoExecute()
+	 */
+	@Override
+	public boolean canDoExecute() {		
+		return fBpelEditor.getTransferBuffer().canCopyTransferBufferTo(fTargetObject,fReference);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
-		TransferBuffer transferBuffer = bpelEditor.getTransferBuffer();
-		transferBuffer.copyTransferBufferToIContainer(targetObject, bpelEditor.getExtensionMap());
+		TransferBuffer transferBuffer = fBpelEditor.getTransferBuffer();
+		fPastedObjects  = transferBuffer.copyTransferBuffer(fTargetObject, fBpelEditor.getExtensionMap(),fReference );
 	}
 	
-	public void setTargetObject(EObject targetObject) {
-		this.targetObject = targetObject;
+	
+	/**
+	 * Set the target object to which or around which the paste will happen.
+	 * 
+	 * @param aTargetObject
+	 * @param bReference treat as reference, not potentially as a target (container) itself.
+	 */
+	
+	public void setTargetObject (EObject aTargetObject, boolean bReference) {
+		fTargetObject = aTargetObject;
+		fReference = bReference;
+	}
+	
+	/**
+	 * Return the list of pasted objects.
+	 * 
+	 * @return the list of pasted objects.
+	 */
+	
+	public List<EObject> getPastedObjects () {
+		return fPastedObjects ;
+		
 	}
 }

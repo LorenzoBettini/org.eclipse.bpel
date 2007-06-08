@@ -235,7 +235,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 			return;
 		}
 		
-		IMarkerHolder markerHolder = (IMarkerHolder)BPELUtil.adapt(link, IMarkerHolder.class);
+		IMarkerHolder markerHolder = BPELUtil.adapt(link, IMarkerHolder.class);
 		IMarker[] markers = markerHolder.getMarkers(link);
 		IMarker markerToDisplay = null;
 		for (int i = 0; i < markers.length; i++) {

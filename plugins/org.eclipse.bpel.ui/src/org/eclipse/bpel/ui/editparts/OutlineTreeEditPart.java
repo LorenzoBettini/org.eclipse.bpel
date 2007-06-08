@@ -18,7 +18,9 @@ import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.editparts.policies.BPELComponentEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELContainerEditPolicy;
+import org.eclipse.bpel.ui.editparts.policies.BPELDirectEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
+import org.eclipse.bpel.ui.editparts.policies.OutlineTreeEditPolicy;
 import org.eclipse.bpel.ui.editparts.util.OutlineTreePartFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
@@ -36,18 +38,35 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 
+
+/**
+ * 
+ * OutlineTreeEditPart is the edit part that is present in the outline (tree) view of the process.
+ * @author IBM
+ *  
+ */
+
+
 public class OutlineTreeEditPart extends AbstractTreeEditPart {
 
 	protected MultiObjectAdapter adapter;
 	protected Image outlineImage = null;
 	
+	/**
+	 * Brand new shiny OutlineTreeEdit part.
+	 */
+	
 	public OutlineTreeEditPart() {
 		adapter = new BatchedMultiObjectAdapter() {
 			boolean needRefresh = false;
+			
+			@Override
 			public void notify(Notification notification) {				
 				needRefresh = true;
 				refreshAdapters();
 			}
+			
+			@Override
 			public void finish() {
 				if (isActive() && needRefresh) handleModelChanged();
 				needRefresh = false;
@@ -85,18 +104,33 @@ public class OutlineTreeEditPart extends AbstractTreeEditPart {
 		addAllAdapters();
 	}
 	
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#activate()
+	 */
+	@Override
 	public void activate() {
-		if (isActive()) return;
+		if (isActive()) {
+			return;
+		}
+		
 		super.activate();
 		addAllAdapters();
 	}
 
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#deactivate()
+	 */
+	@Override
 	public void deactivate() {
-		if (!isActive()) return;
+		if (!isActive()) {
+			return;
+		}
 		removeAllAdapters();
 		super.deactivate();		
 	}
 
+	
+	@Override
 	protected void unregisterVisuals() {
 		if (outlineImage != null) {
 			outlineImage = null;
@@ -111,6 +145,8 @@ public class OutlineTreeEditPart extends AbstractTreeEditPart {
 	 *
 	 * @param property  Property to be refreshed.
 	 */
+	
+	@Override
 	protected void refreshVisuals() {
 		if (getWidget() instanceof Tree)
 			return;
@@ -133,7 +169,7 @@ public class OutlineTreeEditPart extends AbstractTreeEditPart {
 	
 	private Image getSmallImg() {
 		Object model = getModel();
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(model, ILabeledElement.class);
 		if (element != null) {
 			return element.getSmallImage(model);
 		}
@@ -142,33 +178,46 @@ public class OutlineTreeEditPart extends AbstractTreeEditPart {
 	
 	private String getLabel() {
 		Object model = getModel();
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(model, ILabeledElement.class);
 		if (element != null) {
 			return element.getLabel(model);
 		}
 		return null;
 	}
 
+	@Override
 	protected void createEditPolicies() {
+		
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new BPELComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
-//		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new OutlineTreeEditPolicy());
+		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new OutlineTreeEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new BPELDirectEditPolicy());
+		
 		if (BPELUtil.adapt(getModel(), IContainer.class) != null) {
 			installEditPolicy(EditPolicy.CONTAINER_ROLE, new BPELContainerEditPolicy());
 		}
 	}
 	
+	@Override
 	protected List getModelChildren() {	
 		return OutlineTreePartFactory.getModelChildren(this.getModel());
 	}
 		
+	
+	/**
+	 * Handle model changed notifications.
+	 *  
+	 */
 	
 	public void handleModelChanged() {
 		refreshChildren();
 		refreshVisuals();
 	}
 
+	
+	@Override
 	protected void reorderChild(EditPart editpart, int index) {
+		
 		boolean expanded = false;
 		boolean resetState = false;
 		TreeEditPart treeEditPart = (TreeEditPart)editpart;

@@ -34,7 +34,7 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 
 	protected void createClient2(Composite parent) {
 		super.createClient2(parent);
-		Label opaqueLabel = wf.createLabel(composite,
+		Label opaqueLabel = wf.createLabel(fComposite,
 			Messages.OpaqueAssignCategory_An_Opaque_value_is_used_in_abstract_processes__2, SWT.CENTER); 
 		FlatFormData data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
@@ -45,7 +45,7 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 	
 	public boolean isCategoryForModel(To toOrFrom) {
 		if (toOrFrom == null)  return false;
-		if (!isFrom)  return false;
+		if (!fIsFrom)  return false;
 		From from = (From)toOrFrom;
 		if (Boolean.TRUE.equals(from.getOpaque()))  return true;
 		return false;
@@ -55,7 +55,7 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 	}
 	
 	protected void storeToOrFrom(To toOrFrom) {
-		if (!isFrom)  return;
+		if (!fIsFrom)  return;
 		From from = (From)toOrFrom;
 		from.setOpaque(Boolean.TRUE);
 	}

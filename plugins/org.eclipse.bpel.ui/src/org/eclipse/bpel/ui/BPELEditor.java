@@ -14,8 +14,10 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EventObject;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -27,25 +29,23 @@ import org.eclipse.bpel.common.ui.command.EditModelCommandFramework;
 import org.eclipse.bpel.common.ui.command.ICommandFramework;
 import org.eclipse.bpel.common.ui.editmodel.IEditModelListener;
 import org.eclipse.bpel.common.ui.editmodel.ResourceInfo;
-import org.eclipse.bpel.common.ui.palette.PaletteCategory;
 import org.eclipse.bpel.common.ui.tray.AdaptingSelectionProvider;
 import org.eclipse.bpel.common.ui.tray.GraphicalEditorWithPaletteAndTray;
 import org.eclipse.bpel.common.ui.tray.MultiViewerSelectionProvider;
 import org.eclipse.bpel.common.ui.tray.TrayComposite;
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.model.terms.BPELTerms;
 import org.eclipse.bpel.ui.actions.AppendNewAction;
 import org.eclipse.bpel.ui.actions.AutoArrangeFlowsAction;
 import org.eclipse.bpel.ui.actions.BPELAddChildInTrayAction;
 import org.eclipse.bpel.ui.actions.BPELCopyAction;
 import org.eclipse.bpel.ui.actions.BPELCutAction;
 import org.eclipse.bpel.ui.actions.BPELDeleteAction;
+import org.eclipse.bpel.ui.actions.BPELDuplicateAction;
 import org.eclipse.bpel.ui.actions.BPELPasteAction;
 import org.eclipse.bpel.ui.actions.BPELPrintAction;
 import org.eclipse.bpel.ui.actions.ChangeTypeAction;
@@ -53,13 +53,17 @@ import org.eclipse.bpel.ui.actions.InsertNewAction;
 import org.eclipse.bpel.ui.actions.MakePartner2WayAction;
 import org.eclipse.bpel.ui.actions.RenameAction;
 import org.eclipse.bpel.ui.actions.RevertAction;
+import org.eclipse.bpel.ui.actions.ShowPaletteInPaletteViewAction;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
+import org.eclipse.bpel.ui.actions.ShowViewAction;
 import org.eclipse.bpel.ui.actions.ToggleAutoFlowLayout;
 import org.eclipse.bpel.ui.actions.ToggleShowCompensationHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowEventHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowFaultHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowTerminationHandler;
+import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
+import org.eclipse.bpel.ui.dnd.BPELTemplateTransferDropTargetListener;
 import org.eclipse.bpel.ui.editparts.CorrelationSetsEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
 import org.eclipse.bpel.ui.editparts.PartnerLinksEditPart;
@@ -69,8 +73,6 @@ import org.eclipse.bpel.ui.editparts.util.BPELEditPartFactory;
 import org.eclipse.bpel.ui.editparts.util.BPELTrayEditPartFactory;
 import org.eclipse.bpel.ui.editparts.util.OutlineTreePartFactory;
 import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
-import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
-import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.bpel.ui.uiextensionmodel.ProcessExtension;
 import org.eclipse.bpel.ui.util.BPELCreationToolEntry;
 import org.eclipse.bpel.ui.util.BPELEditModelClient;
@@ -80,10 +82,10 @@ import org.eclipse.bpel.ui.util.IModelVisitor;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.TransferBuffer;
 import org.eclipse.bpel.ui.util.WSDLImportHelper;
-import org.eclipse.bpel.ui.util.ZoominToolEntry;
-import org.eclipse.bpel.ui.util.ZoomoutToolEntry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IMarkerDelta;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
@@ -100,6 +102,7 @@ import org.eclipse.draw2d.parts.Thumbnail;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -116,13 +119,8 @@ import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
-import org.eclipse.gef.palette.PaletteGroup;
-import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
@@ -150,21 +148,16 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
-import org.eclipse.ui.internal.views.properties.tabbed.view.Tab;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabDescriptor;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
@@ -210,10 +203,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	// to support Undo/Redo functionality in the details area
 	protected EditPart lastSelectedEditPart;
 	
-	// The selection provider that maps EditParts to their corresponding model objects
-	private BPELAdaptingSelectionProvider adaptingSelectionProvider;
+	BPELAdaptingSelectionProvider adaptingSelectionProvider;
+	
 	private WeakMultiViewerSelectionProvider weakMultiViewerSelectionProvider;
 	// This is necessary for some EditPart-based actions to work correctly.
+	
 	private ISelectionProvider filteredEditPartSelectionProvider;
 	
 	// Drag and drop support
@@ -223,21 +217,23 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 	// refactoring listeners;
 	protected IResourceChangeListener postBuildRefactoringListener;
-	
-	// Palette entries that will appear and disappear depending on editor mode
-	BPELCreationToolEntry switchEntry, flowEntry, sequenceEntry;
-	PaletteCategory controlCategory;
-	
+		
 	// Lists of actions available for context menus, etc.
-	protected Set appendNewActions;
-	protected Set insertNewActions;
-	protected Set changeTypeActions;
+	protected Set<IAction> appendNewActions;
+	protected Set<IAction> insertNewActions;
+	protected Set<IAction> changeTypeActions;
 	
 	// The current property sheet page
 	protected BPELTabbedPropertySheetPage currentPropertySheetPage;
-	protected String contributorID;
+	
+	protected String contributorID = IBPELUIConstants.BPEL_EDITOR_ID;
+	
 	
 	protected ICommandFramework commandFramework;
+	
+	/**
+	 * Create a brand new shiny BPEL Editor.
+	 */
 	
 	public BPELEditor() {
 		super();
@@ -245,7 +241,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 		transferBuffer = new TransferBuffer();
 
-		modelAutoUndoRecorder = new ModelAutoUndoRecorder();
+		modelAutoUndoRecorder = new ModelAutoUndoRecorder();		
 	}
 	
 	protected class BPELEditorAdapter implements Adapter {
@@ -258,7 +254,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 	/**
 	 * Given a ResourceSet, this helper identifies the BPELEditor (if any) that created it
+	 * 
+	 * @param resourceSet 
+	 * @return the editor which is editing it.
 	 */
+	
 	public static BPELEditor getBPELEditor(ResourceSet resourceSet) {
 	    Iterator it = resourceSet.eAdapters().iterator();
 	    while (it.hasNext()) {
@@ -270,19 +270,72 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	    return null;
 	}
 
-	public BPELEditModelClient getEditModelClient() {	return editModelClient; }
+	/**
+	 * @return the edit model client 
+	 */
+	
+	public BPELEditModelClient getEditModelClient() {	
+		return editModelClient; 
+	}
+	
+	/**
+	 * 
+	 * @return the resource of the editor model
+	 */
 	
 	public ResourceSet getResourceSet() {
 		return editModelClient.getEditModel().getResourceSet();
 	}
 
-	public Resource getResource() { return process.eResource(); }
-	public ModelAutoUndoRecorder getModelAutoUndoRecorder() { return modelAutoUndoRecorder; }
-	public TransferBuffer getTransferBuffer() { return transferBuffer; }
+	
+	public Resource getResource() { 
+		return process.eResource(); 
+	}
+	
+	public ModelAutoUndoRecorder getModelAutoUndoRecorder() { 
+		return modelAutoUndoRecorder; 
+	}
+	
+	public TransferBuffer getTransferBuffer() { 
+		return transferBuffer; 
+	}
 
-	public Set getAppendNewActions() { return appendNewActions; }
-	public Set getInsertNewActions() { return insertNewActions; }
-	public Set getChangeTypeActions() { return changeTypeActions; }
+	/**
+	 * 
+	 * @return The append new actions set.
+	 */
+	public Set<IAction> getAppendNewActions() { 
+		return appendNewActions; 
+	}
+
+	/**
+	 * 
+	 * @return The insert new actions set.
+	 */
+
+	public Set<IAction> getInsertNewActions() { 
+		return insertNewActions; 
+	}
+	
+	/**
+	 * @return the change type actions set.
+	 */
+	
+	public Set<IAction> getChangeTypeActions() { 
+		return changeTypeActions; 
+	}
+	
+	
+	
+	
+	/** 
+	 * 
+	 * Outline page
+	 * 
+	 * @author IBM
+	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+	 * @date May 18, 2007
+	 */
 	
 	class OutlinePage extends ContentOutlinePage {
 		private PageBook pageBook;
@@ -293,65 +346,92 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		static final int ID_OVERVIEW = 1;
 		private Thumbnail thumbnail;
 
+		/**
+		 * 
+		 * @param viewer
+		 */
 		public OutlinePage(EditPartViewer viewer) {
 			super(viewer);
 		}
 
-		// increase visibility.
+		/**
+		 * Increase visibility.
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getViewer()
+		 */
+		@Override
 		public EditPartViewer getViewer() {
 			return super.getViewer();
 		}
-
+		
 		private void configureOutlineViewer() {
 			getViewer().setEditDomain(getEditDomain());
 			getViewer().setEditPartFactory(new OutlineTreePartFactory());
 			registerViewer(getViewer());
 			ContextMenuProvider provider = new ProcessContextMenuProvider(getViewer(), getActionRegistry());
 			getViewer().setContextMenu(provider);
+			
+			getSite().setSelectionProvider( adaptingSelectionProvider );
+			
 			getSite().registerContextMenu("org.eclipse.bpel.outline.contextmenu", //$NON-NLS-1$
 				provider, 
 				getSite().getSelectionProvider());
 			getViewer().setKeyHandler(getKeyHandler());
-			// TODO: Drag and drop support goes here
-			// getViewer().addDropTargetListener(new BPELTemplateTransferDropTargetListener(getViewer()));
+						
+			getViewer().addDropTargetListener(
+					new BPELTemplateTransferDropTargetListener(getViewer()));			
+			
+			
 			IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
 			showOutlineAction = new Action() {
+				@Override
 				public void run() {
 					showPage(ID_OUTLINE);
 				}
                 
-                public String getToolTipText() {
+                @Override
+				public String getToolTipText() {
                     return Messages.OutlinePage_showOutlineView;
                 }
 			};
+			
 			showOutlineAction.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_OUTLINE_16)); 
 			tbm.add(showOutlineAction);
+			
 			showOverviewAction = new Action() {
+				@Override
 				public void run() {
 					showPage(ID_OVERVIEW);
 				}
                 
-                public String getToolTipText() {
+                @Override
+				public String getToolTipText() {
                     return Messages.OutlinePage_showOverviewView;
                 }
 			};
+			
 			showOverviewAction.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_OVERVIEW_16)); 	
 			tbm.add(showOverviewAction);
 			showPage(ID_OUTLINE);
 		}
 
+		/**
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
+		 */
+		@Override
 		public Control getControl() {
 			return pageBook;
 		}
 
+		/**
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
+		 */
+		@Override
 		public void createControl(Composite parent) {
 			pageBook = new PageBook(parent, SWT.NONE);
 			outline = getViewer().createControl(pageBook);
 			overview = new Canvas(pageBook, SWT.NONE);
 			pageBook.showPage(outline);
 			configureOutlineViewer();
-			// TODO: Add to the adapting selection provider
-			//getSelectionSynchronizer().addViewer(getViewer());
 			getViewer().setContents(process);
 		}
 
@@ -366,7 +446,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			}
 		}
 
-		private void showPage(int id) {
+		protected void showPage(int id) {
 			if (id == ID_OUTLINE) {
 				showOutlineAction.setChecked(true);
 				showOverviewAction.setChecked(false);
@@ -382,10 +462,18 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			}
 		}
 
+		/**
+		 * @see org.eclipse.ui.part.Page#dispose()
+		 */
+		@Override
 		public void dispose() {
 			super.dispose();
 		}
 		
+		/**
+		 * @see org.eclipse.ui.part.Page#init(org.eclipse.ui.part.IPageSite)
+		 */
+		@Override
 		public void init(IPageSite pageSite) {
 			super.init(pageSite);
 			ActionRegistry registry = getActionRegistry();
@@ -406,6 +494,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
+	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 		
@@ -426,133 +515,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			provider, getSite().getSelectionProvider());
 		getGraphicalViewer().setKeyHandler(new BPELGraphicalKeyHandler(getGraphicalViewer()).setParent(getEditorKeyHandler()));
 		
-		// Setup the drop target and add our listener to it.
-		// This will allow us to accept drops from the navigator.
-		
-		this.dropTarget = new DropTarget(getGraphicalViewer().getControl(), DND.DROP_NONE | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
-		// Set transfers to the types that are specified by the helper
-		// JM
-		dropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
-		// Create our drop listener and add it to the DropTarget
-		// JM
-		this.dropTargetListener = new BPELDropTargetListener(getGraphicalViewer(), this);
-		dropTarget.addDropListener(dropTargetListener);
 	}
 
-	private void createBPELPaletteEntries(PaletteContainer palette) {
-		BPELPackage bpelPackage = BPELPackage.eINSTANCE;
-		UIObjectFactoryProvider provider = UIObjectFactoryProvider.getInstance();
-		
-		PaletteCategory basicActionsCategory = new PaletteCategory("Actions"); //$NON-NLS-1$
-		String term = BPELTerms.getString("Empty"); //$NON-NLS-1$
-		basicActionsCategory.add(new BPELCreationToolEntry(term, term,
-		    provider.getFactoryFor(bpelPackage.getEmpty())));
-		basicActionsCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Invoke_35, 
-			Messages.BPELEditor_Invoke_36, 
-			provider.getFactoryFor(bpelPackage.getInvoke())));
-		basicActionsCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Receive_4, 
-			Messages.BPELEditor_Receive_5, 
-			provider.getFactoryFor(bpelPackage.getReceive())));
-		basicActionsCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Reply_6, 
-			Messages.BPELEditor_Reply_7, 
-			provider.getFactoryFor(bpelPackage.getReply())));
-		basicActionsCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Assign_10, 
-			Messages.BPELEditor_Assign_11, 
-			provider.getFactoryFor(bpelPackage.getAssign())));
-		basicActionsCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Validate_XML_12, 
-			Messages.BPELEditor_Validate_XML_13, 
-			provider.getFactoryFor(bpelPackage.getValidate())));
-		palette.add(basicActionsCategory);
-
-		controlCategory = new PaletteCategory("Control"); //$NON-NLS-1$
-		switchEntry = new BPELCreationToolEntry(
-			Messages.BPELEditor_If_17, 
-			Messages.BPELEditor_If_18, 
-			provider.getFactoryFor(bpelPackage.getIf()));
-		controlCategory.add(switchEntry);
-		controlCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Pick_8, 
-			Messages.BPELEditor_Pick_9, 
-			provider.getFactoryFor(bpelPackage.getPick())));
-		controlCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_While_19, 
-			Messages.BPELEditor_While_20, 
-			provider.getFactoryFor(bpelPackage.getWhile())));
-		controlCategory.add(new BPELCreationToolEntry(
-				Messages.BPELEditor_ForEach_19, 
-				Messages.BPELEditor_ForEach_20, 
-				provider.getFactoryFor(bpelPackage.getForEach())));
-		controlCategory.add(new BPELCreationToolEntry(
-				Messages.BPELEditor_Repeat_Until_42, 
-				Messages.BPELEditor_Repeat_Until_43, 
-				provider.getFactoryFor(bpelPackage.getRepeatUntil())));
-		controlCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Wait_21, 
-			Messages.BPELEditor_Wait_22, 
-			provider.getFactoryFor(bpelPackage.getWait())));
-		sequenceEntry = new BPELCreationToolEntry(
-			Messages.BPELEditor_Sequence_23, 
-			Messages.BPELEditor_Sequence_24, 
-			provider.getFactoryFor(bpelPackage.getSequence()));
-		controlCategory.add(sequenceEntry);
-		controlCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Scope_1, 
-			Messages.BPELEditor_Scope_2, 
-			provider.getFactoryFor(bpelPackage.getScope())));
-		flowEntry = new BPELCreationToolEntry(
-			Messages.BPELEditor_Flow_1, 
-			Messages.BPELEditor_Flow_2, 
-			provider.getFactoryFor(bpelPackage.getFlow()));
-		controlCategory.add(flowEntry);
-		palette.add(controlCategory);
-
-		PaletteCategory faultCategory = new PaletteCategory("Faults"); //$NON-NLS-1$
-		faultCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Exit_26, 
-			Messages.BPELEditor_Exit_27, 
-			provider.getFactoryFor(bpelPackage.getExit())));
-		faultCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Throw_28, 
-			Messages.BPELEditor_Throw_29, 
-			provider.getFactoryFor(bpelPackage.getThrow())));
-		faultCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_ReThrow_1, 
-			Messages.BPELEditor_ReThrow_2, 
-			provider.getFactoryFor(bpelPackage.getRethrow())));
-		faultCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_Compensate_1, 
-			Messages.BPELEditor_Compensate_2, 
-			provider.getFactoryFor(bpelPackage.getCompensate())));
-		faultCategory.add(new BPELCreationToolEntry(
-			Messages.BPELEditor_CompensateScope_1, 
-			Messages.BPELEditor_CompensateScope_2, 
-			provider.getFactoryFor(bpelPackage.getCompensateScope())));
-		
-		palette.add(faultCategory);
-					
-	}
-
-	private void createTopControlPaletteEntries(PaletteRoot root) {
-		PaletteGroup controlGroup = new PaletteGroup(Messages.BPELEditor_Top_Control_Group_37); 
-
-		SelectionToolEntry selectionTool = new SelectionToolEntry(Messages.BPELEditor_Selection_Tool_38); 
-		controlGroup.add(selectionTool);
-
-		MarqueeToolEntry marqueeTool = new MarqueeToolEntry(Messages.BPELEditor_Marquee_Tool); 
-		controlGroup.add(marqueeTool);
-
-		root.add(controlGroup);
-		root.setDefaultEntry(selectionTool);
-	}
-
+	
 	/**
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
+	@Override
 	public void dispose() {
 		if (editModelClient != null) {
 			editModelClient.getEditModel().getResourceSet().eAdapters().remove(editorAdapter);
@@ -577,9 +546,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		if (getEditDomain() != null) {
 			getEditDomain().setPaletteViewer(null);
 		}
-		if (getPaletteViewer() != null) {
-			getPaletteViewer().setContents(null);
-		}
+//		if (getPaletteViewer() != null) {
+//			getPaletteViewer().setContents(null);
+//		}
 		if (outlinePage != null && outlinePage.getViewer() != null) {
 			outlinePage.getViewer().setContents(null);
 		}
@@ -741,7 +710,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * @see org.eclipse.ui.IEditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
+		
 		getCommandFramework().applyCurrentChange();
 
 		removeUnusedExtensions();
@@ -794,7 +765,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	    editModelClient.saveAll(progressMonitor); 
 	}
 
-	// Disable our Save As functionality.
+	/**
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+	 */
+	
+	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
@@ -802,6 +777,8 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * @see org.eclipse.ui.IEditorPart#doSaveAs()
 	 */
+	
+	@Override
 	public void doSaveAs() {
 		getCommandFramework().applyCurrentChange();
 		performSaveAs();
@@ -824,13 +801,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	}
 
 	
-	protected PaletteRoot createPaletteRoot() {
-		PaletteRoot paletteRoot = new PaletteRoot();
-		createTopControlPaletteEntries(paletteRoot);
-		createBPELPaletteEntries(paletteRoot);
-		createBottomControlPaletteEntries(paletteRoot);
-		return paletteRoot;
-	}
+	
+	/**
+	 * @see org.eclipse.ui.ide.IGotoMarker#gotoMarker(org.eclipse.core.resources.IMarker)
+	 */
 	
 	public void gotoMarker(IMarker marker) {
 		
@@ -874,6 +848,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		
 		// TODO: is this bogus now that we have AdaptingSelectionProvider?
 				
+	
 		
 		// The closest parent which has an edit part in the graph view.
 		//
@@ -932,64 +907,67 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			
 			selectModelObject(modelObject);
 		}
-						
+		
+		showPropertiesView();
+		
 		// If possible, try to display the marker in a property section.
 		BPELTabbedPropertySheetPage propertySheetPage = currentPropertySheetPage;
 		if (propertySheetPage == null) {
-			return;
+			return ;
 			// if currentPropertySheetPage is null it means that the properties
 			// page hasn't shown yet. Since we only want to show it if we have
 			// markers for it we create a new BPELTabbedPropertySheetPage. This
 			// new one should only be used to select which tab and section to show.
 			// TODO: this doesn't work
-			//propertySheetPage = createBPELTabbedPropertySheetPage();
+			// propertySheetPage = createBPELTabbedPropertySheetPage();
 		}
-		
-		TabbedPropertyViewer viewer = propertySheetPage.getTabbedPropertyViewer();
-		
-		int j = 0;
-		while (true) { // while we don't get an exception...
-			TabDescriptor descriptor = null;
-			try {
-				descriptor = (TabDescriptor)viewer.getElementAt(j++);
-			} catch (IndexOutOfBoundsException iobe) {
-				break;
-			}
-			
-			if (descriptor == null) {
-				break; // no more descriptors
-			}
-			
-			Tab tab = descriptor.createTab();
-			ISection[] sections = tab.getSections();
-			for (int i = 0; i < sections.length; i++) {
-			
-				if (BPELPropertySection.class.isInstance( sections[i]) == false) {
-					continue;
-				}
-				
-				BPELPropertySection section = (BPELPropertySection)sections[i];
 
-				// HACK: we have to fake the initialization of this section in order to
-				// make isValidMarker work. This section should not be used as a normal section.
-				section.createControls(new Composite(getSite().getShell(), 0), propertySheetPage);
-				section.setInput(this, new StructuredSelection(modelObject));
 
-				if (section.isValidMarker (marker) ) {
-					
-					// the first section that handles this kind of marker wins
-					showPropertiesView();
-					// get real viewer, Tab and ISection objects since we are probably using fake ones
-					viewer = currentPropertySheetPage.getTabbedPropertyViewer();
-					viewer.setSelection(new StructuredSelection(descriptor));
-					tab = currentPropertySheetPage.getCurrentTab();
-					section = (BPELPropertySection)tab.getSectionAtIndex(i);
-					section.gotoMarker(marker);
-					return; // ignore other sections and tabs
-					
-				}
-			}					
-		}
+//		
+//		TabbedPropertyViewer viewer = propertySheetPage.getTabbedPropertyViewer();
+//		
+//		int j = 0;
+//		while (true) { // while we don't get an exception...
+//			TabDescriptor descriptor = null;
+//			try {
+//				descriptor = (TabDescriptor)viewer.getElementAt(j++);
+//			} catch (IndexOutOfBoundsException iobe) {
+//				break;
+//			}
+//			
+//			if (descriptor == null) {
+//				break; // no more descriptors
+//			}
+//			
+//			Tab tab = descriptor.createTab();
+//			ISection[] sections = tab.getSections();
+//			for (int i = 0; i < sections.length; i++) {
+//			
+//				if (BPELPropertySection.class.isInstance( sections[i]) == false) {
+//					continue;
+//				}
+//				
+//				BPELPropertySection section = (BPELPropertySection)sections[i];
+//
+//				// HACK: we have to fake the initialization of this section in order to
+//				// make isValidMarker work. This section should not be used as a normal section.
+//				section.createControls(new Composite(getSite().getShell(), 0), propertySheetPage);
+//				section.setInput(this, new StructuredSelection(modelObject));
+//
+//				if (section.isValidMarker (marker) ) {
+//					
+//					
+//					// get real viewer, Tab and ISection objects since we are probably using fake ones
+//					viewer = currentPropertySheetPage.getTabbedPropertyViewer();
+//					viewer.setSelection(new StructuredSelection(descriptor));
+//					tab = currentPropertySheetPage.getCurrentTab();
+//					section = (BPELPropertySection)tab.getSectionAtIndex(i);
+//					section.gotoMarker(marker);
+//					return; // ignore other sections and tabs
+//					
+//				}
+//			}					
+//		}
 	}
 	
 	
@@ -998,21 +976,23 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	
 	protected void showPropertiesView() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-		try {
-			page.showView(IBPELUIConstants.PROPERTY_VIEW_ID);
-		} catch (PartInitException e) {
-			BPELUIPlugin.log(e);
-		}
+
+		ShowViewAction action = new ShowViewAction();
+		action.setViewID(IBPELUIConstants.PROPERTY_VIEW_ID);
+		action.setPage( workbench.getActiveWorkbenchWindow().getActivePage() );		
+		action.run();			
 	}
+	
 	
 	/**
 	 * @see org.eclipse.ui.IEditorPart#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		return getCommandStack().isDirty();
 	}
 
+	
 	public ExtensionMap getExtensionMap() {
 		return extensionMap;
 	}
@@ -1020,6 +1000,8 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#initializeGraphicalViewer()
 	 */
+	
+	@Override
 	protected void initializeGraphicalViewer() {
 		initializeFileChangeListener();
 		initializeRefactoringListeners();
@@ -1028,6 +1010,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_SHOW_FREEFORM_FLOW, true);
 		
 		getGraphicalViewer().setContents(process);
+		
+		getGraphicalViewer().addDropTargetListener(	new BPELTemplateTransferDropTargetListener(getGraphicalViewer()));
+				
 		this.selectionChangeListener = new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				StructuredSelection selection = (StructuredSelection)event.getSelection();
@@ -1073,8 +1058,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			}
 		};
 		getGraphicalViewer().addSelectionChangedListener(this.selectionChangeListener);
+		
 		arrangeEditParts(getGraphicalViewer());
+		
+		updateMarkersHard();
 	}
+	
+	
 	public void arrangeEditParts(GraphicalViewer graphicalViewer) {
 		// Make a list of all FlowEditParts whose children all have no positional metadata
 		List flowsToArrange = new ArrayList();
@@ -1251,27 +1241,30 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
+	@Override
+	
 	protected void createActions() {
+		
 		super.createActions();	
 		ActionRegistry registry = getActionRegistry();
 		
 		// hook up some custom actions that are specialized versions of 
 		// the default actions.
-		IAction action = new BPELDeleteAction(this);
-		makeSelectionActionBPELOnly(action);
+		IAction action = new BPELDeleteAction(this);		
 		replaceSelectionAction(registry, action);
 
-		action = new BPELCutAction(this);
-		makeSelectionActionBPELOnly(action);
+		action = new BPELCutAction(this);		
 		replaceSelectionAction(registry, action);
 	
-		action = new BPELCopyAction(this);
-		makeSelectionActionBPELOnly(action);
+		action = new BPELCopyAction(this);		
 		replaceSelectionAction(registry, action);
 		
-		action = new BPELPasteAction(this);
-		makeSelectionActionBPELOnly(action);
+		action = new BPELPasteAction(this);		
 		replaceSelectionAction(registry, action);
+
+		action = new BPELDuplicateAction(this);		
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
 		action = new RevertAction(this);
 		registry.registerAction(action);
@@ -1306,9 +1299,16 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		getSelectionActions().add(action.getId());
 		
 		// show properties action
-		action = new ShowPropertiesViewAction();
-		registry.registerAction(action);
+		ShowViewAction showViewAction = new ShowPropertiesViewAction();	
+		showViewAction.setPage( getSite().getPage() );
+		registry.registerAction(showViewAction);
 
+		// Show Palette in Palette View action
+		showViewAction = new ShowPaletteInPaletteViewAction();
+		showViewAction.setPage( getSite().getPage() );
+		registry.registerAction(showViewAction);
+
+		
 		action = new BPELPrintAction(this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
@@ -1358,21 +1358,17 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	 * They reflect what is available from the palette.
 	 */
 	protected void createPaletteDependentActions() {
-		Comparator actionComparator = new Comparator() {
+		Comparator<IAction> actionComparator = new Comparator<IAction>() {
 			Collator collator = Collator.getInstance();
-			public int compare(Object o1, Object o2) {
-				if (o1 instanceof IAction && o2 instanceof IAction) {
-					IAction action1 = (IAction)o1;
-					IAction action2 = (IAction)o2;
-					return collator.compare(action1.getText(), action2.getText());
-				}
-				return -1;
+			public int compare(IAction o1, IAction o2) {
+				return collator.compare(o1.getText(), o2.getText());
 			}
 		};
 		
-		appendNewActions = new TreeSet(actionComparator);
-		insertNewActions = new TreeSet(actionComparator);
-		changeTypeActions = new TreeSet(actionComparator);
+		appendNewActions = new TreeSet<IAction>(actionComparator);
+		insertNewActions = new TreeSet<IAction>(actionComparator);
+		changeTypeActions = new TreeSet<IAction>(actionComparator);
+		
 		createPaletteDependentActions(getPaletteRoot());
 	}
 
@@ -1387,22 +1383,19 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 				AbstractUIObjectFactory factory = entry.getUIObjectFactory();
 
 				// append
-				IAction action = new AppendNewAction(this, factory);
-				makeSelectionActionBPELOnlyEP(action);
+				IAction action = new AppendNewAction(this, factory);				
 				appendNewActions.add(action);
 				registry.registerAction(action);
 				getSelectionActions().add(action.getId());
 
 				// insert
-				action = new InsertNewAction(this, factory);
-				makeSelectionActionBPELOnlyEP(action);
+				action = new InsertNewAction(this, factory);				
 				registry.registerAction(action);
 				insertNewActions.add(action);
 				getSelectionActions().add(action.getId());
 				
 				// change type
-				action = new ChangeTypeAction(this, factory);
-				makeSelectionActionBPELOnlyEP(action);
+				action = new ChangeTypeAction(this, factory);				
 				registry.registerAction(action);
 				changeTypeActions.add(action);
 				getSelectionActions().add(action.getId());
@@ -1410,21 +1403,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		}
 	}
 
-	// Most of our SelectionActions can't handle selections
-	// in other editors properly.  TODO: Note that they'll still get *notified* and
-	// calculateEnabled() will be called on them; maybe we should try to make some of
-	// those less expensive (especially AppendNewAction.calculateEnabled() which does
-	// lots of work and gets called for around 20 instances on each selection)?
-	// TODO: TEMPORARY HACK!
-	protected void makeSelectionActionBPELOnlyEP(IAction action) {
-		if (!(action instanceof SelectionAction))  throw new IllegalArgumentException();
-		((SelectionAction)action).setSelectionProvider(getFilteredEditPartSelectionProvider());  
-	}
 	
-	protected void makeSelectionActionBPELOnly(IAction action) {
-		if (!(action instanceof SelectionAction))  throw new IllegalArgumentException();
-		((SelectionAction)action).setSelectionProvider(getAdaptingSelectionProvider());  
-	}
+	/**
+	 * Return the process.
+	 * @return the currently edited process.
+	 */
 	
 	public Process getProcess() {
 		return process;
@@ -1437,39 +1420,36 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	 * NOTE: This code is equivalent to GraphicalEditor.getCommandStack().
 	 * We explicitly use getEditDomain() to ensure consistency with replaceCommandStack().
 	 */
+	
+	@Override
 	public CommandStack getCommandStack() {
 		return getEditDomain().getCommandStack();
 	}
 
+	/**
+	 * @param autoLayout
+	 */
 	public void setAutoFlowLayout(boolean autoLayout) {
 		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT, autoLayout);
 	}
+	
 	
 	public boolean getAutoFlowLayout() {
 		return BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
 	}
 
-	private void createBottomControlPaletteEntries(PaletteContainer palette) {
-		PaletteGroup controlGroup = new PaletteGroup(Messages.BPELEditor_Bottom_Control_Group_39); 
-	
-		ZoominToolEntry zoomIn = new ZoominToolEntry(Messages.BPELEditor_Zoom_In_40); 
-		zoomIn.setSmallIcon(CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_ZOOM_IN_TOOL));
-		controlGroup.add(zoomIn);
-		ZoomoutToolEntry zoomOut = new ZoomoutToolEntry(Messages.BPELEditor_Zoom_Out_41); 
-		zoomOut.setSmallIcon(CommonUIPlugin.getDefault().getImageRegistry().getDescriptor(ICommonUIConstants.ICON_ZOOM_OUT_TOOL));
-		controlGroup.add(zoomOut);
-	
-		palette.add(controlGroup);
-	}
 
 	/**
 	 * Override createGraphicalViewer. We have to have our own graphical viewer so that
 	 * we can put extra layers in the root edit part
 	 */
+	
+	@Override
 	protected void createGraphicalViewer(Composite parent) {
 		GraphicalViewer viewer = new ScrollingBPELGraphicalViewer();
 		viewer.createControl(parent);
 		setGraphicalViewer(viewer);
+		
 		configureGraphicalViewer();
 		hookGraphicalViewer();
 		initializeGraphicalViewer();
@@ -1478,26 +1458,32 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			parent, IHelpContextIds.EDITOR_CANVAS);	
 	}
 	
+	
+	@Override
 	protected void hookGraphicalViewer() {
 		// Do nothing. Don't call super because it will override our
 		// preference for selection provider and synchronizer.
 	}	
+	
+	
 	/**
 	 * Override to make public.
 	 */
+	@Override
 	public void setGraphicalViewer(GraphicalViewer viewer) {
 	    super.setGraphicalViewer(viewer);
 	}
 	
-	protected void createPaletteViewer(final Composite parent) {
-		super.createPaletteViewer(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			parent, IHelpContextIds.EDITOR_PALETTE);	
-	}
 	
+	
+	
+	/**
+	 * Refresh Graphical Viewer.
+	 */
 	public void refreshGraphicalViewer() {
 		BPELUtil.regenerateVisuals(getProcess(), getGraphicalViewer());
 	}
+	
 	
 	/**
 	 * Helper to set canvas selection to a specific model object (e.g. for details area)
@@ -1511,7 +1497,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * Return the selected model object(s). The debugger will call
 	 * this.
+	 * @return The selected model objects.
 	 */
+	
 	public ISelection getSelection() {
 		ISelection editPartSelection = getGraphicalViewer().getSelection();
 		if (editPartSelection == null || !(editPartSelection instanceof StructuredSelection) || editPartSelection.isEmpty()) {
@@ -1683,6 +1671,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 				// since it affects the available items in the palette
 				createPaletteDependentActions();
 				
+				
 			} catch (RuntimeException e) {
 				BPELUIPlugin.log(e);
 				// Some actions and listeners can might instances of the editor.
@@ -1809,16 +1798,16 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			provider, getSite().getSelectionProvider());
 		getTrayViewer().setContents(process);
 
-		// Setup the drop target and add our listener to it.
-		// This will allow us to accept drops from the navigator.
+//		// Setup the drop target and add our listener to it.
+//		// This will allow us to accept drops from the navigator.
 		final DropTarget trayDropTarget = new DropTarget(getTrayViewer().getControl(), DND.DROP_NONE | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
-		// Set transfers to the types that are specified by the helper
-		// JM
+//		// Set transfers to the types that are specified by the helper
+//		// JM
 		trayDropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
-		// Create our drop listener and add it to the DropTarget
-		// JM
+//		// Create our drop listener and add it to the DropTarget
+//		// JM
 		trayDropTarget.addDropListener(new BPELDropTargetListener(getTrayViewer(), this));
-		
+//		
 		getTrayViewer().getControl().addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				trayDropTarget.dispose();
@@ -1836,22 +1825,134 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	}
 	
 
+	/**
+	 * @see org.eclipse.bpel.common.ui.editmodel.IEditModelListener#modelDeleted(org.eclipse.bpel.common.ui.editmodel.ResourceInfo)
+	 */
 	public void modelDeleted(ResourceInfo resourceInfo) {
 		if (!isDirty()) {
 			getSite().getPage().closeEditor(this, false);
 		}
 	}
 	
-	public void modelDirtyStateChanged(ResourceInfo resourceInfo) {
+	/**
+	 * @see org.eclipse.bpel.common.ui.editmodel.IEditModelListener#modelDirtyStateChanged(org.eclipse.bpel.common.ui.editmodel.ResourceInfo)
+	 */
+	public void modelDirtyStateChanged (ResourceInfo resourceInfo) {
 		firePropertyChange(PROP_DIRTY);
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.editmodel.IEditModelListener#modelLocationChanged(org.eclipse.bpel.common.ui.editmodel.ResourceInfo, org.eclipse.core.resources.IFile)
+	 */
 	
 	public void modelLocationChanged(ResourceInfo resourceInfo, IFile movedToFile) {
 		// TODO!
 		//updateInputFile(movedToFile.getFullPath());
 	}
 
+	
+	/**
+	 * This is called by the edit model which listens on the Resource Change notifications from the
+	 * workbench. Most likely, the validator has run, and it produced new markers. We attempt to navigate 
+	 * them and present them in the editor.
+	 * 
+	 * @param resourceInfo the resource info 
+	 * @param markerDelta  the marker delta
+	 */
+	
+	public void modelMarkersChanged ( ResourceInfo resourceInfo , IMarkerDelta [] markerDelta ) {
+		
+		Resource resource = resourceInfo.getResource();
+					
+		for ( IMarkerDelta delta : markerDelta ) {
+		
+			String href = (String) delta.getAttribute( "address.model" ); //$NON-NLS-1$
+			if (href == null) {
+				continue;
+			}
+			
+			EObject target = null;
+			
+			switch (delta.getKind()) {
+			case IResourceDelta.ADDED :
+				target = resource.getEObject(href);
+				if (target != null) {
+					fMarkers2EObject.put(delta.getId(),target);
+					target.eNotify( new NotificationImpl(AdapterNotification.NOTIFICATION_MARKER_ADDED,null,delta.getMarker() ));
+				}
+				break;
+			case IResourceDelta.CHANGED :
+				target = fMarkers2EObject.remove(delta.getId());
+				if (target != null) {
+					target.eNotify( new NotificationImpl(AdapterNotification.NOTIFICATION_MARKER_CHANGED,delta.getMarker(),null));
+				}
+				break;
+			case IResourceDelta.REMOVED :
+				target = fMarkers2EObject.remove(delta.getId());
+				if (target != null) {
+					target.eNotify( new NotificationImpl(AdapterNotification.NOTIFICATION_MARKER_DELETED,delta.getMarker(),null));
+				}
+				break;				
+			}
+			
+		}
+	}
+	
+	Notification fMarkersStale   = new NotificationImpl (AdapterNotification.NOTIFICATION_MARKERS_STALE, null,null);	
+
+	
+	protected Map<Long,EObject> fMarkers2EObject = new HashMap<Long,EObject>();
+		
+	protected void updateMarkersHard () {
+		
+		for(EObject obj : fMarkers2EObject.values()) {
+			obj.eNotify(fMarkersStale);
+		}
+		
+		fMarkers2EObject.clear();
+		
+		IMarker[] markers = null;
+		IFile file = getFileInput();
+		Resource resource = getProcess().eResource();
+		
+		try {
+			markers = file.findMarkers(null, true, IResource.DEPTH_ZERO);							
+		} catch (CoreException ex) {
+			BPELUIPlugin.log(ex);
+			return;
+		}
+		
+		for (IMarker m : markers) {
+			
+			String href = null;
+			EObject target = null;
+			try {
+				href = (String) m.getAttribute( "address.model" ); //$NON-NLS-1$
+				if (href == null) {
+					continue;
+				}
+				target = resource.getEObject(href);
+			} catch (CoreException ex) { 
+				continue;
+			}
+			
+			if (target == null) {
+				continue;
+			}
+			
+			fMarkers2EObject.put(m.getId(), target);			
+			target.eNotify( new NotificationImpl (AdapterNotification.NOTIFICATION_MARKER_ADDED , null, m ));						
+		}
+					
+	}
+	
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.editmodel.IEditModelListener#modelReloaded(org.eclipse.bpel.common.ui.editmodel.ResourceInfo)
+	 */
+	
 	public void modelReloaded(ResourceInfo resourceInfo) {
+		
 		Resource bpelResource = editModelClient.getPrimaryResourceInfo().getResource();
 
 		IFile file = getFileInput();
@@ -1876,6 +1977,8 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		getGraphicalViewer().removeSelectionChangedListener(processTrayEditPart.getSelectionChangedListener());
 		
 		getTrayViewer().setContents(process);
+		
+		updateMarkersHard();
 	}
 	
 	protected boolean updateInputFile(IPath filePath) {

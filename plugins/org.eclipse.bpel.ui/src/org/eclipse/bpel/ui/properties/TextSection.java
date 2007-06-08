@@ -54,7 +54,13 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 			boolean needRefresh = false;
 			
 			@Override
-			public void notify(Notification n) {				
+			public void notify (Notification n) {
+
+				if (markersHaveChanged(n)) {
+					updateMarkers();
+					return ;
+				}
+				
 				needRefresh = isBodyAffected(n);								
 				refreshAdapters();
 			}

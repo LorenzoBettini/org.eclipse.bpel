@@ -10,11 +10,21 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
+import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeAdapterFactory;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 
+/**
+ * BPELUIPartnerLinkTypeAdapterFactory for generating adapters.
+ * 
+ * We use an instance of AdapterProvider that caches singleton adapters.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date May 23, 2007
+ *
+ */
 public class BPELUIPartnerLinkTypeAdapterFactory extends PartnerlinktypeAdapterFactory {
 
 	static BPELUIPartnerLinkTypeAdapterFactory instance;
@@ -30,6 +40,12 @@ public class BPELUIPartnerLinkTypeAdapterFactory extends PartnerlinktypeAdapterF
 		provider = new AdapterProvider ();
 	}
 	
+	/**
+	 * Get the instance of this factory.
+	 * 
+	 * @return an instance of this factory.
+	 */
+	
 	public static BPELUIPartnerLinkTypeAdapterFactory getInstance() {
 		if (instance == null) {
 			instance = new BPELUIPartnerLinkTypeAdapterFactory();
@@ -38,14 +54,27 @@ public class BPELUIPartnerLinkTypeAdapterFactory extends PartnerlinktypeAdapterF
 	}
 	
 	
+	
+	/**
+	 * @see org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeAdapterFactory#createPartnerLinkTypeAdapter()
+	 */
+	@Override
 	public Adapter createPartnerLinkTypeAdapter() {
 		return provider.getAdapter ( PartnerLinkTypeAdapter.class );
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeAdapterFactory#createRoleAdapter()
+	 */
+	@Override
 	public Adapter createRoleAdapter() {
 		return provider.getAdapter( RoleAdapter.class );
 	}
 	
+	
+	/**
+	 * @return PortType adapter.
+	 */
 	
 	public Adapter createRolePortTypeAdapter() {
 		return provider.getAdapter( PortTypeAdapter.class );		
@@ -54,15 +83,23 @@ public class BPELUIPartnerLinkTypeAdapterFactory extends PartnerlinktypeAdapterF
 
 	
 	
+	
+	/**
+	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
+	 */
+	@Override
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
-		if (adapter != null && adapter.isAdapterForType(type)) {
-			associate(adapter, target);
-			return adapter;
+		if (adapter == null) {
+			return null;
 		}
-		return null;
+		associate(adapter, target);
+		return adapter.isAdapterForType(type) ? adapter : null;
 	}
 	
+	
+	
+	@Override
 	protected Object resolve(Object object, Object type) {
 		return null;
 	}

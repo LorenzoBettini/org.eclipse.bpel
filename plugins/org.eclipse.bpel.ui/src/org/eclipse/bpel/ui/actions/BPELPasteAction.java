@@ -10,34 +10,41 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.actions;
 
-import java.util.List;
-
-import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.BPELPasteCommand;
 import org.eclipse.bpel.ui.commands.RestoreSelectionCommand;
+import org.eclipse.bpel.ui.commands.SetSelectionCommand;
 import org.eclipse.bpel.ui.util.SharedImages;
 import org.eclipse.bpel.ui.util.TransferBuffer;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
 
-public class BPELPasteAction extends SelectionAction {
+/**
+ * @author IBM, Original Contribution.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jun 4, 2007
+ *
+ */
+public class BPELPasteAction extends EditAction {
 	
-	List objects;
 	Command command;
 	
+	/**
+	 * Brand new BPELPaste action.
+	 * 
+	 * @param editorPart
+	 */
 	public BPELPasteAction(IWorkbenchPart editorPart) {
 		super(editorPart);
 	}
 
+	@Override
 	protected void init() {
 		super.init();
 		setText(Messages.BPELPasteAction_Paste_1); 
@@ -50,58 +57,53 @@ public class BPELPasteAction extends SelectionAction {
 		setEnabled(false);
 	}
 
-	protected static EObject getPasteTarget(BPELEditor bpelEditor, List selectedObjects) {
-		if (selectedObjects.size() > 1)  return null;
-
-		EObject model = bpelEditor.getProcess();
-		if ((selectedObjects.size() == 1) && (selectedObjects.get(0) instanceof EObject)) {
-			model = (EObject)selectedObjects.get(0);
-		}
-
-		TransferBuffer tb = bpelEditor.getTransferBuffer();
-
-		if (model instanceof Process) {
-			// Special case: if the Process has a child, and this child is an IContainer, and
-			// we can paste our stuff into this child successfully, then we should do that
-			// instead of pasting it into the Process.  (For top-level sequence/flow, etc).
-			// TODO: is this still a good idea?  (maybe not since implicit seqs are supported at
-			// the top level)
-			Activity activity = ((Process)model).getActivity();
-
-			if (tb.canCopyTransferBufferToIContainer(activity))  return activity;
-		}
-		if (tb.canCopyTransferBufferToIContainer(model))  return model;
-		return null;
-	}
 
 	/**
-	 * Create a command to paste previously copied objects into the selected object.
+	 * @see org.eclipse.bpel.ui.actions.EditAction#getCommand()
 	 */
-	public static Command createPasteCommand(BPELEditor bpelEditor, EObject pasteTarget) {
-		CompoundCommand compoundCmd = new CompoundCommand(Messages.BPELPasteAction_Paste_3); 
-		
-		compoundCmd.add(new RestoreSelectionCommand(bpelEditor.getAdaptingSelectionProvider(), true, false));
-
-		BPELPasteCommand cmd = new BPELPasteCommand(bpelEditor);
-		cmd.setTargetObject(pasteTarget);
-		compoundCmd.add(cmd);
-
-		return compoundCmd;
-	}
-
-	protected boolean calculateEnabled() {
-		if (!(getWorkbenchPart() instanceof BPELEditor)) return false;
-		
-		BPELEditor bpelEditor = (BPELEditor)getWorkbenchPart();
-		if (bpelEditor.getTransferBuffer().getContents() == null) return false;
-
-		return getPasteTarget(bpelEditor, getSelectedObjects()) != null;
-	}
 	
-	public void run() {
-		if (!(getWorkbenchPart() instanceof BPELEditor)) return;
+	@Override
+	protected Command getCommand() {
+		
+		CompoundCommand cmd = new CompoundCommand(Messages.BPELPasteAction_Paste_3); 
+		
+		final BPELEditor bpelEditor = (BPELEditor) getWorkbenchPart();
+		
+		// 1. Restore selection
+		cmd.add(new RestoreSelectionCommand(bpelEditor.getAdaptingSelectionProvider(), true, true));
 
-		BPELEditor bpelEditor = (BPELEditor)getWorkbenchPart();
-		execute(createPasteCommand(bpelEditor, getPasteTarget(bpelEditor, getSelectedObjects())));	
+		// 2. Paste Command
+		BPELPasteCommand cmdPaste = new BPELPasteCommand(bpelEditor);
+		cmdPaste.setTargetObject( fSelection.get(0) , false );		
+		cmd.add(cmdPaste);
+		
+		// 3. Add the command to select the pasted elements		
+		cmd.add( new SetSelectionCommand(cmdPaste,false) );		
+
+		return cmd;
 	}
+
+	
+	@Override
+	protected boolean calculateEnabled() {
+		
+		boolean bEnabled = super.calculateEnabled() && fSelection.size() == 1;
+		
+		if (!bEnabled) {
+			return bEnabled;
+		}					
+		
+		BPELEditor bpelEditor = (BPELEditor)getWorkbenchPart();
+		TransferBuffer tb = bpelEditor.getTransferBuffer();
+		
+		if (tb == null) {
+			return false;
+		}
+		
+		return tb.canCopyTransferBufferTo( fSelection.get(0) , false );	
+	}
+
+	
+	
+	
 }
