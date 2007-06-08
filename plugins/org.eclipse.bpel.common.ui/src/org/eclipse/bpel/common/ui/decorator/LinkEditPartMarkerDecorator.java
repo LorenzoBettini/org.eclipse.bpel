@@ -30,38 +30,47 @@ import org.eclipse.emf.ecore.EObject;
  * 
  */
 public class LinkEditPartMarkerDecorator extends EditPartMarkerDecorator {
-	private Connection conn;
-	private List markerFigures = new ArrayList();
 	
-	public LinkEditPartMarkerDecorator(EObject modelObject, Connection conn) {
-		super(modelObject);
-		this.conn = conn;
+	private Connection fConnection;
+	private List<IFigure> fMarkerFigures = new ArrayList<IFigure>();
+	
+	/**
+	 * Brand new shiny LinkEditPartMarkerDecorator
+	 * @param aModelObject
+	 * @param aConnection
+	 */
+	
+	public LinkEditPartMarkerDecorator(EObject aModelObject, Connection aConnection) {
+		super(aModelObject);
+		this.fConnection = aConnection;
 	}
 	
 	/**
-	 * May be overriden by subclasses.
+	 * May be overridden by subclasses.
 	 * 
 	 * @param marker 
 	 * @return a layout constraint
 	 */
+	
+	@Override
 	protected Object getConstraint(IMarker marker) {
 		try {
 			if (marker.isSubtypeOf(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ID)) {
 				String anchorString = (String)marker.getAttribute(IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR);
 				if (anchorString != null) {
 					if (anchorString.equals(IMarkerConstants.MARKER_ANCHORPOINT_SOURCE)) {
-						ConnectionEndpointLocator locator = new ConnectionEndpointLocator(conn, false);
+						ConnectionEndpointLocator locator = new ConnectionEndpointLocator(fConnection, false);
 						locator.setUDistance(4);
 						locator.setVDistance(0);
 						return locator;
 					}
 					if (anchorString.equals(IMarkerConstants.MARKER_ANCHORPOINT_TARGET)) {
-						ConnectionEndpointLocator locator = new ConnectionEndpointLocator(conn, true);
+						ConnectionEndpointLocator locator = new ConnectionEndpointLocator(fConnection, true);
 						locator.setUDistance(4);
 						locator.setVDistance(0);
 						return locator;
 					}
-					if (anchorString.equals(IMarkerConstants.MARKER_ANCHORPOINT_CENTRE)) return new ConnectionLocator(conn, ConnectionLocator.MIDDLE);
+					if (anchorString.equals(IMarkerConstants.MARKER_ANCHORPOINT_CENTRE)) return new ConnectionLocator(fConnection, ConnectionLocator.MIDDLE);
 				}
 			}
 		} catch (CoreException e) {
@@ -69,29 +78,34 @@ public class LinkEditPartMarkerDecorator extends EditPartMarkerDecorator {
 		}
 
 		// default
-		return new ConnectionLocator(conn, ConnectionLocator.MIDDLE);
+		return new ConnectionLocator(fConnection, ConnectionLocator.MIDDLE);
 	}
 
 	/**
 	 * 
 	 */
 	public void removeAllMarkerFigures() {
-		for(int i = 0; i < markerFigures.size(); i++) {
-			IFigure figure = (IFigure) markerFigures.get(i);
-			conn.remove(figure);
+		for (IFigure figure : fMarkerFigures) {
+			fConnection.remove(figure);
 		}
-		markerFigures.clear();
+		fMarkerFigures.clear();
 	}
 	
+	/**
+	 * Add marker figure.
+	 * 
+	 * @param figure
+	 */
+	
 	public void addMarkerFigure(IFigure figure){
-		markerFigures.add(figure);
+		fMarkerFigures.add(figure);
 	}
 	
 	/**
 	 * @return Returns the conn.
 	 */
 	public Connection getConnection() {
-		return conn;
+		return fConnection;
 	}
 	
 	
@@ -99,6 +113,7 @@ public class LinkEditPartMarkerDecorator extends EditPartMarkerDecorator {
 	 * Draws the markers. This method should be called from the EditPart's refreshVisuals()
 	 * method.
 	 */
+	@Override
 	protected void refreshMarkers() {
 		//	Refresh any decorations on this edit part
 		 if(getConnection() != null) {
