@@ -17,18 +17,41 @@ import org.eclipse.jface.resource.ImageDescriptor;
 /**
  * Model object for a palette category.
  */
-public class PaletteCategory extends PaletteDrawer {
+public class PaletteCategory extends PaletteDrawer implements IOrderedPaletteEntry {
 
 	protected ToolEntry defaultTool;
-
-	public PaletteCategory(String label) {
+	
+	/** The relative position of this category within the palette */
+	protected int fOrder = 10;
+	
+	/** The category id */
+	protected String fCategoryId = "bpel.user"; //$NON-NLS-1$
+	
+	/**
+	 * Create a brand new PaletteCategory label.
+	 * 
+	 * @param label
+	 */
+	
+	public PaletteCategory (String label) {
 		this(label, null);
 	}
 
+	/**
+	 * Create a brand new Palette Category with the label and an Image 
+	 * 
+	 * @param label the label
+	 * @param icon the icon
+	 */
 	public PaletteCategory(String label, ImageDescriptor icon) {
 		super(label, icon);
 	}
 
+	/**
+	 * Return the default tool for this Palette Category.
+	 * @return the default tool.
+	 */
+	
 	public ToolEntry getDefaultTool() {
 		if (defaultTool != null) {
 			return defaultTool;
@@ -39,8 +62,54 @@ public class PaletteCategory extends PaletteDrawer {
 		return null;
 	}
 
+	/**
+	 * Set the default tool.
+	 * 
+	 * @param entry
+	 */
+	
 	public void setDefaultTool(ToolEntry entry) {
 		defaultTool = entry;
 	}
+	
+	/**
+	 * Return the order of this palette category within the palette.
+	 * 
+	 * @return the palette category entry.
+	 */
+	
+	public int getOrder () {
+		return fOrder;
+	}
 
+	/**
+	 * Set the order of this palette category entry.
+	 * 
+	 * @param anOrder
+	 */
+	
+	public void setOrder (int anOrder ) {
+		fOrder = anOrder;
+	}
+	
+	/** 
+	 * Return the category id of this category.
+	 * 
+	 * @return the category id.
+	 */
+	
+	public String getCategoryId ( ) {		
+		return fCategoryId;
+	}
+	
+	
+	/**
+	 * Set the category Id.
+	 * 
+	 * @param aCategoryId the category id for this category.
+	 */
+	public void setCategoryId ( String aCategoryId ) {
+		fCategoryId = aCategoryId;
+	}
+	
 }
