@@ -1937,20 +1937,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		return (Definition)artifactsResource.getContents().get(0);
 	}
 
-	/**
-	 * The contributor id is cached because we do not support dynamic modification of
-	 * the spec-compliance mode. The user is required to re-start the editor in order
-	 * to start using the new mode.
-	 */
 	protected String getPaletteAdditionsContributorId() {
-		if (contributorID == null) {
-	    	ProcessExtension extension = (ProcessExtension) getExtensionMap().get(getProcess());
-	    	if (extension.isSpecCompliant()) {
-	    		contributorID = IBPELUIConstants.BPEL_SPEC_COMPLIANT_EDITOR_ID;
-	    	} else {
-	    		contributorID = getEditorSite().getId();
-	    	}
-		}
-		return contributorID;
+		return IBPELUIConstants.BPEL_EDITOR_ID;
 	}
 }
