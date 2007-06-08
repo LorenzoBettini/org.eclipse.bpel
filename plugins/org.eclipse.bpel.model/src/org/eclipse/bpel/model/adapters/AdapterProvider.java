@@ -38,8 +38,7 @@ public final class AdapterProvider {
 	/**
 	 * The list of adapter singletons that we have created.
 	 */
-	
-	final HashMap<String,Adapter> map = new HashMap<String,Adapter>();
+	final HashMap<Class<? extends Adapter>,Adapter> map = new HashMap<Class<? extends Adapter>,Adapter>();
 	
 	/**
 	 * The package list that we search for adapters.
@@ -72,63 +71,89 @@ public final class AdapterProvider {
 	 */
 	
 	
+	@SuppressWarnings("nls")
 	public Adapter getAdapter ( String name ) {
-		
-		Adapter singleton = null;
-		int absNameIdx = name.indexOf('.');
-		String className = name ;
-		
+				
+		int absNameIdx = name.indexOf('.');				
 		if (absNameIdx > 0) {
 			// absolute specification
-			singleton = map.get(className);			
-		} else {			
-			for(String packageName : packageList) {
-				className = packageName + "." + name; //$NON-NLS-1$
-				singleton = map.get( className );
+			return getAdapter ( classFor(name) );
+		}
+						
+		for(String packageName : packageList) {
+			Class<? extends Adapter> adapterClazz = classFor( packageName + "." + name );
+			if (adapterClazz != null) {
+				return getAdapter(adapterClazz);
 			}
 		}
 		
-		
-		if (singleton == null) {
-			
-			if (absNameIdx < 0) {
-				
-			} 
-			
-		}
-		
-		
-		if (singleton instanceof IStatefullAdapter) {
-			return newAdapter( singleton.getClass() );
-		}
-		
-		return singleton;		
+		return null;
 	}
 	
+
 	
 	/**
 	 * Get an adapter of the class passed. 
-	 *   
+	 * 
+	 *  
 	 * @param adapterClass
 	 * @return the appropriate adapter
 	 */
 	
 	public Adapter getAdapter ( Class<? extends Adapter> adapterClass ) {
 		
-		String name = adapterClass.getName();
-		Adapter singleton = map.get( name );
-		if (singleton == null) {
-			singleton = newAdapter( adapterClass );			  
-			map.put(name,singleton);
+		Adapter instance = map.get(adapterClass);
+		if (instance == null) {
+			instance = newAdapter( adapterClass );			  
+			map.put(adapterClass,instance);
 		}
 		
-		if (singleton instanceof IStatefullAdapter) {
+		if (instance instanceof IStatefullAdapter) {
 			return newAdapter(adapterClass);
 		}
 		
-		return singleton;
+		return instance;
 	}
 	
+	
+	/**
+	 * Get an adapter of the class passed. 
+	 * 
+	 *  
+	 * @param adapterClass
+	 * @param target the target object
+	 * @return the appropriate adapter
+	 */
+	
+	public Adapter getAdapter ( Class<? extends Adapter> adapterClass , Object target ) {
+		
+		Adapter adapter = getAdapter(adapterClass);
+		
+		if (adapter == null) {
+			return null;
+		}
+		
+		if (adapter instanceof IStatefullAdapter) {
+			IStatefullAdapter statefullAdapter = (IStatefullAdapter) adapter;
+			statefullAdapter.setTarget(target);
+		}
+		
+		return adapter;
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	Class<? extends Adapter> classFor ( String name ) {
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(name);
+			return (Class<? extends Adapter>) clazz;
+		} catch (ClassNotFoundException e) {
+			return null;
+		} catch (ClassCastException cce) {
+			return null;
+		}
+	}
 	
 	
 	Adapter newAdapter ( Class<? extends Adapter> clazz ) {
