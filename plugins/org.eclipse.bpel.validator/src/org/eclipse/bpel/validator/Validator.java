@@ -36,7 +36,7 @@ public class Validator implements IValidator {
 
 	boolean bDebug = true;
 	
-	int     mechanism = 2;
+	int     mechanism = 1;
 	
 	Builder fBuilder = new Builder();
 	

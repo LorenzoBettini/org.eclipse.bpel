@@ -118,6 +118,17 @@ public class Validator implements IConstants {
 	
 	
 	/**
+	 * Use this set to determine coverage of the validators. 
+	 * 
+	 * @param ruleSet
+	 */
+	
+	public void setSAChecks ( Set<ARule> ruleSet ) {
+		mSAChecks = ruleSet;
+	}
+	
+	
+	/**
 	 * Add a validator to the chain.
 	 * 
 	 * It is always added to the end of the validator chain.
@@ -133,7 +144,11 @@ public class Validator implements IConstants {
 		
 		if (fNext == null) {
 			fNext = next;
+			
+			next.fNext = null;
 			next.fPrev = this;
+			
+			next.mSAChecks = mSAChecks;
 		} else {
 			fNext.attach ( next );
 		}		
@@ -305,6 +320,7 @@ public class Validator implements IConstants {
 		
 		mRuleFilter.clear();
 		mProblems.clear();
+		mData.clear();
 		
 		// Attempt to set mModelQuery and mNode from another validator in the
 		// chain, if not already set
@@ -314,9 +330,7 @@ public class Validator implements IConstants {
 			mNode = p.mNode;
 			mModelQuery = p.mModelQuery;
 			p = p.fPrev;
-		}
-		
-		mSAChecks = getValue("internal.sa.checks");
+		}			
 	}
 	
 	

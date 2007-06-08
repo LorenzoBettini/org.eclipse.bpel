@@ -14,18 +14,12 @@ import java.io.File;
 import java.util.Collections;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
-
 import org.eclipse.bpel.model.Process;
-
-
-// import org.eclipse.bpel.ui.IBPELUIConstants;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -46,6 +40,11 @@ public class BPELReader {
 	protected Process process;
 	protected ExtensionMap extensionMap;
 
+	
+	/**
+	 * @param uri
+	 * @param resourceSet
+	 */
 	
 	public void read (URI uri, ResourceSet resourceSet) {
 	
@@ -100,6 +99,7 @@ public class BPELReader {
 		// instance.eAdapters();
 		
 		this.processResource = resource;
+		this.process = null;
 		
 		try {
 			processResource.load (Collections.EMPTY_MAP);
@@ -172,26 +172,34 @@ public class BPELReader {
 		
 	}
 		
+	/**
+	 * The extension map
+	 * @return
+	 */
+	
 	public ExtensionMap getExtensionMap() {
 		return extensionMap;
 	}
 	
 	/**
-	 * @return
+	 * @return the extension resource
 	 */
+	
 	public Resource getExtensionsResource() {
 		return extensionsResource;
 	}
 	
 	/**
-	 * @return
+	 * 
+	 * @return the process read or null
 	 */
 	public Process getProcess() {
 		return process;
 	}
 	
 	/**
-	 * @return
+	 * The process resource.
+	 * @return the process resource
 	 */
 	public Resource getProcessResource() {
 		return processResource;

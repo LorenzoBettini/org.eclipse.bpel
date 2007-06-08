@@ -35,7 +35,7 @@ public class CActivityValidator extends CValidator {
 
 	protected String fSuppressJoinFailre;
 
-	protected  List<INode> fCorrelationSets  = new ArrayList<INode>();
+	protected  List<INode> fCorrelationSets; 
 
 	/** What are my parents */
 	static public IFilter<INode> PARENTS = Filters.ACTIVITY_CONTAINER;
@@ -60,12 +60,14 @@ public class CActivityValidator extends CValidator {
 	 */
 	@Override
 	public void start () {
+		super.start();
+		
 		ncName = mNode.getAttribute( AT_NAME );	
 		if (ncName == null) {
 			ncName = "Unnamed";
 		}
-		setValue("correlation.sets", fCorrelationSets);		
-		super.start();
+		fCorrelationSets = new ArrayList<INode>();
+		setValue("correlation.sets", fCorrelationSets);
 	}
 	
 	/**

@@ -82,7 +82,7 @@ public class Runner {
 			if (validator != null) {				
 				
 				validator.setModelQuery(fModelQuery);
-				validator.setValue("internal.sa.checks", fSAChecks);
+				validator.setSAChecks(fSAChecks);				
 				
 				fValidators.add(validator);
 			}

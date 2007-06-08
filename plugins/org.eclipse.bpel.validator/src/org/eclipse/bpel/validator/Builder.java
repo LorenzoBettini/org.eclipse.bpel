@@ -11,6 +11,7 @@ import java.util.Map;
 
 
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 
 
 import org.eclipse.bpel.validator.factory.AdapterFactory;
@@ -19,19 +20,24 @@ import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.Messages;
 import org.eclipse.bpel.validator.model.Runner;
 
+import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.internal.resources.WorkspaceRoot;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
@@ -59,15 +65,29 @@ public class Builder extends IncrementalProjectBuilder {
 	/** The adapter manager for the platform */
 	IAdapterManager fAdapterManager = Platform.getAdapterManager();		
 
+	BPELResourceSetImpl fResourceSet = new BPELResourceSetImpl();
+	
+	BPELReader fReader = new BPELReader();
+	
+		 
 	/**
 	 * Create brand new shiny BPEL Builder.
 	 */
 	
 	public Builder() {
-		p("Created on " + created);		
+		p("Created on " + created);
+	}
+    
+	/** (non-Javadoc)
+	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
+	 */
+	@Override
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
+		super.setInitializationData(config, propertyName, data);	
 	}
 
 	
+
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -75,8 +95,8 @@ public class Builder extends IncrementalProjectBuilder {
 	protected IProject[] build (int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
 		
-		long started = System.currentTimeMillis();
 		
+		long started = System.currentTimeMillis();
 		if (args != null) {
 			bDebug = toBoolean(args.get("debug"),false);
 		}
@@ -89,29 +109,62 @@ public class Builder extends IncrementalProjectBuilder {
 
 		IProject myProject = this.getProject();
 		IResourceDelta resourceDelta = this.getDelta(myProject);
-								
+		
 		if (resourceDelta == null) {
 						
 			// Now find all the BPEL files in the project and validate them
 			validate ( myProject, monitor );
 			
 		} else {
+						
+			processDeltas(resourceDelta.getAffectedChildren( IResourceDelta.CHANGED ), monitor );
 			
-			IResourceDelta[] deltas = resourceDelta.getAffectedChildren(IResourceDelta.ADDED | IResourceDelta.CHANGED );
-									
-			p("Looking at deltas ...");
-			for(IResourceDelta delta : deltas) {
-				IResource resource = delta.getResource();
-				validate ( resource, monitor );
-			}
 		}
 				
 		long ended = System.currentTimeMillis();
-		p(" Validation Ended: " + (ended-started) + "ms");
+		p(" Validation Ended " + (ended-started) + "ms");
 		return new IProject[] { myProject };
+	}
+	
+	
+	
+	void processDeltas ( IResourceDelta [] deltas , IProgressMonitor monitor ) throws CoreException {
+		
+		for(IResourceDelta delta : deltas) {			
+			processDeltas( delta.getAffectedChildren(IResourceDelta.CHANGED, IResource.FILE), monitor );			
+			IResource resource = delta.getResource();
+			if (resource.getType () != IResource.FILE) {
+				continue;
+			}
+			
+//			 * @see IResourceDelta#CONTENT
+//			 * @see IResourceDelta#DESCRIPTION
+//			 * @see IResourceDelta#ENCODING
+//			 * @see IResourceDelta#OPEN
+//			 * @see IResourceDelta#MOVED_TO
+//			 * @see IResourceDelta#MOVED_FROM
+//			 * @see IResourceDelta#TYPE
+//			 * @see IResourceDelta#SYNC
+//			 * @see IResourceDelta#MARKERS
+//			 * @see IResourceDelta#REPLACED
+			 
+			if ((delta.getFlags() & IResourceDelta.CONTENT) != IResourceDelta.CONTENT ) {
+				continue;
+			}
+			
+			validate ( resource, monitor );					
+		}		
 	}
 
 	
+	/**
+	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#clean(org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	protected void clean (IProgressMonitor monitor) throws CoreException {
+		
+	}
+
 	/**
 	 * Validate the resource using the monitor passed.
 	 * 
@@ -126,18 +179,17 @@ public class Builder extends IncrementalProjectBuilder {
 		switch (resource.getType()) {
 		
 		case IResource.FOLDER :
-			IFolder folder = (IFolder) resource;
-			
-			IResource[] list = folder.members();
-			for(IResource next : list) {
+			IFolder folder = (IFolder) resource;			
+			for(IResource next :  folder.members() ) {
 				validate (next,monitor);
-			}
-			
+			}			
 			break;
+			
 		case IResource.FILE :			
 			IFile file = (IFile) resource;
-			
+									
 			p("File Resource : " + file.getName() );
+			 
 			// TODO: This should be a better check
 			if ( file.getName().endsWith(".bpel")) {
 				file.deleteMarkers(IBPELMarker.ID, false,  IResource.DEPTH_ZERO);
@@ -159,12 +211,12 @@ public class Builder extends IncrementalProjectBuilder {
 		
 		
 		p("Validating BPEL Resource : " + file.getName() );
-		
+				
 		// Step 1. Read the BPEL process using the Model API.
-		
-		BPELReader reader = new BPELReader();
-		reader.read( file, new ResourceSetImpl() );
-		Process process = reader.getProcess();
+				
+		fResourceSet.resourceChanged(file);
+		fReader.read( file, fResourceSet );
+		Process process = fReader.getProcess();
 		
 		if (process == null) {
 			p ("Cannot read BPEL Process !!!");

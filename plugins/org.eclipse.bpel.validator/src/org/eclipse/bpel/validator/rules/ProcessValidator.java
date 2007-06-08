@@ -49,7 +49,7 @@ public class ProcessValidator extends CValidator {
 
 	protected String fSupressJoinFailure;
 			
-	protected List<INode> fStartActivities = new ArrayList<INode>() ;
+	protected List<INode> fStartActivities ;
 	
 	/** 
 	 * Start the validation pass.
@@ -60,9 +60,11 @@ public class ProcessValidator extends CValidator {
 	
 	@Override
 	public void start () {
+		super.start();
+		
 		ncName = mNode.getAttribute( AT_NAME );
 		fTypeToCheckList = new LinkedList<INode>();
-		
+		fStartActivities = new ArrayList<INode>();		
 		setValue ("types.to.check",fTypeToCheckList);
 		setValue ("start.activities", fStartActivities);		
 	}
