@@ -2470,13 +2470,31 @@ public class BPELReader {
 		
 		// Literal node
 		if (literalElement != null) {
+			StringBuilder elementData = new StringBuilder(256);
 			
-			String elementData = BPELUtils.elementToString(literalElement);
+			NodeList nl = literalElement.getChildNodes();
+			
+			outer : for (int i=0; i < nl.getLength(); i++) {
+				
+				Node n = nl.item(i);
+				switch (n.getNodeType()) {
+					case  Node.ELEMENT_NODE :
+						elementData.setLength(0);
+						elementData.append(BPELUtils.elementToString((Element)n));
+						break outer;
+						
+					case Node.TEXT_NODE :
+					case Node.CDATA_SECTION_NODE :
+						elementData.append( n.getTextContent() );
+						break;
+				}
+			}
+			
 			from.setUnsafeLiteral(Boolean.FALSE);
-			
-			if (isEmptyOrWhitespace(elementData) == false) {
+			String elementDataFinal = elementData.toString();			
+			if (isEmptyOrWhitespace(elementDataFinal) == false) {
 				from.setUnsafeLiteral(Boolean.TRUE);
-				from.setLiteral( elementData );
+				from.setLiteral( elementDataFinal );
 			}
 			
 		} else {		
