@@ -12,7 +12,6 @@ package org.eclipse.bpel.common.ui.tray;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,87 +25,136 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 
+/**
+ * @author IBM, Original Contribution. 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jun 5, 2007
+ *
+ */
+
 public class MultiViewerSelectionProvider implements ISelectionProvider {
 
-	protected List viewers = new ArrayList();
-	protected List listeners;
+	static ISelectionChangedListener[] EMPTY_LISTENERS = {};
+	
+	protected List<EditPartViewer> viewers = new ArrayList<EditPartViewer>();
+	protected List<ISelectionChangedListener> listeners;
 	protected boolean changingSelection = false;
 	protected boolean broadcastingSelectionChange = false;
-	protected ISelection cachedSelection;
+	protected IStructuredSelection cachedSelection;
+	
+	/**
+	 * Brand new shiny MultiViewerSelectionProvider
+	 * @param viewer
+	 */
 	
 	public MultiViewerSelectionProvider(EditPartViewer viewer) {
 		this();
 		addViewer(viewer);
 	}
+	
+	/**
+	 * Brand new shiny MultiViewerSelectionProvider
+	 */
+	
 	public MultiViewerSelectionProvider() {
-		this.listeners = new ArrayList();
+		this.listeners = new ArrayList<ISelectionChangedListener>();
 	}
 	
+	/**
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#addSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
+	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		listeners.add(listener);
 	}
 
+	
+	/**
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#removeSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
+	 */
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		listeners.remove(listener);
 	}
 
+	/**
+	 * Add the viewer to the list of viewers that are listening for selection changes.
+	 * 
+	 * @param viewer
+	 */
+	
 	public void addViewer(EditPartViewer viewer) {
 		viewers.add(viewer);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				if (changingSelection) return;
+				if (changingSelection) {
+					return;
+				}
 				setSelection(event.getSelection());
 			}
 		});
 	}
 	
+	
+	/**
+	 *  Get the current selection
+	 * 
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
+	 */
+	
 	public ISelection getSelection() {
 		if (cachedSelection == null) {
-			List result = new ArrayList();
-			Iterator it = viewers.iterator();
-			while (it.hasNext()) {
-				List viewerParts = ((EditPartViewer)it.next()).getSelectedEditParts();
-				result.addAll(viewerParts);
+			List<EditPartViewer> result = new ArrayList<EditPartViewer>();
+			for(EditPartViewer next : viewers) {				
+				result.addAll( next.getSelectedEditParts() );
 			}
 			cachedSelection = calculateSelection(new StructuredSelection(result));
 		}
 		return cachedSelection;
 	}
 
+	/**
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#setSelection(org.eclipse.jface.viewers.ISelection)
+	 */
 	public void setSelection(ISelection selection) {
-		if (!(selection instanceof IStructuredSelection)) return;
-		cachedSelection = calculateSelection(selection);
+		if (selection instanceof IStructuredSelection == false) { 
+			return;
+		}
+		
+		cachedSelection = calculateSelection( (IStructuredSelection) selection);
 		internalSetSelection(cachedSelection);
 		fireSelectionChanged(this, cachedSelection);
 	}
 	
-	protected void fireSelectionChanged(ISelectionProvider provider, ISelection selection) {
-		broadcastingSelectionChange = true;
-		try {
-			Object listenersCopy[] = this.listeners.toArray();
-			SelectionChangedEvent event = new SelectionChangedEvent(provider, selection);
-			for (int i = 0; i < listenersCopy.length; i++) {
-				((ISelectionChangedListener)listenersCopy[i]).selectionChanged(event);
+	protected void fireSelectionChanged(ISelectionProvider provider, ISelection selection) {		
+		SelectionChangedEvent event = new SelectionChangedEvent(provider, selection);		
+		try {			
+			broadcastingSelectionChange = true;	
+			for(ISelectionChangedListener listener : this.listeners.toArray( EMPTY_LISTENERS ) ) {
+				listener.selectionChanged(event);
 			}
 		} finally {
 			broadcastingSelectionChange = false;
 		}
 	}
 	
-	protected ISelection calculateSelection(ISelection baseSelection) {
-		List result = new ArrayList();
-		for (Iterator viewerIt = viewers.iterator(); viewerIt.hasNext(); ) {
-			EditPartViewer viewer = (EditPartViewer)viewerIt.next();
-			Map registry = viewer.getEditPartRegistry();
-			Iterator it = ((IStructuredSelection)baseSelection).iterator();
-			while (it.hasNext()) {
-				EditPart part = (EditPart)it.next();
+	protected IStructuredSelection calculateSelection (IStructuredSelection baseSelection) {
+		
+		List<EditPart> result = new ArrayList<EditPart>();
+		for(EditPartViewer viewer : viewers) {
+			
+			Map<Object,EditPart> registry = viewer.getEditPartRegistry();
+			
+			for( Object n : baseSelection.toArray() ) {
+				EditPart part = (EditPart) n;
 				Object model = part.getModel();
-				EditPart viewerEditPart = (EditPart)registry.get(model);
-				if (viewerEditPart != null) result.add(viewerEditPart);
+				EditPart viewerEditPart = registry.get(model);
+				if (viewerEditPart != null) {
+					result.add(viewerEditPart);
+				}
 			}
 		}
-		if (result.isEmpty()) return StructuredSelection.EMPTY;
+		if (result.isEmpty()) {
+			return StructuredSelection.EMPTY;
+		}
 		return new StructuredSelection(result);
 	}
 	
@@ -114,24 +162,28 @@ public class MultiViewerSelectionProvider implements ISelectionProvider {
 	// place in AdaptingSelectionProvider.
 	
 	// Set selection to each of the viewers and make sure we ignore callbacks
-	protected void internalSetSelection(ISelection selection) {
-		if (selection == null || selection.isEmpty() || !(selection instanceof IStructuredSelection)) {
+	
+	protected void internalSetSelection (IStructuredSelection selection) {
+		if (selection == null || selection.isEmpty() ) {
 			return;
 		}
+		
 		try {
 			changingSelection = true;
-			Iterator viewerIt = viewers.iterator();
-			while (viewerIt.hasNext()) {
-				EditPartViewer viewer = (EditPartViewer)viewerIt.next();
-				Map registry = viewer.getEditPartRegistry();
-				List newList = new ArrayList();
-				Set newSet = new HashSet();
-				Iterator it = ((IStructuredSelection)selection).iterator();
-				while (it.hasNext()) {
-					EditPart part = (EditPart)it.next();
+			
+			for(EditPartViewer viewer : viewers) {
+				
+				Map<Object,EditPart> registry = viewer.getEditPartRegistry();
+				List<EditPart> newList = new ArrayList<EditPart>();
+				Set<EditPart> newSet = new HashSet<EditPart>();
+				
+				for(Object n : selection.toArray() ) {				
+					EditPart part = (EditPart) n;
 					Object model = part.getModel();
-					EditPart viewerEditPart = (EditPart)registry.get(model);
-					if (viewerEditPart != null && newSet.add(viewerEditPart)) newList.add(viewerEditPart);
+					EditPart viewerEditPart = registry.get(model);
+					if (viewerEditPart != null && newSet.add(viewerEditPart)) {
+						newList.add(viewerEditPart);
+					}
 				}
 				viewer.setSelection(new StructuredSelection(newList));
 			}
@@ -139,6 +191,12 @@ public class MultiViewerSelectionProvider implements ISelectionProvider {
 			changingSelection = false;
 		}
 	}
+	
+	/**
+	 * Answer true if we are broadcasting a selection change.
+	 * 
+	 * @return answer true if we are broadcasting selection change.
+	 */
 	
 	public boolean isBroadcastingSelectionChange() {
 		return broadcastingSelectionChange;

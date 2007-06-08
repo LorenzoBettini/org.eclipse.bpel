@@ -12,7 +12,6 @@ package org.eclipse.bpel.common.ui.tray;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,6 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -32,57 +30,76 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class AdaptingSelectionProvider extends MultiViewerSelectionProvider {
 
+	/**
+	 * Brand new shiny AdaptingSelectionProvider ...
+	 * @param viewer
+	 */
 	public AdaptingSelectionProvider(EditPartViewer viewer) {
 		super(viewer);
 	}
+	
+	/**
+	 * Brand new shiny AdaptingSelectionProvider ...
+	 */
 	public AdaptingSelectionProvider() {
 		super();
 	}
 	
-	protected ISelection calculateSelection(ISelection selection) {
-		List list = new ArrayList();
-		Set newSet = new HashSet();
-		if (selection != null && !selection.isEmpty() && (selection instanceof IStructuredSelection)) {
-			Iterator it = ((IStructuredSelection)selection).iterator();
-			while (it.hasNext()) {
-				Object o = it.next();
-				Object model = null;
-				if (o instanceof EditPart) {
-					model = ((EditPart)o).getModel();
-				} else if (o instanceof EObject) {
-					model = (EObject)o;
-				}
-				if ((model != null) && newSet.add(model))  list.add(model);
-			}
+	
+	@Override
+	protected IStructuredSelection calculateSelection (IStructuredSelection selection) {
+		
+		if (selection == null || selection.isEmpty()) {
+			return StructuredSelection.EMPTY;
 		}
-		if (list.isEmpty()) return StructuredSelection.EMPTY;
-		return new StructuredSelection(list.toArray(new Object[list.size()]));
+		
+		List<EObject> list = new ArrayList<EObject>();		
+		Set<EObject>  newSet = new HashSet<EObject>();
+		
+		for (Object model : selection.toArray()) {							
+			if (model instanceof EditPart) {
+				model = ((EditPart)model).getModel();
+			} 
+			if (model instanceof EObject) { 
+				EObject eObj = (EObject) model;
+				if (newSet.add(eObj)) {
+					list.add(eObj);
+				}
+			}			
+		}
+		if (list.isEmpty()) {
+			return StructuredSelection.EMPTY;
+		}
+		return new StructuredSelection( list );
 	}
 	
-	// Set selection to each of the viewers and make sure we ignore callbacks
-	protected void internalSetSelection(ISelection selection) {
-		if (selection == null || selection.isEmpty() || !(selection instanceof IStructuredSelection)) {
+	/**
+	 * Set selection to each of the viewers and make sure we ignore callbacks
+	 * 
+	 */
+	
+	@Override
+	protected void internalSetSelection(IStructuredSelection selection) {
+		
+		if (selection == null || selection.isEmpty() ) {
 			return;
 		}
 		try {
 			changingSelection = true;
-			
-			Iterator viewerIt = viewers.iterator();
-			while (viewerIt.hasNext()) {
-				List newList = new ArrayList();
-				EditPartViewer viewer = (EditPartViewer)viewerIt.next();
-				Map registry = viewer.getEditPartRegistry();
-				Iterator it = ((IStructuredSelection)selection).iterator();
-				while (it.hasNext()) {
-					Object o = it.next();
-					Object editPart = registry.get(o);
-					if (editPart != null) newList.add(editPart);
+			for(EditPartViewer viewer : viewers ) {
+				List<EditPart> newList = new ArrayList<EditPart>();
+				Map<Object,EditPart> registry = viewer.getEditPartRegistry();
+				
+				for(Object o : selection.toArray()) {					
+					EditPart editPart = registry.get(o);
+					if (editPart != null) {
+						newList.add(editPart);
+					}
 				}
 				viewer.setSelection(new StructuredSelection(newList));
 			}	
 		} finally {
 			changingSelection = false;
 		}
-	}
-	
+	}	
 }

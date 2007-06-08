@@ -24,20 +24,40 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 
+/**
+ * @author IBM Initial contribution
+ * @date January, 2006
+ *
+ */
+
 public abstract class GraphicalEditorWithPaletteAndTray extends GraphicalEditorWithPalette {
 
 	protected TrayComposite trayComposite;
 	protected GraphicalViewer trayViewer;
 
+	/**
+	 * @see org.eclipse.bpel.common.ui.palette.GraphicalEditorWithPalette#dispose()
+	 */
+	@Override
 	public void dispose() {
 		super.dispose();
 		trayViewer = null;
 	}
 
+	/**
+	 * Return the tray composite.
+	 * @return the tray composite.
+	 */
 	public TrayComposite getTrayComposite() {
 		return trayComposite;
 	}
 
+	/**
+	 * Return the tray viewer.
+	 * 
+	 * @return the tray viewer
+	 */
+	
 	public GraphicalViewer getTrayViewer() {
 		return trayViewer;
 	}
@@ -45,6 +65,7 @@ public abstract class GraphicalEditorWithPaletteAndTray extends GraphicalEditorW
 	/**
 	 * Creates the palette and graphical viewers.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		trayComposite = new TrayComposite(parent, SWT.NONE);
 		
@@ -68,6 +89,8 @@ public abstract class GraphicalEditorWithPaletteAndTray extends GraphicalEditorW
 		// The contents cannot be bigger than the viewport otherwise it
 		// will break the tray scrolling.
 		canvas.getViewport().setLayoutManager(new ViewportLayout() {
+			
+			@Override
 			public void layout(IFigure figure) {
 				Viewport viewport = (Viewport)figure;
 				IFigure contents = viewport.getContents();
@@ -87,7 +110,11 @@ public abstract class GraphicalEditorWithPaletteAndTray extends GraphicalEditorW
 		initializeTrayViewer();
 	}
 	
-    public void setFocus() {
+    /**
+     * @see org.eclipse.gef.ui.parts.GraphicalEditor#setFocus()
+     */
+    @Override
+	public void setFocus() {
     	getGraphicalViewer().getControl().setFocus();
     }
 	
