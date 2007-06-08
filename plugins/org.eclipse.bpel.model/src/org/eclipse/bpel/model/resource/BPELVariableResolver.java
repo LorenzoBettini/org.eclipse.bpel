@@ -66,8 +66,10 @@ public class BPELVariableResolver implements VariableResolver {
 					for (int i=0; i < list.size(); i++) {
 						if (list.get(i) instanceof Variable) {
 							Variable variable = (Variable)list.get(i);
-							if (variable.getName().equals(variableName))
+							String name = variable.getName();
+							if (name != null && name.equals(variableName)) {
 								return variable;
+							}
 						}
 					}
 				}

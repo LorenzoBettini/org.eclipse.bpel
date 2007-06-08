@@ -147,6 +147,22 @@ public class BPELUtils {
 		return null;		
 	}	
 	
+	/**
+	 * Given an eObject, and a prefix, get the mapped prefix namespace.
+	 * 
+	 * @param eObject the object
+	 * @param prefix the prefix  
+	 * @return the namespace or null, if the namespace is not mapped
+	 */
+	
+	public static String getNamespace ( EObject eObject, String prefix) {
+		Resource resource = eObject.eResource();
+		if (resource instanceof BPELResource) {
+			return getNamespace ( (BPELResource) resource, eObject, prefix);
+		}
+		throw new IllegalArgumentException("EMF object is not a BPEL resource.");	
+	}
+	
 
 	/**
 	 * Set the namespace prefix on the EObject passed. The namespace -> prefix mapping is defined

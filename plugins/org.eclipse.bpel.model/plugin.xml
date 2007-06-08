@@ -73,6 +73,10 @@
             class="org.eclipse.bpel.model.resource.BPELResourceFactoryImpl">
       </parser>
    </extension>
+   <extension
+         point="org.eclipse.bpel.common.ui.resourceSetProvider">
+      <provider class="org.eclipse.bpel.model.resource.ResourceSetProvider"/>
+   </extension>
 
 
 </plugin>
