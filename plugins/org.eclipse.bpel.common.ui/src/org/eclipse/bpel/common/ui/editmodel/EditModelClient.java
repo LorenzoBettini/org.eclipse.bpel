@@ -31,14 +31,6 @@ public class EditModelClient {
 	private SynchronizationManager manager;
 	/** */
 	private IEditorPart editor;
-
-	static {
-		ResourceListener.runner = new ResourceListener.Runner() {
-			public void run(Runnable runnable) {
-				Display.getDefault().asyncExec(runnable);
-			}
-		};
-	}
 	
 
 /**

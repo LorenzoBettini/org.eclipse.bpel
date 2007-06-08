@@ -11,6 +11,7 @@
 package org.eclipse.bpel.common.ui.editmodel;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarkerDelta;
 
 /**
  * The ResourceInfo, which is a reference count cache to a model,
@@ -25,25 +26,44 @@ public interface IEditModelListener {
 	 * 
 	 * If this is model the primary model and the editor is not dirty,
 	 * the editor should be closed. If this is a secondary model,
-	 * the editor may not need to be closed. 
+	 * the editor may not need to be closed.
+	 *  
+	 * @param resourceInfo the resource info
 	 */
-	public void modelDeleted(ResourceInfo resourceInfo);
+	public void modelDeleted (ResourceInfo resourceInfo);
 	
 	/**
 	 * The model was changed outside this framework and reloaded
-	 * by the editmodel framework. It may be needed to refresh visuals.
+	 * by the edit model framework. It may be needed to refresh visuals.
+	 * @param resourceInfo the resource info
 	 */
-	public void modelReloaded(ResourceInfo resourceInfo);
+	
+	public void modelReloaded (ResourceInfo resourceInfo);
 	
 	/**
 	 * The model file was moved from its location. All references
 	 * to this file should be updated.
+	 * 
+	 * @param resourceInfo 
+	 * @param movedToFile 
 	 */
-	public void modelLocationChanged(ResourceInfo resourceInfo,IFile movedToFile);
+	
+	public void modelLocationChanged (ResourceInfo resourceInfo,IFile movedToFile);
 	
 	/**
 	 * The model dirty state was changed.
+	 * @param resourceInfo 
 	 */
-	public void modelDirtyStateChanged(ResourceInfo resourceInfo);
+	
+	public void modelDirtyStateChanged (ResourceInfo resourceInfo);
+	
+	/**
+	 * Notifies that markers have changed on the resource info.
+	 * 
+	 * @param resourceInfo
+	 * @param markerDelta 
+	 */
+	
+	public void modelMarkersChanged ( ResourceInfo resourceInfo , IMarkerDelta [] markerDelta );
 
 }

@@ -11,11 +11,13 @@
 package org.eclipse.bpel.common.ui.editmodel;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.swt.widgets.Display;
 /**
  * A eclipse resource listener used by the shared resource framework
  * to support updating/reloading the model, informing the user, or closing the editor
@@ -26,36 +28,58 @@ import org.eclipse.core.runtime.IPath;
  */
 class ResourceListener implements IResourceChangeListener {
 	
-	ResourceInfo modelInfo;
-	IFile file;
+	ResourceInfo fModelInfo;
 	
-	public static Runner runner = null;
+	IFile fFile;
 	
-	protected ResourceListener(ResourceInfo modelInfo,IFile file) {
-		this.modelInfo = modelInfo;
-		this.file = file;
-	}
-	
-	/*
-	 * This method can be called if the file for a ResourceInfo changes.
+	/**
+	 *  
 	 */
-	public void setFile(IFile file) {
-		this.file = file;
+	
+	static Runner runner = new Runner ( ) {
+		public void run(Runnable runnable) {
+			Display.getDefault().asyncExec(runnable);
+		}		
+	};
+	
+	
+	protected ResourceListener (ResourceInfo modelInfo,IFile fileResource) {
+		this.fModelInfo = modelInfo;
+		this.fFile = fileResource;
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * This method can be called if the file for a ResourceInfo changes.
+	 * @param file 
+	 */
+	
+	public void setFile(IFile file) {
+		this.fFile = file;
+	}
+	
+	/** (non-Javadoc)
 	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
 	 */
-	public void resourceChanged(IResourceChangeEvent e) {			
+	
+	public void resourceChanged (IResourceChangeEvent e) {			
+		
 		IResourceDelta delta = e.getDelta();
-		if (delta != null) delta = delta.findMember(file.getFullPath());
+		
+		if (delta != null) {
+			delta = delta.findMember(fFile.getFullPath());
+		}
 
 		if (delta != null) {				
 			switch (delta.getKind()) {
+				 
 				case IResourceDelta.CHANGED:
 					if ((delta.getFlags() & IResourceDelta.CONTENT) != 0) {			
 						if (!isDirty())
 							fireModelRefresh();
+					}
+					
+					if ((delta.getFlags() & IResourceDelta.MARKERS) != 0) {
+						fireMarkerChange( delta.getMarkerDeltas() );
 					}
 					break;
 
@@ -70,10 +94,20 @@ class ResourceListener implements IResourceChangeListener {
 		}
 	}
 	
+	private void fireMarkerChange ( final IMarkerDelta [] delta ) {
+		Runnable runnable = new Runnable () {
+			public void run() {
+				fModelInfo.markersChanged( delta );
+			}			
+		};
+		run(runnable);
+	}
+	
+	
 	private void fireModelRefresh() {
 		Runnable runnable = new Runnable() {
 			public void run() {
-				modelInfo.refresh();
+				fModelInfo.refresh();
 			}
 		};
 		run(runnable);
@@ -83,10 +117,11 @@ class ResourceListener implements IResourceChangeListener {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				IFile movedTofile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-				if (file == null)
+				if (fFile == null) {
 					return;
-				modelInfo.move(movedTofile);
-				file = movedTofile;
+				}
+				fModelInfo.move(movedTofile);
+				fFile = movedTofile;
 			}
 		};
 		
@@ -96,25 +131,36 @@ class ResourceListener implements IResourceChangeListener {
 	private void fireModelDeleted() {
 		Runnable runnable = new Runnable() {
 			public void run() {
-				modelInfo.deleted();
-				modelInfo.dispose();
+				fModelInfo.deleted();
+				fModelInfo.dispose();
 			}
 		};
 		run(runnable);
 	}
 	protected boolean isDirty() {
 		// if we are not initialized we are not dirty
-		if (modelInfo.getResource() == null)
+		if (fModelInfo.getResource() == null)
 			return false;
-		return modelInfo.getResource().isModified();
-	}
-	public void run(Runnable runnable) {
-		if(runner == null)
-			runnable.run();
-		runner.run(runnable);
+		return fModelInfo.getResource().isModified();
 	}
 	
-	public static interface Runner {
-		public void run(Runnable runnable);
+	/**
+	 * Run the runnable.
+	 * @param runnable
+	 */
+	public void run(Runnable runnable) {
+		if(runner == null) {
+			runnable.run();
+		} else {
+			runner.run(runnable);
+		}
+	}
+	
+	
+	interface Runner {
+		/**
+		 * @param runnable
+		 */
+		void run(Runnable runnable);
 	}
 }
