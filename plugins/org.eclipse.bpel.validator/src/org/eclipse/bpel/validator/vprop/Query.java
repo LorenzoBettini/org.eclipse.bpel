@@ -123,10 +123,10 @@ public class Query extends CValidator {
 		// The parent node (to or from) has probably figured out some type 
 		// so far. The query further refine it.
 		
-		fQueryValidator.setValue("expression.type",getValue(fParentNode,"type",null));
+		setValue("expression.type",getValue(fParentNode,"type",null));
 		
-		fQueryValidator.setValue("bpel.function",  false);
-		fQueryValidator.setValue("bpel.variables", false);
+		setValue("bpel.function",  false);
+		setValue("bpel.variables", false);
 		
 		setValue(fParentNode,"type", new IValue<Object>() {
 				public Object get() {

@@ -29,6 +29,70 @@ import java.util.logging.Logger;
 import org.eclipse.bpel.validator.model.Rules.Rule;
 
 /**
+ * The base Validator class.
+ * 
+ * A validator basically encapsulates an INode and runs some special methods (called rules)
+ * to check the INode element. The output is a set of IProblem (s).
+ * 
+ * <p>
+ * 
+ * Rules are special methods that are discovered by reflection in two ways:
+ * <ol>
+ *  <li> They either have form "rule_<name>_<index>", or
+ *  <li> The have the ARule annotation on them.
+ * </ol>
+ * 
+ * <p>
+ * 
+ * Order of execution of the rules on a given validator is user defined - 
+ * that's what the "index" means above. A rule may also be turned off by
+ * the validator code during execution, so that logically exclusive conditions
+ * can be simply "turned" off by rules.
+ * <p>
+ * If the ARule annotation is used then the order() method returns the order of execution.
+ * Rules are simply discovered for every validator (only once), then sorted, and then run
+ * during invocations.
+ * 
+ * <p>
+ * 
+ * Beyond that, there are just 2 other items that govern how rules are executed. 
+ * <ol>
+ *  <li> The rule tag (simple string), and
+ *  <li> the arguments (if any) to the rule method.
+ * </ol>
+ * <p>
+ * Rule tags are just strings which help organize the rules in some way and force their execution
+ * at specific times. There are two tags reserved for the system, one is "pass1", the other is "pass2". 
+ * User that write validators can invoke other rule sets by calling {@see runRules() }
+ * and passing the appropriate tag and arguments. Return values from rule methods are never used.
+ * 
+ * <p>
+ * Validators can be chained, so that you have the following scenario:
+ * <pre>
+ *   1 <-> 2 <-> 3 <-> 4 ... N
+ * </pre>
+ * For every INode there is the first validator that is always created. Other validators for the same 
+ * INode can be created by simply calling the factory and then attaching the returned validator to the chain.
+ * This allows for separation of concerns. For example, "query" nodes may validate in the BPEL and WSDL contexts, and
+ * also validate in the Query language context (the same physical node).
+ * 
+ * <p>
+ * 
+ * Validators can keep certain state between passes, in the data hash map which is available to
+ * the super-classes. This data is erased every time a "pass1" tag is triggered on the validator but
+ * remains on for the duration of the object's lifetime.
+ * 
+ * <p>
+ * This simple hash map mechanism is the way that various validators pass data to each other. This is primitive
+ * but allows for very loose coupling between the code. When a validator asks for getData() the query goes
+ * to its state data and if not found travels in the validator chain in the opposite direction to 
+ * execution (always to previous).
+ * 
+ * <p> 
+ * And finally a note about INode. INode represents the generic tree node that some source material
+ * is sitting behind. This could be BPEL of course, but it could be any other thing as well. There are
+ * adapters which adapt DOM nodes to INodes and EMF nodes to INodes (though there is fewer of those). 
+ *
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Sep 14, 2006
  *
@@ -129,9 +193,14 @@ public class Validator implements IConstants {
 	
 	
 	/**
-	 * Add a validator to the chain.
+	 * Add a validator to the chain. It is always added to the end of the validator chain.
+	 * The validators form a chain starting at the very first one like so
+	 * <pre>
+	 *   1 <-> 2 <-> 3 <-> 4 <-> 5 ... N
+	 * </pre> 
 	 * 
-	 * It is always added to the end of the validator chain.
+	 * When the main dispatcher code runs the validator for the given node, it starts running it at 1 
+	 * and continues to N.
 	 * 
 	 * @param next
 	 */
@@ -220,6 +289,8 @@ public class Validator implements IConstants {
 	 * Return true if this node validator has captured any problems regarding
 	 * the node in question.
 	 * 
+	 * Chained validators are also consulted.
+	 *  
 	 * @return true if there are problems, false if there are no problems reported.
 	 * 
 	 */
@@ -646,8 +717,8 @@ public class Validator implements IConstants {
 			return (T) obj;
 		}
 		
-		if (fNext != null) {
-			return fNext.getValue (fNext.mData, keyName,def);
+		if (fPrev != null) {
+			return fPrev.getValue (fPrev.mData, keyName,def);
 		}
 		return def;
 	}
@@ -691,8 +762,8 @@ public class Validator implements IConstants {
 		if (mData.containsKey(key)) {
 			return true;
 		}
-		if (fNext != null) {
-			return fNext.containsValueKey(key);
+		if (fPrev != null) {
+			return fPrev.containsValueKey(key);
 		}
 		return false;
 	}

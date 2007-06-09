@@ -136,7 +136,7 @@ public class QueryValidator extends CValidator {
 		// The parent node (to or from) has probably figured out some type 
 		// so far. We (the query) further refine it.
 		
-		fQueryValidator.setValue("expression.type",getValue(fParentNode,"type",null));
+		setValue("expression.type",getValue(fParentNode,"type",null));
 		
 		// This is a late binding expression 
 		setValue(fParentNode,"type", new IValue<Object>() {
