@@ -207,7 +207,9 @@ public class VariableTypeSelector extends Composite {
 				setVariableType(variable.getXSDElement()); return;
 			}
 			VariableExtension varExt = (VariableExtension)ModelHelper.getExtension(variable);
-			kindHint = varExt.getVariableKind();
+			if (varExt != null) {
+				kindHint = varExt.getVariableKind();
+			}
 		}
 		setVariableType(null);
 	}

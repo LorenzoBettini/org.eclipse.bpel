@@ -126,8 +126,9 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	protected void removeAllAdapters() {
 //		Assert.isTrue(isCreated);
-		for (int i = 0; i < adapters.length; i++)
-			adapters[i].removeFromAll();
+		for (MultiObjectAdapter a : adapters) {
+			a.removeFromAll();
+		}
 	}
 
 	/**

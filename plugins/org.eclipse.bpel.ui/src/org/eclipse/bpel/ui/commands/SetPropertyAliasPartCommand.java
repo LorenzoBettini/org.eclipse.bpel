@@ -24,10 +24,10 @@ public class SetPropertyAliasPartCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((PropertyAlias)target).getPart();
+		return ((PropertyAlias)fTarget).getPart();
 	}
 
 	public void set(Object o) {
-		((PropertyAlias)target).setPart((String)o);
+		((PropertyAlias)fTarget).setPart((String)o);
 	}
 }

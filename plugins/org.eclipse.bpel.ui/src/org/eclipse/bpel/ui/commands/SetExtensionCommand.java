@@ -79,14 +79,16 @@ public abstract class SetExtensionCommand extends SetCommand {
 	}
 
 	public void doExecute() {
-		targetExt = oldExt = ModelHelper.getExtensibilityElement(target, extClass);
-		if (targetExt != null)  oldValue = get();
+		targetExt = oldExt = ModelHelper.getExtensibilityElement(fTarget, extClass);
+		if (targetExt != null)  {
+			fOldValue = get();
+		}
 
 		targetExt = newExt = (oldExt==null)? createExtension() : oldExt;
 
 		// Cause a touch *before* the set as well as after...
 		// necessary for automatic undo/redo to work correctly here.
-		List eeList = ((ExtensibleElement)target).getEExtensibilityElements();
+		List eeList = ((ExtensibleElement)fTarget).getEExtensibilityElements();
 		if (newExt == oldExt) {
 			// NOTE: the following line deliberately causes a touch in the containing
 			// object.  This reduces the need for everybody to put adapters on the
@@ -94,7 +96,10 @@ public abstract class SetExtensionCommand extends SetCommand {
 			if (oldExt != null)  eeList.set(eeList.indexOf(oldExt), newExt);
 		}
 				
-		if (targetExt != null)  set(newValue);
+		if (targetExt != null)  {
+			set(fNewValue);
+		}
+		
 		if (isTargetExtensionUnused()) newExt = null;
 
 		if (newExt == oldExt) {

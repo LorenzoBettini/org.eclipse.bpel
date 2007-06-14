@@ -27,9 +27,9 @@ public class SetIsolatedCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((Scope)target).getIsolated();
+		return ((Scope)fTarget).getIsolated();
 	}
 	public void set(Object o) {
-		((Scope)target).setIsolated((Boolean)o);
+		((Scope)fTarget).setIsolated((Boolean)o);
 	}
 }

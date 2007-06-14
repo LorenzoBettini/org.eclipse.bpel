@@ -113,16 +113,6 @@
      	<!-- Advanced is empty but can be used by extensions -->
      	<propertyCategory category="advanced"/>
      </propertyContributor>
-     <propertyContributor
-           contributorId="org.eclipse.bpel.ui.bpelSpecEditor"
-           typeMapper="org.eclipse.bpel.ui.properties.TypeMapper"
-           labelProvider="org.eclipse.bpel.ui.properties.PropertiesLabelProvider">
-     	<propertyCategory category="description"/>
-     	<propertyCategory category="implementation"/>
-     	<propertyCategory category="environment"/>
-     	<!-- Advanced is empty but can be used by extensions -->
-     	<propertyCategory category="advanced"/>
-     </propertyContributor>
   </extension>
 
   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
@@ -175,6 +165,11 @@
               afterTab="org.eclipse.bpel.ui.tabs.details"
               category="implementation"
               id="org.eclipse.bpel.ui.tabs.expiration"/>
+        <propertyTab
+              afterTab="org.eclipse.bpel.ui.tabs.details"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.initialization"
+              label="%DETAILS_PAGES_INITIALIZATION_LABEL"/>
      </propertyTabs>
 
   </extension>
@@ -186,6 +181,12 @@
               tab="org.eclipse.bpel.ui.tabs.details"
               id="org.eclipse.bpel.ui.sections.ActionImplementationSection">
            <input type="org.eclipse.bpel.model.Empty"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.AttributesSection"
+               id="org.eclipse.bpel.ui.sections.Attributes">
+            <input type="org.eclipse.bpel.model.Process"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.description"
@@ -204,12 +205,6 @@
                tab="org.eclipse.bpel.ui.tabs.description"
                class="org.eclipse.bpel.ui.properties.NamespaceSection"
                id="org.eclipse.bpel.ui.sections.Namespace">
-            <input type="org.eclipse.bpel.model.Process"/>
-        </propertySection>
-        <propertySection
-               tab="org.eclipse.bpel.ui.tabs.details"
-               class="org.eclipse.bpel.ui.properties.AttributesSection"
-               id="org.eclipse.bpel.ui.sections.Attributes">
             <input type="org.eclipse.bpel.model.Process"/>
         </propertySection>
         <propertySection
@@ -275,12 +270,6 @@
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
-               class="org.eclipse.bpel.ui.properties.PartnerLinkImplSection"
-               id="org.eclipse.bpel.ui.sections.PartnerLinkImpl">
-            <input type="org.eclipse.bpel.model.PartnerLink"/>
-        </propertySection>
-        <propertySection
-               tab="org.eclipse.bpel.ui.tabs.details"
                class="org.eclipse.bpel.ui.properties.CompensateScopeSection"
                id="org.eclipse.bpel.ui.sections.CompensateScope">
             <input type="org.eclipse.bpel.model.CompensateScope"/>
@@ -290,6 +279,13 @@
                class="org.eclipse.bpel.ui.properties.CatchAllSection"
                id="org.eclipse.bpel.ui.sections.CatchAll">
             <input type="org.eclipse.bpel.model.CatchAll"/>
+        </propertySection>
+        <propertySection
+              afterSection="org.eclipse.bpel.ui.sections.JoinCondition"
+              class="org.eclipse.bpel.ui.properties.ExitOnStandardFaultSection"
+              id="org.eclipse.bpel.ui.sections.ExitOnStandardFaultSection"
+              tab="org.eclipse.bpel.ui.tabs.details">
+           <input type="org.eclipse.bpel.model.Process"/>
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
@@ -335,22 +331,7 @@
                class="org.eclipse.bpel.ui.properties.ForEachCounterValuesSection"
                id="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
             <input type="org.eclipse.bpel.model.ForEach"/>
-        </propertySection> 
-<!--        
-        <propertySection
-               tab="org.eclipse.bpel.ui.tabs.counter_values"
-               class="org.eclipse.bpel.ui.properties.ForEachStartCounterValueSection"
-               id="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
-            <input type="org.eclipse.bpel.model.ForEach"/>
-        </propertySection> 
-        <propertySection
-               tab="org.eclipse.bpel.ui.tabs.counter_values"
-               class="org.eclipse.bpel.ui.properties.ForEachFinalCounterValueSection"
-               id="org.eclipse.bpel.ui.sections.ForEachFinalCounterValue"
-               afterSection="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
-            <input type="org.eclipse.bpel.model.ForEach"/>
-        </propertySection>   
--->
+        </propertySection>
            
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.completion"
@@ -399,6 +380,27 @@
         </propertySection>
         <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
+               class="org.eclipse.bpel.ui.properties.PartnerLinkImplSection"
+               id="org.eclipse.bpel.ui.sections.PartnerLinkImpl">
+            <input type="org.eclipse.bpel.model.PartnerLink"/>
+        </propertySection> 
+<!--        
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.counter_values"
+               class="org.eclipse.bpel.ui.properties.ForEachStartCounterValueSection"
+               id="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection> 
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.counter_values"
+               class="org.eclipse.bpel.ui.properties.ForEachFinalCounterValueSection"
+               id="org.eclipse.bpel.ui.sections.ForEachFinalCounterValue"
+               afterSection="org.eclipse.bpel.ui.sections.ForEachStartCounterValue">
+            <input type="org.eclipse.bpel.model.ForEach"/>
+        </propertySection>   
+-->
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.details"
                class="org.eclipse.bpel.ui.properties.AssignImplSection"
                id="org.eclipse.bpel.ui.sections.AssignImpl">
             <input type="org.eclipse.bpel.model.Assign"/>
@@ -416,11 +418,10 @@
             <input type="org.eclipse.bpel.model.Validate"/>
         </propertySection>
         <propertySection
-              afterSection="org.eclipse.bpel.ui.sections.JoinCondition"
-              class="org.eclipse.bpel.ui.properties.ExitOnStandardFaultSection"
-              id="org.eclipse.bpel.ui.sections.ExitOnStandardFaultSection"
-              tab="org.eclipse.bpel.ui.tabs.details">
-           <input type="org.eclipse.bpel.model.Process"/>
+              class="org.eclipse.bpel.ui.properties.VariableInitializationSection"
+              id="org.eclipse.bpel.ui.sections.VariableInitializationSection"
+              tab="org.eclipse.bpel.ui.tabs.initialization">
+           <input type="org.eclipse.bpel.model.Variable"/>
         </propertySection>
      </propertySections>
 
@@ -434,7 +435,7 @@
      <action
            class="org.eclipse.bpel.ui.bpelactions.SimpleAction"
            specCompliant="false"
-           categoryId="org.eclipse.bpel.ui.actions.category.basic"
+           categoryId="org.eclipse.bpel.ui.actions.category.basic"           
            id="org.eclipse.bpel.ui.action.empty"/>
      <action
            class="org.eclipse.bpel.ui.bpelactions.InvokeAction"

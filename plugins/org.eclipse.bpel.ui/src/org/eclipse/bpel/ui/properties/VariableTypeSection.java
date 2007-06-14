@@ -252,6 +252,7 @@ public class VariableTypeSection extends BPELPropertySection {
 	
 	
 
+	@Override
 	protected void updateMarkers () {				
 		variableTypeSelector.dataTypeLabel.clear();		
 		for(IMarker m : getMarkers(getInput())) {

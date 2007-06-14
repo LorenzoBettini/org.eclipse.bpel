@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.commands;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
@@ -20,6 +19,7 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+
 
 
 /**
@@ -34,35 +34,45 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class DeleteNonContainmentRefsCommand extends AutoUndoCommand {
 
-	private Set deletingSet, modelRootSet;
+	private Set<Object> fDeletingSet, fModelRootSet;
 	
-	public DeleteNonContainmentRefsCommand(Set deletingSet, Set modelRootSet) {
-		super(new ArrayList());
-		this.deletingSet = deletingSet;
-		this.modelRootSet = modelRootSet;
-		for (Iterator it = modelRootSet.iterator(); it.hasNext(); ) {
-			addModelRoot(it.next());
+	/**
+	 * @param deletingSet
+	 * @param modelRootSet
+	 */
+	
+	public DeleteNonContainmentRefsCommand(Set<Object> deletingSet, Set<Object> modelRootSet) {
+		super(new ArrayList<Object>());
+		
+		this.fDeletingSet = deletingSet;
+		this.fModelRootSet = modelRootSet;
+		for(Object n : modelRootSet) {
+			addModelRoot(n);
 		}
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
-		if (!canExecute())  throw new IllegalStateException();
+		if (!canExecute()) {
+			throw new IllegalStateException();
+		}
 		
 		// Build the set of "all model objects" and subtract.
-		HashSet notDeletingSet = new HashSet();
-		
-		for (Iterator it = modelRootSet.iterator(); it.hasNext(); ) {
-			Object root = it.next();
+		HashSet<Object> notDeletingSet = new HashSet<Object>();
+		for (Object root : fModelRootSet) {
 			for (TreeIterator it2 = ModelHelper.getAllContents(root); it2.hasNext(); ) {
 				notDeletingSet.add(it2.next());
 			}
 		}
-		notDeletingSet.removeAll(deletingSet);
+		notDeletingSet.removeAll(fDeletingSet);
 
 		// Now iterate over the not-deleted objects, and remove any references they
 		// have to the deleted objects.
-		for (Iterator it = notDeletingSet.iterator(); it.hasNext(); ) {
-			BPELUtil.deleteNonContainmentRefs((EObject)it.next(), deletingSet);
+		for (Object next : notDeletingSet) {
+			BPELUtil.deleteNonContainmentRefs((EObject) next, fDeletingSet);
 		}
 	}
 }

@@ -27,9 +27,9 @@ public class SetValidateCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getValidate(target);
+		return ModelHelper.getValidate(fTarget);
 	}
 	public void set(Object o) {
-		ModelHelper.setValidate(target, (Boolean)o);
+		ModelHelper.setValidate(fTarget, (Boolean)o);
 	}
 }

@@ -15,19 +15,16 @@ import org.eclipse.bpel.common.ui.details.ChangeHelper;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
-import org.eclipse.bpel.model.BPELFactory;
-import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Copy;
-import org.eclipse.bpel.model.From;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.BPELTabbedPropertySheetPage;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.commands.SetCopyFromCommand;
-import org.eclipse.bpel.ui.commands.SetCopyToCommand;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -44,19 +41,21 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  */
 
 public abstract class AssignCategoryBase extends BPELPropertySection implements IAssignCategory {
-
-	protected boolean fIsFrom;
+	
 	protected BPELPropertySection fOwnerSection;
-
-	protected Copy fModelCopy;
+	
 	protected Composite fComposite;
 	protected ChangeHelper fChangeHelper;
 	protected Composite fParent;
 	
+	protected IVirtualCopyRuleSide fCopyRuleSide;
+
+	protected EStructuralFeature fStructuralFeature;
 	
-	protected AssignCategoryBase(boolean isFrom, BPELPropertySection ownerSection) {
-		this.fIsFrom = isFrom;
+		
+	protected AssignCategoryBase ( BPELPropertySection ownerSection , EStructuralFeature feature ) {		
 		this.fOwnerSection = ownerSection;
+		this.fStructuralFeature = feature;
 	}
 
 	/**
@@ -67,13 +66,15 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 * 
 	 * If isFrom is true, toOrFrom will be a From object, otherwise it will be a To object.
 	 */
-	protected abstract void loadToOrFrom(To toOrFrom);
+	
+	protected abstract void load (IVirtualCopyRuleSide side);
 
 	/**
 	 * Store the state represented by the widgets into the toOrFrom object.
 	 * If isFrom is true, toOrFrom will be a From object, otherwise it will be a To object.
 	 */
-	protected abstract void storeToOrFrom(To toOrFrom);
+	
+	protected abstract void store (IVirtualCopyRuleSide side);
 
 	// This is used by changeHelper to determine what shows up in Undo/Redo.
 	// The return value is FlatFormatted with getName() as the only argument.
@@ -82,7 +83,9 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		return IBPELUIConstants.FORMAT_CMD_SELECT;
 	}
 	
-	protected ChangeHelper getChangeHelper() { return fChangeHelper; }
+	protected ChangeHelper getChangeHelper() { 
+		return fChangeHelper;
+	}
 
 	/**
 	 * Policy: wrap the command with contexts from the ownerSection (rather
@@ -94,11 +97,12 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		return super.wrapInShowContextCommand(inner, fOwnerSection);
 	}
 	
-	protected boolean isToOrFromAffected(Notification n) {
-		if (fIsFrom) {
-			return (n.getFeatureID(Copy.class) == BPELPackage.COPY__FROM);
-		}
-		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__TO);
+	protected boolean isToOrFromAffected (Notification n) {
+//		if (fIsFrom) {
+//			return (n.getFeatureID(Copy.class) == BPELPackage.COPY__FROM);
+//		}
+//		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__TO);
+		return true;
 	}
 
 	@Override
@@ -108,7 +112,9 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 			new MultiObjectAdapter() {
 				@Override
 				public void notify(Notification n) {
-					if (isToOrFromAffected(n))  updateCategoryWidgets();
+					if (isToOrFromAffected(n))  {
+						updateCategoryWidgets();
+					}
 				}
 			},
 		};
@@ -157,41 +163,47 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 //		});
 	}
 
+	@SuppressWarnings("nls")
 	@Override
-	protected void basicSetInput(EObject newInput) {
-		super.basicSetInput(newInput);
-		this.fModelCopy = (Copy)newInput;
+	protected void basicSetInput (EObject newInput) {		
+		fCopyRuleSide = BPELUtil.adapt(newInput, IVirtualCopyRuleSide.class);
+		Assert.isNotNull(fCopyRuleSide, "Model is not IVirtualCopyRuleSide");		
+		super.basicSetInput(newInput);			
 	}
 
-	protected void updateCategoryWidgets() {
-		if (fIsFrom) {
-			loadToOrFrom((fModelCopy==null)? null : fModelCopy.getFrom());
-		} else {
-			loadToOrFrom((fModelCopy==null)? null : fModelCopy.getTo());
-		}
+	
+	/**
+	 * This is a little whacked here.
+	 *
+	 */
+	
+	@SuppressWarnings("nls")
+	protected void updateCategoryWidgets() {		
+		load(fCopyRuleSide);		
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Return a newStoreModelCommand 
+	 * @return the command
 	 */
 	
+	@SuppressWarnings("nls")
 	public Command newStoreModelCommand()  {
 		
-		if (fModelCopy == null)  {
-			return null;
-		}
+		IVirtualCopyRuleSide newSide = fCopyRuleSide.create();
+		store ( newSide );		
 		
-		if (fIsFrom) {
-			From newFrom = BPELFactory.eINSTANCE.createFrom();
-			storeToOrFrom(newFrom);
-			return new SetCopyFromCommand(fModelCopy, newFrom);
-		}
-		To newTo = BPELFactory.eINSTANCE.createTo();
-		storeToOrFrom(newTo);
-		return new SetCopyToCommand(fModelCopy, newTo);
+		// fCopyRuleSide represents the current copy rule (LHS or RHS). 
+		// Its container is where we want to append.
+		
+		return new SetCommand(fCopyRuleSide.getCopyRuleSide().eContainer() , newSide.getCopyRuleSide() , fStructuralFeature ) {
+			@Override
+			public String getDefaultLabel() {
+				return IBPELUIConstants.CMD_EDIT_ASSIGNCOPY;
+			}				 
+		 };
+		 
 	}
-
 	
 	protected boolean isDefaultCompositeOpaque() { 
 		return true; 
@@ -258,8 +270,7 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 * @param model the model object
 	 */
 	
-	public void setInput (EObject model) {
-		this.modelObject = model;
+	public void setInput (EObject model) {		
 		basicSetInput(model);
 	}
 	

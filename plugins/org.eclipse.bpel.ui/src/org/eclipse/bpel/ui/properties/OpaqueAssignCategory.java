@@ -13,8 +13,11 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.From;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -26,12 +29,18 @@ import org.eclipse.swt.widgets.Label;
  */
 public class OpaqueAssignCategory extends AssignCategoryBase {
 
-	protected OpaqueAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
-		super(isFrom, ownerSection);
+	protected OpaqueAssignCategory(BPELPropertySection ownerSection, EStructuralFeature feature) {
+		super(ownerSection,feature);
 	}
 
-	public String getName() { return Messages.OpaqueAssignCategory_Opaque_1; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() { 
+		return Messages.OpaqueAssignCategory_Opaque_1;
+	} 
 
+	@Override
 	protected void createClient2(Composite parent) {
 		super.createClient2(parent);
 		Label opaqueLabel = wf.createLabel(fComposite,
@@ -43,28 +52,48 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 		opaqueLabel.setLayoutData(data);
 	}
 	
-	public boolean isCategoryForModel(To toOrFrom) {
-		if (toOrFrom == null)  return false;
-		if (!fIsFrom)  return false;
-		From from = (From)toOrFrom;
-		if (Boolean.TRUE.equals(from.getOpaque()))  return true;
-		return false;
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
+	 */
+	public boolean isCategoryForModel (EObject aModel) {
+		
+		From from = BPELUtil.adapt(aModel, From.class);
+		if (from == null) {
+			return false;
+		}		
+		return Boolean.TRUE.equals(from.getOpaque());		
 	}
 	
-	protected void loadToOrFrom(To toOrFrom) {
+	
+	@Override
+	protected void load (IVirtualCopyRuleSide aModel) {
+		
 	}
 	
-	protected void storeToOrFrom(To toOrFrom) {
-		if (!fIsFrom)  return;
-		From from = (From)toOrFrom;
+	
+	@Override
+	protected void store (IVirtualCopyRuleSide aModel) {
+		From from = BPELUtil.adapt(aModel.getCopyRuleSide(), From.class);
+		if (from == null) {
+			return ;
+		}		
 		from.setOpaque(Boolean.TRUE);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
+		
 	}
 
 }

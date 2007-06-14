@@ -45,9 +45,9 @@ public class SetVariableCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getVariable(target, direction);
+		return ModelHelper.getVariable(fTarget, direction);
 	}
 	public void set(Object o) {
-		ModelHelper.setVariable(target, (Variable)o, direction);
+		ModelHelper.setVariable(fTarget, (Variable)o, direction);
 	}
 }

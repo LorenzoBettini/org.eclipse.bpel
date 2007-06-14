@@ -28,9 +28,9 @@ public class SetFaultNameCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getFaultName(target);
+		return ModelHelper.getFaultName(fTarget);
 	}
 	public void set(Object o) {
-		ModelHelper.setFaultName(target, (String)o);
+		ModelHelper.setFaultName(fTarget, (String)o);
 	}
 }

@@ -27,9 +27,9 @@ public class SetCorrelationPatternCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((Correlation)target).getPattern();
+		return ((Correlation)fTarget).getPattern();
 	}
 	public void set(Object o) {
-		((Correlation)target).setPattern((CorrelationPattern)o);
+		((Correlation)fTarget).setPattern((CorrelationPattern)o);
 	}
 }

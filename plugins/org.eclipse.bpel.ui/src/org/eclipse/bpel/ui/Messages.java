@@ -525,6 +525,7 @@ public final class Messages extends NLS {
 	public static String ServerDetails_TargetNamespaceError;
 	public static String ServerDetails_TargetNamespaceErrorMessage;
 	public static String SetCommand_Change_1;
+	public static String SetCommand_Change_2;
 	public static String SetCompensateLinkAction_Set_Compensate_1;
 	public static String SetExtensibilityElementCommand_Change_1;
 	public static String SetPartnerLinkAction_Set_Partner_1;

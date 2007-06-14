@@ -39,7 +39,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -87,8 +86,7 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 public abstract class ExpressionSection extends TextSection {
-
-	static final String EMPTY_BODY = ""; //$NON-NLS-1$
+	
 	
 	protected String editorLanguage;
 	
@@ -144,8 +142,7 @@ public abstract class ExpressionSection extends TextSection {
 	 * elements from the list which are not supported (unless they happen to be
 	 * the selected object at the moment--an error case).
 	 */
-	
-	@SuppressWarnings("unchecked")
+		
 	
 	class ExpressionComboContentProvider extends ExpressionEditorDescriptorContentProvider {
 		Object selectedObject = SAME_AS_PARENT;
@@ -157,19 +154,22 @@ public abstract class ExpressionSection extends TextSection {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] descriptors = super.getElements(inputElement);
-			int descriptorCount = descriptors.length;
-			ArrayList result = new ArrayList(descriptorCount+2);
+			
+			ArrayList<Object> result = new ArrayList<Object>(descriptors.length + 2);
 			if (!isExpressionOptional() || selectedObject==NO_EXPRESSION) {
 				result.add(NO_EXPRESSION);
 			}
 			if (selectedObject==SAME_AS_PARENT || allowItem(SAME_AS_PARENT)) {
 				result.add(SAME_AS_PARENT);
 			}
-			for (int i = 0; i < descriptorCount; ++i) {
-				if (objectsEqual(selectedObject, descriptors[i]) ||
-					allowItem(descriptors[i])) result.add(descriptors[i]);
+			for (Object descriptor : descriptors) {
+				if (objectsEqual(selectedObject, descriptor) ||	allowItem(descriptor)) {
+					result.add(descriptor);
+				}
 			}
-			if (!result.contains(selectedObject)) result.add(selectedObject);
+			if (!result.contains(selectedObject)) {
+				result.add(selectedObject);
+			}
 			return result.toArray();
 		}
 		/**
@@ -224,7 +224,7 @@ public abstract class ExpressionSection extends TextSection {
 			ed = BPELUIRegistry.getInstance().getExpressionEditor(newLanguage);
 		} catch (CoreException e) {
 			BPELUIPlugin.log(e);
-			return EMPTY_BODY;
+			return EMPTY_STRING;
 		}
 		
 		// TODO: call supportsExpressionType in the right place
@@ -276,15 +276,24 @@ public abstract class ExpressionSection extends TextSection {
 		expressionLanguageViewer.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element == NO_EXPRESSION) return Messages.ExpressionSection_No_Expression_2; 
+				if (element == NO_EXPRESSION) {
+					return Messages.ExpressionSection_No_Expression_2; 
+				}
+				
 				if (element == SAME_AS_PARENT) {
 					String text = getBPELEditor().getProcess().getExpressionLanguage();
-					if (text == null) text = IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH;
+					if (text == null) {
+						text = IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH;
+					}
 					ExpressionEditorDescriptor descriptor = BPELUIRegistry.getInstance().getExpressionEditorDescriptor(text);
-					if (descriptor != null) text = descriptor.getLabel();
+					if (descriptor != null) {
+						text = descriptor.getLabel();
+					}
 					return NLS.bind(Messages.ExpressionSection_Same_as_Process_1, (new Object[] { text })); 
 				}
-				if (element instanceof String) return (String)element;
+				if (element instanceof String) {
+					return (String)element;	
+				}
 				ExpressionEditorDescriptor descriptor = (ExpressionEditorDescriptor) element;
 				String text = descriptor.getLabel();
 				return (text != null) ? text : descriptor.getExpressionLanguage();
@@ -341,6 +350,17 @@ public abstract class ExpressionSection extends TextSection {
 		
  				
 		expressionLanguageViewer.addSelectionChangedListener( (ISelectionChangedListener) fListenerGate );		
+	}
+	
+	/**
+	 * Return the currently selected expression language.
+	 * 
+	 * @return the currently selected expression language
+	 */
+	
+	protected Object selectedExpressionLanguage () {
+		IStructuredSelection selection = (IStructuredSelection) expressionLanguageViewer.getSelection();
+		return selection.getFirstElement();		
 	}
 	
 	/**
@@ -420,7 +440,9 @@ public abstract class ExpressionSection extends TextSection {
 	}
 	
 	
-	protected boolean isExpressionOptional() { return false; }
+	protected boolean isExpressionOptional() { 
+		return false; 
+	}
 
 	protected abstract String getExpressionType();
 	protected abstract String getExpressionContext();
@@ -430,7 +452,7 @@ public abstract class ExpressionSection extends TextSection {
 	 * Returns the expressionLanguage string underlying the given combo element.  For
 	 * cases other than NO_EXPRESSION, this is the proper value to store into the model.
 	 */
-	protected String getExpressionLanguage(Object comboElement) {
+	protected String getExpressionLanguage (Object comboElement) {
 		if (comboElement == NO_EXPRESSION || comboElement == SAME_AS_PARENT) {
 			return null;
 		}
@@ -440,7 +462,7 @@ public abstract class ExpressionSection extends TextSection {
 		} else if (comboElement instanceof String) {
 			language = (String)comboElement;
 		}
-		if ("".equals(language))  { //$NON-NLS-1$
+		if (EMPTY_STRING.equals(language)) {
 			language = null; 
 		}
 		return language;
@@ -481,15 +503,18 @@ public abstract class ExpressionSection extends TextSection {
 	}
 	
 	protected Expression getExprFromModel() {
+		
 		return ModelHelper.getExpression(getInput(), getModelExpressionType());
 	}
 	
 	
 	@Override
 	protected boolean isBodyAffected(Notification n) {
+		
 		if (n.getOldValue() instanceof Expression ||
 			n.getNewValue() instanceof Expression ||
 			n.getNotifier() instanceof Expression) return true;
+		
 		return ModelHelper.isExpressionAffected(getInput(), n, getModelExpressionType());
 	}
 

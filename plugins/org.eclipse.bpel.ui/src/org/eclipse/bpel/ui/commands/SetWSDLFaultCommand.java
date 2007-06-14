@@ -29,9 +29,9 @@ public class SetWSDLFaultCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getWSDLFault(target);
+		return ModelHelper.getWSDLFault(fTarget);
 	}
 	public void set(Object o) {
-		ModelHelper.setWSDLFault(target, (Fault)o);
+		ModelHelper.setWSDLFault(fTarget, (Fault)o);
 	}
 }

@@ -48,7 +48,7 @@ public class SetCompensateCommand extends SetCommand {
 	 */
 	@Override
 	public Object get() {
-		CompensateScope cs = (CompensateScope) target;
+		CompensateScope cs = (CompensateScope) fTarget;
 		return cs.getTarget();
 	}
 	
@@ -57,13 +57,13 @@ public class SetCompensateCommand extends SetCommand {
 	 */
 	@Override
 	public void set(Object o) {		
-		CompensateScope cs = (CompensateScope) target;
+		CompensateScope cs = (CompensateScope) fTarget;
 		if (o instanceof Activity ) {
 			cs.setTarget( (Activity) o);
 		}
 	}
 	
 	public Object getTarget(){
-		return target;
+		return fTarget;
 	}
 }

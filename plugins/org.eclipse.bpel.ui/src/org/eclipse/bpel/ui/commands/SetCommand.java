@@ -13,45 +13,105 @@ package org.eclipse.bpel.ui.commands;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.osgi.util.NLS;
 
 
 /** 
  * Generic "model-setting" command.  Subclasses only need to implement get() and set()
  * in terms of the particular model property they set.
  */
-public abstract class SetCommand extends AutoUndoCommand {
+public class SetCommand extends AutoUndoCommand {
 
-	protected Object target, newValue, oldValue;
-	boolean executeWasSkipped = false;
-
-	// TODO: THIS SHOULDN'T EXIST.  FIX.
-	public void setNewValue(Object newValue) {
-		this.newValue = newValue;
-	}
-
-	public String getDefaultLabel() { return Messages.SetCommand_Change_1; } 
+	/** Target */
+	protected EObject fTarget;
+	
+	/** The structural feature we are setting */
+	protected EStructuralFeature fFeature = null;
+	
+	/** New and old value for the structural feature */
+	protected Object  fNewValue, fOldValue;
+	
+	boolean fExecuteWasSkipped = false;
+	
 
 	/**
-	 * Brand new shiny set command.
-	 * @param target
-	 * @param newValue
+	 * Brand new shiny SetStructuralFeatureCommand command.	 
+	 * 
+	 * Typically, you would override getDefaultLabel() 
+	 * 
+	 * @param aTarget the target EMF object
+	 * @param aValue the value to set
 	 */
 	
-	public SetCommand (EObject target, Object newValue)  {
-		super(target);
-		this.target = target;
-		this.newValue = newValue;
-		setLabel(getDefaultLabel());
+	public SetCommand (EObject aTarget, Object aValue )  {		
+		super(aTarget);
+		fTarget = aTarget;
+		fNewValue = aValue;		
 	}
 
-	public abstract Object get();
-	public abstract void set(Object o);
+	
+	/**
+	 * Brand new shiny SetStructuralFeatureCommand command. For example 
+	 * <pre>
+	 *   new SetCommand ( copyBpelObject, newTo, BPELPackage.eINSTANCE.getCopy_To() );   
+	 * </pre>
+	 * 
+	 * Typically, you would override getDefaultLabel() 
+	 * 
+	 * @param aTarget the target EMF object
+	 * @param aValue the value to set
+	 * @param aFeature the feature id
+	 */
+	
+	public SetCommand (EObject aTarget, Object aValue, EStructuralFeature aFeature )  {
+		this(aTarget,aValue);
+		fNewValue = aValue;
+		fFeature = aFeature;
+	}
+
+	/**
+	 * Get the value of the structural feature from the current target.
+	 * @return the value of the structural feature.
+	 */
+	
+	public Object get() {
+		return fTarget.eGet(fFeature);		
+	}
+	
+	/**
+	 * Set the value of the structural feature.
+	 * 
+	 * @param o
+	 */
+	public void set (Object o) {
+		fTarget.eSet(fFeature, o);		
+	}
+	
+
+
+	// TODO: THIS SHOULDN'T EXIST.  FIX.
+	public void setNewValue (EObject newValue) {
+		this.fNewValue = newValue;
+	}
+
+	/**
+	 * Return the default command label. 
+	 * @return  the default label
+	 */
+	
+	public String getDefaultLabel() { 
+		if (fFeature == null) {
+			return Messages.SetCommand_Change_1;
+		}
+		return NLS.bind(Messages.SetCommand_Change_2, fFeature.getName(), null );		
+	} 
 
 
 	protected boolean hasNoEffect()  {
-		if (oldValue == null) return (newValue == null);
-		if (newValue == null) return false;
-		return newValue.equals(oldValue);
+		if (fOldValue == null) return (fNewValue == null);
+		if (fNewValue == null) return false;
+		return fNewValue.equals(fOldValue);
 	}
 
 	/**
@@ -67,11 +127,11 @@ public abstract class SetCommand extends AutoUndoCommand {
 	 */
 	@Override
 	public void doExecute() {
-		oldValue = get();
+		fOldValue = get();
 		if (hasNoEffect()) {
-			executeWasSkipped = true;
+			fExecuteWasSkipped = true;
 		} else {
-			set(newValue);
+			set(fNewValue);
 		}
 	}
 	

@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.emf.ecore.EObject;
 
 
@@ -20,16 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class SetQueryLanguageCommand extends SetCommand {
 
-	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_QUERYLANGUAGE; }
-
-	public SetQueryLanguageCommand(EObject target, String newQueryLanguage)  {
-		super(target, newQueryLanguage);
-	}
-
-	public Object get() {
-		return ((Process)target).getQueryLanguage();
-	}
-	public void set(Object o) {
-		((Process)target).setQueryLanguage((String)o);
+	/**
+	 * @param target
+	 * @param newQueryLanguage
+	 */
+	public SetQueryLanguageCommand (EObject target, String newQueryLanguage)  {
+		super(target, newQueryLanguage, BPELPackage.eINSTANCE.getProcess_QueryLanguage() );
 	}
 }

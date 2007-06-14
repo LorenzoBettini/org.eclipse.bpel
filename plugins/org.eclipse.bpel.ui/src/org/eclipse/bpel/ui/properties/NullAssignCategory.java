@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 /**
@@ -19,26 +21,50 @@ import org.eclipse.bpel.ui.Messages;
  */
 public class NullAssignCategory extends AssignCategoryBase {
 
-	protected NullAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
-		super(isFrom, ownerSection);
+	protected NullAssignCategory(BPELPropertySection ownerSection, EStructuralFeature feature) {
+		super(ownerSection,feature);
 	}
 
-	public String getName() { return Messages.NullAssignCategory____None____1; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() { 
+		return Messages.NullAssignCategory____None____1; 
+	} 
 
-	public boolean isCategoryForModel(To toOrFrom) {
-		if (toOrFrom == null)  return true;
-		return false;
-	}
-	protected void loadToOrFrom(To toOrFrom) {
-	}
-	protected void storeToOrFrom(To toOrFrom) {
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
+	 */
+	public boolean isCategoryForModel (EObject aModel) {
+		return (aModel == null);		
 	}
 	
+	@Override
+	protected void load (IVirtualCopyRuleSide aModel) {
+		
+	}
+	@Override
+	protected void store (IVirtualCopyRuleSide aModel) {
+		
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 	}
 
-	protected boolean isDefaultCompositeOpaque() { return false; }
+	@Override
+	protected boolean isDefaultCompositeOpaque() { 
+		return false; 
+	}
 }

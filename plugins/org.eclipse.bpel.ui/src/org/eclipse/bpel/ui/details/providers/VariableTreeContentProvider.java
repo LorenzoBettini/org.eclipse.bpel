@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.details.tree.BPELVariableTreeNode;
@@ -24,28 +24,43 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class VariableTreeContentProvider extends ModelTreeContentProvider {
 
-	boolean isPropertyTree;
-	boolean displayParticles;
+	boolean fIsPropertyTree;
+	boolean fDisplayParticles;
 	
+	/**
+	 * Variable tree content provider.
+	 * 
+	 * @param isCondensed
+	 * @param isPropertyTree
+	 * @param displayParticles
+	 */
 	public VariableTreeContentProvider(boolean isCondensed, boolean isPropertyTree, boolean displayParticles) {
 		super(isCondensed);
-		this.isPropertyTree = isPropertyTree;
-		this.displayParticles = displayParticles;
+		this.fIsPropertyTree = isPropertyTree;
+		this.fDisplayParticles = displayParticles;
 	}
 
-	public boolean isPropertyTree() { return isPropertyTree; }
+	/**
+	 * Answer if we are a property tree.
+	 * @return true yes, false no.
+	 */
+	
+	public boolean isPropertyTree() { 
+		return fIsPropertyTree; 
+	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.details.providers.ModelTreeContentProvider#primGetElements(java.lang.Object)
+	 */
+	@Override
 	public Object[] primGetElements(Object inputElement) {
-		Variable[] vars = BPELUtil.getVisibleVariables((EObject)inputElement);
+		
+		Variable[] vars = BPELUtil.getVisibleVariables((EObject)inputElement);		
 		// TODO: can this code be moved to a filter?
-		Vector returnVector = new Vector();
-		for (int i = 0; i<vars.length; i++) {
-			if (vars[i] instanceof Variable) {
-				returnVector.add(new BPELVariableTreeNode((Variable)vars[i], isCondensed, isPropertyTree, displayParticles));
-			} else {
-				throw new IllegalStateException();
-			}										
+		ArrayList<Object> result = new ArrayList<Object>( vars.length );
+		for (Variable v : vars) {
+			result.add(new BPELVariableTreeNode(v, isCondensed, fIsPropertyTree, fDisplayParticles));
 		}				
-		return returnVector.toArray();
+		return result.toArray();
 	}	
 }

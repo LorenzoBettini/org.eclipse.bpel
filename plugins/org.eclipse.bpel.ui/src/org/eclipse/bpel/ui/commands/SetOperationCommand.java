@@ -33,17 +33,17 @@ public class SetOperationCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getOperation(target);
+		return ModelHelper.getOperation(fTarget);
 	}
 	public void set(Object o) {
 		Operation op = (Operation) o;
-		ModelHelper.setOperation(target, op);
+		ModelHelper.setOperation(fTarget, op);
 		 
 		if (op == null) {
-			ModelHelper.setPortType(target, null);
+			ModelHelper.setPortType(fTarget, null);
 		} else {
 			PortType portType = (PortType) op.eContainer();
-			ModelHelper.setPortType(target, portType);
+			ModelHelper.setPortType(fTarget, portType);
 		}
 	}
 }

@@ -12,16 +12,40 @@ package org.eclipse.bpel.ui.commands.util;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
+
 public interface IAutoUndoRecorder {
 
 	// These methods are used by AutoUndoCommandStack and AutoUndoCompoundCommand.
-	public void startChanges(List modelRoots);
-	public List finishChanges();
-	public void addModelRoots(List modelRoots);
+	
+	public void startChanges(List<Object> modelRoots);
+	
+	public List<Object> finishChanges();
+	
+	public void addModelRoots(List<Object> modelRoots);
+	
 	public void insertUndoHandler(IUndoHandler undoHandler);
+	
+	/**
+	 * Is the recorder currently recording changes.
+	 * @return true if yes, false if no
+	 */
 	public boolean isRecordingChanges();
 	
 	// These methods are used by AutoUndoCommand.
-	public void undo(List changes);
-	public void redo(List changes);	
+	
+	/**
+	 * Undo the list of changes. The changes list consists of IUndoHandler and Notification objects.
+	 * 
+	 * @param changes
+	 */
+	public void undo(List<Object> changes);
+	
+	/**
+	 * Redo the list of changes. The changes list consists of IUndoHandler and Notification objects.
+	 * 
+	 * @param changes
+	 */
+	
+	public void redo(List<Object> changes);	
 }

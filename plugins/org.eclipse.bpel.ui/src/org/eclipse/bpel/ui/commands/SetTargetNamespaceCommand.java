@@ -10,24 +10,22 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * 
+ */
 
 public class SetTargetNamespaceCommand extends SetCommand {
 
-	public String getDefaultLabel() { return IBPELUIConstants.CMD_SELECT_TARGETNAMESPACE; }
-
+	/**
+	 * Brand new shiny SetTargetNamespaceCommand.
+	 * 
+	 * @param target
+	 * @param newName
+	 */
 	public SetTargetNamespaceCommand(EObject target, String newName) {
-		super(target, newName);
-	}
-
-	public Object get() {
-		return	((Process)target).getTargetNamespace();
-	}
-
-	public void set(Object o) {
-		((Process)target).setTargetNamespace((String)o);
+		super(target, newName,BPELPackage.eINSTANCE.getProcess_TargetNamespace() );
 	}
 }

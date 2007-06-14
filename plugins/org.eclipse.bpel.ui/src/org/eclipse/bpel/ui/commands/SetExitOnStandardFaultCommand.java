@@ -44,7 +44,7 @@ public class SetExitOnStandardFaultCommand extends SetCommand {
 	 */
 	@Override
 	public Object get() {
-		org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process) target;
+		org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process) fTarget;
 		return process.getExitOnStandardFault();
 	}
 
@@ -53,7 +53,7 @@ public class SetExitOnStandardFaultCommand extends SetCommand {
 	 */
 	@Override
 	public void set(Object o) {
-		org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process) target;
+		org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process) fTarget;
 		process.setExitOnStandardFault((Boolean) o);		
 	}
 }

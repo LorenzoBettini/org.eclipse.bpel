@@ -30,11 +30,11 @@ public class SetCountSuccessfulBranchesOnlyCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((Branches) target).isSetCountCompletedBranchesOnly();
+		return ((Branches) fTarget).isSetCountCompletedBranchesOnly();
 	}
 
 	public void set(Object o) {
-		((Branches) target).setCountCompletedBranchesOnly(((Boolean) o)
+		((Branches) fTarget).setCountCompletedBranchesOnly(((Boolean) o)
 				.booleanValue());
 	}
 }

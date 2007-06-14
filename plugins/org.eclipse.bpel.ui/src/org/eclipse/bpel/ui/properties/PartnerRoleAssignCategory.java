@@ -16,15 +16,16 @@ import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.EndpointReferenceRole;
-import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.details.providers.ModelLabelProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerLinkContentProvider;
 import org.eclipse.bpel.ui.details.providers.RoleContentProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -57,12 +58,22 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 	CCombo roleCombo;
 	CComboViewer roleViewer;
 	
-	protected PartnerRoleAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
-		super(isFrom, ownerSection);
+	protected boolean fIsFrom = false;
+	
+	protected PartnerRoleAssignCategory( BPELPropertySection ownerSection, EStructuralFeature feature ) {
+		super(ownerSection,feature);			
+		// Hmmm ...
+		fIsFrom = "from".equals(feature.getName());
 	}
 
-	public String getName() { return Messages.PartnerRoleAssignCategory_Partner_Reference_1; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() { 
+		return Messages.PartnerRoleAssignCategory_Partner_Reference_1; 
+	} 
 
+	@Override
 	protected void createClient2(Composite parent) {
 		FlatFormData data; 
 		
@@ -158,21 +169,27 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 		});
 	}	
 
-	public boolean isCategoryForModel(To toOrFrom) {
-		if (toOrFrom == null)  return false;
-		if (toOrFrom.getPartnerLink() != null)  return true;
-		return false;
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
+	 */
+	
+	public boolean isCategoryForModel (EObject aModel) {
+		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel, IVirtualCopyRuleSide.class);
+		return side != null && side.getPartnerLink() != null;
 	}
-	protected void loadToOrFrom(To toOrFrom) {
-		if (toOrFrom == null)  return;
-
-		PartnerLink selPartnerLink = toOrFrom.getPartnerLink();
+	
+	
+	@Override
+	protected void load (IVirtualCopyRuleSide side) {
+		
+		PartnerLink selPartnerLink = side.getPartnerLink();
 		boolean isMyRole = false;
-		if (fIsFrom)  {
-			EndpointReferenceRole reference = ((From)toOrFrom).getEndpointReference();
-			if (reference != null) {
-				int roleMarker = reference.getValue();
-				if (roleMarker == EndpointReferenceRole.MY_ROLE)  isMyRole = true;
+		EndpointReferenceRole reference = side.getEndpointReference();
+		
+		if (reference != null) {
+			int roleMarker = reference.getValue();
+			if (roleMarker == EndpointReferenceRole.MY_ROLE) {  
+				isMyRole = true;
 			}
 		}
 
@@ -211,26 +228,38 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 		}	
 	}
 
-	protected void storeToOrFrom(To toOrFrom) {
-		IStructuredSelection sel = (IStructuredSelection)partnerViewer.getSelection();
-		PartnerLink partnerLink = (PartnerLink)sel.getFirstElement();
-		toOrFrom.setPartnerLink(partnerLink);
+	@Override
+	protected void store (IVirtualCopyRuleSide side ) {
+		IStructuredSelection sel = (IStructuredSelection) partnerViewer.getSelection();
+		PartnerLink partnerLink = (PartnerLink) sel.getFirstElement();
 		
-		if (fIsFrom) {
-			Object role = ((IStructuredSelection)roleViewer.getSelection()).getFirstElement();
-			if (role != null) {
-				if (role.equals(partnerLink.getMyRole())) {
-					((From)toOrFrom).setEndpointReference(EndpointReferenceRole.MY_ROLE_LITERAL);
-				} else if (role.equals(partnerLink.getPartnerRole())) {
-					((From)toOrFrom).setEndpointReference(EndpointReferenceRole.PARTNER_ROLE_LITERAL);
-				}
-			}
+		side.setPartnerLink(partnerLink);
+				
+		Object role = ((IStructuredSelection)roleViewer.getSelection()).getFirstElement();
+		if (role == null) {
+			return ;
 		}
+		if (role.equals(partnerLink.getMyRole())) {
+			side.setEndpointReference(EndpointReferenceRole.MY_ROLE_LITERAL);
+		} else if (role.equals(partnerLink.getPartnerRole())) {
+			side.setEndpointReference(EndpointReferenceRole.PARTNER_ROLE_LITERAL);
+		}
+		
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return new Integer(lastChangeContext);
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 		int i = ((Integer)userContext).intValue();
 		switch (i) {

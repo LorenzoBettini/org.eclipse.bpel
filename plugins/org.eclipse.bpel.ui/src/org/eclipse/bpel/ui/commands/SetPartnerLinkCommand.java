@@ -33,11 +33,11 @@ public class SetPartnerLinkCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getPartnerLink(target);
+		return ModelHelper.getPartnerLink(fTarget);
 	}
 	public void set(Object o) {
 	    PartnerLink pl = (PartnerLink)o;
-		ModelHelper.setPartnerLink(target, pl);
+		ModelHelper.setPartnerLink(fTarget, pl);
 		
 		Operation operation = null;
 		
@@ -56,6 +56,6 @@ public class SetPartnerLinkCommand extends SetCommand {
 		}
 		// Not sure why we set an operation here.
 		
-        ModelHelper.setOperation(target, operation);
+        ModelHelper.setOperation(fTarget, operation);
 	}
 }

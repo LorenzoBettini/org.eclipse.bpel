@@ -30,11 +30,9 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 
 /**
@@ -48,81 +46,12 @@ import org.eclipse.swt.widgets.Label;
  */
 
 public class AssignImplSection extends BPELPropertySection {
-		
-	/**  
-	 * Assign category shows the current assign category section. 
-	 * There is one for "from" and one for "to"
-	 */
-	
-	class CategorySection {
-		
-		IAssignCategory[] fAllowed = {}; 
-		IAssignCategory   fCurrent;
-		
-		Label fLabel;
-		Combo fCombo;		
-		Composite fOuterComposite;
-		
-		Composite ensureCategoryCompositeCreated () {
-			
-			if (fCurrent.getComposite() == null) {
 				
-				Composite c = createFlatFormComposite(fOuterComposite);
-				FlatFormData data = new FlatFormData();
-				data.left = new FlatFormAttachment(0,0);
-				data.right = new FlatFormAttachment(100,0);
-				data.top = new FlatFormAttachment(0,0);
-				data.bottom = new FlatFormAttachment(100,0);
-				c.setLayoutData(data);
-				FillLayout fillLayout = new FillLayout();
-				fillLayout.marginHeight = fillLayout.marginWidth = 0;
-				c.setLayout(fillLayout);								
-				fCurrent.createControls(c, getTabbedPropertySheetPage());
-				fOuterComposite.layout(true);										
-				return c;
-			}			
-			return fCurrent.getComposite();
-		}
-		
-		@SuppressWarnings("nls")
-		void showCurrent ( ) {
-			if (fCurrent == null) {
-				throw new NullPointerException("fCurrent is null");
-			}			
-			if (fCurrent.isHidden()) {
-				fCurrent.aboutToBeShown();
-			}
-			fCurrent.getComposite().setVisible(true);				
-		}
-		
-		void hideCurrent ( ) {			
-			if (fCurrent == null) {
-				return ;
-			}
-			
-			if (fCurrent.isHidden() == false) {
-				fCurrent.aboutToBeHidden();
-			}
-			fCurrent.getComposite().setVisible(false);
-		}
-		
-		void updateCombo () {
-			for(int i=0; i < fAllowed.length; i++) {
-				if (fAllowed[i] == fCurrent) {
-					fCombo.select(i);
-					return ;
-				}
-			}
-		}
-	};
-
-	
-		
 	/** The to section */
-	CategorySection fToSection   = new CategorySection ();
+	CategorySection fToSection   = new CategorySection ( this );
 	
 	/** The from section */
-	CategorySection fFromSection = new CategorySection ();
+	CategorySection fFromSection = new CategorySection ( this );
 	
 	/** The current copy rule being edited. */
 	Copy fCurrentCopy;
@@ -132,6 +61,9 @@ public class AssignImplSection extends BPELPropertySection {
 	Composite copySelectComposite;
 
 	protected ListViewer fCopyListViewer;
+
+	Button fDeleteCopy;
+	
 	
 	/**
 	 * 
@@ -141,19 +73,19 @@ public class AssignImplSection extends BPELPropertySection {
 		super();
 				
 		fToSection.fAllowed = new IAssignCategory[] {				
-			new VariablePartAssignCategory(false, this),
-			new VariablePropertyAssignCategory(false, this),
-			new PartnerRoleAssignCategory(false, this)
+			new VariablePartAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To() ),
+			new VariablePropertyAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To()),
+			new PartnerRoleAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To() )
 		};
 
 		fFromSection.fAllowed = new IAssignCategory[] {				
-			new VariablePartAssignCategory(true, this),
-			new ExpressionAssignCategory(true, this),
-			new LiteralAssignCategory(true, this),
-			new VariablePropertyAssignCategory(true, this),
-			new PartnerRoleAssignCategory(true, this),
-			new EndpointReferenceAssignCategory(true, this),						
-			new OpaqueAssignCategory(true, this)
+			new VariablePartAssignCategory(this,BPELPackage.eINSTANCE.getCopy_From() ),
+			new ExpressionAssignCategory(this),
+			new LiteralAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From()  ),
+			new VariablePropertyAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From()),
+			new PartnerRoleAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From()),
+			new EndpointReferenceAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From() ),						
+			new OpaqueAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From() )
 		};
 		
 	}
@@ -196,13 +128,13 @@ public class AssignImplSection extends BPELPropertySection {
 		Composite c = copySelectComposite = createFlatFormComposite(parent);
 		
 		Button insertCopy = wf.createButton(c, Messages.AssignImplDetails_New__5, SWT.PUSH);  
-		Button deleteCopy = wf.createButton(c, Messages.AssignImplDetails_Delete__6, SWT.PUSH);  
+		fDeleteCopy = wf.createButton(c, Messages.AssignImplDetails_Delete__6, SWT.PUSH);  
 
 		fCopyList = wf.createList(c, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
 	
 		
 		int preferredWidth = BPELUtil.calculateButtonWidth(insertCopy, SHORT_BUTTON_WIDTH);
-		preferredWidth = Math.max(preferredWidth, BPELUtil.calculateButtonWidth(deleteCopy, SHORT_BUTTON_WIDTH));
+		preferredWidth = Math.max(preferredWidth, BPELUtil.calculateButtonWidth(fDeleteCopy, SHORT_BUTTON_WIDTH));
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0,0);
@@ -221,14 +153,14 @@ public class AssignImplSection extends BPELPropertySection {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
-		data.bottom = new FlatFormAttachment(deleteCopy, -IDetailsAreaConstants.VSPACE);
+		data.bottom = new FlatFormAttachment(fDeleteCopy, -IDetailsAreaConstants.VSPACE);
 		insertCopy.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
 		data.bottom = new FlatFormAttachment(100, 0);
-		deleteCopy.setLayoutData(data);
+		fDeleteCopy.setLayoutData(data);
 
 		insertCopy.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -245,7 +177,7 @@ public class AssignImplSection extends BPELPropertySection {
 			}
 		});
 
-		deleteCopy.addSelectionListener(new SelectionListener() {
+		fDeleteCopy.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				getCommandFramework().execute(wrapInShowContextCommand(
 						new RemoveCopyCommand((Assign)getInput(), fCurrentCopy)));
@@ -381,7 +313,7 @@ public class AssignImplSection extends BPELPropertySection {
 			fToSection.fCurrent.refresh();
 		}
 		if (fFromSection.fCurrent != null) {
-			fToSection.fCurrent.refresh();	
+			fFromSection.fCurrent.refresh();	
 		}
 		
 	}
@@ -484,7 +416,7 @@ public class AssignImplSection extends BPELPropertySection {
 			items[i] = String.valueOf(i+1);
 		}
 		fCopyList.setItems( items );		
-//		deleteCopy.setEnabled(max>1);
+		fDeleteCopy.setEnabled(max>1);
 	}
 
 	
@@ -502,22 +434,25 @@ public class AssignImplSection extends BPELPropertySection {
 		section.fCurrent = newCurrent;		
 		section.ensureCategoryCompositeCreated();
 		
-		
-		/** Visual selection */
-		if (bVisual)  {			
-			
-			if (section == fToSection) {
-				fCurrentCopy.setTo( BPELFactory.eINSTANCE.createTo() );
-			} else {
-				fCurrentCopy.setFrom( BPELFactory.eINSTANCE.createFrom() );
-			}
-			
-		} else {
+		if (bVisual == false) {
 			section.updateCombo();
 		}
+				
 		
-		// Set the input of the category after we insert the to or from into the model.
-		section.fCurrent.setInput(fCurrentCopy);		
+		if (section == fToSection) {
+			if (bVisual || fCurrentCopy.getTo() == null) {
+				fCurrentCopy.setTo( BPELFactory.eINSTANCE.createTo() );
+			}
+			section.fCurrent.setInput ( fCurrentCopy.getTo() );
+			
+		} else {
+			
+			if (bVisual || fCurrentCopy.getFrom() == null) {
+				fCurrentCopy.setFrom( BPELFactory.eINSTANCE.createFrom() );
+			}			
+			section.fCurrent.setInput ( fCurrentCopy.getFrom() );
+		}
+				
 		section.showCurrent();
 		section.fCurrent.refresh();
 		
@@ -528,49 +463,37 @@ public class AssignImplSection extends BPELPropertySection {
 		//   - The OpaqueAssignCategory doesn't have any widgets..
 	}
 
-	
-
-	protected static class AssignUserContext {
-		
-		public int fromCategory, toCategory;
-		public Object fromUserContext, toUserContext;
-		public int currentCopyIndex;
-		
-		public AssignUserContext(AssignImplSection source) {
-//			fromCategory = source.currentCategoryIndex[0];
-//			fromUserContext = source.categories[0][fromCategory].category.getUserContext();
-//			toCategory = source.currentCategoryIndex[1];
-//			toUserContext = source.categories[1][toCategory].category.getUserContext();
-//			currentCopyIndex = source.currentCopyIndex;
-		}
-		public void restoreOn(AssignImplSection target) {
-//			target.currentCopyIndex = currentCopyIndex;
-//			target.selectCategoriesForInput();
-//			// TODO: does this make sense?
-//			if (target.currentCategoryIndex[0] == fromCategory) {
-//				target.categories[0][fromCategory].category.restoreUserContext(fromUserContext);
-//			}
-//			if (target.currentCategoryIndex[1] == toCategory) {
-//				target.categories[1][toCategory].category.restoreUserContext(toUserContext);
-//			}
-		}
-	}
-
 	/**
 	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public Object getUserContext() {
-		return new AssignUserContext(this);
+		Assign assign = getModel();
+		if (fCurrentCopy == null) {
+			return 0;
+		}
+		return assign.getCopy().indexOf(fCurrentCopy);		
 	}
 	
 	
 	/**
 	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public void restoreUserContext(Object userContext) {
-		((AssignUserContext)userContext).restoreOn(this);
+		
+		try {
+			int idx = (Integer) userContext;
+			Assign assign = getModel();
+			Copy copy = (Copy) assign.getCopy().get(idx);
+			if (copy != null) {
+				selectCategoriesForInput(copy);
+			}
+		} catch (Throwable t) {
+			// blah
+		}
 		
 	}
 	

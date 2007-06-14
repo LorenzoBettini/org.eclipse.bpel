@@ -13,8 +13,11 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.ServiceRef;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
@@ -28,43 +31,61 @@ public class EndpointReferenceAssignCategory extends AssignCategoryBase {
 
 	protected int lastChangeContext = -1;
 
-	protected EndpointReferenceAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
-		super(isFrom, ownerSection);
-		if (!isFrom) throw new IllegalStateException();
+	protected EndpointReferenceAssignCategory (BPELPropertySection ownerSection, EStructuralFeature feature ) {
+		super(ownerSection,feature);		
 	}
 
 	protected class ContextModifyListener implements ModifyListener {
-		int context;
+		int fContext;		
+		/**
+		 * Brand new shiny ContextModifyListener.
+		 * @param context
+		 */
 		public ContextModifyListener(int context) {
-			this.context = context;
+			this.fContext = context;
 		}
+		/**
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
 		public void modifyText(ModifyEvent e) {
-			lastChangeContext = context;
+			lastChangeContext = fContext;
 		}
 	}
 	
-	public String getName() { return Messages.EndpointReferenceAssignCategory_Endpoint_Reference; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() { 
+		return Messages.EndpointReferenceAssignCategory_Endpoint_Reference; 
+	} 
 
+	@Override
 	protected void createClient2(Composite parent) {
 		// TODO: Delegate to the endpoint handler to create the widgets
 	}	
 
-	public boolean isCategoryForModel(To toOrFrom) {
-		if (!(toOrFrom instanceof From))  return false;
-		ServiceRef serviceRef = ((From)toOrFrom).getServiceRef(); 
-		if (serviceRef != null) {
-			return true;
-		}
-		return false;
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
+	 */
+	public boolean isCategoryForModel (EObject aModel) {
+		From from = BPELUtil.adapt(aModel, From.class);
+		return from != null && from.getServiceRef() != null;
 	}
 	
-	protected void loadToOrFrom(To toOrFrom) {
-		if (!(toOrFrom instanceof From))  return;
+	
+	@SuppressWarnings("nls")
+	@Override
+	protected void load (IVirtualCopyRuleSide aModel) {
+		From from = BPELUtil.adapt(aModel.getCopyRuleSide(), From.class); 		
+		
 		// TODO: Delegate to the endpoint handler to populate the widgets
 	}
 
-	protected void storeToOrFrom(To toOrFrom) {
-		From from = (From)toOrFrom;
+	@SuppressWarnings("nls")
+	@Override
+	protected void store (IVirtualCopyRuleSide aModel) {
+		From from = BPELUtil.adapt(aModel.getCopyRuleSide(), From.class); 			
+		
 		ServiceRef serviceRef = from.getServiceRef();  
 		if (serviceRef == null) {
 			serviceRef = BPELFactory.eINSTANCE.createServiceRef();

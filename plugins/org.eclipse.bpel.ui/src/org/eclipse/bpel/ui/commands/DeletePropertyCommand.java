@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.Iterator;
 
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
@@ -30,21 +29,36 @@ public class DeletePropertyCommand extends DeleteWSDLExtensibilityElementCommand
 
 	CompoundCommand deleteAliasesCmd;
 
-	public String getDefaultLabel() { return IBPELUIConstants.CMD_DELETE_PROPERTY; }
+	/**
+	 * @see org.eclipse.bpel.ui.commands.DeleteWSDLExtensibilityElementCommand#getDefaultLabel()
+	 */
+	@Override
+	public String getDefaultLabel() { 
+		return IBPELUIConstants.CMD_DELETE_PROPERTY; 
+	}
 
+	/**
+	 * @param property
+	 */
 	public DeletePropertyCommand(Property property) {
 		super(property);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.DeleteWSDLExtensibilityElementCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
 		deleteAliasesCmd = new CompoundCommand();
 		
-		Definition definition = ((Property)element).getEnclosingDefinition();
-		for (Iterator it = definition.getEExtensibilityElements().iterator(); it.hasNext(); ) {
-			Object object = it.next();
-			if (object instanceof PropertyAlias) {
-				PropertyAlias alias = (PropertyAlias)object;
-				if (alias.getMessageType() == (Property)element) {
+		Property property = (Property) fElement;
+		
+		Definition definition = property.getEnclosingDefinition();
+		
+		for(Object n : definition.getEExtensibilityElements()) {
+			if (n instanceof PropertyAlias) {
+				PropertyAlias alias = (PropertyAlias)n;
+				if (alias.getMessageType() == property) {
 					deleteAliasesCmd.add(new DeletePropertyAliasCommand(alias));
 				}
 			}

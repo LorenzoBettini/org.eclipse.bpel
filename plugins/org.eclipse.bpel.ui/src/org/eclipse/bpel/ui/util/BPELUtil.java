@@ -17,6 +17,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1514,14 +1515,24 @@ public class BPELUtil {
 		return result;
 	}
 
-	private static void addVariablesToMap(Map targetMap, Variables vars) {
-		if (vars == null) return;
-		for (Iterator it = vars.getChildren().iterator(); it.hasNext(); ) {
-			Variable v = (Variable)it.next();
-			if (v.getName() != null) targetMap.put(v.getName(), v);
+	static void addVariablesToMap(Map targetMap, Variables vars, Variable refVar ) {
+		if (vars == null) {
+			return;
+		}
+		for(Object n : vars.getChildren()) {
+			Variable v = (Variable) n;
+			// scoping for initialization (only visible from).
+			if (v == refVar) {
+				break;
+			}
+			if (v.getName() != null) {
+				targetMap.put(v.getName(),v);
+			}
 		}
 	}
-	private static void addVisibleVariables(Map targetMap, EObject target) {
+	
+	
+	static void addVisibleVariables (Map<String,Variable> targetMap, EObject target, Variable refVariable ) {
 		if (target == null) {
 			return;
 		}
@@ -1530,14 +1541,14 @@ public class BPELUtil {
 		}
 		
 		if (target instanceof Process) {
-			addVariablesToMap(targetMap, ((Process)target).getVariables());
+			addVariablesToMap(targetMap, ((Process)target).getVariables(), refVariable );
 			return ;
 		} 
 		// recursively add less local variables first
-		addVisibleVariables(targetMap, target.eContainer());
+		addVisibleVariables(targetMap, target.eContainer(), refVariable );
 		
 		if (target instanceof Scope) {
-			addVariablesToMap(targetMap, ((Scope)target).getVariables());
+			addVariablesToMap(targetMap, ((Scope)target).getVariables(), refVariable );
 		}
 		if (target instanceof Catch) {
 			Variable v = ((Catch)target).getFaultVariable();
@@ -1608,13 +1619,27 @@ public class BPELUtil {
 	 * 
 	 * The returned variables are in no particular order.
 	 */
-	public static Variable[] getVisibleVariables(EObject target) {
-		Map name2Variable = new HashMap();
-		addVisibleVariables(name2Variable, target);
+	public static Variable[] getVisibleVariables (EObject target) {
+		
+		Map<String,Variable> name2Variable = new HashMap<String,Variable>();
+		
+		addVisibleVariables(name2Variable, target,  target instanceof Variable ? (Variable) target: null );
+		
 		if (name2Variable.isEmpty()) {
 			return EMPTY_VARIABLE_ARRAY;
 		}
-		return (Variable[]) name2Variable.values().toArray( EMPTY_VARIABLE_ARRAY );
+		
+		Collection<Variable> variables =  name2Variable.values();		
+		if (variables.size() == 1) {			
+			return variables.toArray(EMPTY_VARIABLE_ARRAY);
+		}		
+		ArrayList<Variable> list = new ArrayList<Variable>( variables );
+		Collections.sort(list, new Comparator<Variable>() {
+			public int compare(Variable o1, Variable o2) {
+				return o1.getName().compareTo(o2.getName());
+			}				
+		});		
+		return list.toArray(EMPTY_VARIABLE_ARRAY);		
 	}
 	
 	/**

@@ -28,26 +28,26 @@ public class SetExpressionLanguageCommand extends SetCommand {
 	}
 
 	public Object get() {
-		if (target instanceof Process) {
-			return ((Process)target).getExpressionLanguage();
-		} else if (target instanceof Expression) {
-			return ((Expression)target).getExpressionLanguage();
+		if (fTarget instanceof Process) {
+			return ((Process)fTarget).getExpressionLanguage();
+		} else if (fTarget instanceof Expression) {
+			return ((Expression)fTarget).getExpressionLanguage();
 		}
 		throw new IllegalArgumentException();
 	}
 	public void set(Object o) {
 		if (o == null) {
-			if (target instanceof Process) {
-				((Process)target).unsetExpressionLanguage();
-			} else if (target instanceof Expression) {
-				((Expression)target).unsetExpressionLanguage();
+			if (fTarget instanceof Process) {
+				((Process)fTarget).unsetExpressionLanguage();
+			} else if (fTarget instanceof Expression) {
+				((Expression)fTarget).unsetExpressionLanguage();
 			}
 			return;
 		}
-		if (target instanceof Process) {
-			((Process)target).setExpressionLanguage((String)o);
-		} else if (target instanceof Expression) {
-			((Expression)target).setExpressionLanguage((String)o);
+		if (fTarget instanceof Process) {
+			((Process)fTarget).setExpressionLanguage((String)o);
+		} else if (fTarget instanceof Expression) {
+			((Expression)fTarget).setExpressionLanguage((String)o);
 		}
 	}
 }

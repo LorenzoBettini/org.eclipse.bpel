@@ -575,7 +575,7 @@ public class ModelHelper {
 		return ESUB_DEFAULT;
 	}
 
-	public static Expression getExpression(Object context, int exprKind) {
+	public static Expression getExpression (Object context, int exprKind) {
 		switch (exprKind) {
 		case DEFAULT_EXPR:
 			if (context instanceof ElseIf)  return ((ElseIf)context).getCondition();
@@ -583,16 +583,21 @@ public class ModelHelper {
 			if (context instanceof While)  return ((While)context).getCondition();
 			if (context instanceof RepeatUntil)  return ((RepeatUntil)context).getCondition();
 			if (context instanceof From)  return ((From)context).getExpression();
+			
 			// TODO: is this hack unnecessary?
 			if (context instanceof Copy) {
-				From from = ((Copy)context).getFrom();
-				return (from == null)? null : from.getExpression();
+				return getExpression(((Copy)context).getFrom(), exprKind);				
+			}
+			if (context instanceof Variable) {
+				return getExpression(((Variable)context).getFrom(), exprKind);
 			}
 			break;
 		case JOIN_EXPR:
 			if (context instanceof Activity) {
 				Targets targets = ((Activity)context).getTargets();
-				if (targets == null) return null;
+				if (targets == null) {
+					return null;
+				}
 				return targets.getJoinCondition();
 			}
 			break;
@@ -637,6 +642,7 @@ public class ModelHelper {
 			}
 			break;
 		}
+		
 		throw new IllegalArgumentException();
 	}
 
@@ -661,36 +667,52 @@ public class ModelHelper {
 		return completionCondition;
 	}
 	
+	@SuppressWarnings("nls")
 	public static void setExpression(Object context, int exprKind, int exprSubKind, Expression expr) {
+		
 		switch (exprKind) {
 		case DEFAULT_EXPR:
 			if (context instanceof ElseIf) {
-				((ElseIf)context).setCondition(makeCondition(expr)); return;
+				((ElseIf)context).setCondition(makeCondition(expr)); 
+				return;
 			}
 			if (context instanceof If) {
-				((If) context).setCondition(makeCondition(expr)); return;
+				((If) context).setCondition(makeCondition(expr)); 
+				return;
 			}
 			if (context instanceof While) {
-				((While)context).setCondition(makeCondition(expr)); return;
+				((While)context).setCondition(makeCondition(expr)); 
+				return;
 			}
 			if (context instanceof RepeatUntil) {
-				((RepeatUntil)context).setCondition(makeCondition(expr)); return;
+				((RepeatUntil)context).setCondition(makeCondition(expr)); 
+				return;
 			}
 			if (context instanceof From) {
-				((From)context).setExpression(expr); return;
+				((From)context).setExpression(expr); 
+				return;
 			}
+			
 			// TODO: is this hack unnecessary?
-			if (context instanceof Copy) {
+			if (context instanceof Copy) {				
 				From from = ((Copy)context).getFrom();
-				if (from == null) throw new IllegalStateException();
-				from.setExpression(expr);
+				setExpression(from, exprKind, exprSubKind, expr);	
+				return;
 			}
+			if (context instanceof Variable) {				
+				From from = ((Variable)context).getFrom();
+				setExpression(from, exprKind, exprSubKind, expr);
+				return;
+			}			
 			break;
 		case JOIN_EXPR:
 			if (context instanceof Activity) {
 				Targets targets = ((Activity)context).getTargets();
-				if (targets == null) throw new IllegalArgumentException();
-				targets.setJoinCondition(makeCondition(expr)); return;
+				if (targets == null) {
+					throw new IllegalArgumentException();
+				}
+				targets.setJoinCondition(makeCondition(expr)); 
+				return;
 			}
 			break;
 		case TRANSITION_EXPR:
@@ -744,6 +766,11 @@ public class ModelHelper {
 				return;
 			}
 			break;
+		}
+		
+		
+		if (context == null) {
+			throw new IllegalArgumentException("setExpression() - context must not be null");
 		}
 	}
 

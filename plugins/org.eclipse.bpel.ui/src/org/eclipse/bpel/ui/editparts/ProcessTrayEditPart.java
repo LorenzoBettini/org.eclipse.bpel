@@ -13,7 +13,9 @@ package org.eclipse.bpel.ui.editparts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.bpel.common.ui.decorator.EditPartMarkerDecorator;
 import org.eclipse.bpel.common.ui.tray.MainTrayEditPart;
+import org.eclipse.bpel.common.ui.tray.TrayMarkerDecorator;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.PartnerLink;
@@ -23,33 +25,136 @@ import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.ui.BPELEditor;
+import org.eclipse.bpel.ui.BPELUIPlugin;
+import org.eclipse.bpel.ui.IHoverHelper;
+import org.eclipse.bpel.ui.IHoverHelperSupport;
+import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.editparts.policies.BPELDirectEditPolicy;
+import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.uiextensionmodel.ReferencePartnerLinks;
-import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.ToolbarLayout;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 
-public class ProcessTrayEditPart extends MainTrayEditPart {
+/**
+ * @author IBM, initial contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com) 
+ *
+ */
+public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelperSupport {
 
 	protected ISelectionChangedListener selectionListener;
 	protected Object lastSelection = null;
 	
+	protected MouseMotionListener fMouseMotionListener;
+
 	// protected ReferencePartnerLinks referencePartners;
 
+	/** (non-Javadoc)
+	 * @see org.eclipse.bpel.common.ui.tray.TrayCategoryEntryEditPart#createEditPartMarkerDecorator()
+	 */
+	
+	@Override
+	protected EditPartMarkerDecorator createEditPartMarkerDecorator() {
+
+		return new TrayMarkerDecorator((EObject)getModel(), new ToolbarLayout()) {
+			@Override
+			protected IMarker[] getMarkers () {
+				
+				IMarkerHolder holder = BPELUtil.adapt(modelObject, IMarkerHolder.class);
+				
+				if (holder != null) {
+					return holder.getMarkers(modelObject);
+				}
+				
+				return super.getMarkers();
+			}
+		};
+		
+	}
+	
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		// The DIRECT_EDIT_ROLE policy determines how in-place editing takes place.
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new BPELDirectEditPolicy());
 	}
 	
-	protected List getModelChildren() {
+		
+
+	
+	/**
+	 * @see org.eclipse.bpel.ui.IHoverHelperSupport#refreshHoverHelp()
+	 */
+	public void refreshHoverHelp() {
+		
+		// Refresh the tool-tip if we can find a helper.
+		IHoverHelper helper = null; 
+		try {
+			helper = BPELUIRegistry.getInstance().getHoverHelper();
+			if (helper == null) {
+				return;				
+			}
+		} catch (CoreException e) {
+			getFigure().setToolTip(null);
+			BPELUIPlugin.log(e);
+			return ;
+		}		
+		
+		
+		String text = helper.getHoverFigure((EObject)getModel());
+		if (text == null) {
+			getFigure().setToolTip(null);
+		} else {
+			getFigure().setToolTip(new Label(text));
+		}
+	}
+
+	protected MouseMotionListener getMouseMotionListener() {
+		if (fMouseMotionListener == null) {
+			this.fMouseMotionListener = new MouseMotionListener() {
+				public void mouseDragged(MouseEvent me) {
+				}
+				public void mouseEntered(MouseEvent me) {
+				}
+				public void mouseExited(MouseEvent me) {
+				}
+				public void mouseHover(MouseEvent me) {
+				}
+				public void mouseMoved(MouseEvent me) {
+					refreshHoverHelp();
+				}
+			};
+		}
+		return fMouseMotionListener;
+	}
+	
+	@Override
+	
+	protected IFigure createFigure() {
+		IFigure fig =  super.createFigure();
+		fig.addMouseMotionListener(getMouseMotionListener());
+		return fig;
+	}
+	
+	
+	@Override
+	protected List<?> getModelChildren() {
 		
 		//Process process = getProcess();
-		List list = new ArrayList();
+		List<Object> list = new ArrayList<Object>();
 
 		PartnerLinks links = getPartnerLinks();
 		if (links != null) {			
@@ -109,12 +214,22 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 		return (Process)getModel();
 	}
 	
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.tray.TrayEditPart#activate()
+	 */
+	@Override
 	public void activate() {
 		super.activate();
 		BPELEditor editor = ModelHelper.getBPELEditor(getProcess());
 		editor.getGraphicalViewer().addSelectionChangedListener(getSelectionChangedListener());		
 	}
 	
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.tray.TrayEditPart#deactivate()
+	 */
+	@Override
 	public void deactivate() {
 		super.deactivate();
 		// There is a chance that by the time we deactivate, we can't find the editor anymore.
@@ -130,6 +245,7 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 	/**
 	 * Selection listeners that tracks the canvas selection and causes the variables
 	 * to refresh accordingly.
+	 * @return the selection changed listener
 	 */
 	public ISelectionChangedListener getSelectionChangedListener() {
 		if (selectionListener == null) {
@@ -159,6 +275,8 @@ public class ProcessTrayEditPart extends MainTrayEditPart {
 		return selectionListener;
 	}
 
+	
+	@Override
 	protected AccessibleEditPart createAccessible() {
 		return new BPELTrayAccessibleEditPart(this);
 	}

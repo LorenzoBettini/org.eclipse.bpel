@@ -11,14 +11,13 @@
 package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.model.BPELFactory;
-import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.From;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.SetExpressionCommand;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -44,22 +43,31 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  */
 public class ExpressionAssignCategory extends ExpressionSection implements IAssignCategory {
 
-	protected String getExpressionType() { return IEditorConstants.ET_ASSIGNFROM; }
-	protected String getExpressionContext() { return IEditorConstants.EC_ASSIGNFROM; }
+	@Override
+	protected String getExpressionType() { 
+		return IEditorConstants.ET_ASSIGNFROM; 
+	}
+	
+	@Override
+	protected String getExpressionContext() { 
+		return IEditorConstants.EC_ASSIGNFROM; 
+	}
 
-	public boolean isHidden() { return isHidden; }
-
-	protected boolean isFrom;
-	protected BPELPropertySection ownerSection;
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isHidden()
+	 */
+	public boolean isHidden() {
+		return isHidden; 
+	}
+	
+	protected BPELPropertySection fOwnerSection;
 
 	protected Composite composite;
 	
 	protected Composite fParent;
-	
-	
-	protected ExpressionAssignCategory(boolean isFrom, BPELPropertySection ownerSection) {
-		this.isFrom = isFrom;
-		this.ownerSection = ownerSection;
+		
+	protected ExpressionAssignCategory( BPELPropertySection ownerSection ) {		
+		this.fOwnerSection = ownerSection;
 	}
 
 	
@@ -95,17 +103,23 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 //		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__TO);
 	}
 
+	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		MultiObjectAdapter adapter = new BatchedMultiObjectAdapter() {
 			boolean needRefresh = false;
 			boolean toOrFromAffected = false;
+			@Override
 			public void notify(Notification n) {
 				needRefresh = isBodyAffected(n);
 				
 				// if (isBodyAffected(n) && !isExecutingStoreCommand) needRefresh = true;
-				if (isToOrFromAffected(n)) toOrFromAffected = true;
+				if (isToOrFromAffected(n)) {
+					toOrFromAffected = true;
+				}
 				refreshAdapters();
 			}
+			@Override
 			public void finish() {
 				if (needRefresh || toOrFromAffected) {
 					updateWidgets();
@@ -119,13 +133,7 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		};
 		return new MultiObjectAdapter[] { adapter };
 	}
-
-	protected void addAllAdapters() {
-		// HACK because of the hack in getModel(): get the Copy containing our From
-		super.addAllAdapters();
-		adapters[0].addToObject(/*(Copy)*/modelObject);
-	}
-	
+		
 	protected void updateCategoryWidgets() {
 		updateEditor();
 	}
@@ -135,20 +143,34 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 	 * than from the category itself).  On undo, the ownerSection will delegate
 	 * to the category's methods. 
 	 */
+	
+	@Override
 	protected Command wrapInShowContextCommand(Command inner) {
-		return super.wrapInShowContextCommand(inner, ownerSection);
+		return super.wrapInShowContextCommand(inner, fOwnerSection);
 	}
 	
-	public String getName() { return Messages.ExpressionAssignCategory_Expression_1; } 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() { 
+		return Messages.ExpressionAssignCategory_Expression_1; 
+	} 
 
-	public boolean isCategoryForModel(To toOrFrom) {
-		if (!isFrom || toOrFrom == null)  return false;
-		From from = (From)toOrFrom;
-		if (from.getExpression() != null)  return true;
-		return false;
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
+	 */
+	public boolean isCategoryForModel ( EObject aModel ) {
+		From from = BPELUtil.adapt(aModel, From.class);
+		if (from == null) {
+			return false;
+		}
+		return from.getExpression() != null;
 	}
 
-	protected Command newStoreToModelCommand(Object body) {
+	
+	@Override
+	protected Command newStoreToModelCommand  (Object body) {
 		CompoundCommand result = new CompoundCommand();
 		// If there is no condition, create one.
 		Expression oldExp = getExprFromModel();
@@ -168,12 +190,23 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 
 	/**
 	 * This is just a workaround to keep the AssignCategory from changing too much.
+	 * @param model the model object
 	 */
-	public void setInput(EObject model) {
+	
+	public void setInput (EObject model) {
 		basicSetInput(model);
 		addAllAdapters();
+		
+		
+		Object language = selectedExpressionLanguage ();
+		
+		if (language == NO_EXPRESSION) {
+			doChooseExpressionLanguage ( SAME_AS_PARENT );
+		}		
 	}
 	
+	
+	@Override
 	protected final void createClient(Composite parent) {
 		// ugly HACK to make subclasses work
 		//FlatFormLayout layout = new FlatFormLayout();
@@ -183,15 +216,6 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		fillLayout.marginHeight = fillLayout.marginWidth = 0;
 		parent.setLayout(fillLayout);
 		super.createClient(parent);
-	}
-	
-	
-	
-	
-	// HACK
-	protected EObject getModel() {
-		if (modelObject == null) return null;
-		return ((Copy)modelObject).getFrom();
 	}
 	
 }

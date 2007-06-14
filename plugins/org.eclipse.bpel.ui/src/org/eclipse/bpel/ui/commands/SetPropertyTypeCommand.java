@@ -27,10 +27,10 @@ public class SetPropertyTypeCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((Property)target).getType();
+		return ((Property)fTarget).getType();
 	}
 
 	public void set(Object o) {
-		((Property)target).setType(o);
+		((Property)fTarget).setType(o);
 	}
 }

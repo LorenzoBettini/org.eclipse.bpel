@@ -28,35 +28,50 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  */
 public abstract class DeleteWSDLExtensibilityElementCommand extends AutoUndoCommand {
 
-	Definition definition;
-	ExtensibilityElement element;
+	Definition fDefinition;
+	ExtensibilityElement fElement;
 	
 	DeleteNonContainmentRefsCommand deleteRefsCmd;
 	
+	/**
+	 * @return the default label
+	 */
 	public abstract String getDefaultLabel();
 
+	/**
+	 * 
+	 * @param element
+	 */
 	public DeleteWSDLExtensibilityElementCommand(ExtensibilityElement element) {
-		super(new ArrayList(1));
-		this.element = element;
+		super(new ArrayList<Object>(1));
+		this.fElement = element;
 		setLabel(getDefaultLabel());
 		addModelRoot(element.getEnclosingDefinition());
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#canDoExecute()
+	 */
+	@Override
 	public boolean canDoExecute() {
-		if (element.getEnclosingDefinition() == null)  return false;
+		if (fElement.getEnclosingDefinition() == null)  return false;
 		return super.canDoExecute();
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
-		definition = element.getEnclosingDefinition();
+		fDefinition = fElement.getEnclosingDefinition();
 	
-		Set modelRootSet = new HashSet();
-		modelRootSet.add(element.eResource());
-		modelRootSet.add(ModelHelper.getBPELEditor(element).getResource());
-		deleteRefsCmd = new DeleteNonContainmentRefsCommand(Collections.singleton(element), modelRootSet);
+		Set<Object> modelRootSet = new HashSet<Object>();
+		modelRootSet.add(fElement.eResource());		
+		modelRootSet.add(ModelHelper.getBPELEditor(fElement).getResource());
+		deleteRefsCmd = new DeleteNonContainmentRefsCommand(Collections.singleton((Object) fElement), modelRootSet);
 		
-		element.setEnclosingDefinition(null);
-		definition.getEExtensibilityElements().remove(element);
+		fElement.setEnclosingDefinition(null);
+		fDefinition.getEExtensibilityElements().remove(fElement);
 
 		deleteRefsCmd.execute();
 	}

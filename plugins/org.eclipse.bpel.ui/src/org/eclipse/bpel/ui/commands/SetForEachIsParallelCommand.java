@@ -27,10 +27,10 @@ public class SetForEachIsParallelCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((ForEach)target).getParallel();
+		return ((ForEach)fTarget).getParallel();
 	}
 	
 	public void set(Object o) {
-		((ForEach)target).setParallel(((Boolean)o).booleanValue());
+		((ForEach)fTarget).setParallel(((Boolean)o).booleanValue());
 	}
 }

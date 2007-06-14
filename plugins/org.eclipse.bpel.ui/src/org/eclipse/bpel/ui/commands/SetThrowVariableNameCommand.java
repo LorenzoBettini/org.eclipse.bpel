@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.emf.ecore.EObject;
@@ -21,17 +22,27 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class SetThrowVariableNameCommand extends SetCommand {
 
-	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_FAULT_VARIABLE_NAME; }
+	/**
+	 * @see org.eclipse.bpel.ui.commands.SetCommand#getDefaultLabel()
+	 */
+	@Override
+	public String getDefaultLabel() { 
+		return IBPELUIConstants.CMD_EDIT_FAULT_VARIABLE_NAME; 
+	}
 
+	/**
+	 * @param target
+	 * @param newFaultVariableName
+	 */
 	public SetThrowVariableNameCommand(EObject target, String newFaultVariableName)  {
-		super(target, newFaultVariableName);
+		super(target, newFaultVariableName );
 	}
 
 	public Object get() {
-		return ((Throw)target).getFaultVariable().getName();
+		return ((Throw)fTarget).getFaultVariable().getName();
 	}
 	
 	public void set(Object o) {
-		((Throw)target).getFaultVariable().setName((String)o);
+		((Throw)fTarget).getFaultVariable().setName((String)o);
 	}
 }

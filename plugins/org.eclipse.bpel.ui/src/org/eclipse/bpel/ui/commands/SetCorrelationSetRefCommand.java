@@ -27,9 +27,9 @@ public class SetCorrelationSetRefCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((Correlation)target).getSet();
+		return ((Correlation)fTarget).getSet();
 	}
 	public void set(Object o) {
-		((Correlation)target).setSet((CorrelationSet)o);
+		((Correlation)fTarget).setSet((CorrelationSet)o);
 	}
 }

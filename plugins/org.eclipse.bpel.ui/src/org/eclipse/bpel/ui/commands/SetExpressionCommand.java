@@ -35,9 +35,9 @@ public class SetExpressionCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getExpression(target, exprType);
+		return ModelHelper.getExpression(fTarget, exprType);
 	}
 	public void set(Object o) {
-		ModelHelper.setExpression(target, exprType, exprSubType, (Expression)o);
+		ModelHelper.setExpression(fTarget, exprType, exprSubType, (Expression)o);
 	}
 }

@@ -27,18 +27,18 @@ public class SetVariableTypeCommand extends SetCommand {
 	}
 	
 	public Object get() {
-		Object o = ((Variable)target).getMessageType();
+		Object o = ((Variable)fTarget).getMessageType();
 		if (o == null) {
-			o = ((Variable)target).getType();
+			o = ((Variable)fTarget).getType();
 		}
 		if (o == null) {
-			o = ((Variable)target).getXSDElement();
+			o = ((Variable)fTarget).getXSDElement();
 		}
 		return o;
 	}
 	
 	public void set(Object o) {
-		Variable variable = (Variable)target;
+		Variable variable = (Variable)fTarget;
 		if (o instanceof Message) {
 			variable.setMessageType((Message)o);
 		} else {

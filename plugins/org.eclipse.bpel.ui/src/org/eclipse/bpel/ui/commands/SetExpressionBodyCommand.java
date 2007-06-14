@@ -26,9 +26,9 @@ public class SetExpressionBodyCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((Expression)target).getBody();
+		return ((Expression)fTarget).getBody();
 	}
 	public void set(Object o) {
-		((Expression)target).setBody(o);
+		((Expression)fTarget).setBody(o);
 	}
 }

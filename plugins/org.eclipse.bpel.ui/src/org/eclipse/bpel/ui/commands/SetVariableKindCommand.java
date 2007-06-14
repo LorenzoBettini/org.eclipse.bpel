@@ -26,9 +26,9 @@ public class SetVariableKindCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return new Integer(((VariableExtension)target).getVariableKind());
+		return new Integer(((VariableExtension)fTarget).getVariableKind());
 	}
 	public void set(Object o) {
-		((VariableExtension)target).setVariableKind(((Integer)o).intValue());
+		((VariableExtension)fTarget).setVariableKind(((Integer)o).intValue());
 	}
 }

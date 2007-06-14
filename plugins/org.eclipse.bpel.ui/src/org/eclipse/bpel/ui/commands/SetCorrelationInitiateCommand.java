@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 
@@ -19,16 +20,20 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
  */
 public class SetCorrelationInitiateCommand extends SetCommand {
 
-	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_CORRELATION; }
+	/**
+	 * @see org.eclipse.bpel.ui.commands.SetCommand#getDefaultLabel()
+	 */
+	@Override
+	public String getDefaultLabel() { 
+		return IBPELUIConstants.CMD_EDIT_CORRELATION; 
+	}
 
+	/**
+	 * Brand new SetCorrelationInitiateCommand
+	 * @param target 
+	 * @param newInitiation
+	 */
 	public SetCorrelationInitiateCommand(Correlation target, String newInitiation)  {
-		super(target, newInitiation);
-	}
-
-	public Object get() {
-		return ((Correlation)target).getInitiate();
-	}
-	public void set(Object o) {
-		((Correlation)target).setInitiate((String)o);
+		super(target, newInitiation,BPELPackage.eINSTANCE.getCorrelation_Initiate() );
 	}
 }

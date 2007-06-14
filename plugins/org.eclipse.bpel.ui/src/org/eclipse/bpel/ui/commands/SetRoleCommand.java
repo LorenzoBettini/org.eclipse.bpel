@@ -39,19 +39,19 @@ public class SetRoleCommand extends SetCommand {
 	public Object get() {
 		switch (roleNum) {
 			case ModelHelper.MY_ROLE:
-				return ((PartnerLink)target).getMyRole();
+				return ((PartnerLink)fTarget).getMyRole();
 			case ModelHelper.PARTNER_ROLE:
-				return ((PartnerLink)target).getPartnerRole();
+				return ((PartnerLink)fTarget).getPartnerRole();
 		}
 		return null;
 	}
 	public void set(Object o) {
 		switch (roleNum) {
 			case ModelHelper.MY_ROLE:
-				((PartnerLink)target).setMyRole((Role)o);
+				((PartnerLink)fTarget).setMyRole((Role)o);
 				return;
 			case ModelHelper.PARTNER_ROLE:
-				((PartnerLink)target).setPartnerRole((Role)o);
+				((PartnerLink)fTarget).setPartnerRole((Role)o);
 				return;
 		}
 	}

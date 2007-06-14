@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import org.eclipse.bpel.model.To;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.ISection;
@@ -23,11 +22,10 @@ import org.eclipse.ui.views.properties.tabbed.ISection;
  * to the contents of a particular From or To, and they provide widgets specific to
  * that kind of contents.
  * 
- * @see AssignImplSection.categories
  */
 public interface IAssignCategory extends ISection {
 
-	/** Get the composite on which teh section had been created
+	/** Get the composite on which the section had been created
 	 *  
 	 * @return the composite on which this section had been created.
 	 */
@@ -51,8 +49,11 @@ public interface IAssignCategory extends ISection {
 	/**
 	 * Returns true if the state in the toOrFrom object can be represented by this category.
 	 * If isFrom is true, toOrFrom will be a From object, otherwise it will be a To object.
+	 * @param aModel the model object.
+	 * @return true if this is the category for this model object, false otherwise.
 	 */
-	public boolean isCategoryForModel(To toOrFrom);
+	
+	public boolean isCategoryForModel (EObject aModel);
 
 	/**
 	 * Used in the same way as BPELPropertySection.getUserContext(), except that this is
@@ -61,7 +62,7 @@ public interface IAssignCategory extends ISection {
 	 * This is because an AssignCategory should not use itself as the detailsSection
 	 * when it wraps a Command--it should use its ownerSection.
 	 * 
-	 * @see BPELPropertySection.getUserContext() 
+	 * @return the user context object   
 	 */
 	public Object getUserContext();
 	
@@ -72,7 +73,9 @@ public interface IAssignCategory extends ISection {
 	 * This is because an AssignCategory should not use itself as the detailsSection
 	 * when it wraps a Command--it should use its ownerSection.
 	 * 
-	 * @see BPELPropertySection.restoreUserContext(Object) 
+	 * @param userContext the user context object
+	 * 
+	 * @see BPELPropertySection#restoreUserContext(Object) 
 	 */
 	public void restoreUserContext(Object userContext);
 
@@ -80,6 +83,8 @@ public interface IAssignCategory extends ISection {
 	/**
 	 * This is just a workaround to keep the AssignCategory from changing too much.
 	 * TODO: get rid of these!
+	 * 
+	 * @param aModel the model object
 	 */
-	public void setInput(EObject model);
+	public void setInput(EObject aModel);
 }

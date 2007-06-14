@@ -30,9 +30,9 @@ public class SetPartnerLinkTypeCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ((PartnerLink)target).getPartnerLinkType();
+		return ((PartnerLink)fTarget).getPartnerLinkType();
 	}
 	public void set(Object o) {
-		((PartnerLink)target).setPartnerLinkType((PartnerLinkType)o);
+		((PartnerLink)fTarget).setPartnerLinkType((PartnerLinkType)o);
 	}
 }

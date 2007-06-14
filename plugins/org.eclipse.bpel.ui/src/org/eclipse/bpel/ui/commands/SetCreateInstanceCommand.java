@@ -28,9 +28,9 @@ public class SetCreateInstanceCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getCreateInstance(target);
+		return ModelHelper.getCreateInstance(fTarget);
 	}
 	public void set(Object o) {
-		ModelHelper.setCreateInstance(target, (Boolean)o);
+		ModelHelper.setCreateInstance(fTarget, (Boolean)o);
 	}
 }

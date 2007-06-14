@@ -30,16 +30,16 @@ public class SetNameCommand extends SetCommand {
 	}
 
 	public boolean canDoExecute() {
-		if (BPELUtil.adapt(target, INamedElement.class) == null) return false;
+		if (BPELUtil.adapt(fTarget, INamedElement.class) == null) return false;
 		return super.canDoExecute();
 	}
 
 	public Object get() {
-		INamedElement namedElement = (INamedElement)BPELUtil.adapt(target, INamedElement.class);
-		return namedElement.getName(target);
+		INamedElement namedElement = (INamedElement)BPELUtil.adapt(fTarget, INamedElement.class);
+		return namedElement.getName(fTarget);
 	}
 	public void set(Object o) {
-		INamedElement namedElement = (INamedElement)BPELUtil.adapt(target, INamedElement.class);
-		namedElement.setName(target, (String)o);
+		INamedElement namedElement = (INamedElement)BPELUtil.adapt(fTarget, INamedElement.class);
+		namedElement.setName(fTarget, (String)o);
 	}
 }

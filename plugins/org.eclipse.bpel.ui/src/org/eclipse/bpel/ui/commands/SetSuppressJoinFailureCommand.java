@@ -28,9 +28,9 @@ public class SetSuppressJoinFailureCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getSuppressJoinFailure(target);
+		return ModelHelper.getSuppressJoinFailure(fTarget);
 	}
 	public void set(Object o) {
-		ModelHelper.setSuppressJoinFailure(target, (Boolean)o);
+		ModelHelper.setSuppressJoinFailure(fTarget, (Boolean)o);
 	}
 }

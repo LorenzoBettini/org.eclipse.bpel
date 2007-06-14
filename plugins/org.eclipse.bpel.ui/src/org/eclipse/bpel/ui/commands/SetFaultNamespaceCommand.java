@@ -27,9 +27,9 @@ public class SetFaultNamespaceCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getFaultNamespace(target);
+		return ModelHelper.getFaultNamespace(fTarget);
 	}
 	public void set(Object o) {
-		ModelHelper.setFaultNamespace(target, (String)o);
+		ModelHelper.setFaultNamespace(fTarget, (String)o);
 	}
 }

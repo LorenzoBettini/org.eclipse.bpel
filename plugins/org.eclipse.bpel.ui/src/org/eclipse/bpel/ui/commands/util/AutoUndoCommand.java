@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.commands.util;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,45 +30,74 @@ import org.eclipse.emf.ecore.resource.Resource;
  * the undo() or redo() methods (and the framework should not call them!).
  */
 public abstract class AutoUndoCommand extends AbstractEditModelCommand {
-
-	protected static Resource[] EMPTY_RESOURCE_ARRAY = new Resource[0];
 	
-	protected List changes = null;
-	boolean readyToUndo = false;
-	boolean readyToRedo = false;
-	IAutoUndoRecorder recorder;
-	List modelRoots;
+	protected List<Object> fChanges = null;
+	
+	boolean fReadyToUndo = false;
+	boolean fReadyToRedo = false;
+	
+	IAutoUndoRecorder fRecorder;
+	
+	List<Object> fModelRoots;
 
+	/**
+	 * Brand new shiny AutoUndoCommand ...
+	 * @param modelRoot
+	 */
+	
+	@SuppressWarnings("nls")
 	public AutoUndoCommand(EObject modelRoot) {
 		super();
-		if (modelRoot == null) throw new IllegalArgumentException();
-		modelRoots = Collections.singletonList(modelRoot);
+		if (modelRoot == null) {
+			throw new IllegalArgumentException("modelRoot cannot be null here.");
+		}
+		fModelRoots = Collections.singletonList((Object) modelRoot);
 	}
 	
-	public AutoUndoCommand(List modelRoots) {
+	/**
+	 * Brand new shiny AutoUndo Command.
+	 * @param modelRoots
+	 */
+	public AutoUndoCommand(List<Object> modelRoots) {
 		super();
-		this.modelRoots = modelRoots;
+		this.fModelRoots = modelRoots;
 	}
 	
-	public AutoUndoCommand(String label, EObject modelRoot) {
-		super(label);
-		if (modelRoot == null) throw new IllegalArgumentException();
-		modelRoots = Collections.singletonList(modelRoot);
+	/**
+	 * 
+	 * @param label
+	 * @param modelRoot
+	 */
+	@SuppressWarnings("nls")
+	public AutoUndoCommand (String label, EObject modelRoot) {
+		super(label);		
+		if (modelRoot == null) {
+			throw new IllegalArgumentException("modelRoot cannot be null here");
+		}
+		fModelRoots = Collections.singletonList((Object) modelRoot);
 	}
 
-	public AutoUndoCommand(String label, List modelRoots) {
+	/**
+	 * 
+	 * @param label
+	 * @param modelRoots
+	 */
+	public AutoUndoCommand(String label, List<Object> modelRoots) {
 		super(label);
-		this.modelRoots = modelRoots;
+		this.fModelRoots = modelRoots;
 	}
 
 	// only call this method if you provided a modifiable List for modelRoots.
+	@SuppressWarnings("nls")
 	protected void addModelRoot(Object modelRoot) {
-		if (modelRoot == null) throw new IllegalStateException();
-		modelRoots.add(modelRoot);
+		if (modelRoot == null) {
+			throw new IllegalStateException("modelRoot cannot be null here");
+		}
+		fModelRoots.add(modelRoot);
 	}
 	
 	// should this helper be somewhere else?
-	protected Resource getResource(Object modelRoot) {
+	protected Resource getResource (Object modelRoot) {
 		if (modelRoot instanceof EObject) return ((EObject)modelRoot).eResource();
 		if (modelRoot instanceof Resource) return (Resource)modelRoot;
 		throw new IllegalArgumentException();
@@ -79,23 +107,28 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	 * Default implementation.  Assume that any resource containing a modelRoot
 	 * will be modified by the command.
 	 */
+	@Override
 	public Resource[] getResources() {
-		if (modelRoots.size() < 2) {
-			if (modelRoots.isEmpty()) {
+		if (fModelRoots.size() < 2) {
+			if (fModelRoots.isEmpty()) {
 				// This should never happen. ?
 				throw new IllegalStateException();
 				// return new Resource[0]
 			}
-			Resource resource = getResource(modelRoots.get(0));
-			if (resource != null) return new Resource[] { resource };
+			Resource resource = getResource(fModelRoots.get(0));
+			if (resource != null) {
+				return new Resource[] { resource };
+			}
 			return EMPTY_RESOURCE_ARRAY;
 		}
-		Set resultSet = new HashSet(modelRoots.size());
-		for (Iterator it = modelRoots.iterator(); it.hasNext(); ) {
-			Resource resource = getResource(it.next());
-			if (resource != null) resultSet.add(resource);
+		Set<Resource> resultSet = new HashSet<Resource>(fModelRoots.size());
+		for (Object next : fModelRoots) {
+			Resource resource = getResource(next);
+			if (resource != null) {
+				resultSet.add(resource);
+			}
 		}
-		return (Resource[])resultSet.toArray(new Resource[resultSet.size()]);
+		return resultSet.toArray( EMPTY_RESOURCE_ARRAY );
 	}
 	
 	/**
@@ -106,79 +139,121 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	 * 
 	 * TODO: maybe a better way is to just query the recorder for affected resources...!
 	 */
-	public final Resource[] getModifiedResources() { return getResources(); }
+	
+	@Override
+	public final Resource[] getModifiedResources() {
+		return getResources(); 
+	}
 	
 	// Don't override this, except as a hack when we're really stuck.  :)
 	protected ModelAutoUndoRecorder getRecorder() {
-		BPELEditor bpelEditor = ModelHelper.getBPELEditor(modelRoots.get(0));
+		BPELEditor bpelEditor = ModelHelper.getBPELEditor(fModelRoots.get(0));
 		return bpelEditor.getModelAutoUndoRecorder();
 	}
 	
 	protected final void initRecorder() {
-		if (recorder == null) recorder = getRecorder();
-		if (recorder == null) {
+		if (fRecorder == null) {
+			fRecorder = getRecorder();
+		}
+		if (fRecorder == null) {
 			if (Policy.DEBUG) System.err.println("Warning: couldn't get IAutoUndoRecorder for "+this.getClass().getName()+"!"); //$NON-NLS-1$ //$NON-NLS-2$
 			new Exception().printStackTrace(System.err);
 		}
 	}
 	
+	/**
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
+	@Override
 	public final void undo() {
-		if (changes == null || !readyToUndo) throw new IllegalStateException();
-		readyToUndo = false;
+		if (fChanges == null || !fReadyToUndo) {
+			throw new IllegalStateException();
+		}
+		fReadyToUndo = false;
 		// note: there is deliberately no try-finally here
-		recorder.undo(changes);
-		readyToRedo = true;
+		fRecorder.undo(fChanges);
+		fReadyToRedo = true;
 	}
+	
+	
+	/**
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
+	@Override
 	public final void redo() {
-		if (changes == null || !readyToRedo) throw new IllegalStateException();
-		readyToRedo = false;
+		if (fChanges == null || !fReadyToRedo) throw new IllegalStateException();
+		fReadyToRedo = false;
 		// note: there is deliberately no try-finally here
-		recorder.redo(changes);
-		readyToUndo = true;
+		fRecorder.redo(fChanges);
+		fReadyToUndo = true;
 	}
 
+	/**
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
+	@Override
 	public final void execute() {
-		if (changes != null) throw new IllegalStateException();
+		
+		if (fChanges != null) {
+			throw new IllegalStateException();
+		}
+		
 		initRecorder();
-		if (recorder.isRecordingChanges()) {
+		if (fRecorder.isRecordingChanges()) {
 			if (Policy.DEBUG) System.out.println("executing nested auto "+getClass().getName()); //$NON-NLS-1$
 			try {
-				recorder.addModelRoots(modelRoots);
+				fRecorder.addModelRoots(fModelRoots);
 				doExecute();
-				readyToUndo = true;
+				fReadyToUndo = true;
 				// TODO: in the event of an error, roll back whatever was recorded??
 				// How does that work for the nested case?  (maybe set a flag in the
 				// recorder to indicate that rollback is necessary?)
 			} finally {
-				changes = Collections.EMPTY_LIST;
+				fChanges = Collections.emptyList();
 			}
 			return;
 		}
-		recorder.startChanges(modelRoots);
+		fRecorder.startChanges(fModelRoots);
 		if (Policy.DEBUG) System.out.println("executing auto "+getClass().getName()); //$NON-NLS-1$
 		try {
 			doExecute();
-			readyToUndo = true;
+			fReadyToUndo = true;
 			// TODO: in the event of an error, roll back whatever was recorded??
 		} catch (RuntimeException e) {
 			BPELUIPlugin.log(e);
 			throw e;
 		} finally {
-			changes = recorder.finishChanges();
+			fChanges = fRecorder.finishChanges();
 		}
 	}
 
-	public boolean canDoExecute() { return true; }
+	/**
+	 * @return true if we can execute this, false otherwise.
+	 */
+	
+	public boolean canDoExecute() { 
+		return true; 
+	}
 
 	/**
 	 * Subclasses should override this method.
 	 */
 	public void doExecute() { }
 	
-	public final boolean canUndo() { return readyToUndo; }
+	/**
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	@Override
+	public final boolean canUndo() { 
+		return fReadyToUndo; 
+	}
 	
+	/**
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
+	@Override
 	public final boolean canExecute() {
-		if (changes != null) return readyToRedo;
+		if (fChanges != null) return fReadyToRedo;
 		return canDoExecute();
 	}
 }

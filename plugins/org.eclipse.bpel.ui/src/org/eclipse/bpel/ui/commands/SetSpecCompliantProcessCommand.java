@@ -26,9 +26,9 @@ public class SetSpecCompliantProcessCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return new Boolean(((ProcessExtension)target).isSpecCompliant());
+		return new Boolean(((ProcessExtension)fTarget).isSpecCompliant());
 	}
 	public void set(Object o) {
-		((ProcessExtension)target).setSpecCompliant(((Boolean)o).booleanValue());
+		((ProcessExtension)fTarget).setSpecCompliant(((Boolean)o).booleanValue());
 	}
 }

@@ -17,19 +17,19 @@ import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
-import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Query;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTreeContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -66,8 +66,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	VariableTreeContentProvider variableContentProvider;
 	Shell shell;
 
-	protected VariablePartAssignCategory(boolean aIsFrom, BPELPropertySection anOwnerSection) {
-		super(aIsFrom, anOwnerSection);
+	protected VariablePartAssignCategory(BPELPropertySection anOwnerSection, EStructuralFeature feature ) {
+		super(anOwnerSection,feature);
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	protected void updateQueryFieldFromTreeSelection() {
 		
 		if (displayQuery() == false || 
-				getChangeHelper().isNonUserChange() || 
-				fModelCopy == null) 
+				fChangeHelper.isNonUserChange() || 
+				this.modelObject == null) 
 		{
 			return ;
 		}
@@ -175,35 +175,6 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	
 	
 	
-	
-	
-	protected ITreeNode getSelectedPart() {
-		ITreeNode node = null;
-		Copy copyRule = (Copy) getInput();
-		To toOrFrom = fIsFrom ? copyRule.getFrom()  : copyRule.getTo(); 
-
-		// First, find the variable node.
-		Object context = toOrFrom.getVariable();
-		if (context != null) {
-			Object[] items = variableContentProvider.getElements(variableViewer.getInput());
-			node = variableContentProvider.findModelNode(items, context, 0);
-			if (node == null) {
-				return null;
-			}
-		}
-
-		// Find the part (or property) node within the container node.
-		context = toOrFrom.getPart();
-		if (node != null && context != null) {
-			Object[] items = variableContentProvider.getChildren(node);
-			node =	variableContentProvider.findModelNode(items, context, variableContentProvider.isCondensed() ? 0 : 1);
-		}
-		
-		return node;
-	}
-
-	
-	
 	@Override
 	protected void createClient2(Composite parent) {
 		
@@ -223,8 +194,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			data.top = new FlatFormAttachment(100, (-1)* (nameText.getLineHeight() + 4*nameText.getBorderWidth()) - IDetailsAreaConstants.VSPACE);
 			nameText.setLayoutData(data);
 			
-			getChangeHelper().startListeningTo(nameText);
-			getChangeHelper().startListeningForEnter(nameText);
+			fChangeHelper.startListeningTo(nameText);
+			fChangeHelper.startListeningForEnter(nameText);
 
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0, 0);
@@ -260,49 +231,50 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			}
 		});
 		
-		getChangeHelper().startListeningTo(variableTree);
+		fChangeHelper.startListeningTo(variableTree);
 	}
 	
+	
 	/**
-	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.bpel.model.To)
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
 	
-	public boolean isCategoryForModel(To toOrFrom) {
-		if (toOrFrom == null)  return false;
-		if (toOrFrom.getVariable() != null &&
-			((toOrFrom.getProperty() != null)==isPropertyTree()))  return true;
-		return false;
+	public boolean isCategoryForModel( EObject aModel ) {
+		
+		if (aModel == null)  {
+			return false;
+		}
+		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel, IVirtualCopyRuleSide.class);
+		if (side == null) {
+			return false;
+		}
+		return side.getVariable() != null && (side.getProperty() != null) == isPropertyTree();
 	}
 	
 	
 	@SuppressWarnings("nls")
 	@Override
-	protected void loadToOrFrom(To toOrFrom) {
-
-		getChangeHelper().startNonUserChange();
+	protected void load (IVirtualCopyRuleSide side ) {
+		
+		fChangeHelper.startNonUserChange();
 		try {
 			variableViewer.setSelection(StructuredSelection.EMPTY, false);
 			if (displayQuery()) {
 				nameText.setText( EMPTY_STRING );
 				nameText.setEnabled(true);
 				nameLabel.setEnabled(true);
-			}	
-			
+			}					
 		} finally {
-			getChangeHelper().finishNonUserChange();
-		}
-
-		if (toOrFrom == null)  {
-			return;
-		}
-		
+			fChangeHelper.finishNonUserChange();
+		}		
 			
 		ArrayList<ITreeNode> pathToNode = new ArrayList<ITreeNode>();
 		ITreeNode node = null;
 
 		// First, find the variable node.
-		Object context = toOrFrom.getVariable();
+		Object context = side.getVariable();
 		if (context != null) {
+						
 			Object[] items = variableContentProvider.getElements(variableViewer.getInput());
 			node = variableContentProvider.findModelNode(items, context, 0);
 			if (node != null)  {
@@ -312,9 +284,9 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		// Find the part (or property) node within the container node.		
 		if (isPropertyTree())  {
-			context = toOrFrom.getProperty();
+			context = side.getProperty();
 		} else {
-			context = toOrFrom.getPart();
+			context = side.getPart();
 		}
 		
 		
@@ -327,7 +299,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		}
 		
 		if (context == null) {
-			context = toOrFrom.getVariable();
+			context = side.getVariable();
 		}
 		
 		
@@ -335,7 +307,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		if (node != null && context != null) {
 			
-			Query queryObject = toOrFrom.getQuery();			
+			Query queryObject = side.getQuery();			
 			if (queryObject != null) {				
 				// TODO: we shouldn't ignore the queryLanguage here!!
 				query = queryObject.getValue();
@@ -356,7 +328,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 					}
 																		
 					QueryStep step = new QueryStep(token);
-					step.updateNamespaceURI( toOrFrom );
+					step.updateNamespaceURI( this.modelObject );
 					
 					if (step.fAxis.equals("child") == false) {
 						break outer;
@@ -406,7 +378,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		}
 		
 		if (node != null)  {
-			getChangeHelper().startNonUserChange();
+					
+			fChangeHelper.startNonUserChange();
 			try {
 				if (displayQuery()) {
 					nameText.setText(query == null? EMPTY_STRING : query);
@@ -414,8 +387,9 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				variableViewer.expandToLevel(node, 0);
 				variableViewer.setSelection(new StructuredSelection(node), true);
 			} finally {	
-				getChangeHelper().finishNonUserChange();
+				fChangeHelper.finishNonUserChange();
 			}
+			
 		}			
 	}
 
@@ -433,24 +407,25 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	
 	
 	@Override
-	protected void storeToOrFrom(To toOrFrom) {
+	protected void store (IVirtualCopyRuleSide side) {
 		IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
 		
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
 		String query = displayQuery() ? nameText.getText() : EMPTY_STRING;
+				
 		
 		for(Object n : path ) {
 			ITreeNode treeNode = BPELUtil.adapt(n, ITreeNode.class);			
 			
 			Object model = treeNode.getModelObject();
 			if (model instanceof Variable) {
-				toOrFrom.setVariable((Variable)model);
+				side.setVariable((Variable)model);
 			}
 			if (model instanceof Part) {
-				toOrFrom.setPart((Part)model);
+				side.setPart((Part)model);
 			}
 			if (model instanceof Property) {
-				toOrFrom.setProperty((Property)model);
+				side.setProperty((Property)model);
 			}
 		}
 		
@@ -459,13 +434,38 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
 			queryObject.setQueryLanguage(IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH);
 			queryObject.setValue(query);
-			toOrFrom.setQuery(queryObject);
+			side.setQuery(queryObject);
 		} else {
-			toOrFrom.setQuery(null);
+			side.setQuery(null);
 		}
 	}
 
+		
+	@Override
+	protected void basicSetInput (EObject newInput) {
+		
+		super.basicSetInput(newInput);
 	
+		/** 
+		 * During initialization of variable, the list of available variables 
+		 * must not include the current variable and the variables logically after.
+		 * So we just alter the input to the variable viewer, if we are looking at
+		 * a variable. In assign statement, where the model is Copy, this does not 
+		 * happen. 
+		 */
+			
+		EObject container = newInput.eContainer();		
+		if (container instanceof Variable) {
+			
+			fChangeHelper.startNonUserChange();
+			try {
+				variableViewer.setInput( container );
+			} finally {
+				fChangeHelper.finishNonUserChange();
+			}
+		}
+	}
+
 	/**
 	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
 	 */

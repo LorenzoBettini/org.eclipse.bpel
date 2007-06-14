@@ -30,10 +30,10 @@ public class SetPortTypeCommand extends SetCommand {
 	}
 
 	public Object get() {
-		return ModelHelper.getPortType(target);
+		return ModelHelper.getPortType(fTarget);
 	}
 	
 	public void set(Object o) {
-		ModelHelper.setPortType(target, (PortType)o);
+		ModelHelper.setPortType(fTarget, (PortType)o);
 	}
 }

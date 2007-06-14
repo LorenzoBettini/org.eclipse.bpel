@@ -60,7 +60,9 @@ public class UIObjectFactoryProvider {
 
 		for(ActionDescriptor descriptor : BPELUIRegistry.getInstance().getActionDescriptors() ) {
             AbstractBPELAction action = descriptor.getAction();
-            provider.register(action.getModelType(), new ActionUIObjectFactory(action));
+            if (action != null) {
+            	provider.register(action.getModelType(), new ActionUIObjectFactory(action));
+            }
         }
 	}
 	
