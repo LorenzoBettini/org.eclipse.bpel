@@ -156,19 +156,22 @@ public class ModelMarkerUtil {
 	 */
 	public static String getText(IMarker marker) {
 	    try {
+	    	
 	        String markerType = marker.getType();
-	        IModelMarkerContentProvider provider =
-	            getModelMarkerContentProvider(markerType);
+	        IModelMarkerContentProvider provider = getModelMarkerContentProvider(markerType);
 	
 	        String text = null;
 	
-	        if (provider != null) 
+	        if (provider != null) {
 	            text = provider.getText(marker);
+	        }
 	
-	    	if (text == null && marker.isSubtypeOf(IMarker.PROBLEM)) 
+	    	if (text == null && marker.isSubtypeOf(IMarker.PROBLEM)) {
 				text = (String)marker.getAttribute(IMarker.MESSAGE);
+	    	}
 			
 	        return text;
+	        
 	    } catch (CoreException e) {
 	    	// Just ignore exceptions getting marker info.
 	    	// It is possible that the marker no longer exists.
@@ -188,6 +191,7 @@ public class ModelMarkerUtil {
      * @return IModelMarkerContentProvider or <code>null</code>
      */
     public static IModelMarkerContentProvider getModelMarkerContentProvider(IMarker marker, boolean checkSupertypes) {
+    	
         if (markerTypeMap == null) {
             initializeMarkerTypeMap();
         }
