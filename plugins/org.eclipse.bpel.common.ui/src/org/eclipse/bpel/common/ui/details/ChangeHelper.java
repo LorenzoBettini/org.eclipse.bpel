@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Text;
  */
 public abstract class ChangeHelper implements IOngoingChange, Listener {
 
-	protected ICommandFramework commandFramework;
-	protected boolean nonUserChange;
+	protected ICommandFramework fCommandFramework;
+	protected int fNonUserChange = 0;
 	
 	/**
 	 * Marks the start of a programmatic change to the widget contents.  Clients must
@@ -38,8 +38,7 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	 * @throws IllegalArgumentException if a programmatic change is already in progress.
 	 */
 	public void startNonUserChange()  {
-		if (nonUserChange)  throw new IllegalStateException();
-		nonUserChange = true;
+		fNonUserChange += 1;
 	}
 	
 	/**
@@ -48,22 +47,32 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	 * 
 	 * @throws IllegalArgumentException if no change is in progress.
 	 */
+	@SuppressWarnings("nls")
 	public void finishNonUserChange()  {
-		if (!nonUserChange)  throw new IllegalStateException();
-		nonUserChange = false;
+		if (fNonUserChange == 0) {
+			throw new IllegalStateException("Non-matching call to finishNonUserChange()") ;
+		}
+		fNonUserChange -= 1;		
 	}
 
-	/**
-	 * Returns true if a programmatic change is in progress.
+	/** 
+	 * @return true if a programmatic change is in progress.
 	 */
 	public boolean isNonUserChange() {
-		return nonUserChange;
+		return fNonUserChange > 0;
 	}
 	
+	/**
+	 * 
+	 * @param commandFramework
+	 */
 	public ChangeHelper(ICommandFramework commandFramework) {
-		this.commandFramework = commandFramework;
+		this.fCommandFramework = commandFramework;
 	}
 	
+	/**
+	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 */
 	public void handleEvent(Event event) {
 		switch (event.type) {
 		case SWT.KeyDown:
@@ -77,12 +86,20 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 			modify(); break;
 		}
 	}
+	
+	/**
+	 * 
+	 */
 	public void finish() {
-		commandFramework.notifyChangeDone(this);
+		fCommandFramework.notifyChangeDone(this);
 	}
+	
+	/**
+	 * 
+	 */
 	public void modify() {
 		if (!isNonUserChange()) {
-			commandFramework.notifyChangeInProgress(this);
+			fCommandFramework.notifyChangeInProgress(this);
 		}
 	}
 	
@@ -100,6 +117,7 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	/**
 	 * Registers this ChangeHelper with the given control to listen for events
 	 * which indicate that a change is in progress (or done).
+	 * @param control 
 	 */
 	public void startListeningTo(Control control) {
 		control.addListener(SWT.FocusOut, this);
@@ -116,6 +134,7 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	 * Registers this ChangeHelper with the given control to listen for the
 	 * Enter key.  When Enter is pressed, the change is considered done (this
 	 * is appropriate for single-line Text widgets).
+	 * @param control 
 	 */
 	public void startListeningForEnter(Control control) {
 		// NOTE: KeyDown rather than KeyUp, because of similar usage in CCombo. 
@@ -125,6 +144,7 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	/**
 	 * Unregisters this ChangeHelper from a control previously passed to
 	 * startListeningTo() and/or startListeningForEnter().
+	 * @param control 
 	 */
 	public void stopListeningTo(Control control) {
 		control.removeListener(SWT.FocusOut, this);
