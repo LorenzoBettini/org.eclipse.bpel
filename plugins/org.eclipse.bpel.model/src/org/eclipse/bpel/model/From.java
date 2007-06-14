@@ -10,9 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: From.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: From.java,v 1.3 2007/06/14 22:52:40 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
+
+import org.eclipse.bpel.model.messageproperties.Property;
+
+import org.eclipse.wst.wsdl.Part;
 
 import org.eclipse.xsd.XSDTypeDefinition;
 
@@ -31,6 +35,11 @@ import org.eclipse.xsd.XSDTypeDefinition;
  *   <li>{@link org.eclipse.bpel.model.From#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.From#getServiceRef <em>Service Ref</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.From#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.From#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.From#getPart <em>Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.From#getPartnerLink <em>Partner Link</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.From#getProperty <em>Property</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.From#getQuery <em>Query</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,7 +47,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
  * @model
  * @generated
  */
-public interface From extends To, ExtensibleElement {
+public interface From extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Opaque</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -303,5 +312,135 @@ public interface From extends To, ExtensibleElement {
 	 * @generated
 	 */
 	void setType(XSDTypeDefinition value);
+
+	/**
+	 * Returns the value of the '<em><b>Variable</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variable</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Variable</em>' reference.
+	 * @see #setVariable(Variable)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFrom_Variable()
+	 * @model
+	 * @generated
+	 */
+	Variable getVariable();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.From#getVariable <em>Variable</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Variable</em>' reference.
+	 * @see #getVariable()
+	 * @generated
+	 */
+	void setVariable(Variable value);
+
+	/**
+	 * Returns the value of the '<em><b>Part</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Part</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Part</em>' reference.
+	 * @see #setPart(Part)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFrom_Part()
+	 * @model
+	 * @generated
+	 */
+	Part getPart();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.From#getPart <em>Part</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Part</em>' reference.
+	 * @see #getPart()
+	 * @generated
+	 */
+	void setPart(Part value);
+
+	/**
+	 * Returns the value of the '<em><b>Partner Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Partner Link</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Partner Link</em>' reference.
+	 * @see #setPartnerLink(PartnerLink)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFrom_PartnerLink()
+	 * @model
+	 * @generated
+	 */
+	PartnerLink getPartnerLink();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.From#getPartnerLink <em>Partner Link</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Partner Link</em>' reference.
+	 * @see #getPartnerLink()
+	 * @generated
+	 */
+	void setPartnerLink(PartnerLink value);
+
+	/**
+	 * Returns the value of the '<em><b>Property</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Property</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Property</em>' reference.
+	 * @see #setProperty(Property)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFrom_Property()
+	 * @model
+	 * @generated
+	 */
+	Property getProperty();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.From#getProperty <em>Property</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Property</em>' reference.
+	 * @see #getProperty()
+	 * @generated
+	 */
+	void setProperty(Property value);
+
+	/**
+	 * Returns the value of the '<em><b>Query</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Query</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Query</em>' containment reference.
+	 * @see #setQuery(Query)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFrom_Query()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Query getQuery();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.From#getQuery <em>Query</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Query</em>' containment reference.
+	 * @see #getQuery()
+	 * @generated
+	 */
+	void setQuery(Query value);
 
 } // From

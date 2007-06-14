@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: ToImpl.java,v 1.3 2007/06/14 22:52:40 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -171,9 +171,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
      */
     public Part getPart() {
         if (part == null && partName != null) {
-            Variable variable = getVariable();
-            if (variable != null && variable instanceof Variable) {
-                Message message = ((Variable) variable).getMessageType();
+            Variable aVar = getVariable();
+            if (variable != null) {
+                Message message = aVar.getMessageType();
                 if (message != null) {
                     // Create an part proxy with the deserialized part name.
                     part = new PartProxy(eResource(), message, partName);

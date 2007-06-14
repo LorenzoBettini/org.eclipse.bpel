@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.29 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: BPELPackageImpl.java,v 1.30 2007/06/14 22:52:40 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -1867,6 +1867,51 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFrom_Variable() {
+		return (EReference)fromEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFrom_Part() {
+		return (EReference)fromEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFrom_PartnerLink() {
+		return (EReference)fromEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFrom_Property() {
+		return (EReference)fromEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFrom_Query() {
+		return (EReference)fromEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOnMessage() {
 		return onMessageEClass;
 	}
@@ -3181,6 +3226,11 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(fromEClass, FROM__EXPRESSION);
 		createEReference(fromEClass, FROM__SERVICE_REF);
 		createEReference(fromEClass, FROM__TYPE);
+		createEReference(fromEClass, FROM__VARIABLE);
+		createEReference(fromEClass, FROM__PART);
+		createEReference(fromEClass, FROM__PARTNER_LINK);
+		createEReference(fromEClass, FROM__PROPERTY);
+		createEReference(fromEClass, FROM__QUERY);
 
 		onMessageEClass = createEClass(ON_MESSAGE);
 		createEReference(onMessageEClass, ON_MESSAGE__VARIABLE);
@@ -3411,7 +3461,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		compensateEClass.getESuperTypes().add(this.getActivity());
 		compensationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
 		toEClass.getESuperTypes().add(this.getExtensibleElement());
-		fromEClass.getESuperTypes().add(this.getTo());
 		fromEClass.getESuperTypes().add(this.getExtensibleElement());
 		onMessageEClass.getESuperTypes().add(this.getExtensibleElement());
 		expressionEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
@@ -3613,6 +3662,11 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getFrom_Expression(), this.getExpression(), null, "expression", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFrom_ServiceRef(), this.getServiceRef(), null, "serviceRef", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFrom_Type(), theXSDPackage.getXSDTypeDefinition(), null, "type", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFrom_Variable(), this.getVariable(), null, "variable", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFrom_Part(), theWSDLPackage.getPart(), null, "part", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFrom_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFrom_Property(), theMessagepropertiesPackage.getProperty(), null, "property", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFrom_Query(), this.getQuery(), null, "query", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(onMessageEClass, OnMessage.class, "OnMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOnMessage_Variable(), this.getVariable(), null, "variable", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3671,7 +3725,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getVariable_MessageType(), theWSDLPackage.getMessage(), null, "messageType", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_XSDElement(), theXSDPackage.getXSDElementDeclaration(), null, "XSDElement", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_Type(), theXSDPackage.getXSDTypeDefinition(), null, "type", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariable_From(), this.getFrom(), null, "from", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVariable_From(), this.getFrom(), null, "from", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unknownExtensibilityAttributeEClass, UnknownExtensibilityAttribute.class, "UnknownExtensibilityAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

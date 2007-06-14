@@ -308,7 +308,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="From" eSuperTypes="#//To #//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="From" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="opaque" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -325,6 +325,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRef" eType="#//ServiceRef"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Part"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" eType="#//PartnerLink"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="ecore:EClass messageproperties.ecore#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OnMessage" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -417,7 +423,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDElementDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnknownExtensibilityAttribute" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//UnknownExtensibilityElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OnEvent" eSuperTypes="#//ExtensibleElement">

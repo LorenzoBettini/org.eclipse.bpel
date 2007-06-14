@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: FromImpl.java,v 1.3 2007/06/14 22:52:40 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -26,6 +26,7 @@ import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
+import org.eclipse.bpel.model.proxy.PartProxy;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -33,6 +34,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.w3c.dom.Element;
@@ -51,12 +53,17 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getServiceRef <em>Service Ref</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getPart <em>Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getPartnerLink <em>Partner Link</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getProperty <em>Property</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.FromImpl#getQuery <em>Query</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class FromImpl extends ToImpl implements From {
+public class FromImpl extends ExtensibleElementImpl implements From {
 	/**
 	 * The default value of the '{@link #getOpaque() <em>Opaque</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -193,6 +200,62 @@ public class FromImpl extends ToImpl implements From {
 	 * @ordered
 	 */
 	protected XSDTypeDefinition type = null;
+
+	/**
+	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected Variable variable = null;
+
+	/**
+	 * The cached value of the '{@link #getPart() <em>Part</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPart()
+	 * @generated
+	 * @ordered
+	 */
+	protected Part part = null;
+
+	/**
+     * The deserialized value of the part name.
+     * @customized
+     */
+    protected String partName = null;
+    
+	/**
+	 * The cached value of the '{@link #getPartnerLink() <em>Partner Link</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPartnerLink()
+	 * @generated
+	 * @ordered
+	 */
+	protected PartnerLink partnerLink = null;
+
+	/**
+	 * The cached value of the '{@link #getProperty() <em>Property</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProperty()
+	 * @generated
+	 * @ordered
+	 */
+	protected Property property = null;
+
+	/**
+	 * The cached value of the '{@link #getQuery() <em>Query</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQuery()
+	 * @generated
+	 * @ordered
+	 */
+	protected Query query = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -500,6 +563,229 @@ public class FromImpl extends ToImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Variable getVariable() {
+		if (variable != null && variable.eIsProxy()) {
+			Variable oldVariable = variable;
+			variable = (Variable)eResolveProxy((InternalEObject)variable);
+			if (variable != oldVariable) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__VARIABLE, oldVariable, variable));
+			}
+		}
+		return variable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Variable basicGetVariable() {
+		return variable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVariable(Variable newVariable) {
+		Variable oldVariable = variable;
+		variable = newVariable;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__VARIABLE, oldVariable, variable));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @customized
+	 */
+	public Part getPartGen() {
+		if (part != null && part.eIsProxy()) {
+			Part oldPart = part;
+			part = (Part)eResolveProxy((InternalEObject)part);
+			if (part != oldPart) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PART, oldPart, part));
+			}
+		}
+		return part;
+	}
+
+    /**
+     * Customizes {@link #getPartGen()} to lazy-resolve the part name.
+     * @customized
+     */
+	
+    public Part getPart() {
+        if (part == null && partName != null) {
+            Variable aVar = getVariable();
+            if (aVar != null) {
+                Message message = aVar.getMessageType();
+                if (message != null) {
+                    // Create an part proxy with the deserialized part name.
+                    part = new PartProxy(eResource(), message, partName);
+                    partName = null;
+                }
+            }
+        }
+        return getPartGen();
+    }
+    
+	/**
+     * Set the deserialized value of the part name.
+     * @customized
+     */
+    public void setPartName(String newPartName) {
+        partName = newPartName;
+    }
+    
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Part basicGetPart() {
+		return part;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPart(Part newPart) {
+		Part oldPart = part;
+		part = newPart;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__PART, oldPart, part));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PartnerLink getPartnerLink() {
+		if (partnerLink != null && partnerLink.eIsProxy()) {
+			PartnerLink oldPartnerLink = partnerLink;
+			partnerLink = (PartnerLink)eResolveProxy((InternalEObject)partnerLink);
+			if (partnerLink != oldPartnerLink) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PARTNER_LINK, oldPartnerLink, partnerLink));
+			}
+		}
+		return partnerLink;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PartnerLink basicGetPartnerLink() {
+		return partnerLink;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPartnerLink(PartnerLink newPartnerLink) {
+		PartnerLink oldPartnerLink = partnerLink;
+		partnerLink = newPartnerLink;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__PARTNER_LINK, oldPartnerLink, partnerLink));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Property getProperty() {
+		if (property != null && property.eIsProxy()) {
+			Property oldProperty = property;
+			property = (Property)eResolveProxy((InternalEObject)property);
+			if (property != oldProperty) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PROPERTY, oldProperty, property));
+			}
+		}
+		return property;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Property basicGetProperty() {
+		return property;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProperty(Property newProperty) {
+		Property oldProperty = property;
+		property = newProperty;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__PROPERTY, oldProperty, property));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Query getQuery() {
+		return query;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetQuery(Query newQuery, NotificationChain msgs) {
+		Query oldQuery = query;
+		query = newQuery;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__QUERY, oldQuery, newQuery);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setQuery(Query newQuery) {
+		if (newQuery != query) {
+			NotificationChain msgs = null;
+			if (query != null)
+				msgs = ((InternalEObject)query).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__QUERY, null, msgs);
+			if (newQuery != null)
+				msgs = ((InternalEObject)newQuery).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__QUERY, null, msgs);
+			msgs = basicSetQuery(newQuery, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__QUERY, newQuery, newQuery));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -507,12 +793,12 @@ public class FromImpl extends ToImpl implements From {
 					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
 				case BPELPackage.FROM__DOCUMENTATION:
 					return basicUnsetDocumentation(msgs);
-				case BPELPackage.FROM__QUERY:
-					return basicSetQuery(null, msgs);
 				case BPELPackage.FROM__EXPRESSION:
 					return basicSetExpression(null, msgs);
 				case BPELPackage.FROM__SERVICE_REF:
 					return basicSetServiceRef(null, msgs);
+				case BPELPackage.FROM__QUERY:
+					return basicSetQuery(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -535,20 +821,6 @@ public class FromImpl extends ToImpl implements From {
 				return getEExtensibilityElements();
 			case BPELPackage.FROM__DOCUMENTATION:
 				return getDocumentation();
-			case BPELPackage.FROM__VARIABLE:
-				if (resolve) return getVariable();
-				return basicGetVariable();
-			case BPELPackage.FROM__PART:
-				if (resolve) return getPart();
-				return basicGetPart();
-			case BPELPackage.FROM__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
-				return basicGetPartnerLink();
-			case BPELPackage.FROM__PROPERTY:
-				if (resolve) return getProperty();
-				return basicGetProperty();
-			case BPELPackage.FROM__QUERY:
-				return getQuery();
 			case BPELPackage.FROM__OPAQUE:
 				return getOpaque();
 			case BPELPackage.FROM__ENDPOINT_REFERENCE:
@@ -564,6 +836,20 @@ public class FromImpl extends ToImpl implements From {
 			case BPELPackage.FROM__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
+			case BPELPackage.FROM__VARIABLE:
+				if (resolve) return getVariable();
+				return basicGetVariable();
+			case BPELPackage.FROM__PART:
+				if (resolve) return getPart();
+				return basicGetPart();
+			case BPELPackage.FROM__PARTNER_LINK:
+				if (resolve) return getPartnerLink();
+				return basicGetPartnerLink();
+			case BPELPackage.FROM__PROPERTY:
+				if (resolve) return getProperty();
+				return basicGetProperty();
+			case BPELPackage.FROM__QUERY:
+				return getQuery();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -588,21 +874,6 @@ public class FromImpl extends ToImpl implements From {
 			case BPELPackage.FROM__DOCUMENTATION:
 				setDocumentation((Documentation)newValue);
 				return;
-			case BPELPackage.FROM__VARIABLE:
-				setVariable((Variable)newValue);
-				return;
-			case BPELPackage.FROM__PART:
-				setPart((Part)newValue);
-				return;
-			case BPELPackage.FROM__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
-				return;
-			case BPELPackage.FROM__PROPERTY:
-				setProperty((Property)newValue);
-				return;
-			case BPELPackage.FROM__QUERY:
-				setQuery((Query)newValue);
-				return;
 			case BPELPackage.FROM__OPAQUE:
 				setOpaque((Boolean)newValue);
 				return;
@@ -623,6 +894,21 @@ public class FromImpl extends ToImpl implements From {
 				return;
 			case BPELPackage.FROM__TYPE:
 				setType((XSDTypeDefinition)newValue);
+				return;
+			case BPELPackage.FROM__VARIABLE:
+				setVariable((Variable)newValue);
+				return;
+			case BPELPackage.FROM__PART:
+				setPart((Part)newValue);
+				return;
+			case BPELPackage.FROM__PARTNER_LINK:
+				setPartnerLink((PartnerLink)newValue);
+				return;
+			case BPELPackage.FROM__PROPERTY:
+				setProperty((Property)newValue);
+				return;
+			case BPELPackage.FROM__QUERY:
+				setQuery((Query)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -647,21 +933,6 @@ public class FromImpl extends ToImpl implements From {
 			case BPELPackage.FROM__DOCUMENTATION:
 				unsetDocumentation();
 				return;
-			case BPELPackage.FROM__VARIABLE:
-				setVariable((Variable)null);
-				return;
-			case BPELPackage.FROM__PART:
-				setPart((Part)null);
-				return;
-			case BPELPackage.FROM__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
-				return;
-			case BPELPackage.FROM__PROPERTY:
-				setProperty((Property)null);
-				return;
-			case BPELPackage.FROM__QUERY:
-				setQuery((Query)null);
-				return;
 			case BPELPackage.FROM__OPAQUE:
 				unsetOpaque();
 				return;
@@ -683,6 +954,21 @@ public class FromImpl extends ToImpl implements From {
 			case BPELPackage.FROM__TYPE:
 				setType((XSDTypeDefinition)null);
 				return;
+			case BPELPackage.FROM__VARIABLE:
+				setVariable((Variable)null);
+				return;
+			case BPELPackage.FROM__PART:
+				setPart((Part)null);
+				return;
+			case BPELPackage.FROM__PARTNER_LINK:
+				setPartnerLink((PartnerLink)null);
+				return;
+			case BPELPackage.FROM__PROPERTY:
+				setProperty((Property)null);
+				return;
+			case BPELPackage.FROM__QUERY:
+				setQuery((Query)null);
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -702,16 +988,6 @@ public class FromImpl extends ToImpl implements From {
 				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
 			case BPELPackage.FROM__DOCUMENTATION:
 				return isSetDocumentation();
-			case BPELPackage.FROM__VARIABLE:
-				return variable != null;
-			case BPELPackage.FROM__PART:
-				return part != null;
-			case BPELPackage.FROM__PARTNER_LINK:
-				return partnerLink != null;
-			case BPELPackage.FROM__PROPERTY:
-				return property != null;
-			case BPELPackage.FROM__QUERY:
-				return query != null;
 			case BPELPackage.FROM__OPAQUE:
 				return isSetOpaque();
 			case BPELPackage.FROM__ENDPOINT_REFERENCE:
@@ -726,6 +1002,16 @@ public class FromImpl extends ToImpl implements From {
 				return serviceRef != null;
 			case BPELPackage.FROM__TYPE:
 				return type != null;
+			case BPELPackage.FROM__VARIABLE:
+				return variable != null;
+			case BPELPackage.FROM__PART:
+				return part != null;
+			case BPELPackage.FROM__PARTNER_LINK:
+				return partnerLink != null;
+			case BPELPackage.FROM__PROPERTY:
+				return property != null;
+			case BPELPackage.FROM__QUERY:
+				return query != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

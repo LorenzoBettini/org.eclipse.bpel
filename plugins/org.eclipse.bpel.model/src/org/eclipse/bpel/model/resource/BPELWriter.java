@@ -1293,7 +1293,35 @@ public class BPELWriter {
 	}
 
 	protected void from2XML(From from,Element fromElement) {
-		to2XML(from,fromElement);
+		
+		if( from.getVariable() != null ) {
+			fromElement.setAttribute("variable", from.getVariable().getName());
+		}
+		if( from.getPart() != null ) {
+			fromElement.setAttribute("part", from.getPart().getName());
+		}
+		if( from.getPartnerLink() != null ) {
+			fromElement.setAttribute("partnerLink", from.getPartnerLink().getName());
+		}
+		Property property = from.getProperty();
+		if( property != null )  {
+			String qnameStr = bpelNamespacePrefixManager.qNameToString(from, getQName(property));
+			fromElement.setAttribute("property", qnameStr);
+		}
+
+		if (from.getQuery() != null) {
+			Query query = from.getQuery();
+			Element queryElement = createBPELElement("query");
+			if (query.getQueryLanguage() != null) {
+				queryElement.setAttribute("queryLanguage", query.getQueryLanguage());
+			}
+			if (query.getValue() != null) {
+				CDATASection cdata = BPELUtils.createCDATASection(document, query.getValue());
+				queryElement.appendChild(cdata);
+			}
+			fromElement.appendChild(queryElement);
+		}
+		
 		
 		if (from.isSetEndpointReference()) {
 			fromElement.setAttribute("endpointReference", from.getEndpointReference().toString());
@@ -1391,15 +1419,24 @@ public class BPELWriter {
 			QName qname = new QName(type.getTargetNamespace(), type.getName());
 			fromElement.setAttribute("xsi:type", bpelNamespacePrefixManager.qNameToString(from, qname));
 		}
+		
+		
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(from, fromElement);	
+		extensibleElement2XML(from, fromElement);	
+		
 	}
 
 	protected void to2XML(To to, Element toElement) {
-		if( to.getVariable() != null )
+		if( to.getVariable() != null ) {
 			toElement.setAttribute("variable", to.getVariable().getName());
-		if( to.getPart() != null )
+		}
+		if( to.getPart() != null ) {
 			toElement.setAttribute("part", to.getPart().getName());
-		if( to.getPartnerLink() != null )
+		}
+		if( to.getPartnerLink() != null ) {
 			toElement.setAttribute("partnerLink", to.getPartnerLink().getName());
+		}
 		Property property = to.getProperty();
 		if( property != null )  {
 			String qnameStr = bpelNamespacePrefixManager.qNameToString(to, getQName(property));

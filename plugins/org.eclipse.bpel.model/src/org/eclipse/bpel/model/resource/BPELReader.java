@@ -33,6 +33,7 @@ import org.eclipse.bpel.model.extensions.BPELExtensionDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
 import org.eclipse.bpel.model.extensions.BPELUnknownExtensionDeserializer;
 import org.eclipse.bpel.model.extensions.ServiceReferenceDeserializer;
+import org.eclipse.bpel.model.impl.FromImpl;
 import org.eclipse.bpel.model.impl.OnEventImpl;
 import org.eclipse.bpel.model.impl.OnMessageImpl;
 import org.eclipse.bpel.model.impl.PartnerActivityImpl;
@@ -1815,59 +1816,8 @@ public class BPELReader {
 	protected Condition xml2Condition(Element conditionElement) {
 		Condition condition = BPELFactory.eINSTANCE.createCondition();
     	condition.setElement(conditionElement);
-    	
-		// Save all the references to external namespaces		
-		saveNamespacePrefix(condition, conditionElement);    			
-
-		if (conditionElement.hasAttribute("expressionLanguage")) {
-			// Set expressionLanguage
-			condition.setExpressionLanguage(conditionElement.getAttribute("expressionLanguage"));
-		}
-		
-		// Determine whether or not there is an element in the child list.
-		Node candidateChild = null;
-		NodeList nodeList = conditionElement.getChildNodes();
-		int length = nodeList.getLength();
-		for (int i = 0; i < length; i++) {
-			Node child = nodeList.item(i);
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				candidateChild = child;
-				break;
-			}
-		}
-		if (candidateChild == null) {
-			candidateChild = conditionElement.getFirstChild();
-		}
-		String data = getText(candidateChild);
-		
-		if (data == null) {
-			// No text or CDATA node. If it's an element node, then
-			// deserialize and install.
-			if (candidateChild != null && candidateChild.getNodeType() == Node.ELEMENT_NODE) {
-				// Look if there's an ExtensibilityElement deserializer for this element
-				Element childElement = (Element)candidateChild;
-				QName qname = new QName(childElement.getNamespaceURI(), childElement.getLocalName());
-				BPELExtensionDeserializer deserializer=null;
-				try {
-					deserializer = (BPELExtensionDeserializer)extensionRegistry.queryDeserializer(ExtensibleElement.class,qname);
-				} catch (WSDLException e) {}
-				if (deserializer!=null) {
-					// Deserialize the DOM element and add the new Extensibility element to the parent
-					// ExtensibleElement
-					try {
-						Map nsMap = getAllNamespacesForElement(conditionElement);
-						ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,resource.getURI());
-						condition.setBody(extensibilityElement);
-					} catch (WSDLException e) {
-						throw new WrappedException(e);
-					}
-				}
-			}			
-		} else {
-			condition.setBody(data);
-		}
-
-		return condition;
+    	xml2Expression(conditionElement, condition);
+    	return condition;
 	}
 
 	/**
@@ -1877,14 +1827,16 @@ public class BPELReader {
 	 * of expression.
 	 * 
 	 * Returns the second argument as a convenience.
-	 * 
-	 * TODO: Make condition use this one as well.
+	 *  
 	 */
 	protected Expression xml2Expression(Element expressionElement, Expression expression) {
+		
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(expression, expressionElement);
     	
-		if (expressionElement == null) return expression;
+		if (expressionElement == null) {
+			return expression;
+		}
 
 		// Set expressionLanguage
 		if (expressionElement.hasAttribute("expressionLanguage")) {
@@ -1895,47 +1847,9 @@ public class BPELReader {
 		if (expressionElement.hasAttribute("opaque")) {
 			expression.setOpaque(new Boolean(expressionElement.getAttribute("opaque").equals("yes")));
 		}
-		
-		// Determine whether or not there is an element in the child list.
-		Node candidateChild = null;
-		NodeList nodeList = expressionElement.getChildNodes();
-		int length = nodeList.getLength();
-		for (int i = 0; i < length; i++) {
-			Node child = nodeList.item(i);
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				candidateChild = child;
-				break;
-			}
-		}
-		if (candidateChild == null) {
-			candidateChild = expressionElement.getFirstChild();
-		}
-		String data = getText(candidateChild);
-		
-		if (data == null) {
-			// No text or CDATA node. If it's an element node, then
-			// deserialize and install.
-			if (candidateChild != null && candidateChild.getNodeType() == Node.ELEMENT_NODE) {
-				// Look if there's an ExtensibilityElement deserializer for this element
-				Element childElement = (Element)candidateChild;
-				QName qname = new QName(childElement.getNamespaceURI(), childElement.getLocalName());
-				BPELExtensionDeserializer deserializer=null;
-				try {
-					deserializer = (BPELExtensionDeserializer)extensionRegistry.queryDeserializer(ExtensibleElement.class,qname);
-				} catch (WSDLException e) {}
-				if (deserializer!=null) {
-					// Deserialize the DOM element and add the new Extensibility element to the parent
-					// ExtensibleElement
-					try {
-						Map nsMap = getAllNamespacesForElement(expressionElement);
-						ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,resource.getURI());
-						expression.setBody(extensibilityElement);
-					} catch (WSDLException e) {
-						throw new WrappedException(e);
-					}
-				}
-			}			
-		} else {
+				
+		String data = getText(expressionElement);
+		if (data != null) {
 			expression.setBody(data);
 		}
 
@@ -2348,37 +2262,8 @@ public class BPELReader {
 
 			// Set query text
 			// Get the condition text
-			String data = "";
-			Node node = queryElement.getFirstChild();
-			boolean containsValidData = false;
-			while (node != null) {
-				if (node.getNodeType() == Node.TEXT_NODE) {
-					Text text = (Text)node;
-					data += text.getData();
-				} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-					data="";
-					do {
-						CDATASection cdata = (CDATASection) node;
-						data += cdata.getData();
-						node = node.getNextSibling();
-						containsValidData = true;
-					} while (node != null && node.getNodeType() == Node.CDATA_SECTION_NODE);
-					break;
-				}
-				node = node.getNextSibling();
-			}
-			if (!containsValidData) {
-				for (int i = 0; i < data.length(); i++) {
-					char charData = data.charAt(i);
-					if (charData == '\n' || Character.isWhitespace(charData)){}//ignore
-					else { //valid data
-						containsValidData = true;
-						break;
-					}
-				}
-			}
-			
-			if (containsValidData) {
+			String data = getText( queryElement  );
+			if (data != null) {
 				queryObject.setValue(data);
 			}
 		}
@@ -2388,7 +2273,63 @@ public class BPELReader {
 	 * Converts an XML "from" element to a BPEL From object.
 	 */
 	protected void xml2From(From from, Element fromElement) {
-		xml2To(from,fromElement);
+		
+		/** This is basically what's in xml2To */
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(from, fromElement);
+		
+		// Set variable
+		Attr variable = fromElement.getAttributeNode("variable"); 
+    
+		if (variable != null && variable.getSpecified()) {				
+			setVariable(fromElement, from, "variable", BPELPackage.eINSTANCE.getFrom_Variable() );
+		}
+
+		// Set part
+		Attr part = fromElement.getAttributeNode("part"); 		
+    
+		if (part != null && part.getSpecified()) {		
+			final String partAttr = fromElement.getAttribute("part");
+            ((FromImpl) from).setPartName(partAttr);
+		}
+
+		// Set partnerLink			
+		Attr partnerLink = fromElement.getAttributeNode("partnerLink");			
+		
+		if (partnerLink != null && partnerLink.getSpecified()) {
+			setPartnerLink(fromElement, from, BPELPackage.eINSTANCE.getFrom_PartnerLink());
+		}
+
+		// Set property		
+		Attr property = fromElement.getAttributeNode("property");
+     		
+		if (property != null && property.getSpecified()) {
+			setProperties(fromElement, from, "property");
+		}
+
+		// Set query element
+		Element queryElement = getBPELChildElementByLocalName(fromElement, "query");
+		if (queryElement != null) {
+			Query queryObject = BPELFactory.eINSTANCE.createQuery();
+			
+			queryObject.setElement(queryElement);
+			from.setQuery(queryObject);
+			
+			// Set queryLanguage
+			if (queryElement.hasAttribute("queryLanguage")) {
+				String queryLanguage = queryElement.getAttribute("queryLanguage");
+				queryObject.setQueryLanguage(queryLanguage);
+			}
+
+			// Set query text
+			// Get the condition text
+			String data = getText ( queryElement );
+			if (data != null) {
+				queryObject.setValue(data);
+			}			
+		}
+		
 		
 		Attr endpointReference = fromElement.getAttributeNode("endpointReference");
     
@@ -2740,19 +2681,19 @@ public class BPELReader {
 	protected Documentation xml2Documentation(Element documentationElement) {
 		Documentation documentation = BPELFactory.eINSTANCE.createDocumentation();
 		// TODO: Facade ? 
-		// documentation.setElement(// documentationElement);
+		// documentation.setElement(documentationElement);
 		
-		if (documentationElement.hasAttribute("lang"))
+		if (documentationElement.hasAttribute("lang")) {
 			documentation.setLang(documentationElement.getAttribute("lang"));
-		if (documentationElement.hasAttribute("source"))
+		}
+		if (documentationElement.hasAttribute("source")) {
 			documentation.setSource(documentationElement.getAttribute("source"));
-    	Node textNode = documentationElement.getFirstChild();
-    	if (textNode != null) {
-		    String text = getText(textNode);
-		    if (text != null)
-		        documentation.setValue(text);
-    	}
-
+		}
+	    String text = getText(documentationElement);
+	    if (text != null) {
+	        documentation.setValue(text);
+	    }
+	    
 		return documentation;
 	}
 
@@ -3046,45 +2987,46 @@ public class BPELReader {
 	
 	
 	/**
-	 * Helper method to get a string from the given text node or CDATA text node.
+	 * Returns the text of the given node. If the node is an element node, its
+	 * children text value is returned. Otherwise, the node is assumed to be 
+	 * the first child node and the siblings sequence is scanned.
+	 *   
+	 * 
 	 */
-	private String getText (Node node) {
+   
+	String getText (Node node) {
 		
 		StringBuilder sb = new StringBuilder(128);
-		
 		boolean containsValidData = false;
-		while (node != null) {
+		
+		if (node instanceof Element) {
+			node = ((Element)node).getFirstChild();
+		}		
+		
+		while (node != null) {		
 			if (node.getNodeType() == Node.TEXT_NODE) {
 				Text text = (Text)node;
 				sb.append(text.getData());
 			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-				sb.setLength(0);
-				do {
-					CDATASection cdata = (CDATASection) node;
-					sb.append(cdata.getData());
-					node = node.getNextSibling();
-					containsValidData = true;
-				} while (node != null && node.getNodeType() == Node.CDATA_SECTION_NODE);
-				break;
+				CDATASection cdata = (CDATASection) node;
+				sb.append(cdata.getData());								
 			}
 			node = node.getNextSibling();
 		}
 		
-		if (!containsValidData) {
-			for (int i = 0; i < sb.length(); i++) {
-				char charData = sb.charAt(i);
-				if (charData == '\n' || Character.isWhitespace(charData)){}//ignore
-				else { //valid data
-					containsValidData = true;
-					break;
-				}
+		for (int i = 0; i < sb.length(); i++) {
+			char charData = sb.charAt(i);
+			if (Character.isWhitespace(charData)) {
+				continue;
 			}
+			containsValidData = true;
+			break;				
 		}
+		
 		if (containsValidData) {
 			return sb.toString();
-		} else {
-			return null;
-		}
+		} 
+		return null;
 	}
 
 	public static Variable getVariable(EObject eObject, String variableName) {

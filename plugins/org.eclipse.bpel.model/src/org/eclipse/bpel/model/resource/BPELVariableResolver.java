@@ -32,6 +32,10 @@ import org.eclipse.emf.ecore.EObject;
  * BPELReader.VARIABLE_RESOLVER = new MyVariableResolver();
  */
 public class BPELVariableResolver implements VariableResolver {
+	
+	/**
+	 * @see org.eclipse.bpel.model.resource.VariableResolver#getVariable(org.eclipse.emf.ecore.EObject, java.lang.String)
+	 */
 	public Variable getVariable(EObject eObject, String variableName) {
 		EObject container = eObject.eContainer();
 		while (container != null) {
@@ -58,14 +62,17 @@ public class BPELVariableResolver implements VariableResolver {
 					variables = ((Scope)container).getVariables();
 				
 				if (variables != null) {
-					List list = new ArrayList();
-					// check all bpel variables if anyone has the correct variable name
+					
+					List<Object> list = new ArrayList<Object>();
+					
+					// check all BPEL variables if anyone has the correct variable name
+					
 					list.addAll(variables.getChildren());
 					list.addAll(variables.getExtensibilityElements());
 					
-					for (int i=0; i < list.size(); i++) {
-						if (list.get(i) instanceof Variable) {
-							Variable variable = (Variable)list.get(i);
+					for (Object n : list) {
+						if (n instanceof Variable) {						
+							Variable variable = (Variable) n;
 							String name = variable.getName();
 							if (name != null && name.equals(variableName)) {
 								return variable;
@@ -76,6 +83,9 @@ public class BPELVariableResolver implements VariableResolver {
 			}
 			container = container.eContainer();	
 		}	
+		
+		// System.out.println("Variable: " + variableName + " - not resolved");
+		
 		return null;	
 	}
 }

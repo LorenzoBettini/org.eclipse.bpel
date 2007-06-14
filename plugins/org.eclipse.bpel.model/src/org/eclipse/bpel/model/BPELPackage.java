@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.29 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: BPELPackage.java,v 1.30 2007/06/14 22:52:40 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -3489,7 +3489,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__DOCUMENTATION_ELEMENT = TO__DOCUMENTATION_ELEMENT;
+	int FROM__DOCUMENTATION_ELEMENT = EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -3498,7 +3498,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__ELEMENT = TO__ELEMENT;
+	int FROM__ELEMENT = EXTENSIBLE_ELEMENT__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
@@ -3507,7 +3507,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__EEXTENSIBILITY_ELEMENTS = TO__EEXTENSIBILITY_ELEMENTS;
+	int FROM__EEXTENSIBILITY_ELEMENTS = EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
@@ -3516,52 +3516,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__DOCUMENTATION = TO__DOCUMENTATION;
-
-	/**
-	 * The feature id for the '<em><b>Variable</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FROM__VARIABLE = TO__VARIABLE;
-
-	/**
-	 * The feature id for the '<em><b>Part</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FROM__PART = TO__PART;
-
-	/**
-	 * The feature id for the '<em><b>Partner Link</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FROM__PARTNER_LINK = TO__PARTNER_LINK;
-
-	/**
-	 * The feature id for the '<em><b>Property</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FROM__PROPERTY = TO__PROPERTY;
-
-	/**
-	 * The feature id for the '<em><b>Query</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FROM__QUERY = TO__QUERY;
+	int FROM__DOCUMENTATION = EXTENSIBLE_ELEMENT__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Opaque</b></em>' attribute.
@@ -3570,7 +3525,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__OPAQUE = TO_FEATURE_COUNT + 0;
+	int FROM__OPAQUE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Endpoint Reference</b></em>' attribute.
@@ -3579,7 +3534,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__ENDPOINT_REFERENCE = TO_FEATURE_COUNT + 1;
+	int FROM__ENDPOINT_REFERENCE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Literal</b></em>' attribute.
@@ -3588,7 +3543,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__LITERAL = TO_FEATURE_COUNT + 2;
+	int FROM__LITERAL = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Unsafe Literal</b></em>' attribute.
@@ -3597,7 +3552,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__UNSAFE_LITERAL = TO_FEATURE_COUNT + 3;
+	int FROM__UNSAFE_LITERAL = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -3606,7 +3561,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__EXPRESSION = TO_FEATURE_COUNT + 4;
+	int FROM__EXPRESSION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Service Ref</b></em>' containment reference.
@@ -3615,7 +3570,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__SERVICE_REF = TO_FEATURE_COUNT + 5;
+	int FROM__SERVICE_REF = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -3624,7 +3579,52 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM__TYPE = TO_FEATURE_COUNT + 6;
+	int FROM__TYPE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Variable</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM__VARIABLE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Part</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM__PART = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Partner Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM__PARTNER_LINK = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Property</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM__PROPERTY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 10;
+
+	/**
+	 * The feature id for the '<em><b>Query</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM__QUERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the the '<em>From</em>' class.
@@ -3633,7 +3633,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int FROM_FEATURE_COUNT = TO_FEATURE_COUNT + 7;
+	int FROM_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -4554,7 +4554,7 @@ public interface BPELPackage extends EPackage{
 	int VARIABLE__TYPE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>From</b></em>' reference.
+	 * The feature id for the '<em><b>From</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -7979,6 +7979,61 @@ public interface BPELPackage extends EPackage{
 	EReference getFrom_Type();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.From#getVariable <em>Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Variable</em>'.
+	 * @see org.eclipse.bpel.model.From#getVariable()
+	 * @see #getFrom()
+	 * @generated
+	 */
+	EReference getFrom_Variable();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.From#getPart <em>Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Part</em>'.
+	 * @see org.eclipse.bpel.model.From#getPart()
+	 * @see #getFrom()
+	 * @generated
+	 */
+	EReference getFrom_Part();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.From#getPartnerLink <em>Partner Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Partner Link</em>'.
+	 * @see org.eclipse.bpel.model.From#getPartnerLink()
+	 * @see #getFrom()
+	 * @generated
+	 */
+	EReference getFrom_PartnerLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.From#getProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Property</em>'.
+	 * @see org.eclipse.bpel.model.From#getProperty()
+	 * @see #getFrom()
+	 * @generated
+	 */
+	EReference getFrom_Property();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.From#getQuery <em>Query</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Query</em>'.
+	 * @see org.eclipse.bpel.model.From#getQuery()
+	 * @see #getFrom()
+	 * @generated
+	 */
+	EReference getFrom_Query();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.OnMessage <em>On Message</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8449,10 +8504,10 @@ public interface BPELPackage extends EPackage{
 	EReference getVariable_Type();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>From</em>'.
+	 * @return the meta object for the containment reference '<em>From</em>'.
 	 * @see org.eclipse.bpel.model.Variable#getFrom()
 	 * @see #getVariable()
 	 * @generated

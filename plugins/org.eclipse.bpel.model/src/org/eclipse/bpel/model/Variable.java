@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Variable.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: Variable.java,v 1.4 2007/06/14 22:52:40 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -144,26 +144,26 @@ public interface Variable extends ExtensibleElement {
 	void setType(XSDTypeDefinition value);
 
 	/**
-	 * Returns the value of the '<em><b>From</b></em>' reference.
+	 * Returns the value of the '<em><b>From</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>From</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>From</em>' reference.
+	 * @return the value of the '<em>From</em>' containment reference.
 	 * @see #setFrom(From)
 	 * @see org.eclipse.bpel.model.BPELPackage#getVariable_From()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	From getFrom();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Variable#getFrom <em>From</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>From</em>' reference.
+	 * @param value the new value of the '<em>From</em>' containment reference.
 	 * @see #getFrom()
 	 * @generated
 	 */
