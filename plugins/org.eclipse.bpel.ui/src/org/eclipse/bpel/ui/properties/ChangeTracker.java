@@ -15,6 +15,7 @@ import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -84,6 +85,10 @@ public class ChangeTracker {
 			trackFocus(target);
 			trackSelection(target);
 		} else if (target instanceof CCombo) {
+			trackFocus(target);
+			trackSelection(target);
+			trackEnterKey(target);
+		} else if (target instanceof Combo) {
 			trackFocus(target);
 			trackSelection(target);
 			trackEnterKey(target);
