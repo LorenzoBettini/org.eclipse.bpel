@@ -47,13 +47,13 @@ public class SpecCompliantSection extends BPELPropertySection  {
 
 	protected void createBusinessRelevantWidgets(Composite composite) {
 		FlatFormData data;
-		Composite parent = wf.createComposite(composite);
+		Composite parent = fWidgetFactory.createComposite(composite);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.top = new FlatFormAttachment(0, 0);
 		parent.setLayoutData(data);
 		parent.setLayout(new FillLayout());
-		specCompliantButton = wf.createButton(parent, Messages.SpecCompliantSection_Disable_WebSphere_Process_Server_BPEL_Extensions_1, SWT.CHECK); 
+		specCompliantButton = fWidgetFactory.createButton(parent, Messages.SpecCompliantSection_Disable_WebSphere_Process_Server_BPEL_Extensions_1, SWT.CHECK); 
 	}
 	
 	protected void createChangeTrackers() {

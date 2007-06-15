@@ -60,16 +60,16 @@ public class ExitOnStandardFaultSection extends BPELPropertySection {
 	protected void createWidgets(Composite composite) {
 		FlatFormData data;
 		
-		Label suppressLabel = wf.createLabel(composite, Messages.ExitOnStandardFault_1); 
+		Label suppressLabel = fWidgetFactory.createLabel(composite, Messages.ExitOnStandardFault_1); 
 		
-		yesRadio = wf.createButton(composite, Messages.ExitOnStandardFault_Yes_2, SWT.RADIO); 
+		yesRadio = fWidgetFactory.createButton(composite, Messages.ExitOnStandardFault_Yes_2, SWT.RADIO); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(suppressLabel, STANDARD_LABEL_WIDTH_LRG));
 		data.top = new FlatFormAttachment(0, 0);
 		yesRadio.setLayoutData(data);	
 		yesRadio.setData(V, Boolean.TRUE);
 
-		noRadio = wf.createButton(composite, Messages.ExitOnStandardFault_No_3, SWT.RADIO); 
+		noRadio = fWidgetFactory.createButton(composite, Messages.ExitOnStandardFault_No_3, SWT.RADIO); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(yesRadio, IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(0, 0);

@@ -187,7 +187,7 @@ public class VariableTypeSection extends BPELPropertySection {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 		
 		variableTypeSelector = new VariableTypeSelector(composite, SWT.NONE, getBPELEditor(),
-			wf, new VariableTypeCallback(), true);
+			fWidgetFactory, new VariableTypeCallback(), true);
 		FlatFormData data = new FlatFormData();
 		data.top = new FlatFormAttachment(0,0);
 		data.left = new FlatFormAttachment(0,0);

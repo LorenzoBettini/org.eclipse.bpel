@@ -180,12 +180,12 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		FlatFormData data; 
 		
-		variableTree = wf.createTree(parent, SWT.NONE /*SWT.BORDER*/);
+		variableTree = fWidgetFactory.createTree(parent, SWT.NONE /*SWT.BORDER*/);
 
 		if (displayQuery()) {
 			// area for query string and wizard button
-			nameLabel = wf.createLabel(parent, Messages.VariablePartAssignCategory_Query__8); 
-			nameText = wf.createText(parent, ""); //$NON-NLS-1$
+			nameLabel = fWidgetFactory.createLabel(parent, Messages.VariablePartAssignCategory_Query__8); 
+			nameText = fWidgetFactory.createText(parent, ""); //$NON-NLS-1$
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameText, STANDARD_LABEL_WIDTH_SM));
 			data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);

@@ -27,29 +27,50 @@ import org.eclipse.swt.widgets.Text;
  */
 public class ChangeTracker {
 	
-	protected IOngoingChange change;
-	protected ICommandFramework framework;
-	protected boolean tracking;
+	protected IOngoingChange fChange;
+	protected ICommandFramework fFramework;
+	protected boolean fIsTracking;
 
+	/**
+	 * Brand new shiny change tracker.
+	 * 
+	 * @param target
+	 * @param change
+	 * @param framework
+	 */
 	public ChangeTracker(Control target, IOngoingChange change, ICommandFramework framework) {
-		this(new Control[]{target}, change, framework);
+		this(change, framework, target );
 	}
 
-	public ChangeTracker(Control[] targets, IOngoingChange change, ICommandFramework framework) {
-		this.change = change;
-		this.framework = framework;
-		tracking = true;
-		for (int i = 0; i < targets.length; i++) {
-			addListeners(targets[i]);
+	/**
+	 * Brand new shiny change tracker.
+	 * @param change
+	 * @param framework
+	 * @param targets
+	 */
+	
+	public ChangeTracker(IOngoingChange change, ICommandFramework framework, Control ... targets ) {
+		this.fChange = change;
+		this.fFramework = framework;
+		fIsTracking = true;
+		for (Control c :  targets ) {		
+			addListeners(c);
 		}
 	}
 
+	/**
+	 * Start tracking changes.
+	 */
 	public void startTracking() {
-		tracking = true;
+		fIsTracking = true;
 	}
 	
+	/**
+	 * Stop tracking changes.
+	 */
+	
 	public void stopTracking() {
-		tracking = false;
+		fIsTracking = false;
 	}
 	
 	protected void addListeners(Control target) {
@@ -72,9 +93,9 @@ public class ChangeTracker {
 	protected void trackSelection(Control target) {
 		target.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				if (tracking) {
-					framework.notifyChangeInProgress(change);
-					framework.notifyChangeDone(change);
+				if (fIsTracking) {
+					fFramework.notifyChangeInProgress(fChange);
+					fFramework.notifyChangeDone(fChange);
 				}
 			}
 		});
@@ -83,8 +104,8 @@ public class ChangeTracker {
 	protected void trackFocus(Control target) {
 		target.addListener(SWT.FocusOut, new Listener() {
 			public void handleEvent(Event event) {
-				if (tracking) {
-					framework.notifyChangeDone(change);
+				if (fIsTracking) {
+					fFramework.notifyChangeDone(fChange);
 				}
 			}
 		});
@@ -93,8 +114,8 @@ public class ChangeTracker {
 	protected void trackEnterKey(Control target) {
 		target.addListener(SWT.KeyDown, new Listener() {
 			public void handleEvent(Event event) {
-				if (tracking && event.keyCode == SWT.CR) {
-					framework.notifyChangeDone(change);
+				if (fIsTracking && event.keyCode == SWT.CR) {
+					fFramework.notifyChangeDone(fChange);
 				}
 			}
 		});
@@ -103,8 +124,8 @@ public class ChangeTracker {
 	protected void trackModify(Control target) {
 		target.addListener(SWT.Modify, new Listener() {
 			public void handleEvent(Event event) {
-				if (tracking) {
-					framework.notifyChangeInProgress(change);
+				if (fIsTracking) {
+					fFramework.notifyChangeInProgress(fChange);
 				}
 			}
 		});

@@ -125,10 +125,10 @@ public class ValidateVariablesSection extends BPELPropertySection {
 	protected void createVariablesWidgets(final Composite composite)  {
 		FlatFormData data;
 		
-		addButton = wf.createButton(composite, Messages.ValidateDetails_1, SWT.PUSH); 
-		removeButton = wf.createButton(composite, Messages.ValidateDetails_2, SWT.PUSH); 
-		Label validateVariablesLabel = wf.createLabel(composite, Messages.ValidateDetails_3); 
-		variablesTable = wf.createTable(composite, SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.MULTI);
+		addButton = fWidgetFactory.createButton(composite, Messages.ValidateDetails_1, SWT.PUSH); 
+		removeButton = fWidgetFactory.createButton(composite, Messages.ValidateDetails_2, SWT.PUSH); 
+		Label validateVariablesLabel = fWidgetFactory.createLabel(composite, Messages.ValidateDetails_3); 
+		variablesTable = fWidgetFactory.createTable(composite, SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.MULTI);
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);

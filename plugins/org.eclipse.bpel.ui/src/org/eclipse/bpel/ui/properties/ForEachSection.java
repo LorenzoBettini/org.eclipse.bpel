@@ -163,12 +163,12 @@ public class ForEachSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(100, 0);
 		counterNameVariableComposite.setLayoutData(data);
 
-		Label variableLabel = wf
+		Label variableLabel = fWidgetFactory
 				.createLabel(
 						counterNameVariableComposite,
 						Messages.ForEachSection_COUNTER_NAME);
 
-		counterNameText = wf.createText(counterNameVariableComposite, "");
+		counterNameText = fWidgetFactory.createText(counterNameVariableComposite, "");
 		data = new FlatFormData();
 		data.top = new FlatFormAttachment(0, 0);
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
@@ -195,7 +195,7 @@ public class ForEachSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(100, 0);
 		isParallelComposite.setLayoutData(data);
 
-		isParallelCheckbox = wf
+		isParallelCheckbox = fWidgetFactory
 				.createButton(
 						isParallelComposite,
 						Messages.ForEachSection_IS_PARALLEL,

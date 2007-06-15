@@ -169,8 +169,8 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(0, 0);
 		composite.setLayoutData(data);
 		
-		Label faultTypeLabel = wf.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Type__13); 
-		builtinRadio = wf.createButton(composite, Messages.FaultThrowNameDetails_Built_in_14, SWT.RADIO); 
+		Label faultTypeLabel = fWidgetFactory.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Type__13); 
+		builtinRadio = fWidgetFactory.createButton(composite, Messages.FaultThrowNameDetails_Built_in_14, SWT.RADIO); 
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultTypeLabel, STANDARD_LABEL_WIDTH_SM));
@@ -196,7 +196,7 @@ public class FaultThrowNameSection extends BPELPropertySection {
 			public void widgetDefaultSelected(SelectionEvent e) { widgetSelected(e); }
 		});
 
-		userdefRadio = wf.createButton(composite, Messages.FaultThrowNameDetails_User_defined_15, SWT.RADIO); 
+		userdefRadio = fWidgetFactory.createButton(composite, Messages.FaultThrowNameDetails_User_defined_15, SWT.RADIO); 
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(builtinRadio, IDetailsAreaConstants.HSPACE);
@@ -290,8 +290,8 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(namespaceComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 		
-		Label faultNameLabel = wf.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Name__16); 
-		faultNameCombo = wf.createCCombo(composite);
+		Label faultNameLabel = fWidgetFactory.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Name__16); 
+		faultNameCombo = fWidgetFactory.createCCombo(composite);
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNameLabel, STANDARD_LABEL_WIDTH_SM));
@@ -320,8 +320,8 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		
 		//namespaceBrowseButton = wf.createButton(composite, "Browse...", SWT.PUSH);
 
-		Label faultNamespaceLabel = wf.createLabel(composite, Messages.FaultThrowNameDetails_Namespace__21); 
-		faultNamespaceText = wf.createText(composite, ""); //$NON-NLS-1$
+		Label faultNamespaceLabel = fWidgetFactory.createLabel(composite, Messages.FaultThrowNameDetails_Namespace__21); 
+		faultNamespaceText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNamespaceLabel, STANDARD_LABEL_WIDTH_SM));
@@ -368,8 +368,8 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(namespaceComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 	
-		Label faultUserDefNameLabel = wf.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Name__24); 
-		faultUserDefText = wf.createText(composite, ""); //$NON-NLS-1$
+		Label faultUserDefNameLabel = fWidgetFactory.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Name__24); 
+		faultUserDefText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
 	
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultUserDefNameLabel, STANDARD_LABEL_WIDTH_SM));
@@ -394,9 +394,9 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(faultNameComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 		
-		Label variableLabel = wf.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Variable__27); 
-		variableName = wf.createLabel(composite, "", SWT.NONE); //$NON-NLS-1$
-		variableBrowseButton = wf.createButton(composite, Messages.FaultThrowNameSection_Browse_1, SWT.PUSH); 
+		Label variableLabel = fWidgetFactory.createLabel(composite, Messages.FaultThrowNameDetails_Fault_Variable__27); 
+		variableName = fWidgetFactory.createLabel(composite, "", SWT.NONE); //$NON-NLS-1$
+		variableBrowseButton = fWidgetFactory.createButton(composite, Messages.FaultThrowNameSection_Browse_1, SWT.PUSH); 
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(variableLabel, STANDARD_LABEL_WIDTH_SM));

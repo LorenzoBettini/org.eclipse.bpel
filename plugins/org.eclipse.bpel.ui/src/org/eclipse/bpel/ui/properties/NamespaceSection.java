@@ -60,9 +60,9 @@ public class NamespaceSection extends BPELPropertySection {
 	protected void createNamespaceWidgets(Composite composite) {
 		FlatFormData data;
 
-		Label namespaceLabel = wf.createLabel(composite, Messages.NamespaceSection_Target_namespace_1); 
+		Label namespaceLabel = fWidgetFactory.createLabel(composite, Messages.NamespaceSection_Target_namespace_1); 
 	
-		namespaceText = wf.createText(composite, ""); //$NON-NLS-1$
+		namespaceText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(namespaceLabel, STANDARD_LABEL_WIDTH_AVG));
 		data.right = new FlatFormAttachment(100, 0);

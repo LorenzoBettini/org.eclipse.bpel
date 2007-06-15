@@ -43,7 +43,7 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 	@Override
 	protected void createClient2(Composite parent) {
 		super.createClient2(parent);
-		Label opaqueLabel = wf.createLabel(fComposite,
+		Label opaqueLabel = fWidgetFactory.createLabel(fComposite,
 			Messages.OpaqueAssignCategory_An_Opaque_value_is_used_in_abstract_processes__2, SWT.CENTER); 
 		FlatFormData data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);

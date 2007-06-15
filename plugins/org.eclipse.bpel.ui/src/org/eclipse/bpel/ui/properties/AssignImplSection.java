@@ -127,10 +127,10 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		Composite c = copySelectComposite = createFlatFormComposite(parent);
 		
-		Button insertCopy = wf.createButton(c, Messages.AssignImplDetails_New__5, SWT.PUSH);  
-		fDeleteCopy = wf.createButton(c, Messages.AssignImplDetails_Delete__6, SWT.PUSH);  
+		Button insertCopy = fWidgetFactory.createButton(c, Messages.AssignImplDetails_New__5, SWT.PUSH);  
+		fDeleteCopy = fWidgetFactory.createButton(c, Messages.AssignImplDetails_Delete__6, SWT.PUSH);  
 
-		fCopyList = wf.createList(c, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
+		fCopyList = fWidgetFactory.createList(c, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
 	
 		
 		int preferredWidth = BPELUtil.calculateButtonWidth(insertCopy, SHORT_BUTTON_WIDTH);
@@ -214,7 +214,7 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		FlatFormData data;
 				
-		section.fLabel = wf.createLabel(composite, isFrom ? Messages.AssignImplDetails_From__1:Messages.AssignImplDetails_To__2); 
+		section.fLabel = fWidgetFactory.createLabel(composite, isFrom ? Messages.AssignImplDetails_From__1:Messages.AssignImplDetails_To__2); 
 		section.fCombo = new Combo(composite,SWT.FLAT | SWT.BORDER | SWT.READ_ONLY );
 		data = new FlatFormData();
 		

@@ -91,8 +91,8 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 				}
 			};
 
-			Label roleLabel = wf.createLabel(parent, Messages.PartnerRoleAssignCategory_Role__3); 
-			roleCombo = wf.createCCombo(parent);
+			Label roleLabel = fWidgetFactory.createLabel(parent, Messages.PartnerRoleAssignCategory_Role__3); 
+			roleCombo = fWidgetFactory.createCCombo(parent);
 			
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(roleLabel, STANDARD_LABEL_WIDTH_SM));
@@ -127,7 +127,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 			}
 		};
 
-		partnerTable = wf.createTable(parent, SWT.NONE);
+		partnerTable = fWidgetFactory.createTable(parent, SWT.NONE);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0); 
 		data.top = new FlatFormAttachment(0, 0); 

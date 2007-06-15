@@ -90,11 +90,11 @@ public class ImportsSection extends BPELPropertySection {
 
 		FlatFormData data;
 
-		Button browseWSDL = wf.createButton(parent, Messages.ImportsSection_0,
+		Button browseWSDL = fWidgetFactory.createButton(parent, Messages.ImportsSection_0,
 				SWT.PUSH);
-		Button browseXSD = wf.createButton(parent, Messages.ImportsSection_1,
+		Button browseXSD = fWidgetFactory.createButton(parent, Messages.ImportsSection_1,
 				SWT.PUSH);
-		final Button removeImport = wf.createButton(parent, Messages.ImportsSection_2, SWT.PUSH);
+		final Button removeImport = fWidgetFactory.createButton(parent, Messages.ImportsSection_2, SWT.PUSH);
 		removeImport.setEnabled(false);
 		
 		removeImport.addSelectionListener( new SelectionListener () {
@@ -146,7 +146,7 @@ public class ImportsSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
 		browseWSDL.setLayoutData(data);
 
-		importLabel = wf.createLabel(parent, Messages.ImportDetails_Imports_20);
+		importLabel = fWidgetFactory.createLabel(parent, Messages.ImportDetails_Imports_20);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(browseWSDL,
@@ -154,7 +154,7 @@ public class ImportsSection extends BPELPropertySection {
 		importLabel.setLayoutData(data);
 
 		// create table
-		importTable = wf.createTable(parent, SWT.FULL_SELECTION | SWT.V_SCROLL
+		importTable = fWidgetFactory.createTable(parent, SWT.FULL_SELECTION | SWT.V_SCROLL
 				| SWT.READ_ONLY);
 
 		data = new FlatFormData();

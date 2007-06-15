@@ -112,6 +112,7 @@
      	<propertyCategory category="environment"/>
      	<!-- Advanced is empty but can be used by extensions -->
      	<propertyCategory category="advanced"/>
+      <propertyCategory category="documentation"/>
      </propertyContributor>
   </extension>
 
@@ -170,6 +171,10 @@
               category="implementation"
               id="org.eclipse.bpel.ui.tabs.initialization"
               label="%DETAILS_PAGES_INITIALIZATION_LABEL"/>
+        <propertyTab
+              category="documentation"
+              id="org.eclipse.bpel.ui.tabs.documentation"
+              label="%DETAILS_PAGES_DOCUMENTATION_LABEL"/>
      </propertyTabs>
 
   </extension>
@@ -422,6 +427,12 @@
               id="org.eclipse.bpel.ui.sections.VariableInitializationSection"
               tab="org.eclipse.bpel.ui.tabs.initialization">
            <input type="org.eclipse.bpel.model.Variable"/>
+        </propertySection>
+        <propertySection
+              class="org.eclipse.bpel.ui.properties.DocumentationSection"
+              id="org.eclipse.bpel.ui.sections.DocumentationSection"
+              tab="org.eclipse.bpel.ui.tabs.documentation">
+           <input type="org.eclipse.bpel.model.ExtensibleElement"/>
         </propertySection>
      </propertySections>
 

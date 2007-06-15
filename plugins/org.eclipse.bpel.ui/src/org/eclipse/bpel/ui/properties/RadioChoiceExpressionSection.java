@@ -137,7 +137,7 @@ public abstract class RadioChoiceExpressionSection extends ExpressionSection {
 		FlatFormAttachment lastLeft = new FlatFormAttachment(0, BPELPropertySection.STANDARD_LABEL_WIDTH_LRG);
 		for (int i = 0; i < fButtonCount; i++) {
 			
-			radioButtons[i] = wf.createButton(radioComposite, labels[i], SWT.RADIO);
+			radioButtons[i] = fWidgetFactory.createButton(radioComposite, labels[i], SWT.RADIO);
 			data = new FlatFormData();
 			data.left = lastLeft;
 			data.top = new FlatFormAttachment(0, 0);

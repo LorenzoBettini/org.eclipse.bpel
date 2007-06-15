@@ -78,14 +78,14 @@ public class ValidateSection extends BPELPropertySection  {
 	protected void createValidateWidgets(Composite composite) {
 		FlatFormData data;
 		
-		Composite parent = wf.createComposite(composite);
+		Composite parent = fWidgetFactory.createComposite(composite);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.top = new FlatFormAttachment(0, 0);
 		parent.setLayoutData(data);
 		parent.setLayout(new FillLayout());
 
-		validateXMLButton = wf.createButton(parent, Messages.Validate, SWT.CHECK); 
+		validateXMLButton = fWidgetFactory.createButton(parent, Messages.Validate, SWT.CHECK); 
 	}
 	
 	protected void createClient(Composite parent) {

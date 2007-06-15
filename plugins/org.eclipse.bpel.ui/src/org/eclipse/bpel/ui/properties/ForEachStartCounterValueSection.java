@@ -35,7 +35,7 @@ public class ForEachStartCounterValueSection extends ExpressionSection {
 		
 		Composite section = createFlatFormComposite(composite);		
 		
-		Label label1 = wf.createLabel(section,
+		Label label1 = fWidgetFactory.createLabel(section,
 			Messages.ForEachStartCounterValuesSection_No_Expression_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -47,7 +47,7 @@ public class ForEachStartCounterValueSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		Label label2 = wf.createLabel(section,
+		Label label2 = fWidgetFactory.createLabel(section,
 			Messages.ForEachCounterValuesSection_Mandatory_Expression_2); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -55,7 +55,7 @@ public class ForEachStartCounterValueSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label2.setLayoutData(ffdata);
 		
-		Button createDefaultButton = wf.createButton(section, Messages.ForEachCounterValuesSection_Create_a_New_Expression_3, SWT.PUSH); 
+		Button createDefaultButton = fWidgetFactory.createButton(section, Messages.ForEachCounterValuesSection_Create_a_New_Expression_3, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);

@@ -237,9 +237,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(0, 0);
 		composite.setLayoutData(data);
 		
-		Label faultTypeLabel = wf.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Type__13); 
+		Label faultTypeLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Type__13); 
 		
-		builtinRadio = wf.createButton(composite, Messages.FaultCatchNameDetails_Built_in_14, SWT.RADIO); 
+		builtinRadio = fWidgetFactory.createButton(composite, Messages.FaultCatchNameDetails_Built_in_14, SWT.RADIO); 
 
 		data = new FlatFormData();
 		
@@ -274,7 +274,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			}
 		});
 
-		userdefRadio = wf.createButton(composite, Messages.FaultCatchNameDetails_User_defined_15, SWT.RADIO); 
+		userdefRadio = fWidgetFactory.createButton(composite, Messages.FaultCatchNameDetails_User_defined_15, SWT.RADIO); 
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(builtinRadio, IDetailsAreaConstants.HSPACE);
@@ -426,8 +426,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(namespaceComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 		
-		faultNameCombo = wf.createCCombo(composite);
-		Label faultNameLabel = wf.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Name__16); 
+		faultNameCombo = fWidgetFactory.createCCombo(composite);
+		Label faultNameLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Name__16); 
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNameLabel, STANDARD_LABEL_WIDTH_SM));
@@ -455,9 +455,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(faultTypeComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 		
-		faultNamespaceCombo = wf.createCCombo(composite); //$NON-NLS-1$
+		faultNamespaceCombo = fWidgetFactory.createCCombo(composite); //$NON-NLS-1$
 		
-		Label faultNamespaceLabel = wf.createLabel(composite, Messages.FaultCatchNameDetails_Namespace__21); 
+		Label faultNamespaceLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameDetails_Namespace__21); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNamespaceLabel, STANDARD_LABEL_WIDTH_SM));
 		data.right = new FlatFormAttachment(50, -SHORT_BUTTON_WIDTH-IDetailsAreaConstants.HSPACE-IDetailsAreaConstants.CENTER_SPACE);
@@ -487,8 +487,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(namespaceComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 
-		Label faultUserDefNameLabel = wf.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Name__24); 
-		faultUserDefCombo = wf.createCCombo(composite, SWT.FLAT | SWT.READ_ONLY); //$NON-NLS-1$
+		Label faultUserDefNameLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Name__24); 
+		faultUserDefCombo = fWidgetFactory.createCCombo(composite, SWT.FLAT | SWT.READ_ONLY); //$NON-NLS-1$
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultUserDefNameLabel, STANDARD_LABEL_WIDTH_SM));
@@ -564,13 +564,13 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(faultNameComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 		
-		Label variableLabel = wf.createLabel(composite, Messages.FaultCatchNameSection_Variable_Name_3); 
+		Label variableLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameSection_Variable_Name_3); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.top = new FlatFormAttachment(0, 0);
 		variableLabel.setLayoutData(data);
 		
-		variableNameText = wf.createText(composite, ""); //$NON-NLS-1$
+		variableNameText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(variableLabel, STANDARD_LABEL_WIDTH_SM));
 		data.right = new FlatFormAttachment(50, 0);
@@ -583,7 +583,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		});
 
 		variableTypeSelector = new VariableTypeSelector(composite, SWT.NONE, getBPELEditor(),
-			wf, new FaultVariableTypeCallback(), false);
+			fWidgetFactory, new FaultVariableTypeCallback(), false);
 		data = new FlatFormData();
 		data.top = new FlatFormAttachment(variableNameText, IDetailsAreaConstants.VSPACE+4);
 		data.left = new FlatFormAttachment(0,0);

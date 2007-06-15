@@ -54,7 +54,6 @@ import org.eclipse.bpel.ui.details.providers.WSDLFaultContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.dialogs.PartnerLinkSelectorDialog;
 import org.eclipse.bpel.ui.dialogs.PartnerLinkTypeSelectorDialog;
-import org.eclipse.bpel.ui.proposal.providers.CommandProposal;
 import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.proposal.providers.RunnableProposal;
 import org.eclipse.bpel.ui.proposal.providers.Separator;
@@ -83,10 +82,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -94,8 +89,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
@@ -108,8 +101,10 @@ import org.eclipse.wst.wsdl.Input;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Output;
+import org.eclipse.wst.wsdl.Part;
 import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.wst.wsdl.WSDLFactory;
+import org.eclipse.xsd.XSDElementDeclaration;
 
 /**
  * Details section for the Partner/PortType/Operation properties of a
@@ -153,28 +148,29 @@ public class InvokeImplSection extends BPELPropertySection {
 	private Composite inputVariableComposite;
 	private Composite outputVariableComposite;	
 	private Label inputVariableLabel;
-	private Text inputVariableText;
+	Text inputVariableText;
 	private Label outputVariableLabel;
-	private Text outputVariableText;
+	Text outputVariableText;
 	
 	private PartnerRoleFilter fPartnerRoleFilter = new PartnerRoleFilter();
 	private VariableFilter fInputVariableFilter = new VariableFilter();
 	private VariableFilter fOutputVariableFilter = new VariableFilter();
 	
 	private Label quickPickLabel;
-	private Tree quickPickTree;
-	private Composite quickPickComposite;
+	private Tree quickPickTree;	
 	private TreeViewer quickPickTreeViewer;
 	private Composite faultComposite;
 	private Label faultLabel;
 	private Text faultText;
 	
 	private IControlContentAdapter fTextContentAdapter = new TextContentAdapter() {
+		@Override
 		public void insertControlContents(Control control, String text, int cursorPosition) {
 			if (text != null) {
 				super.insertControlContents(control, text, cursorPosition);
 			}
 		}
+		@Override
 		public void setControlContents(Control control, String text, int cursorPosition) {
 			if (text != null) {
 				super.setControlContents(control, text, cursorPosition);
@@ -202,11 +198,16 @@ public class InvokeImplSection extends BPELPropertySection {
 	/** 
 	 * Stretch this section to maximum use of space
 	 */
+	@Override
 	public boolean shouldUseExtraSpace () {
 		return true;
 	}
 	
 	
+	/**
+	 * @param direction
+	 * @return the label word 
+	 */
 	public String labelWordFor(int direction) {
 		if (isInvoke) {
 			return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Request_3:Messages.InvokeImplDetails_Response_4; 
@@ -216,6 +217,8 @@ public class InvokeImplSection extends BPELPropertySection {
 
 	/**
 	 * The same as labelWordFor(), except these strings don't contain mnemonics!
+	 * @param direction 
+	 * @return the label
 	 */
 	public String plainLabelWordFor (int direction) {
 		if (isInvoke) {
@@ -226,15 +229,19 @@ public class InvokeImplSection extends BPELPropertySection {
 
 	protected Role getActiveRole() {
 		PartnerLink partnerLink = ModelHelper.getPartnerLink(getInput());
-		if (partnerLink == null)  return null;
+		if (partnerLink == null)  {
+			return null;
+		}
 		return isInvoke? partnerLink.getPartnerRole() : partnerLink.getMyRole();
 	}
 
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new MultiObjectAdapter() {
 				
+				@Override
 				public void notify(Notification n) {
 				    try {
 						Object input = getInput();
@@ -300,6 +307,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		parentComposite.layout(true);
 	}
 
+	@Override
 	protected void basicSetInput(EObject input) {
 		
 		super.basicSetInput(input);	
@@ -344,14 +352,15 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 		composite.setLayoutData(data);
 
-		partnerLabel = wf.createLabel(composite, Messages.InvokeImplDetails_Partner__10); 
-		partnerName = wf.createText(composite, "", SWT.NONE); //$NON-NLS-1$
-		partnerBrowseButton = wf.createButton(composite,"",SWT.ARROW | SWT.DOWN | SWT.RIGHT ); //$NON-NLS-1$				
+		partnerLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplDetails_Partner__10); 
+		partnerName = fWidgetFactory.createText(composite, EMPTY_STRING, SWT.NONE); 
+		partnerBrowseButton = fWidgetFactory.createButton(composite,EMPTY_STRING,SWT.ARROW | SWT.DOWN | SWT.RIGHT );				
 
 		// Content Assist for Partner Link
 
 		RunnableProposal proposal = new RunnableProposal() {
 			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_0;
 			}
@@ -362,6 +371,7 @@ public class InvokeImplSection extends BPELPropertySection {
 
 		RunnableProposal proposal2 = new RunnableProposal() {
 			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_1;
 			}
@@ -371,6 +381,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		};
 
 		RunnableProposal proposal3 = new RunnableProposal() {			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_2;
 			}
@@ -481,7 +492,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		if (dialog.open() == Window.OK) {
 			PartnerLink partner = dialog.getPartnerLink();
 			
-			List cmds = basicCommandList( model , null, null );
+			List<Command> cmds = basicCommandList( model , null, null );
 			
 			SetCommand cmd = (SetCommand) ListMap.Find(cmds, new ListMap.Visitor() {
 				public Object visit(Object obj) {
@@ -514,9 +525,10 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);		
 		composite.setLayoutData(data);
 		
-		interfaceLabel = wf.createLabel(composite, Messages.InvokeImplSection_3); 
-		interfaceName = wf.createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
+		interfaceLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_3); 
+		interfaceName = fWidgetFactory.createHyperlink(composite, EMPTY_STRING, SWT.NONE);
 		interfaceName.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
 			public void linkActivated(HyperlinkEvent e) { 
 				PortType pt =  ModelHelper.getPortType(getInput());
 				if (pt != null) {
@@ -557,9 +569,9 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 		
-		operationLabel = wf.createLabel(composite, Messages.InvokeImplDetails_Operation__19); 
-		operationText = wf.createText(composite,"",SWT.NONE);				 //$NON-NLS-1$
-		operationButton = wf.createButton(composite,"",SWT.ARROW|SWT.CENTER|SWT.DOWN); //$NON-NLS-1$
+		operationLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplDetails_Operation__19); 
+		operationText = fWidgetFactory.createText(composite,EMPTY_STRING,SWT.NONE);	
+		operationButton = fWidgetFactory.createButton(composite,EMPTY_STRING,SWT.ARROW|SWT.CENTER|SWT.DOWN);
 			
 //		operationText.addHyperlinkListener(new HyperlinkAdapter() {
 //			public void linkActivated(HyperlinkEvent e) { 
@@ -577,6 +589,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		OperationContentProvider provider = new OperationContentProvider();
 		ModelContentProposalProvider proposalProvider;
 		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+			@Override
 			public Object value() {
 				return getInput();
 			}			
@@ -610,7 +623,7 @@ public class InvokeImplSection extends BPELPropertySection {
 				} catch (Throwable t) {
 					return ;
 				}
-				List list = basicCommandList(getInput(), IGNORE_PARTNER_LINK , oper );
+				List<Command> list = basicCommandList(getInput(), IGNORE_PARTNER_LINK , oper );
 				CompoundCommand cmd = new CompoundCommand();
 				cmd.getCommands().addAll (list);				
 				getCommandFramework().execute( cmd );
@@ -718,14 +731,15 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 		
-		inputVariableLabel = wf.createLabel(composite, Messages.InvokeImplSection_7); 
-		inputVariableText = wf.createText(composite,""); //$NON-NLS-1$
-		inputVariableButton = wf.createButton(composite, "", SWT.ARROW|SWT.DOWN|SWT.CENTER); //$NON-NLS-1$
+		inputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_7); 
+		inputVariableText = fWidgetFactory.createText(composite,EMPTY_STRING); 
+		inputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER);
 				
 		// Provide Content Assist for the variables
 		// Content assist on partnerName
 		RunnableProposal proposal = new RunnableProposal() {
 			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_10;
 			}
@@ -739,6 +753,7 @@ public class InvokeImplSection extends BPELPropertySection {
 
 		RunnableProposal proposal2 = new RunnableProposal() {
 			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_11;
 			}
@@ -751,6 +766,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		};
 
 		RunnableProposal proposal3 = new RunnableProposal() {			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_12;
 			}
@@ -763,6 +779,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		VariableContentProvider provider = new VariableContentProvider();
 		ModelContentProposalProvider proposalProvider;
 		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+			@Override
 			public Object value() {
 				return getInput();
 			}			
@@ -848,7 +865,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	 * 
 	 * @param top
 	 * @param parent
-	 * @return
+	 * @return the output variable composite
 	 */
 	
 	protected Composite createOutputVariableComposite (Composite top, Composite parent) {
@@ -866,15 +883,16 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 		
-		outputVariableLabel = wf.createLabel(composite, Messages.InvokeImplSection_13); 
-		outputVariableText = wf.createText(composite,""); //$NON-NLS-1$
-		outputVariableButton = wf.createButton(composite, "", SWT.ARROW|SWT.DOWN|SWT.CENTER); //$NON-NLS-1$
+		outputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_13); 
+		outputVariableText = fWidgetFactory.createText(composite,EMPTY_STRING);
+		outputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER);
 				
 		// Provide Content Assist for the operation
 		
 		// Runnable proposal.
 		RunnableProposal proposal = new RunnableProposal() {
 			
+			@Override
 			public String getLabel() {
 				return Messages.InvokeImplSection_16;
 			}
@@ -884,6 +902,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		};
 
 		RunnableProposal proposal2 = new RunnableProposal() {			
+			@Override
 			public String getLabel() {
 				return "Create Local Output Variable"; //$NON-NLS-1$
 			}
@@ -894,6 +913,7 @@ public class InvokeImplSection extends BPELPropertySection {
 
 
 		RunnableProposal proposal3 = new RunnableProposal() {			
+			@Override
 			public String getLabel() {
 				return "Clear Output Variable"; //$NON-NLS-1$
 			}
@@ -905,6 +925,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		VariableContentProvider provider = new VariableContentProvider();
 		ModelContentProposalProvider proposalProvider;
 		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+			@Override
 			public Object value() {
 				return getInput();
 			}			
@@ -1010,15 +1031,16 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 		
-		faultLabel = wf.createLabel(composite,  Messages.InvokeImplDetails_Fault_Name__25); 
-		faultText = wf.createText(composite,""); //$NON-NLS-1$
-		faultButton = wf.createButton(composite, "", SWT.ARROW|SWT.DOWN|SWT.CENTER); //$NON-NLS-1$
+		faultLabel = fWidgetFactory.createLabel(composite,  Messages.InvokeImplDetails_Fault_Name__25); 
+		faultText = fWidgetFactory.createText(composite,EMPTY_STRING); 
+		faultButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER); 
 		// Provide Content Assist for the operation
 		
 		
 		WSDLFaultContentProvider provider = new WSDLFaultContentProvider();
 		ModelContentProposalProvider proposalProvider;
 		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+			@Override
 			public Object value() {
 				return ModelHelper.getOperation( getInput() );
 			}			
@@ -1079,9 +1101,9 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 
-		Label faultNameLabel = wf.createLabel(composite, Messages.InvokeImplDetails_Fault_Name__25); 
+		Label faultNameLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplDetails_Fault_Name__25); 
 		
-		faultNameCombo = wf.createCCombo(composite);
+		faultNameCombo = fWidgetFactory.createCCombo(composite);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNameLabel, STANDARD_LABEL_WIDTH_SM));
 		data.right = new FlatFormAttachment(100, -SHORT_BUTTON_WIDTH-IDetailsAreaConstants.HSPACE);
@@ -1118,7 +1140,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	{
 		FlatFormData data;
 		
-		final Composite composite = quickPickComposite = createFlatFormComposite(parent);
+		final Composite composite = createFlatFormComposite(parent);
 		
 		data = new FlatFormData();
 		if (top == null) {
@@ -1132,10 +1154,10 @@ public class InvokeImplSection extends BPELPropertySection {
 		data.bottom = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
 		composite.setLayoutData(data);
 				
-		quickPickLabel = wf.createLabel(composite, "Quick Pick:");  //$NON-NLS-1$
+		quickPickLabel = fWidgetFactory.createLabel(composite, "Quick Pick:");  //$NON-NLS-1$
 				
 		// Tree viewer for variable structure ...
-		quickPickTree = wf.createTree(composite, SWT.NONE);
+		quickPickTree = fWidgetFactory.createTree(composite, SWT.NONE);
 		PartnerLinkTreeContentProvider treeContentProvider = new PartnerLinkTreeContentProvider(true);
 		quickPickTreeViewer = new TreeViewer(quickPickTree);
 		quickPickTreeViewer.setContentProvider(treeContentProvider);
@@ -1168,6 +1190,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		return composite;
 	}
 	
+	@Override
 	protected void createClient(Composite parent)  {
 		
 		Composite composite = parentComposite = createFlatFormComposite(parent);
@@ -1194,7 +1217,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		if (partnerLink == null) {
 			partnerName.setText(EMPTY_STRING); 			
 		} else {
-			ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(partnerLink, ILabeledElement.class);
+			ILabeledElement labeledElement = BPELUtil.adapt(partnerLink, ILabeledElement.class);
 			partnerName.setText(labeledElement.getLabel(partnerLink));			
 		}
 	}
@@ -1278,7 +1301,7 @@ public class InvokeImplSection extends BPELPropertySection {
 			interfaceName.setText(Messages.InvokeImplSection_None_1); 
 			interfaceName.setEnabled(false);
 		} else {
-			ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(portType, ILabeledElement.class);
+			ILabeledElement labeledElement = BPELUtil.adapt(portType, ILabeledElement.class);
 			interfaceName.setText(labeledElement.getLabel(portType));
 			interfaceName.setEnabled(true);
 		}
@@ -1298,15 +1321,27 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#aboutToBeShown()
+	 */
+	@Override
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
 		doChildLayout();
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return new Integer(lastChangeContext);
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 		
 		if (false) {
@@ -1332,7 +1367,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		EObject model = getInput();
 		PortType portType = ModelHelper.getPortType( model );
 		
-		List cmdList = basicCommandList( model , IGNORE_PARTNER_LINK, null );		
+		List<Command> cmdList = basicCommandList( model , IGNORE_PARTNER_LINK, null );		
 		
 		if (text.length() > 0) {
 			
@@ -1395,6 +1430,19 @@ public class InvokeImplSection extends BPELPropertySection {
 			name = plainLabelWordFor( direction );
 		}
 
+		Message messageType = null;
+		XSDElementDeclaration elementType = null;
+		
+		Object type = ModelHelper.getVariableType( getInput(), direction );
+		
+		if (type != null && type instanceof Message) {
+			messageType = (Message) type;
+			if (messageType.getEParts().size() == 1) {
+				Part part = (Part) messageType.getEParts().get(0);
+				elementType = part.getElementDeclaration();
+			}
+		}		
+		
 		// ask for the name, we know the type.
 		NameDialog nameDialog = new NameDialog( 
 				inputVariableComposite.getShell(), 
@@ -1409,11 +1457,12 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 		// set name and type
 		variable.setName ( nameDialog.getValue() );
-		
-		Object type = ModelHelper.getVariableType( getInput(), direction );
-		if (type != null && type instanceof Message) {
-			variable.setMessageType ( (Message) type);
-		}		
+				
+		if ( elementType != null ) {
+			variable.setXSDElement(elementType);
+		} else if (messageType != null) {
+			variable.setMessageType ( messageType );
+		} 
 		
 		// create the variable and then set the input variable to it.
 		CompoundCommand cmd = new CompoundCommand();
@@ -1483,7 +1532,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 		// ask for partner link type
 		
-		List cmds = basicCommandList(getInput(), pl, null);
+		List<Command> cmds = basicCommandList(getInput(), pl, null);
 		cmds.add(0, new AddPartnerLinkCommand( ref, pl ));
 		//
 		CompoundCommand cmd = new CompoundCommand();
@@ -1594,7 +1643,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 
 	
-	void alterCommands (List list, EObject input, PartnerLink pl , Operation op, Input msg ) {
+	void alterCommands (List<Command> list, EObject input, PartnerLink pl , Operation op, Input msg ) {
 		
 		if (input instanceof Receive || input instanceof OnMessage || 
 			input instanceof OnEvent || input instanceof Reply)
@@ -1614,7 +1663,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 		
-	void alterCommands (List cmds, EObject input, PartnerLink pl, Operation op, Output msg) {
+	void alterCommands (List<Command> cmds, EObject input, PartnerLink pl, Operation op, Output msg) {
 		if (input instanceof Reply) {
 			if (pl.getMyRole() == null || msg == null) {
 				return ;
@@ -1630,12 +1679,12 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 	
-	void alterCommands ( List cmds, EObject input, Message msg, PartnerLink pl) {
+	void alterCommands ( List<Command> cmds, EObject input, Message msg, PartnerLink pl) {
 		alterCommands ( cmds, input,msg,pl, ModelHelper.NOT_SPECIFIED);
 	}
 	
 	
-	void alterCommands (List cmds, EObject input, Message msg, PartnerLink pl, final int direction) {			
+	void alterCommands (List<Command> cmds, EObject input, Message msg, PartnerLink pl, final int direction) {			
 								 
 		Variable variable = findVariable(input, msg, pl);
 		
@@ -1718,8 +1767,8 @@ public class InvokeImplSection extends BPELPropertySection {
 	 */
 		
 	
-	List basicCommandList (EObject input, PartnerLink pl, Operation op) {
-		List list = new ArrayList(8);
+	List<Command> basicCommandList (EObject input, PartnerLink pl, Operation op) {
+		List<Command> list = new ArrayList<Command>(8);
 	
 		
 		if (pl != IGNORE_PARTNER_LINK) {
@@ -1752,6 +1801,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 		if (fWSDLEditRunnableProposal == null) {
 			fWSDLEditRunnableProposal = new RunnableProposal() {				
+				@Override
 				public String getLabel() {
 					return Messages.InvokeImplSection_24;
 				}

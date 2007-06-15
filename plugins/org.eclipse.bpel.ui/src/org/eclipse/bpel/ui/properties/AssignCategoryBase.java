@@ -93,7 +93,7 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 * to the category's methods. 
 	 */
 		@Override
-	protected Command wrapInShowContextCommand(Command inner) {
+	protected Command wrapInShowContextCommand (Command inner) {
 		return super.wrapInShowContextCommand(inner, fOwnerSection);
 	}
 	
@@ -224,9 +224,9 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 */
 	protected void createClient2(Composite parent) {
 		if (isDefaultCompositeOpaque()) {
-			fComposite = wf.createPlainComposite(parent, SWT.NONE);
+			fComposite = fWidgetFactory.createPlainComposite(parent, SWT.NONE);
 		} else {
-			fComposite = wf.createComposite(parent);
+			fComposite = fWidgetFactory.createComposite(parent);
 		}
 		FlatFormLayout layout = new FlatFormLayout();
 		layout.marginWidth = 0;//IDetailsAreaConstants.HMARGIN;

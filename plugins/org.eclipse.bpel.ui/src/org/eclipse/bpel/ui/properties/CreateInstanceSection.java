@@ -70,7 +70,7 @@ public class CreateInstanceSection extends BPELPropertySection  {
 	protected void createCreateInstanceWidgets(Composite composite) {
 		FlatFormData data;
 		
-		Composite parent = wf.createComposite(composite);
+		Composite parent = fWidgetFactory.createComposite(composite);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
@@ -78,7 +78,7 @@ public class CreateInstanceSection extends BPELPropertySection  {
 		parent.setLayoutData(data);
 		parent.setLayout(new FillLayout());
 
-		createInstanceButton = wf.createButton(parent, Messages.CreateInstanceDetails_Create_a_new_Process_instance_if_one_does_not_already_exist_1, SWT.CHECK); 
+		createInstanceButton = fWidgetFactory.createButton(parent, Messages.CreateInstanceDetails_Create_a_new_Process_instance_if_one_does_not_already_exist_1, SWT.CHECK); 
 	}
 	
 	protected void createClient(Composite parent) {

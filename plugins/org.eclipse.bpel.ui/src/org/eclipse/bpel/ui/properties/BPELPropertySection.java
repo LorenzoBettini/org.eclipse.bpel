@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.properties;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,11 +28,9 @@ import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -48,15 +45,9 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
-// import org.eclipse.wst.common.ui.properties.internal.provisional.AbstractPropertySection;
-// import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
-// import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetWidgetFactory;
-// import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
-
+import org.eclipse.ui.internal.views.properties.tabbed.view.Tab;
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -88,18 +79,24 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	protected boolean isCreated;
 	protected boolean isHidden;
 	protected EObject modelObject;
-	protected TabbedPropertySheetWidgetFactory wf;
+	
+	protected TabbedPropertySheetWidgetFactory fWidgetFactory;
+	
 	protected BPELTabbedPropertySheetPage tabbedPropertySheetPage;
 
 	
 		
 	final protected ModelContentProposalProvider.ValueProvider inputValueProvider =  new ModelContentProposalProvider.ValueProvider () {
+		@Override
 		public Object value() {
 			return getModel();
 		}		
 	};
 	
 
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#getWidgetFactory()
+	 */
 	@Override
 	public TabbedPropertySheetWidgetFactory getWidgetFactory() {
 		TabbedPropertySheetWidgetFactory wf = super.getWidgetFactory();
@@ -107,6 +104,10 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		return wf;
 	}
 
+	/**
+	 * Brand new shiny BPELPropertySection
+	 */
+	
 	public BPELPropertySection() {
 		super();
 		adapters = createAdapters();
@@ -196,11 +197,19 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	}
 
 	
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#aboutToBeHidden()
+	 */
+	@Override
 	public void aboutToBeHidden() {
 //		Assert.isTrue(!isHidden);
 		isHidden = true;
 	}
 
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#aboutToBeShown()
+	 */
+	@Override
 	public void aboutToBeShown() {
 //		Assert.isTrue(isHidden && (getModel() != null));
 		isHidden = false;
@@ -212,13 +221,6 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	}
 
 	protected final <T extends EObject> T getInput() {
-		return getModel();
-	}
-
-	/*&
-	 * 
-	 */
-	public Object value() {
 		return getModel();
 	}
 	
@@ -247,10 +249,10 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		
 		super.createControls(parent, aTabbedPropertySheetPage);
 		this.tabbedPropertySheetPage = (BPELTabbedPropertySheetPage)aTabbedPropertySheetPage;
-		this.wf = getWidgetFactory();
+		this.fWidgetFactory = getWidgetFactory();
 		Assert.isTrue(!isCreated);
 		
-		Composite marginComposite = wf.createComposite(parent); 
+		Composite marginComposite = fWidgetFactory.createComposite(parent); 
 		FillLayout fillLayout = new FillLayout();
 		fillLayout.marginWidth = IDetailsAreaConstants.HMARGIN;
 		fillLayout.marginHeight = IDetailsAreaConstants.VMARGIN/2;
@@ -350,15 +352,34 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		return getBPELEditor().getProcess();
 	}
 
-	/*
+	/**
 	 * Convenience accessor with default policy (this is overridden in certain subclasses).
 	 */
 	protected Command wrapInShowContextCommand(final Command inner) {
 		return wrapInShowContextCommand(inner, this);
 	}
 
+	/**
+	 * Create a command that wraps the command passed in the show/restore context commands.
+	 * 
+	 * @param inner the inner command to be run.
+	 * @param section the BPEL property section
+	 * @return the command new wrapped command.
+	 */
+	
 	protected Command wrapInShowContextCommand(final Command inner, BPELPropertySection section) {
-		final Object previousInput = getInput(); // keep the old input model object
+		
+		/**
+		 * Sometimes we have property sections inside property sections.
+		 *  
+		 * The owners section's input needs to be saved, because it is used to restore
+		 * the selection later on in the "wrapping" command. The "inner" section's input
+		 * may not be visibly selectable. For example, consider "Variable" property sheet.
+		 * A separate section is used for the "From" part of Variable.  
+		 */
+		
+		final Object previousInput = section.getInput(); 
+		
 		final TabbedPropertyViewer viewer = getTabbedPropertySheetPage().getTabbedPropertyViewer();
 		final int tabIndex = viewer.getSelectionIndex();
 		final int sectionIndex = getTabbedPropertySheetPage().getCurrentTab().getSectionIndex(section);
@@ -370,45 +391,73 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		
 		return new AbstractEditModelCommand() {
 			Object beforeContext, afterContext;
+			
+			@Override
 			public String getLabel() {
 				return inner.getLabel();
 			}
+			
+			@Override
 			public void setLabel(String label) {
 				inner.setLabel(label);
 			}
+			
+			@Override
 			public String getDebugLabel() {
 				return "ShowContext wrapper:[" + inner.getDebugLabel() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
+			
+			@Override
 			public boolean canExecute() {
 				return inner.canExecute();
 			}
+			
+			@Override
 			public void execute() {
 				BPELPropertySection aSection = getSection(sectionIndex); 
 				beforeContext = (aSection==null)? null : aSection.getUserContext();
 				inner.execute();
 				afterContext = (aSection==null)? null : aSection.getUserContext();
 			}
+			
+			@Override
 			public boolean canUndo() {
 				return inner.canUndo();
 			}
+			
+			@Override
 			public void undo() {
 				inner.undo();
 				showPropertiesTab();
 				BPELPropertySection aSection = getSection(sectionIndex);
-				if (aSection != null) aSection.restoreUserContext(beforeContext);
+				if (aSection != null) {
+					aSection.restoreUserContext(beforeContext);
+				}
 			}
+			
+			@Override
 			public void redo() {
 				inner.redo();
 				showPropertiesTab();
 				BPELPropertySection aSection = getSection(sectionIndex);
-				if (aSection != null) aSection.restoreUserContext(afterContext);
+				if (aSection != null) {
+					aSection.restoreUserContext(afterContext);
+				}
 			}
+			
+			@Override
 			public void dispose() {
 				inner.dispose();
 			}
-			protected BPELPropertySection getSection(int index) {
-				return (BPELPropertySection) getTabbedPropertySheetPage().getCurrentTab().getSectionAtIndex(sectionIndex);
+			
+			protected BPELPropertySection getSection (int index) {
+				 Tab tab = getTabbedPropertySheetPage().getCurrentTab();
+				 if (tab != null) {
+					 return (BPELPropertySection) tab.getSectionAtIndex(sectionIndex);
+				 }
+				 return null;
 			}
+			
 			protected void showPropertiesTab() {
 				// TODO: Try to avoid selecting the model object all
 				// the time, as it could cause unnecessary flashing.
@@ -416,12 +465,23 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 				
 				if (tabIndex != viewer.getSelectionIndex()) {
 					Object selectedTab = viewer.getElementAt(tabIndex);
-					viewer.setSelection(new StructuredSelection(selectedTab));
+					if (selectedTab != null) {
+						viewer.setSelection(new StructuredSelection(selectedTab));
+					}
 				}
 			}
+			
 			// TODO: THIS IS A HACK.. these helpers might belong somewhere else.
-			public Resource[] getResources() { return EditModelCommandStack.getResources(inner); }
-			public Resource[] getModifiedResources() { return EditModelCommandStack.getModifiedResources(inner); }
+			@Override
+			public Resource[] getResources() { 
+				return EditModelCommandStack.getResources(inner); 
+			}
+			
+			@Override
+			public Resource[] getModifiedResources() { 
+				return EditModelCommandStack.getModifiedResources(inner); 
+			}
+			
 		};
 	}
 
@@ -429,7 +489,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * Creates a composite with a flat border around it.
 	 */
 	protected Composite createBorderComposite(Composite parent) {
-	    return BPELUtil.createBorderComposite(parent, wf);
+	    return BPELUtil.createBorderComposite(parent, fWidgetFactory);
 	}
 	
 	/**
@@ -439,7 +499,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * 	TODO: We need a new/better story for layouts and borders ??
 	 */
 	protected Composite createFlatFormComposite(Composite parent) {
-		Composite result = wf.createFlatFormComposite(parent);
+		Composite result = fWidgetFactory.createFlatFormComposite(parent);
 		FlatFormLayout formLayout = new FlatFormLayout();
 		formLayout.marginWidth = formLayout.marginHeight = 0;		
 		result.setLayout(formLayout);

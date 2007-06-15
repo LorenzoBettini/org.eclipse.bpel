@@ -204,8 +204,8 @@ public class AttributesSection extends BPELPropertySection {
 	protected void createAttributesWidgets(Composite composite) {
 		FlatFormData data;
 
-		Label expressionLanguageLabel = wf.createLabel(composite, Messages.AttributesDetails_Expression_Language__2); 
-		expressionLanguageCCombo = wf.createCCombo(composite, SWT.FLAT);
+		Label expressionLanguageLabel = fWidgetFactory.createLabel(composite, Messages.AttributesDetails_Expression_Language__2); 
+		expressionLanguageCCombo = fWidgetFactory.createCCombo(composite, SWT.FLAT);
 		
 		// Expression language combo layout
 		expressionLanguageViewer = new CComboViewer(expressionLanguageCCombo);
@@ -228,8 +228,8 @@ public class AttributesSection extends BPELPropertySection {
 
 		expressionLanguageViewer.setInput(new Object());
 		
-		Label queryLanguageLabel = wf.createLabel(composite, Messages.AttributesDetails_Query_Language__2); 
-		queryLanguageCCombo = wf.createCCombo(composite, SWT.FLAT);
+		Label queryLanguageLabel = fWidgetFactory.createLabel(composite, Messages.AttributesDetails_Query_Language__2); 
+		queryLanguageCCombo = fWidgetFactory.createCCombo(composite, SWT.FLAT);
 
 		// Query language combo layout
 		queryLanguageViewer = new CComboViewer(queryLanguageCCombo);

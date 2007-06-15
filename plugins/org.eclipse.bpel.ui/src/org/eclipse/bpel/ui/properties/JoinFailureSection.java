@@ -101,21 +101,21 @@ public class JoinFailureSection extends BPELPropertySection {
 	
 	protected void createSuppressJoinFailureWidgets(Composite composite) {
 		FlatFormData data;
-		Label suppressLabel = wf.createLabel(composite, Messages.JoinFailureDetails_Suppress_Join_Failure__1); 
+		Label suppressLabel = fWidgetFactory.createLabel(composite, Messages.JoinFailureDetails_Suppress_Join_Failure__1); 
 		
-		yesRadio = wf.createButton(composite, Messages.JoinFailureDetails_Yes_2, SWT.RADIO); 
+		yesRadio = fWidgetFactory.createButton(composite, Messages.JoinFailureDetails_Yes_2, SWT.RADIO); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(suppressLabel, STANDARD_LABEL_WIDTH_LRG));
 		data.top = new FlatFormAttachment(0, 0);
 		yesRadio.setLayoutData(data);
 
-		noRadio = wf.createButton(composite, Messages.JoinFailureDetails_No_3, SWT.RADIO); 
+		noRadio = fWidgetFactory.createButton(composite, Messages.JoinFailureDetails_No_3, SWT.RADIO); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(yesRadio, IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(0, 0);
 		noRadio.setLayoutData(data);
 
-		sameAsParentRadio = wf.createButton(composite, Messages.JoinFailureDetails_Use_Same_Value_as_Parent_4, SWT.RADIO); 
+		sameAsParentRadio = fWidgetFactory.createButton(composite, Messages.JoinFailureDetails_Use_Same_Value_as_Parent_4, SWT.RADIO); 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(noRadio, IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(0, 0);

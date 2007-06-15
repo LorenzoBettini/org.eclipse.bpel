@@ -11,11 +11,9 @@
 package org.eclipse.bpel.ui.commands;
 
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.emf.ecore.EObject;
 
 
 /** 
@@ -23,8 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  * Supported for compensate activity
  */
 public class SetCompensateCommand extends SetCommand {
-
-	CompensateScope fTarget;
 	
 	/**
 	 * @see org.eclipse.bpel.ui.commands.SetCommand#getDefaultLabel()
@@ -40,29 +36,12 @@ public class SetCompensateCommand extends SetCommand {
 	 * @param targetActivity
 	 */
 	public SetCompensateCommand (CompensateScope activity, Activity targetActivity)  {
-		super(activity, targetActivity);				
-	}
-
-	/**
-	 * @see org.eclipse.bpel.ui.commands.SetCommand#get()
-	 */
-	@Override
-	public Object get() {
-		CompensateScope cs = (CompensateScope) fTarget;
-		return cs.getTarget();
+		super(activity, targetActivity, BPELPackage.eINSTANCE.getCompensateScope_Target() );				
 	}
 	
 	/**
-	 * @see org.eclipse.bpel.ui.commands.SetCommand#set(java.lang.Object)
+	 * @return the target of this set command.
 	 */
-	@Override
-	public void set(Object o) {		
-		CompensateScope cs = (CompensateScope) fTarget;
-		if (o instanceof Activity ) {
-			cs.setTarget( (Activity) o);
-		}
-	}
-	
 	public Object getTarget(){
 		return fTarget;
 	}

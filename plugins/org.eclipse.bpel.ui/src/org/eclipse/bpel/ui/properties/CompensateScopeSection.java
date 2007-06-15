@@ -80,8 +80,8 @@ public class CompensateScopeSection extends BPELPropertySection {
 		data.left = new FlatFormAttachment(0, 0);
 		composite.setLayoutData(data);
 		
-		activityLabel = wf.createLabel(composite, Messages.CompensateImplDetails_Activity__10); 
-		CCombo activityCombo = wf.createCCombo(composite);
+		activityLabel = fWidgetFactory.createLabel(composite, Messages.CompensateImplDetails_Activity__10); 
+		CCombo activityCombo = fWidgetFactory.createCCombo(composite);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(activityLabel, STANDARD_LABEL_WIDTH_SM));		
 		activityCombo.setLayoutData(data);	

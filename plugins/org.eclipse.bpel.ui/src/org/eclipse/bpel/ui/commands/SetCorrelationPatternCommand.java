@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -20,16 +21,20 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
  */
 public class SetCorrelationPatternCommand extends SetCommand {
 
-	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_CORRELATION; }
-
-	public SetCorrelationPatternCommand(Correlation target, CorrelationPattern newPattern)  {
-		super(target, newPattern);
+	/**
+	 * @see org.eclipse.bpel.ui.commands.SetCommand#getDefaultLabel()
+	 */
+	@Override
+	public String getDefaultLabel() { 
+		return IBPELUIConstants.CMD_EDIT_CORRELATION; 
 	}
 
-	public Object get() {
-		return ((Correlation)fTarget).getPattern();
-	}
-	public void set(Object o) {
-		((Correlation)fTarget).setPattern((CorrelationPattern)o);
+	/**
+	 * Brand new shiny SetCorrelationPatternCommand
+	 * @param target
+	 * @param newPattern
+	 */
+	public SetCorrelationPatternCommand (Correlation target, CorrelationPattern newPattern)  {
+		super(target, newPattern,BPELPackage.eINSTANCE.getCorrelation_Pattern() );
 	}
 }

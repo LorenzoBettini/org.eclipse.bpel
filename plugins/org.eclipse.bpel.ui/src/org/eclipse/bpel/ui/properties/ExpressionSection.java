@@ -241,7 +241,7 @@ public abstract class ExpressionSection extends TextSection {
 	
 	protected void createTitleWidgets(Composite composite) {
 		FlatFormData data;
-		titleLabel = wf.createLabel(composite, title);
+		titleLabel = fWidgetFactory.createLabel(composite, title);
 		titleLabel.setFont(boldFont);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
@@ -255,7 +255,7 @@ public abstract class ExpressionSection extends TextSection {
 		FlatFormData data;
 		
 		DecoratedLabel nameLabel = new DecoratedLabel(composite,SWT.LEFT);
-		wf.adapt(nameLabel);		
+		fWidgetFactory.adapt(nameLabel);		
 		nameLabel.setText( Messages.ExpressionSection_Expression_language_1); 
 		expressionLanguageLabel = new StatusLabel2( nameLabel );				
 
@@ -561,7 +561,7 @@ public abstract class ExpressionSection extends TextSection {
 		data.right = new FlatFormAttachment(100,0);
 		data.bottom = new FlatFormAttachment(100,0);
 					
-		fEditorArea = wf.createComposite(fParentComposite);			
+		fEditorArea = fWidgetFactory.createComposite(fParentComposite);			
 		
 		fEditorAreaStackLayout = new StackLayout();
 		fEditorArea.setLayout( fEditorAreaStackLayout );		
@@ -576,7 +576,7 @@ public abstract class ExpressionSection extends TextSection {
 		
 	
 	protected Composite createNoEditorWidgets (Composite composite) {
-		return wf.createComposite(composite);
+		return fWidgetFactory.createComposite(composite);
 	}
 	
 	
@@ -630,7 +630,7 @@ public abstract class ExpressionSection extends TextSection {
 				// The "old" editorComposite will be buried in the stack layout				
 				disposeEditor();				
 				
-				fEditorComposite = wf.createComposite(fEditorArea);	
+				fEditorComposite = fWidgetFactory.createComposite(fEditorArea);	
 				fEditorComposite.setLayout( new FillLayout() );
 				createEditor (fEditorComposite);
 				

@@ -41,12 +41,12 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 	@Override
 	protected Composite createNoEditorWidgets(Composite composite) {
 		
-		Composite section = wf.createComposite(composite);
+		Composite section = fWidgetFactory.createComposite(composite);
 		section.setLayout(new FlatFormLayout());
 	
 		FlatFormData ffdata;
 		
-		label1 = wf.createLabel(section,
+		label1 = fWidgetFactory.createLabel(section,
 			Messages.RepeatingAlarmConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -54,7 +54,7 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		label2 = wf.createLabel(section,
+		label2 = fWidgetFactory.createLabel(section,
 			Messages.RepeatingAlarmConditionSection_Choose_type_text_2); 
 			ffdata = new FlatFormData();
 			ffdata.left = new FlatFormAttachment(0, 0);
@@ -62,7 +62,7 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 			ffdata.right = new FlatFormAttachment(100, 0);
 			label2.setLayoutData(ffdata);
 			
-		label3 = wf.createLabel(section,
+		label3 = fWidgetFactory.createLabel(section,
 			Messages.RepeatingAlarmConditionSection_Not_supported_in_Pick_text_3); 
 			ffdata = new FlatFormData();
 			ffdata.left = new FlatFormAttachment(0, 0);
@@ -70,7 +70,7 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 			ffdata.right = new FlatFormAttachment(100, 0);
 			label3.setLayoutData(ffdata);
 				
-		createDefaultButton = wf.createButton(section, Messages.RepeatingAlarmConditionSection_Create_a_New_Repeat_Condition_3, SWT.PUSH); 
+		createDefaultButton = fWidgetFactory.createButton(section, Messages.RepeatingAlarmConditionSection_Create_a_New_Repeat_Condition_3, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);

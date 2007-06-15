@@ -53,12 +53,12 @@ public class TransitionConditionSection extends ExpressionSection {
 	@Override
 	protected Composite createNoEditorWidgets(Composite composite) {
 	
-		Composite section = wf.createComposite(composite);
+		Composite section = fWidgetFactory.createComposite(composite);
 		section.setLayout(new FlatFormLayout());
 	
 		FlatFormData ffdata;
 		
-		Label label1 = wf.createLabel(section,
+		Label label1 = fWidgetFactory.createLabel(section,
 			Messages.TransitionConditionSection_No_condition_specified_1); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -66,7 +66,7 @@ public class TransitionConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label1.setLayoutData(ffdata);
 
-		Label label2 = wf.createLabel(section,
+		Label label2 = fWidgetFactory.createLabel(section,
 			Messages.TransitionConditionSection_Optional_condition_text_2); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
@@ -74,7 +74,7 @@ public class TransitionConditionSection extends ExpressionSection {
 		ffdata.right = new FlatFormAttachment(100, 0);
 		label2.setLayoutData(ffdata);
 		
-		Button createDefaultButton = wf.createButton(section, Messages.TransitionConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
+		Button createDefaultButton = fWidgetFactory.createButton(section, Messages.TransitionConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);
 		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);

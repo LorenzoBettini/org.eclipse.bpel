@@ -150,11 +150,11 @@ public class CorrSetImplSection extends BPELPropertySection  {
 	protected void createPropertyWidgets(Composite composite)  {
 		FlatFormData data;
 
-		Label correlationSetLabel = wf.createLabel(composite, Messages.CorrSetImplDetails_Properties__5); 
-		propertyTable = wf.createTable(composite, SWT.FULL_SELECTION | SWT.V_SCROLL);
-		addButton = wf.createButton(composite, Messages.CorrSetImplDetails_Browse____6, SWT.PUSH); 
-		editButton = wf.createButton(composite, Messages.CorrSetImplDetails_Edit____7, SWT.PUSH); 
-		removeButton = wf.createButton(composite, Messages.CorrSetImplDetails_Remove_4, SWT.PUSH); 
+		Label correlationSetLabel = fWidgetFactory.createLabel(composite, Messages.CorrSetImplDetails_Properties__5); 
+		propertyTable = fWidgetFactory.createTable(composite, SWT.FULL_SELECTION | SWT.V_SCROLL);
+		addButton = fWidgetFactory.createButton(composite, Messages.CorrSetImplDetails_Browse____6, SWT.PUSH); 
+		editButton = fWidgetFactory.createButton(composite, Messages.CorrSetImplDetails_Edit____7, SWT.PUSH); 
+		removeButton = fWidgetFactory.createButton(composite, Messages.CorrSetImplDetails_Remove_4, SWT.PUSH); 
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);

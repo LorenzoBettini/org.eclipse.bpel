@@ -80,13 +80,13 @@ public class ScopeImplSection extends BPELPropertySection {
 		
 		 // serializable
 		 data = new FlatFormData();
-		 isolatedButton = wf.createButton(composite, Messages.VariableImplDetails_Isolated__6, SWT.CHECK); 
+		 isolatedButton = fWidgetFactory.createButton(composite, Messages.VariableImplDetails_Isolated__6, SWT.CHECK); 
 		 data.left = new FlatFormAttachment(0, 0);
 		 isolatedButton.setLayoutData(data);
 	}
 
 	protected void createClient(Composite parent) {
-		Composite composite = parentComposite = wf.createComposite(parent, SWT.NONE);
+		Composite composite = parentComposite = fWidgetFactory.createComposite(parent, SWT.NONE);
 		FlatFormLayout layout = new FlatFormLayout();
 		layout.marginWidth = layout.marginHeight = 0;
 		composite.setLayout(layout);

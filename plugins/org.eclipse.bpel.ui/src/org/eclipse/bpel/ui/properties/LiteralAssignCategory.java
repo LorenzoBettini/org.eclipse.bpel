@@ -59,7 +59,7 @@ public class LiteralAssignCategory extends AssignCategoryBase {
 		FlatFormData data;
 
 		
-		fLiteralText = wf.createText(parent, EMPTY_STRING, SWT.V_SCROLL | SWT.MULTI);
+		fLiteralText = fWidgetFactory.createText(parent, EMPTY_STRING, SWT.V_SCROLL | SWT.MULTI);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);

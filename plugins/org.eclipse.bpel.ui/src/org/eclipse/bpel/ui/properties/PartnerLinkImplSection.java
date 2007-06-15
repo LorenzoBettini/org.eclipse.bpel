@@ -226,15 +226,15 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		
 		composite.setLayoutData(data);
 			
-		partnerLinkTypeBrowseButton = wf.createButton(composite, Messages.PartnerLinkImplSection_Browse_1, SWT.PUSH); 
+		partnerLinkTypeBrowseButton = fWidgetFactory.createButton(composite, Messages.PartnerLinkImplSection_Browse_1, SWT.PUSH); 
 
 		DecoratedLabel label = new DecoratedLabel ( composite, SWT.LEFT );
 		label.setText( Messages.PartnerLinkImplSection_0 );
-		wf.adapt(label);
+		fWidgetFactory.adapt(label);
 		
 		fPartnerLinkTypeLabel = new StatusLabel2 ( label ); 
 
-		fPartnerLinkTypeHref = wf.createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
+		fPartnerLinkTypeHref = fWidgetFactory.createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
 		fPartnerLinkTypeHref.addHyperlinkListener(new HyperlinkAdapter() {
 			
 			@Override
@@ -301,7 +301,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 
 	protected Composite createMyRolePartnerRoleWidgets ( Composite top, Composite parent) {
 
-		Composite composite = wf.createComposite(parent);
+		Composite composite = fWidgetFactory.createComposite(parent);
 		FlatFormData data = new FlatFormData();
 		if (top == null) {
 			data.top = new FlatFormAttachment(0,5);
@@ -321,7 +321,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		
 		GridData gridData;        
 				
-		Group myGroup = wf.createGroup(composite,Messages.PartnerLinkImplSection_2);		
+		Group myGroup = fWidgetFactory.createGroup(composite,Messages.PartnerLinkImplSection_2);		
 		layout = new GridLayout();
 		layout.makeColumnsEqualWidth = false;		
 		layout.numColumns = 3;		
@@ -342,7 +342,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		updateRadio(fMyRole1, null);
 		updateRadio(fMyRole2, null);
 		
-		Group partnerGroup = wf.createGroup(composite, Messages.PartnerLinkImplSection_4);		
+		Group partnerGroup = fWidgetFactory.createGroup(composite, Messages.PartnerLinkImplSection_4);		
 		
 		layout = new GridLayout();
 		layout.makeColumnsEqualWidth = false;		
@@ -392,10 +392,10 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		
 		composite.setLayoutData(data);
 			
-		Label treeLabel = wf.createLabel(composite, Messages.PartnerLinkImplSection_6); 
+		Label treeLabel = fWidgetFactory.createLabel(composite, Messages.PartnerLinkImplSection_6); 
 		
 		// Tree viewer for variable structure ...
-		Tree tree  = wf.createTree(composite, SWT.NONE);		
+		Tree tree  = fWidgetFactory.createTree(composite, SWT.NONE);		
 		fMyOperationsTreeViewer = new TreeViewer( tree );
 		fMyOperationsTreeViewer.setContentProvider(  new OperationsTreeContentProvider(true) );
 		fMyOperationsTreeViewer.setLabelProvider(new ModelTreeLabelProvider());
@@ -417,10 +417,10 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		tree.setLayoutData(data);
 
 		
-		treeLabel = wf.createLabel(composite, Messages.PartnerLinkImplSection_7); 
+		treeLabel = fWidgetFactory.createLabel(composite, Messages.PartnerLinkImplSection_7); 
 		
 		// Tree viewer for variable structure ...
-		tree = wf.createTree(composite, SWT.NONE);		
+		tree = fWidgetFactory.createTree(composite, SWT.NONE);		
 		fPartnerOperationsTreeViewer = new TreeViewer( tree );
 		fPartnerOperationsTreeViewer.setContentProvider(new OperationsTreeContentProvider(true));
 		fPartnerOperationsTreeViewer.setLabelProvider(new ModelTreeLabelProvider());

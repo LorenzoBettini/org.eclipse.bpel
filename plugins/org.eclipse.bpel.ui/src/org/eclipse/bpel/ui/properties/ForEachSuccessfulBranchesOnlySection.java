@@ -80,7 +80,7 @@ public class ForEachSuccessfulBranchesOnlySection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(100, 0);
 		successfulBranchesOnlyComposite.setLayoutData(data);
 
-		successfulBranchesOnlyCheckbox = wf
+		successfulBranchesOnlyCheckbox = fWidgetFactory
 				.createButton(
 						successfulBranchesOnlyComposite,
 						Messages.ForEachSuccessfulBranchesOnlySection_1,

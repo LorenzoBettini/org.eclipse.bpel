@@ -335,10 +335,10 @@ public class CorrelationSection extends BPELPropertySection {
 	protected void createCorrelationSetWidgets(Composite composite)  {
 		FlatFormData data;
 		
-		addButton = wf.createButton(composite, Messages.CorrelationDetails_Add_18, SWT.PUSH); 
-		removeButton = wf.createButton(composite, Messages.CorrelationDetails_Remove_19, SWT.PUSH); 
-		Label correlationSetLabel = wf.createLabel(composite, Messages.CorrelationDetails_Correlation_Sets__20); 
-		correlationTable = wf.createTable(composite, SWT.FULL_SELECTION | SWT.V_SCROLL);
+		addButton = fWidgetFactory.createButton(composite, Messages.CorrelationDetails_Add_18, SWT.PUSH); 
+		removeButton = fWidgetFactory.createButton(composite, Messages.CorrelationDetails_Remove_19, SWT.PUSH); 
+		Label correlationSetLabel = fWidgetFactory.createLabel(composite, Messages.CorrelationDetails_Correlation_Sets__20); 
+		correlationTable = fWidgetFactory.createTable(composite, SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);

@@ -92,11 +92,11 @@ public class NameSection extends BPELPropertySection {
 		FlatFormData data;
 
 		DecoratedLabel nameLabel = new DecoratedLabel(composite,SWT.LEFT);
-		wf.adapt(nameLabel);		
+		fWidgetFactory.adapt(nameLabel);		
 		nameLabel.setText(Messages.NameDetails_BPEL_Name__3); 
 		statusLabel = new StatusLabel2( nameLabel );		
 		
-		nameText = wf.createText(composite, ""); //$NON-NLS-1$
+		nameText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameLabel, STANDARD_LABEL_WIDTH_AVG));
 		data.right = new FlatFormAttachment(100, 0);

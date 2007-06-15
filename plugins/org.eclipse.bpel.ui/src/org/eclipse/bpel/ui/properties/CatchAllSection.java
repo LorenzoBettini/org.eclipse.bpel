@@ -27,7 +27,7 @@ public class CatchAllSection extends BPELPropertySection {
 		Composite composite = createFlatFormComposite(parent);
 		FlatFormData ffdata;
 		
-		Label nameLabel = wf.createLabel(composite, Messages.CatchAllDetails_0); 
+		Label nameLabel = fWidgetFactory.createLabel(composite, Messages.CatchAllDetails_0); 
 		
 		ffdata = new FlatFormData();
 		ffdata.left = new FlatFormAttachment(0, 0);

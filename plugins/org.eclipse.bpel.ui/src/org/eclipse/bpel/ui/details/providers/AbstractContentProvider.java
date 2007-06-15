@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -23,8 +23,19 @@ public abstract class AbstractContentProvider implements IStructuredContentProvi
 
 	protected static final Object[] EMPTY_ARRAY = new Object[0];
 	
-	public void dispose()  { }
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput)  { }
+	/**
+	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+	 */
+	public void dispose()  { 
+		
+	}
+	
+	/**
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	 */
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput)  { 
+		
+	}
 	
 	
 	/**
@@ -34,6 +45,8 @@ public abstract class AbstractContentProvider implements IStructuredContentProvi
 	 * elements are collected. 
 	 * 
 	 * Under no circumstances null is returned.
+	 * @param input 
+	 * @return 
 	 * 
 	 */
 	
@@ -42,7 +55,7 @@ public abstract class AbstractContentProvider implements IStructuredContentProvi
 			return EMPTY_ARRAY;
 		}
 		
-		LinkedList list = new LinkedList();			
+		List<Object> list = new ArrayList<Object>();			
 		collectElements ( input, list );
 		
 		return list.isEmpty()? EMPTY_ARRAY : list.toArray();		
@@ -57,7 +70,7 @@ public abstract class AbstractContentProvider implements IStructuredContentProvi
 	 * @param list the list in which the elements are to be inserted.
 	 */
 	
-	public void collectElements (Object input, List list) {
+	public void collectElements (Object input, List<Object> list) {
 		// need to override this method.
 	}
 	
@@ -70,9 +83,10 @@ public abstract class AbstractContentProvider implements IStructuredContentProvi
 	 * 
 	 * @param input the complex object to look at.
 	 * @param list the list to collect elements into
+	 * @return 
 	 */
 	
-	public boolean collectComplex ( Object input, List list) {
+	public boolean collectComplex ( Object input, List<Object> list) {
 		
 		Object[] arr = null;
 		
@@ -85,11 +99,9 @@ public abstract class AbstractContentProvider implements IStructuredContentProvi
 		if (arr == null) {
 			return false;
 		}
-		
-		for(int i=0; i < arr.length; i++) {
-			collectElements ( arr[i], list );
-		}
-		
+		for(Object n : arr) {
+			collectElements(n, list);
+		}		
 		return arr.length > 0;
 	}
 }

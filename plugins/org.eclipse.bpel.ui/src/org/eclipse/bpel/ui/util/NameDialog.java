@@ -23,12 +23,21 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class NameDialog extends InputDialog {
 
+	/**
+	 * 
+	 * @param parent
+	 * @param title
+	 * @param message
+	 * @param initialValue
+	 * @param validator
+	 */
 	public NameDialog(Shell parent, String title, String message, String initialValue,
 		IInputValidator validator)
 	{
 		super(parent, title, message, initialValue, validator);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control result = super.createDialogArea(parent);
 		getText().setFocus();

@@ -41,6 +41,9 @@ public final class Messages extends NLS {
 	public static String BrowseSelectorDialog_2;
 	public static String BrowseSelectorDialog_3;
 	public static String BrowseSelectorDialog_4;
+	public static String DocumentationSection_Source_1;
+	public static String DocumentationSection_Language_1;
+	public static String DocumentationSection_Description_1;
 	public static String ImportsSection_0;
 	public static String ImportsSection_1;
 	public static String ImportsSection_2;

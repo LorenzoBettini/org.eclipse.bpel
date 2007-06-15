@@ -96,7 +96,7 @@ public class VariableInitializationSection extends BPELPropertySection {
 		
 		FlatFormData data;
 				
-		section.fLabel = wf.createLabel(composite, Messages.AssignImplDetails_From__1 );
+		section.fLabel = fWidgetFactory.createLabel(composite, Messages.AssignImplDetails_From__1 );
 		
 		section.fCombo = new Combo(composite,SWT.FLAT | SWT.BORDER | SWT.READ_ONLY );
 		data = new FlatFormData();

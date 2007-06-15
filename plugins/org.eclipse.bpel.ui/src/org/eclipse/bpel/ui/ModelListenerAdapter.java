@@ -26,24 +26,39 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.CommandStackListener;
 
 
+/**
+ * ModelListenerAdapter
+ * 
+ */
+
 public class ModelListenerAdapter extends EContentAdapter implements CommandStackListener {
-	ExtensionMap extensionMap = null;
+	
+	ExtensionMap fxtensionMap = null;
 	
 	Adapter linkNotificationAdapter;
 	
 	boolean inExecute = false;
 	boolean ignoreChanges = true;
 	
+	/**
+	 * 
+	 * @param adapter
+	 */
 	public void setLinkNotificationAdapter(Adapter adapter) {
 		this.linkNotificationAdapter = adapter;
 	}
 	
-	public void notifyChanged(Notification n) {
-		super.notifyChanged(n);
-		ListenerDescriptor[] descriptors = BPELUIRegistry.getInstance().getListenerDescriptors();
-		for (int i = 0; i < descriptors.length; i++) {
-		    descriptors[i].getModelListener().handleChange(n);
+	/**
+	 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	@Override
+	public void notifyChanged (Notification n) {
+		super.notifyChanged(n);			
+		
+		for (ListenerDescriptor desc : BPELUIRegistry.getInstance().getListenerDescriptors() ) {
+		    desc.getModelListener().handleChange(n);
 		}
+		
 		// TODO: should the descriptor-based listeners be protected by this as well?
 		if (!ignoreChanges) {
 			if (linkNotificationAdapter != null) {
@@ -51,22 +66,33 @@ public class ModelListenerAdapter extends EContentAdapter implements CommandStac
 			}
 		}
 	}
+	
+	/**
+	 * @see org.eclipse.emf.ecore.util.EContentAdapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
+	@Override
 	public void setTarget(Notifier notifier) {
 		super.setTarget(notifier);
-		if ((notifier instanceof EObject) && (extensionMap != null)) {
+		if ((notifier instanceof EObject) && (fxtensionMap != null)) {
 			if (inExecute) {
-				ModelHelper.createExtensionIfNecessary(extensionMap, (EObject)notifier);
+				ModelHelper.createExtensionIfNecessary(fxtensionMap, (EObject)notifier);
 			}
 		}
 	}
+	
+	/**
+	 * @param extensionMap
+	 */
 	public void setExtensionMap(ExtensionMap extensionMap) {
-		this.extensionMap = extensionMap;
+		this.fxtensionMap = extensionMap;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
 	 */
+	
 	public void commandStackChanged(EventObject e) {
+		
 		if (e instanceof EditModelCommandStack.SharedCommandStackChangedEvent) {
 			switch (((EditModelCommandStack.SharedCommandStackChangedEvent)e).getProperty()) {
 			case SharedCommandStackListener.EVENT_START_EXECUTE:
