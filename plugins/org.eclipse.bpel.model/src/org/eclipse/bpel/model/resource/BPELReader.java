@@ -2453,8 +2453,8 @@ public class BPELReader {
 
 			// Set expression text
 			// Get the condition text
-			String data = slurpTextualNodes ( fromElement );
-			if (isEmptyOrWhitespace(data) == false) {			
+			String data = getText( fromElement );
+			if (data != null) {			
 				expressionObject.setBody(data);
 			}								
 		}
@@ -2944,26 +2944,7 @@ public class BPELReader {
 		}
 	}
 	
-	
-	
-	
-	
-	String slurpTextualNodes ( Element node ) {
-		
-		StringBuilder sb = new StringBuilder(128);
-		Node n = node.getFirstChild();
-		while (n != null) {
-			switch (n.getNodeType()) {
-			case Node.TEXT_NODE :
-			case Node.CDATA_SECTION_NODE :
-				sb.append( n.getNodeValue() );
-				break;
-			}
-			n = n.getNextSibling();
-		}
-		return sb.toString();
-	}
-	
+
 
 	/**
      * Returns true if the string is either null or contains just whitespace.
@@ -2997,36 +2978,29 @@ public class BPELReader {
 	String getText (Node node) {
 		
 		StringBuilder sb = new StringBuilder(128);
-		boolean containsValidData = false;
 		
 		if (node instanceof Element) {
 			node = ((Element)node).getFirstChild();
 		}		
-		
-		while (node != null) {		
-			if (node.getNodeType() == Node.TEXT_NODE) {
-				Text text = (Text)node;
+						
+		while (node != null) {
+			switch (node.getNodeType()) {
+			case Node.TEXT_NODE :
+				Text text = (Text) node;
 				sb.append(text.getData());
-			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
+				break;
+			case Node.CDATA_SECTION_NODE :
 				CDATASection cdata = (CDATASection) node;
-				sb.append(cdata.getData());								
+				sb.append( cdata.getData() );
+				break;
 			}
 			node = node.getNextSibling();
 		}
-		
-		for (int i = 0; i < sb.length(); i++) {
-			char charData = sb.charAt(i);
-			if (Character.isWhitespace(charData)) {
-				continue;
-			}
-			containsValidData = true;
-			break;				
+		String data = sb.toString();
+		if (isEmptyOrWhitespace(data)) {
+			return null;
 		}
-		
-		if (containsValidData) {
-			return sb.toString();
-		} 
-		return null;
+		return data;
 	}
 
 	public static Variable getVariable(EObject eObject, String variableName) {
