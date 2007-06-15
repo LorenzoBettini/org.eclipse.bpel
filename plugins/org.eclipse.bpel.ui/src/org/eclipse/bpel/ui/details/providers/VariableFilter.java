@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.wst.wsdl.Message;
+import org.eclipse.wst.wsdl.Part;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
 
@@ -24,9 +25,16 @@ public class VariableFilter extends ViewerFilter
 	XSDElementDeclaration fElementDeclaration;
 	XSDTypeDefinition fTypeDefinition;
 	
+	/**
+	 * Brand new shiny variable filter.
+	 */
 	public VariableFilter () {
 		
 	}
+	
+	/**
+	 * Clear the filter
+	 */
 	
 	public void clear () {
 		fMessage = null;
@@ -34,17 +42,34 @@ public class VariableFilter extends ViewerFilter
 		fTypeDefinition = null;		
 	}
 	
+	/**
+	 * Set type of filter to be the message msg
+	 * @param msg the message
+	 */
 	public void setType ( Message msg ) {
 		fMessage = msg;
 	}
+	
+	/**
+	 * Set the type of filter to be this element declaration.
+	 * @param decl
+	 */
 	public void setType ( XSDElementDeclaration decl ) {
 		fElementDeclaration = decl;
 	}
 	
+	/**
+	 * Set this type of filter to be type definition.
+	 * @param typeDef
+	 */
 	public void setType ( XSDTypeDefinition typeDef) {
 		fTypeDefinition = typeDef;
 	}
 	
+	/**
+	 * @see org.eclipse.jface.viewers.ViewerFilter#select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	 */
+	@Override
 	public boolean select (Viewer viewer, Object parentElement, Object element) {
 		
 		if (element instanceof ITreeNode) {
@@ -63,8 +88,7 @@ public class VariableFilter extends ViewerFilter
 			return false;
 		}
 		
-		
-		
+				
 		if ( Variable.class.isInstance(toTest) ) {
 			
 			Variable v = (Variable) toTest;
@@ -73,10 +97,20 @@ public class VariableFilter extends ViewerFilter
 				return true;
 			}
 			
-			if (fMessage != null) {			
+			if (fMessage != null) {
+				
 				if (fMessage.equals ( v.getMessageType() )) {
 					return true;
 				}
+				
+				if (fMessage.getEParts().size() == 1) {				
+					Part part = (Part) fMessage.getEParts().get(0);
+					XSDElementDeclaration decl = part.getElementDeclaration();
+					if (decl != null && decl.equals( v.getXSDElement() )) {
+						return true;
+					}
+				}
+				
 			}
 			
 			if (fElementDeclaration != null) {
@@ -84,6 +118,7 @@ public class VariableFilter extends ViewerFilter
 					return true;
 				}
 			}
+			
 			
 			if (fTypeDefinition != null) {
 				if (fTypeDefinition.equals( v.getType() )) {
