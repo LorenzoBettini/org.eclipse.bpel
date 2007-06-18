@@ -24,6 +24,7 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
@@ -77,7 +78,8 @@ public class DocumentationSection extends BPELPropertySection {
 	static {
 		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Lang() );
 		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Source() );
-		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Value() );		
+		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Value() );	
+		affectedFeatures.add( BPELPackage.eINSTANCE.getExtensibleElement_Documentation() );
 	}
 	
 	
@@ -161,8 +163,7 @@ public class DocumentationSection extends BPELPropertySection {
 		fLangViewer = new ComboViewer(fLangCombo);
 		fLangViewer.setContentProvider(new LanguageContentProvider());
 		fLangViewer.setLabelProvider( new ILabelProvider () {
-			public Image getImage(Object element) {
-				Locale locale = (Locale) element;
+			public Image getImage(Object element) {				
 				return null;
 			}
 
@@ -293,12 +294,8 @@ public class DocumentationSection extends BPELPropertySection {
 			String value = fDocumentation.getSource();
 			fSourceText.setText( value != null ? value : EMPTY_STRING );
 			
-			value = fDocumentation.getLang();
-			if (value == null) {
-				fLangViewer.setSelection(new StructuredSelection( Locale.getDefault() ), true);
-			} else {
-				
-			}
+			Locale locale = BPELUtils.lookupLocaleFor(fDocumentation.getLang());
+			fLangViewer.setSelection(new StructuredSelection( locale ), true);
 			
 			value = fDocumentation.getValue();
 			fDescription.setText(value != null ? value : EMPTY_STRING );
@@ -310,13 +307,14 @@ public class DocumentationSection extends BPELPropertySection {
 		updateMarkers();
 	}
 	
+	@SuppressWarnings("nls")
 	protected String getDocumentationLanguage () {
 		IStructuredSelection sel = (IStructuredSelection) fLangViewer.getSelection();
+		
 		Locale locale = (Locale) sel.getFirstElement();
-		return locale.getLanguage();
-	}
-	
-	
+		return BPELUtils.lookupLocaleKeyFor(locale);
+	}	
+		
 	/**
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#shouldUseExtraSpace()
 	 */
@@ -360,7 +358,7 @@ public class DocumentationSection extends BPELPropertySection {
 	
 	@Override
 	public void gotoMarker (IMarker marker) {
-		fSourceText.setFocus() ;		
+		fDescription.setFocus() ;		
 	}
 
 	/**
@@ -370,12 +368,6 @@ public class DocumentationSection extends BPELPropertySection {
 	
 	@Override
 	public boolean isValidMarker (IMarker marker) {
-		String context = null;
-		try {
-			context = (String) marker.getAttribute("href.context");
-		} catch (Exception ex) {
-			return false;
-		}
-		return "name".equals (context);
+		return false;
 	}	
 }
