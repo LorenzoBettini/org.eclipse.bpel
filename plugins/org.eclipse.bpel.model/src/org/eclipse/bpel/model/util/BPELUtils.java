@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -671,4 +672,89 @@ public class BPELUtils {
 	public static BPELResourceSetImpl slightlyHackedResourceSet (EObject eObj) {
 		return slightlyHackedResourceSet ( eObj.eResource().getResourceSet() );
 	}
+	
+	
+	
+	static Map <String,Locale> string2Locale = new HashMap<String,Locale>();
+	static Map <Locale,String> locale2String = new HashMap<Locale,String>();
+	
+	static {
+		StringBuilder sb = new StringBuilder();
+		for (Locale l : Locale.getAvailableLocales()) {
+			 sb.setLength(0);
+			 sb.append(l.getLanguage());
+			 if (isEmptyOrWhitespace( l.getCountry()) == false) {
+				 sb.append("-").append(l.getCountry());
+			 }
+			 
+			 String key = sb.toString().toLowerCase();
+			 
+			 string2Locale.put(key,l);
+			 locale2String.put(l,key);
+		}
+	}
+	
+	
+
+	
+	/**
+	 * Lookup the locale for the key.
+	 * 
+	 * @param key the key (language + country code)
+	 * @return the locale or the default locale.
+	 */
+	
+	public static Locale lookupLocaleFor (String key) {
+		if (key == null) {
+			return Locale.getDefault();		
+		}
+		key = key.replace('_', '-').toLowerCase();
+		Locale locale = string2Locale.get(key);
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+		return locale;
+	}
+	
+	
+	/**
+	 * Lookup the key for the locale.
+	 * 
+	 * @param locale the locale
+	 * @return the key associated with it.
+	 */
+	
+	public static String lookupLocaleKeyFor (Locale locale) {
+		if (locale == null) {
+			return locale2String.get( Locale.getDefault() );		
+		}
+		String key = locale2String.get(locale);
+		if (key == null) {
+			key = locale2String.get( Locale.getDefault() );
+		}
+		return key;
+	}
+	
+	
+	/**
+     * Returns true if the string is either null or contains just whitespace.
+	 * @param value 
+	 * @return true if empty or whitespace, false otherwise.
+     */
+		
+   static public boolean isEmptyOrWhitespace( String value )
+   {
+       if( value == null || value.length() == 0) {
+           return true;
+       }               
+       for( int i = 0, j = value.length(); i < j; i++ )
+       {
+           if( ! Character.isWhitespace( value.charAt(i) ) ) {
+               return false;
+           }
+       }
+       return true;
+   }
+   
+	
 }

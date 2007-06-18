@@ -2682,9 +2682,9 @@ public class BPELReader {
 		Documentation documentation = BPELFactory.eINSTANCE.createDocumentation();
 		// TODO: Facade ? 
 		// documentation.setElement(documentationElement);
-		
-		if (documentationElement.hasAttribute("lang")) {
-			documentation.setLang(documentationElement.getAttribute("lang"));
+				 
+		if (documentationElement.hasAttribute("xml:lang")) {
+			documentation.setLang(documentationElement.getAttribute("xml:lang"));
 		}
 		if (documentationElement.hasAttribute("source")) {
 			documentation.setSource(documentationElement.getAttribute("source"));
@@ -2982,14 +2982,23 @@ public class BPELReader {
 		if (node instanceof Element) {
 			node = ((Element)node).getFirstChild();
 		}		
-						
+		
+		boolean bCData = false;
+		
 		while (node != null) {
 			switch (node.getNodeType()) {
 			case Node.TEXT_NODE :
+				if (bCData) {
+					break;
+				}
 				Text text = (Text) node;
 				sb.append(text.getData());
 				break;
 			case Node.CDATA_SECTION_NODE :
+				if (bCData == false) {
+					sb.setLength(0);
+					bCData = true;
+				}
 				CDATASection cdata = (CDATASection) node;
 				sb.append( cdata.getData() );
 				break;

@@ -1520,7 +1520,7 @@ public class BPELWriter {
 			documentationElement.setAttribute("source", documentation.getSource());
 		}
 		if (documentation.getLang() != null) {
-			documentationElement.setAttribute("lang", documentation.getLang());
+			documentationElement.setAttribute("xml:lang", documentation.getLang());
 		}
 		if (documentation.getValue() != null && documentation.getValue().length() > 0) {
 			Text textNode = documentationElement.getOwnerDocument().createTextNode(documentation.getValue());
