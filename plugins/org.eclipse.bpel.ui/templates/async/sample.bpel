@@ -5,7 +5,7 @@
          targetNamespace="${namespace}"
          suppressJoinFailure="yes"
          xmlns:tns="${namespace}"
-         xmlns="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
          >
     <!-- Import the client WSDL -->
 	<import location="${processName}.wsdl" namespace="${namespace}" 
