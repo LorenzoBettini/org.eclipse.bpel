@@ -13,12 +13,14 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetExitOnStandardFaultCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -85,9 +87,8 @@ public class ExitOnStandardFaultSection extends BPELPropertySection {
 		SelectionListener selectionListener = new SelectionListener() {
 			public void widgetSelected (SelectionEvent e) {				
 				Boolean value = (Boolean) e.widget.getData(V);
-				
-			 	getCommandFramework().execute(wrapInShowContextCommand(
-					new SetExitOnStandardFaultCommand( getInput(),value)));
+				Command cmd = new SetCommand(getInput(),value,BPELPackage.eINSTANCE.getProcess_ExitOnStandardFault());
+			 	getCommandFramework().execute(wrapInShowContextCommand(cmd));					
 			}
 			public void widgetDefaultSelected (SelectionEvent e) { 
 				widgetSelected(e); 

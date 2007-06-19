@@ -510,9 +510,13 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 	
 	
-	protected Composite createPortTypeWidgets(Composite top, Composite parent) {
+	protected Composite createPortTypeWidgets (Composite top, Composite parent) {
 		
 		FlatFormData data;
+		
+		if (true) {
+			return top ;
+		}
 		
 		final Composite composite = portTypeComposite = createFlatFormComposite(parent);
 		data = new FlatFormData();
@@ -571,19 +575,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 		operationLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplDetails_Operation__19); 
 		operationText = fWidgetFactory.createText(composite,EMPTY_STRING,SWT.NONE);	
-		operationButton = fWidgetFactory.createButton(composite,EMPTY_STRING,SWT.ARROW|SWT.CENTER|SWT.DOWN);
-			
-//		operationText.addHyperlinkListener(new HyperlinkAdapter() {
-//			public void linkActivated(HyperlinkEvent e) { 
-//				PortType pt =  ModelHelper.getPortType(getInput());
-//				if (pt != null) {
-//					BPELUtil.openEditor( pt, getBPELEditor() );
-//				}
-//			}
-//		});
-		
-//		operationText.setToolTipText("Click here to edit Operation.");
-	
+		operationButton = fWidgetFactory.createButton(composite,EMPTY_STRING,SWT.ARROW|SWT.CENTER|SWT.DOWN);			
 		
 		// Provide Content Assist for the variables		
 		OperationContentProvider provider = new OperationContentProvider();
@@ -1199,6 +1191,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		Composite ref = createPartnerWidgets(null,composite);
 		ref = createPortTypeWidgets(ref, composite);
 		ref = createOperationWidgets(ref,composite);
+		 
 		ref = createInputVariableWidgets(ref,composite);
 		ref = createOutputVariableComposite(ref,composite);
 		ref = createFaultComposite ( ref, composite );
@@ -1295,6 +1288,10 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 	
 	protected void updatePortTypeWidgets() {
+		if (interfaceName == null) {
+			return ;
+		}
+		
 		PartnerLink partnerLink = ModelHelper.getPartnerLink(getInput());
 		PortType portType = getEffectivePortType(partnerLink);
 		if (portType == null) {

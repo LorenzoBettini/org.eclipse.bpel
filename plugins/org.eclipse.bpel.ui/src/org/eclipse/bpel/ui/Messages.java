@@ -75,6 +75,7 @@ public final class Messages extends NLS {
 	public static String PartnerLinkImplSection_0;
 	public static String PartnerLinkImplSection_1;
 	public static String PartnerLinkImplSection_10;
+	public static String PartnerLinkImplSection_11;
 	public static String PartnerLinkImplSection_2;
 	public static String PartnerLinkImplSection_4;
 	public static String PartnerLinkImplSection_5;

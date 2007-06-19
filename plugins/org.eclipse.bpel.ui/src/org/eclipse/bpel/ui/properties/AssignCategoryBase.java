@@ -196,13 +196,7 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		// fCopyRuleSide represents the current copy rule (LHS or RHS). 
 		// Its container is where we want to append.
 		
-		return new SetCommand(fCopyRuleSide.getCopyRuleSide().eContainer() , newSide.getCopyRuleSide() , fStructuralFeature ) {
-			@Override
-			public String getDefaultLabel() {
-				return IBPELUIConstants.CMD_EDIT_ASSIGNCOPY;
-			}				 
-		 };
-		 
+		return new SetCommand(fCopyRuleSide.getCopyRuleSide().eContainer() , newSide.getCopyRuleSide() , fStructuralFeature) ;		 
 	}
 	
 	protected boolean isDefaultCompositeOpaque() { 

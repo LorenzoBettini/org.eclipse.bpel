@@ -13,7 +13,6 @@ package org.eclipse.bpel.ui.commands;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensateScope;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 
 
 /** 
@@ -21,15 +20,6 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
  * Supported for compensate activity
  */
 public class SetCompensateCommand extends SetCommand {
-	
-	/**
-	 * @see org.eclipse.bpel.ui.commands.SetCommand#getDefaultLabel()
-	 */
-	@Override
-	public String getDefaultLabel() { 
-		return IBPELUIConstants.CMD_SELECT_COMPENSATE; 
-	}
-
 	
 	/**
 	 * @param activity

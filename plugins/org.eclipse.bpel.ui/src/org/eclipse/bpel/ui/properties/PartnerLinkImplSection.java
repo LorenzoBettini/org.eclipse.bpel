@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
 import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
@@ -25,7 +28,7 @@ import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
-import org.eclipse.bpel.ui.commands.SetPartnerLinkTypeCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.commands.SetRoleCommand;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.details.providers.AddSelectedObjectFilter;
@@ -40,6 +43,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -70,13 +74,6 @@ import org.eclipse.wst.wsdl.PortType;
 
 public class PartnerLinkImplSection extends BPELPropertySection {
 
-	protected static final int INTERFACE_COMBO_CONTEXT = 1;
-	protected static final int INTERFACE_BROWSE_CONTEXT = 2;
-	protected static final int REFERENCE_COMBO_CONTEXT = 3;
-	protected static final int REFERENCE_BROWSE_CONTEXT = 4;
-	
-	
-	
 	private static final int BID_MY_ROLE_1 = 1;
 	private static final int BID_MY_ROLE_2 = 2;
 	private static final int BID_MY_ROLE_NONE = 3;
@@ -85,6 +82,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	private static final int BID_PARTNER_ROLE_2 = 102;
 	private static final int BID_PARTNER_ROLE_NONE = 103;
 	
+	private static final int BID_INITIALIZE_PARTNER_ROLE = 201;
 	
 	
 	private static final Role[] NO_ROLES = {};		
@@ -104,7 +102,6 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 
 	protected Composite parentComposite;
 	
-	protected CComboViewer interfaceViewer;
 	protected Button interfaceBrowseButton;
 	protected AddSelectedObjectFilter interfaceAddSelectedObjectFilter;
 
@@ -131,31 +128,21 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	
 	private StatusLabel2 fPartnerLinkTypeLabel;
 	
+	private Button fInitializePartnerRole;
+	
 
-	protected boolean isPartnerLinkAffected(Notification n) {
-		if (n.getNotifier() instanceof PartnerLink) {
-			return ((n.getFeatureID(PartnerLink.class) == BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE)
-				|| (n.getFeatureID(PartnerLink.class) == BPELPackage.PARTNER_LINK__MY_ROLE)
-				|| (n.getFeatureID(PartnerLink.class) == BPELPackage.PARTNER_LINK__PARTNER_ROLE));
-		}
-		return false;
+	static Set<EStructuralFeature> notificationInterest = new HashSet<EStructuralFeature>();
+	static {
+		notificationInterest.add ( BPELPackage.eINSTANCE.getPartnerLink_PartnerLinkType() );
+		notificationInterest.add ( BPELPackage.eINSTANCE.getPartnerLink_MyRole() );
+		notificationInterest.add ( BPELPackage.eINSTANCE.getPartnerLink_PartnerRole() );	
+		notificationInterest.add ( BPELPackage.eINSTANCE.getPartnerLink_InitializePartnerRole() );
+		
+		notificationInterest.add ( PartnerlinktypePackage.eINSTANCE.getPartnerLinkType_Role() );
+		notificationInterest.add ( PartnerlinktypePackage.eINSTANCE.getRole_PortType() );
+		notificationInterest.add ( PartnerlinktypePackage.eINSTANCE.getRole_Name() );
 	}
-	
-	protected boolean isPartnerLinkTypeAffected(Notification n) {
-		if (n.getNotifier() instanceof PartnerLinkType) {
-			return n.getFeatureID(PartnerLinkType.class) == PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE;
-		}
-		return false;
-	}
-	
-	protected boolean isRoleAffected(Notification n) {
-		if (n.getNotifier() instanceof Role) {
-			return ((n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__PORT_TYPE)
-				|| (n.getFeatureID(Role.class) == PartnerlinktypePackage.ROLE__NAME));
-		}
-		return false;
-	}
-	
+		
 	
 	@Override
 	protected MultiObjectAdapter[] createAdapters() {
@@ -167,10 +154,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 				
 				@Override
 				public void notify(Notification n) {
-					updateInterface = updateInterface
-						|| isPartnerLinkAffected(n)
-						|| isPartnerLinkTypeAffected(n)
-						|| isRoleAffected(n);
+					updateInterface = updateInterface || notificationInterest.contains( n.getFeature() );
 					refreshAdapters = refreshAdapters || updateInterface;
 				}
 				
@@ -319,7 +303,8 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		layout.numColumns = 2;
 		composite.setLayout(layout);
 		
-		GridData gridData;        
+		GridData gridData;
+				
 				
 		Group myGroup = fWidgetFactory.createGroup(composite,Messages.PartnerLinkImplSection_2);		
 		layout = new GridLayout();
@@ -335,9 +320,9 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		gridData.minimumWidth = 150;
 		myGroup.setLayoutData(gridData);
 
-		fMyRole1 = createRadioButton(myGroup, null, BID_MY_ROLE_1,    false);
-		fMyRole2 = createRadioButton(myGroup, null, BID_MY_ROLE_2,    false);
-		fMyRoleNone = createRadioButton(myGroup, Messages.PartnerLinkImplSection_10, BID_MY_ROLE_NONE, true);
+		fMyRole1 = createButton(myGroup, null, BID_MY_ROLE_1,    false, SWT.RADIO );
+		fMyRole2 = createButton(myGroup, null, BID_MY_ROLE_2,    false, SWT.RADIO);
+		fMyRoleNone = createButton(myGroup, Messages.PartnerLinkImplSection_10, BID_MY_ROLE_NONE, true,  SWT.RADIO);
 		
 		updateRadio(fMyRole1, null);
 		updateRadio(fMyRole2, null);
@@ -357,21 +342,23 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		gridData.minimumWidth = 150;
 		partnerGroup.setLayoutData(gridData);
 		
-		fPartnerRole1 = createRadioButton(partnerGroup, null, BID_PARTNER_ROLE_1,    false);
-		fPartnerRole2 = createRadioButton(partnerGroup, null, BID_PARTNER_ROLE_2,    false);
-		fPartnerRoleNone = createRadioButton(partnerGroup, Messages.PartnerLinkImplSection_5, BID_PARTNER_ROLE_NONE, true);
+		fPartnerRole1 = createButton(partnerGroup, null, BID_PARTNER_ROLE_1,    false, SWT.RADIO);
+		fPartnerRole2 = createButton(partnerGroup, null, BID_PARTNER_ROLE_2,    false, SWT.RADIO);
+		fPartnerRoleNone = createButton(partnerGroup, Messages.PartnerLinkImplSection_5, BID_PARTNER_ROLE_NONE, true, SWT.RADIO);
+
+		// The initialize partner role button
+		fInitializePartnerRole = createButton(partnerGroup, Messages.PartnerLinkImplSection_11, BID_INITIALIZE_PARTNER_ROLE, false, SWT.CHECK);
+
 		
 		updateRadio(fPartnerRole1, null);
 		updateRadio(fPartnerRole2, null);		
+		
 		
 		return composite;
 	}
 	
 	protected Composite createRoleWidgets ( Composite top, Composite parent) {
 		return createMyRolePartnerRoleWidgets(top, parent);
-		// Composite ref = createMyRoleWidgets(top,parent);
-		// ref = createPartnerRoleWidgets(ref, parent);
-		// return ref;
 	}
 	
 	
@@ -475,51 +462,9 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	
 	
 	protected void doChildLayout() {
-		// PartnerLink partnerLink = (PartnerLink)getInput();
-		// boolean showInterface = ModelHelper.isInterfacePartnerLink(partnerLink);
-		// boolean showReference = ModelHelper.isReferencePartnerLink(partnerLink);
-		// interfaceComposite.setVisible(showInterface);
-		// referenceComposite.setVisible(showReference);
-		// FlatFormData data = (FlatFormData)referenceComposite.getLayoutData();
-		// if (showInterface) {
-		//	data.top = new FlatFormAttachment(interfaceComposite, IDetailsAreaConstants.VSPACE);
-		//} else {
-		//	data.top = new FlatFormAttachment(0,0);
-		//}
 		parentComposite.layout(true,true);
 	}	
 	
-	protected void updateInterfaceWidgets()  {
-		if (getInput() == null)  throw new IllegalStateException();
-		PartnerLink partnerLink = (PartnerLink)getInput();
-
-		PortType portType = ModelHelper.getPartnerPortType(partnerLink, ModelHelper.INCOMING);
-		
-		interfaceViewer.setInput(getProcess());
-		interfaceAddSelectedObjectFilter.setSelectedObject(portType);
-		inUpdate = true;
-		try {
-			refreshCCombo(interfaceViewer, portType);
-		} finally {
-			inUpdate = false;
-		}
-	}
-
-	protected void updateReferenceWidgets()  {
-		if (getInput() == null)  throw new IllegalStateException();
-		PartnerLink partnerLink = (PartnerLink)getInput();		
-		PortType portType = ModelHelper.getPartnerPortType(partnerLink,
-			ModelHelper.OUTGOING);
-		
-		referenceViewer.setInput(getProcess());
-		referenceAddSelectedObjectFilter.setSelectedObject(portType);
-		inUpdate = true;
-		try {
-			refreshCCombo(referenceViewer, portType);
-		} finally {
-			inUpdate = false;
-		}
-	}
 
 	
 	@SuppressWarnings("unchecked")
@@ -540,8 +485,9 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		updateRadio(fPartnerRole1,null);
 		updateRadio(fPartnerRole2,null);
 
-		selectRadio(fPartnerRoleNone);
-		selectRadio(fMyRoleNone);
+		select(fPartnerRoleNone);
+		select(fMyRoleNone);
+		select(fInitializePartnerRole);
 		
 		// Roles are 1..2, so technically, this should never happen.
 
@@ -553,12 +499,14 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			updateRadio (fPartnerRole1,role1);
 			
 			if ( fRoles[0].equals( myRole ) ) {
-				selectRadio (fMyRole1);
+				select (fMyRole1);
 			} 
 			if (fRoles[0].equals(partnerRole)) {
-				selectRadio (fPartnerRole1);
+				select (fPartnerRole1);
 			} 
 		}
+		
+		Boolean ipr = pl.getInitializePartnerRole();
 		
 		// If at most 2 roles specified ...
 		if (fRoles.length >= 2) {
@@ -567,12 +515,21 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			updateRadio (fPartnerRole2,role2);
 			
 			if (fRoles[1].equals ( myRole) ) {
-				selectRadio(fMyRole2);
+				select(fMyRole2);
 			} 
 			if (fRoles[1].equals ( partnerRole )) {
-				selectRadio(fPartnerRole2);
-			} 
+				select(fPartnerRole2);
+			}
+			fInitializePartnerRole.setEnabled( true );
+			fInitializePartnerRole.setSelection(ipr != null && ipr );
+			
+		} else {
+			
+			fInitializePartnerRole.setSelection( false );
+			fInitializePartnerRole.setEnabled( false );
 		}
+		
+		
 	}
 	
 	protected void updatePartnerLinkType (PartnerLink pl) {
@@ -584,7 +541,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		}
 		
 		String name = null;
-		ILabeledElement label =  (ILabeledElement) BPELUtil.adapt(plt, ILabeledElement.class  );
+		ILabeledElement label = BPELUtil.adapt(plt, ILabeledElement.class );
 		if (label != null) {
 			name = label.getLabel( plt );
 		} 	
@@ -640,16 +597,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	 */
 	@Override
 	public void restoreUserContext(Object userContext) {
-		
-		
-//		int i = ((Integer)userContext).intValue();
-//		switch (i) {
-//		case INTERFACE_COMBO_CONTEXT: interfaceViewer.getCCombo().setFocus(); return;
-//		case INTERFACE_BROWSE_CONTEXT: interfaceBrowseButton.setFocus(); return;
-//		case REFERENCE_COMBO_CONTEXT: referenceViewer.getCCombo().setFocus(); return;
-//		case REFERENCE_BROWSE_CONTEXT: referenceBrowseButton.setFocus(); return;
-//		}
-//		throw new IllegalStateException();
+				
 	}
 
 	
@@ -658,9 +606,11 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	 * @param whichRole
 	 */
 	public void storeInterface (final PortType portType, final int whichRole) {
+		
 		final PartnerLink partnerLink = (PartnerLink)getInput();
 		CompoundCommand cmd = new CompoundCommand();
 		PartnerLinkType plt = partnerLink.getPartnerLinkType();
+		
 		if (((plt == null) || plt.eIsProxy()) && (portType != null)) {
 			// need a PLT.
 			plt = PartnerlinktypeFactory.eINSTANCE.createPartnerLinkType();
@@ -684,12 +634,10 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	}
 	
 	
-	protected Button createRadioButton (Composite parent, String label, int id, boolean checked) {
+	Button createButton (Composite parent, String label, int id, boolean checked, int type ) {
 		
-		Button button = new Button(parent,SWT.RADIO);
-		if (label != null) {
-			button.setText(label);
-		}		
+		Button button = fWidgetFactory.createButton(parent, label, type );
+		
 		button.setData(new Integer(id));		
 		button.setSelection( checked );
 		
@@ -721,13 +669,16 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	
 	
 	
-	void selectRadio ( Button button ) {
+	void select ( Button button ) {
 				
-		Control [] children = button.getParent().getChildren ();		
-		for (int i=0; i<children.length; i++) {
-			Control child = children [i];
-			if (button != child && child instanceof Button) {
-				unselectRadio((Button)child);
+		if ((button.getStyle() & SWT.RADIO) == SWT.RADIO) {
+			for(Control child : button.getParent().getChildren()) {
+				if (button != child && child instanceof Button) {
+					Button b = (Button)child;
+					if ((b.getStyle() & SWT.RADIO) == SWT.RADIO) {
+						unselect( b );
+					}
+				}
 			}
 		}
 		
@@ -737,7 +688,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	}
 	
 	
-	void unselectRadio (Button button) {
+	void unselect (Button button) {
 		if (button.getSelection () ) {
 			button.setSelection (false);
 			int id = ((Integer)button.getData()).intValue();
@@ -758,7 +709,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		}
 		
 		PartnerLink pl = (PartnerLink) getInput();
-		SetRoleCommand cmd = null;
+		SetCommand cmd = null;
 		
 		// Current myRole or partnerRole may be null
 		Role myRole = pl.getMyRole();
@@ -767,39 +718,44 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		switch (id) {
 		case BID_MY_ROLE_1 :
 			
-			if (myRole == null || myRole.equals( fRoles[0]) == false ) {
-				cmd = new SetRoleCommand(pl,fRoles[0],ModelHelper.MY_ROLE);	
+			if (myRole == null || myRole.equals( fRoles[0]) == false ) {			
+				cmd = new SetCommand(pl,fRoles[0],BPELPackage.eINSTANCE.getPartnerLink_MyRole() );
 			}			
 			break;
 			
 		case BID_MY_ROLE_2 :
 			if (myRole == null || myRole.equals( fRoles[1]) == false ) {
 				cmd = new SetRoleCommand(pl,fRoles[1],ModelHelper.MY_ROLE);
+				cmd = new SetCommand(pl,fRoles[1],BPELPackage.eINSTANCE.getPartnerLink_MyRole() );
+				
 			}
 			break;
 			
 		case BID_MY_ROLE_NONE :
 			if (myRole != null) {
-				cmd = new SetRoleCommand(pl,null,ModelHelper.MY_ROLE);
+				cmd = new SetCommand(pl,null,BPELPackage.eINSTANCE.getPartnerLink_MyRole() );				
 			}
 			break;
 			
 		case BID_PARTNER_ROLE_1 :
-			if (partnerRole == null || partnerRole.equals( fRoles[0]) == false) {
-				cmd = new SetRoleCommand (pl,fRoles[0],ModelHelper.PARTNER_ROLE);
+			if (partnerRole == null || partnerRole.equals( fRoles[0]) == false) {				
+				cmd = new SetCommand(pl,fRoles[0],BPELPackage.eINSTANCE.getPartnerLink_PartnerRole() );
 			}
 			break;
 			
 		case BID_PARTNER_ROLE_2 :
 			if (partnerRole == null || partnerRole.equals( fRoles[1]) == false) {
-				cmd = new SetRoleCommand (pl,fRoles[1],ModelHelper.PARTNER_ROLE);
+				cmd = new SetCommand(pl,fRoles[1],BPELPackage.eINSTANCE.getPartnerLink_PartnerRole() );
 			}
 			break;
 					
 		case BID_PARTNER_ROLE_NONE :
 			if (partnerRole != null) {
-				cmd = new SetRoleCommand(pl,null,ModelHelper.PARTNER_ROLE);
+				cmd = new SetCommand(pl,null,BPELPackage.eINSTANCE.getPartnerLink_PartnerRole() );				
 			}
+			break;
+		case BID_INITIALIZE_PARTNER_ROLE :
+			cmd = new SetCommand(pl,fPartnerRoleNone.getSelection(),BPELPackage.eINSTANCE.getPartnerLink_InitializePartnerRole() );
 			break;
 		}
 		
@@ -817,10 +773,9 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		PartnerLink pl = (PartnerLink) getInput();
 		
 		CompoundCommand cmd = new CompoundCommand ();				
-		cmd.add(  new SetPartnerLinkTypeCommand(pl, type) );				
-		cmd.add ( new SetRoleCommand(pl,null,ModelHelper.MY_ROLE) ) ;		
-		cmd.add ( new SetRoleCommand(pl,null,ModelHelper.PARTNER_ROLE) );
-				
+		cmd.add(  new SetCommand(pl, type, BPELPackage.eINSTANCE.getPartnerLink_PartnerLinkType() ) );				
+		cmd.add ( new SetCommand(pl, null, BPELPackage.eINSTANCE.getPartnerLink_MyRole() ) ) ;		
+		cmd.add ( new SetCommand(pl, null, BPELPackage.eINSTANCE.getPartnerLink_PartnerRole() ) );				
 		getCommandFramework().execute(cmd);	
 	}
 
@@ -850,10 +805,11 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	
 	
 
+	@Override
 	protected void updateMarkers () {				
 		fPartnerLinkTypeLabel.clear();		
 		for(IMarker m : getMarkers(getInput())) {
-			fPartnerLinkTypeLabel.addStatus((IStatus) BPELUtil.adapt(m, IStatus.class));
+			fPartnerLinkTypeLabel.addStatus( BPELUtil.adapt(m, IStatus.class));
 		}		
 	}
 	

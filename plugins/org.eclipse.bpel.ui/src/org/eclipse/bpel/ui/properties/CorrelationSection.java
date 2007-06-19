@@ -33,8 +33,8 @@ import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCorrelationCommand;
 import org.eclipse.bpel.ui.commands.RemoveCorrelationCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.commands.SetCorrelationInitiateCommand;
-import org.eclipse.bpel.ui.commands.SetCorrelationPatternCommand;
 import org.eclipse.bpel.ui.commands.SetCorrelationSetRefCommand;
 import org.eclipse.bpel.ui.details.providers.AbstractContentProvider;
 import org.eclipse.bpel.ui.details.providers.AddNullFilter;
@@ -136,7 +136,7 @@ public class CorrelationSection extends BPELPropertySection {
 		public void modify(Object element, String property, Object value) {
 			int index = ((Integer)value).intValue();
 			CorrelationPattern pattern = indexPattern(index);
-			Command cmd = new SetCorrelationPatternCommand((Correlation)element, pattern);
+			Command cmd = new SetCommand((EObject)element, pattern, BPELPackage.eINSTANCE.getCorrelation_Pattern());
 			getCommandFramework().execute(wrapInShowContextCommand(cmd));
 		}
 	}

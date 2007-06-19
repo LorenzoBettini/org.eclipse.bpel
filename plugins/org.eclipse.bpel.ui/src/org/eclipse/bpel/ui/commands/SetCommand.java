@@ -100,14 +100,15 @@ public class SetCommand extends AutoUndoCommand {
 	 * @return  the default label
 	 */
 	
-	public String getDefaultLabel() { 
+	@Override
+	public String getLabel() { 
 		if (fFeature == null) {
 			return Messages.SetCommand_Change_1;
 		}
 		return NLS.bind(Messages.SetCommand_Change_2, fFeature.getName(), null );		
 	} 
 
-
+	
 	protected boolean hasNoEffect()  {
 		if (fOldValue == null) return (fNewValue == null);
 		if (fNewValue == null) return false;

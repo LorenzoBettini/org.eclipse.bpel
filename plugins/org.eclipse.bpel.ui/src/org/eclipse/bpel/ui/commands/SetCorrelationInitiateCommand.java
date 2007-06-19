@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.commands;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlation;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 
 
 /** 
@@ -20,13 +19,6 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
  */
 public class SetCorrelationInitiateCommand extends SetCommand {
 
-	/**
-	 * @see org.eclipse.bpel.ui.commands.SetCommand#getDefaultLabel()
-	 */
-	@Override
-	public String getDefaultLabel() { 
-		return IBPELUIConstants.CMD_EDIT_CORRELATION; 
-	}
 
 	/**
 	 * Brand new SetCorrelationInitiateCommand
