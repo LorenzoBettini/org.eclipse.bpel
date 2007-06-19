@@ -12,7 +12,10 @@ package org.eclipse.bpel.ui.actions;
 
 import java.util.ArrayList;
 
+import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.ui.BPELEditor;
+import org.eclipse.bpel.ui.BPELUIPlugin;
+import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.BPELCopyCommand;
 import org.eclipse.bpel.ui.commands.BPELPasteCommand;
@@ -73,10 +76,8 @@ public class BPELDuplicateAction extends BPELCopyAction implements IEditorAction
 		
 		setId(ACTION_ID);
 		
-		setImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
-			ISharedImages.IMG_TOOL_COPY));
-		setDisabledImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
-			ISharedImages.IMG_TOOL_COPY_DISABLED));
+		setImageDescriptor( BPELUIPlugin.getDefault().getImageDescriptor( IBPELUIConstants.ICON_DUPLICATE_16_E ));
+		setDisabledImageDescriptor ( BPELUIPlugin.getDefault().getImageDescriptor(IBPELUIConstants.ICON_DUPLICATE_16_D  ) );
 		setEnabled(false);
 	}
 

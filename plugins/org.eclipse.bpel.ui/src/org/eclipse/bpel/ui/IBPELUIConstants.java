@@ -158,6 +158,10 @@ public interface IBPELUIConstants {
 	// Outline view
 	public final String ICON_OUTLINE_16 = "elcl16/outline.gif"; //$NON-NLS-1$
 	public final String ICON_OVERVIEW_16 = "elcl16/overview.gif"; //$NON-NLS-1$
+	
+	// Duplicate 
+	public final String ICON_DUPLICATE_16_E = "elcl16/duplicate.png";
+	public final String ICON_DUPLICATE_16_D = "dlcl16/duplicate.png";	
 
 	// Action sets
 	public final String ICON_ACTION_COMPENSATE    = ICON_COMPENSATE_16;
