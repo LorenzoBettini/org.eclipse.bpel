@@ -10,16 +10,18 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.helpers;
 
-import org.apache.xerces.parsers.DOMParser;
-import org.apache.xerces.xni.Augmentations;
-import org.apache.xerces.xni.NamespaceContext;
-import org.apache.xerces.xni.XMLAttributes;
-import org.apache.xerces.xni.XMLLocator;
-import org.apache.xerces.xni.XMLString;
-import org.apache.xerces.xni.XNIException;
-import org.apache.xerces.xni.parser.XMLParserConfiguration;
-import org.eclipse.bpel.model.util.BPELConstants;
+
 import org.xml.sax.SAXException;
+
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+import com.sun.org.apache.xerces.internal.xni.Augmentations;
+import com.sun.org.apache.xerces.internal.xni.NamespaceContext;
+import com.sun.org.apache.xerces.internal.xni.QName;
+import com.sun.org.apache.xerces.internal.xni.XMLAttributes;
+import com.sun.org.apache.xerces.internal.xni.XMLLocator;
+import com.sun.org.apache.xerces.internal.xni.XMLString;
+import com.sun.org.apache.xerces.internal.xni.XNIException;
+
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -57,12 +59,6 @@ public class LocationCapturingDOMParser extends DOMParser {
 		}
 	}
 
-	/**
-	 * @param arg0
-	 */
-	protected LocationCapturingDOMParser(XMLParserConfiguration arg0) {
-		super(arg0);
-	}
 
 	void lastSource() {
 
@@ -128,7 +124,7 @@ public class LocationCapturingDOMParser extends DOMParser {
 	 */
 	@SuppressWarnings( { "nls", "boxing" })
 	@Override
-	public void startElement(org.apache.xerces.xni.QName arg0,
+	public void startElement(QName arg0,
 			XMLAttributes arg1, Augmentations arg2) throws XNIException {
 		super.startElement(arg0, arg1, arg2);
 		// p("startElement: {0} {1}", arg0,arg1);
@@ -182,7 +178,7 @@ public class LocationCapturingDOMParser extends DOMParser {
 	 *      org.apache.xerces.xni.Augmentations)
 	 */
 	@Override
-	public void endElement(org.apache.xerces.xni.QName element,
+	public void endElement(QName element,
 			Augmentations aug) {
 		super.endElement(element, aug);
 		// p("endElement: {0}", element);
