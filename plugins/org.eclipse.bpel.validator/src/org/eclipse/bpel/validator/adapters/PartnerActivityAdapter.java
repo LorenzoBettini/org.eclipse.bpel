@@ -47,7 +47,7 @@ public class PartnerActivityAdapter extends BasicAdapter {
 			if (c != null) {
 				return c.getChildren();
 			}
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}	
 		return super.getNodeList(name);
 	}

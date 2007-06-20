@@ -14,7 +14,6 @@ package org.eclipse.bpel.validator.xpath;
  * Java JDK dependencies ...
  */
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -146,7 +145,8 @@ public class XPathVisitor
 		 * Attempt to retrieve this from the model. 
 		 * If it fails then we create our own function context
 		 */		
-		Object context = mModelQuery.lookup(mContextNode, SimpleFunctionContext.class);		
+		Object context = null; 
+		// mModelQuery.lookup(mContextNode, SimpleFunctionContext.class);		
 		
 		if (context != null && context instanceof SimpleFunctionContext) {
 			mFunctionContext = (SimpleFunctionContext) context;
@@ -460,11 +460,8 @@ public class XPathVisitor
 	
 
 	void visitList ( List<?> list) {
-		
-		Iterator<?> it = list.iterator();
-		while (it.hasNext()) {
-			Object next = it.next();
-			visit ( next );
+		for(Object next: list) {
+			visit(next);
 		}
 	}
 

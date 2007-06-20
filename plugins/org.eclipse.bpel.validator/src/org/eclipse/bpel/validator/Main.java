@@ -13,29 +13,18 @@ package org.eclipse.bpel.validator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.resource.BPELResourceFactoryImpl;
-import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.helpers.CmdValidator;
+import org.eclipse.bpel.validator.helpers.GetOpt;
+import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.Problem;
-import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Runner;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IAdapterManager;
@@ -45,10 +34,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.internal.util.WSDLResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -58,14 +44,11 @@ import org.w3c.dom.NodeList;
 
 @SuppressWarnings("nls")
 
-public class Main {
+public class Main extends CmdValidator {
 
 	IAdapterManager fManager ;
 	ResourceSet fResourceSet;
 	
-	static PrintStream OUT = System.out;
-	
-	static final IProblem[] EMPTY_RESULT = {};
 	
 	/**
 	 * Create a brand new 
@@ -73,6 +56,8 @@ public class Main {
 	@SuppressWarnings("unchecked")	
 	public Main () {
 	
+		super();
+		
 		// Create the Quasi-Eclipse environment ...
 		
 		fManager = AdapterManagerHelper.getAdapterManager();
@@ -106,20 +91,11 @@ public class Main {
 		fResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
 	    		"xsd", new XSDResourceFactoryImpl() 
 	    );
-		//   - xsd reads WSDL resources (from wst project)
+		//   - xsd reads WSDL resources (from wst project)	
 		
-		
-		//
-		// register the rule factories for the validator. This is done via
-		// the org.eclipse.bpel.validator.factories extension point in the plug-in.
-		
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.rules.Factory());
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.vprop.Factory());
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.plt.Factory());
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.wsdl.Factory());
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory());
-		
+		ModelQueryImpl.register( new ModelQuery() );
 	}
+	
 	
 	/**
 	 * Validate the given file.
@@ -127,6 +103,7 @@ public class Main {
 	 * @return the list of validation errors.
 	 */
 	
+	@Override
 	public IProblem[] validate (File file) {
 		//
 		//Step 1. Read the BPEL process using the Model API.
@@ -146,71 +123,10 @@ public class Main {
 		INode node = (INode) fManager.getAdapter( process.getElement(), INode.class );
 		
 		// Step 3. Run it
-		return new Runner ( ModelQuery.getModelQuery(), node).run();
+		fRunner = new Runner ( ModelQueryImpl.getModelQuery(), node);
+		return fRunner.run();		
 	}
-	
-	/**
-	 * Log to a print stream 
-	 * @param problems
-	 * @param runner 
-	 * @param ps
-	 */
-	@SuppressWarnings("boxing")
-	public void log ( IProblem[] problems, Runner runner, PrintStream ps ) {
 		
-		ps.printf("<problems count=\"%1$d\">\n", problems.length);
-
-		// Which SA-analysis cases are covered ?
-		if (runner != null) {
-			
-			Set<ARule> saChecks = new TreeSet<ARule>(new Comparator<ARule> ( ){
-				public int compare(ARule o1, ARule o2) {
-					return o1.sa() - o2.sa();
-				} 
-			});
-			
-			saChecks.addAll( runner.getSAChecks() );
-			ps.printf(" <sa-cases>");			
-			for(ARule a : saChecks) {
-				ps.printf("%1$d,", a.sa() );				
-			}
-			ps.printf("0</sa-cases>\n");
-		}
-
-		// Step 5. Dump problems.
-		for(IProblem problem : problems) {
-			Map<String,Object> map = problem.getAttributes();
-			ps.println(" <problem>");
-			for(Map.Entry<String,Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				if (value == null) {
-					continue;
-				}
-				String v = value.toString();
-				
-				ps.printf("  <%1$s>%2$s</%1$s>\n",entry.getKey(), toSafeXML(v) );				
-			}
-			ps.println(" </problem>\n");
-		}
-		ps.println("</problems>");		
-		// done.
-	}
-	
-
-	String toSafeXML ( String value ) {		
-		if (value.indexOf("&") >= 0) {
-			value = value.replaceAll("\\&", "&amp;");
-		}
-		if (value.indexOf("<") >= 0) {
-			value = value.replaceAll("\\<", "&lt;");
-		}
-		if (value.indexOf(">") >= 0) {
-			value = value.replaceAll("\\>", "&gt;");
-		}
-		return value;
-	}
-	
-	
 	void linkModels ( EObject process ) {
 		
 		// 
@@ -321,6 +237,7 @@ public class Main {
 	 * @throws Exception 
 	 */
 	
+	@Override
 	public void run (GetOpt opt) throws Exception {
 
 		if (opt.hasOption('d')) {			
@@ -343,58 +260,7 @@ public class Main {
 			
 		}
 		
-		// process validation as before
-		for(String a : opt.parameters() ) {			
-			
-			File aFile = new File(a);
-			
-			OUT.printf("Validating %1$s\n\n",aFile);
-			
-			IProblem problems[] = EMPTY_RESULT;
-			Runner runner = null;
-			
-			//
-			//Step 1. Read the BPEL process using the Model API.
-			BPELReader reader = new BPELReader();
-				
-			reader.read( aFile, fResourceSet );
-			Process process = reader.getProcess();
-			
-			if (process == null) {
-				OUT.printf("Error: Cannot read BPEL Process in %1$s",aFile);				
-			} else {
-				// Step 2. Preparation for the validator.
-				linkModels(process);
-						
-				// Process as INode 
-				INode node = (INode) fManager.getAdapter( process.getElement(), INode.class );
-				
-				// Step 3. Run it
-				runner = new Runner ( ModelQuery.getModelQuery(), node);
-				problems = runner.run();
-				
-				log(problems,runner,OUT);
-			}			
-
-			
-			File log = new File(aFile + ".xml");			
-			OUT.printf("Writing to log %1$s\n\n", log );
-			PrintStream ps = null;
-			try {
-				ps = new PrintStream( log );
-				log(problems, runner, ps);
-			} catch (FileNotFoundException e) {
-				// 
-			} finally {
-				
-				try { 
-					if (ps != null) {
-						ps.close();
-					}
-				} catch(Throwable t) {}
-
-			}								
-		}
+		super.run(opt);
 	}
 	
 	
@@ -407,101 +273,7 @@ public class Main {
 	static public void main (String argv[]) throws Exception {
 		
 		Main builder = new Main();
-		GetOpt opt = new GetOpt("-d:-h",argv);
-		
+		GetOpt opt = new GetOpt("-d:-h",argv);		
 		builder.run(opt);
-	}	
-
-	
-
-
-	/**
-	 * Reads the messages file into a problems array so that comparison of 
-	 * results can take place.
-	 * 
-	 * @param aFile
-	 * @return a list of problems.
-	 * @throws Exception 
-	 */
-		
-	
-	static public IProblem[]  readMessages ( File aFile ) throws Exception {
-				
-		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		
-		Document doc = builder.parse(aFile);
-		
-		Element elm = doc.getDocumentElement();
-		
-		if ("problems".equals (elm.getTagName()) == false) {
-			return EMPTY_RESULT;
-		}
-		
-		List<IProblem> list = new LinkedList<IProblem>();
-		
-		NodeList nl = elm.getElementsByTagName("problem");
-		
-		for(int i=0, j=nl.getLength(); i<j; i++) {
-			Element e = (Element) nl.item(i);
-			list.add( Element2Problem (e) );
-		}
-		
-		return list.toArray(EMPTY_RESULT);
-	}
-	
-	
-	static Set<String> KEY_SET = null;
-	
-	
-	static IProblem Element2Problem ( Element e ) {
-		
-		IProblem p = new Problem ();
-		
-		if (KEY_SET == null) {
-			KEY_SET = keys(IProblem.class);
-		}
-		
-		Node n = e.getFirstChild();
-		while (n != null) {			
-			if (n instanceof Element) {				
-				Element ne = (Element) n;
-				String key = ne.getTagName();
-				if (KEY_SET.contains(key)) {
-					p.setAttribute(key, ne.getTextContent());
-				}
-			}
-			n = n.getNextSibling();
-		}
-			
-		return p;
-	}
-	
-	
-	static Set<String> keys ( Class<?> klazz ) {
-		
-		Set<String> set = new HashSet<String>();
-		
-		for(Field f: klazz.getFields() ) {
-			int modifies = f.getModifiers();
-			String name = f.getName();
-			if (name.equals ( name.toUpperCase() ) == false) {
-				continue;
-			}
-			if ((modifies & Member.PUBLIC) != Member.PUBLIC ) {
-				continue;
-			}
-			if (f.getType() != String.class) {
-				continue;
-			}
-			
-			try {
-				String value = (String) f.get(null);				
-				set.add( value );				
-			} catch (Throwable t) {
-				// should not happen.
-			}			
-		}
-		
-		return set;
 	}
 }

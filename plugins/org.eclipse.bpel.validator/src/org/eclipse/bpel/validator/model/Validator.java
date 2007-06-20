@@ -443,7 +443,7 @@ public class Validator implements IConstants {
 	
 	protected void internalProblem ( Rule rule, Throwable t ) {
 		
-		IProblem problem = createWarning();
+		IProblem problem = createWarning();		
 		problem.fill("BPELC__INTERNAL",
 				mNode.nodeName(),
 				rule.getFullName(),

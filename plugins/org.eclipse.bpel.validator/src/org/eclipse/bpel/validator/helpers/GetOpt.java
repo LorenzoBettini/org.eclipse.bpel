@@ -8,7 +8,7 @@
  * Contributors:
  *     Oracle Corporation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.bpel.validator;
+package org.eclipse.bpel.validator.helpers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

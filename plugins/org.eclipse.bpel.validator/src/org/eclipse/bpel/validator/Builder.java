@@ -6,28 +6,21 @@ package org.eclipse.bpel.validator;
 
 import java.util.Date;
 import java.util.Iterator;
-
 import java.util.Map;
-
 
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
-
-
 import org.eclipse.bpel.validator.factory.AdapterFactory;
+import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.Messages;
 import org.eclipse.bpel.validator.model.Runner;
-
-import org.eclipse.core.internal.resources.Workspace;
-import org.eclipse.core.internal.resources.WorkspaceRoot;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -35,10 +28,7 @@ import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
@@ -237,13 +227,16 @@ public class Builder extends IncrementalProjectBuilder {
 		
 		// Step 4. Run the validator.
 		
-		IProblem[] problemList = new Runner (ModelQuery.getModelQuery(), node ).run();
+		IProblem[] problemList = new Runner (ModelQueryImpl.getModelQuery(), node ).run();
 		p("Validator Executed" );
 		return problemList;	
 	}
 
 	
 	
+	/**
+	 * @param problemList
+	 */
 	public void makeMarkers ( IProblem [] problemList ) {
 
 		if (problemList.length < 1) {

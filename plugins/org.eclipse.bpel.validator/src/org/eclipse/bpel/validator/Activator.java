@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IFactory;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.RuleFactory;
@@ -77,7 +78,7 @@ public class Activator extends Plugin {
 			for(IConfigurationElement ce : e.getConfigurationElements() ) {
 				Object obj = ce.createExecutableExtension("class");
 				if (obj instanceof IModelQuery) {
-					ModelQuery.register( (IModelQuery) obj);
+					ModelQueryImpl.register( (IModelQuery) obj);
 				}
 			}
 		}

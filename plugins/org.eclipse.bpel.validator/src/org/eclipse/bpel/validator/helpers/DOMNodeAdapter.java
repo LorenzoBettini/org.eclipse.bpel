@@ -8,7 +8,7 @@
  * Contributors:
  *     Oracle Corporation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.bpel.validator.adapters;
+package org.eclipse.bpel.validator.helpers;
 
 /** JDK stuff */
 import java.util.Collections;
@@ -17,20 +17,11 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-/** 
- * The validator model dependency 
- */
-import org.eclipse.bpel.validator.AdapterManagerHelper;
 import org.eclipse.bpel.validator.model.IConstants;
+import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
-
-
-/**
- * Dependency on object model
- */
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -46,6 +37,8 @@ import org.w3c.dom.Node;
 
 public class DOMNodeAdapter implements INode, IConstants {
 	
+	public static final String KEY = DOMNodeAdapter.class.getName();
+				
 	/** The validator that we want */
 	Validator mValidator = null;
 	
@@ -62,7 +55,7 @@ public class DOMNodeAdapter implements INode, IConstants {
 	 * @param node
 	 */
 	
-	DOMNodeAdapter ( Node node ) {
+	public DOMNodeAdapter ( Node node ) {
 		targetNode = node;
 		fNodeName = targetNode.getNodeName();
 
@@ -200,6 +193,11 @@ public class DOMNodeAdapter implements INode, IConstants {
 			return null;
 		}
 		Node parent = targetNode.getParentNode();
+		
+		// Some DOM implementation return the document, some do not.
+		if (parent == targetNode.getOwnerDocument()) {
+			return null;
+		}
 		return adapt ( parent, INode.class );
 	}
 
@@ -223,18 +221,9 @@ public class DOMNodeAdapter implements INode, IConstants {
 	 * @return the object adapted.
 	 */
 		
-	@SuppressWarnings("unchecked")
 	protected <T extends Object> T adapt ( Object target, Class<T> type) {
-
-		if (target == null) {
-			return null;
-		}		
-		// short cut
-		if (type.isInstance( target )) {
-			return (T) target;
-		}
-		
-		return (T) AdapterManagerHelper.getAdapterManager().getAdapter( target, type );		
+		IModelQuery mq = ModelQueryImpl.getModelQuery();
+		return mq.adapt(target,type);
 	}
 	
 	
@@ -287,24 +276,5 @@ public class DOMNodeAdapter implements INode, IConstants {
 		sb.append(">");
 		return sb.toString();
 	}
-	
-	
-	/**
-	 * @param node
-	 * @return the adapter for the Node.
-	 */
-	
-	public static Object getAdapter (Node node) {
-
-		String key = DOMNodeAdapter.class.getName();
-		
-		Object adapter = node.getUserData(key);
-		if (adapter instanceof DOMNodeAdapter) {
-			return adapter;
-		}
-		adapter = new DOMNodeAdapter( node );
-		node.setUserData(key, adapter, null );
-		return adapter;
-	}	
 
 }

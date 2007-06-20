@@ -62,12 +62,13 @@ public class XSDUtils {
 	
 	// singleton lists of XSD simple type definitions for supported primitives (see getPrimitives()) and
 	// all xsd primitives (see getAdvancedPrimitives()) respectively
-	private static List primitives;
-	private static List advancedPrimitives;
+	
+	private static List primitives;	
+	private static List<XSDTypeDefinition> advancedPrimitives;
 	
 	// XSD short list -- these are the types presented to the user by default, rather than inundating them with
 	// all the available types
-	private static List xsdShortList = new ArrayList();
+	private static List<String> xsdShortList = new ArrayList<String>();
 	static
 	{
 		xsdShortList.add("string"); //$NON-NLS-1$
@@ -84,7 +85,7 @@ public class XSDUtils {
 	
 	// A list of all supported XSD types.  Usually the user will not be presented with the full list, but 
 	// rather with the xsd short list
-	private static List supportedPrimitives = new ArrayList();
+	private static List<String> supportedPrimitives = new ArrayList();
 	static {
 		supportedPrimitives.add("anyType"); //$NON-NLS-1$
 		supportedPrimitives.add("anyURI"); //$NON-NLS-1$
@@ -376,29 +377,28 @@ public class XSDUtils {
 	 * primitive type.
 	 * @return
 	 */
-	public static List getAdvancedPrimitives() {
-		advancedPrimitives = null;
-		if(advancedPrimitives == null) {
-			advancedPrimitives = new ArrayList();
+	public static List<XSDTypeDefinition> getAdvancedPrimitives() {
+		
+		
+		if (advancedPrimitives == null) {
+			
+			advancedPrimitives = new ArrayList<XSDTypeDefinition>();
 		
 			// Get the schema for schemas instance to use when resolving primitives
 			XSDSchema schemaForSchemas = XSDUtil.getSchemaForSchema(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 			
 			// Start adding the simple types using the supportedPrimitives list
-			for(Iterator i = supportedPrimitives.iterator(); i.hasNext(); ) {
-				String typeName = (String) i.next();
-				
+			for(String typeName : supportedPrimitives) {
 				XSDTypeDefinition type = schemaForSchemas.resolveSimpleTypeDefinition(typeName);
 				advancedPrimitives.add(type);
 			}
 
 			// Return primitives in alpha order
-			Collections.sort(advancedPrimitives, new Comparator() {
-
-				public int compare(Object o1, Object o2) {
-					if(o1 == null || o2 == null || ((XSDTypeDefinition) o1).getName() == null)
+			Collections.sort(advancedPrimitives, new Comparator<XSDTypeDefinition>() {
+				public int compare(XSDTypeDefinition o1, XSDTypeDefinition o2) {
+					if(o1 == null || o2 == null || o1.getName() == null)
 						return 0;
-					return ((XSDTypeDefinition) o1).getName().compareToIgnoreCase(((XSDTypeDefinition) o2).getName());
+					return o1.getName().compareToIgnoreCase(o2.getName());
 				}
 			});
 		}
@@ -412,38 +412,25 @@ public class XSDUtils {
 	 * @param schema
 	 * @return
 	 */
-	public static List getAllDataTypes(XSDSchema schema)
+	public static List<XSDTypeDefinition> getAllDataTypes(XSDSchema schema)
 	{
-		if (schema==null)
-			return Collections.EMPTY_LIST;
+		if (schema==null) {
+			return Collections.emptyList();
+		}
 		
-		List bos = new ArrayList();
+		List<XSDTypeDefinition> bos = new ArrayList<XSDTypeDefinition>();
 		
         EList contents = schema.getContents();
-        // First try the easy approach -- if this XSD contains a type definition, that's our BO, 
-        // return it.  This is the recommended path, and the way our tooling does things.
-        for (Iterator i = contents.iterator(); i.hasNext();)
-		{
-			Object item = i.next();
-			if (item instanceof XSDTypeDefinition)
-				bos.add(item);
-		}
-        
-		// If we failed, we try a second pass, this time looking for an element
-		// with an anonymous complex
-		// type defined in line
-		for (Iterator i = contents.iterator(); i.hasNext();)
-		{
-			Object item = i.next();
-			if (item instanceof XSDElementDeclaration)
-			{
+        for (Object item : schema.getContents()) {
+			if (item instanceof XSDTypeDefinition) {
+				bos.add( (XSDTypeDefinition) item);
+			} else if (item instanceof XSDElementDeclaration) {
 				XSDElementDeclaration element = (XSDElementDeclaration) item;
-				if (element.getAnonymousTypeDefinition() instanceof XSDComplexTypeDefinition)
-				{
+				if (element.getAnonymousTypeDefinition() instanceof XSDComplexTypeDefinition) {
 					bos.add(element.getAnonymousTypeDefinition());
 				}
 			}
-		}
+		}        
 		return bos;
 	}
 	
@@ -453,15 +440,16 @@ public class XSDUtils {
 	 * @param bo
 	 * @return List of XSDAttributeDeclaration
 	 */
-	public static List getChildAttributes(XSDComplexTypeDefinition bo)
+	public static List<XSDAttributeDeclaration> getChildAttributes (XSDComplexTypeDefinition bo)
 	{
 		EList attrContents = bo.getAttributeContents();
-		List attrs = new ArrayList();
+		List<XSDAttributeDeclaration> attrs = new ArrayList<XSDAttributeDeclaration>();
+		
 		for (int i=0; i< attrContents.size(); i++)
 		{
 			Object next = attrContents.get(i);
 			
-			// Attribute contents may include actual attribute delcarations (wrapped in XSDAttributeUses) or
+			// Attribute contents may include actual attribute declarations (wrapped in XSDAttributeUses) or
 			// attribute group definitions, containing bundles of attributes
 			if(next instanceof XSDAttributeUse) {
 				attrs.add( ((XSDAttributeUse) next).getContent().getResolvedAttributeDeclaration() );
@@ -484,7 +472,7 @@ public class XSDUtils {
 	 * @param bo
 	 * @return
 	 */
-	public static List getChildElements(XSDComplexTypeDefinition bo) 
+	public static List getChildElements (XSDComplexTypeDefinition bo) 
 	{
    		return XSDUtils.getChildElements( getModelGroup(bo) );
 	}

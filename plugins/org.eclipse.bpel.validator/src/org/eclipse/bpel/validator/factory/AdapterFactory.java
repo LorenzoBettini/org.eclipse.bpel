@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.eclipse.bpel.validator.Activator;
 import org.eclipse.bpel.validator.IBPELMarker;
-import org.eclipse.bpel.validator.adapters.DOMNodeAdapter;
+import org.eclipse.bpel.validator.helpers.DOMNodeAdapter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.core.resources.IFile;
@@ -83,8 +83,16 @@ public class AdapterFactory implements IAdapterFactory {
 			
 			if (adaptableObject instanceof Element) {
 				Element elm = (Element) adaptableObject;
-				return DOMNodeAdapter.getAdapter( elm );				
+				
+				Object adapter = elm.getUserData(DOMNodeAdapter.KEY);
+				if (adapter instanceof DOMNodeAdapter) {
+					return adapterType.cast(adapter);
+				}
+				adapter = new DOMNodeAdapter( elm );
+				elm.setUserData(DOMNodeAdapter.KEY, adapter, null );
+				return adapterType.cast(adapter);																				
 			}
+			
 		} else if (adapterType == IMessage.class) {
 			
 			if (adaptableObject instanceof IProblem) {
@@ -185,7 +193,7 @@ public class AdapterFactory implements IAdapterFactory {
 		
 		
 		// do not save this marker
-		props.put( IMarker.TRANSIENT, true);
+		// props.put( IMarker.TRANSIENT, true);
 			
 		
 		IMarker marker = null;

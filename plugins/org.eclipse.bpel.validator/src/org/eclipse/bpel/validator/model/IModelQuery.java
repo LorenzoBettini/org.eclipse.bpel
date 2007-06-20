@@ -133,16 +133,18 @@ public interface IModelQuery extends IModelQueryLookups {
     
     public int lookup (INode context, int what, int def );
     
+    
+    
     /**
-     * Lookup an instance of an object in the model represented by the class 
-     * indicated. 
+     * Adapt a target to the class specified.
      * 
-     * @param context
-     * @param clazz
-     * @return the looked up object or null
+     * @param <T> the target type
+     * @param target the target object
+     * @param clazz the target class
+     * @return the adapted object or null
      */
     
-    public Object lookup (INode context, Class<?> clazz) ;
+    public <T extends Object> T adapt (Object target, Class<T> clazz) ;
     
     
     /**

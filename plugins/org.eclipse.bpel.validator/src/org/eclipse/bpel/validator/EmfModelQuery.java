@@ -10,24 +10,21 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator;
 
-import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variable;
-
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.util.ImportResolver;
 import org.eclipse.bpel.model.util.ImportResolverRegistry;
 import org.eclipse.bpel.model.util.WSDLUtil;
 import org.eclipse.bpel.model.util.XSDUtil;
-import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.validator.model.INode;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Message;
@@ -226,9 +223,9 @@ public class EmfModelQuery {
 		if (eObj instanceof PartnerLinkType) {			
 			PartnerLinkType plt = (PartnerLinkType) eObj;
 			// This is a bit screwy. The partner link can have potentially 2 roles.
-			Iterator<Role> it = plt.getRole().iterator();			
-			while ( it.hasNext() ) {				
-				eObj = lookupOperation(it.next(), name);
+			for(Object n : plt.getRole()) {
+				Role r = (Role) n;			
+				eObj = lookupOperation(r, name);
 				if (eObj != null) {
 					return eObj;
 				}
@@ -274,8 +271,8 @@ public class EmfModelQuery {
 			//   $foo.payload/tns:bar/tns:foo
 			//                ^^^^^^^
 			XSDElementDeclaration elm = (XSDElementDeclaration) eObj;
-			// check if this step is valid or not
-			eObj = elm.getType();						
+			// check if this step is valid or not			
+			eObj = elm.getType();
 		}
 		
 		String localName = qname.getLocalPart();
@@ -286,14 +283,10 @@ public class EmfModelQuery {
 			XSDComplexTypeDefinition type = (XSDComplexTypeDefinition) eObj;
 			
 			// Look in the child elements
-			Iterator<XSDElementDeclaration> it = XSDUtils.getChildElements(type).iterator();
-			
-			while(it.hasNext()) {
+			for(Object item : XSDUtils.getChildElements(type)) {
+				XSDElementDeclaration next = (XSDElementDeclaration) item;
 				
-				XSDElementDeclaration next = it.next();
-				
-				if (localName.equals( next.getName()) &&
-					nsURI.equals( next.getTargetNamespace() ))  {
+				if (localName.equals( next.getName()) && sameNamespace(nsURI,next.getTargetNamespace())) {
 					return next.getType();
 				}
 			}
@@ -302,8 +295,7 @@ public class EmfModelQuery {
 		} else if (eObj instanceof XSDSimpleTypeDefinition) {
 			
 			XSDSimpleTypeDefinition type = (XSDSimpleTypeDefinition) eObj;
-			if (localName.equals ( type.getName() ) && 
-					nsURI.equals( type.getTargetNamespace() )) {
+			if (localName.equals ( type.getName() ) && sameNamespace(nsURI,type.getTargetNamespace()) ) {					
 				return type;
 			}
 			
@@ -444,10 +436,8 @@ public class EmfModelQuery {
 		
 		EObject result = null;
 		
-		Iterator<?> it = process.getImports().iterator();
-        while ( it.hasNext()  )
-        {
-            Import imp = (Import) it.next();                                    
+		for(Object n : process.getImports()) {
+            Import imp = (Import) n;                                    
             if (imp.getLocation() == null ) {
             	continue;
             }
@@ -657,4 +647,25 @@ public class EmfModelQuery {
 		}
 		return part.getTypeDefinition();
 	}
+	
+	
+	/**
+	 * An null NS URI is the default namespace "". 
+	 * EMF seems to return null as the default target namespace.
+	 * 
+	 * @param nsURI
+	 * @param nsURI2
+	 * @return true if the namespaces are the same, false otherwise. 
+	 */
+	static boolean sameNamespace ( String nsURI, String nsURI2 ) {
+		
+		if (nsURI == null) {
+			nsURI = XMLConstants.NULL_NS_URI;
+		}
+		if (nsURI2 == null) {
+			nsURI2 = XMLConstants.NULL_NS_URI;
+		}
+		return nsURI.equals(nsURI2);
+	}
+	
 }

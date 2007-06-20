@@ -141,6 +141,7 @@ public class CActivityValidator extends CValidator {
 		
 		INode context = mNode;
 		INode parent = context.parentNode();
+		boolean bSequenceChecked = false;
 		
 		while (parent != null) {
 		
@@ -151,20 +152,25 @@ public class CActivityValidator extends CValidator {
 			} else if (ND_SCOPE.equals( pnn ) ) {
 				// OK
 			} else if (ND_PROCESS.equals( pnn ) ) {
-				// OK				
-			} else if (ND_SEQUENCE.equals (pnn)) {
+				// OK
+				break;
 				
-				// check to see that I am the first element in the sequence
-				List<INode> nodes = mSelector.selectNodes(parent, 
-						Selector.ALL, 
-						Filters.ACTIVITIES) ;
-				int index = nodes.indexOf( context ) + 1;
-				if (index != 1) {
-					problem = createError();
-					problem.fill("BPELC__START_ACTIVITY", 
-							mNode.nodeName(),
-							index
-					);
+			} else if (ND_SEQUENCE.equals (pnn)) {
+				if (bSequenceChecked == false) {					
+					// check to see that I am the first element in the sequence
+					List<INode> nodes = mSelector.selectNodes(parent, 
+							Selector.ALL, 
+							Filters.ACTIVITIES) ;
+					int index = nodes.indexOf( context ) + 1;
+					if (index != 1) {
+						problem = createError();
+						problem.fill("BPELC__START_ACTIVITY", 
+								mNode.nodeName(),
+								index
+						);									
+					}
+					
+					bSequenceChecked = true;
 				}
 				
 			} else {
@@ -172,7 +178,7 @@ public class CActivityValidator extends CValidator {
 				problem.fill("BPELC__START_ACTIVITY", 
 						mNode.nodeName(),
 						-1
-				);
+				);							
 						
 			}				
 			
