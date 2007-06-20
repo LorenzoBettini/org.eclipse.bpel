@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.validator.model.IModelQuery;
@@ -27,7 +28,6 @@ import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Validator;
 import org.eclipse.bpel.validator.tools.ParserTool;
-import org.eclipse.xsd.util.XSDConstants;
 
 /**
  * JAXEN dependency here 
@@ -114,9 +114,7 @@ public class XPathValidator extends Validator {
 	
 	
 	/**
-	 * Start the validation of this XPathExpression
-	 * 
-	 * @see org.eclipse.bpel.validator.model.Validator#start()
+	 * Start the validation of this XPathExpression 
 	 */
 		
 	@Override
@@ -320,7 +318,7 @@ public class XPathValidator extends Validator {
 			
 			if (obj instanceof String) {
 				
-				typeQName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001,"string");	
+				typeQName = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,"string");	
 				
 			} else if (obj instanceof Number) {
 				
@@ -330,21 +328,21 @@ public class XPathValidator extends Validator {
 					
 					if (fNodeName.equals(ND_START_COUNTER_VALUE) || fNodeName.equals(ND_FINAL_COUNTER_VALUE)) {
 						if (num.intValue() >= 0) {
-							typeQName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001,"unsignedInt");
+							typeQName = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,"unsignedInt");
 						}
 					}
 					
 					if (typeQName == null) {
-						typeQName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001,"integer");
+						typeQName = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,"integer");
 					}
 				} else {
-					typeQName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001,"double");
+					typeQName = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,"double");
 				}
 				
 				
 			} else if (obj instanceof Boolean) {
 				
-				typeQName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001,"boolean");
+				typeQName = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,"boolean");
 				
 			}
 			
