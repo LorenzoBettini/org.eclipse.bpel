@@ -14,16 +14,17 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -42,7 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 public class VariableInitializationSection extends BPELPropertySection {
 			
 	/** The from section */
-	CategorySection fFromSection = new CategorySection (this);
+	CategorySection fFromSection = null;
 	
 	/** The current copy rule being edited. */
 	Variable fVariable;
@@ -58,21 +59,23 @@ public class VariableInitializationSection extends BPELPropertySection {
 	public VariableInitializationSection()  {
 		
 		super();
-				
-		fFromSection.fAllowed = new IAssignCategory[] {				
+		fFromSection = new CategorySection(this);
+	
+		fFromSection.fAllowed = new IAssignCategory[] {			
 			new VariablePartAssignCategory(this, BPELPackage.eINSTANCE.getVariable_From() ),
-			new ExpressionAssignCategory(this ),
+			new ExpressionAssignCategory( this ),
 			new LiteralAssignCategory(this, BPELPackage.eINSTANCE.getVariable_From() ),
 			new VariablePropertyAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),
 			new PartnerRoleAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),
 			new EndpointReferenceAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),						
-			new OpaqueAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  )
+			new OpaqueAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),
+			new NullAssignCategory (this, BPELPackage.eINSTANCE.getVariable_From() ) 
 		};
 		
 	}
 	
-	protected boolean isFromAffected ( Notification n ) {
-		return (n.getFeatureID(Assign.class) == BPELPackage.VARIABLE__FROM);
+	protected boolean isFromAffected ( Notification n ) {		
+		return n.getFeature() == BPELPackage.eINSTANCE.getVariable_From();		
 	}
 	
 	
@@ -83,9 +86,9 @@ public class VariableInitializationSection extends BPELPropertySection {
 			new MultiObjectAdapter() {
 				
 				@Override
-				public void notify(Notification n) {
+				public void notify (Notification n) {
 					if ( isFromAffected (n) ) {
-						// selectCategoriesForInput( null );
+						selectCategoriesForInput( null );
 					}
 				}
 			},
@@ -185,20 +188,19 @@ public class VariableInitializationSection extends BPELPropertySection {
 	 */
 	protected void selectCategoriesForInput (Variable variable) {
 				
-		fVariable = variable == null ? fVariable : variable;
-								
-		// Find the proper copy-from category
-		boolean bFound = false;
+		if (variable != null) {
+			fVariable = variable;
+		}
+		
 		for (IAssignCategory category : fFromSection.fAllowed) {
 			if (category.isCategoryForModel( fVariable.getFrom() )) {				
 				updateCategorySelection(fFromSection,category,false);
-				bFound = true;
-				break;
+				return;
 			}
 		}
 		
 		/** In case we can't find the appropriate one, just display the first one */
-		if (bFound == false || fFromSection.fCurrent == null)  {
+		if ( fFromSection.fCurrent == null)  {
 			updateCategorySelection(fFromSection,0,false);
 		}			
 	}
@@ -243,18 +245,29 @@ public class VariableInitializationSection extends BPELPropertySection {
 
 	void updateCategorySelection ( CategorySection section, IAssignCategory newCurrent, boolean bVisual) {
 		
-		/** Hide current */
-		section.hideCurrent();						
-		
-		/** Update current to the one that picked from */
-		section.fCurrent = newCurrent;		
-		section.ensureCategoryCompositeCreated();
-		
+		if (section.fCurrent != newCurrent) {
+			/** Hide current */
+			section.hideCurrent();						
+			
+			/** Update current to the one that picked from */
+			section.fCurrent = newCurrent;		
+			section.ensureCategoryCompositeCreated();
+		}		
 		
 		/** Visual selection */
 		
 		if (bVisual || fVariable.getFrom() == null) {
-			fVariable.setFrom( BPELFactory.eINSTANCE.createFrom() );
+			
+			Command cmd ;
+			
+			if ( section.fCurrent.isCategoryForModel (null) == false ) {
+				cmd = new SetCommand( getInput(), BPELFactory.eINSTANCE.createFrom(), BPELPackage.eINSTANCE.getVariable_From() );	
+			} else {
+				cmd = new SetCommand( getInput(), null , BPELPackage.eINSTANCE.getVariable_From() );
+								
+			}
+			// Execute this right away.
+			getBPELEditor().getCommandFramework().execute( cmd );			
 		} 
 		
 		if (!bVisual) {			

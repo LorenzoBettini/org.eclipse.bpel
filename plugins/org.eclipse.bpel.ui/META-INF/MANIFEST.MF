@@ -17,12 +17,12 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xsd,
  org.eclipse.bpel.common.ui,
  org.eclipse.wst.wsdl,
- org.wsdl4j,
  org.eclipse.bpel.common.ui,
  org.eclipse.bpel.common.model,
  org.eclipse.bpel.model,
  org.eclipse.wst.xml.core,
- org.eclipse.bpel.wsil.model
+ org.eclipse.bpel.wsil.model,
+ javax.wsdl
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.bpel.ui,
  org.eclipse.bpel.ui.actions,

@@ -166,8 +166,7 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	@SuppressWarnings("nls")
 	@Override
 	protected void basicSetInput (EObject newInput) {		
-		fCopyRuleSide = BPELUtil.adapt(newInput, IVirtualCopyRuleSide.class);
-		Assert.isNotNull(fCopyRuleSide, "Model is not IVirtualCopyRuleSide");		
+		fCopyRuleSide = BPELUtil.adapt(newInput, IVirtualCopyRuleSide.class);			
 		super.basicSetInput(newInput);			
 	}
 
