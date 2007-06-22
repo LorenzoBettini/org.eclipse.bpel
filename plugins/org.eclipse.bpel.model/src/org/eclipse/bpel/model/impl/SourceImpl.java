@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourceImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: SourceImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -58,7 +58,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * @generated
 	 * @ordered
 	 */
-	protected Link link = null;
+	protected Link link;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' reference.
@@ -68,7 +68,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getTransitionCondition() <em>Transition Condition</em>}' containment reference.
@@ -78,7 +78,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * @generated
 	 * @ordered
 	 */
-	protected Condition transitionCondition = null;
+	protected Condition transitionCondition;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -95,7 +95,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getSource();
+		return BPELPackage.Literals.SOURCE;
 	}
 
 	/**
@@ -105,8 +105,8 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 */
 	public Link getLink() {
 		if (link != null && link.eIsProxy()) {
-			Link oldLink = link;
-			link = (Link)eResolveProxy((InternalEObject)link);
+			InternalEObject oldLink = (InternalEObject)link;
+			link = (Link)eResolveProxy(oldLink);
 			if (link != oldLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.SOURCE__LINK, oldLink, link));
@@ -242,20 +242,14 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.SOURCE__LINK:
-					if (link != null)
-						msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__SOURCES, Link.class, msgs);
-					return basicSetLink((Link)otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.SOURCE__LINK:
+				if (link != null)
+					msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__SOURCES, Link.class, msgs);
+				return basicSetLink((Link)otherEnd, msgs);
 		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -263,22 +257,14 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.SOURCE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.SOURCE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.SOURCE__LINK:
-					return basicSetLink(null, msgs);
-				case BPELPackage.SOURCE__TRANSITION_CONDITION:
-					return basicSetTransitionCondition(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.SOURCE__LINK:
+				return basicSetLink(null, msgs);
+			case BPELPackage.SOURCE__TRANSITION_CONDITION:
+				return basicSetTransitionCondition(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -286,16 +272,8 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SOURCE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.SOURCE__ELEMENT:
-				return getElement();
-			case BPELPackage.SOURCE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.SOURCE__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
 				if (resolve) return getLink();
 				return basicGetLink();
@@ -305,7 +283,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 			case BPELPackage.SOURCE__TRANSITION_CONDITION:
 				return getTransitionCondition();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -313,21 +291,8 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SOURCE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.SOURCE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.SOURCE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.SOURCE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
 				setLink((Link)newValue);
 				return;
@@ -338,7 +303,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 				setTransitionCondition((Condition)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -346,20 +311,8 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SOURCE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.SOURCE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.SOURCE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.SOURCE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
 				setLink((Link)null);
 				return;
@@ -370,7 +323,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 				setTransitionCondition((Condition)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -378,16 +331,8 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SOURCE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.SOURCE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.SOURCE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.SOURCE__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
 				return link != null;
 			case BPELPackage.SOURCE__ACTIVITY:
@@ -395,7 +340,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 			case BPELPackage.SOURCE__TRANSITION_CONDITION:
 				return transitionCondition != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //SourceImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.3 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: ToImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -61,7 +61,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable variable = null;
+	protected Variable variable;
 
 	/**
 	 * The cached value of the '{@link #getPart() <em>Part</em>}' reference.
@@ -71,7 +71,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @generated
 	 * @ordered
 	 */
-	protected Part part = null;
+	protected Part part;
 
     /**
      * The deserialized value of the part name.
@@ -87,7 +87,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLink partnerLink = null;
+	protected PartnerLink partnerLink;
 
 	/**
 	 * The cached value of the '{@link #getProperty() <em>Property</em>}' reference.
@@ -97,7 +97,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @generated
 	 * @ordered
 	 */
-	protected Property property = null;
+	protected Property property;
 
 	/**
 	 * The cached value of the '{@link #getQuery() <em>Query</em>}' containment reference.
@@ -107,7 +107,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @generated
 	 * @ordered
 	 */
-	protected Query query = null;
+	protected Query query;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -124,7 +124,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getTo();
+		return BPELPackage.Literals.TO;
 	}
 
 	/**
@@ -134,8 +134,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			Variable oldVariable = variable;
-			variable = (Variable)eResolveProxy((InternalEObject)variable);
+			InternalEObject oldVariable = (InternalEObject)variable;
+			variable = (Variable)eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__VARIABLE, oldVariable, variable));
@@ -191,8 +191,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public Part getPartGen() {
 		if (part != null && part.eIsProxy()) {
-			Part oldPart = part;
-			part = (Part)eResolveProxy((InternalEObject)part);
+			InternalEObject oldPart = (InternalEObject)part;
+			part = (Part)eResolveProxy(oldPart);
 			if (part != oldPart) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__PART, oldPart, part));
@@ -237,8 +237,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			PartnerLink oldPartnerLink = partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy((InternalEObject)partnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
+			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__PARTNER_LINK, oldPartnerLink, partnerLink));
@@ -275,8 +275,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public Property getProperty() {
 		if (property != null && property.eIsProxy()) {
-			Property oldProperty = property;
-			property = (Property)eResolveProxy((InternalEObject)property);
+			InternalEObject oldProperty = (InternalEObject)property;
+			property = (Property)eResolveProxy(oldProperty);
 			if (property != oldProperty) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__PROPERTY, oldProperty, property));
@@ -354,20 +354,12 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.TO__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.TO__QUERY:
-					return basicSetQuery(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.TO__QUERY:
+				return basicSetQuery(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -375,16 +367,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TO__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.TO__ELEMENT:
-				return getElement();
-			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.TO__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
 				if (resolve) return getVariable();
 				return basicGetVariable();
@@ -400,7 +384,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			case BPELPackage.TO__QUERY:
 				return getQuery();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -408,21 +392,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TO__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.TO__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.TO__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
 				setVariable((Variable)newValue);
 				return;
@@ -439,7 +410,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				setQuery((Query)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -447,20 +418,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TO__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.TO__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.TO__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
 				setVariable((Variable)null);
 				return;
@@ -477,7 +436,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				setQuery((Query)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -485,16 +444,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TO__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.TO__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.TO__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.TO__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
 				return variable != null;
 			case BPELPackage.TO__PART:
@@ -506,7 +457,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			case BPELPackage.TO__QUERY:
 				return query != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //ToImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.5 2006/12/13 16:17:31 smoser Exp $
+ * $Id: ScopeImpl.java,v 1.6 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -90,7 +90,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean isolatedESet = false;
+	protected boolean isolatedESet;
 
 	/**
 	 * The cached value of the '{@link #getFaultHandlers() <em>Fault Handlers</em>}' containment reference.
@@ -100,7 +100,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected FaultHandler faultHandlers = null;
+	protected FaultHandler faultHandlers;
 
 	/**
 	 * The cached value of the '{@link #getCompensationHandler() <em>Compensation Handler</em>}' containment reference.
@@ -110,7 +110,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected CompensationHandler compensationHandler = null;
+	protected CompensationHandler compensationHandler;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -120,7 +120,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getVariables() <em>Variables</em>}' containment reference.
@@ -130,7 +130,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variables variables = null;
+	protected Variables variables;
 
 	/**
 	 * The cached value of the '{@link #getCorrelationSets() <em>Correlation Sets</em>}' containment reference.
@@ -140,7 +140,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected CorrelationSets correlationSets = null;
+	protected CorrelationSets correlationSets;
 
 	/**
 	 * The cached value of the '{@link #getEventHandlers() <em>Event Handlers</em>}' containment reference.
@@ -150,7 +150,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected EventHandler eventHandlers = null;
+	protected EventHandler eventHandlers;
 
 	/**
 	 * The cached value of the '{@link #getPartnerLinks() <em>Partner Links</em>}' containment reference.
@@ -160,7 +160,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLinks partnerLinks = null;
+	protected PartnerLinks partnerLinks;
 
 	/**
 	 * The cached value of the '{@link #getTerminationHandler() <em>Termination Handler</em>}' containment reference.
@@ -170,7 +170,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected TerminationHandler terminationHandler = null;
+	protected TerminationHandler terminationHandler;
 
 	/**
 	 * The cached value of the '{@link #getMessageExchanges() <em>Message Exchanges</em>}' reference.
@@ -180,7 +180,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected MessageExchanges messageExchanges = null;
+	protected MessageExchanges messageExchanges;
 
 	/**
 	 * The default value of the '{@link #getExitOnStandardFault() <em>Exit On Standard Fault</em>}' attribute.
@@ -209,7 +209,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean exitOnStandardFaultESet = false;
+	protected boolean exitOnStandardFaultESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -226,7 +226,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getScope();
+		return BPELPackage.Literals.SCOPE;
 	}
 
 	/**
@@ -626,8 +626,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 */
 	public MessageExchanges getMessageExchanges() {
 		if (messageExchanges != null && messageExchanges.eIsProxy()) {
-			MessageExchanges oldMessageExchanges = messageExchanges;
-			messageExchanges = (MessageExchanges)eResolveProxy((InternalEObject)messageExchanges);
+			InternalEObject oldMessageExchanges = (InternalEObject)messageExchanges;
+			messageExchanges = (MessageExchanges)eResolveProxy(oldMessageExchanges);
 			if (messageExchanges != oldMessageExchanges) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.SCOPE__MESSAGE_EXCHANGES, oldMessageExchanges, messageExchanges));
@@ -708,38 +708,26 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.SCOPE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.SCOPE__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.SCOPE__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.SCOPE__FAULT_HANDLERS:
-					return basicSetFaultHandlers(null, msgs);
-				case BPELPackage.SCOPE__COMPENSATION_HANDLER:
-					return basicSetCompensationHandler(null, msgs);
-				case BPELPackage.SCOPE__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				case BPELPackage.SCOPE__VARIABLES:
-					return basicSetVariables(null, msgs);
-				case BPELPackage.SCOPE__CORRELATION_SETS:
-					return basicSetCorrelationSets(null, msgs);
-				case BPELPackage.SCOPE__EVENT_HANDLERS:
-					return basicSetEventHandlers(null, msgs);
-				case BPELPackage.SCOPE__PARTNER_LINKS:
-					return basicSetPartnerLinks(null, msgs);
-				case BPELPackage.SCOPE__TERMINATION_HANDLER:
-					return basicSetTerminationHandler(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.SCOPE__FAULT_HANDLERS:
+				return basicSetFaultHandlers(null, msgs);
+			case BPELPackage.SCOPE__COMPENSATION_HANDLER:
+				return basicSetCompensationHandler(null, msgs);
+			case BPELPackage.SCOPE__ACTIVITY:
+				return basicSetActivity(null, msgs);
+			case BPELPackage.SCOPE__VARIABLES:
+				return basicSetVariables(null, msgs);
+			case BPELPackage.SCOPE__CORRELATION_SETS:
+				return basicSetCorrelationSets(null, msgs);
+			case BPELPackage.SCOPE__EVENT_HANDLERS:
+				return basicSetEventHandlers(null, msgs);
+			case BPELPackage.SCOPE__PARTNER_LINKS:
+				return basicSetPartnerLinks(null, msgs);
+			case BPELPackage.SCOPE__TERMINATION_HANDLER:
+				return basicSetTerminationHandler(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -747,24 +735,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SCOPE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.SCOPE__ELEMENT:
-				return getElement();
-			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.SCOPE__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.SCOPE__NAME:
-				return getName();
-			case BPELPackage.SCOPE__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.SCOPE__TARGETS:
-				return getTargets();
-			case BPELPackage.SCOPE__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.SCOPE__ISOLATED:
 				return getIsolated();
 			case BPELPackage.SCOPE__FAULT_HANDLERS:
@@ -789,7 +761,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
 				return getExitOnStandardFault();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -797,33 +769,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SCOPE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.SCOPE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.SCOPE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.SCOPE__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.SCOPE__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.SCOPE__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.SCOPE__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.SCOPE__ISOLATED:
 				setIsolated((Boolean)newValue);
 				return;
@@ -858,7 +805,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 				setExitOnStandardFault((Boolean)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -866,32 +813,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SCOPE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.SCOPE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.SCOPE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.SCOPE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.SCOPE__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.SCOPE__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.SCOPE__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.SCOPE__ISOLATED:
 				unsetIsolated();
 				return;
@@ -926,7 +849,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 				unsetExitOnStandardFault();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -934,24 +857,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SCOPE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.SCOPE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.SCOPE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.SCOPE__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.SCOPE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.SCOPE__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.SCOPE__TARGETS:
-				return targets != null;
-			case BPELPackage.SCOPE__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.SCOPE__ISOLATED:
 				return isSetIsolated();
 			case BPELPackage.SCOPE__FAULT_HANDLERS:
@@ -975,7 +882,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
 				return isSetExitOnStandardFault();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

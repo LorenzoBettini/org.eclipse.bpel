@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: QueryImpl.java,v 1.2 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -108,7 +108,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return MessagepropertiesPackage.eINSTANCE.getQuery();
+		return MessagepropertiesPackage.Literals.QUERY;
 	}
 
 	/**
@@ -158,22 +158,14 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.QUERY__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case MessagepropertiesPackage.QUERY__ELEMENT:
-				return getElement();
-			case MessagepropertiesPackage.QUERY__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case MessagepropertiesPackage.QUERY__ELEMENT_TYPE:
-				return getElementType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
 				return getQueryLanguage();
 			case MessagepropertiesPackage.QUERY__VALUE:
 				return getValue();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -181,20 +173,8 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.QUERY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case MessagepropertiesPackage.QUERY__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case MessagepropertiesPackage.QUERY__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case MessagepropertiesPackage.QUERY__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
 				setQueryLanguage((String)newValue);
 				return;
@@ -202,7 +182,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 				setValue((String)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -210,20 +190,8 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.QUERY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.QUERY__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.QUERY__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.QUERY__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
 				setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
 				return;
@@ -231,7 +199,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 				setValue(VALUE_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -239,22 +207,14 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.QUERY__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case MessagepropertiesPackage.QUERY__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case MessagepropertiesPackage.QUERY__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case MessagepropertiesPackage.QUERY__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
 				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null : !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
 			case MessagepropertiesPackage.QUERY__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

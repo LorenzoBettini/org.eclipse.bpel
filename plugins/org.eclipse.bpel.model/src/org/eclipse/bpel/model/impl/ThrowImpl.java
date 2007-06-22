@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ThrowImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
+ * $Id: ThrowImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -76,7 +76,7 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable faultVariable = null;
+	protected Variable faultVariable;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -93,7 +93,7 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getThrow();
+		return BPELPackage.Literals.THROW;
 	}
 
 	/**
@@ -124,8 +124,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 */
 	public Variable getFaultVariable() {
 		if (faultVariable != null && faultVariable.eIsProxy()) {
-			Variable oldFaultVariable = faultVariable;
-			faultVariable = (Variable)eResolveProxy((InternalEObject)faultVariable);
+			InternalEObject oldFaultVariable = (InternalEObject)faultVariable;
+			faultVariable = (Variable)eResolveProxy(oldFaultVariable);
 			if (faultVariable != oldFaultVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.THROW__FAULT_VARIABLE, oldFaultVariable, faultVariable));
@@ -160,54 +160,15 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.THROW__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.THROW__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.THROW__SOURCES:
-					return basicSetSources(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.THROW__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.THROW__ELEMENT:
-				return getElement();
-			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.THROW__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.THROW__NAME:
-				return getName();
-			case BPELPackage.THROW__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.THROW__TARGETS:
-				return getTargets();
-			case BPELPackage.THROW__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
 				return getFaultName();
 			case BPELPackage.THROW__FAULT_VARIABLE:
 				if (resolve) return getFaultVariable();
 				return basicGetFaultVariable();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -215,33 +176,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.THROW__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.THROW__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.THROW__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.THROW__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.THROW__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.THROW__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.THROW__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
 				setFaultName((QName)newValue);
 				return;
@@ -249,7 +185,7 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 				setFaultVariable((Variable)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -257,32 +193,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.THROW__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.THROW__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.THROW__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.THROW__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.THROW__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.THROW__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.THROW__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
 				setFaultName(FAULT_NAME_EDEFAULT);
 				return;
@@ -290,7 +202,7 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 				setFaultVariable((Variable)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -298,30 +210,14 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.THROW__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.THROW__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.THROW__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.THROW__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.THROW__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.THROW__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.THROW__TARGETS:
-				return targets != null;
-			case BPELPackage.THROW__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
 				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.THROW__FAULT_VARIABLE:
 				return faultVariable != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

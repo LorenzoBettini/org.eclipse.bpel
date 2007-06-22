@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.3 2007/05/10 23:11:06 mchmielewski Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -43,7 +43,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * @generated
 	 * @ordered
 	 */
-	protected Documentation documentation = null;
+	protected Documentation documentation;
 
 	/**
 	 * This is true if the Documentation containment reference has been set.
@@ -52,7 +52,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean documentationESet = false;
+	protected boolean documentationESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -69,7 +69,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getExtensibleElement();
+		return BPELPackage.Literals.EXTENSIBLE_ELEMENT;
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 			documentationESet = true;
 			if (eNotificationRequired())
 				eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, newDocumentation, newDocumentation, !oldDocumentationESet));
-    	}
+		}
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 			documentationESet = false;
 			if (eNotificationRequired())
 				eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, null, null, oldDocumentationESet));
-    	}
+		}
 	}
 
 	/**
@@ -172,18 +172,12 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
+				return basicUnsetDocumentation(msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -191,18 +185,12 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.EXTENSIBLE_ELEMENT__ELEMENT:
-				return getElement();
-			case BPELPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
 				return getDocumentation();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -210,23 +198,13 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.EXTENSIBLE_ELEMENT__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
 				setDocumentation((Documentation)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -234,22 +212,13 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EXTENSIBLE_ELEMENT__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
 				unsetDocumentation();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -257,18 +226,12 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.EXTENSIBLE_ELEMENT__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.EXTENSIBLE_ELEMENT__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
 				return isSetDocumentation();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

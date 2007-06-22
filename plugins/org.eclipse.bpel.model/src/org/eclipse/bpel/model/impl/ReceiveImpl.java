@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.5 2007/02/09 09:13:42 smoser Exp $
+ * $Id: ReceiveImpl.java,v 1.6 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -81,7 +81,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean createInstanceESet = false;
+	protected boolean createInstanceESet;
 
 	/**
 	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' reference.
@@ -91,7 +91,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable variable = null;
+	protected Variable variable;
 
 	/**
 	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
@@ -101,7 +101,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart = null;
+	protected EList fromPart;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -118,7 +118,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getReceive();
+		return BPELPackage.Literals.RECEIVE;
 	}
 
 	/**
@@ -174,8 +174,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			Variable oldVariable = variable;
-			variable = (Variable)eResolveProxy((InternalEObject)variable);
+			InternalEObject oldVariable = (InternalEObject)variable;
+			variable = (Variable)eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.RECEIVE__VARIABLE, oldVariable, variable));
@@ -222,60 +222,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.RECEIVE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.RECEIVE__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.RECEIVE__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.RECEIVE__CORRELATIONS:
-					return basicSetCorrelations(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.RECEIVE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.RECEIVE__ELEMENT:
-				return getElement();
-			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.RECEIVE__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.RECEIVE__NAME:
-				return getName();
-			case BPELPackage.RECEIVE__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.RECEIVE__TARGETS:
-				return getTargets();
-			case BPELPackage.RECEIVE__SOURCES:
-				return getSources();
-			case BPELPackage.RECEIVE__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
-				return basicGetPartnerLink();
-			case BPELPackage.RECEIVE__CORRELATIONS:
-				return getCorrelations();
-			case BPELPackage.RECEIVE__PORT_TYPE:
-				if (resolve) return getPortType();
-				return basicGetPortType();
-			case BPELPackage.RECEIVE__OPERATION:
-				if (resolve) return getOperation();
-				return basicGetOperation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
 				return getCreateInstance();
 			case BPELPackage.RECEIVE__VARIABLE:
@@ -284,7 +232,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__FROM_PART:
 				return getFromPart();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -292,45 +240,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.RECEIVE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.RECEIVE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.RECEIVE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.RECEIVE__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.RECEIVE__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.RECEIVE__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.RECEIVE__SOURCES:
-				setSources((Sources)newValue);
-				return;
-			case BPELPackage.RECEIVE__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
-				return;
-			case BPELPackage.RECEIVE__CORRELATIONS:
-				setCorrelations((Correlations)newValue);
-				return;
-			case BPELPackage.RECEIVE__PORT_TYPE:
-				setPortType((PortType)newValue);
-				return;
-			case BPELPackage.RECEIVE__OPERATION:
-				setOperation((Operation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
 				setCreateInstance((Boolean)newValue);
 				return;
@@ -342,7 +253,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 				getFromPart().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -350,44 +261,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.RECEIVE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.RECEIVE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.RECEIVE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.RECEIVE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.RECEIVE__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.RECEIVE__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.RECEIVE__SOURCES:
-				setSources((Sources)null);
-				return;
-			case BPELPackage.RECEIVE__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
-				return;
-			case BPELPackage.RECEIVE__CORRELATIONS:
-				setCorrelations((Correlations)null);
-				return;
-			case BPELPackage.RECEIVE__PORT_TYPE:
-				setPortType((PortType)null);
-				return;
-			case BPELPackage.RECEIVE__OPERATION:
-				setOperation((Operation)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
 				unsetCreateInstance();
 				return;
@@ -398,7 +273,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 				getFromPart().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -406,32 +281,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.RECEIVE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.RECEIVE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.RECEIVE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.RECEIVE__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.RECEIVE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.RECEIVE__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.RECEIVE__TARGETS:
-				return targets != null;
-			case BPELPackage.RECEIVE__SOURCES:
-				return sources != null;
-			case BPELPackage.RECEIVE__PARTNER_LINK:
-				return partnerLink != null;
-			case BPELPackage.RECEIVE__CORRELATIONS:
-				return correlations != null;
-			case BPELPackage.RECEIVE__PORT_TYPE:
-				return portType != null;
-			case BPELPackage.RECEIVE__OPERATION:
-				return operation != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
 				return isSetCreateInstance();
 			case BPELPackage.RECEIVE__VARIABLE:
@@ -439,7 +290,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			case BPELPackage.RECEIVE__FROM_PART:
 				return fromPart != null && !fromPart.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseIfImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: ElseIfImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -45,7 +45,7 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * @generated
 	 * @ordered
 	 */
-	protected Condition condition = null;
+	protected Condition condition;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -55,7 +55,7 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,7 +72,7 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getElseIf();
+		return BPELPackage.Literals.ELSE_IF;
 	}
 
 	/**
@@ -166,22 +166,14 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.ELSE_IF__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.ELSE_IF__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.ELSE_IF__CONDITION:
-					return basicSetCondition(null, msgs);
-				case BPELPackage.ELSE_IF__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.ELSE_IF__CONDITION:
+				return basicSetCondition(null, msgs);
+			case BPELPackage.ELSE_IF__ACTIVITY:
+				return basicSetActivity(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -189,22 +181,14 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ELSE_IF__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.ELSE_IF__ELEMENT:
-				return getElement();
-			case BPELPackage.ELSE_IF__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.ELSE_IF__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.ELSE_IF__CONDITION:
 				return getCondition();
 			case BPELPackage.ELSE_IF__ACTIVITY:
 				return getActivity();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -212,21 +196,8 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ELSE_IF__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.ELSE_IF__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.ELSE_IF__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.ELSE_IF__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.ELSE_IF__CONDITION:
 				setCondition((Condition)newValue);
 				return;
@@ -234,7 +205,7 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 				setActivity((Activity)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -242,20 +213,8 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ELSE_IF__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ELSE_IF__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ELSE_IF__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.ELSE_IF__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ELSE_IF__CONDITION:
 				setCondition((Condition)null);
 				return;
@@ -263,7 +222,7 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 				setActivity((Activity)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -271,22 +230,14 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ELSE_IF__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.ELSE_IF__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.ELSE_IF__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.ELSE_IF__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ELSE_IF__CONDITION:
 				return condition != null;
 			case BPELPackage.ELSE_IF__ACTIVITY:
 				return activity != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //ElseIfImpl

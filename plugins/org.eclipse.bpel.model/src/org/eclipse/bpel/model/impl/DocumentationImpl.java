@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.1 2006/01/19 21:08:48 james Exp $
+ * $Id: DocumentationImpl.java,v 1.2 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -105,7 +105,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getDocumentation();
+		return BPELPackage.Literals.DOCUMENTATION;
 	}
 
 	/**
@@ -176,8 +176,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
 				return getLang();
 			case BPELPackage.DOCUMENTATION__SOURCE:
@@ -185,7 +185,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 			case BPELPackage.DOCUMENTATION__VALUE:
 				return getValue();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -193,8 +193,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
 				setLang((String)newValue);
 				return;
@@ -205,7 +205,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 				setValue((String)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -213,8 +213,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
 				setLang(LANG_EDEFAULT);
 				return;
@@ -225,7 +225,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 				setValue(VALUE_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -233,8 +233,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
 				return LANG_EDEFAULT == null ? lang != null : !LANG_EDEFAULT.equals(lang);
 			case BPELPackage.DOCUMENTATION__SOURCE:
@@ -242,7 +242,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 			case BPELPackage.DOCUMENTATION__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

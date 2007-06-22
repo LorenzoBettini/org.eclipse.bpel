@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.5 2007/02/09 09:13:42 smoser Exp $
+ * $Id: OnMessageImpl.java,v 1.6 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -67,7 +67,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable variable = null;
+	protected Variable variable;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -77,7 +77,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getPortType() <em>Port Type</em>}' reference.
@@ -87,7 +87,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected PortType portType = null;
+	protected PortType portType;
 
 	/**
 	 * The cached value of the '{@link #getPartnerLink() <em>Partner Link</em>}' reference.
@@ -97,7 +97,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLink partnerLink = null;
+	protected PartnerLink partnerLink;
 
 	/**
 	 * The cached value of the '{@link #getCorrelations() <em>Correlations</em>}' containment reference.
@@ -107,7 +107,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected Correlations correlations = null;
+	protected Correlations correlations;
 
 	/**
 	 * The cached value of the '{@link #getOperation() <em>Operation</em>}' reference.
@@ -117,7 +117,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected Operation operation = null;
+	protected Operation operation;
 
 	/**
 	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
@@ -127,7 +127,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart = null;
+	protected EList fromPart;
 
     /**
      * The deserialized value of the operation name.
@@ -150,7 +150,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getOnMessage();
+		return BPELPackage.Literals.ON_MESSAGE;
 	}
 
 	/**
@@ -160,8 +160,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			Variable oldVariable = variable;
-			variable = (Variable)eResolveProxy((InternalEObject)variable);
+			InternalEObject oldVariable = (InternalEObject)variable;
+			variable = (Variable)eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__VARIABLE, oldVariable, variable));
@@ -263,8 +263,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public PortType getPortTypeGen() {
 		if (portType != null && portType.eIsProxy()) {
-			PortType oldPortType = portType;
-			portType = (PortType)eResolveProxy((InternalEObject)portType);
+			InternalEObject oldPortType = (InternalEObject)portType;
+			portType = (PortType)eResolveProxy(oldPortType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__PORT_TYPE, oldPortType, portType));
@@ -301,8 +301,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			PartnerLink oldPartnerLink = partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy((InternalEObject)partnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
+			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__PARTNER_LINK, oldPartnerLink, partnerLink));
@@ -398,8 +398,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public Operation getOperationGen() {
 		if (operation != null && operation.eIsProxy()) {
-			Operation oldOperation = operation;
-			operation = (Operation)eResolveProxy((InternalEObject)operation);
+			InternalEObject oldOperation = (InternalEObject)operation;
+			operation = (Operation)eResolveProxy(oldOperation);
 			if (operation != oldOperation) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__OPERATION, oldOperation, operation));
@@ -446,22 +446,14 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.ON_MESSAGE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.ON_MESSAGE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.ON_MESSAGE__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				case BPELPackage.ON_MESSAGE__CORRELATIONS:
-					return basicSetCorrelations(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.ON_MESSAGE__ACTIVITY:
+				return basicSetActivity(null, msgs);
+			case BPELPackage.ON_MESSAGE__CORRELATIONS:
+				return basicSetCorrelations(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -469,16 +461,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.ON_MESSAGE__ELEMENT:
-				return getElement();
-			case BPELPackage.ON_MESSAGE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
 				if (resolve) return getVariable();
 				return basicGetVariable();
@@ -498,7 +482,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 			case BPELPackage.ON_MESSAGE__FROM_PART:
 				return getFromPart();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -506,21 +490,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.ON_MESSAGE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.ON_MESSAGE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
 				setVariable((Variable)newValue);
 				return;
@@ -544,7 +515,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 				getFromPart().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -552,20 +523,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ON_MESSAGE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ON_MESSAGE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
 				setVariable((Variable)null);
 				return;
@@ -588,7 +547,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 				getFromPart().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -596,16 +555,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.ON_MESSAGE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.ON_MESSAGE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.ON_MESSAGE__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
 				return variable != null;
 			case BPELPackage.ON_MESSAGE__ACTIVITY:
@@ -621,10 +572,10 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 			case BPELPackage.ON_MESSAGE__FROM_PART:
 				return fromPart != null && !fromPart.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
-    /**
+	/**
      * Set the deserialized value of the operation name.
      * @customized
      */

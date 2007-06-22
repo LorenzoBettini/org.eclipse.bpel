@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.3 2007/04/11 20:55:29 mchmielewski Exp $
+ * $Id: PropertyImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -140,7 +140,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return MessagepropertiesPackage.eINSTANCE.getProperty();
+		return MessagepropertiesPackage.Literals.PROPERTY;
 	}
 
     /**
@@ -223,16 +223,8 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case MessagepropertiesPackage.PROPERTY__ELEMENT:
-				return getElement();
-			case MessagepropertiesPackage.PROPERTY__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case MessagepropertiesPackage.PROPERTY__ELEMENT_TYPE:
-				return getElementType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
 				return getQName();
 			case MessagepropertiesPackage.PROPERTY__NAME:
@@ -242,28 +234,16 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 			case MessagepropertiesPackage.PROPERTY__ID:
 				return getID();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
-	/**
+				/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case MessagepropertiesPackage.PROPERTY__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
 				setQName((QName)newValue);
 				return;
@@ -271,31 +251,19 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 				setName((String)newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY__TYPE:
-				setType((Object)newValue);
+				setType(newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
-	/**
+				/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
 				setQName(QNAME_EDEFAULT);
 				return;
@@ -306,24 +274,16 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 				setType(TYPE_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
-	/**
+				/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case MessagepropertiesPackage.PROPERTY__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case MessagepropertiesPackage.PROPERTY__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case MessagepropertiesPackage.PROPERTY__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
 				return QNAME_EDEFAULT == null ? qName != null : !QNAME_EDEFAULT.equals(qName);
 			case MessagepropertiesPackage.PROPERTY__NAME:
@@ -333,7 +293,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 			case MessagepropertiesPackage.PROPERTY__ID:
 				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT.equals(getID());
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

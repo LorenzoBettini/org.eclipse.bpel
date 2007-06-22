@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPartImpl.java,v 1.4 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: FromPartImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -70,7 +70,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * @generated
 	 * @ordered
 	 */
-	protected To to = null;
+	protected To to;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -87,7 +87,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getFromPart();
+		return BPELPackage.Literals.FROM_PART;
 	}
 
 	/**
@@ -118,8 +118,8 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 */
 	public To getTo() {
 		if (to != null && to.eIsProxy()) {
-			To oldTo = to;
-			to = (To)eResolveProxy((InternalEObject)to);
+			InternalEObject oldTo = (InternalEObject)to;
+			to = (To)eResolveProxy(oldTo);
 			if (to != oldTo) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM_PART__TO, oldTo, to));
@@ -154,42 +154,15 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.FROM_PART__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FROM_PART__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.FROM_PART__ELEMENT:
-				return getElement();
-			case BPELPackage.FROM_PART__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.FROM_PART__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.FROM_PART__PART:
 				return getPart();
 			case BPELPackage.FROM_PART__TO:
 				if (resolve) return getTo();
 				return basicGetTo();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -197,21 +170,8 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.FROM_PART__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.FROM_PART__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.FROM_PART__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.FROM_PART__PART:
 				setPart((String)newValue);
 				return;
@@ -219,7 +179,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 				setTo((To)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -227,20 +187,8 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FROM_PART__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FROM_PART__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.FROM_PART__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FROM_PART__PART:
 				setPart(PART_EDEFAULT);
 				return;
@@ -248,7 +196,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 				setTo((To)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -256,22 +204,14 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM_PART__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.FROM_PART__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.FROM_PART__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.FROM_PART__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FROM_PART__PART:
 				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT.equals(part);
 			case BPELPackage.FROM_PART__TO:
 				return to != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

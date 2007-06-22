@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.18 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: BPELFactory.java,v 1.19 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -31,7 +31,7 @@ public interface BPELFactory extends EFactory{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	BPELFactory eINSTANCE = new org.eclipse.bpel.model.impl.BPELFactoryImpl();
+	BPELFactory eINSTANCE = org.eclipse.bpel.model.impl.BPELFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Process</em>'.

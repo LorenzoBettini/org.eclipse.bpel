@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IfImpl.java,v 1.3 2007/02/09 09:13:42 smoser Exp $
+ * $Id: IfImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,7 +53,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * @generated
 	 * @ordered
 	 */
-	protected Condition condition = null;
+	protected Condition condition;
 
 	/**
 	 * The cached value of the '{@link #getElseIf() <em>Else If</em>}' containment reference list.
@@ -63,7 +63,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList elseIf = null;
+	protected EList elseIf;
 
 	/**
 	 * The cached value of the '{@link #getElse() <em>Else</em>}' containment reference.
@@ -73,7 +73,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * @generated
 	 * @ordered
 	 */
-	protected Else else_ = null;
+	protected Else else_;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -83,7 +83,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,7 +100,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getIf();
+		return BPELPackage.Literals.IF;
 	}
 
 	/**
@@ -249,30 +249,18 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.IF__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.IF__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.IF__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.IF__CONDITION:
-					return basicSetCondition(null, msgs);
-				case BPELPackage.IF__ELSE_IF:
-					return ((InternalEList)getElseIf()).basicRemove(otherEnd, msgs);
-				case BPELPackage.IF__ELSE:
-					return basicSetElse(null, msgs);
-				case BPELPackage.IF__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.IF__CONDITION:
+				return basicSetCondition(null, msgs);
+			case BPELPackage.IF__ELSE_IF:
+				return ((InternalEList)getElseIf()).basicRemove(otherEnd, msgs);
+			case BPELPackage.IF__ELSE:
+				return basicSetElse(null, msgs);
+			case BPELPackage.IF__ACTIVITY:
+				return basicSetActivity(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -280,24 +268,8 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.IF__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.IF__ELEMENT:
-				return getElement();
-			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.IF__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.IF__NAME:
-				return getName();
-			case BPELPackage.IF__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.IF__TARGETS:
-				return getTargets();
-			case BPELPackage.IF__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
 				return getCondition();
 			case BPELPackage.IF__ELSE_IF:
@@ -307,7 +279,7 @@ public class IfImpl extends ActivityImpl implements If {
 			case BPELPackage.IF__ACTIVITY:
 				return getActivity();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -315,33 +287,8 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.IF__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.IF__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.IF__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.IF__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.IF__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.IF__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.IF__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
 				setCondition((Condition)newValue);
 				return;
@@ -356,7 +303,7 @@ public class IfImpl extends ActivityImpl implements If {
 				setActivity((Activity)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -364,32 +311,8 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.IF__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.IF__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.IF__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.IF__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.IF__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.IF__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.IF__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
 				setCondition((Condition)null);
 				return;
@@ -403,7 +326,7 @@ public class IfImpl extends ActivityImpl implements If {
 				setActivity((Activity)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -411,24 +334,8 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.IF__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.IF__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.IF__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.IF__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.IF__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.IF__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.IF__TARGETS:
-				return targets != null;
-			case BPELPackage.IF__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
 				return condition != null;
 			case BPELPackage.IF__ELSE_IF:
@@ -438,7 +345,7 @@ public class IfImpl extends ActivityImpl implements If {
 			case BPELPackage.IF__ACTIVITY:
 				return activity != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //IfImpl

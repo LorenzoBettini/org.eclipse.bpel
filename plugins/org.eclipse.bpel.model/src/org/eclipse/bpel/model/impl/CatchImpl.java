@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: CatchImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -80,7 +80,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable faultVariable = null;
+	protected Variable faultVariable;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -90,7 +90,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getFaultMessageType() <em>Fault Message Type</em>}' reference.
@@ -100,7 +100,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @generated
 	 * @ordered
 	 */
-	protected Message faultMessageType = null;
+	protected Message faultMessageType;
 
 	/**
 	 * The cached value of the '{@link #getFaultElement() <em>Fault Element</em>}' reference.
@@ -110,7 +110,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @generated
 	 * @ordered
 	 */
-	protected XSDElementDeclaration faultElement = null;
+	protected XSDElementDeclaration faultElement;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -127,7 +127,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getCatch();
+		return BPELPackage.Literals.CATCH;
 	}
 
 	/**
@@ -332,22 +332,14 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.CATCH__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.CATCH__FAULT_VARIABLE:
-					return basicSetFaultVariable(null, msgs);
-				case BPELPackage.CATCH__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.CATCH__FAULT_VARIABLE:
+				return basicSetFaultVariable(null, msgs);
+			case BPELPackage.CATCH__ACTIVITY:
+				return basicSetActivity(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -355,16 +347,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CATCH__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.CATCH__ELEMENT:
-				return getElement();
-			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.CATCH__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
 				return getFaultName();
 			case BPELPackage.CATCH__FAULT_VARIABLE:
@@ -378,7 +362,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 				if (resolve) return getFaultElement();
 				return basicGetFaultElement();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -386,21 +370,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CATCH__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.CATCH__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.CATCH__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
 				setFaultName((QName)newValue);
 				return;
@@ -417,7 +388,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 				setFaultElement((XSDElementDeclaration)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -425,20 +396,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CATCH__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.CATCH__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.CATCH__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
 				setFaultName(FAULT_NAME_EDEFAULT);
 				return;
@@ -455,7 +414,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 				setFaultElement((XSDElementDeclaration)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -463,16 +422,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CATCH__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.CATCH__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.CATCH__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.CATCH__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
 				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.CATCH__FAULT_VARIABLE:
@@ -484,7 +435,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__FAULT_ELEMENT:
 				return faultElement != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinkImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: LinkImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -76,7 +76,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList sources = null;
+	protected EList sources;
 
 	/**
 	 * The cached value of the '{@link #getTargets() <em>Targets</em>}' reference list.
@@ -86,7 +86,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList targets = null;
+	protected EList targets;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -103,7 +103,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getLink();
+		return BPELPackage.Literals.LINK;
 	}
 
 	/**
@@ -156,20 +156,14 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.LINK__SOURCES:
-					return ((InternalEList)getSources()).basicAdd(otherEnd, msgs);
-				case BPELPackage.LINK__TARGETS:
-					return ((InternalEList)getTargets()).basicAdd(otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.LINK__SOURCES:
+				return ((InternalEList)getSources()).basicAdd(otherEnd, msgs);
+			case BPELPackage.LINK__TARGETS:
+				return ((InternalEList)getTargets()).basicAdd(otherEnd, msgs);
 		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -177,22 +171,14 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.LINK__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.LINK__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.LINK__SOURCES:
-					return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
-				case BPELPackage.LINK__TARGETS:
-					return ((InternalEList)getTargets()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.LINK__SOURCES:
+				return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
+			case BPELPackage.LINK__TARGETS:
+				return ((InternalEList)getTargets()).basicRemove(otherEnd, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -200,16 +186,8 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.LINK__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.LINK__ELEMENT:
-				return getElement();
-			case BPELPackage.LINK__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.LINK__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.LINK__NAME:
 				return getName();
 			case BPELPackage.LINK__SOURCES:
@@ -217,7 +195,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 			case BPELPackage.LINK__TARGETS:
 				return getTargets();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -225,21 +203,8 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.LINK__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.LINK__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.LINK__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.LINK__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.LINK__NAME:
 				setName((String)newValue);
 				return;
@@ -252,7 +217,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 				getTargets().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -260,20 +225,8 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.LINK__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.LINK__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.LINK__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.LINK__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.LINK__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -284,7 +237,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 				getTargets().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -292,16 +245,8 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.LINK__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.LINK__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.LINK__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.LINK__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.LINK__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.LINK__SOURCES:
@@ -309,7 +254,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 			case BPELPackage.LINK__TARGETS:
 				return targets != null && !targets.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

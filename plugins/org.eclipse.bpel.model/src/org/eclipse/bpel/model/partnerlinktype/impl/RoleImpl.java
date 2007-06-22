@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.4 2006/08/16 22:11:16 mchmielewski Exp $
+ * $Id: RoleImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -115,7 +115,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return PartnerlinktypePackage.eINSTANCE.getRole();
+		return PartnerlinktypePackage.Literals.ROLE;
 	}
 
     /**
@@ -187,16 +187,8 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.ROLE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case PartnerlinktypePackage.ROLE__ELEMENT:
-				return getElement();
-			case PartnerlinktypePackage.ROLE__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case PartnerlinktypePackage.ROLE__ELEMENT_TYPE:
-				return getElementType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__ID:
 				return getID();
 			case PartnerlinktypePackage.ROLE__NAME:
@@ -204,7 +196,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
 				return getPortType();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -212,28 +204,16 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.ROLE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case PartnerlinktypePackage.ROLE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case PartnerlinktypePackage.ROLE__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case PartnerlinktypePackage.ROLE__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__NAME:
 				setName((String)newValue);
 				return;
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
-				setPortType((Object)newValue);
+				setPortType(newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -241,20 +221,8 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.ROLE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case PartnerlinktypePackage.ROLE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case PartnerlinktypePackage.ROLE__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case PartnerlinktypePackage.ROLE__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -262,7 +230,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 				setPortType(PORT_TYPE_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -270,16 +238,8 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.ROLE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case PartnerlinktypePackage.ROLE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case PartnerlinktypePackage.ROLE__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case PartnerlinktypePackage.ROLE__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__ID:
 				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT.equals(getID());
 			case PartnerlinktypePackage.ROLE__NAME:
@@ -287,7 +247,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
 				return PORT_TYPE_EDEFAULT == null ? portType != null : !PORT_TYPE_EDEFAULT.equals(portType);
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

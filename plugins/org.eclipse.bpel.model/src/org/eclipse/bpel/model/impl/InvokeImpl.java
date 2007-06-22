@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.3 2006/01/19 21:08:48 james Exp $
+ * $Id: InvokeImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -68,7 +68,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable outputVariable = null;
+	protected Variable outputVariable;
 
 	/**
 	 * The cached value of the '{@link #getInputVariable() <em>Input Variable</em>}' reference.
@@ -78,7 +78,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable inputVariable = null;
+	protected Variable inputVariable;
 
 	/**
 	 * The cached value of the '{@link #getCompensationHandler() <em>Compensation Handler</em>}' containment reference.
@@ -88,7 +88,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected CompensationHandler compensationHandler = null;
+	protected CompensationHandler compensationHandler;
 
 	/**
 	 * The cached value of the '{@link #getFaultHandler() <em>Fault Handler</em>}' containment reference.
@@ -98,7 +98,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected FaultHandler faultHandler = null;
+	protected FaultHandler faultHandler;
 
 	/**
 	 * The cached value of the '{@link #getToPart() <em>To Part</em>}' reference list.
@@ -108,7 +108,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList toPart = null;
+	protected EList toPart;
 
 	/**
 	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
@@ -118,7 +118,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart = null;
+	protected EList fromPart;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -135,7 +135,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getInvoke();
+		return BPELPackage.Literals.INVOKE;
 	}
 
 	/**
@@ -145,8 +145,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public Variable getOutputVariable() {
 		if (outputVariable != null && outputVariable.eIsProxy()) {
-			Variable oldOutputVariable = outputVariable;
-			outputVariable = (Variable)eResolveProxy((InternalEObject)outputVariable);
+			InternalEObject oldOutputVariable = (InternalEObject)outputVariable;
+			outputVariable = (Variable)eResolveProxy(oldOutputVariable);
 			if (outputVariable != oldOutputVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.INVOKE__OUTPUT_VARIABLE, oldOutputVariable, outputVariable));
@@ -183,8 +183,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public Variable getInputVariable() {
 		if (inputVariable != null && inputVariable.eIsProxy()) {
-			Variable oldInputVariable = inputVariable;
-			inputVariable = (Variable)eResolveProxy((InternalEObject)inputVariable);
+			InternalEObject oldInputVariable = (InternalEObject)inputVariable;
+			inputVariable = (Variable)eResolveProxy(oldInputVariable);
 			if (inputVariable != oldInputVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.INVOKE__INPUT_VARIABLE, oldInputVariable, inputVariable));
@@ -329,28 +329,14 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.INVOKE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.INVOKE__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.INVOKE__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.INVOKE__CORRELATIONS:
-					return basicSetCorrelations(null, msgs);
-				case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-					return basicSetCompensationHandler(null, msgs);
-				case BPELPackage.INVOKE__FAULT_HANDLER:
-					return basicSetFaultHandler(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
+				return basicSetCompensationHandler(null, msgs);
+			case BPELPackage.INVOKE__FAULT_HANDLER:
+				return basicSetFaultHandler(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -358,35 +344,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.INVOKE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.INVOKE__ELEMENT:
-				return getElement();
-			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.INVOKE__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.INVOKE__NAME:
-				return getName();
-			case BPELPackage.INVOKE__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.INVOKE__TARGETS:
-				return getTargets();
-			case BPELPackage.INVOKE__SOURCES:
-				return getSources();
-			case BPELPackage.INVOKE__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
-				return basicGetPartnerLink();
-			case BPELPackage.INVOKE__CORRELATIONS:
-				return getCorrelations();
-			case BPELPackage.INVOKE__PORT_TYPE:
-				if (resolve) return getPortType();
-				return basicGetPortType();
-			case BPELPackage.INVOKE__OPERATION:
-				if (resolve) return getOperation();
-				return basicGetOperation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
 				if (resolve) return getOutputVariable();
 				return basicGetOutputVariable();
@@ -402,7 +361,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			case BPELPackage.INVOKE__FROM_PART:
 				return getFromPart();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -410,45 +369,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.INVOKE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.INVOKE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.INVOKE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.INVOKE__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.INVOKE__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.INVOKE__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.INVOKE__SOURCES:
-				setSources((Sources)newValue);
-				return;
-			case BPELPackage.INVOKE__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
-				return;
-			case BPELPackage.INVOKE__CORRELATIONS:
-				setCorrelations((Correlations)newValue);
-				return;
-			case BPELPackage.INVOKE__PORT_TYPE:
-				setPortType((PortType)newValue);
-				return;
-			case BPELPackage.INVOKE__OPERATION:
-				setOperation((Operation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
 				setOutputVariable((Variable)newValue);
 				return;
@@ -470,7 +392,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 				getFromPart().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -478,44 +400,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.INVOKE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.INVOKE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.INVOKE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.INVOKE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.INVOKE__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.INVOKE__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.INVOKE__SOURCES:
-				setSources((Sources)null);
-				return;
-			case BPELPackage.INVOKE__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
-				return;
-			case BPELPackage.INVOKE__CORRELATIONS:
-				setCorrelations((Correlations)null);
-				return;
-			case BPELPackage.INVOKE__PORT_TYPE:
-				setPortType((PortType)null);
-				return;
-			case BPELPackage.INVOKE__OPERATION:
-				setOperation((Operation)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
 				setOutputVariable((Variable)null);
 				return;
@@ -535,7 +421,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 				getFromPart().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -543,32 +429,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.INVOKE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.INVOKE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.INVOKE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.INVOKE__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.INVOKE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.INVOKE__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.INVOKE__TARGETS:
-				return targets != null;
-			case BPELPackage.INVOKE__SOURCES:
-				return sources != null;
-			case BPELPackage.INVOKE__PARTNER_LINK:
-				return partnerLink != null;
-			case BPELPackage.INVOKE__CORRELATIONS:
-				return correlations != null;
-			case BPELPackage.INVOKE__PORT_TYPE:
-				return portType != null;
-			case BPELPackage.INVOKE__OPERATION:
-				return operation != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
 				return outputVariable != null;
 			case BPELPackage.INVOKE__INPUT_VARIABLE:
@@ -582,7 +444,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 			case BPELPackage.INVOKE__FROM_PART:
 				return fromPart != null && !fromPart.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //InvokeImpl

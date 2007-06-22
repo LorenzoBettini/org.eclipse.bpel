@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UnknownExtensibilityAttributeImpl.java,v 1.2 2006/12/13 16:17:31 smoser Exp $
+ * $Id: UnknownExtensibilityAttributeImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,119 +53,7 @@ public class UnknownExtensibilityAttributeImpl extends UnknownExtensibilityEleme
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getUnknownExtensibilityAttribute();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN:
-					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT:
-				return getElement();
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT_TYPE:
-				return getElementType();
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN:
-				return getChildren();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN:
-				getChildren().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN:
-				return children != null && !children.isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
+		return BPELPackage.Literals.UNKNOWN_EXTENSIBILITY_ATTRIBUTE;
 	}
 
 } //UnknownExtensibilityAttributeImpl

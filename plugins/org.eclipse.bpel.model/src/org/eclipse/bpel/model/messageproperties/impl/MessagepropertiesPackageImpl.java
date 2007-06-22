@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackageImpl.java,v 1.3 2007/04/11 20:55:29 mchmielewski Exp $
+ * $Id: MessagepropertiesPackageImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 
 import org.eclipse.wst.wsdl.WSDLPackage;
+import org.eclipse.xsd.XSDPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
 
 import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
@@ -392,8 +393,8 @@ public class MessagepropertiesPackageImpl extends EPackageImpl implements Messag
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
-		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		WSDLPackage theWSDLPackage = (WSDLPackage)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add supertypes to classes
 		propertyEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());

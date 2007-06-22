@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeFactoryImpl.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerlinktypeFactoryImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -19,7 +19,9 @@ import org.eclipse.bpel.model.partnerlinktype.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +30,25 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  * @generated
  */
 public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements PartnerlinktypeFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static PartnerlinktypeFactory init() {
+		try {
+			PartnerlinktypeFactory thePartnerlinktypeFactory = (PartnerlinktypeFactory)EPackage.Registry.INSTANCE.getEFactory("http://docs.oasis-open.org/wsbpel/2.0/plnktype"); 
+			if (thePartnerlinktypeFactory != null) {
+				return thePartnerlinktypeFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new PartnerlinktypeFactoryImpl();
+	}
+
 	/**
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->

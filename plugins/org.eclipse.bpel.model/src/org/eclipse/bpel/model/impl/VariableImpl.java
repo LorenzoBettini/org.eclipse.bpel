@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableImpl.java,v 1.8 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: VariableImpl.java,v 1.9 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -86,7 +86,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * @generated
 	 * @ordered
 	 */
-	protected Message messageType = null;
+	protected Message messageType;
 
 	/**
 	 * The cached value of the '{@link #getXSDElement() <em>XSD Element</em>}' reference.
@@ -95,7 +95,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * @generated
 	 * @ordered
 	 */
-	protected XSDElementDeclaration xsdElement = null;
+	protected XSDElementDeclaration xsdElement;
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
@@ -104,7 +104,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * @generated
 	 * @ordered
 	 */
-	protected XSDTypeDefinition type = null;
+	protected XSDTypeDefinition type;
 
 	/**
 	 * The cached value of the '{@link #getFrom() <em>From</em>}' containment reference.
@@ -113,7 +113,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * @generated
 	 * @ordered
 	 */
-	protected From from = null;
+	protected From from;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -128,7 +128,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getVariable();
+		return BPELPackage.Literals.VARIABLE;
 	}
 
 	/**
@@ -156,8 +156,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 */
 	public Message getMessageType() {
 		if (messageType != null && messageType.eIsProxy()) {
-			Message oldMessageType = messageType;
-			messageType = (Message)eResolveProxy((InternalEObject)messageType);
+			InternalEObject oldMessageType = (InternalEObject)messageType;
+			messageType = (Message)eResolveProxy(oldMessageType);
 			if (messageType != oldMessageType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__MESSAGE_TYPE, oldMessageType, messageType));
@@ -191,8 +191,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 */
 	public XSDElementDeclaration getXSDElement() {
 		if (xsdElement != null && xsdElement.eIsProxy()) {
-			XSDElementDeclaration oldXSDElement = xsdElement;
-			xsdElement = (XSDElementDeclaration)eResolveProxy((InternalEObject)xsdElement);
+			InternalEObject oldXSDElement = (InternalEObject)xsdElement;
+			xsdElement = (XSDElementDeclaration)eResolveProxy(oldXSDElement);
 			if (xsdElement != oldXSDElement) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__XSD_ELEMENT, oldXSDElement, xsdElement));
@@ -226,8 +226,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 */
 	public XSDTypeDefinition getType() {
 		if (type != null && type.eIsProxy()) {
-			XSDTypeDefinition oldType = type;
-			type = (XSDTypeDefinition)eResolveProxy((InternalEObject)type);
+			InternalEObject oldType = (InternalEObject)type;
+			type = (XSDTypeDefinition)eResolveProxy(oldType);
 			if (type != oldType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__TYPE, oldType, type));
@@ -301,20 +301,12 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.VARIABLE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.VARIABLE__FROM:
-					return basicSetFrom(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.VARIABLE__FROM:
+				return basicSetFrom(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -322,16 +314,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VARIABLE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.VARIABLE__ELEMENT:
-				return getElement();
-			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.VARIABLE__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
 				return getName();
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
@@ -346,7 +330,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__FROM:
 				return getFrom();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -354,21 +338,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VARIABLE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.VARIABLE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.VARIABLE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
 				setName((String)newValue);
 				return;
@@ -385,7 +356,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 				setFrom((From)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -393,20 +364,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VARIABLE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.VARIABLE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.VARIABLE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -423,7 +382,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 				setFrom((From)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -431,16 +390,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VARIABLE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.VARIABLE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.VARIABLE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.VARIABLE__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
@@ -452,7 +403,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 			case BPELPackage.VARIABLE__FROM:
 				return from != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

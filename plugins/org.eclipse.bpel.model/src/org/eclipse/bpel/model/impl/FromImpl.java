@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.3 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: FromImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -91,7 +91,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean opaqueESet = false;
+	protected boolean opaqueESet;
 
 	/**
 	 * The default value of the '{@link #getEndpointReference() <em>Endpoint Reference</em>}' attribute.
@@ -120,7 +120,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean endpointReferenceESet = false;
+	protected boolean endpointReferenceESet;
 
 	/**
 	 * The default value of the '{@link #getLiteral() <em>Literal</em>}' attribute.
@@ -149,7 +149,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean literalESet = false;
+	protected boolean literalESet;
 
 	/**
 	 * The default value of the '{@link #getUnsafeLiteral() <em>Unsafe Literal</em>}' attribute.
@@ -179,7 +179,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression expression = null;
+	protected Expression expression;
 
 	/**
 	 * The cached value of the '{@link #getServiceRef() <em>Service Ref</em>}' containment reference.
@@ -189,7 +189,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected ServiceRef serviceRef = null;
+	protected ServiceRef serviceRef;
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
@@ -199,7 +199,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected XSDTypeDefinition type = null;
+	protected XSDTypeDefinition type;
 
 	/**
 	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' reference.
@@ -209,7 +209,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable variable = null;
+	protected Variable variable;
 
 	/**
 	 * The cached value of the '{@link #getPart() <em>Part</em>}' reference.
@@ -219,7 +219,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected Part part = null;
+	protected Part part;
 
 	/**
      * The deserialized value of the part name.
@@ -235,7 +235,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLink partnerLink = null;
+	protected PartnerLink partnerLink;
 
 	/**
 	 * The cached value of the '{@link #getProperty() <em>Property</em>}' reference.
@@ -245,7 +245,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected Property property = null;
+	protected Property property;
 
 	/**
 	 * The cached value of the '{@link #getQuery() <em>Query</em>}' containment reference.
@@ -255,7 +255,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 * @ordered
 	 */
-	protected Query query = null;
+	protected Query query;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -272,7 +272,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getFrom();
+		return BPELPackage.Literals.FROM;
 	}
 
 	/**
@@ -527,8 +527,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public XSDTypeDefinition getType() {
 		if (type != null && type.eIsProxy()) {
-			XSDTypeDefinition oldType = type;
-			type = (XSDTypeDefinition)eResolveProxy((InternalEObject)type);
+			InternalEObject oldType = (InternalEObject)type;
+			type = (XSDTypeDefinition)eResolveProxy(oldType);
 			if (type != oldType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__TYPE, oldType, type));
@@ -565,8 +565,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			Variable oldVariable = variable;
-			variable = (Variable)eResolveProxy((InternalEObject)variable);
+			InternalEObject oldVariable = (InternalEObject)variable;
+			variable = (Variable)eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__VARIABLE, oldVariable, variable));
@@ -669,8 +669,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			PartnerLink oldPartnerLink = partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy((InternalEObject)partnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
+			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PARTNER_LINK, oldPartnerLink, partnerLink));
@@ -707,8 +707,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public Property getProperty() {
 		if (property != null && property.eIsProxy()) {
-			Property oldProperty = property;
-			property = (Property)eResolveProxy((InternalEObject)property);
+			InternalEObject oldProperty = (InternalEObject)property;
+			property = (Property)eResolveProxy(oldProperty);
 			if (property != oldProperty) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PROPERTY, oldProperty, property));
@@ -786,24 +786,16 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.FROM__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FROM__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.FROM__EXPRESSION:
-					return basicSetExpression(null, msgs);
-				case BPELPackage.FROM__SERVICE_REF:
-					return basicSetServiceRef(null, msgs);
-				case BPELPackage.FROM__QUERY:
-					return basicSetQuery(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.FROM__EXPRESSION:
+				return basicSetExpression(null, msgs);
+			case BPELPackage.FROM__SERVICE_REF:
+				return basicSetServiceRef(null, msgs);
+			case BPELPackage.FROM__QUERY:
+				return basicSetQuery(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -811,16 +803,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.FROM__ELEMENT:
-				return getElement();
-			case BPELPackage.FROM__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.FROM__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
 				return getOpaque();
 			case BPELPackage.FROM__ENDPOINT_REFERENCE:
@@ -851,7 +835,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 			case BPELPackage.FROM__QUERY:
 				return getQuery();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -859,21 +843,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.FROM__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.FROM__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.FROM__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
 				setOpaque((Boolean)newValue);
 				return;
@@ -911,7 +882,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 				setQuery((Query)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -919,20 +890,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FROM__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FROM__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.FROM__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
 				unsetOpaque();
 				return;
@@ -970,7 +929,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 				setQuery((Query)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -978,16 +937,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FROM__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.FROM__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.FROM__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.FROM__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
 				return isSetOpaque();
 			case BPELPackage.FROM__ENDPOINT_REFERENCE:
@@ -1013,7 +964,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 			case BPELPackage.FROM__QUERY:
 				return query != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

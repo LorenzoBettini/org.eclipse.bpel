@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.30 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: BPELPackage.java,v 1.31 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -307,7 +307,7 @@ public interface BPELPackage extends EPackage{
 	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensate()
 	 * @generated
 	 */
-	int COMPENSATE = 24;
+	int COMPENSATE = 69;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompensationHandlerImpl <em>Compensation Handler</em>}' class.
@@ -756,7 +756,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSIBLE_ELEMENT__DOCUMENTATION = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Extensible Element</em>' class.
+	 * The number of structural features of the '<em>Extensible Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -945,7 +945,7 @@ public interface BPELPackage extends EPackage{
 	int PROCESS__MESSAGE_EXCHANGES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
 
 	/**
-	 * The number of structural features of the the '<em>Process</em>' class.
+	 * The number of structural features of the '<em>Process</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1035,7 +1035,7 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_LINK__INITIALIZE_PARTNER_ROLE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the the '<em>Partner Link</em>' class.
+	 * The number of structural features of the '<em>Partner Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1098,7 +1098,7 @@ public interface BPELPackage extends EPackage{
 	int FAULT_HANDLER__CATCH_ALL = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Fault Handler</em>' class.
+	 * The number of structural features of the '<em>Fault Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1179,7 +1179,7 @@ public interface BPELPackage extends EPackage{
 	int ACTIVITY__SOURCES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the the '<em>Activity</em>' class.
+	 * The number of structural features of the '<em>Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1242,7 +1242,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATION_SET__PROPERTIES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Correlation Set</em>' class.
+	 * The number of structural features of the '<em>Correlation Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1359,7 +1359,7 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_ACTIVITY__OPERATION = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the the '<em>Partner Activity</em>' class.
+	 * The number of structural features of the '<em>Partner Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1530,7 +1530,7 @@ public interface BPELPackage extends EPackage{
 	int INVOKE__FROM_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 5;
 
 	/**
-	 * The number of structural features of the the '<em>Invoke</em>' class.
+	 * The number of structural features of the '<em>Invoke</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1602,7 +1602,7 @@ public interface BPELPackage extends EPackage{
 	int LINK__TARGETS = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Link</em>' class.
+	 * The number of structural features of the '<em>Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1692,7 +1692,7 @@ public interface BPELPackage extends EPackage{
 	int CATCH__FAULT_ELEMENT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the the '<em>Catch</em>' class.
+	 * The number of structural features of the '<em>Catch</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1836,7 +1836,7 @@ public interface BPELPackage extends EPackage{
 	int REPLY__TO_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Reply</em>' class.
+	 * The number of structural features of the '<em>Reply</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1980,7 +1980,7 @@ public interface BPELPackage extends EPackage{
 	int RECEIVE__FROM_PART = PARTNER_ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Receive</em>' class.
+	 * The number of structural features of the '<em>Receive</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2061,7 +2061,7 @@ public interface BPELPackage extends EPackage{
 	int EXIT__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the the '<em>Exit</em>' class.
+	 * The number of structural features of the '<em>Exit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2160,7 +2160,7 @@ public interface BPELPackage extends EPackage{
 	int THROW__FAULT_VARIABLE = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Throw</em>' class.
+	 * The number of structural features of the '<em>Throw</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2259,7 +2259,7 @@ public interface BPELPackage extends EPackage{
 	int WAIT__UNTIL = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Wait</em>' class.
+	 * The number of structural features of the '<em>Wait</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2340,7 +2340,7 @@ public interface BPELPackage extends EPackage{
 	int EMPTY__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the the '<em>Empty</em>' class.
+	 * The number of structural features of the '<em>Empty</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2430,7 +2430,7 @@ public interface BPELPackage extends EPackage{
 	int SEQUENCE__ACTIVITIES = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Sequence</em>' class.
+	 * The number of structural features of the '<em>Sequence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2529,7 +2529,7 @@ public interface BPELPackage extends EPackage{
 	int WHILE__CONDITION = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>While</em>' class.
+	 * The number of structural features of the '<em>While</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2637,7 +2637,7 @@ public interface BPELPackage extends EPackage{
 	int PICK__ALARM = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Pick</em>' class.
+	 * The number of structural features of the '<em>Pick</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2745,7 +2745,7 @@ public interface BPELPackage extends EPackage{
 	int FLOW__COMPLETION_CONDITION = ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Flow</em>' class.
+	 * The number of structural features of the '<em>Flow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2826,7 +2826,7 @@ public interface BPELPackage extends EPackage{
 	int ON_ALARM__REPEAT_EVERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the the '<em>On Alarm</em>' class.
+	 * The number of structural features of the '<em>On Alarm</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2925,7 +2925,7 @@ public interface BPELPackage extends EPackage{
 	int ASSIGN__VALIDATE = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Assign</em>' class.
+	 * The number of structural features of the '<em>Assign</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3006,7 +3006,7 @@ public interface BPELPackage extends EPackage{
 	int COPY__IGNORE_MISSING_FROM_DATA = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the the '<em>Copy</em>' class.
+	 * The number of structural features of the '<em>Copy</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3069,7 +3069,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION__MUST_UNDERSTAND = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Extension</em>' class.
+	 * The number of structural features of the '<em>Extension</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3249,7 +3249,7 @@ public interface BPELPackage extends EPackage{
 	int SCOPE__EXIT_ON_STANDARD_FAULT = ACTIVITY_FEATURE_COUNT + 10;
 
 	/**
-	 * The number of structural features of the the '<em>Scope</em>' class.
+	 * The number of structural features of the '<em>Scope</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3258,13 +3258,63 @@ public interface BPELPackage extends EPackage{
 	int SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 11;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.ValidateImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidate()
+	 * @generated
+	 */
+	int VALIDATE = 59;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.DocumentationImpl <em>Documentation</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.DocumentationImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getDocumentation()
+	 * @generated
+	 */
+	int DOCUMENTATION = 66;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.MessageExchangesImpl <em>Message Exchanges</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.MessageExchangesImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchanges()
+	 * @generated
+	 */
+	int MESSAGE_EXCHANGES = 67;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.MessageExchangeImpl <em>Message Exchange</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.MessageExchangeImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchange()
+	 * @generated
+	 */
+	int MESSAGE_EXCHANGE = 68;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompensateScopeImpl <em>Compensate Scope</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.bpel.model.impl.CompensateScopeImpl
+	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensateScope()
+	 * @generated
+	 */
+	int COMPENSATE_SCOPE = 24;
+
+	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+	int COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -3273,7 +3323,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__ELEMENT = ACTIVITY__ELEMENT;
+	int COMPENSATE_SCOPE__ELEMENT = ACTIVITY__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
@@ -3282,7 +3332,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+	int COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
@@ -3291,7 +3341,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
+	int COMPENSATE_SCOPE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3300,7 +3350,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__NAME = ACTIVITY__NAME;
+	int COMPENSATE_SCOPE__NAME = ACTIVITY__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
@@ -3309,7 +3359,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+	int COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
 
 	/**
 	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
@@ -3318,7 +3368,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__TARGETS = ACTIVITY__TARGETS;
+	int COMPENSATE_SCOPE__TARGETS = ACTIVITY__TARGETS;
 
 	/**
 	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
@@ -3327,16 +3377,25 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE__SOURCES = ACTIVITY__SOURCES;
+	int COMPENSATE_SCOPE__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the the '<em>Compensate</em>' class.
+	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
+	int COMPENSATE_SCOPE__TARGET = ACTIVITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Compensate Scope</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPENSATE_SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -3384,7 +3443,7 @@ public interface BPELPackage extends EPackage{
 	int COMPENSATION_HANDLER__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Compensation Handler</em>' class.
+	 * The number of structural features of the '<em>Compensation Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3474,7 +3533,7 @@ public interface BPELPackage extends EPackage{
 	int TO__QUERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the the '<em>To</em>' class.
+	 * The number of structural features of the '<em>To</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3627,7 +3686,7 @@ public interface BPELPackage extends EPackage{
 	int FROM__QUERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
-	 * The number of structural features of the the '<em>From</em>' class.
+	 * The number of structural features of the '<em>From</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3735,7 +3794,7 @@ public interface BPELPackage extends EPackage{
 	int ON_MESSAGE__FROM_PART = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The number of structural features of the the '<em>On Message</em>' class.
+	 * The number of structural features of the '<em>On Message</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3807,7 +3866,7 @@ public interface BPELPackage extends EPackage{
 	int EXPRESSION__OPAQUE = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Expression</em>' class.
+	 * The number of structural features of the '<em>Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3879,7 +3938,7 @@ public interface BPELPackage extends EPackage{
 	int BOOLEAN_EXPRESSION__OPAQUE = EXPRESSION__OPAQUE;
 
 	/**
-	 * The number of structural features of the the '<em>Boolean Expression</em>' class.
+	 * The number of structural features of the '<em>Boolean Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3951,7 +4010,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATION__SET = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Correlation</em>' class.
+	 * The number of structural features of the '<em>Correlation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4014,7 +4073,7 @@ public interface BPELPackage extends EPackage{
 	int EVENT_HANDLER__EVENTS = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Event Handler</em>' class.
+	 * The number of structural features of the '<em>Event Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4086,7 +4145,7 @@ public interface BPELPackage extends EPackage{
 	int SOURCE__TRANSITION_CONDITION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Source</em>' class.
+	 * The number of structural features of the '<em>Source</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4149,7 +4208,7 @@ public interface BPELPackage extends EPackage{
 	int TARGET__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Target</em>' class.
+	 * The number of structural features of the '<em>Target</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4203,7 +4262,7 @@ public interface BPELPackage extends EPackage{
 	int PARTNER_LINKS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Partner Links</em>' class.
+	 * The number of structural features of the '<em>Partner Links</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4257,7 +4316,7 @@ public interface BPELPackage extends EPackage{
 	int VARIABLES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Variables</em>' class.
+	 * The number of structural features of the '<em>Variables</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4311,7 +4370,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATION_SETS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Correlation Sets</em>' class.
+	 * The number of structural features of the '<em>Correlation Sets</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4365,7 +4424,7 @@ public interface BPELPackage extends EPackage{
 	int LINKS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Links</em>' class.
+	 * The number of structural features of the '<em>Links</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4419,7 +4478,7 @@ public interface BPELPackage extends EPackage{
 	int CATCH_ALL__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Catch All</em>' class.
+	 * The number of structural features of the '<em>Catch All</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4473,7 +4532,7 @@ public interface BPELPackage extends EPackage{
 	int CORRELATIONS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Correlations</em>' class.
+	 * The number of structural features of the '<em>Correlations</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4563,7 +4622,7 @@ public interface BPELPackage extends EPackage{
 	int VARIABLE__FROM = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the the '<em>Variable</em>' class.
+	 * The number of structural features of the '<em>Variable</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4617,7 +4676,7 @@ public interface BPELPackage extends EPackage{
 	int UNKNOWN_EXTENSIBILITY_ATTRIBUTE__CHILDREN = WSDLPackage.UNKNOWN_EXTENSIBILITY_ELEMENT__CHILDREN;
 
 	/**
-	 * The number of structural features of the the '<em>Unknown Extensibility Attribute</em>' class.
+	 * The number of structural features of the '<em>Unknown Extensibility Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4743,7 +4802,7 @@ public interface BPELPackage extends EPackage{
 	int ON_EVENT__CORRELATION_SETS = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
-	 * The number of structural features of the the '<em>On Event</em>' class.
+	 * The number of structural features of the '<em>On Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4815,7 +4874,7 @@ public interface BPELPackage extends EPackage{
 	int IMPORT__IMPORT_TYPE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the the '<em>Import</em>' class.
+	 * The number of structural features of the '<em>Import</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4896,7 +4955,7 @@ public interface BPELPackage extends EPackage{
 	int RETHROW__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the the '<em>Rethrow</em>' class.
+	 * The number of structural features of the '<em>Rethrow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -4968,7 +5027,7 @@ public interface BPELPackage extends EPackage{
 	int CONDITION__OPAQUE = EXPRESSION__OPAQUE;
 
 	/**
-	 * The number of structural features of the the '<em>Condition</em>' class.
+	 * The number of structural features of the '<em>Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5031,7 +5090,7 @@ public interface BPELPackage extends EPackage{
 	int TARGETS__JOIN_CONDITION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Targets</em>' class.
+	 * The number of structural features of the '<em>Targets</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5085,7 +5144,7 @@ public interface BPELPackage extends EPackage{
 	int SOURCES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Sources</em>' class.
+	 * The number of structural features of the '<em>Sources</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5130,7 +5189,7 @@ public interface BPELPackage extends EPackage{
 	int QUERY__QUERY_LANGUAGE = WSDLPackage.WSDL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Query</em>' class.
+	 * The number of structural features of the '<em>Query</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5184,7 +5243,7 @@ public interface BPELPackage extends EPackage{
 	int SERVICE_REF__VALUE = WSDLPackage.EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Service Ref</em>' class.
+	 * The number of structural features of the '<em>Service Ref</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5238,7 +5297,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSIONS__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Extensions</em>' class.
+	 * The number of structural features of the '<em>Extensions</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5319,7 +5378,7 @@ public interface BPELPackage extends EPackage{
 	int EXTENSION_ACTIVITY__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the the '<em>Extension Activity</em>' class.
+	 * The number of structural features of the '<em>Extension Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5382,7 +5441,7 @@ public interface BPELPackage extends EPackage{
 	int FROM_PART__TO = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>From Part</em>' class.
+	 * The number of structural features of the '<em>From Part</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5445,7 +5504,7 @@ public interface BPELPackage extends EPackage{
 	int TO_PART__FROM = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>To Part</em>' class.
+	 * The number of structural features of the '<em>To Part</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5526,7 +5585,7 @@ public interface BPELPackage extends EPackage{
 	int OPAQUE_ACTIVITY__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The number of structural features of the the '<em>Opaque Activity</em>' class.
+	 * The number of structural features of the '<em>Opaque Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5661,7 +5720,7 @@ public interface BPELPackage extends EPackage{
 	int FOR_EACH__ACTIVITY = ACTIVITY_FEATURE_COUNT + 5;
 
 	/**
-	 * The number of structural features of the the '<em>For Each</em>' class.
+	 * The number of structural features of the '<em>For Each</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5760,7 +5819,7 @@ public interface BPELPackage extends EPackage{
 	int REPEAT_UNTIL__CONDITION = ACTIVITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Repeat Until</em>' class.
+	 * The number of structural features of the '<em>Repeat Until</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -5814,23 +5873,13 @@ public interface BPELPackage extends EPackage{
 	int TERMINATION_HANDLER__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Termination Handler</em>' class.
+	 * The number of structural features of the '<em>Termination Handler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int TERMINATION_HANDLER_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.ValidateImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidate()
-	 * @generated
-	 */
-	int VALIDATE = 59;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -5914,7 +5963,7 @@ public interface BPELPackage extends EPackage{
 	int VALIDATE__VARIABLES = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Validate</em>' class.
+	 * The number of structural features of the '<em>Validate</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6031,7 +6080,7 @@ public interface BPELPackage extends EPackage{
 	int IF__ACTIVITY = ACTIVITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the the '<em>If</em>' class.
+	 * The number of structural features of the '<em>If</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6094,7 +6143,7 @@ public interface BPELPackage extends EPackage{
 	int ELSE_IF__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the the '<em>Else If</em>' class.
+	 * The number of structural features of the '<em>Else If</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6148,7 +6197,7 @@ public interface BPELPackage extends EPackage{
 	int ELSE__ACTIVITY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Else</em>' class.
+	 * The number of structural features of the '<em>Else</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6202,7 +6251,7 @@ public interface BPELPackage extends EPackage{
 	int COMPLETION_CONDITION__BRANCHES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Completion Condition</em>' class.
+	 * The number of structural features of the '<em>Completion Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6283,23 +6332,13 @@ public interface BPELPackage extends EPackage{
 	int BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY = EXPRESSION_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Branches</em>' class.
+	 * The number of structural features of the '<em>Branches</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int BRANCHES_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.DocumentationImpl <em>Documentation</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.DocumentationImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getDocumentation()
-	 * @generated
-	 */
-	int DOCUMENTATION = 66;
 
 	/**
 	 * The feature id for the '<em><b>Lang</b></em>' attribute.
@@ -6329,23 +6368,13 @@ public interface BPELPackage extends EPackage{
 	int DOCUMENTATION__VALUE = 2;
 
 	/**
-	 * The number of structural features of the the '<em>Documentation</em>' class.
+	 * The number of structural features of the '<em>Documentation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int DOCUMENTATION_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.MessageExchangesImpl <em>Message Exchanges</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.MessageExchangesImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchanges()
-	 * @generated
-	 */
-	int MESSAGE_EXCHANGES = 67;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6393,23 +6422,13 @@ public interface BPELPackage extends EPackage{
 	int MESSAGE_EXCHANGES__CHILDREN = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Message Exchanges</em>' class.
+	 * The number of structural features of the '<em>Message Exchanges</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int MESSAGE_EXCHANGES_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.MessageExchangeImpl <em>Message Exchange</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.MessageExchangeImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchange()
-	 * @generated
-	 */
-	int MESSAGE_EXCHANGE = 68;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6457,7 +6476,7 @@ public interface BPELPackage extends EPackage{
 	int MESSAGE_EXCHANGE__NAME = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '<em>Message Exchange</em>' class.
+	 * The number of structural features of the '<em>Message Exchange</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -6466,23 +6485,13 @@ public interface BPELPackage extends EPackage{
 	int MESSAGE_EXCHANGE_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.bpel.model.impl.CompensateScopeImpl <em>Compensate Scope</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.bpel.model.impl.CompensateScopeImpl
-	 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensateScope()
-	 * @generated
-	 */
-	int COMPENSATE_SCOPE = 69;
-
-	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
+	int COMPENSATE__DOCUMENTATION_ELEMENT = ACTIVITY__DOCUMENTATION_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -6491,7 +6500,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__ELEMENT = ACTIVITY__ELEMENT;
+	int COMPENSATE__ELEMENT = ACTIVITY__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>EExtensibility Elements</b></em>' containment reference list.
@@ -6500,7 +6509,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
+	int COMPENSATE__EEXTENSIBILITY_ELEMENTS = ACTIVITY__EEXTENSIBILITY_ELEMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Documentation</b></em>' containment reference.
@@ -6509,7 +6518,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
+	int COMPENSATE__DOCUMENTATION = ACTIVITY__DOCUMENTATION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -6518,7 +6527,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__NAME = ACTIVITY__NAME;
+	int COMPENSATE__NAME = ACTIVITY__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Suppress Join Failure</b></em>' attribute.
@@ -6527,7 +6536,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
+	int COMPENSATE__SUPPRESS_JOIN_FAILURE = ACTIVITY__SUPPRESS_JOIN_FAILURE;
 
 	/**
 	 * The feature id for the '<em><b>Targets</b></em>' containment reference.
@@ -6536,7 +6545,7 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__TARGETS = ACTIVITY__TARGETS;
+	int COMPENSATE__TARGETS = ACTIVITY__TARGETS;
 
 	/**
 	 * The feature id for the '<em><b>Sources</b></em>' containment reference.
@@ -6545,25 +6554,16 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__SOURCES = ACTIVITY__SOURCES;
+	int COMPENSATE__SOURCES = ACTIVITY__SOURCES;
 
 	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * The number of structural features of the '<em>Compensate</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPENSATE_SCOPE__TARGET = ACTIVITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the the '<em>Compensate Scope</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPENSATE_SCOPE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 1;
+	int COMPENSATE_FEATURE_COUNT = ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
@@ -9382,5 +9382,2244 @@ public interface BPELPackage extends EPackage{
 	 * @generated
 	 */
 	BPELFactory getBPELFactory();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ProcessImpl <em>Process</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ProcessImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getProcess()
+		 * @generated
+		 */
+		EClass PROCESS = eINSTANCE.getProcess();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__NAME = eINSTANCE.getProcess_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Namespace</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__TARGET_NAMESPACE = eINSTANCE.getProcess_TargetNamespace();
+
+		/**
+		 * The meta object literal for the '<em><b>Query Language</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__QUERY_LANGUAGE = eINSTANCE.getProcess_QueryLanguage();
+
+		/**
+		 * The meta object literal for the '<em><b>Expression Language</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__EXPRESSION_LANGUAGE = eINSTANCE.getProcess_ExpressionLanguage();
+
+		/**
+		 * The meta object literal for the '<em><b>Suppress Join Failure</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__SUPPRESS_JOIN_FAILURE = eINSTANCE.getProcess_SuppressJoinFailure();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable Access Serializable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__VARIABLE_ACCESS_SERIALIZABLE = eINSTANCE.getProcess_VariableAccessSerializable();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Links</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__PARTNER_LINKS = eINSTANCE.getProcess_PartnerLinks();
+
+		/**
+		 * The meta object literal for the '<em><b>Variables</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__VARIABLES = eINSTANCE.getProcess_Variables();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__ACTIVITY = eINSTANCE.getProcess_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Handlers</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__FAULT_HANDLERS = eINSTANCE.getProcess_FaultHandlers();
+
+		/**
+		 * The meta object literal for the '<em><b>Event Handlers</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__EVENT_HANDLERS = eINSTANCE.getProcess_EventHandlers();
+
+		/**
+		 * The meta object literal for the '<em><b>Correlation Sets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__CORRELATION_SETS = eINSTANCE.getProcess_CorrelationSets();
+
+		/**
+		 * The meta object literal for the '<em><b>Imports</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__IMPORTS = eINSTANCE.getProcess_Imports();
+
+		/**
+		 * The meta object literal for the '<em><b>Extensions</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__EXTENSIONS = eINSTANCE.getProcess_Extensions();
+
+		/**
+		 * The meta object literal for the '<em><b>Exit On Standard Fault</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__EXIT_ON_STANDARD_FAULT = eINSTANCE.getProcess_ExitOnStandardFault();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Exchanges</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS__MESSAGE_EXCHANGES = eINSTANCE.getProcess_MessageExchanges();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.PartnerLinkImpl <em>Partner Link</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.PartnerLinkImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getPartnerLink()
+		 * @generated
+		 */
+		EClass PARTNER_LINK = eINSTANCE.getPartnerLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARTNER_LINK__NAME = eINSTANCE.getPartnerLink_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>My Role</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_LINK__MY_ROLE = eINSTANCE.getPartnerLink_MyRole();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Role</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_LINK__PARTNER_ROLE = eINSTANCE.getPartnerLink_PartnerRole();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Link Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_LINK__PARTNER_LINK_TYPE = eINSTANCE.getPartnerLink_PartnerLinkType();
+
+		/**
+		 * The meta object literal for the '<em><b>Initialize Partner Role</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARTNER_LINK__INITIALIZE_PARTNER_ROLE = eINSTANCE.getPartnerLink_InitializePartnerRole();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.FaultHandlerImpl <em>Fault Handler</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.FaultHandlerImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFaultHandler()
+		 * @generated
+		 */
+		EClass FAULT_HANDLER = eINSTANCE.getFaultHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Catch</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FAULT_HANDLER__CATCH = eINSTANCE.getFaultHandler_Catch();
+
+		/**
+		 * The meta object literal for the '<em><b>Catch All</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FAULT_HANDLER__CATCH_ALL = eINSTANCE.getFaultHandler_CatchAll();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ActivityImpl <em>Activity</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ActivityImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getActivity()
+		 * @generated
+		 */
+		EClass ACTIVITY = eINSTANCE.getActivity();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY__NAME = eINSTANCE.getActivity_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Suppress Join Failure</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY__SUPPRESS_JOIN_FAILURE = eINSTANCE.getActivity_SuppressJoinFailure();
+
+		/**
+		 * The meta object literal for the '<em><b>Targets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTIVITY__TARGETS = eINSTANCE.getActivity_Targets();
+
+		/**
+		 * The meta object literal for the '<em><b>Sources</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTIVITY__SOURCES = eINSTANCE.getActivity_Sources();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CorrelationSetImpl <em>Correlation Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CorrelationSetImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationSet()
+		 * @generated
+		 */
+		EClass CORRELATION_SET = eINSTANCE.getCorrelationSet();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORRELATION_SET__NAME = eINSTANCE.getCorrelationSet_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CORRELATION_SET__PROPERTIES = eINSTANCE.getCorrelationSet_Properties();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.InvokeImpl <em>Invoke</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.InvokeImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getInvoke()
+		 * @generated
+		 */
+		EClass INVOKE = eINSTANCE.getInvoke();
+
+		/**
+		 * The meta object literal for the '<em><b>Output Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE__OUTPUT_VARIABLE = eINSTANCE.getInvoke_OutputVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Input Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE__INPUT_VARIABLE = eINSTANCE.getInvoke_InputVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Compensation Handler</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE__COMPENSATION_HANDLER = eINSTANCE.getInvoke_CompensationHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Handler</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE__FAULT_HANDLER = eINSTANCE.getInvoke_FaultHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>To Part</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE__TO_PART = eINSTANCE.getInvoke_ToPart();
+
+		/**
+		 * The meta object literal for the '<em><b>From Part</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE__FROM_PART = eINSTANCE.getInvoke_FromPart();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.LinkImpl <em>Link</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.LinkImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getLink()
+		 * @generated
+		 */
+		EClass LINK = eINSTANCE.getLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LINK__NAME = eINSTANCE.getLink_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Sources</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINK__SOURCES = eINSTANCE.getLink_Sources();
+
+		/**
+		 * The meta object literal for the '<em><b>Targets</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINK__TARGETS = eINSTANCE.getLink_Targets();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CatchImpl <em>Catch</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CatchImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCatch()
+		 * @generated
+		 */
+		EClass CATCH = eINSTANCE.getCatch();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CATCH__FAULT_NAME = eINSTANCE.getCatch_FaultName();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Variable</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CATCH__FAULT_VARIABLE = eINSTANCE.getCatch_FaultVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CATCH__ACTIVITY = eINSTANCE.getCatch_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Message Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CATCH__FAULT_MESSAGE_TYPE = eINSTANCE.getCatch_FaultMessageType();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CATCH__FAULT_ELEMENT = eINSTANCE.getCatch_FaultElement();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ReplyImpl <em>Reply</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ReplyImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getReply()
+		 * @generated
+		 */
+		EClass REPLY = eINSTANCE.getReply();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REPLY__FAULT_NAME = eINSTANCE.getReply_FaultName();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REPLY__VARIABLE = eINSTANCE.getReply_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>To Part</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REPLY__TO_PART = eINSTANCE.getReply_ToPart();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.PartnerActivityImpl <em>Partner Activity</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.PartnerActivityImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getPartnerActivity()
+		 * @generated
+		 */
+		EClass PARTNER_ACTIVITY = eINSTANCE.getPartnerActivity();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_ACTIVITY__PARTNER_LINK = eINSTANCE.getPartnerActivity_PartnerLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Correlations</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_ACTIVITY__CORRELATIONS = eINSTANCE.getPartnerActivity_Correlations();
+
+		/**
+		 * The meta object literal for the '<em><b>Port Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_ACTIVITY__PORT_TYPE = eINSTANCE.getPartnerActivity_PortType();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_ACTIVITY__OPERATION = eINSTANCE.getPartnerActivity_Operation();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ReceiveImpl <em>Receive</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ReceiveImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getReceive()
+		 * @generated
+		 */
+		EClass RECEIVE = eINSTANCE.getReceive();
+
+		/**
+		 * The meta object literal for the '<em><b>Create Instance</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RECEIVE__CREATE_INSTANCE = eINSTANCE.getReceive_CreateInstance();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECEIVE__VARIABLE = eINSTANCE.getReceive_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>From Part</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECEIVE__FROM_PART = eINSTANCE.getReceive_FromPart();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExitImpl <em>Exit</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ExitImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExit()
+		 * @generated
+		 */
+		EClass EXIT = eINSTANCE.getExit();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ThrowImpl <em>Throw</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ThrowImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getThrow()
+		 * @generated
+		 */
+		EClass THROW = eINSTANCE.getThrow();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute THROW__FAULT_NAME = eINSTANCE.getThrow_FaultName();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference THROW__FAULT_VARIABLE = eINSTANCE.getThrow_FaultVariable();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.WaitImpl <em>Wait</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.WaitImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getWait()
+		 * @generated
+		 */
+		EClass WAIT = eINSTANCE.getWait();
+
+		/**
+		 * The meta object literal for the '<em><b>For</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference WAIT__FOR = eINSTANCE.getWait_For();
+
+		/**
+		 * The meta object literal for the '<em><b>Until</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference WAIT__UNTIL = eINSTANCE.getWait_Until();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.EmptyImpl <em>Empty</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.EmptyImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEmpty()
+		 * @generated
+		 */
+		EClass EMPTY = eINSTANCE.getEmpty();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.SequenceImpl <em>Sequence</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.SequenceImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSequence()
+		 * @generated
+		 */
+		EClass SEQUENCE = eINSTANCE.getSequence();
+
+		/**
+		 * The meta object literal for the '<em><b>Activities</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SEQUENCE__ACTIVITIES = eINSTANCE.getSequence_Activities();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.WhileImpl <em>While</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.WhileImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getWhile()
+		 * @generated
+		 */
+		EClass WHILE = eINSTANCE.getWhile();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference WHILE__ACTIVITY = eINSTANCE.getWhile_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference WHILE__CONDITION = eINSTANCE.getWhile_Condition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.PickImpl <em>Pick</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.PickImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getPick()
+		 * @generated
+		 */
+		EClass PICK = eINSTANCE.getPick();
+
+		/**
+		 * The meta object literal for the '<em><b>Create Instance</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PICK__CREATE_INSTANCE = eINSTANCE.getPick_CreateInstance();
+
+		/**
+		 * The meta object literal for the '<em><b>Messages</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PICK__MESSAGES = eINSTANCE.getPick_Messages();
+
+		/**
+		 * The meta object literal for the '<em><b>Alarm</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PICK__ALARM = eINSTANCE.getPick_Alarm();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.FlowImpl <em>Flow</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.FlowImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFlow()
+		 * @generated
+		 */
+		EClass FLOW = eINSTANCE.getFlow();
+
+		/**
+		 * The meta object literal for the '<em><b>Activities</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FLOW__ACTIVITIES = eINSTANCE.getFlow_Activities();
+
+		/**
+		 * The meta object literal for the '<em><b>Links</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FLOW__LINKS = eINSTANCE.getFlow_Links();
+
+		/**
+		 * The meta object literal for the '<em><b>Completion Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FLOW__COMPLETION_CONDITION = eINSTANCE.getFlow_CompletionCondition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.OnAlarmImpl <em>On Alarm</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.OnAlarmImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOnAlarm()
+		 * @generated
+		 */
+		EClass ON_ALARM = eINSTANCE.getOnAlarm();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_ALARM__ACTIVITY = eINSTANCE.getOnAlarm_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>For</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_ALARM__FOR = eINSTANCE.getOnAlarm_For();
+
+		/**
+		 * The meta object literal for the '<em><b>Until</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_ALARM__UNTIL = eINSTANCE.getOnAlarm_Until();
+
+		/**
+		 * The meta object literal for the '<em><b>Repeat Every</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_ALARM__REPEAT_EVERY = eINSTANCE.getOnAlarm_RepeatEvery();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.AssignImpl <em>Assign</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.AssignImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getAssign()
+		 * @generated
+		 */
+		EClass ASSIGN = eINSTANCE.getAssign();
+
+		/**
+		 * The meta object literal for the '<em><b>Copy</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSIGN__COPY = eINSTANCE.getAssign_Copy();
+
+		/**
+		 * The meta object literal for the '<em><b>Validate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ASSIGN__VALIDATE = eINSTANCE.getAssign_Validate();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CopyImpl <em>Copy</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CopyImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCopy()
+		 * @generated
+		 */
+		EClass COPY = eINSTANCE.getCopy();
+
+		/**
+		 * The meta object literal for the '<em><b>To</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COPY__TO = eINSTANCE.getCopy_To();
+
+		/**
+		 * The meta object literal for the '<em><b>From</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COPY__FROM = eINSTANCE.getCopy_From();
+
+		/**
+		 * The meta object literal for the '<em><b>Keep Src Element Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COPY__KEEP_SRC_ELEMENT_NAME = eINSTANCE.getCopy_KeepSrcElementName();
+
+		/**
+		 * The meta object literal for the '<em><b>Ignore Missing From Data</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COPY__IGNORE_MISSING_FROM_DATA = eINSTANCE.getCopy_IgnoreMissingFromData();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExtensionImpl <em>Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ExtensionImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtension()
+		 * @generated
+		 */
+		EClass EXTENSION = eINSTANCE.getExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Namespace</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXTENSION__NAMESPACE = eINSTANCE.getExtension_Namespace();
+
+		/**
+		 * The meta object literal for the '<em><b>Must Understand</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXTENSION__MUST_UNDERSTAND = eINSTANCE.getExtension_MustUnderstand();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ScopeImpl <em>Scope</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ScopeImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getScope()
+		 * @generated
+		 */
+		EClass SCOPE = eINSTANCE.getScope();
+
+		/**
+		 * The meta object literal for the '<em><b>Isolated</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCOPE__ISOLATED = eINSTANCE.getScope_Isolated();
+
+		/**
+		 * The meta object literal for the '<em><b>Fault Handlers</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__FAULT_HANDLERS = eINSTANCE.getScope_FaultHandlers();
+
+		/**
+		 * The meta object literal for the '<em><b>Compensation Handler</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__COMPENSATION_HANDLER = eINSTANCE.getScope_CompensationHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__ACTIVITY = eINSTANCE.getScope_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Variables</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__VARIABLES = eINSTANCE.getScope_Variables();
+
+		/**
+		 * The meta object literal for the '<em><b>Correlation Sets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__CORRELATION_SETS = eINSTANCE.getScope_CorrelationSets();
+
+		/**
+		 * The meta object literal for the '<em><b>Event Handlers</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__EVENT_HANDLERS = eINSTANCE.getScope_EventHandlers();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Links</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__PARTNER_LINKS = eINSTANCE.getScope_PartnerLinks();
+
+		/**
+		 * The meta object literal for the '<em><b>Termination Handler</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__TERMINATION_HANDLER = eINSTANCE.getScope_TerminationHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Exchanges</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCOPE__MESSAGE_EXCHANGES = eINSTANCE.getScope_MessageExchanges();
+
+		/**
+		 * The meta object literal for the '<em><b>Exit On Standard Fault</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCOPE__EXIT_ON_STANDARD_FAULT = eINSTANCE.getScope_ExitOnStandardFault();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CompensateScopeImpl <em>Compensate Scope</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CompensateScopeImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensateScope()
+		 * @generated
+		 */
+		EClass COMPENSATE_SCOPE = eINSTANCE.getCompensateScope();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPENSATE_SCOPE__TARGET = eINSTANCE.getCompensateScope_Target();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CompensationHandlerImpl <em>Compensation Handler</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CompensationHandlerImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensationHandler()
+		 * @generated
+		 */
+		EClass COMPENSATION_HANDLER = eINSTANCE.getCompensationHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPENSATION_HANDLER__ACTIVITY = eINSTANCE.getCompensationHandler_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ToImpl <em>To</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ToImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTo()
+		 * @generated
+		 */
+		EClass TO = eINSTANCE.getTo();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO__VARIABLE = eINSTANCE.getTo_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>Part</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO__PART = eINSTANCE.getTo_Part();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO__PARTNER_LINK = eINSTANCE.getTo_PartnerLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Property</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO__PROPERTY = eINSTANCE.getTo_Property();
+
+		/**
+		 * The meta object literal for the '<em><b>Query</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO__QUERY = eINSTANCE.getTo_Query();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.FromImpl <em>From</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.FromImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFrom()
+		 * @generated
+		 */
+		EClass FROM = eINSTANCE.getFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Opaque</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FROM__OPAQUE = eINSTANCE.getFrom_Opaque();
+
+		/**
+		 * The meta object literal for the '<em><b>Endpoint Reference</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FROM__ENDPOINT_REFERENCE = eINSTANCE.getFrom_EndpointReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Literal</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FROM__LITERAL = eINSTANCE.getFrom_Literal();
+
+		/**
+		 * The meta object literal for the '<em><b>Unsafe Literal</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FROM__UNSAFE_LITERAL = eINSTANCE.getFrom_UnsafeLiteral();
+
+		/**
+		 * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__EXPRESSION = eINSTANCE.getFrom_Expression();
+
+		/**
+		 * The meta object literal for the '<em><b>Service Ref</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__SERVICE_REF = eINSTANCE.getFrom_ServiceRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__TYPE = eINSTANCE.getFrom_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__VARIABLE = eINSTANCE.getFrom_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>Part</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__PART = eINSTANCE.getFrom_Part();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__PARTNER_LINK = eINSTANCE.getFrom_PartnerLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Property</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__PROPERTY = eINSTANCE.getFrom_Property();
+
+		/**
+		 * The meta object literal for the '<em><b>Query</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM__QUERY = eINSTANCE.getFrom_Query();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.OnMessageImpl <em>On Message</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.OnMessageImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOnMessage()
+		 * @generated
+		 */
+		EClass ON_MESSAGE = eINSTANCE.getOnMessage();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__VARIABLE = eINSTANCE.getOnMessage_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__ACTIVITY = eINSTANCE.getOnMessage_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Port Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__PORT_TYPE = eINSTANCE.getOnMessage_PortType();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__PARTNER_LINK = eINSTANCE.getOnMessage_PartnerLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Correlations</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__CORRELATIONS = eINSTANCE.getOnMessage_Correlations();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__OPERATION = eINSTANCE.getOnMessage_Operation();
+
+		/**
+		 * The meta object literal for the '<em><b>From Part</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_MESSAGE__FROM_PART = eINSTANCE.getOnMessage_FromPart();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExpressionImpl <em>Expression</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ExpressionImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExpression()
+		 * @generated
+		 */
+		EClass EXPRESSION = eINSTANCE.getExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Body</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION__BODY = eINSTANCE.getExpression_Body();
+
+		/**
+		 * The meta object literal for the '<em><b>Expression Language</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION__EXPRESSION_LANGUAGE = eINSTANCE.getExpression_ExpressionLanguage();
+
+		/**
+		 * The meta object literal for the '<em><b>Opaque</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION__OPAQUE = eINSTANCE.getExpression_Opaque();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.BooleanExpressionImpl <em>Boolean Expression</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.BooleanExpressionImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getBooleanExpression()
+		 * @generated
+		 */
+		EClass BOOLEAN_EXPRESSION = eINSTANCE.getBooleanExpression();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CorrelationImpl <em>Correlation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CorrelationImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelation()
+		 * @generated
+		 */
+		EClass CORRELATION = eINSTANCE.getCorrelation();
+
+		/**
+		 * The meta object literal for the '<em><b>Initiate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORRELATION__INITIATE = eINSTANCE.getCorrelation_Initiate();
+
+		/**
+		 * The meta object literal for the '<em><b>Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORRELATION__PATTERN = eINSTANCE.getCorrelation_Pattern();
+
+		/**
+		 * The meta object literal for the '<em><b>Set</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CORRELATION__SET = eINSTANCE.getCorrelation_Set();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.EventHandlerImpl <em>Event Handler</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.EventHandlerImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEventHandler()
+		 * @generated
+		 */
+		EClass EVENT_HANDLER = eINSTANCE.getEventHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Alarm</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_HANDLER__ALARM = eINSTANCE.getEventHandler_Alarm();
+
+		/**
+		 * The meta object literal for the '<em><b>Events</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_HANDLER__EVENTS = eINSTANCE.getEventHandler_Events();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.SourceImpl <em>Source</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.SourceImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSource()
+		 * @generated
+		 */
+		EClass SOURCE = eINSTANCE.getSource();
+
+		/**
+		 * The meta object literal for the '<em><b>Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOURCE__LINK = eINSTANCE.getSource_Link();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOURCE__ACTIVITY = eINSTANCE.getSource_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Transition Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOURCE__TRANSITION_CONDITION = eINSTANCE.getSource_TransitionCondition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.TargetImpl <em>Target</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.TargetImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTarget()
+		 * @generated
+		 */
+		EClass TARGET = eINSTANCE.getTarget();
+
+		/**
+		 * The meta object literal for the '<em><b>Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TARGET__LINK = eINSTANCE.getTarget_Link();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TARGET__ACTIVITY = eINSTANCE.getTarget_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.PartnerLinksImpl <em>Partner Links</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.PartnerLinksImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getPartnerLinks()
+		 * @generated
+		 */
+		EClass PARTNER_LINKS = eINSTANCE.getPartnerLinks();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARTNER_LINKS__CHILDREN = eINSTANCE.getPartnerLinks_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.VariablesImpl <em>Variables</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.VariablesImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getVariables()
+		 * @generated
+		 */
+		EClass VARIABLES = eINSTANCE.getVariables();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIABLES__CHILDREN = eINSTANCE.getVariables_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CorrelationSetsImpl <em>Correlation Sets</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CorrelationSetsImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationSets()
+		 * @generated
+		 */
+		EClass CORRELATION_SETS = eINSTANCE.getCorrelationSets();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CORRELATION_SETS__CHILDREN = eINSTANCE.getCorrelationSets_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.LinksImpl <em>Links</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.LinksImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getLinks()
+		 * @generated
+		 */
+		EClass LINKS = eINSTANCE.getLinks();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINKS__CHILDREN = eINSTANCE.getLinks_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CatchAllImpl <em>Catch All</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CatchAllImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCatchAll()
+		 * @generated
+		 */
+		EClass CATCH_ALL = eINSTANCE.getCatchAll();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CATCH_ALL__ACTIVITY = eINSTANCE.getCatchAll_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CorrelationsImpl <em>Correlations</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CorrelationsImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelations()
+		 * @generated
+		 */
+		EClass CORRELATIONS = eINSTANCE.getCorrelations();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CORRELATIONS__CHILDREN = eINSTANCE.getCorrelations_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.VariableImpl <em>Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.VariableImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getVariable()
+		 * @generated
+		 */
+		EClass VARIABLE = eINSTANCE.getVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIABLE__NAME = eINSTANCE.getVariable_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIABLE__MESSAGE_TYPE = eINSTANCE.getVariable_MessageType();
+
+		/**
+		 * The meta object literal for the '<em><b>XSD Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIABLE__XSD_ELEMENT = eINSTANCE.getVariable_XSDElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIABLE__TYPE = eINSTANCE.getVariable_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>From</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIABLE__FROM = eINSTANCE.getVariable_From();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.UnknownExtensibilityAttributeImpl <em>Unknown Extensibility Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.UnknownExtensibilityAttributeImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getUnknownExtensibilityAttribute()
+		 * @generated
+		 */
+		EClass UNKNOWN_EXTENSIBILITY_ATTRIBUTE = eINSTANCE.getUnknownExtensibilityAttribute();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.OnEventImpl <em>On Event</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.OnEventImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOnEvent()
+		 * @generated
+		 */
+		EClass ON_EVENT = eINSTANCE.getOnEvent();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__ACTIVITY = eINSTANCE.getOnEvent_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__VARIABLE = eINSTANCE.getOnEvent_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__PARTNER_LINK = eINSTANCE.getOnEvent_PartnerLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Correlations</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__CORRELATIONS = eINSTANCE.getOnEvent_Correlations();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__OPERATION = eINSTANCE.getOnEvent_Operation();
+
+		/**
+		 * The meta object literal for the '<em><b>Port Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__PORT_TYPE = eINSTANCE.getOnEvent_PortType();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__MESSAGE_TYPE = eINSTANCE.getOnEvent_MessageType();
+
+		/**
+		 * The meta object literal for the '<em><b>From Part</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__FROM_PART = eINSTANCE.getOnEvent_FromPart();
+
+		/**
+		 * The meta object literal for the '<em><b>Correlation Sets</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ON_EVENT__CORRELATION_SETS = eINSTANCE.getOnEvent_CorrelationSets();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ImportImpl <em>Import</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ImportImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getImport()
+		 * @generated
+		 */
+		EClass IMPORT = eINSTANCE.getImport();
+
+		/**
+		 * The meta object literal for the '<em><b>Namespace</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IMPORT__NAMESPACE = eINSTANCE.getImport_Namespace();
+
+		/**
+		 * The meta object literal for the '<em><b>Location</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IMPORT__LOCATION = eINSTANCE.getImport_Location();
+
+		/**
+		 * The meta object literal for the '<em><b>Import Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IMPORT__IMPORT_TYPE = eINSTANCE.getImport_ImportType();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.RethrowImpl <em>Rethrow</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.RethrowImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getRethrow()
+		 * @generated
+		 */
+		EClass RETHROW = eINSTANCE.getRethrow();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ConditionImpl <em>Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ConditionImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCondition()
+		 * @generated
+		 */
+		EClass CONDITION = eINSTANCE.getCondition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.TargetsImpl <em>Targets</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.TargetsImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTargets()
+		 * @generated
+		 */
+		EClass TARGETS = eINSTANCE.getTargets();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TARGETS__CHILDREN = eINSTANCE.getTargets_Children();
+
+		/**
+		 * The meta object literal for the '<em><b>Join Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TARGETS__JOIN_CONDITION = eINSTANCE.getTargets_JoinCondition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.SourcesImpl <em>Sources</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.SourcesImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getSources()
+		 * @generated
+		 */
+		EClass SOURCES = eINSTANCE.getSources();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOURCES__CHILDREN = eINSTANCE.getSources_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.QueryImpl <em>Query</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.QueryImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getQuery()
+		 * @generated
+		 */
+		EClass QUERY = eINSTANCE.getQuery();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUERY__VALUE = eINSTANCE.getQuery_Value();
+
+		/**
+		 * The meta object literal for the '<em><b>Query Language</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUERY__QUERY_LANGUAGE = eINSTANCE.getQuery_QueryLanguage();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ServiceRefImpl <em>Service Ref</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ServiceRefImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getServiceRef()
+		 * @generated
+		 */
+		EClass SERVICE_REF = eINSTANCE.getServiceRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Scheme</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE_REF__REFERENCE_SCHEME = eINSTANCE.getServiceRef_ReferenceScheme();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE_REF__VALUE = eINSTANCE.getServiceRef_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExtensionsImpl <em>Extensions</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ExtensionsImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensions()
+		 * @generated
+		 */
+		EClass EXTENSIONS = eINSTANCE.getExtensions();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXTENSIONS__CHILDREN = eINSTANCE.getExtensions_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExtensionActivityImpl <em>Extension Activity</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ExtensionActivityImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensionActivity()
+		 * @generated
+		 */
+		EClass EXTENSION_ACTIVITY = eINSTANCE.getExtensionActivity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.FromPartImpl <em>From Part</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.FromPartImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getFromPart()
+		 * @generated
+		 */
+		EClass FROM_PART = eINSTANCE.getFromPart();
+
+		/**
+		 * The meta object literal for the '<em><b>Part</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FROM_PART__PART = eINSTANCE.getFromPart_Part();
+
+		/**
+		 * The meta object literal for the '<em><b>To</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FROM_PART__TO = eINSTANCE.getFromPart_To();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ToPartImpl <em>To Part</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ToPartImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getToPart()
+		 * @generated
+		 */
+		EClass TO_PART = eINSTANCE.getToPart();
+
+		/**
+		 * The meta object literal for the '<em><b>Part</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TO_PART__PART = eINSTANCE.getToPart_Part();
+
+		/**
+		 * The meta object literal for the '<em><b>From</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO_PART__FROM = eINSTANCE.getToPart_From();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.OpaqueActivityImpl <em>Opaque Activity</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.OpaqueActivityImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getOpaqueActivity()
+		 * @generated
+		 */
+		EClass OPAQUE_ACTIVITY = eINSTANCE.getOpaqueActivity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ForEachImpl <em>For Each</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ForEachImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getForEach()
+		 * @generated
+		 */
+		EClass FOR_EACH = eINSTANCE.getForEach();
+
+		/**
+		 * The meta object literal for the '<em><b>Start Counter Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FOR_EACH__START_COUNTER_VALUE = eINSTANCE.getForEach_StartCounterValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Final Counter Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FOR_EACH__FINAL_COUNTER_VALUE = eINSTANCE.getForEach_FinalCounterValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Parallel</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FOR_EACH__PARALLEL = eINSTANCE.getForEach_Parallel();
+
+		/**
+		 * The meta object literal for the '<em><b>Counter Name</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FOR_EACH__COUNTER_NAME = eINSTANCE.getForEach_CounterName();
+
+		/**
+		 * The meta object literal for the '<em><b>Completion Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FOR_EACH__COMPLETION_CONDITION = eINSTANCE.getForEach_CompletionCondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FOR_EACH__ACTIVITY = eINSTANCE.getForEach_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.RepeatUntilImpl <em>Repeat Until</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.RepeatUntilImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getRepeatUntil()
+		 * @generated
+		 */
+		EClass REPEAT_UNTIL = eINSTANCE.getRepeatUntil();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REPEAT_UNTIL__ACTIVITY = eINSTANCE.getRepeatUntil_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REPEAT_UNTIL__CONDITION = eINSTANCE.getRepeatUntil_Condition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.TerminationHandlerImpl <em>Termination Handler</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.TerminationHandlerImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getTerminationHandler()
+		 * @generated
+		 */
+		EClass TERMINATION_HANDLER = eINSTANCE.getTerminationHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TERMINATION_HANDLER__ACTIVITY = eINSTANCE.getTerminationHandler_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ValidateImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getValidate()
+		 * @generated
+		 */
+		EClass VALIDATE = eINSTANCE.getValidate();
+
+		/**
+		 * The meta object literal for the '<em><b>Variables</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALIDATE__VARIABLES = eINSTANCE.getValidate_Variables();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.IfImpl <em>If</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.IfImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getIf()
+		 * @generated
+		 */
+		EClass IF = eINSTANCE.getIf();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IF__CONDITION = eINSTANCE.getIf_Condition();
+
+		/**
+		 * The meta object literal for the '<em><b>Else If</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IF__ELSE_IF = eINSTANCE.getIf_ElseIf();
+
+		/**
+		 * The meta object literal for the '<em><b>Else</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IF__ELSE = eINSTANCE.getIf_Else();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IF__ACTIVITY = eINSTANCE.getIf_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ElseIfImpl <em>Else If</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ElseIfImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElseIf()
+		 * @generated
+		 */
+		EClass ELSE_IF = eINSTANCE.getElseIf();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ELSE_IF__CONDITION = eINSTANCE.getElseIf_Condition();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ELSE_IF__ACTIVITY = eINSTANCE.getElseIf_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ElseImpl <em>Else</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ElseImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getElse()
+		 * @generated
+		 */
+		EClass ELSE = eINSTANCE.getElse();
+
+		/**
+		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ELSE__ACTIVITY = eINSTANCE.getElse_Activity();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CompletionConditionImpl <em>Completion Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CompletionConditionImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompletionCondition()
+		 * @generated
+		 */
+		EClass COMPLETION_CONDITION = eINSTANCE.getCompletionCondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Branches</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPLETION_CONDITION__BRANCHES = eINSTANCE.getCompletionCondition_Branches();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.BranchesImpl <em>Branches</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.BranchesImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getBranches()
+		 * @generated
+		 */
+		EClass BRANCHES = eINSTANCE.getBranches();
+
+		/**
+		 * The meta object literal for the '<em><b>Count Completed Branches Only</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY = eINSTANCE.getBranches_CountCompletedBranchesOnly();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExtensibleElementImpl <em>Extensible Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.ExtensibleElementImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getExtensibleElement()
+		 * @generated
+		 */
+		EClass EXTENSIBLE_ELEMENT = eINSTANCE.getExtensibleElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Documentation</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXTENSIBLE_ELEMENT__DOCUMENTATION = eINSTANCE.getExtensibleElement_Documentation();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.DocumentationImpl <em>Documentation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.DocumentationImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getDocumentation()
+		 * @generated
+		 */
+		EClass DOCUMENTATION = eINSTANCE.getDocumentation();
+
+		/**
+		 * The meta object literal for the '<em><b>Lang</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENTATION__LANG = eINSTANCE.getDocumentation_Lang();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENTATION__SOURCE = eINSTANCE.getDocumentation_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENTATION__VALUE = eINSTANCE.getDocumentation_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.MessageExchangesImpl <em>Message Exchanges</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.MessageExchangesImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchanges()
+		 * @generated
+		 */
+		EClass MESSAGE_EXCHANGES = eINSTANCE.getMessageExchanges();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MESSAGE_EXCHANGES__CHILDREN = eINSTANCE.getMessageExchanges_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.MessageExchangeImpl <em>Message Exchange</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.MessageExchangeImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getMessageExchange()
+		 * @generated
+		 */
+		EClass MESSAGE_EXCHANGE = eINSTANCE.getMessageExchange();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MESSAGE_EXCHANGE__NAME = eINSTANCE.getMessageExchange_Name();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CompensateImpl <em>Compensate</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.impl.CompensateImpl
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCompensate()
+		 * @generated
+		 */
+		EClass COMPENSATE = eINSTANCE.getCompensate();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.CorrelationPattern <em>Correlation Pattern</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.CorrelationPattern
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getCorrelationPattern()
+		 * @generated
+		 */
+		EEnum CORRELATION_PATTERN = eINSTANCE.getCorrelationPattern();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.EndpointReferenceRole <em>Endpoint Reference Role</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.EndpointReferenceRole
+		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getEndpointReferenceRole()
+		 * @generated
+		 */
+		EEnum ENDPOINT_REFERENCE_ROLE = eINSTANCE.getEndpointReferenceRole();
+
+	}
 
 } //BPELPackage

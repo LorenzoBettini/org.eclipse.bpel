@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeFactory.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerlinktypeFactory.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -31,7 +31,7 @@ public interface PartnerlinktypeFactory extends EFactory{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	PartnerlinktypeFactory eINSTANCE = new org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypeFactoryImpl();
+	PartnerlinktypeFactory eINSTANCE = org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypeFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Partner Link Type</em>'.

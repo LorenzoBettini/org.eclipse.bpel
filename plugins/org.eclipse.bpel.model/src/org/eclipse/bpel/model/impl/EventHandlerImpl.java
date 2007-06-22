@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EventHandlerImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: EventHandlerImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,7 +53,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * @generated
 	 * @ordered
 	 */
-	protected EList alarm = null;
+	protected EList alarm;
 
 	/**
 	 * The cached value of the '{@link #getEvents() <em>Events</em>}' containment reference list.
@@ -63,7 +63,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * @generated
 	 * @ordered
 	 */
-	protected EList events = null;
+	protected EList events;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -80,7 +80,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getEventHandler();
+		return BPELPackage.Literals.EVENT_HANDLER;
 	}
 
 	/**
@@ -112,22 +112,14 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.EVENT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.EVENT_HANDLER__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.EVENT_HANDLER__ALARM:
-					return ((InternalEList)getAlarm()).basicRemove(otherEnd, msgs);
-				case BPELPackage.EVENT_HANDLER__EVENTS:
-					return ((InternalEList)getEvents()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.EVENT_HANDLER__ALARM:
+				return ((InternalEList)getAlarm()).basicRemove(otherEnd, msgs);
+			case BPELPackage.EVENT_HANDLER__EVENTS:
+				return ((InternalEList)getEvents()).basicRemove(otherEnd, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -135,22 +127,14 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.EVENT_HANDLER__ELEMENT:
-				return getElement();
-			case BPELPackage.EVENT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
 				return getAlarm();
 			case BPELPackage.EVENT_HANDLER__EVENTS:
 				return getEvents();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -158,21 +142,8 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.EVENT_HANDLER__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.EVENT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
 				getAlarm().clear();
 				getAlarm().addAll((Collection)newValue);
@@ -182,7 +153,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 				getEvents().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -190,20 +161,8 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EVENT_HANDLER__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EVENT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
 				getAlarm().clear();
 				return;
@@ -211,7 +170,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 				getEvents().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -219,22 +178,14 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.EVENT_HANDLER__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.EVENT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.EVENT_HANDLER__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
 				return alarm != null && !alarm.isEmpty();
 			case BPELPackage.EVENT_HANDLER__EVENTS:
 				return events != null && !events.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //EventHandlerImpl

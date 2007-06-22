@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.5 2006/01/19 21:08:48 james Exp $
+ * $Id: OnEventImpl.java,v 1.6 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -71,7 +71,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' containment reference.
@@ -81,7 +81,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable variable = null;
+	protected Variable variable;
 
 	/**
 	 * The cached value of the '{@link #getPartnerLink() <em>Partner Link</em>}' reference.
@@ -91,7 +91,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLink partnerLink = null;
+	protected PartnerLink partnerLink;
 
 	/**
 	 * The cached value of the '{@link #getCorrelations() <em>Correlations</em>}' containment reference.
@@ -101,7 +101,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected Correlations correlations = null;
+	protected Correlations correlations;
 
 	/**
 	 * The cached value of the '{@link #getOperation() <em>Operation</em>}' reference.
@@ -111,7 +111,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected Operation operation = null;
+	protected Operation operation;
 
 	/**
 	 * The cached value of the '{@link #getPortType() <em>Port Type</em>}' reference.
@@ -121,7 +121,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected PortType portType = null;
+	protected PortType portType;
 
 	/**
 	 * The cached value of the '{@link #getMessageType() <em>Message Type</em>}' reference.
@@ -131,7 +131,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected Message messageType = null;
+	protected Message messageType;
 
 	/**
 	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
@@ -141,7 +141,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart = null;
+	protected EList fromPart;
 
 	/**
 	 * The cached value of the '{@link #getCorrelationSets() <em>Correlation Sets</em>}' containment reference.
@@ -151,7 +151,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 * @ordered
 	 */
-	protected CorrelationSets correlationSets = null;
+	protected CorrelationSets correlationSets;
 
     /**
      * The deserialized value of the operation name.
@@ -174,7 +174,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getOnEvent();
+		return BPELPackage.Literals.ON_EVENT;
 	}
 
 	/**
@@ -270,8 +270,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			PartnerLink oldPartnerLink = partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy((InternalEObject)partnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
+			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_EVENT__PARTNER_LINK, oldPartnerLink, partnerLink));
@@ -367,8 +367,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public Operation getOperationGen() {
 		if (operation != null && operation.eIsProxy()) {
-			Operation oldOperation = operation;
-			operation = (Operation)eResolveProxy((InternalEObject)operation);
+			InternalEObject oldOperation = (InternalEObject)operation;
+			operation = (Operation)eResolveProxy(oldOperation);
 			if (operation != oldOperation) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_EVENT__OPERATION, oldOperation, operation));
@@ -435,8 +435,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public PortType getPortTypeGen() {
 		if (portType != null && portType.eIsProxy()) {
-			PortType oldPortType = portType;
-			portType = (PortType)eResolveProxy((InternalEObject)portType);
+			InternalEObject oldPortType = (InternalEObject)portType;
+			portType = (PortType)eResolveProxy(oldPortType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_EVENT__PORT_TYPE, oldPortType, portType));
@@ -572,26 +572,18 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.ON_EVENT__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.ON_EVENT__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				case BPELPackage.ON_EVENT__VARIABLE:
-					return basicSetVariable(null, msgs);
-				case BPELPackage.ON_EVENT__CORRELATIONS:
-					return basicSetCorrelations(null, msgs);
-				case BPELPackage.ON_EVENT__CORRELATION_SETS:
-					return basicSetCorrelationSets(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.ON_EVENT__ACTIVITY:
+				return basicSetActivity(null, msgs);
+			case BPELPackage.ON_EVENT__VARIABLE:
+				return basicSetVariable(null, msgs);
+			case BPELPackage.ON_EVENT__CORRELATIONS:
+				return basicSetCorrelations(null, msgs);
+			case BPELPackage.ON_EVENT__CORRELATION_SETS:
+				return basicSetCorrelationSets(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -599,16 +591,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_EVENT__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.ON_EVENT__ELEMENT:
-				return getElement();
-			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.ON_EVENT__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				return getActivity();
 			case BPELPackage.ON_EVENT__VARIABLE:
@@ -632,7 +616,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			case BPELPackage.ON_EVENT__CORRELATION_SETS:
 				return getCorrelationSets();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -640,21 +624,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_EVENT__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.ON_EVENT__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.ON_EVENT__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				setActivity((Activity)newValue);
 				return;
@@ -684,7 +655,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				setCorrelationSets((CorrelationSets)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -692,20 +663,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_EVENT__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ON_EVENT__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.ON_EVENT__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				setActivity((Activity)null);
 				return;
@@ -734,7 +693,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 				setCorrelationSets((CorrelationSets)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -742,16 +701,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_EVENT__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.ON_EVENT__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.ON_EVENT__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.ON_EVENT__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ON_EVENT__ACTIVITY:
 				return activity != null;
 			case BPELPackage.ON_EVENT__VARIABLE:
@@ -771,7 +722,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			case BPELPackage.ON_EVENT__CORRELATION_SETS:
 				return correlationSets != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //OnEventImpl

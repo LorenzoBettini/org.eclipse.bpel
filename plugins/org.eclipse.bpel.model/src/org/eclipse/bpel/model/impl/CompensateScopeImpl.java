@@ -58,7 +58,7 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity target = null;
+	protected Activity target;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,7 +75,7 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getCompensateScope();
+		return BPELPackage.Literals.COMPENSATE_SCOPE;
 	}
 
 	/**
@@ -85,8 +85,8 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 */
 	public Activity getTarget() {
 		if (target != null && target.eIsProxy()) {
-			Activity oldTarget = target;
-			target = (Activity)eResolveProxy((InternalEObject)target);
+			InternalEObject oldTarget = (InternalEObject)target;
+			target = (Activity)eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.COMPENSATE_SCOPE__TARGET, oldTarget, target));
@@ -121,52 +121,13 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.COMPENSATE_SCOPE__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.COMPENSATE_SCOPE__SOURCES:
-					return basicSetSources(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.COMPENSATE_SCOPE__ELEMENT:
-				return getElement();
-			case BPELPackage.COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.COMPENSATE_SCOPE__NAME:
-				return getName();
-			case BPELPackage.COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.COMPENSATE_SCOPE__TARGETS:
-				return getTargets();
-			case BPELPackage.COMPENSATE_SCOPE__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -174,38 +135,13 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
 				setTarget((Activity)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -213,37 +149,13 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.COMPENSATE_SCOPE__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
 				setTarget((Activity)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -251,28 +163,12 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.COMPENSATE_SCOPE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.COMPENSATE_SCOPE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.COMPENSATE_SCOPE__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.COMPENSATE_SCOPE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.COMPENSATE_SCOPE__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.COMPENSATE_SCOPE__TARGETS:
-				return targets != null;
-			case BPELPackage.COMPENSATE_SCOPE__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
 				return target != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/** (non-Javadoc)

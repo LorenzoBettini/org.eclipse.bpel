@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SequenceImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: SequenceImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,7 +53,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList activities = null;
+	protected EList activities;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -70,7 +70,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getSequence();
+		return BPELPackage.Literals.SEQUENCE;
 	}
 
 	/**
@@ -90,24 +90,12 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.SEQUENCE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.SEQUENCE__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.SEQUENCE__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.SEQUENCE__ACTIVITIES:
-					return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.SEQUENCE__ACTIVITIES:
+				return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -115,28 +103,12 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SEQUENCE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.SEQUENCE__ELEMENT:
-				return getElement();
-			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.SEQUENCE__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.SEQUENCE__NAME:
-				return getName();
-			case BPELPackage.SEQUENCE__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.SEQUENCE__TARGETS:
-				return getTargets();
-			case BPELPackage.SEQUENCE__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
 				return getActivities();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -144,39 +116,14 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SEQUENCE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.SEQUENCE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.SEQUENCE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.SEQUENCE__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.SEQUENCE__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.SEQUENCE__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.SEQUENCE__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
 				getActivities().clear();
 				getActivities().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -184,37 +131,13 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SEQUENCE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.SEQUENCE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.SEQUENCE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.SEQUENCE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.SEQUENCE__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.SEQUENCE__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.SEQUENCE__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
 				getActivities().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -222,28 +145,12 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.SEQUENCE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.SEQUENCE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.SEQUENCE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.SEQUENCE__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.SEQUENCE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.SEQUENCE__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.SEQUENCE__TARGETS:
-				return targets != null;
-			case BPELPackage.SEQUENCE__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
 				return activities != null && !activities.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //SequenceImpl

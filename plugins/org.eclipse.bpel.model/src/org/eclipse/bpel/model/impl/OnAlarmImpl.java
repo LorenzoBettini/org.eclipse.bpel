@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnAlarmImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: OnAlarmImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -55,7 +55,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getFor() <em>For</em>}' containment reference.
@@ -65,7 +65,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression for_ = null;
+	protected Expression for_;
 
 	/**
 	 * The cached value of the '{@link #getUntil() <em>Until</em>}' containment reference.
@@ -75,7 +75,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression until = null;
+	protected Expression until;
 
 	/**
 	 * The cached value of the '{@link #getRepeatEvery() <em>Repeat Every</em>}' containment reference.
@@ -85,7 +85,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression repeatEvery = null;
+	protected Expression repeatEvery;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -102,7 +102,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getOnAlarm();
+		return BPELPackage.Literals.ON_ALARM;
 	}
 
 	/**
@@ -282,26 +282,18 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.ON_ALARM__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.ON_ALARM__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.ON_ALARM__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				case BPELPackage.ON_ALARM__FOR:
-					return basicSetFor(null, msgs);
-				case BPELPackage.ON_ALARM__UNTIL:
-					return basicSetUntil(null, msgs);
-				case BPELPackage.ON_ALARM__REPEAT_EVERY:
-					return basicSetRepeatEvery(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.ON_ALARM__ACTIVITY:
+				return basicSetActivity(null, msgs);
+			case BPELPackage.ON_ALARM__FOR:
+				return basicSetFor(null, msgs);
+			case BPELPackage.ON_ALARM__UNTIL:
+				return basicSetUntil(null, msgs);
+			case BPELPackage.ON_ALARM__REPEAT_EVERY:
+				return basicSetRepeatEvery(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -309,16 +301,8 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_ALARM__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.ON_ALARM__ELEMENT:
-				return getElement();
-			case BPELPackage.ON_ALARM__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.ON_ALARM__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
 				return getActivity();
 			case BPELPackage.ON_ALARM__FOR:
@@ -328,7 +312,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			case BPELPackage.ON_ALARM__REPEAT_EVERY:
 				return getRepeatEvery();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -336,21 +320,8 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_ALARM__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.ON_ALARM__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.ON_ALARM__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.ON_ALARM__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
 				setActivity((Activity)newValue);
 				return;
@@ -364,7 +335,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 				setRepeatEvery((Expression)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -372,20 +343,8 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_ALARM__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ON_ALARM__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.ON_ALARM__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.ON_ALARM__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
 				setActivity((Activity)null);
 				return;
@@ -399,7 +358,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 				setRepeatEvery((Expression)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -407,16 +366,8 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.ON_ALARM__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.ON_ALARM__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.ON_ALARM__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.ON_ALARM__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
 				return activity != null;
 			case BPELPackage.ON_ALARM__FOR:
@@ -426,7 +377,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			case BPELPackage.ON_ALARM__REPEAT_EVERY:
 				return repeatEvery != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //OnAlarmImpl

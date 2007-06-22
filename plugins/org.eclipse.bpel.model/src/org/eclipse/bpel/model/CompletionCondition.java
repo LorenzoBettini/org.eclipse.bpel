@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionCondition.java,v 1.4 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: CompletionCondition.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 public interface CompletionCondition extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Branches</b></em>' containment reference.
-	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Branches</em>' containment reference isn't clear,

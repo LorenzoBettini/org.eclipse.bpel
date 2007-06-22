@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.3 2007/02/09 09:13:42 smoser Exp $
+ * $Id: ValidateImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -45,7 +45,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList variables = null;
+	protected EList variables;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getValidate();
+		return BPELPackage.Literals.VALIDATE;
 	}
 
 	/**
@@ -82,51 +82,12 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.VALIDATE__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.VALIDATE__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.VALIDATE__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.VALIDATE__SOURCES:
-					return basicSetSources(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VALIDATE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.VALIDATE__ELEMENT:
-				return getElement();
-			case BPELPackage.VALIDATE__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.VALIDATE__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.VALIDATE__NAME:
-				return getName();
-			case BPELPackage.VALIDATE__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.VALIDATE__TARGETS:
-				return getTargets();
-			case BPELPackage.VALIDATE__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
 				return getVariables();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -134,39 +95,14 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VALIDATE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.VALIDATE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.VALIDATE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.VALIDATE__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.VALIDATE__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.VALIDATE__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.VALIDATE__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.VALIDATE__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
 				getVariables().clear();
 				getVariables().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -174,37 +110,13 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VALIDATE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.VALIDATE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.VALIDATE__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.VALIDATE__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.VALIDATE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.VALIDATE__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.VALIDATE__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.VALIDATE__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
 				getVariables().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -212,28 +124,12 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.VALIDATE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.VALIDATE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.VALIDATE__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.VALIDATE__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.VALIDATE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.VALIDATE__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.VALIDATE__TARGETS:
-				return targets != null;
-			case BPELPackage.VALIDATE__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
 				return variables != null && !variables.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //ValidateImpl

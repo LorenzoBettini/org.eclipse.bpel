@@ -40,6 +40,7 @@ import org.eclipse.xsd.impl.XSDSchemaImpl;
 import org.eclipse.xsd.util.XSDConstants;
 
 
+
 /**
  * WSDLUtil supplies resolution (lookup) of various things that are useful in the BPEL 
  * world. 

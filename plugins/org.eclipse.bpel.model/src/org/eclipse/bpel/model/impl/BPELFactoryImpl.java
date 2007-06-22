@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.19 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: BPELFactoryImpl.java,v 1.20 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -104,6 +104,25 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  */
 public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static BPELFactory init() {
+		try {
+			BPELFactory theBPELFactory = (BPELFactory)EPackage.Registry.INSTANCE.getEFactory("http://docs.oasis-open.org/wsbpel/2.0/process/executable"); 
+			if (theBPELFactory != null) {
+				return theBPELFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new BPELFactoryImpl();
+	}
+
+	/**
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -144,7 +163,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.COPY: return createCopy();
 			case BPELPackage.EXTENSION: return createExtension();
 			case BPELPackage.SCOPE: return createScope();
-			case BPELPackage.COMPENSATE: return createCompensate();
+			case BPELPackage.COMPENSATE_SCOPE: return createCompensateScope();
 			case BPELPackage.COMPENSATION_HANDLER: return createCompensationHandler();
 			case BPELPackage.TO: return createTo();
 			case BPELPackage.FROM: return createFrom();
@@ -189,7 +208,7 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			case BPELPackage.DOCUMENTATION: return createDocumentation();
 			case BPELPackage.MESSAGE_EXCHANGES: return createMessageExchanges();
 			case BPELPackage.MESSAGE_EXCHANGE: return createMessageExchange();
-			case BPELPackage.COMPENSATE_SCOPE: return createCompensateScope();
+			case BPELPackage.COMPENSATE: return createCompensate();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -202,16 +221,10 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	 */
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case BPELPackage.CORRELATION_PATTERN: {
-				CorrelationPattern result = CorrelationPattern.get(initialValue);
-				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-				return result;
-			}
-			case BPELPackage.ENDPOINT_REFERENCE_ROLE: {
-				EndpointReferenceRole result = EndpointReferenceRole.get(initialValue);
-				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-				return result;
-			}
+			case BPELPackage.CORRELATION_PATTERN:
+				return createCorrelationPatternFromString(eDataType, initialValue);
+			case BPELPackage.ENDPOINT_REFERENCE_ROLE:
+				return createEndpointReferenceRoleFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -225,9 +238,9 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
 			case BPELPackage.CORRELATION_PATTERN:
-				return instanceValue == null ? null : instanceValue.toString();
+				return convertCorrelationPatternToString(eDataType, instanceValue);
 			case BPELPackage.ENDPOINT_REFERENCE_ROLE:
-				return instanceValue == null ? null : instanceValue.toString();
+				return convertEndpointReferenceRoleToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -471,6 +484,46 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Compensate createCompensate() {
 		CompensateImpl compensate = new CompensateImpl();
 		return compensate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorrelationPattern createCorrelationPatternFromString(EDataType eDataType, String initialValue) {
+		CorrelationPattern result = CorrelationPattern.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCorrelationPatternToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EndpointReferenceRole createEndpointReferenceRoleFromString(EDataType eDataType, String initialValue) {
+		EndpointReferenceRole result = EndpointReferenceRole.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEndpointReferenceRoleToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

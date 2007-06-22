@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FaultHandlerImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: FaultHandlerImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -55,7 +55,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * @generated
 	 * @ordered
 	 */
-	protected EList catch_ = null;
+	protected EList catch_;
 
 	/**
 	 * The cached value of the '{@link #getCatchAll() <em>Catch All</em>}' containment reference.
@@ -65,7 +65,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * @generated
 	 * @ordered
 	 */
-	protected CatchAll catchAll = null;
+	protected CatchAll catchAll;
 
 	/**
 	 * This is true if the Catch All containment reference has been set.
@@ -74,7 +74,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean catchAllESet = false;
+	protected boolean catchAllESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -91,7 +91,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getFaultHandler();
+		return BPELPackage.Literals.FAULT_HANDLER;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 			catchAllESet = true;
 			if (eNotificationRequired())
 				eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FAULT_HANDLER__CATCH_ALL, newCatchAll, newCatchAll, !oldCatchAllESet));
-    	}
+		}
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 			catchAllESet = false;
 			if (eNotificationRequired())
 				eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.FAULT_HANDLER__CATCH_ALL, null, null, oldCatchAllESet));
-    	}
+		}
 	}
 
 	/**
@@ -206,22 +206,14 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.FAULT_HANDLER__CATCH:
-					return ((InternalEList)getCatch()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FAULT_HANDLER__CATCH_ALL:
-					return basicUnsetCatchAll(msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.FAULT_HANDLER__CATCH:
+				return ((InternalEList)getCatch()).basicRemove(otherEnd, msgs);
+			case BPELPackage.FAULT_HANDLER__CATCH_ALL:
+				return basicUnsetCatchAll(msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -229,22 +221,14 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.FAULT_HANDLER__ELEMENT:
-				return getElement();
-			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				return getCatch();
 			case BPELPackage.FAULT_HANDLER__CATCH_ALL:
 				return getCatchAll();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -252,21 +236,8 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.FAULT_HANDLER__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				getCatch().clear();
 				getCatch().addAll((Collection)newValue);
@@ -275,7 +246,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 				setCatchAll((CatchAll)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -283,20 +254,8 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FAULT_HANDLER__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				getCatch().clear();
 				return;
@@ -304,7 +263,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 				unsetCatchAll();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -312,22 +271,14 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.FAULT_HANDLER__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.FAULT_HANDLER__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.FAULT_HANDLER__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				return catch_ != null && !catch_.isEmpty();
 			case BPELPackage.FAULT_HANDLER__CATCH_ALL:
 				return isSetCatchAll();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //FaultHandlerImpl

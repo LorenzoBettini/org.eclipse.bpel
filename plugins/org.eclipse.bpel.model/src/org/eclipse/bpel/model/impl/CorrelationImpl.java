@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
+ * $Id: CorrelationImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -73,7 +73,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean initiateESet = false;
+	protected boolean initiateESet;
 
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
@@ -102,7 +102,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean patternESet = false;
+	protected boolean patternESet;
 
 	/**
 	 * The cached value of the '{@link #getSet() <em>Set</em>}' reference.
@@ -112,7 +112,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * @generated
 	 * @ordered
 	 */
-	protected CorrelationSet set = null;
+	protected CorrelationSet set;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -129,7 +129,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getCorrelation();
+		return BPELPackage.Literals.CORRELATION;
 	}
 
 	/**
@@ -231,8 +231,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 */
 	public CorrelationSet getSet() {
 		if (set != null && set.eIsProxy()) {
-			CorrelationSet oldSet = set;
-			set = (CorrelationSet)eResolveProxy((InternalEObject)set);
+			InternalEObject oldSet = (InternalEObject)set;
+			set = (CorrelationSet)eResolveProxy(oldSet);
 			if (set != oldSet) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.CORRELATION__SET, oldSet, set));
@@ -267,35 +267,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.CORRELATION__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.CORRELATION__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CORRELATION__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.CORRELATION__ELEMENT:
-				return getElement();
-			case BPELPackage.CORRELATION__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.CORRELATION__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
 				return getInitiate();
 			case BPELPackage.CORRELATION__PATTERN:
@@ -304,7 +277,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 				if (resolve) return getSet();
 				return basicGetSet();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -312,21 +285,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CORRELATION__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.CORRELATION__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.CORRELATION__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.CORRELATION__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
 				setInitiate((String)newValue);
 				return;
@@ -337,7 +297,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 				setSet((CorrelationSet)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -345,20 +305,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CORRELATION__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.CORRELATION__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.CORRELATION__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.CORRELATION__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
 				unsetInitiate();
 				return;
@@ -369,7 +317,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 				setSet((CorrelationSet)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -377,16 +325,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.CORRELATION__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.CORRELATION__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.CORRELATION__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.CORRELATION__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
 				return isSetInitiate();
 			case BPELPackage.CORRELATION__PATTERN:
@@ -394,7 +334,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 			case BPELPackage.CORRELATION__SET:
 				return set != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RepeatUntilImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: RepeatUntilImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -47,7 +47,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' containment reference.
@@ -57,7 +57,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * @generated
 	 * @ordered
 	 */
-	protected Condition condition = null;
+	protected Condition condition;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,7 +74,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getRepeatUntil();
+		return BPELPackage.Literals.REPEAT_UNTIL;
 	}
 
 	/**
@@ -168,26 +168,14 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.REPEAT_UNTIL__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.REPEAT_UNTIL__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.REPEAT_UNTIL__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				case BPELPackage.REPEAT_UNTIL__CONDITION:
-					return basicSetCondition(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
+				return basicSetActivity(null, msgs);
+			case BPELPackage.REPEAT_UNTIL__CONDITION:
+				return basicSetCondition(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -195,30 +183,14 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.REPEAT_UNTIL__ELEMENT:
-				return getElement();
-			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.REPEAT_UNTIL__NAME:
-				return getName();
-			case BPELPackage.REPEAT_UNTIL__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.REPEAT_UNTIL__TARGETS:
-				return getTargets();
-			case BPELPackage.REPEAT_UNTIL__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
 				return getActivity();
 			case BPELPackage.REPEAT_UNTIL__CONDITION:
 				return getCondition();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -226,33 +198,8 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
 				setActivity((Activity)newValue);
 				return;
@@ -260,7 +207,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 				setCondition((Condition)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -268,32 +215,8 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.REPEAT_UNTIL__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.REPEAT_UNTIL__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.REPEAT_UNTIL__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.REPEAT_UNTIL__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.REPEAT_UNTIL__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
 				setActivity((Activity)null);
 				return;
@@ -301,7 +224,7 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 				setCondition((Condition)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -309,30 +232,14 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.REPEAT_UNTIL__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.REPEAT_UNTIL__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.REPEAT_UNTIL__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.REPEAT_UNTIL__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.REPEAT_UNTIL__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.REPEAT_UNTIL__TARGETS:
-				return targets != null;
-			case BPELPackage.REPEAT_UNTIL__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
 				return activity != null;
 			case BPELPackage.REPEAT_UNTIL__CONDITION:
 				return condition != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //RepeatUntilImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackage.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
+ * $Id: MessagepropertiesPackage.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties;
 
@@ -51,7 +51,7 @@ public interface MessagepropertiesPackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://schemas.xmlsoap.org/ws/2003/03/business-process/";
+	String eNS_URI = "http://docs.oasis-open.org/wsbpel/2.0/varprop";
 
 	/**
 	 * The package namespace name.
@@ -59,7 +59,7 @@ public interface MessagepropertiesPackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "bpws";
+	String eNS_PREFIX = "vprop";
 
 	/**
 	 * The singleton instance of the package.
@@ -553,5 +553,162 @@ public interface MessagepropertiesPackage extends EPackage{
 	 * @generated
 	 */
 	MessagepropertiesFactory getMessagepropertiesFactory();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.messageproperties.impl.PropertyImpl <em>Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.messageproperties.impl.PropertyImpl
+		 * @see org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesPackageImpl#getProperty()
+		 * @generated
+		 */
+		EClass PROPERTY = eINSTANCE.getProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>QName</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY__QNAME = eINSTANCE.getProperty_QName();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY__NAME = eINSTANCE.getProperty_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY__TYPE = eINSTANCE.getProperty_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY__ID = eINSTANCE.getProperty_ID();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl <em>Property Alias</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.messageproperties.impl.PropertyAliasImpl
+		 * @see org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesPackageImpl#getPropertyAlias()
+		 * @generated
+		 */
+		EClass PROPERTY_ALIAS = eINSTANCE.getPropertyAlias();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_ALIAS__MESSAGE_TYPE = eINSTANCE.getPropertyAlias_MessageType();
+
+		/**
+		 * The meta object literal for the '<em><b>Part</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_ALIAS__PART = eINSTANCE.getPropertyAlias_Part();
+
+		/**
+		 * The meta object literal for the '<em><b>Property Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_ALIAS__PROPERTY_NAME = eINSTANCE.getPropertyAlias_PropertyName();
+
+		/**
+		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_ALIAS__ID = eINSTANCE.getPropertyAlias_ID();
+
+		/**
+		 * The meta object literal for the '<em><b>Wsdl Part</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTY_ALIAS__WSDL_PART = eINSTANCE.getPropertyAlias_WsdlPart();
+
+		/**
+		 * The meta object literal for the '<em><b>Query</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTY_ALIAS__QUERY = eINSTANCE.getPropertyAlias_Query();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_ALIAS__TYPE = eINSTANCE.getPropertyAlias_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>XSD Element</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_ALIAS__XSD_ELEMENT = eINSTANCE.getPropertyAlias_XSDElement();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.model.messageproperties.impl.QueryImpl <em>Query</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.model.messageproperties.impl.QueryImpl
+		 * @see org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesPackageImpl#getQuery()
+		 * @generated
+		 */
+		EClass QUERY = eINSTANCE.getQuery();
+
+		/**
+		 * The meta object literal for the '<em><b>Query Language</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUERY__QUERY_LANGUAGE = eINSTANCE.getQuery_QueryLanguage();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUERY__VALUE = eINSTANCE.getQuery_Value();
+
+	}
 
 } //MessagepropertiesPackage

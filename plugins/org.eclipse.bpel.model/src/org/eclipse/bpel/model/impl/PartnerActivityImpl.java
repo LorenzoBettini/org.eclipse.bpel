@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.4 2007/02/09 09:13:42 smoser Exp $
+ * $Id: PartnerActivityImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -65,7 +65,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLink partnerLink = null;
+	protected PartnerLink partnerLink;
 
 	/**
 	 * The cached value of the '{@link #getCorrelations() <em>Correlations</em>}' containment reference.
@@ -75,7 +75,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * @generated
 	 * @ordered
 	 */
-	protected Correlations correlations = null;
+	protected Correlations correlations;
 
 	/**
 	 * The cached value of the '{@link #getPortType() <em>Port Type</em>}' reference.
@@ -85,7 +85,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * @generated
 	 * @ordered
 	 */
-	protected PortType portType = null;
+	protected PortType portType;
 
 	/**
 	 * The cached value of the '{@link #getOperation() <em>Operation</em>}' reference.
@@ -95,7 +95,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * @generated
 	 * @ordered
 	 */
-	protected Operation operation = null;
+	protected Operation operation;
 
     /**
      * The deserialized value of the operation name.
@@ -118,7 +118,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getPartnerActivity();
+		return BPELPackage.Literals.PARTNER_ACTIVITY;
 	}
 
 	/**
@@ -128,8 +128,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			PartnerLink oldPartnerLink = partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy((InternalEObject)partnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
+			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK, oldPartnerLink, partnerLink));
@@ -236,8 +236,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	public PortType getPortTypeGen() {
 		if (portType != null && portType.eIsProxy()) {
-			PortType oldPortType = portType;
-			portType = (PortType)eResolveProxy((InternalEObject)portType);
+			InternalEObject oldPortType = (InternalEObject)portType;
+			portType = (PortType)eResolveProxy(oldPortType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_ACTIVITY__PORT_TYPE, oldPortType, portType));
@@ -293,8 +293,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	public Operation getOperationGen() {
 		if (operation != null && operation.eIsProxy()) {
-			Operation oldOperation = operation;
-			operation = (Operation)eResolveProxy((InternalEObject)operation);
+			InternalEObject oldOperation = (InternalEObject)operation;
+			operation = (Operation)eResolveProxy(oldOperation);
 			if (operation != oldOperation) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_ACTIVITY__OPERATION, oldOperation, operation));
@@ -329,24 +329,12 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.PARTNER_ACTIVITY__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.PARTNER_ACTIVITY__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-					return basicSetCorrelations(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
+				return basicSetCorrelations(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -354,24 +342,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.PARTNER_ACTIVITY__ELEMENT:
-				return getElement();
-			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.PARTNER_ACTIVITY__NAME:
-				return getName();
-			case BPELPackage.PARTNER_ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.PARTNER_ACTIVITY__TARGETS:
-				return getTargets();
-			case BPELPackage.PARTNER_ACTIVITY__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
 				if (resolve) return getPartnerLink();
 				return basicGetPartnerLink();
@@ -384,7 +356,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 				if (resolve) return getOperation();
 				return basicGetOperation();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -392,33 +364,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
 				setPartnerLink((PartnerLink)newValue);
 				return;
@@ -432,7 +379,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 				setOperation((Operation)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -440,32 +387,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
 				setPartnerLink((PartnerLink)null);
 				return;
@@ -479,7 +402,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 				setOperation((Operation)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -487,24 +410,8 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.PARTNER_ACTIVITY__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.PARTNER_ACTIVITY__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.PARTNER_ACTIVITY__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.PARTNER_ACTIVITY__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.PARTNER_ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.PARTNER_ACTIVITY__TARGETS:
-				return targets != null;
-			case BPELPackage.PARTNER_ACTIVITY__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
 				return partnerLink != null;
 			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
@@ -514,10 +421,10 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
 				return operation != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
-    /**
+	/**
      * Set the deserialized value of the operation name.
      * @customized
      */

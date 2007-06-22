@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeSwitch.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerlinktypeSwitch.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.util;
 
@@ -122,13 +122,13 @@ public class PartnerlinktypeSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Partner Link Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Partner Link Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Partner Link Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Partner Link Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -137,13 +137,13 @@ public class PartnerlinktypeSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Role</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Role</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Role</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Role</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -152,13 +152,13 @@ public class PartnerlinktypeSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -167,13 +167,13 @@ public class PartnerlinktypeSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>IExtensibility Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IExtensibility Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>IExtensibility Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IExtensibility Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -182,13 +182,13 @@ public class PartnerlinktypeSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extensibility Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Extensibility Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extensibility Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Extensibility Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -197,13 +197,13 @@ public class PartnerlinktypeSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

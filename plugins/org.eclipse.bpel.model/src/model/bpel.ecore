@@ -42,7 +42,7 @@
         eType="#//Import" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" eType="#//Extensions"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exitOnStandardFault" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exitOnStandardFault" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageExchanges" eType="#//MessageExchanges"/>
   </eClassifiers>
@@ -55,7 +55,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerRole" eType="ecore:EClass partnerlinktype.ecore#//Role"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="PartnerLinkType" eType="ecore:EClass partnerlinktype.ecore#//PartnerLinkType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="initializePartnerRole"
-        eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FaultHandler" eSuperTypes="#//ExtensibleElement">
@@ -117,19 +117,19 @@
         eType="#//Target" eOpposite="#//Target/Link"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Catch" eSuperTypes="#//ExtensibleElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//QName"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//QName"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="faultVariable" eType="#//Variable"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="faultMessageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="faultElement" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDElementDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="faultMessageType" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Message"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="faultElement" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Reply" eSuperTypes="#//PartnerActivity #//Activity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Allows a business process to send a message in reply to a message that was received through a Receive. The combination of a Receive and Reply forms a synchronous request-response operation on the WSDL portType for the process. The container for the replay activity provides the output message for the partner process invoke activity that invoked the corresponding receive activity.&#xD;&#xA;&#xD;&#xA;FaultName specifies the name of a fault and must match some Catch fault name in the Scope or Process's FaultHandler.&#xD;&#xA;&#xD;&#xA;A receive can have more than one corresponding reply, at most one without a faultName, and any mumber with different faults."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//QName"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//QName"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toPart" upperBound="-1"
         eType="#//ToPart"/>
@@ -140,9 +140,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlations" eType="#//Correlations"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="portType" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//PortType"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//PortType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Operation"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Operation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Receive" eSuperTypes="#//PartnerActivity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -164,7 +164,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Generates a fault from inside the business process. The FaultHandler may be a proxy for an application or process-specific fault instead of a BPEL FaultHandler"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//QName"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//QName"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="faultVariable" eType="#//Variable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wait" eSuperTypes="#//Activity">
@@ -238,7 +238,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="copy" lowerBound="1" upperBound="-1"
         eType="#//Copy" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validate" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="#//ExtensibleElement">
@@ -302,7 +302,7 @@
       <details key="documentation" value="Represents an l-value in an assignment activity. Can be used to query a node of a part of a container, a property of a container, or a service reference of a partner."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Part"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Part"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" eType="#//PartnerLink"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="ecore:EClass messageproperties.ecore#//Property"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
@@ -324,9 +324,9 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRef" eType="#//ServiceRef"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Part"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Part"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" eType="#//PartnerLink"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="ecore:EClass messageproperties.ecore#//Property"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
@@ -340,21 +340,21 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="portType" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//PortType"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//PortType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" lowerBound="1"
         eType="#//PartnerLink"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlations" eType="#//Correlations"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Operation"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Operation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
         eType="#//FromPart"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Expression" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibilityElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" eSuperTypes="platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//ExtensibilityElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expressionLanguage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         unsettable="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opaque" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opaque" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" eSuperTypes="#//Expression"/>
@@ -420,12 +420,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDElementDeclaration"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xsd/src-xsd/model/XSD.ecore#//XSDTypeDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Message"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UnknownExtensibilityAttribute" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//UnknownExtensibilityElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnknownExtensibilityAttribute" eSuperTypes="platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//UnknownExtensibilityElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OnEvent" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//Activity"
         containment="true"/>
@@ -436,15 +436,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlations" eType="#//Correlations"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Operation"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Operation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="portType" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//PortType"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//PortType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//Message"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Message"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromPart" upperBound="-1"
         eType="#//FromPart"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlationSets" eType="#//CorrelationSets"
-        defaultValueLiteral="" containment="true"/>
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Import" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -463,13 +463,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Source" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Query" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//WSDLElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Query" eSuperTypes="platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//WSDLElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryLanguage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ServiceRef" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRef" eSuperTypes="platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceScheme" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Extensions" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
@@ -477,11 +477,11 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtensionActivity" eSuperTypes="#//Activity"/>
   <eClassifiers xsi:type="ecore:EClass" name="FromPart" eSuperTypes="#//ExtensibleElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//To"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ToPart" eSuperTypes="#//ExtensibleElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//From"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OpaqueActivity" eSuperTypes="#//Activity"/>
@@ -491,7 +491,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="finalCounterValue" lowerBound="1"
         eType="#//Expression" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parallel" lowerBound="1"
-        eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="counterName" lowerBound="1"
         eType="#//Variable" containment="true"/>
@@ -535,21 +535,21 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompletionCondition" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="branches" eType="#//Branches"
-        defaultValueLiteral="" containment="true"/>
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Branches" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="countCompletedBranchesOnly"
-        eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"
         defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExtensibleElement" eSuperTypes="../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.ecore#//ExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ExtensibleElement" eSuperTypes="platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="documentation" eType="#//Documentation"
         unsettable="true" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lang" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lang" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MessageExchanges" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="1"

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.4 2006/01/19 21:08:47 james Exp $
+ * $Id: OnEvent.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -244,7 +244,6 @@ public interface OnEvent extends ExtensibleElement {
 
 	/**
 	 * Returns the value of the '<em><b>Correlation Sets</b></em>' containment reference.
-	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Correlation Sets</em>' containment reference isn't clear,

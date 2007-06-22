@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: WaitImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -54,7 +54,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression for_ = null;
+	protected Expression for_;
 
 	/**
 	 * The cached value of the '{@link #getUntil() <em>Until</em>}' containment reference.
@@ -64,7 +64,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression until = null;
+	protected Expression until;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -81,7 +81,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getWait();
+		return BPELPackage.Literals.WAIT;
 	}
 
 	/**
@@ -175,26 +175,14 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.WAIT__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.WAIT__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.WAIT__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.WAIT__FOR:
-					return basicSetFor(null, msgs);
-				case BPELPackage.WAIT__UNTIL:
-					return basicSetUntil(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.WAIT__FOR:
+				return basicSetFor(null, msgs);
+			case BPELPackage.WAIT__UNTIL:
+				return basicSetUntil(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -202,30 +190,14 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.WAIT__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.WAIT__ELEMENT:
-				return getElement();
-			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.WAIT__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.WAIT__NAME:
-				return getName();
-			case BPELPackage.WAIT__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.WAIT__TARGETS:
-				return getTargets();
-			case BPELPackage.WAIT__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
 				return getFor();
 			case BPELPackage.WAIT__UNTIL:
 				return getUntil();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -233,33 +205,8 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.WAIT__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.WAIT__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.WAIT__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.WAIT__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.WAIT__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.WAIT__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.WAIT__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
 				setFor((Expression)newValue);
 				return;
@@ -267,7 +214,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 				setUntil((Expression)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -275,32 +222,8 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.WAIT__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.WAIT__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.WAIT__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.WAIT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.WAIT__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.WAIT__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.WAIT__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
 				setFor((Expression)null);
 				return;
@@ -308,7 +231,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 				setUntil((Expression)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -316,30 +239,14 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.WAIT__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.WAIT__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.WAIT__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.WAIT__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.WAIT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.WAIT__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.WAIT__TARGETS:
-				return targets != null;
-			case BPELPackage.WAIT__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
 				return for_ != null;
 			case BPELPackage.WAIT__UNTIL:
 				return until != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //WaitImpl

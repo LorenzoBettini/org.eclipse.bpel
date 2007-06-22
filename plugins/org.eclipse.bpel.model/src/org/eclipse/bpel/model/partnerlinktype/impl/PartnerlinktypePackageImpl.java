@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackageImpl.java,v 1.3 2007/04/11 20:57:11 mchmielewski Exp $
+ * $Id: PartnerlinktypePackageImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.wst.wsdl.WSDLPackage;
+import org.eclipse.xsd.XSDPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
 import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
 import org.eclipse.wst.wsdl.util.ExtensibilityElementFactory;
@@ -112,9 +113,9 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackageImpl.init();
-		WSDLPackageImpl.init();
-		XSDPackageImpl.init();
+		EcorePackage.eINSTANCE.eClass();
+		WSDLPackage.eINSTANCE.eClass();
+		XSDPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		thePartnerlinktypePackage.createPackageContents();
@@ -289,8 +290,8 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
-		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		WSDLPackage theWSDLPackage = (WSDLPackage)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add supertypes to classes
 		partnerLinkTypeEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
@@ -298,7 +299,7 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(partnerLinkTypeEClass, PartnerLinkType.class, "PartnerLinkType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPartnerLinkType_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLinkType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPartnerLinkType_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLinkType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPartnerLinkType_ID(), ecorePackage.getEString(), "ID", null, 0, 1, PartnerLinkType.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getPartnerLinkType_Role(), this.getRole(), null, "role", null, 0, -1, PartnerLinkType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkTypeImpl.java,v 1.2 2006/08/16 22:11:16 mchmielewski Exp $
+ * $Id: PartnerLinkTypeImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -100,7 +100,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * @generated
 	 * @ordered
 	 */
-	protected EList role = null;
+	protected EList role;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -117,7 +117,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return PartnerlinktypePackage.eINSTANCE.getPartnerLinkType();
+		return PartnerlinktypePackage.Literals.PARTNER_LINK_TYPE;
 	}
 
 	/**
@@ -168,16 +168,12 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
-					return ((InternalEList)getRole()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
+				return ((InternalEList)getRole()).basicRemove(otherEnd, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -185,16 +181,8 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT:
-				return getElement();
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT_TYPE:
-				return getElementType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
 				return getName();
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ID:
@@ -202,7 +190,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
 				return getRole();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -210,20 +198,8 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
 				setName((String)newValue);
 				return;
@@ -232,7 +208,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 				getRole().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -240,20 +216,8 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -261,7 +225,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 				getRole().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -269,16 +233,8 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ID:
@@ -286,7 +242,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
 				return role != null && !role.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

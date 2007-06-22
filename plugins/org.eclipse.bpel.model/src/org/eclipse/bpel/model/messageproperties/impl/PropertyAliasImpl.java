@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.3 2006/08/16 22:11:16 mchmielewski Exp $
+ * $Id: PropertyAliasImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -142,7 +142,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * @generated
 	 * @ordered
 	 */
-	protected Part wsdlPart = null;
+	protected Part wsdlPart;
 
 	/**
 	 * The cached value of the '{@link #getQuery() <em>Query</em>}' containment reference.
@@ -152,7 +152,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * @generated
 	 * @ordered
 	 */
-	protected Query query = null;
+	protected Query query;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -209,7 +209,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return MessagepropertiesPackage.eINSTANCE.getPropertyAlias();
+		return MessagepropertiesPackage.Literals.PROPERTY_ALIAS;
 	}
 
 	/**
@@ -297,8 +297,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 */
 	public Part getWsdlPart() {
 		if (wsdlPart != null && wsdlPart.eIsProxy()) {
-			Part oldWsdlPart = wsdlPart;
-			wsdlPart = (Part)eResolveProxy((InternalEObject)wsdlPart);
+			InternalEObject oldWsdlPart = (InternalEObject)wsdlPart;
+			wsdlPart = (Part)eResolveProxy(oldWsdlPart);
 			if (wsdlPart != oldWsdlPart) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART, oldWsdlPart, wsdlPart));
@@ -431,16 +431,12 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
-					return basicSetQuery(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
+				return basicSetQuery(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -448,16 +444,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT:
-				return getElement();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT_TYPE:
-				return getElementType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
 				return getMessageType();
 			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
@@ -476,7 +464,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
 				return getXSDElement();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -484,28 +472,16 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
-				setMessageType((Object)newValue);
+				setMessageType(newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
 				setPart((String)newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
-				setPropertyName((Object)newValue);
+				setPropertyName(newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
 				setWsdlPart((Part)newValue);
@@ -514,13 +490,13 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 				setQuery((Query)newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
-				setType((Object)newValue);
+				setType(newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
-				setXSDElement((Object)newValue);
+				setXSDElement(newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -528,20 +504,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
 				setMessageType(MESSAGE_TYPE_EDEFAULT);
 				return;
@@ -564,7 +528,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 				setXSDElement(XSD_ELEMENT_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -572,16 +536,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case MessagepropertiesPackage.PROPERTY_ALIAS__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
 				return MESSAGE_TYPE_EDEFAULT == null ? messageType != null : !MESSAGE_TYPE_EDEFAULT.equals(messageType);
 			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
@@ -599,7 +555,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements Prope
 			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
 				return XSD_ELEMENT_EDEFAULT == null ? xsdElement != null : !XSD_ELEMENT_EDEFAULT.equals(xsdElement);
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

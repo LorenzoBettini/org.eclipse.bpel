@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
+ * $Id: CopyImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -55,7 +55,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @generated
 	 * @ordered
 	 */
-	protected To to = null;
+	protected To to;
 
 	/**
 	 * The cached value of the '{@link #getFrom() <em>From</em>}' containment reference.
@@ -65,7 +65,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @generated
 	 * @ordered
 	 */
-	protected From from = null;
+	protected From from;
 
 	/**
 	 * The default value of the '{@link #getKeepSrcElementName() <em>Keep Src Element Name</em>}' attribute.
@@ -94,7 +94,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean keepSrcElementNameESet = false;
+	protected boolean keepSrcElementNameESet;
 
 	/**
 	 * The default value of the '{@link #getIgnoreMissingFromData() <em>Ignore Missing From Data</em>}' attribute.
@@ -123,7 +123,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean ignoreMissingFromDataESet = false;
+	protected boolean ignoreMissingFromDataESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -140,7 +140,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getCopy();
+		return BPELPackage.Literals.COPY;
 	}
 
 	/**
@@ -326,22 +326,14 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.COPY__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.COPY__TO:
-					return basicSetTo(null, msgs);
-				case BPELPackage.COPY__FROM:
-					return basicSetFrom(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.COPY__TO:
+				return basicSetTo(null, msgs);
+			case BPELPackage.COPY__FROM:
+				return basicSetFrom(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -349,16 +341,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.COPY__ELEMENT:
-				return getElement();
-			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.COPY__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.COPY__TO:
 				return getTo();
 			case BPELPackage.COPY__FROM:
@@ -368,7 +352,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
 				return getIgnoreMissingFromData();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -376,21 +360,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.COPY__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.COPY__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.COPY__TO:
 				setTo((To)newValue);
 				return;
@@ -404,7 +375,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				setIgnoreMissingFromData((Boolean)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -412,20 +383,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.COPY__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.COPY__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.COPY__TO:
 				setTo((To)null);
 				return;
@@ -439,7 +398,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 				unsetIgnoreMissingFromData();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -447,16 +406,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.COPY__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.COPY__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.COPY__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.COPY__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.COPY__TO:
 				return to != null;
 			case BPELPackage.COPY__FROM:
@@ -466,7 +417,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
 				return isSetIgnoreMissingFromData();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

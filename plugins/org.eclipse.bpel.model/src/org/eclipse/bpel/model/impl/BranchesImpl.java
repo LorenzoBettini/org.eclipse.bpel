@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BranchesImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: BranchesImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -57,7 +57,7 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean countCompletedBranchesOnlyESet = false;
+	protected boolean countCompletedBranchesOnlyESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,7 +74,7 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getBranches();
+		return BPELPackage.Literals.BRANCHES;
 	}
 
 	/**
@@ -128,26 +128,12 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.BRANCHES__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.BRANCHES__ELEMENT:
-				return getElement();
-			case BPELPackage.BRANCHES__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case BPELPackage.BRANCHES__ELEMENT_TYPE:
-				return getElementType();
-			case BPELPackage.BRANCHES__BODY:
-				return getBody();
-			case BPELPackage.BRANCHES__EXPRESSION_LANGUAGE:
-				return getExpressionLanguage();
-			case BPELPackage.BRANCHES__OPAQUE:
-				return getOpaque();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
 				return getCountCompletedBranchesOnly();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -155,34 +141,13 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.BRANCHES__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.BRANCHES__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.BRANCHES__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case BPELPackage.BRANCHES__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
-			case BPELPackage.BRANCHES__BODY:
-				setBody((Object)newValue);
-				return;
-			case BPELPackage.BRANCHES__EXPRESSION_LANGUAGE:
-				setExpressionLanguage((String)newValue);
-				return;
-			case BPELPackage.BRANCHES__OPAQUE:
-				setOpaque((Boolean)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
 				setCountCompletedBranchesOnly((Boolean)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -190,34 +155,13 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.BRANCHES__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.BRANCHES__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.BRANCHES__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case BPELPackage.BRANCHES__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
-			case BPELPackage.BRANCHES__BODY:
-				setBody(BODY_EDEFAULT);
-				return;
-			case BPELPackage.BRANCHES__EXPRESSION_LANGUAGE:
-				unsetExpressionLanguage();
-				return;
-			case BPELPackage.BRANCHES__OPAQUE:
-				unsetOpaque();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
 				unsetCountCompletedBranchesOnly();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -225,26 +169,12 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.BRANCHES__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.BRANCHES__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.BRANCHES__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case BPELPackage.BRANCHES__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
-			case BPELPackage.BRANCHES__BODY:
-				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
-			case BPELPackage.BRANCHES__EXPRESSION_LANGUAGE:
-				return isSetExpressionLanguage();
-			case BPELPackage.BRANCHES__OPAQUE:
-				return isSetOpaque();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
 				return isSetCountCompletedBranchesOnly();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

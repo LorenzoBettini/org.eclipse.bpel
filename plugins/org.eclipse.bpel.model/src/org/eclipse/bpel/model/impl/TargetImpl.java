@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetImpl.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: TargetImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -56,7 +56,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * @generated
 	 * @ordered
 	 */
-	protected Link link = null;
+	protected Link link;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' reference.
@@ -66,7 +66,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -83,7 +83,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getTarget();
+		return BPELPackage.Literals.TARGET;
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 */
 	public Link getLink() {
 		if (link != null && link.eIsProxy()) {
-			Link oldLink = link;
-			link = (Link)eResolveProxy((InternalEObject)link);
+			InternalEObject oldLink = (InternalEObject)link;
+			link = (Link)eResolveProxy(oldLink);
 			if (link != oldLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TARGET__LINK, oldLink, link));
@@ -187,20 +187,14 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.TARGET__LINK:
-					if (link != null)
-						msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__TARGETS, Link.class, msgs);
-					return basicSetLink((Link)otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.TARGET__LINK:
+				if (link != null)
+					msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__TARGETS, Link.class, msgs);
+				return basicSetLink((Link)otherEnd, msgs);
 		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -208,20 +202,12 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.TARGET__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.TARGET__LINK:
-					return basicSetLink(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.TARGET__LINK:
+				return basicSetLink(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -229,16 +215,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TARGET__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.TARGET__ELEMENT:
-				return getElement();
-			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.TARGET__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
 				if (resolve) return getLink();
 				return basicGetLink();
@@ -246,7 +224,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 				if (resolve) return getActivity();
 				return basicGetActivity();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -254,21 +232,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TARGET__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.TARGET__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.TARGET__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
 				setLink((Link)newValue);
 				return;
@@ -276,7 +241,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 				setActivity((Activity)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -284,20 +249,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TARGET__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.TARGET__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.TARGET__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
 				setLink((Link)null);
 				return;
@@ -305,7 +258,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 				setActivity((Activity)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -313,22 +266,14 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.TARGET__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.TARGET__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.TARGET__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.TARGET__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
 				return link != null;
 			case BPELPackage.TARGET__ACTIVITY:
 				return activity != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //TargetImpl

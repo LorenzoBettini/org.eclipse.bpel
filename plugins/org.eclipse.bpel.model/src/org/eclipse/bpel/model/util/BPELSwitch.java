@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.21 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: BPELSwitch.java,v 1.22 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -172,7 +172,7 @@ public class BPELSwitch {
 				org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process)theEObject;
 				Object result = caseProcess(process);
 				if (result == null) result = caseExtensibleElement(process);
-				if (result == null) result = caseWSDL_ExtensibleElement(process);
+				if (result == null) result = caseExtensibleElement_1(process);
 				if (result == null) result = caseWSDLElement(process);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -181,7 +181,7 @@ public class BPELSwitch {
 				PartnerLink partnerLink = (PartnerLink)theEObject;
 				Object result = casePartnerLink(partnerLink);
 				if (result == null) result = caseExtensibleElement(partnerLink);
-				if (result == null) result = caseWSDL_ExtensibleElement(partnerLink);
+				if (result == null) result = caseExtensibleElement_1(partnerLink);
 				if (result == null) result = caseWSDLElement(partnerLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -190,7 +190,7 @@ public class BPELSwitch {
 				FaultHandler faultHandler = (FaultHandler)theEObject;
 				Object result = caseFaultHandler(faultHandler);
 				if (result == null) result = caseExtensibleElement(faultHandler);
-				if (result == null) result = caseWSDL_ExtensibleElement(faultHandler);
+				if (result == null) result = caseExtensibleElement_1(faultHandler);
 				if (result == null) result = caseWSDLElement(faultHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -199,7 +199,7 @@ public class BPELSwitch {
 				Activity activity = (Activity)theEObject;
 				Object result = caseActivity(activity);
 				if (result == null) result = caseExtensibleElement(activity);
-				if (result == null) result = caseWSDL_ExtensibleElement(activity);
+				if (result == null) result = caseExtensibleElement_1(activity);
 				if (result == null) result = caseWSDLElement(activity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -208,7 +208,7 @@ public class BPELSwitch {
 				CorrelationSet correlationSet = (CorrelationSet)theEObject;
 				Object result = caseCorrelationSet(correlationSet);
 				if (result == null) result = caseExtensibleElement(correlationSet);
-				if (result == null) result = caseWSDL_ExtensibleElement(correlationSet);
+				if (result == null) result = caseExtensibleElement_1(correlationSet);
 				if (result == null) result = caseWSDLElement(correlationSet);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -219,7 +219,7 @@ public class BPELSwitch {
 				if (result == null) result = casePartnerActivity(invoke);
 				if (result == null) result = caseActivity(invoke);
 				if (result == null) result = caseExtensibleElement(invoke);
-				if (result == null) result = caseWSDL_ExtensibleElement(invoke);
+				if (result == null) result = caseExtensibleElement_1(invoke);
 				if (result == null) result = caseWSDLElement(invoke);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -228,7 +228,7 @@ public class BPELSwitch {
 				Link link = (Link)theEObject;
 				Object result = caseLink(link);
 				if (result == null) result = caseExtensibleElement(link);
-				if (result == null) result = caseWSDL_ExtensibleElement(link);
+				if (result == null) result = caseExtensibleElement_1(link);
 				if (result == null) result = caseWSDLElement(link);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -237,7 +237,7 @@ public class BPELSwitch {
 				Catch catch_ = (Catch)theEObject;
 				Object result = caseCatch(catch_);
 				if (result == null) result = caseExtensibleElement(catch_);
-				if (result == null) result = caseWSDL_ExtensibleElement(catch_);
+				if (result == null) result = caseExtensibleElement_1(catch_);
 				if (result == null) result = caseWSDLElement(catch_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -248,7 +248,7 @@ public class BPELSwitch {
 				if (result == null) result = casePartnerActivity(reply);
 				if (result == null) result = caseActivity(reply);
 				if (result == null) result = caseExtensibleElement(reply);
-				if (result == null) result = caseWSDL_ExtensibleElement(reply);
+				if (result == null) result = caseExtensibleElement_1(reply);
 				if (result == null) result = caseWSDLElement(reply);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -258,7 +258,7 @@ public class BPELSwitch {
 				Object result = casePartnerActivity(partnerActivity);
 				if (result == null) result = caseActivity(partnerActivity);
 				if (result == null) result = caseExtensibleElement(partnerActivity);
-				if (result == null) result = caseWSDL_ExtensibleElement(partnerActivity);
+				if (result == null) result = caseExtensibleElement_1(partnerActivity);
 				if (result == null) result = caseWSDLElement(partnerActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -269,7 +269,7 @@ public class BPELSwitch {
 				if (result == null) result = casePartnerActivity(receive);
 				if (result == null) result = caseActivity(receive);
 				if (result == null) result = caseExtensibleElement(receive);
-				if (result == null) result = caseWSDL_ExtensibleElement(receive);
+				if (result == null) result = caseExtensibleElement_1(receive);
 				if (result == null) result = caseWSDLElement(receive);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -279,7 +279,7 @@ public class BPELSwitch {
 				Object result = caseExit(exit);
 				if (result == null) result = caseActivity(exit);
 				if (result == null) result = caseExtensibleElement(exit);
-				if (result == null) result = caseWSDL_ExtensibleElement(exit);
+				if (result == null) result = caseExtensibleElement_1(exit);
 				if (result == null) result = caseWSDLElement(exit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -289,7 +289,7 @@ public class BPELSwitch {
 				Object result = caseThrow(throw_);
 				if (result == null) result = caseActivity(throw_);
 				if (result == null) result = caseExtensibleElement(throw_);
-				if (result == null) result = caseWSDL_ExtensibleElement(throw_);
+				if (result == null) result = caseExtensibleElement_1(throw_);
 				if (result == null) result = caseWSDLElement(throw_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -299,7 +299,7 @@ public class BPELSwitch {
 				Object result = caseWait(wait);
 				if (result == null) result = caseActivity(wait);
 				if (result == null) result = caseExtensibleElement(wait);
-				if (result == null) result = caseWSDL_ExtensibleElement(wait);
+				if (result == null) result = caseExtensibleElement_1(wait);
 				if (result == null) result = caseWSDLElement(wait);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -309,7 +309,7 @@ public class BPELSwitch {
 				Object result = caseEmpty(empty);
 				if (result == null) result = caseActivity(empty);
 				if (result == null) result = caseExtensibleElement(empty);
-				if (result == null) result = caseWSDL_ExtensibleElement(empty);
+				if (result == null) result = caseExtensibleElement_1(empty);
 				if (result == null) result = caseWSDLElement(empty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -319,7 +319,7 @@ public class BPELSwitch {
 				Object result = caseSequence(sequence);
 				if (result == null) result = caseActivity(sequence);
 				if (result == null) result = caseExtensibleElement(sequence);
-				if (result == null) result = caseWSDL_ExtensibleElement(sequence);
+				if (result == null) result = caseExtensibleElement_1(sequence);
 				if (result == null) result = caseWSDLElement(sequence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -329,7 +329,7 @@ public class BPELSwitch {
 				Object result = caseWhile(while_);
 				if (result == null) result = caseActivity(while_);
 				if (result == null) result = caseExtensibleElement(while_);
-				if (result == null) result = caseWSDL_ExtensibleElement(while_);
+				if (result == null) result = caseExtensibleElement_1(while_);
 				if (result == null) result = caseWSDLElement(while_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -339,7 +339,7 @@ public class BPELSwitch {
 				Object result = casePick(pick);
 				if (result == null) result = caseActivity(pick);
 				if (result == null) result = caseExtensibleElement(pick);
-				if (result == null) result = caseWSDL_ExtensibleElement(pick);
+				if (result == null) result = caseExtensibleElement_1(pick);
 				if (result == null) result = caseWSDLElement(pick);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -349,7 +349,7 @@ public class BPELSwitch {
 				Object result = caseFlow(flow);
 				if (result == null) result = caseActivity(flow);
 				if (result == null) result = caseExtensibleElement(flow);
-				if (result == null) result = caseWSDL_ExtensibleElement(flow);
+				if (result == null) result = caseExtensibleElement_1(flow);
 				if (result == null) result = caseWSDLElement(flow);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -358,7 +358,7 @@ public class BPELSwitch {
 				OnAlarm onAlarm = (OnAlarm)theEObject;
 				Object result = caseOnAlarm(onAlarm);
 				if (result == null) result = caseExtensibleElement(onAlarm);
-				if (result == null) result = caseWSDL_ExtensibleElement(onAlarm);
+				if (result == null) result = caseExtensibleElement_1(onAlarm);
 				if (result == null) result = caseWSDLElement(onAlarm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -368,7 +368,7 @@ public class BPELSwitch {
 				Object result = caseAssign(assign);
 				if (result == null) result = caseActivity(assign);
 				if (result == null) result = caseExtensibleElement(assign);
-				if (result == null) result = caseWSDL_ExtensibleElement(assign);
+				if (result == null) result = caseExtensibleElement_1(assign);
 				if (result == null) result = caseWSDLElement(assign);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -377,7 +377,7 @@ public class BPELSwitch {
 				Copy copy = (Copy)theEObject;
 				Object result = caseCopy(copy);
 				if (result == null) result = caseExtensibleElement(copy);
-				if (result == null) result = caseWSDL_ExtensibleElement(copy);
+				if (result == null) result = caseExtensibleElement_1(copy);
 				if (result == null) result = caseWSDLElement(copy);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -386,7 +386,7 @@ public class BPELSwitch {
 				Extension extension = (Extension)theEObject;
 				Object result = caseExtension(extension);
 				if (result == null) result = caseExtensibleElement(extension);
-				if (result == null) result = caseWSDL_ExtensibleElement(extension);
+				if (result == null) result = caseExtensibleElement_1(extension);
 				if (result == null) result = caseWSDLElement(extension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -396,18 +396,18 @@ public class BPELSwitch {
 				Object result = caseScope(scope);
 				if (result == null) result = caseActivity(scope);
 				if (result == null) result = caseExtensibleElement(scope);
-				if (result == null) result = caseWSDL_ExtensibleElement(scope);
+				if (result == null) result = caseExtensibleElement_1(scope);
 				if (result == null) result = caseWSDLElement(scope);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.COMPENSATE: {
-				Compensate compensate = (Compensate)theEObject;
-				Object result = caseCompensate(compensate);
-				if (result == null) result = caseActivity(compensate);
-				if (result == null) result = caseExtensibleElement(compensate);
-				if (result == null) result = caseWSDL_ExtensibleElement(compensate);
-				if (result == null) result = caseWSDLElement(compensate);
+			case BPELPackage.COMPENSATE_SCOPE: {
+				CompensateScope compensateScope = (CompensateScope)theEObject;
+				Object result = caseCompensateScope(compensateScope);
+				if (result == null) result = caseActivity(compensateScope);
+				if (result == null) result = caseExtensibleElement(compensateScope);
+				if (result == null) result = caseExtensibleElement_1(compensateScope);
+				if (result == null) result = caseWSDLElement(compensateScope);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -415,7 +415,7 @@ public class BPELSwitch {
 				CompensationHandler compensationHandler = (CompensationHandler)theEObject;
 				Object result = caseCompensationHandler(compensationHandler);
 				if (result == null) result = caseExtensibleElement(compensationHandler);
-				if (result == null) result = caseWSDL_ExtensibleElement(compensationHandler);
+				if (result == null) result = caseExtensibleElement_1(compensationHandler);
 				if (result == null) result = caseWSDLElement(compensationHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -424,7 +424,7 @@ public class BPELSwitch {
 				To to = (To)theEObject;
 				Object result = caseTo(to);
 				if (result == null) result = caseExtensibleElement(to);
-				if (result == null) result = caseWSDL_ExtensibleElement(to);
+				if (result == null) result = caseExtensibleElement_1(to);
 				if (result == null) result = caseWSDLElement(to);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -433,7 +433,7 @@ public class BPELSwitch {
 				From from = (From)theEObject;
 				Object result = caseFrom(from);
 				if (result == null) result = caseExtensibleElement(from);
-				if (result == null) result = caseWSDL_ExtensibleElement(from);
+				if (result == null) result = caseExtensibleElement_1(from);
 				if (result == null) result = caseWSDLElement(from);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -442,7 +442,7 @@ public class BPELSwitch {
 				OnMessage onMessage = (OnMessage)theEObject;
 				Object result = caseOnMessage(onMessage);
 				if (result == null) result = caseExtensibleElement(onMessage);
-				if (result == null) result = caseWSDL_ExtensibleElement(onMessage);
+				if (result == null) result = caseExtensibleElement_1(onMessage);
 				if (result == null) result = caseWSDLElement(onMessage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -470,7 +470,7 @@ public class BPELSwitch {
 				Correlation correlation = (Correlation)theEObject;
 				Object result = caseCorrelation(correlation);
 				if (result == null) result = caseExtensibleElement(correlation);
-				if (result == null) result = caseWSDL_ExtensibleElement(correlation);
+				if (result == null) result = caseExtensibleElement_1(correlation);
 				if (result == null) result = caseWSDLElement(correlation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -479,7 +479,7 @@ public class BPELSwitch {
 				EventHandler eventHandler = (EventHandler)theEObject;
 				Object result = caseEventHandler(eventHandler);
 				if (result == null) result = caseExtensibleElement(eventHandler);
-				if (result == null) result = caseWSDL_ExtensibleElement(eventHandler);
+				if (result == null) result = caseExtensibleElement_1(eventHandler);
 				if (result == null) result = caseWSDLElement(eventHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -488,7 +488,7 @@ public class BPELSwitch {
 				Source source = (Source)theEObject;
 				Object result = caseSource(source);
 				if (result == null) result = caseExtensibleElement(source);
-				if (result == null) result = caseWSDL_ExtensibleElement(source);
+				if (result == null) result = caseExtensibleElement_1(source);
 				if (result == null) result = caseWSDLElement(source);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -497,7 +497,7 @@ public class BPELSwitch {
 				Target target = (Target)theEObject;
 				Object result = caseTarget(target);
 				if (result == null) result = caseExtensibleElement(target);
-				if (result == null) result = caseWSDL_ExtensibleElement(target);
+				if (result == null) result = caseExtensibleElement_1(target);
 				if (result == null) result = caseWSDLElement(target);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -506,7 +506,7 @@ public class BPELSwitch {
 				PartnerLinks partnerLinks = (PartnerLinks)theEObject;
 				Object result = casePartnerLinks(partnerLinks);
 				if (result == null) result = caseExtensibleElement(partnerLinks);
-				if (result == null) result = caseWSDL_ExtensibleElement(partnerLinks);
+				if (result == null) result = caseExtensibleElement_1(partnerLinks);
 				if (result == null) result = caseWSDLElement(partnerLinks);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -515,7 +515,7 @@ public class BPELSwitch {
 				Variables variables = (Variables)theEObject;
 				Object result = caseVariables(variables);
 				if (result == null) result = caseExtensibleElement(variables);
-				if (result == null) result = caseWSDL_ExtensibleElement(variables);
+				if (result == null) result = caseExtensibleElement_1(variables);
 				if (result == null) result = caseWSDLElement(variables);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -524,7 +524,7 @@ public class BPELSwitch {
 				CorrelationSets correlationSets = (CorrelationSets)theEObject;
 				Object result = caseCorrelationSets(correlationSets);
 				if (result == null) result = caseExtensibleElement(correlationSets);
-				if (result == null) result = caseWSDL_ExtensibleElement(correlationSets);
+				if (result == null) result = caseExtensibleElement_1(correlationSets);
 				if (result == null) result = caseWSDLElement(correlationSets);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -533,7 +533,7 @@ public class BPELSwitch {
 				Links links = (Links)theEObject;
 				Object result = caseLinks(links);
 				if (result == null) result = caseExtensibleElement(links);
-				if (result == null) result = caseWSDL_ExtensibleElement(links);
+				if (result == null) result = caseExtensibleElement_1(links);
 				if (result == null) result = caseWSDLElement(links);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -542,7 +542,7 @@ public class BPELSwitch {
 				CatchAll catchAll = (CatchAll)theEObject;
 				Object result = caseCatchAll(catchAll);
 				if (result == null) result = caseExtensibleElement(catchAll);
-				if (result == null) result = caseWSDL_ExtensibleElement(catchAll);
+				if (result == null) result = caseExtensibleElement_1(catchAll);
 				if (result == null) result = caseWSDLElement(catchAll);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -551,7 +551,7 @@ public class BPELSwitch {
 				Correlations correlations = (Correlations)theEObject;
 				Object result = caseCorrelations(correlations);
 				if (result == null) result = caseExtensibleElement(correlations);
-				if (result == null) result = caseWSDL_ExtensibleElement(correlations);
+				if (result == null) result = caseExtensibleElement_1(correlations);
 				if (result == null) result = caseWSDLElement(correlations);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -560,7 +560,7 @@ public class BPELSwitch {
 				Variable variable = (Variable)theEObject;
 				Object result = caseVariable(variable);
 				if (result == null) result = caseExtensibleElement(variable);
-				if (result == null) result = caseWSDL_ExtensibleElement(variable);
+				if (result == null) result = caseExtensibleElement_1(variable);
 				if (result == null) result = caseWSDLElement(variable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -579,7 +579,7 @@ public class BPELSwitch {
 				OnEvent onEvent = (OnEvent)theEObject;
 				Object result = caseOnEvent(onEvent);
 				if (result == null) result = caseExtensibleElement(onEvent);
-				if (result == null) result = caseWSDL_ExtensibleElement(onEvent);
+				if (result == null) result = caseExtensibleElement_1(onEvent);
 				if (result == null) result = caseWSDLElement(onEvent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -588,7 +588,7 @@ public class BPELSwitch {
 				Import import_ = (Import)theEObject;
 				Object result = caseImport(import_);
 				if (result == null) result = caseExtensibleElement(import_);
-				if (result == null) result = caseWSDL_ExtensibleElement(import_);
+				if (result == null) result = caseExtensibleElement_1(import_);
 				if (result == null) result = caseWSDLElement(import_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -598,7 +598,7 @@ public class BPELSwitch {
 				Object result = caseRethrow(rethrow);
 				if (result == null) result = caseActivity(rethrow);
 				if (result == null) result = caseExtensibleElement(rethrow);
-				if (result == null) result = caseWSDL_ExtensibleElement(rethrow);
+				if (result == null) result = caseExtensibleElement_1(rethrow);
 				if (result == null) result = caseWSDLElement(rethrow);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -617,7 +617,7 @@ public class BPELSwitch {
 				Targets targets = (Targets)theEObject;
 				Object result = caseTargets(targets);
 				if (result == null) result = caseExtensibleElement(targets);
-				if (result == null) result = caseWSDL_ExtensibleElement(targets);
+				if (result == null) result = caseExtensibleElement_1(targets);
 				if (result == null) result = caseWSDLElement(targets);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -626,7 +626,7 @@ public class BPELSwitch {
 				Sources sources = (Sources)theEObject;
 				Object result = caseSources(sources);
 				if (result == null) result = caseExtensibleElement(sources);
-				if (result == null) result = caseWSDL_ExtensibleElement(sources);
+				if (result == null) result = caseExtensibleElement_1(sources);
 				if (result == null) result = caseWSDLElement(sources);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -641,7 +641,7 @@ public class BPELSwitch {
 			case BPELPackage.SERVICE_REF: {
 				ServiceRef serviceRef = (ServiceRef)theEObject;
 				Object result = caseServiceRef(serviceRef);
-				if (result == null) result = caseWSDL_ExtensibleElement(serviceRef);
+				if (result == null) result = caseExtensibleElement_1(serviceRef);
 				if (result == null) result = caseWSDLElement(serviceRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -650,7 +650,7 @@ public class BPELSwitch {
 				Extensions extensions = (Extensions)theEObject;
 				Object result = caseExtensions(extensions);
 				if (result == null) result = caseExtensibleElement(extensions);
-				if (result == null) result = caseWSDL_ExtensibleElement(extensions);
+				if (result == null) result = caseExtensibleElement_1(extensions);
 				if (result == null) result = caseWSDLElement(extensions);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -660,7 +660,7 @@ public class BPELSwitch {
 				Object result = caseExtensionActivity(extensionActivity);
 				if (result == null) result = caseActivity(extensionActivity);
 				if (result == null) result = caseExtensibleElement(extensionActivity);
-				if (result == null) result = caseWSDL_ExtensibleElement(extensionActivity);
+				if (result == null) result = caseExtensibleElement_1(extensionActivity);
 				if (result == null) result = caseWSDLElement(extensionActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -669,7 +669,7 @@ public class BPELSwitch {
 				FromPart fromPart = (FromPart)theEObject;
 				Object result = caseFromPart(fromPart);
 				if (result == null) result = caseExtensibleElement(fromPart);
-				if (result == null) result = caseWSDL_ExtensibleElement(fromPart);
+				if (result == null) result = caseExtensibleElement_1(fromPart);
 				if (result == null) result = caseWSDLElement(fromPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -678,7 +678,7 @@ public class BPELSwitch {
 				ToPart toPart = (ToPart)theEObject;
 				Object result = caseToPart(toPart);
 				if (result == null) result = caseExtensibleElement(toPart);
-				if (result == null) result = caseWSDL_ExtensibleElement(toPart);
+				if (result == null) result = caseExtensibleElement_1(toPart);
 				if (result == null) result = caseWSDLElement(toPart);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -688,7 +688,7 @@ public class BPELSwitch {
 				Object result = caseOpaqueActivity(opaqueActivity);
 				if (result == null) result = caseActivity(opaqueActivity);
 				if (result == null) result = caseExtensibleElement(opaqueActivity);
-				if (result == null) result = caseWSDL_ExtensibleElement(opaqueActivity);
+				if (result == null) result = caseExtensibleElement_1(opaqueActivity);
 				if (result == null) result = caseWSDLElement(opaqueActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -698,7 +698,7 @@ public class BPELSwitch {
 				Object result = caseForEach(forEach);
 				if (result == null) result = caseActivity(forEach);
 				if (result == null) result = caseExtensibleElement(forEach);
-				if (result == null) result = caseWSDL_ExtensibleElement(forEach);
+				if (result == null) result = caseExtensibleElement_1(forEach);
 				if (result == null) result = caseWSDLElement(forEach);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -708,7 +708,7 @@ public class BPELSwitch {
 				Object result = caseRepeatUntil(repeatUntil);
 				if (result == null) result = caseActivity(repeatUntil);
 				if (result == null) result = caseExtensibleElement(repeatUntil);
-				if (result == null) result = caseWSDL_ExtensibleElement(repeatUntil);
+				if (result == null) result = caseExtensibleElement_1(repeatUntil);
 				if (result == null) result = caseWSDLElement(repeatUntil);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -717,7 +717,7 @@ public class BPELSwitch {
 				TerminationHandler terminationHandler = (TerminationHandler)theEObject;
 				Object result = caseTerminationHandler(terminationHandler);
 				if (result == null) result = caseExtensibleElement(terminationHandler);
-				if (result == null) result = caseWSDL_ExtensibleElement(terminationHandler);
+				if (result == null) result = caseExtensibleElement_1(terminationHandler);
 				if (result == null) result = caseWSDLElement(terminationHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -727,7 +727,7 @@ public class BPELSwitch {
 				Object result = caseValidate(validate);
 				if (result == null) result = caseActivity(validate);
 				if (result == null) result = caseExtensibleElement(validate);
-				if (result == null) result = caseWSDL_ExtensibleElement(validate);
+				if (result == null) result = caseExtensibleElement_1(validate);
 				if (result == null) result = caseWSDLElement(validate);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -737,7 +737,7 @@ public class BPELSwitch {
 				Object result = caseIf(if_);
 				if (result == null) result = caseActivity(if_);
 				if (result == null) result = caseExtensibleElement(if_);
-				if (result == null) result = caseWSDL_ExtensibleElement(if_);
+				if (result == null) result = caseExtensibleElement_1(if_);
 				if (result == null) result = caseWSDLElement(if_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -746,7 +746,7 @@ public class BPELSwitch {
 				ElseIf elseIf = (ElseIf)theEObject;
 				Object result = caseElseIf(elseIf);
 				if (result == null) result = caseExtensibleElement(elseIf);
-				if (result == null) result = caseWSDL_ExtensibleElement(elseIf);
+				if (result == null) result = caseExtensibleElement_1(elseIf);
 				if (result == null) result = caseWSDLElement(elseIf);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -755,7 +755,7 @@ public class BPELSwitch {
 				Else else_ = (Else)theEObject;
 				Object result = caseElse(else_);
 				if (result == null) result = caseExtensibleElement(else_);
-				if (result == null) result = caseWSDL_ExtensibleElement(else_);
+				if (result == null) result = caseExtensibleElement_1(else_);
 				if (result == null) result = caseWSDLElement(else_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -764,7 +764,7 @@ public class BPELSwitch {
 				CompletionCondition completionCondition = (CompletionCondition)theEObject;
 				Object result = caseCompletionCondition(completionCondition);
 				if (result == null) result = caseExtensibleElement(completionCondition);
-				if (result == null) result = caseWSDL_ExtensibleElement(completionCondition);
+				if (result == null) result = caseExtensibleElement_1(completionCondition);
 				if (result == null) result = caseWSDLElement(completionCondition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -782,7 +782,7 @@ public class BPELSwitch {
 			case BPELPackage.EXTENSIBLE_ELEMENT: {
 				ExtensibleElement extensibleElement = (ExtensibleElement)theEObject;
 				Object result = caseExtensibleElement(extensibleElement);
-				if (result == null) result = caseWSDL_ExtensibleElement(extensibleElement);
+				if (result == null) result = caseExtensibleElement_1(extensibleElement);
 				if (result == null) result = caseWSDLElement(extensibleElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -797,7 +797,7 @@ public class BPELSwitch {
 				MessageExchanges messageExchanges = (MessageExchanges)theEObject;
 				Object result = caseMessageExchanges(messageExchanges);
 				if (result == null) result = caseExtensibleElement(messageExchanges);
-				if (result == null) result = caseWSDL_ExtensibleElement(messageExchanges);
+				if (result == null) result = caseExtensibleElement_1(messageExchanges);
 				if (result == null) result = caseWSDLElement(messageExchanges);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -806,18 +806,18 @@ public class BPELSwitch {
 				MessageExchange messageExchange = (MessageExchange)theEObject;
 				Object result = caseMessageExchange(messageExchange);
 				if (result == null) result = caseExtensibleElement(messageExchange);
-				if (result == null) result = caseWSDL_ExtensibleElement(messageExchange);
+				if (result == null) result = caseExtensibleElement_1(messageExchange);
 				if (result == null) result = caseWSDLElement(messageExchange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BPELPackage.COMPENSATE_SCOPE: {
-				CompensateScope compensateScope = (CompensateScope)theEObject;
-				Object result = caseCompensateScope(compensateScope);
-				if (result == null) result = caseActivity(compensateScope);
-				if (result == null) result = caseExtensibleElement(compensateScope);
-				if (result == null) result = caseWSDL_ExtensibleElement(compensateScope);
-				if (result == null) result = caseWSDLElement(compensateScope);
+			case BPELPackage.COMPENSATE: {
+				Compensate compensate = (Compensate)theEObject;
+				Object result = caseCompensate(compensate);
+				if (result == null) result = caseActivity(compensate);
+				if (result == null) result = caseExtensibleElement(compensate);
+				if (result == null) result = caseExtensibleElement_1(compensate);
+				if (result == null) result = caseWSDLElement(compensate);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -826,13 +826,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Process</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Process</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Process</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Process</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -841,13 +841,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Partner Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Partner Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Partner Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Partner Link</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -856,13 +856,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Fault Handler</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Fault Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Fault Handler</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Fault Handler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -871,13 +871,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Activity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Activity</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Activity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Activity</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -886,13 +886,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Correlation Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Correlation Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Correlation Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Correlation Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -901,13 +901,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Invoke</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Invoke</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Invoke</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Invoke</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -916,13 +916,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Link</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -931,13 +931,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Catch</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Catch</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Catch</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Catch</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -946,13 +946,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Reply</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Reply</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Reply</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Reply</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -961,13 +961,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Partner Activity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Partner Activity</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Partner Activity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Partner Activity</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -976,13 +976,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Receive</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Receive</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Receive</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Receive</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -991,13 +991,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Throw</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Throw</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Throw</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Throw</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1006,13 +1006,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Wait</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Wait</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Wait</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Wait</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1021,13 +1021,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Empty</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Empty</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Empty</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Empty</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1036,13 +1036,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Sequence</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sequence</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Sequence</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sequence</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1051,13 +1051,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>While</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>While</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>While</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>While</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1066,13 +1066,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Pick</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Pick</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Pick</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Pick</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1081,13 +1081,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Flow</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Flow</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Flow</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Flow</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1096,13 +1096,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>On Alarm</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>On Alarm</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>On Alarm</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>On Alarm</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1111,13 +1111,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Assign</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Assign</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Assign</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Assign</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1126,13 +1126,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Copy</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Copy</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Copy</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Copy</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1141,13 +1141,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1156,13 +1156,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Scope</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Scope</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Scope</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Scope</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1171,13 +1171,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Compensate</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Compensate</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Compensate</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Compensate</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1186,13 +1186,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Compensation Handler</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Compensation Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Compensation Handler</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Compensation Handler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1201,13 +1201,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>To</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>To</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>To</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>To</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1216,13 +1216,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>From</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>From</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>From</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>From</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1231,13 +1231,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>On Message</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>On Message</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>On Message</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>On Message</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1246,13 +1246,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Expression</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Expression</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Expression</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Expression</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1261,13 +1261,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Boolean Expression</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Boolean Expression</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Boolean Expression</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Boolean Expression</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1276,13 +1276,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Correlation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Correlation</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Correlation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Correlation</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1291,13 +1291,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Event Handler</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Event Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Event Handler</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Event Handler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1306,13 +1306,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Source</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Source</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Source</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Source</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1321,13 +1321,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Target</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Target</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Target</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Target</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1336,13 +1336,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Partner Links</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Partner Links</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Partner Links</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Partner Links</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1351,13 +1351,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Variables</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Variables</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Variables</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Variables</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1366,13 +1366,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Correlation Sets</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Correlation Sets</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Correlation Sets</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Correlation Sets</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1381,13 +1381,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Links</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Links</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Links</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Links</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1396,13 +1396,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Catch All</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Catch All</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Catch All</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Catch All</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1411,13 +1411,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Correlations</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Correlations</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Correlations</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Correlations</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1426,13 +1426,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Variable</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Variable</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Variable</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Variable</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1441,13 +1441,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Unknown Extensibility Attribute</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Unknown Extensibility Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Unknown Extensibility Attribute</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Unknown Extensibility Attribute</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1456,13 +1456,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>On Event</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>On Event</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>On Event</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>On Event</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1471,13 +1471,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Import</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Import</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Import</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Import</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1486,13 +1486,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Rethrow</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Rethrow</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Rethrow</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Rethrow</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1501,13 +1501,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Condition</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Condition</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Condition</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Condition</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1516,13 +1516,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Targets</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Targets</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Targets</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Targets</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1531,13 +1531,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Sources</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sources</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Sources</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sources</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1546,13 +1546,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Query</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Query</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Query</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Query</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1561,13 +1561,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Service Ref</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Service Ref</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Service Ref</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Service Ref</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1576,13 +1576,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Exit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Exit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Exit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Exit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1591,13 +1591,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extensions</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Extensions</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extensions</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Extensions</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1606,13 +1606,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extension Activity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Extension Activity</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extension Activity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Extension Activity</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1621,13 +1621,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>From Part</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>From Part</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>From Part</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>From Part</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1636,13 +1636,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>To Part</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>To Part</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>To Part</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>To Part</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1651,13 +1651,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Opaque Activity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Opaque Activity</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Opaque Activity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Opaque Activity</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1666,13 +1666,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>For Each</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>For Each</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>For Each</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>For Each</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1681,13 +1681,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Repeat Until</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Repeat Until</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Repeat Until</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Repeat Until</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1696,13 +1696,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Termination Handler</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Termination Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Termination Handler</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Termination Handler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1711,13 +1711,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>If</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>If</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>If</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>If</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1726,13 +1726,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Else If</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Else If</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Else If</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Else If</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1741,13 +1741,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Else</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Else</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Else</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Else</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1756,13 +1756,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Completion Condition</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Completion Condition</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Completion Condition</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Completion Condition</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1771,13 +1771,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Branches</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Branches</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Branches</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Branches</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1786,13 +1786,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1801,13 +1801,28 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extensible Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Extensible Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extensible Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Extensible Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseExtensibleElement_1(org.eclipse.wst.wsdl.ExtensibleElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Extensible Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Extensible Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1816,13 +1831,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Validate</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Validate</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Validate</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Validate</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1831,13 +1846,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Documentation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Documentation</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Documentation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Documentation</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1846,13 +1861,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Message Exchanges</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Message Exchanges</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Message Exchanges</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Message Exchanges</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1861,13 +1876,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Message Exchange</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Message Exchange</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Message Exchange</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Message Exchange</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1876,13 +1891,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Compensate Scope</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Compensate Scope</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Compensate Scope</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Compensate Scope</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1891,13 +1906,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>IExtensibility Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IExtensibility Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>IExtensibility Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IExtensibility Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1906,13 +1921,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extensibility Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Extensibility Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extensibility Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Extensibility Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1921,13 +1936,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Unknown Extensibility Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Unknown Extensibility Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Unknown Extensibility Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Unknown Extensibility Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1936,28 +1951,13 @@ public class BPELSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Extensible Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Extensible Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseWSDL_ExtensibleElement(org.eclipse.wst.wsdl.ExtensibleElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

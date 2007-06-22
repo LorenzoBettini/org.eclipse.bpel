@@ -4,7 +4,8 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.bpel.model/src"
     editDirectory="/org.eclipse.bpel.model.edit/src" editorDirectory="/org.eclipse.bpel.model.editor/src"
     modelPluginID="org.eclipse.bpel.model" modelName="Bpel" modelPluginClass="" importerID="org.eclipse.emf.importer.ecore"
-    usedGenPackages="../../../../plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore messageproperties.genmodel#//messageproperties partnerlinktype.genmodel#//partnerlinktype ../../../org.eclipse.wst.wsdl/src-wsdl/model/wsdl.genmodel#//wsdl ../../../org.eclipse.xsd/src-xsd/model/XSD.genmodel#//xsd">
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.genmodel#//wsdl platform:/plugin/org.eclipse.xsd/model/XSD.genmodel#//xsd">
+  <foreignModel>bpel.ecore</foreignModel>
   <genPackages prefix="BPEL" basePackage="org.eclipse.bpel" disposableProviderFactory="true"
       ecorePackage="bpel.ecore#/">
     <genEnums ecoreEnum="bpel.ecore#//CorrelationPattern">
@@ -151,8 +152,8 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//Scope/messageExchanges"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//Scope/exitOnStandardFault"/>
     </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//Compensate">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//Compensate/scope"/>
+    <genClasses ecoreClass="bpel.ecore#//CompensateScope">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//CompensateScope/target"/>
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//CompensationHandler">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//CompensationHandler/activity"/>
@@ -328,6 +329,43 @@
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//MessageExchange">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//MessageExchange/name"/>
+    </genClasses>
+    <genClasses ecoreClass="bpel.ecore#//Compensate"/>
+  </genPackages>
+  <genPackages prefix="Partnerlinktype" basePackage="org.eclipse.bpel.model" disposableProviderFactory="true"
+      ecorePackage="partnerlinktype.ecore#/">
+    <genClasses ecoreClass="partnerlinktype.ecore#//PartnerLinkType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//PartnerLinkType/name"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//PartnerLinkType/ID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference partnerlinktype.ecore#//PartnerLinkType/role"/>
+    </genClasses>
+    <genClasses ecoreClass="partnerlinktype.ecore#//Role">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//Role/ID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//Role/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute partnerlinktype.ecore#//Role/portType"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Messageproperties" basePackage="org.eclipse.bpel.model" disposableProviderFactory="true"
+      ecorePackage="messageproperties.ecore#/">
+    <genClasses ecoreClass="messageproperties.ecore#//Property">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//Property/qName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//Property/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//Property/type"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//Property/ID"/>
+    </genClasses>
+    <genClasses ecoreClass="messageproperties.ecore#//PropertyAlias">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//PropertyAlias/messageType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//PropertyAlias/part"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//PropertyAlias/propertyName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//PropertyAlias/ID"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference messageproperties.ecore#//PropertyAlias/wsdlPart"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference messageproperties.ecore#//PropertyAlias/query"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//PropertyAlias/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//PropertyAlias/XSDElement"/>
+    </genClasses>
+    <genClasses ecoreClass="messageproperties.ecore#//Query">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//Query/queryLanguage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute messageproperties.ecore#//Query/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

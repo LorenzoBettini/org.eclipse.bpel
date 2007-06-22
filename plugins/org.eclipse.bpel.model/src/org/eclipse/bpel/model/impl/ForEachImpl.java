@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.6 2007/02/09 09:13:42 smoser Exp $
+ * $Id: ForEachImpl.java,v 1.7 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,7 +53,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression startCounterValue = null;
+	protected Expression startCounterValue;
 
 	/**
 	 * The cached value of the '{@link #getFinalCounterValue() <em>Final Counter Value</em>}' containment reference.
@@ -63,7 +63,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @generated
 	 * @ordered
 	 */
-	protected Expression finalCounterValue = null;
+	protected Expression finalCounterValue;
 
 	/**
 	 * The default value of the '{@link #getParallel() <em>Parallel</em>}' attribute.
@@ -93,7 +93,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable counterName = null;
+	protected Variable counterName;
 
 	/**
 	 * The cached value of the '{@link #getCompletionCondition() <em>Completion Condition</em>}' containment reference.
@@ -103,7 +103,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @generated
 	 * @ordered
 	 */
-	protected CompletionCondition completionCondition = null;
+	protected CompletionCondition completionCondition;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -113,7 +113,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -130,7 +130,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getForEach();
+		return BPELPackage.Literals.FOR_EACH;
 	}
 
 	/**
@@ -374,32 +374,20 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.FOR_EACH__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FOR_EACH__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.FOR_EACH__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.FOR_EACH__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-					return basicSetStartCounterValue(null, msgs);
-				case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-					return basicSetFinalCounterValue(null, msgs);
-				case BPELPackage.FOR_EACH__COUNTER_NAME:
-					return basicSetCounterName(null, msgs);
-				case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-					return basicSetCompletionCondition(null, msgs);
-				case BPELPackage.FOR_EACH__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+				return basicSetStartCounterValue(null, msgs);
+			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+				return basicSetFinalCounterValue(null, msgs);
+			case BPELPackage.FOR_EACH__COUNTER_NAME:
+				return basicSetCounterName(null, msgs);
+			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+				return basicSetCompletionCondition(null, msgs);
+			case BPELPackage.FOR_EACH__ACTIVITY:
+				return basicSetActivity(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -407,24 +395,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FOR_EACH__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.FOR_EACH__ELEMENT:
-				return getElement();
-			case BPELPackage.FOR_EACH__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.FOR_EACH__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.FOR_EACH__NAME:
-				return getName();
-			case BPELPackage.FOR_EACH__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.FOR_EACH__TARGETS:
-				return getTargets();
-			case BPELPackage.FOR_EACH__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
 				return getStartCounterValue();
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
@@ -438,7 +410,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__ACTIVITY:
 				return getActivity();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -446,33 +418,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FOR_EACH__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.FOR_EACH__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.FOR_EACH__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.FOR_EACH__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.FOR_EACH__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.FOR_EACH__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.FOR_EACH__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.FOR_EACH__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
 				setStartCounterValue((Expression)newValue);
 				return;
@@ -492,7 +439,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				setActivity((Activity)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -500,32 +447,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FOR_EACH__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FOR_EACH__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FOR_EACH__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.FOR_EACH__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.FOR_EACH__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.FOR_EACH__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.FOR_EACH__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.FOR_EACH__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
 				setStartCounterValue((Expression)null);
 				return;
@@ -545,7 +468,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 				setActivity((Activity)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -553,24 +476,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FOR_EACH__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.FOR_EACH__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.FOR_EACH__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.FOR_EACH__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.FOR_EACH__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.FOR_EACH__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.FOR_EACH__TARGETS:
-				return targets != null;
-			case BPELPackage.FOR_EACH__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
 				return startCounterValue != null;
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
@@ -584,7 +491,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__ACTIVITY:
 				return activity != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

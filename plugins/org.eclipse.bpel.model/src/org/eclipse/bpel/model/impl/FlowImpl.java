@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: FlowImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -59,7 +59,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList activities = null;
+	protected EList activities;
 
 	/**
 	 * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference.
@@ -69,7 +69,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * @generated
 	 * @ordered
 	 */
-	protected Links links = null;
+	protected Links links;
 
 	/**
 	 * The cached value of the '{@link #getCompletionCondition() <em>Completion Condition</em>}' containment reference.
@@ -79,7 +79,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * @generated
 	 * @ordered
 	 */
-	protected CompletionCondition completionCondition = null;
+	protected CompletionCondition completionCondition;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -96,7 +96,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getFlow();
+		return BPELPackage.Literals.FLOW;
 	}
 
 	/**
@@ -202,28 +202,16 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FLOW__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.FLOW__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.FLOW__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.FLOW__ACTIVITIES:
-					return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
-				case BPELPackage.FLOW__LINKS:
-					return basicSetLinks(null, msgs);
-				case BPELPackage.FLOW__COMPLETION_CONDITION:
-					return basicSetCompletionCondition(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.FLOW__ACTIVITIES:
+				return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
+			case BPELPackage.FLOW__LINKS:
+				return basicSetLinks(null, msgs);
+			case BPELPackage.FLOW__COMPLETION_CONDITION:
+				return basicSetCompletionCondition(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -231,24 +219,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FLOW__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.FLOW__ELEMENT:
-				return getElement();
-			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.FLOW__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.FLOW__NAME:
-				return getName();
-			case BPELPackage.FLOW__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.FLOW__TARGETS:
-				return getTargets();
-			case BPELPackage.FLOW__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
 				return getActivities();
 			case BPELPackage.FLOW__LINKS:
@@ -256,7 +228,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			case BPELPackage.FLOW__COMPLETION_CONDITION:
 				return getCompletionCondition();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -264,33 +236,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FLOW__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.FLOW__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.FLOW__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.FLOW__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.FLOW__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.FLOW__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.FLOW__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
 				getActivities().clear();
 				getActivities().addAll((Collection)newValue);
@@ -302,7 +249,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 				setCompletionCondition((CompletionCondition)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -310,32 +257,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FLOW__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FLOW__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.FLOW__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.FLOW__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.FLOW__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.FLOW__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.FLOW__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
 				getActivities().clear();
 				return;
@@ -346,7 +269,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 				setCompletionCondition((CompletionCondition)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -354,24 +277,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.FLOW__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.FLOW__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.FLOW__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.FLOW__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.FLOW__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.FLOW__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.FLOW__TARGETS:
-				return targets != null;
-			case BPELPackage.FLOW__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
 				return activities != null && !activities.isEmpty();
 			case BPELPackage.FLOW__LINKS:
@@ -379,7 +286,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			case BPELPackage.FLOW__COMPLETION_CONDITION:
 				return completionCondition != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 } //FlowImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.8 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: ProcessImpl.java,v 1.9 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -136,7 +136,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean queryLanguageESet = false;
+	protected boolean queryLanguageESet;
 
 	/**
 	 * The default value of the '{@link #getExpressionLanguage() <em>Expression Language</em>}' attribute.
@@ -165,7 +165,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean expressionLanguageESet = false;
+	protected boolean expressionLanguageESet;
 
 	/**
 	 * The default value of the '{@link #getSuppressJoinFailure() <em>Suppress Join Failure</em>}' attribute.
@@ -194,7 +194,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean suppressJoinFailureESet = false;
+	protected boolean suppressJoinFailureESet;
 
 	/**
 	 * The default value of the '{@link #getVariableAccessSerializable() <em>Variable Access Serializable</em>}' attribute.
@@ -223,7 +223,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean variableAccessSerializableESet = false;
+	protected boolean variableAccessSerializableESet;
 
 	/**
 	 * The cached value of the '{@link #getPartnerLinks() <em>Partner Links</em>}' containment reference.
@@ -233,7 +233,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected PartnerLinks partnerLinks = null;
+	protected PartnerLinks partnerLinks;
 
 	/**
 	 * The cached value of the '{@link #getVariables() <em>Variables</em>}' containment reference.
@@ -243,7 +243,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected Variables variables = null;
+	protected Variables variables;
 
 	/**
 	 * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference.
@@ -253,7 +253,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected Activity activity = null;
+	protected Activity activity;
 
 	/**
 	 * The cached value of the '{@link #getFaultHandlers() <em>Fault Handlers</em>}' containment reference.
@@ -263,7 +263,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected FaultHandler faultHandlers = null;
+	protected FaultHandler faultHandlers;
 
 	/**
 	 * The cached value of the '{@link #getEventHandlers() <em>Event Handlers</em>}' containment reference.
@@ -273,7 +273,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected EventHandler eventHandlers = null;
+	protected EventHandler eventHandlers;
 
 	/**
 	 * The cached value of the '{@link #getCorrelationSets() <em>Correlation Sets</em>}' containment reference.
@@ -283,7 +283,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected CorrelationSets correlationSets = null;
+	protected CorrelationSets correlationSets;
 
 	/**
 	 * The cached value of the '{@link #getImports() <em>Imports</em>}' containment reference list.
@@ -293,7 +293,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected EList imports = null;
+	protected EList imports;
 
 	/**
 	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference.
@@ -303,7 +303,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected Extensions extensions = null;
+	protected Extensions extensions;
 
 	/**
 	 * The default value of the '{@link #getExitOnStandardFault() <em>Exit On Standard Fault</em>}' attribute.
@@ -333,7 +333,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected MessageExchanges messageExchanges = null;
+	protected MessageExchanges messageExchanges;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -350,7 +350,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getProcess();
+		return BPELPackage.Literals.PROCESS;
 	}
 
 	/**
@@ -822,8 +822,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 */
 	public MessageExchanges getMessageExchanges() {
 		if (messageExchanges != null && messageExchanges.eIsProxy()) {
-			MessageExchanges oldMessageExchanges = messageExchanges;
-			messageExchanges = (MessageExchanges)eResolveProxy((InternalEObject)messageExchanges);
+			InternalEObject oldMessageExchanges = (InternalEObject)messageExchanges;
+			messageExchanges = (MessageExchanges)eResolveProxy(oldMessageExchanges);
 			if (messageExchanges != oldMessageExchanges) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PROCESS__MESSAGE_EXCHANGES, oldMessageExchanges, messageExchanges));
@@ -858,34 +858,26 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.PROCESS__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.PROCESS__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.PROCESS__PARTNER_LINKS:
-					return basicSetPartnerLinks(null, msgs);
-				case BPELPackage.PROCESS__VARIABLES:
-					return basicSetVariables(null, msgs);
-				case BPELPackage.PROCESS__ACTIVITY:
-					return basicSetActivity(null, msgs);
-				case BPELPackage.PROCESS__FAULT_HANDLERS:
-					return basicSetFaultHandlers(null, msgs);
-				case BPELPackage.PROCESS__EVENT_HANDLERS:
-					return basicSetEventHandlers(null, msgs);
-				case BPELPackage.PROCESS__CORRELATION_SETS:
-					return basicSetCorrelationSets(null, msgs);
-				case BPELPackage.PROCESS__IMPORTS:
-					return ((InternalEList)getImports()).basicRemove(otherEnd, msgs);
-				case BPELPackage.PROCESS__EXTENSIONS:
-					return basicSetExtensions(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.PROCESS__PARTNER_LINKS:
+				return basicSetPartnerLinks(null, msgs);
+			case BPELPackage.PROCESS__VARIABLES:
+				return basicSetVariables(null, msgs);
+			case BPELPackage.PROCESS__ACTIVITY:
+				return basicSetActivity(null, msgs);
+			case BPELPackage.PROCESS__FAULT_HANDLERS:
+				return basicSetFaultHandlers(null, msgs);
+			case BPELPackage.PROCESS__EVENT_HANDLERS:
+				return basicSetEventHandlers(null, msgs);
+			case BPELPackage.PROCESS__CORRELATION_SETS:
+				return basicSetCorrelationSets(null, msgs);
+			case BPELPackage.PROCESS__IMPORTS:
+				return ((InternalEList)getImports()).basicRemove(otherEnd, msgs);
+			case BPELPackage.PROCESS__EXTENSIONS:
+				return basicSetExtensions(null, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -893,16 +885,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PROCESS__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.PROCESS__ELEMENT:
-				return getElement();
-			case BPELPackage.PROCESS__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.PROCESS__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
 				return getName();
 			case BPELPackage.PROCESS__TARGET_NAMESPACE:
@@ -937,7 +921,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				if (resolve) return getMessageExchanges();
 				return basicGetMessageExchanges();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -945,21 +929,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PROCESS__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.PROCESS__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.PROCESS__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.PROCESS__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
 				setName((String)newValue);
 				return;
@@ -1010,7 +981,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				setMessageExchanges((MessageExchanges)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -1018,20 +989,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PROCESS__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.PROCESS__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.PROCESS__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.PROCESS__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -1081,7 +1040,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				setMessageExchanges((MessageExchanges)null);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -1089,16 +1048,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PROCESS__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.PROCESS__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.PROCESS__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.PROCESS__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BPELPackage.PROCESS__TARGET_NAMESPACE:
@@ -1132,7 +1083,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
 				return messageExchanges != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

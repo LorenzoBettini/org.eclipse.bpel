@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PickImpl.java,v 1.2 2006/01/19 21:08:48 james Exp $
+ * $Id: PickImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -77,7 +77,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean createInstanceESet = false;
+	protected boolean createInstanceESet;
 
 	/**
 	 * The cached value of the '{@link #getMessages() <em>Messages</em>}' containment reference list.
@@ -87,7 +87,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList messages = null;
+	protected EList messages;
 
 	/**
 	 * The cached value of the '{@link #getAlarm() <em>Alarm</em>}' containment reference list.
@@ -97,7 +97,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList alarm = null;
+	protected EList alarm;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -114,7 +114,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getPick();
+		return BPELPackage.Literals.PICK;
 	}
 
 	/**
@@ -192,26 +192,14 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.PICK__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				case BPELPackage.PICK__TARGETS:
-					return basicSetTargets(null, msgs);
-				case BPELPackage.PICK__SOURCES:
-					return basicSetSources(null, msgs);
-				case BPELPackage.PICK__MESSAGES:
-					return ((InternalEList)getMessages()).basicRemove(otherEnd, msgs);
-				case BPELPackage.PICK__ALARM:
-					return ((InternalEList)getAlarm()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case BPELPackage.PICK__MESSAGES:
+				return ((InternalEList)getMessages()).basicRemove(otherEnd, msgs);
+			case BPELPackage.PICK__ALARM:
+				return ((InternalEList)getAlarm()).basicRemove(otherEnd, msgs);
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -219,24 +207,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PICK__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.PICK__ELEMENT:
-				return getElement();
-			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.PICK__DOCUMENTATION:
-				return getDocumentation();
-			case BPELPackage.PICK__NAME:
-				return getName();
-			case BPELPackage.PICK__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.PICK__TARGETS:
-				return getTargets();
-			case BPELPackage.PICK__SOURCES:
-				return getSources();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
 				return getCreateInstance();
 			case BPELPackage.PICK__MESSAGES:
@@ -244,7 +216,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 			case BPELPackage.PICK__ALARM:
 				return getAlarm();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -252,33 +224,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PICK__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.PICK__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.PICK__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
-			case BPELPackage.PICK__NAME:
-				setName((String)newValue);
-				return;
-			case BPELPackage.PICK__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
-				return;
-			case BPELPackage.PICK__TARGETS:
-				setTargets((Targets)newValue);
-				return;
-			case BPELPackage.PICK__SOURCES:
-				setSources((Sources)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
 				setCreateInstance((Boolean)newValue);
 				return;
@@ -291,7 +238,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 				getAlarm().addAll((Collection)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -299,32 +246,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PICK__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.PICK__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.PICK__DOCUMENTATION:
-				unsetDocumentation();
-				return;
-			case BPELPackage.PICK__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.PICK__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.PICK__TARGETS:
-				setTargets((Targets)null);
-				return;
-			case BPELPackage.PICK__SOURCES:
-				setSources((Sources)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
 				unsetCreateInstance();
 				return;
@@ -335,7 +258,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 				getAlarm().clear();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -343,24 +266,8 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.PICK__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.PICK__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.PICK__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.PICK__DOCUMENTATION:
-				return isSetDocumentation();
-			case BPELPackage.PICK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BPELPackage.PICK__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.PICK__TARGETS:
-				return targets != null;
-			case BPELPackage.PICK__SOURCES:
-				return sources != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
 				return isSetCreateInstance();
 			case BPELPackage.PICK__MESSAGES:
@@ -368,7 +275,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 			case BPELPackage.PICK__ALARM:
 				return alarm != null && !alarm.isEmpty();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

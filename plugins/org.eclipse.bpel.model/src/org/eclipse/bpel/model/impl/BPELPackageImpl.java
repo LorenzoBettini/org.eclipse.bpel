@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.30 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: BPELPackageImpl.java,v 1.31 2007/06/22 21:56:20 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -672,17 +672,23 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackageImpl.init();
-		MessagepropertiesPackageImpl.init();
-		PartnerlinktypePackageImpl.init();
-		WSDLPackageImpl.init();
-		XSDPackageImpl.init();
+		EcorePackage.eINSTANCE.eClass();
+		WSDLPackage.eINSTANCE.eClass();
+		XSDPackage.eINSTANCE.eClass();
+
+		// Obtain or create and register interdependencies
+		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI) instanceof PartnerlinktypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI) : PartnerlinktypePackage.eINSTANCE);
+		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI) instanceof MessagepropertiesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI) : MessagepropertiesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBPELPackage.createPackageContents();
+		thePartnerlinktypePackage.createPackageContents();
+		theMessagepropertiesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBPELPackage.initializePackageContents();
+		thePartnerlinktypePackage.initializePackageContents();
+		theMessagepropertiesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBPELPackage.freeze();
@@ -3206,7 +3212,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(scopeEClass, SCOPE__MESSAGE_EXCHANGES);
 		createEAttribute(scopeEClass, SCOPE__EXIT_ON_STANDARD_FAULT);
 
-		compensateEClass = createEClass(COMPENSATE);
+		compensateScopeEClass = createEClass(COMPENSATE_SCOPE);
+		createEReference(compensateScopeEClass, COMPENSATE_SCOPE__TARGET);
 
 		compensationHandlerEClass = createEClass(COMPENSATION_HANDLER);
 		createEReference(compensationHandlerEClass, COMPENSATION_HANDLER__ACTIVITY);
@@ -3394,8 +3401,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		messageExchangeEClass = createEClass(MESSAGE_EXCHANGE);
 		createEAttribute(messageExchangeEClass, MESSAGE_EXCHANGE__NAME);
 
-		compensateScopeEClass = createEClass(COMPENSATE_SCOPE);
-		createEReference(compensateScopeEClass, COMPENSATE_SCOPE__TARGET);
+		compensateEClass = createEClass(COMPENSATE);
 
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
@@ -3426,11 +3432,11 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
-		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI);
-		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI);
-		WSDLPackageImpl theWSDLPackage = (WSDLPackageImpl)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
-		XSDPackageImpl theXSDPackage = (XSDPackageImpl)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		PartnerlinktypePackage thePartnerlinktypePackage = (PartnerlinktypePackage)EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI);
+		MessagepropertiesPackage theMessagepropertiesPackage = (MessagepropertiesPackage)EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI);
+		WSDLPackage theWSDLPackage = (WSDLPackage)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
+		XSDPackage theXSDPackage = (XSDPackage)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
 
 		// Add supertypes to classes
 		processEClass.getESuperTypes().add(this.getExtensibleElement());
@@ -3458,7 +3464,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		copyEClass.getESuperTypes().add(this.getExtensibleElement());
 		extensionEClass.getESuperTypes().add(this.getExtensibleElement());
 		scopeEClass.getESuperTypes().add(this.getActivity());
-		compensateEClass.getESuperTypes().add(this.getActivity());
+		compensateScopeEClass.getESuperTypes().add(this.getActivity());
 		compensationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
 		toEClass.getESuperTypes().add(this.getExtensibleElement());
 		fromEClass.getESuperTypes().add(this.getExtensibleElement());
@@ -3502,7 +3508,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensibleElementEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
 		messageExchangesEClass.getESuperTypes().add(this.getExtensibleElement());
 		messageExchangeEClass.getESuperTypes().add(this.getExtensibleElement());
-		compensateScopeEClass.getESuperTypes().add(this.getActivity());
+		compensateEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3642,7 +3648,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getScope_MessageExchanges(), this.getMessageExchanges(), null, "messageExchanges", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScope_ExitOnStandardFault(), ecorePackage.getEBooleanObject(), "exitOnStandardFault", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(compensateEClass, Compensate.class, "Compensate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(compensateScopeEClass, CompensateScope.class, "CompensateScope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCompensateScope_Target(), this.getActivity(), null, "target", null, 0, 1, CompensateScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compensationHandlerEClass, CompensationHandler.class, "CompensationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompensationHandler_Activity(), this.getActivity(), null, "activity", null, 1, 1, CompensationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3738,7 +3745,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getOnEvent_PortType(), theWSDLPackage.getPortType(), null, "portType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOnEvent_MessageType(), theWSDLPackage.getMessage(), null, "messageType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOnEvent_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", "", 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOnEvent_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getImport_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3811,7 +3818,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getElse_Activity(), this.getActivity(), null, "activity", null, 1, 1, Else.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(completionConditionEClass, CompletionCondition.class, "CompletionCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompletionCondition_Branches(), this.getBranches(), null, "branches", "", 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompletionCondition_Branches(), this.getBranches(), null, "branches", null, 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(branchesEClass, Branches.class, "Branches", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBranches_CountCompletedBranchesOnly(), theEcorePackage.getEBooleanObject(), "countCompletedBranchesOnly", "false", 0, 1, Branches.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3830,8 +3837,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEClass(messageExchangeEClass, MessageExchange.class, "MessageExchange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMessageExchange_Name(), ecorePackage.getEString(), "name", null, 1, 1, MessageExchange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(compensateScopeEClass, CompensateScope.class, "CompensateScope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompensateScope_Target(), this.getActivity(), null, "target", null, 0, 1, CompensateScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(compensateEClass, Compensate.class, "Compensate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");

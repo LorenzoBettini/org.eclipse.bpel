@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EndpointReferenceRole.java,v 1.2 2006/12/13 16:17:31 smoser Exp $
+ * $Id: EndpointReferenceRole.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -68,7 +68,7 @@ public final class EndpointReferenceRole extends AbstractEnumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final EndpointReferenceRole MY_ROLE_LITERAL = new EndpointReferenceRole(MY_ROLE, "myRole");
+	public static final EndpointReferenceRole MY_ROLE_LITERAL = new EndpointReferenceRole(MY_ROLE, "myRole", "myRole");
 
 	/**
 	 * The '<em><b>Partner Role</b></em>' literal object.
@@ -78,7 +78,7 @@ public final class EndpointReferenceRole extends AbstractEnumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final EndpointReferenceRole PARTNER_ROLE_LITERAL = new EndpointReferenceRole(PARTNER_ROLE, "partnerRole");
+	public static final EndpointReferenceRole PARTNER_ROLE_LITERAL = new EndpointReferenceRole(PARTNER_ROLE, "partnerRole", "partnerRole");
 
 	/**
 	 * An array of all the '<em><b>Endpoint Reference Role</b></em>' enumerators.
@@ -101,15 +101,15 @@ public final class EndpointReferenceRole extends AbstractEnumerator {
 	public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Endpoint Reference Role</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Endpoint Reference Role</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static EndpointReferenceRole get(String name) {
+	public static EndpointReferenceRole get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			EndpointReferenceRole result = VALUES_ARRAY[i];
-			if (result.toString().equals(name)) {
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -117,7 +117,23 @@ public final class EndpointReferenceRole extends AbstractEnumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Endpoint Reference Role</b></em>' literal with the specified value.
+	 * Returns the '<em><b>Endpoint Reference Role</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static EndpointReferenceRole getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			EndpointReferenceRole result = VALUES_ARRAY[i];
+			if (result.getName().equals(name)) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Endpoint Reference Role</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -127,7 +143,7 @@ public final class EndpointReferenceRole extends AbstractEnumerator {
 			case MY_ROLE: return MY_ROLE_LITERAL;
 			case PARTNER_ROLE: return PARTNER_ROLE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**
@@ -136,8 +152,8 @@ public final class EndpointReferenceRole extends AbstractEnumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EndpointReferenceRole(int value, String name) {
-		super(value, name);
+	private EndpointReferenceRole(int value, String name, String literal) {
+		super(value, name, literal);
 	}
 
 } //EndpointReferenceRole

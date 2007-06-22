@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: ExpressionImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -88,7 +88,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean expressionLanguageESet = false;
+	protected boolean expressionLanguageESet;
 
 	/**
 	 * The default value of the '{@link #getOpaque() <em>Opaque</em>}' attribute.
@@ -117,7 +117,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean opaqueESet = false;
+	protected boolean opaqueESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -134,7 +134,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getExpression();
+		return BPELPackage.Literals.EXPRESSION;
 	}
 
 	/**
@@ -255,16 +255,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXPRESSION__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.EXPRESSION__ELEMENT:
-				return getElement();
-			case BPELPackage.EXPRESSION__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-			case BPELPackage.EXPRESSION__ELEMENT_TYPE:
-				return getElementType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
 				return getBody();
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
@@ -272,7 +264,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 			case BPELPackage.EXPRESSION__OPAQUE:
 				return getOpaque();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -280,22 +272,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXPRESSION__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.EXPRESSION__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.EXPRESSION__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
-				return;
-			case BPELPackage.EXPRESSION__ELEMENT_TYPE:
-				setElementType((QName)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
-				setBody((Object)newValue);
+				setBody(newValue);
 				return;
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
 				setExpressionLanguage((String)newValue);
@@ -304,7 +284,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 				setOpaque((Boolean)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -312,20 +292,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXPRESSION__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EXPRESSION__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EXPRESSION__REQUIRED:
-				setRequired(REQUIRED_EDEFAULT);
-				return;
-			case BPELPackage.EXPRESSION__ELEMENT_TYPE:
-				setElementType(ELEMENT_TYPE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
 				setBody(BODY_EDEFAULT);
 				return;
@@ -336,7 +304,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 				unsetOpaque();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -344,16 +312,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXPRESSION__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.EXPRESSION__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.EXPRESSION__REQUIRED:
-				return required != REQUIRED_EDEFAULT;
-			case BPELPackage.EXPRESSION__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
 				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
@@ -361,7 +321,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 			case BPELPackage.EXPRESSION__OPAQUE:
 				return isSetOpaque();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

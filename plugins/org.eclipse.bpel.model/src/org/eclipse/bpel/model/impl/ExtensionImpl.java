@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExtensionImpl.java,v 1.5 2007/02/09 09:13:42 smoser Exp $
+ * $Id: ExtensionImpl.java,v 1.6 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -90,7 +90,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean mustUnderstandESet = false;
+	protected boolean mustUnderstandESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -107,7 +107,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return BPELPackage.eINSTANCE.getExtension();
+		return BPELPackage.Literals.EXTENSION;
 	}
 
 	/**
@@ -182,41 +182,14 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
-					return ((InternalEList)getEExtensibilityElements()).basicRemove(otherEnd, msgs);
-				case BPELPackage.EXTENSION__DOCUMENTATION:
-					return basicUnsetDocumentation(msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSION__DOCUMENTATION_ELEMENT:
-				return getDocumentationElement();
-			case BPELPackage.EXTENSION__ELEMENT:
-				return getElement();
-			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
-				return getEExtensibilityElements();
-			case BPELPackage.EXTENSION__DOCUMENTATION:
-				return getDocumentation();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
 				return getNamespace();
 			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
 				return getMustUnderstand();
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -224,21 +197,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSION__DOCUMENTATION_ELEMENT:
-				setDocumentationElement((Element)newValue);
-				return;
-			case BPELPackage.EXTENSION__ELEMENT:
-				setElement((Element)newValue);
-				return;
-			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				getEExtensibilityElements().addAll((Collection)newValue);
-				return;
-			case BPELPackage.EXTENSION__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
 				setNamespace((String)newValue);
 				return;
@@ -246,7 +206,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 				setMustUnderstand((Boolean)newValue);
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -254,20 +214,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSION__DOCUMENTATION_ELEMENT:
-				setDocumentationElement(DOCUMENTATION_ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EXTENSION__ELEMENT:
-				setElement(ELEMENT_EDEFAULT);
-				return;
-			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
-				getEExtensibilityElements().clear();
-				return;
-			case BPELPackage.EXTENSION__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
 				setNamespace(NAMESPACE_EDEFAULT);
 				return;
@@ -275,7 +223,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 				unsetMustUnderstand();
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -283,22 +231,14 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case BPELPackage.EXTENSION__DOCUMENTATION_ELEMENT:
-				return DOCUMENTATION_ELEMENT_EDEFAULT == null ? documentationElement != null : !DOCUMENTATION_ELEMENT_EDEFAULT.equals(documentationElement);
-			case BPELPackage.EXTENSION__ELEMENT:
-				return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-			case BPELPackage.EXTENSION__EEXTENSIBILITY_ELEMENTS:
-				return eExtensibilityElements != null && !eExtensibilityElements.isEmpty();
-			case BPELPackage.EXTENSION__DOCUMENTATION:
-				return isSetDocumentation();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
 				return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
 			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
 				return isSetMustUnderstand();
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkType.java,v 1.1 2005/11/29 18:50:28 james Exp $
+ * $Id: PartnerLinkType.java,v 1.2 2007/06/22 21:56:21 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -48,7 +48,7 @@ public interface PartnerLinkType extends ExtensibilityElement{
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage#getPartnerLinkType_Name()
-	 * @model id="true"
+	 * @model
 	 * @generated
 	 */
 	String getName();
