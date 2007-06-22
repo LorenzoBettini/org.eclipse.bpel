@@ -46,7 +46,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * @generated
 	 * @ordered
 	 */
-	protected FeatureMap groups = null;
+	protected FeatureMap groups;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -84,7 +84,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * @generated
 	 */
 	public EList getServices() {
-		return ((FeatureMap)getGroups()).list(InspectionPackage.Literals.INSPECTION__SERVICES);
+		return getGroups().list(InspectionPackage.Literals.INSPECTION__SERVICES);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * @generated
 	 */
 	public EList getLinks() {
-		return ((FeatureMap)getGroups()).list(InspectionPackage.Literals.INSPECTION__LINKS);
+		return getGroups().list(InspectionPackage.Literals.INSPECTION__LINKS);
 	}
 
 	/**

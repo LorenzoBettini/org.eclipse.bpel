@@ -59,7 +59,6 @@ public class InspectionFactoryImpl extends EFactoryImpl implements InspectionFac
 	 */
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case InspectionPackage.TYPE_OF_ABSTRACT: return createTypeOfAbstract();
 			case InspectionPackage.DESCRIPTION: return createDescription();
 			case InspectionPackage.WSIL_DOCUMENT: return createWSILDocument();
 			case InspectionPackage.INSPECTION: return createInspection();
@@ -67,6 +66,7 @@ public class InspectionFactoryImpl extends EFactoryImpl implements InspectionFac
 			case InspectionPackage.NAME: return createName();
 			case InspectionPackage.REFERENCE: return createReference();
 			case InspectionPackage.SERVICE: return createService();
+			case InspectionPackage.TYPE_OF_ABSTRACT: return createTypeOfAbstract();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

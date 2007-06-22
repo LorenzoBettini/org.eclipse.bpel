@@ -150,7 +150,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getItemWithAbstracts()
 	 * @generated
 	 */
-	int ITEM_WITH_ABSTRACTS = 0;
+	int ITEM_WITH_ABSTRACTS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' containment reference list.
@@ -178,34 +178,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getTypeOfAbstract()
 	 * @generated
 	 */
-	int TYPE_OF_ABSTRACT = 1;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE_OF_ABSTRACT__VALUE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Lang</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE_OF_ABSTRACT__LANG = 1;
-
-	/**
-	 * The number of structural features of the '<em>Type Of Abstract</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE_OF_ABSTRACT_FEATURE_COUNT = 2;
+	int TYPE_OF_ABSTRACT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.wsil.model.inspection.impl.ReferenceImpl <em>Reference</em>}' class.
@@ -215,7 +188,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getReference()
 	 * @generated
 	 */
-	int REFERENCE = 7;
+	int REFERENCE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' containment reference list.
@@ -261,7 +234,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getDescription()
 	 * @generated
 	 */
-	int DESCRIPTION = 2;
+	int DESCRIPTION = 0;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' containment reference list.
@@ -316,7 +289,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getWSILDocument()
 	 * @generated
 	 */
-	int WSIL_DOCUMENT = 3;
+	int WSIL_DOCUMENT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -371,7 +344,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getInspection()
 	 * @generated
 	 */
-	int INSPECTION = 4;
+	int INSPECTION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' containment reference list.
@@ -426,7 +399,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getLink()
 	 * @generated
 	 */
-	int LINK = 5;
+	int LINK = 4;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' containment reference list.
@@ -481,7 +454,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getName_()
 	 * @generated
 	 */
-	int NAME = 6;
+	int NAME = 5;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -518,7 +491,7 @@ public interface InspectionPackage extends EPackage {
 	 * @see org.eclipse.bpel.wsil.model.inspection.impl.InspectionPackageImpl#getService()
 	 * @generated
 	 */
-	int SERVICE = 8;
+	int SERVICE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' containment reference list.
@@ -555,6 +528,33 @@ public interface InspectionPackage extends EPackage {
 	 * @ordered
 	 */
 	int SERVICE_FEATURE_COUNT = ITEM_WITH_ABSTRACTS_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_OF_ABSTRACT__VALUE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Lang</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_OF_ABSTRACT__LANG = 1;
+
+	/**
+	 * The number of structural features of the '<em>Type Of Abstract</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_OF_ABSTRACT_FEATURE_COUNT = 2;
 
 
 	/**

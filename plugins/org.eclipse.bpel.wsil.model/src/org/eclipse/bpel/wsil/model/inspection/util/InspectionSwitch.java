@@ -87,18 +87,6 @@ public class InspectionSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case InspectionPackage.ITEM_WITH_ABSTRACTS: {
-				ItemWithAbstracts itemWithAbstracts = (ItemWithAbstracts)theEObject;
-				Object result = caseItemWithAbstracts(itemWithAbstracts);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case InspectionPackage.TYPE_OF_ABSTRACT: {
-				TypeOfAbstract typeOfAbstract = (TypeOfAbstract)theEObject;
-				Object result = caseTypeOfAbstract(typeOfAbstract);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case InspectionPackage.DESCRIPTION: {
 				Description description = (Description)theEObject;
 				Object result = caseDescription(description);
@@ -117,6 +105,12 @@ public class InspectionSwitch {
 				Inspection inspection = (Inspection)theEObject;
 				Object result = caseInspection(inspection);
 				if (result == null) result = caseItemWithAbstracts(inspection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case InspectionPackage.ITEM_WITH_ABSTRACTS: {
+				ItemWithAbstracts itemWithAbstracts = (ItemWithAbstracts)theEObject;
+				Object result = caseItemWithAbstracts(itemWithAbstracts);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -148,18 +142,24 @@ public class InspectionSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case InspectionPackage.TYPE_OF_ABSTRACT: {
+				TypeOfAbstract typeOfAbstract = (TypeOfAbstract)theEObject;
+				Object result = caseTypeOfAbstract(typeOfAbstract);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Item With Abstracts</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Item With Abstracts</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Item With Abstracts</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Item With Abstracts</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -168,13 +168,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Type Of Abstract</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Type Of Abstract</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Type Of Abstract</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Type Of Abstract</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -183,13 +183,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Description</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Description</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Description</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Description</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -198,13 +198,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>WSIL Document</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>WSIL Document</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>WSIL Document</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>WSIL Document</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -213,13 +213,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Inspection</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Inspection</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Inspection</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Inspection</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -228,13 +228,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Link</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -243,13 +243,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Name</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Name</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Name</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Name</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -258,13 +258,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Reference</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Reference</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Reference</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -273,13 +273,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Service</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Service</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Service</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Service</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -288,13 +288,13 @@ public class InspectionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

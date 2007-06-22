@@ -46,7 +46,7 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * @generated
 	 * @ordered
 	 */
-	protected EList abstract_ = null;
+	protected EList abstract_;
 
 	/**
 	 * <!-- begin-user-doc -->

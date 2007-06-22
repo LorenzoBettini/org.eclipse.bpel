@@ -40,7 +40,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * @generated
 	 * @ordered
 	 */
-	protected FeatureMap any = null;
+	protected FeatureMap any;
 
 	/**
 	 * <!-- begin-user-doc -->

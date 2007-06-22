@@ -40,7 +40,7 @@ public class LinkImpl extends ReferenceImpl implements Link {
 	 * @generated
 	 * @ordered
 	 */
-	protected FeatureMap any = null;
+	protected FeatureMap any;
 
 	/**
 	 * <!-- begin-user-doc -->

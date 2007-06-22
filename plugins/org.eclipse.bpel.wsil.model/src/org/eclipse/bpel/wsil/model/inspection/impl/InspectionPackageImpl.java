@@ -442,13 +442,6 @@ public class InspectionPackageImpl extends EPackageImpl implements InspectionPac
 		isCreated = true;
 
 		// Create classes and their features
-		itemWithAbstractsEClass = createEClass(ITEM_WITH_ABSTRACTS);
-		createEReference(itemWithAbstractsEClass, ITEM_WITH_ABSTRACTS__ABSTRACT);
-
-		typeOfAbstractEClass = createEClass(TYPE_OF_ABSTRACT);
-		createEAttribute(typeOfAbstractEClass, TYPE_OF_ABSTRACT__VALUE);
-		createEAttribute(typeOfAbstractEClass, TYPE_OF_ABSTRACT__LANG);
-
 		descriptionEClass = createEClass(DESCRIPTION);
 		createEAttribute(descriptionEClass, DESCRIPTION__ANY);
 
@@ -462,6 +455,9 @@ public class InspectionPackageImpl extends EPackageImpl implements InspectionPac
 		createEAttribute(inspectionEClass, INSPECTION__GROUPS);
 		createEReference(inspectionEClass, INSPECTION__SERVICES);
 		createEReference(inspectionEClass, INSPECTION__LINKS);
+
+		itemWithAbstractsEClass = createEClass(ITEM_WITH_ABSTRACTS);
+		createEReference(itemWithAbstractsEClass, ITEM_WITH_ABSTRACTS__ABSTRACT);
 
 		linkEClass = createEClass(LINK);
 		createEAttribute(linkEClass, LINK__ANY);
@@ -477,6 +473,10 @@ public class InspectionPackageImpl extends EPackageImpl implements InspectionPac
 		serviceEClass = createEClass(SERVICE);
 		createEReference(serviceEClass, SERVICE__NAME);
 		createEReference(serviceEClass, SERVICE__DESCRIPTION);
+
+		typeOfAbstractEClass = createEClass(TYPE_OF_ABSTRACT);
+		createEAttribute(typeOfAbstractEClass, TYPE_OF_ABSTRACT__VALUE);
+		createEAttribute(typeOfAbstractEClass, TYPE_OF_ABSTRACT__LANG);
 	}
 
 	/**
@@ -514,13 +514,6 @@ public class InspectionPackageImpl extends EPackageImpl implements InspectionPac
 		serviceEClass.getESuperTypes().add(this.getItemWithAbstracts());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(itemWithAbstractsEClass, ItemWithAbstracts.class, "ItemWithAbstracts", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getItemWithAbstracts_Abstract(), this.getTypeOfAbstract(), null, "abstract", null, 0, -1, ItemWithAbstracts.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(typeOfAbstractEClass, TypeOfAbstract.class, "TypeOfAbstract", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTypeOfAbstract_Value(), theXMLTypePackage.getString(), "value", null, 0, 1, TypeOfAbstract.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTypeOfAbstract_Lang(), theXMLNamespacePackage.getLangType(), "lang", null, 0, 1, TypeOfAbstract.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(descriptionEClass, Description.class, "Description", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDescription_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -534,6 +527,9 @@ public class InspectionPackageImpl extends EPackageImpl implements InspectionPac
 		initEAttribute(getInspection_Groups(), ecorePackage.getEFeatureMapEntry(), "groups", null, 0, -1, Inspection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInspection_Services(), this.getService(), null, "services", null, 0, -1, Inspection.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getInspection_Links(), this.getLink(), null, "links", null, 0, -1, Inspection.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		initEClass(itemWithAbstractsEClass, ItemWithAbstracts.class, "ItemWithAbstracts", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getItemWithAbstracts_Abstract(), this.getTypeOfAbstract(), null, "abstract", null, 0, -1, ItemWithAbstracts.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLink_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -549,6 +545,10 @@ public class InspectionPackageImpl extends EPackageImpl implements InspectionPac
 		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getService_Name(), this.getName_(), null, "name", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_Description(), this.getDescription(), null, "description", null, 1, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(typeOfAbstractEClass, TypeOfAbstract.class, "TypeOfAbstract", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTypeOfAbstract_Value(), theXMLTypePackage.getString(), "value", null, 0, 1, TypeOfAbstract.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTypeOfAbstract_Lang(), theXMLNamespacePackage.getLangType(), "lang", null, 0, 1, TypeOfAbstract.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

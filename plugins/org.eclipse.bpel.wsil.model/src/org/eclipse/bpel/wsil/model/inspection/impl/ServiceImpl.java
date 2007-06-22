@@ -46,7 +46,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList name = null;
+	protected EList name;
 
 	/**
 	 * The cached value of the '{@link #getDescription() <em>Description</em>}' containment reference list.
@@ -56,7 +56,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList description = null;
+	protected EList description;
 
 	/**
 	 * <!-- begin-user-doc -->

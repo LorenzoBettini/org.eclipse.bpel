@@ -41,9 +41,8 @@ public class InspectionXMLProcessor extends XMLProcessor {
 	protected Map getRegistrations() {
 		if (registrations == null) {
 			super.getRegistrations();
-			registrations.put("wsil", new InspectionResourceFactoryImpl());
-			registrations.put("inspection", new InspectionResourceFactoryImpl());
-			//	registrations.put(STAR_EXTENSION, new InspectionResourceFactoryImpl());
+			registrations.put(XML_EXTENSION, new InspectionResourceFactoryImpl());
+			registrations.put(STAR_EXTENSION, new InspectionResourceFactoryImpl());
 		}
 		return registrations;
 	}

@@ -36,7 +36,7 @@ public interface Link extends Reference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Any</em>' attribute list.
 	 * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage#getLink_Any()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry"
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false"
 	 *        extendedMetaData="kind='elementWildcard' wildcards='##other' name=':3' processing='lax'"
 	 * @generated
 	 */

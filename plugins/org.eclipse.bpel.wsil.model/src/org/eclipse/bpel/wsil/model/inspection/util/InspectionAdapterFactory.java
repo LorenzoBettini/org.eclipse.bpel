@@ -70,12 +70,6 @@ public class InspectionAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected InspectionSwitch modelSwitch =
 		new InspectionSwitch() {
-			public Object caseItemWithAbstracts(ItemWithAbstracts object) {
-				return createItemWithAbstractsAdapter();
-			}
-			public Object caseTypeOfAbstract(TypeOfAbstract object) {
-				return createTypeOfAbstractAdapter();
-			}
 			public Object caseDescription(Description object) {
 				return createDescriptionAdapter();
 			}
@@ -84,6 +78,9 @@ public class InspectionAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseInspection(Inspection object) {
 				return createInspectionAdapter();
+			}
+			public Object caseItemWithAbstracts(ItemWithAbstracts object) {
+				return createItemWithAbstractsAdapter();
 			}
 			public Object caseLink(Link object) {
 				return createLinkAdapter();
@@ -96,6 +93,9 @@ public class InspectionAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseService(Service object) {
 				return createServiceAdapter();
+			}
+			public Object caseTypeOfAbstract(TypeOfAbstract object) {
+				return createTypeOfAbstractAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
