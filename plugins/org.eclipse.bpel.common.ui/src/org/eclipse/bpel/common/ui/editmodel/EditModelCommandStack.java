@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventObject;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -46,32 +45,62 @@ import org.eclipse.ui.IWorkbenchWindow;
 public class EditModelCommandStack extends CommandStack {
 
 	protected int saveLocation = 0;
-	protected int currentLocation = 0;
-	protected Set dirtyUntilSave = new HashSet();
-	protected List contexts = new ArrayList(30);
+	protected int fCurrentLocation = 0;
 	
+	protected Set<Resource> dirtyUntilSave = new HashSet<Resource>();
+	
+	protected List<Context> fContexts = new ArrayList<Context>(30);
+	
+	/**
+	 * Brand new shiny EditModelCommandStack.
+	 */
 	public EditModelCommandStack() {
 		super();
 	}
 
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#getUndoCommand()
+	 */
+	@Override
 	public Command getUndoCommand() {
-		if (currentLocation < 1) return null;
-		return ((Context)contexts.get(currentLocation-1)).command;
+		if (fCurrentLocation < 1) {
+			return null;
+		}
+		return fContexts.get(fCurrentLocation-1).fCommand;
 	}
+	
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#canUndo()
+	 */
+	@Override
 	public boolean canUndo() {
 		Command c = getUndoCommand();
 		return (c != null) && c.canUndo();
 	}
 
+	
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#getRedoCommand()
+	 */
+	@Override
 	public Command getRedoCommand() {
-		if (currentLocation >= contexts.size()) return null;
-		return ((Context)contexts.get(currentLocation)).command;
+		if (fCurrentLocation >= fContexts.size()) return null;
+		return fContexts.get(fCurrentLocation).fCommand;
 	}
+	
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#canRedo()
+	 */
+	@Override
 	public boolean canRedo() {
 		return (getRedoCommand() != null);
 	}
 
-	public void execute(Command command) {
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#execute(org.eclipse.gef.commands.Command)
+	 */	
+	@Override
+	public void execute (Command command) {
 		SharedCommandStackChangedEvent event = notifyListeners(SharedCommandStackListener.EVENT_START_EXECUTE);
 		if (!event.doit) return;
 
@@ -83,7 +112,7 @@ public class EditModelCommandStack extends CommandStack {
 		if (command == null) return;
 		if (!validateEdit(command)) return;
 		if (!command.canExecute()) return;
-		drop(currentLocation, contexts.size());
+		drop(fCurrentLocation, fContexts.size());
 
 		// Paranoia check
 		if(getUndoCommand() instanceof PlaceHolderCommand) {
@@ -98,7 +127,7 @@ public class EditModelCommandStack extends CommandStack {
 			throw new IllegalStateException();
 		}
 		int limit = getUndoLimit();
-		if (limit > 0) while (currentLocation >= limit) {
+		if (limit > 0) while (fCurrentLocation >= limit) {
 			if (saveLocation == 0) saveLocation = -1;
 			drop(0);
 			notifyListeners(SharedCommandStackListener.EVENT_DROP_LAST_UNDO_STACK_ENTRY);
@@ -111,7 +140,7 @@ public class EditModelCommandStack extends CommandStack {
 		Resource[] resources = getModifiedResources(command);
 		if ((resources.length > 0) || (command instanceof PlaceHolderCommand)) {
 			Context c = new Context(command, resources);
-			contexts.add(c); currentLocation = contexts.size();
+			fContexts.add(c); fCurrentLocation = fContexts.size();
 			// mark resources as dirty/clean as appropriate.
 			c.setModifiedFlags(true);
 			//System.out.println("execute - markModified.  currentLocation="+currentLocation+", saveLocation="+saveLocation);
@@ -175,36 +204,56 @@ public class EditModelCommandStack extends CommandStack {
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#dispose()
+	 */
+	@Override
 	public void dispose() {
-		drop(0,contexts.size());
+		drop(0,fContexts.size());
 	}
 
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#flush()
+	 */
+	@Override
 	public void flush() {
 		SharedCommandStackChangedEvent event = notifyListeners(SharedCommandStackListener.EVENT_START_FLUSH);
 		if (!event.doit) return;
 
-		drop(0, contexts.size());
-		contexts.clear();
+		drop(0, fContexts.size());
+		fContexts.clear();
 		saveLocation = -1;
-		currentLocation = 0;
+		fCurrentLocation = 0;
 		// TODO: should we mark all resources as clean?
 		notifyListeners(SharedCommandStackListener.EVENT_FINISH_FLUSH);
 	}
 
-	public Object[] getCommands() {
-		Object[] commands = new Object[contexts.size()];
-		for (int i = 0; i < contexts.size(); i++) {
-			commands[i] = ((Context)contexts.get(i)).command;
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#getCommands()
+	 */
+	@Override
+	public Object[] getCommands() {		
+		Object[] commands = new Object[fContexts.size()];
+		for (int i = 0; i < fContexts.size(); i++) {
+			commands[i] = fContexts.get(i).fCommand;
 		}
 		return commands;
 	}
 
 
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#isDirty()
+	 */
+	@Override
 	public boolean isDirty() {
 		//System.out.println("isDirty: C="+currentLocation+"  S="+saveLocation+"  dus="+dirtyUntilSave.size());
-		return (currentLocation != saveLocation) || !dirtyUntilSave.isEmpty();
+		return (fCurrentLocation != saveLocation) || !dirtyUntilSave.isEmpty();
 	}
 
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#markSaveLocation()
+	 */
+	@Override
 	public void markSaveLocation() {
 //		// mark all the resources we know about as clean!
 //		for (int i = 0; i<contexts.size(); i++) {
@@ -217,20 +266,24 @@ public class EditModelCommandStack extends CommandStack {
 //		}
 		dirtyUntilSave.clear();
 
-		saveLocation = currentLocation;
+		saveLocation = fCurrentLocation;
 		notifyListeners(SharedCommandStackListener.EVENT_MARK_SAVED);
 	}
 
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#undo()
+	 */
+	@Override
 	public void undo() {
 		SharedCommandStackChangedEvent event = notifyListeners(SharedCommandStackListener.EVENT_START_UNDO);
 		if (!event.doit) return;
 		
 		if (!canUndo()) return;
-		Context c = (Context)contexts.get(currentLocation-1);
-		c.command.undo();
-		currentLocation--;
+		Context c = fContexts.get(fCurrentLocation-1);
+		c.fCommand.undo();
+		fCurrentLocation--;
 		// mark resources as dirty/clean as appropriate.
-		if (currentLocation < saveLocation) {
+		if (fCurrentLocation < saveLocation) {
 			// moving away from save location --> resources can only become dirty
 			c.setModifiedFlags(true);
 			// System.out.println("undo - markModified.  currentLocation="+currentLocation+", saveLocation="+saveLocation);
@@ -243,16 +296,21 @@ public class EditModelCommandStack extends CommandStack {
 		notifyListeners(SharedCommandStackListener.EVENT_FINISH_UNDO);
 	}
 
+	
+	/**
+	 * @see org.eclipse.gef.commands.CommandStack#redo()
+	 */
+	@Override
 	public void redo() {
 		SharedCommandStackChangedEvent event = notifyListeners(SharedCommandStackListener.EVENT_START_REDO);
 		if (!event.doit) return;
 
 		if (!canRedo()) return;
-		Context c = (Context)contexts.get(currentLocation);
-		c.command.redo();
-		currentLocation++;
+		Context c = fContexts.get(fCurrentLocation);
+		c.fCommand.redo();
+		fCurrentLocation++;
 		// mark resources as dirty/clean as appropriate.
-		if (currentLocation > saveLocation) {
+		if (fCurrentLocation > saveLocation) {
 			// moving away from save location --> resources can only become dirty
 			c.setModifiedFlags(true);
 			//System.out.println("redo - markModified.  currentLocation="+currentLocation+", saveLocation="+saveLocation);
@@ -275,30 +333,39 @@ public class EditModelCommandStack extends CommandStack {
 	protected SharedCommandStackChangedEvent notifyListeners(int property) {
 		SharedCommandStackChangedEvent event = new SharedCommandStackChangedEvent(this);
 		event.property = property;
-		for (int i = 0; i < listeners.size(); i++)
-			((CommandStackListener)listeners.get(i))
-				.commandStackChanged(event);
+
+		for (Object next : listeners) {
+			CommandStackListener csl = (CommandStackListener) next;
+			csl.commandStackChanged(event);
+		}
+		
 		return event;
 	}
 
 	/*
 	 * Helper to remove a command from any point in the stack.
 	 */
-	protected void drop(int pos) {
+	protected void drop (int pos) {
 		//System.out.println("  (drop "+pos+") C="+currentLocation+" S="+saveLocation);
-		if ((pos < 0) || pos >= contexts.size()) throw new IllegalArgumentException();
-		Context c = (Context)contexts.get(pos);
-		int a = Math.min(saveLocation, currentLocation);
-		int b = Math.max(saveLocation, currentLocation);
+		if ((pos < 0) || pos >= fContexts.size()) {
+			throw new IllegalArgumentException();
+		}
+		Context c = fContexts.get(pos);
+		int a = Math.min(saveLocation, fCurrentLocation);
+		int b = Math.max(saveLocation, fCurrentLocation);
 		if ((a <= pos) && (pos < b)) {
 			// we're dropping something between current and save point.
-			dirtyUntilSave.addAll(Arrays.asList(c.resources));
+			dirtyUntilSave.addAll(Arrays.asList(c.fResources));
 			//System.out.println("dus = "+dirtyUntilSave);
 		}
-		c.command.dispose();
-		contexts.remove(pos);
-		if (currentLocation > pos) currentLocation--;
-		if (saveLocation > pos) saveLocation--;
+		c.fCommand.dispose();
+		fContexts.remove(pos);
+		if (fCurrentLocation > pos) {
+			fCurrentLocation--;
+		}
+		if (saveLocation > pos) {
+			saveLocation--;
+		}
 	}
 
 	/*
@@ -325,32 +392,38 @@ public class EditModelCommandStack extends CommandStack {
 	 */
 	protected void updateModifiedFlags() {
 		//System.out.println("calculateModifiedState()");
-		Set cleanResources = new HashSet();
+		
+		Set<Resource> cleanResources = new HashSet<Resource>();
 		// for starters, treat everything as clean
-		for (int i = 0; i<contexts.size(); i++) {
-			Context c = (Context)contexts.get(i);
-			cleanResources.addAll(Arrays.asList(c.resources));
+		for (Context c : fContexts) {
+			cleanResources.addAll(Arrays.asList(c.fResources));
 		}
+		
 		// mark things that fell off the bottom of the undo stack as dirty 
-		for (Iterator it = dirtyUntilSave.iterator(); it.hasNext(); ) {
-			Resource resource = ((Resource)it.next());
+		for (Resource resource : dirtyUntilSave) {
 			cleanResources.remove(resource);
 			setResourceModified(resource, true);
 		}
 		// mark things modified between saveLocation and currentLocation as dirty
-		int a = Math.min(currentLocation, saveLocation);
-		int b = Math.max(currentLocation, saveLocation);
+		int a = Math.min(fCurrentLocation, saveLocation);
+		int b = Math.max(fCurrentLocation, saveLocation);
+		
 		for (int i = Math.max(a,0); i<b; i++) {
-			Context c = (Context)contexts.get(i);
-			cleanResources.removeAll(Arrays.asList(c.resources));
+			Context c = fContexts.get(i);
+			cleanResources.removeAll(Arrays.asList(c.fResources));
 			c.setModifiedFlags(true);
 		}
 		// mark anything we still consider clean as clean
-		for (Iterator it = cleanResources.iterator(); it.hasNext(); ) {
-			setResourceModified((Resource)it.next(), false);
+		for (Resource resource : cleanResources) {
+			setResourceModified(resource, false);
 		}
 	}
 	
+	
+	/**
+	 * SharedCommandStackListener
+	 * 
+	 */
 	public static interface SharedCommandStackListener extends CommandStackListener {
 		
 		public static final int EVENT_START_EXECUTE = 1;
@@ -387,49 +460,62 @@ public class EditModelCommandStack extends CommandStack {
 			return ((IEditModelCommand)command).getResources();
 		}
 		if (command instanceof CompoundCommand) {
-			Set set = new HashSet();
-			Object[] childCommands = ((CompoundCommand)command).getChildren();
-			for (int i = 0; i<childCommands.length; i++) {
-				Resource[] temp = getResources((Command)childCommands[i]);
-				for (int j = 0; j<temp.length; j++) set.add(temp[j]);
+			CompoundCommand ccmd = (CompoundCommand) command;
+			
+			Set<Resource> set = new HashSet<Resource>();			
+			for (Object n : ccmd.getChildren() ) {
+				for (Resource r : getResources((Command)n)) {
+					set.add(r);
+				}								
 			}
-			if (set.isEmpty()) return EMPTY_RESOURCE_ARRAY;
-			return (Resource[])set.toArray(new Resource[set.size()]);
-		}
+			if (set.isEmpty()) {
+				return EMPTY_RESOURCE_ARRAY;
+			}
+			return set.toArray( EMPTY_RESOURCE_ARRAY );		}
 	
 		throw new IllegalArgumentException();
 	}
 	
 	// TODO: should this be in a utility class?  Can it be made extensible?
 	public static Resource[] getModifiedResources(Command command) {
+		
 		if (command instanceof IEditModelCommand) {
 			return ((IEditModelCommand)command).getModifiedResources();
 		}
 		if (command instanceof CompoundCommand) {
-			Set set = new HashSet();
-			Object[] childCommands = ((CompoundCommand)command).getChildren();
-			for (int i = 0; i<childCommands.length; i++) {
-				Resource[] temp = getModifiedResources((Command)childCommands[i]);
-				for (int j = 0; j<temp.length; j++) set.add(temp[j]);
+			CompoundCommand ccmd = (CompoundCommand) command;
+			
+			Set<Resource> set = new HashSet<Resource>();			
+			for (Object n : ccmd.getChildren() ) {
+				for (Resource r : getModifiedResources((Command)n)) {
+					set.add(r);
+				}								
 			}
-			if (set.isEmpty()) return EMPTY_RESOURCE_ARRAY;
-			return (Resource[])set.toArray(new Resource[set.size()]);
+			if (set.isEmpty()) {
+				return EMPTY_RESOURCE_ARRAY;
+			}
+			return set.toArray( EMPTY_RESOURCE_ARRAY );
 		}
 	
 		throw new IllegalArgumentException();
 	}
 
+	
 	protected static class Context {
-		public Command command;
-		public Resource[] resources;
+		
+		public Command fCommand;
+		public Resource[] fResources;
+		
 		public Context(Command command, Resource[] resources) {
-			this.command = command; this.resources = resources;
+			this.fCommand = command; 
+			this.fResources = resources;
 		}
-		public void setModifiedFlags(boolean value) {
-			for (int i = 0; i<resources.length; i++) {
-				setResourceModified(resources[i], value);
+		public void setModifiedFlags (boolean value) {
+			for (Resource r : fResources) {
+				setResourceModified(r, value);
 			}
 		}
+		
 	}
 	
 }

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.common.ui.composite;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -69,5 +70,28 @@ import org.eclipse.ui.PartInitException;
 	// WDG:
 	public IEditorInput getEditorInput() throws PartInitException {
 		return null;
+	}
+	
+	/**
+	 * @see org.eclipse.ui.IWorkbenchPartReference#addPartPropertyListener(org.eclipse.jface.util.IPropertyChangeListener)
+	 */
+	public void addPartPropertyListener(IPropertyChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * @see org.eclipse.ui.IWorkbenchPartReference#getPartProperty(java.lang.String)
+	 */
+	public String getPartProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * @see org.eclipse.ui.IWorkbenchPartReference#removePartPropertyListener(org.eclipse.jface.util.IPropertyChangeListener)
+	 */
+	public void removePartPropertyListener(IPropertyChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }
