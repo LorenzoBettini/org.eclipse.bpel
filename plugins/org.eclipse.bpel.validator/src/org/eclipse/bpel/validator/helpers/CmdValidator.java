@@ -35,6 +35,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
+ * This is a skeleton of a validator that driver that only works with DOM document tree.
+ * Note that there is implementation for various IModelQuery lookups by using just the DOM
+ * of BPEL and WSDL and schema.
+ * 
+ * So while this does run it does not produce correct results. 
+ * 
+ * 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Jan 2, 2007
  *

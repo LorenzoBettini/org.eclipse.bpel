@@ -48,7 +48,10 @@ public class GetOpt {
 				continue;
 			}
 			char ch1 = sOpt.charAt(0);
-			if (ch1 != '-' && ch1 != '/') {
+			// Use only - to switch, the windows switches / do not work with unix 
+			// absolute paths.
+			
+			if (ch1 != '-') {
 				// probably parameters
 				mParams.add(sOpt);
 				continue;

@@ -41,6 +41,11 @@ import org.w3c.dom.NodeList;
  * Base implementation of the IModelQuery interface with references
  * only to DOM elements. 
  *  
+ * This does not fully implement the IModelQuery interface contract as
+ * type look ups, WSDL information look ups are not implemented here.
+ * This is meant to be a starting point for implementing your own
+ * model backend to the IModelQuer interface.
+ * 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Sep 21, 2006
  *

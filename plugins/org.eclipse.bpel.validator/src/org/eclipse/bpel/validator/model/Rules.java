@@ -14,7 +14,10 @@ package org.eclipse.bpel.validator.model;
  * Java JDK dependencies here please ...
  */
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -427,9 +430,45 @@ public class Rules  {
 		// 
 		Field fields[] = IConstants.class.getFields();
 		
+		File outputFile = null;
+		File cssFile = null;
+		
 		if (args.length > 0) {
-			OUT = new PrintStream(args[0]);
+			outputFile = new File(args[0]);
+			OUT = new PrintStream( outputFile );
+			cssFile = new File( outputFile.getParent() + File.separator + "rules.css");
 		}
+		
+		
+		if (cssFile != null && cssFile.exists()) {
+			
+			p("<style type=\"text/css\">");
+			BufferedReader reader = null;
+			
+			try { 
+				reader = new BufferedReader(new FileReader(cssFile));
+				while (true) {
+					String line = reader.readLine();
+					if (line == null) {
+						break;
+					}
+					p(line);
+				}
+			} catch (Throwable t) {
+				// 
+			} finally {
+				try { 
+					if (reader != null) {
+						reader.close();
+					}
+				} catch (Throwable t) {
+					// 
+				}
+			}
+			
+			p("</style>");
+		}
+		
 		
 		int totalRules = 0;
 		

@@ -93,6 +93,10 @@ public class Main extends CmdValidator {
 	    );
 		//   - xsd reads WSDL resources (from wst project)	
 		
+		
+		// Register the real model query interface, that knows about EMF
+		// world as well.
+		
 		ModelQueryImpl.register( new ModelQuery() );
 	}
 	

@@ -13,15 +13,8 @@ package org.eclipse.bpel.validator.helpers;
 
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
-import com.sun.org.apache.xerces.internal.xni.Augmentations;
-import com.sun.org.apache.xerces.internal.xni.NamespaceContext;
-import com.sun.org.apache.xerces.internal.xni.QName;
-import com.sun.org.apache.xerces.internal.xni.XMLAttributes;
-import com.sun.org.apache.xerces.internal.xni.XMLLocator;
-import com.sun.org.apache.xerces.internal.xni.XMLString;
-import com.sun.org.apache.xerces.internal.xni.XNIException;
-
+import org.apache.xerces.parsers.DOMParser;
+import org.apache.xerces.xni.*;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
