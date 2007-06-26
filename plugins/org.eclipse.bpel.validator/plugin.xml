@@ -82,6 +82,10 @@
       <factory
             class="org.eclipse.bpel.validator.plt.Factory"
             name="Partner Link Types Factory"/>
+      <factory
+            class="org.eclipse.bpel.validator.unsupported.Factory"
+            name="Unsupported Factory">
+      </factory>
    </extension>
    <extension
          point="org.eclipse.bpel.validator.modelQuery">

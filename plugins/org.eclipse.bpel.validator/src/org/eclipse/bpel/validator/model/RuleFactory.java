@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -49,7 +49,7 @@ public class RuleFactory  {
 	}
 	
 	
-	static List<IFactory<Validator>> FACTORIES = new LinkedList<IFactory<Validator>>();
+	static List<IFactory<Validator>> FACTORIES = new ArrayList<IFactory<Validator>>(16);
 			
 	
 	/**

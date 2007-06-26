@@ -127,7 +127,7 @@ public class Main extends CmdValidator {
 		INode node = (INode) fManager.getAdapter( process.getElement(), INode.class );
 		
 		// Step 3. Run it
-		fRunner = new Runner ( ModelQueryImpl.getModelQuery(), node);
+		fRunner = new Runner ( new ModelQuery() , node);
 		return fRunner.run();		
 	}
 		

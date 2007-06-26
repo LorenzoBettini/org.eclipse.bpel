@@ -112,6 +112,10 @@ public class AdapterFactory implements IAdapterFactory {
 	 */
 	
 	IResource adapt_EObject2IResource (EObject eObj) {
+		if (eObj == null) {
+			return null;
+		}
+		
 		Resource r = eObj.eResource();
 		if (r == null) {
 			return null;
