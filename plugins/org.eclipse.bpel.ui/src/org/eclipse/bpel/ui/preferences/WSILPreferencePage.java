@@ -136,6 +136,7 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
 		layout.verticalSpacing = 15;
+		layout.makeColumnsEqualWidth = false;
 		
 		result.setLayout(layout);
 		GridData data = new GridData(GridData.FILL_BOTH);
@@ -171,6 +172,7 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 		browse.setText(Messages.BPELPreferencePage_WSIL_2);
 		data = new GridData(SWT.RIGHT);
 		data.widthHint = 100;
+		
 		browse.setLayoutData(data);
 		browse.addSelectionListener(new SelectionAdapter() {
 			
@@ -208,6 +210,7 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 
 		data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 2;
+		
 		linkTable.setLayoutData(data);
 		
 		// set up table
@@ -249,14 +252,13 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 		layout = new GridLayout();
 		layout.numColumns = 1;
 		layout.verticalSpacing = 5;
-				
+		
 		Composite buttonList = new Composite ( result , SWT.NONE );
 		buttonList.setLayout(layout);
 		
-		data = new GridData(GridData.FILL_BOTH);
-		result.setLayoutData(data);
+		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_CENTER );		 
 		buttonList.setLayoutData( data );
-
+		
 		Button add = new Button(buttonList, SWT.NONE);
 		add.setText(Messages.BPELPreferencePage_WSIL_Add);
 		data = new GridData(  GridData.FILL_HORIZONTAL );
