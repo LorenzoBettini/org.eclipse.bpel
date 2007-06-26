@@ -130,7 +130,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	String fFilter = ""; //$NON-NLS-1$
 	
     
-	private Button fBrowseButton;
+	Button fBrowseButton;
 
 	private Group fGroup;
     	
@@ -644,17 +644,19 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		fLoaderJob = new Job(msg) {
 
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			protected IStatus run (IProgressMonitor monitor) {
 				monitor.beginTask(msg, 1);				
 				
 				fInput = attemptLoad(fRunnableLoadURI);
-				monitor.worked(1);
+				monitor.worked(1);	
+				if (fBrowseButton != null && fBrowseButton.isDisposed() == false ) {
+					fBrowseButton.getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							loadDone();						
+						}						
+					});
+				}
 				
-				fTree.getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						loadDone();						
-					}						
-				});
 				return Status.OK_STATUS;
 			}			 		
 		 };	
@@ -669,13 +671,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	
 	 
 	@SuppressWarnings("boxing")
-	void loadDone () {
-		
-		
-		if (fBrowseButton.isDisposed()) {
-			// we were closed before this is being called. Quit.
-			return ;
-		}
+	void loadDone () {				
 		
 		long elapsed = System.currentTimeMillis() - fRunnableStart;
 		
