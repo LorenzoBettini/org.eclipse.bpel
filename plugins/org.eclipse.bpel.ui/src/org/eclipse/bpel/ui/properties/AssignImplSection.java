@@ -89,19 +89,7 @@ public class AssignImplSection extends BPELPropertySection {
 		};
 		
 	}
-	
-	protected boolean isCopyFromAffected(Notification n) {
-		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__FROM);
-	}
-	protected boolean isCopyToAffected(Notification n) {
-		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__TO);
-	}
-
-	protected boolean isAssignAffected ( Notification n ) {
-		return (n.getFeatureID(Assign.class) == BPELPackage.ASSIGN__COPY);
-	}
-	
-	
+		
 	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
@@ -109,12 +97,34 @@ public class AssignImplSection extends BPELPropertySection {
 			new MultiObjectAdapter() {
 				
 				@Override
-				public void notify(Notification n) {
-					if (isCopyFromAffected(n) || isCopyToAffected(n)) {
-						selectCategoriesForInput( null );
-					} 
-					if ( isAssignAffected (n) ) {
-						createCopyRulesInCopyWidgets();
+				public void notify (Notification n) {
+					
+					if (n.getFeature() == BPELPackage.eINSTANCE.getCopy_From() ) {
+						EObject val = (EObject) n.getNewValue();
+						selectCategoriesForInput( (Copy) val.eContainer() ) ; 
+					}
+					
+					if (n.getFeature() == BPELPackage.eINSTANCE.getCopy_To()) {
+						EObject val = (EObject) n.getNewValue();
+						selectCategoriesForInput( (Copy) val.eContainer() ) ;
+					}
+					
+					if ( n.getFeature() == BPELPackage.eINSTANCE.getAssign_Copy() ) {
+						
+						adjustCopyRulesList();
+						
+						Copy copy = (Copy) n.getNewValue();
+
+						// Delete
+						if (copy == null) {
+							Assign assign = getModel();
+							int sz = assign.getCopy().size();
+							if (sz > 0) {
+								copy = (Copy) assign.getCopy().get(sz-1);
+							}
+						}
+						
+						selectCategoriesForInput( copy );						
 					}
 				}
 			},
@@ -160,8 +170,8 @@ public class AssignImplSection extends BPELPropertySection {
 		data.left = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
 		data.bottom = new FlatFormAttachment(100, 0);
-		fDeleteCopy.setLayoutData(data);
-
+		fDeleteCopy.setLayoutData(data);		
+		
 		insertCopy.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				
@@ -170,7 +180,6 @@ public class AssignImplSection extends BPELPropertySection {
 				getCommandFramework().execute(wrapInShowContextCommand(
 						new AddCopyCommand((Assign)getInput(), copy)));
 											
-				selectCategoriesForInput( copy );
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -179,13 +188,10 @@ public class AssignImplSection extends BPELPropertySection {
 
 		fDeleteCopy.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
+				
 				getCommandFramework().execute(wrapInShowContextCommand(
 						new RemoveCopyCommand((Assign)getInput(), fCurrentCopy)));
 				
-				Assign assign = getModel();
-				Copy copy = (Copy) assign.getCopy().get(  assign.getCopy().size() - 1);
-				 
-				selectCategoriesForInput( copy );
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -194,13 +200,13 @@ public class AssignImplSection extends BPELPropertySection {
 	
 		
 		fCopyList.addSelectionListener(new SelectionListener() {
+			
 			public void widgetSelected(SelectionEvent e) {
 				int index = fCopyList.getSelectionIndex();
 				fCopyList.select(index);
 				Assign assign = getModel();
 				Copy copy = (Copy) assign.getCopy().get( index );
-				
-				selectCategoriesForInput( copy );
+				selectCategoriesForInput( copy );				
 				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) { 
@@ -240,7 +246,9 @@ public class AssignImplSection extends BPELPropertySection {
 		section.fLabel.setLayoutData(data);
 		
 		for (IAssignCategory category : section.fAllowed ) {
-			section.fCombo.add( category.getName() );			
+			if (category.getName() != null) {
+				section.fCombo.add( category.getName() );
+			}
 		}
 		
 		section.fCombo.addSelectionListener(new SelectionListener() {
@@ -302,13 +310,14 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		Assign assign = getModel();
 		
-				
-		if (assign.getCopy().size() > 0) {	
-			createCopyRulesInCopyWidgets ();			
+		adjustCopyRulesList ();
+		
+		if (assign.getCopy().size() > 0) {							
 			selectCategoriesForInput( (Copy) assign.getCopy().get(0) );		
+		} else {
+			selectCategoriesForInput(null);
 		}
-		
-		
+				
 		if (fToSection.fCurrent != null) {
 			fToSection.fCurrent.refresh();
 		}
@@ -325,13 +334,18 @@ public class AssignImplSection extends BPELPropertySection {
 	 *
 	 */
 	protected void selectCategoriesForInput (Copy copy) {
-		
-		fCurrentCopy = copy == null ? fCurrentCopy : copy;
+			
+		fCurrentCopy = copy;
 
+		if (fCurrentCopy == null) {			
+			fToSection.hideCurrent();
+			fFromSection.hideCurrent();			
+			return ;
+		}
+				
 		Assign assign = getModel();		
 		int pos = assign.getCopy().indexOf(fCurrentCopy);
-		fCopyList.select( pos < 0 ? 0 : pos );
-
+		fCopyList.select( pos );
 		
 		// Find the proper copy-from category
 		boolean bFound = false;
@@ -406,17 +420,21 @@ public class AssignImplSection extends BPELPropertySection {
 	}
 
 	
-	protected void createCopyRulesInCopyWidgets() {
+	protected void adjustCopyRulesList() {
 
 		Assign assign = getModel();
-		int max = assign.getCopy().size();
+		int sz = assign.getCopy().size();
 		
-		String[] items = new String[max];
-		for (int i = 0; i<max; i++) {
+		String[] items = new String[sz];
+		for (int i = 0; i<sz; i++) {
 			items[i] = String.valueOf(i+1);
 		}
 		fCopyList.setItems( items );		
-		fDeleteCopy.setEnabled(max>1);
+		fDeleteCopy.setEnabled(sz > 0);
+		
+		//
+		fToSection.fCombo.setEnabled( sz > 0 );
+		fFromSection.fCombo.setEnabled ( sz > 0 ) ;
 	}
 
 	
@@ -471,7 +489,7 @@ public class AssignImplSection extends BPELPropertySection {
 	public Object getUserContext() {
 		Assign assign = getModel();
 		if (fCurrentCopy == null) {
-			return 0;
+			return -1 ;
 		}
 		return assign.getCopy().indexOf(fCurrentCopy);		
 	}
@@ -482,17 +500,20 @@ public class AssignImplSection extends BPELPropertySection {
 	 */
 	@SuppressWarnings("boxing")
 	@Override
-	public void restoreUserContext(Object userContext) {
+	public void restoreUserContext (Object userContext) {
 		
-		try {
-			int idx = (Integer) userContext;
-			Assign assign = getModel();
-			Copy copy = (Copy) assign.getCopy().get(idx);
-			if (copy != null) {
-				selectCategoriesForInput(copy);
-			}
-		} catch (Throwable t) {
-			// blah
+		if (userContext instanceof Integer == false) {
+			return ;
+		}
+		
+		int idx = (Integer) userContext;
+		Assign assign = getModel();
+		
+		int sz = assign.getCopy().size();
+		
+		if (idx < sz && idx >= 0) {
+			Copy copy = (Copy) assign.getCopy().get(idx);			
+			selectCategoriesForInput(copy);
 		}
 		
 	}
