@@ -20,8 +20,9 @@ export ECLIPSE_HOME="${ECLIPSE_HOME:-/usr/eclipse}"
 export JAVA_HOME="${JAVA_HOME:-/usr/java/jdk1.5.0_11}"
 export BUILD_DIRECTORY="${BUILD_DIRECTORY:-$HOME/builds/org.eclipse.bpel}"
 # --------------------------------------------------------------
+export STARTUP_JAR="${ECLIPSE_HOME}/startup.jar"
 #
-Usage () {
+function Usage {
     echo "usage: `basename $0`  [--java-home=dir] [--eclipse-home=dir] [--skip-build]" >&2
     echo "        [--skip-site] [--build-directory=dir]" >&2
     echo " " >&2
@@ -99,7 +100,7 @@ CWD=`pwd | sed -e 's/^\/cygdrive\/\(.\)/\1:/g'`
 export JAVA_CMD="${JAVA_HOME}/bin/java"
 
 # ant args like verbose for example ... (-v)
-export ANT_ARGS=""
+# export ANT_ARGS="-v -debug"
 
 # reset ant command line args
 export ANT_CMD_LINE_ARGS="-noclasspath"
@@ -122,12 +123,23 @@ do
 	BUILD_XML=${f}	
 done
 #
+# http://wiki.eclipse.org/index.php/Equinox_Launcher
+#
+if [ ! -f "${STARTUP_JAR}" ]
+then
+	for f in `find ${ECLIPSE_HOME}/plugins -name 'org.eclipse.equinox.launcher_*.*.*.jar' -a -type f`
+	do		
+		echo "Equinox-Launcher-JAR: ${f}"	
+		STARTUP_JAR=${f}
+	done
+fi
+
 # basic idiot checks
 #
 if [ ! -f "${BUILD_XML}" ] 
 then
 	echo "error: Somehow I cannot find build.xml in ${ECLIPSE_HOME}/plugins/org.eclipse.pde.build_* ..."
-	echo "error: please check your eclispse installation and make sure that this plugin exists and is"
+	echo "error: please check your eclipse installation and make sure that this plugin exists and is"
 	echo "error: in fact a directory. Also, check your eclipse installation ..."	
 	exit 2
 fi
@@ -143,6 +155,7 @@ echo "Current-Path: ${CWD}"
 echo "  Using-Java: ${JAVA_CMD}"
 echo "Eclipse-Home: ${ECLIPSE_HOME}"
 echo "  Build-File: ${BUILD_XML}"
+echo " Startup-JAR: ${STARTUP_JAR}"
 echo "+------------------------------------------------------------------+"
 #
 #
@@ -150,7 +163,7 @@ if [ $skipBuild -eq 0 ]
 then
     echo "Running build ..."
 	${JAVA_CMD} -cp \
-	"${ECLIPSE_HOME}/startup.jar" \
+	"${STARTUP_JAR}" \
 	org.eclipse.core.launcher.Main \
 	-application org.eclipse.ant.core.antRunner \
 	-buildfile "${BUILD_XML}" \

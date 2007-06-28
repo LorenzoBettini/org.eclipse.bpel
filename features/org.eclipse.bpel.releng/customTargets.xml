@@ -25,14 +25,13 @@
 	<!-- Check out map files from correct repository -->
 	<!-- Replace values for mapsCheckoutTag as desired. -->
 	<!-- ===================================================================== -->
-	<target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
+	<target name="getMapFiles" unless="skipMaps">
+		<echo message="Checking out .map file for BPEL Designer"/>
 		<property name="mapsCheckoutTag" value="HEAD" />
-		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
+		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" 
+			 dest="${buildDirectory}/maps" 
+			 tag="${mapsCheckoutTag}" />
 		
-	</target>
-
-	<target name="checkLocalMaps">
-		<available property="skipMaps" file="${buildDirectory}/maps" />
 	</target>
 
 	<target name="tagMapFiles" if="tagMaps">
