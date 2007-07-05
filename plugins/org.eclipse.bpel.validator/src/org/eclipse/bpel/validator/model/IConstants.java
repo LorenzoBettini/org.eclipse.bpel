@@ -374,6 +374,8 @@ public interface IConstants {
     static String[] BPEL_ACTIVITIES_CONTAINERS = {
 		ND_SEQUENCE,
 		ND_IF,
+		ND_ELSE,
+		ND_ELSEIF,
 		ND_WHILE,
 		ND_REPEAT_UNTIL,
 		ND_FOR_EACH,
