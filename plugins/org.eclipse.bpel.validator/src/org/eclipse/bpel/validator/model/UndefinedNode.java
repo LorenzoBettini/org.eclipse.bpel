@@ -39,9 +39,8 @@ public class UndefinedNode implements INode {
 	/** (non-Javadoc)
 	 * @see org.eclipse.bpel.validator.model.INode#children()
 	 */
-	@SuppressWarnings("unchecked")
 	public List<INode> children() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/** (non-Javadoc)
@@ -61,10 +60,9 @@ public class UndefinedNode implements INode {
 
 	/** (non-Javadoc)
 	 * @see org.eclipse.bpel.validator.model.INode#getNodeList(java.lang.String)
-	 */
-	@SuppressWarnings("unchecked")
+	 */	
 	public List<INode> getNodeList(String name) {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/** (non-Javadoc)
