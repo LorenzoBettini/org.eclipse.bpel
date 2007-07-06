@@ -486,6 +486,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	
 	
 	/**
+	 * Parse the query step into this object. 
+	 * 
 	 * TODO: This has to be externalized someplace. We can't just assume it is XPath all the time ...
 	 */
 	
@@ -518,6 +520,13 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			
 			if (fLocalPart.charAt(0) == '@') {
 				fLocalPart = fLocalPart.substring(1);
+			}
+			
+			
+			int arrayMark1 = fLocalPart.indexOf('[');
+			int arrayMark2 = fLocalPart.indexOf(']');
+			if (arrayMark2 > arrayMark1 && arrayMark1 > 0) {
+				fLocalPart = fLocalPart.substring(0,arrayMark1);
 			}
 		}
 		
