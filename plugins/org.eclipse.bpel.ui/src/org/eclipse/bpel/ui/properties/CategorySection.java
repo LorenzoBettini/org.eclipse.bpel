@@ -68,9 +68,9 @@ class CategorySection {
 	
 	@SuppressWarnings("nls")
 	void showCurrent ( ) {
-		if (fCurrent == null) {
-			throw new NullPointerException("fCurrent is null");
-		}			
+		
+		assert(fCurrent != null);
+		
 		if (fCurrent.isHidden()) {
 			fCurrent.aboutToBeShown();
 		}

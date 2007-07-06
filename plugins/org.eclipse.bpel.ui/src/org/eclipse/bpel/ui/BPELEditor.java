@@ -82,6 +82,7 @@ import org.eclipse.bpel.ui.util.IModelVisitor;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.TransferBuffer;
 import org.eclipse.bpel.ui.util.WSDLImportHelper;
+import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IMarkerDelta;
@@ -147,6 +148,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -1200,7 +1202,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	/**
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(Class)
 	 */
+	@Override
 	public Object getAdapter(Class type) {
+		
 		if (type == IContentOutlinePage.class) {
 			if (outlinePage == null) {
 				outlinePage = new OutlinePage(new TreeViewer());
@@ -1228,6 +1232,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
         }, this);
 	}
 
+	
 	protected void replaceSelectionAction(ActionRegistry registry, IAction action) {
 		IAction oldAction = registry.getAction(action.getId());
 		if (oldAction != null) {
@@ -1619,46 +1624,63 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	}
 
 	protected IFile getFileInput() {
-		return ((IFileEditorInput) getEditorInput()).getFile();
+		return (IFile) getEditorInput().getAdapter(IFile.class);		
 	}
 
 	/**
 	 * This is called during startup.
+	 * @param site 
+	 * @param editorInput 
+	 * @throws PartInitException 
 	 */
-	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
-		if (editorInput instanceof IFileEditorInput) {
-			try {
-				super.init(site, editorInput);
+	
+	@Override
+	public void init (IEditorSite site, IEditorInput editorInput) throws PartInitException {
+		
+		IFile input = (IFile) editorInput.getAdapter (IFile.class);
+		 
+		if (input == null) {
+			IURIEditorInput uriInput = (IURIEditorInput) editorInput.getAdapter(IURIEditorInput.class);
+			if (uriInput == null) {
+				throw new PartInitException (Messages.BPELEditor_Cant_read_input_file_1);
+			}
+			URI uri  = (URI) editorInput.getAdapter(URI.class);
+			System.out.println("Editor URI: " + uriInput.getURI());
+			
+			throw new PartInitException (Messages.BPELEditor_Cant_read_input_file_1);
+		}
+		
+		super.init(site, editorInput);
 
-				// remove the listener on the command stack created by the graphical editor
-				getCommandStack().removeCommandStackListener(this);
+		// remove the listener on the command stack created by the graphical editor
+		getCommandStack().removeCommandStackListener(this);
 
-				editModelClient = new BPELEditModelClient(this, getFileInput(), this, null);
-				getEditDomain().setCommandStack(editModelClient.getCommandStack());
-				
-				ResourceSet resourceSet = editModelClient.getEditModel().getResourceSet();
+		editModelClient = new BPELEditModelClient(this, getFileInput(), this, null);
+		getEditDomain().setCommandStack(editModelClient.getCommandStack());
+		
+		ResourceSet resourceSet = editModelClient.getEditModel().getResourceSet();
 
-				// TODO: does this stuff have to go?  it won't work with shared models..
-				modelListenerAdapter = new ModelListenerAdapter();
-				resourceSet.eAdapters().add(modelListenerAdapter);
-				resourceSet.eAdapters().add(editorAdapter = new BPELEditorAdapter());
-				this.modelListenerAdapter.setLinkNotificationAdapter(new LinkNotificationAdapter(this));
-				getCommandStack().addCommandStackListener(modelListenerAdapter);
-				
-				loadModel();
-				updateTitle();
+		// TODO: does this stuff have to go?  it won't work with shared models..
+		modelListenerAdapter = new ModelListenerAdapter();
+		resourceSet.eAdapters().add(modelListenerAdapter);
+		resourceSet.eAdapters().add(editorAdapter = new BPELEditorAdapter());
+		this.modelListenerAdapter.setLinkNotificationAdapter(new LinkNotificationAdapter(this));
+		getCommandStack().addCommandStackListener(modelListenerAdapter);
+		
+		loadModel();
+		updateTitle();
 
-				commandFramework = new EditModelCommandFramework(editModelClient.getCommandStack());
+		commandFramework = new EditModelCommandFramework(editModelClient.getCommandStack());
 
-				// add a listener to the shared command stack
-				getCommandStack().addCommandStackListener(this);
+		// add a listener to the shared command stack
+		getCommandStack().addCommandStackListener(this);
 
-				// Scan the model to see if there are any invalid elements that need to be
-				// removed (there are some elements that if invalid will not appear in 
-				// the UI and thus need to be removed automatically).
-				// Do this after the command framework is created and the listener
-				// is added to it.
-				// JM
+		// Scan the model to see if there are any invalid elements that need to be
+		// removed (there are some elements that if invalid will not appear in 
+		// the UI and thus need to be removed automatically).
+		// Do this after the command framework is created and the listener
+		// is added to it.
+		// JM
 //				if (BPELUtil.removeInvalidElements(process)) {
 //					MessageDialog.openInformation(getSite().getShell(),
 //							Messages.getString("validationInfo.dialog.title"), //$NON-NLS-1$
@@ -1666,24 +1688,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 //					getCommandFramework().execute(new DummyCommand());
 //				}
 //		   		
-				
-				// these can only be created after we load the model
-				// since it affects the available items in the palette
-				createPaletteDependentActions();
-				
-				
-			} catch (RuntimeException e) {
-				BPELUIPlugin.log(e);
-				// Some actions and listeners can might instances of the editor.
-				// In this case we want to dispose of so we don't leak editor instances.
-				dispose();
-				throw new PartInitException(Messages.BPELEditor_Cant_read_input_file_1, e); 
-			}
-		} else {
-			throw new PartInitException(Messages.BPELEditor_Cant_read_input_file_1); 
-		}
+		
+		// these can only be created after we load the model
+		// since it affects the available items in the palette
+		createPaletteDependentActions();				
 	}
 
+	
 	// This is for loading the model within the editor
 	// REMINDER: Any changes to this method, consider corresponding changes to
 	// the loadModelWithoutEditModel() method!
@@ -1729,63 +1740,24 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 //   		}
 	}
 	
-	// This is a hack for the report generator.
-	// REMINDER: Any changes to this method, consider corresponding changes to
-	// the loadModel() method!
-	public void loadModelWithoutEditModel() {
-		// TODO: This two lines are a workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=72565
-		EcorePackage instance = EcorePackage.eINSTANCE;
-		instance.eAdapters();
-
-		ResourceSet resourceSet = new ResourceSetImpl();
-		IFile file = getFileInput();
-		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString());
-		Resource bpelResource = resourceSet.getResource(uri, true);
-
-		BPELReader reader = new BPELReader();
-	    reader.read(bpelResource, file, resourceSet);
-	    
-	    this.process = reader.getProcess();
-	    if (getEditDomain() != null) {
-	    	((BPELEditDomain)getEditDomain()).setProcess(process);
-	    }
-	    this.extensionsResource = reader.getExtensionsResource();
-	    this.extensionMap = reader.getExtensionMap();
-	    
-		modelListenerAdapter = new ModelListenerAdapter();
-		resourceSet.eAdapters().add(modelListenerAdapter);
-		resourceSet.eAdapters().add(new BPELEditorAdapter());
-	    
-		this.modelListenerAdapter.setExtensionMap(extensionMap);
-
-//		ProcessExtension processExtension = (ProcessExtension)ModelHelper.getExtension(process);
-//		long stamp = processExtension.getModificationStamp();
-//   		// Be nice if the file is old or doesn't yet have a stamp.
-//   		if (stamp != 0) {
-//   		    long actualStamp = file.getLocalTimeStamp();
-//   		    if (stamp != actualStamp) {
-//   		        // Inform the user that visual information will be discarded,
-//   		        // and null out the extension map. 
-//   		        // Only inform the user if we actually have a shell; headless clients
-//   		        // will not be informed.
-//   		        if (getSite() != null) {
-//   		            MessageDialog.openWarning(getSite().getShell(), "Process Out Of Sync", "The Process has been modified outside the editor and does not match the layout information stored for it.");
-//   		        }
-//   		        // TODO: Null out and recreate the extension map. Perhaps we need
-//   		        // to preserve some interesting bits of info about spec compliance
-//   		        // and implicit sequences. Don't null it out yet until we understand
-//   		        // all the cases in which this could occur.
-//  		        //extensionMap = null;
-//   		    }
-//   		}
-	    
-	}
 	
-	public ICommandFramework getCommandFramework() { return commandFramework; }
+	/**
+	 * Return the command framework 
+	 * 
+	 * @return command framework. 
+	 */
+	
+	public ICommandFramework getCommandFramework() { 
+		return commandFramework; 
+	}
 
 	// Make the method public so the properties sections can access it
-	public ActionRegistry getActionRegistry() { return super.getActionRegistry(); }
+	public ActionRegistry getActionRegistry() { 
+		return super.getActionRegistry(); 
+	}
 
+	
+	@Override
 	protected void initializeTrayViewer() {
 		getTrayViewer().setEditPartFactory(new BPELTrayEditPartFactory());
 		getTrayViewer().setEditDomain(getEditDomain());
@@ -1860,6 +1832,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	 * @param markerDelta  the marker delta
 	 */
 	
+	@SuppressWarnings("boxing")
 	public void modelMarkersChanged ( ResourceInfo resourceInfo , IMarkerDelta [] markerDelta ) {
 		
 		Resource resource = resourceInfo.getResource();
@@ -1903,6 +1876,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	
 	protected Map<Long,EObject> fMarkers2EObject = new HashMap<Long,EObject>();
 		
+	@SuppressWarnings("boxing")
 	protected void updateMarkersHard () {
 		
 		for(EObject obj : fMarkers2EObject.values()) {
@@ -2034,12 +2008,17 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 			map.remove(deleted.get(j));
 	}
 	
+	/**
+	 * @return the artifacts definition model.
+	 */
+	
 	public Definition getArtifactsDefinition() {
 		// TODO: handle the case where resource doesn't exist or is empty
 		Resource artifactsResource = getEditModelClient().getArtifactsResourceInfo().getResource();
 		return (Definition)artifactsResource.getContents().get(0);
 	}
 
+	@Override
 	protected String getPaletteAdditionsContributorId() {
 		return IBPELUIConstants.BPEL_EDITOR_ID;
 	}

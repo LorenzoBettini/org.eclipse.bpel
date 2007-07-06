@@ -28,6 +28,7 @@ import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
 import org.eclipse.bpel.ui.details.providers.VariableTreeContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.XSDUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -133,13 +134,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			} else if (eObj instanceof XSDElementDeclaration) {
 				
 				XSDElementDeclaration elm = (XSDElementDeclaration) eObj;
-				targetNamespace = elm.getTargetNamespace();
-				
-				XSDTypeDefinition typeDef = elm.getType();				
-				XSDParticle particle = typeDef.getComplexType();				
-				
-				boolean isArray = particle != null && 
-									(particle.getMaxOccurs() == XSDParticle.UNBOUNDED || particle.getMaxOccurs() > 1);
+				targetNamespace = elm.getTargetNamespace();																					
+				int maxOccurs = XSDUtils.getMaxOccurs(elm);				 								
 				
 				builder.append("/");
 				if (targetNamespace != null) {
@@ -151,7 +147,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				}
 				
 				builder.append(elm.getName()) ;
-				if (isArray) {
+				// Unbounded or bounded by something higher then 1.
+				if (maxOccurs != 1) {
 					builder.append("[1]");					
 				}				
 			}
