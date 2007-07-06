@@ -361,13 +361,21 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_NAME_STEP :			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname);
+				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname, 0 );
 			}
 			if (eObj == null) {
 				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
 			}
 			break;
 		
+		case LOOKUP_NODE_NAME_STEP_ATTRIBUTE :			
+			if (context.isResolved()) {
+				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname, 1 );
+			}
+			if (eObj == null) {
+				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
+			}
+			break;
 			
 		case LOOKUP_NODE_TYPE_OF_PART : 
 			if (context.isResolved()) {

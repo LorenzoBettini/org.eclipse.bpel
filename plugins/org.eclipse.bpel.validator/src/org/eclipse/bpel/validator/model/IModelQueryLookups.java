@@ -66,7 +66,10 @@ public interface IModelQueryLookups {
 			
 	/** type of part lookup */
 	final int LOOKUP_NODE_TYPE_OF_PART = 16;
-	
+
+	/** Name steps are lookups in the location paths of an XML type */
+	final int LOOKUP_NODE_NAME_STEP_ATTRIBUTE = 17;
+
 	
 
 	/** hasSupport() function call points */

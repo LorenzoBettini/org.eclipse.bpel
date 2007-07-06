@@ -30,6 +30,7 @@ import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
 import org.eclipse.wst.wsdl.PortType;
+import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDSchema;
@@ -252,10 +253,11 @@ public class EmfModelQuery {
 	/**
 	 * @param eObj
 	 * @param qname
+	 * @param axis the axis to use
 	 * @return the reference to the name step lookup.
 	 */
 	
-	public static EObject lookupNameStep (EObject eObj, QName qname) {
+	public static EObject lookupNameStep (EObject eObj, QName qname, int axis ) {
 		
 		assertTrue(eObj != null,CONTEXT_MSG);
 		
@@ -275,20 +277,34 @@ public class EmfModelQuery {
 			eObj = elm.getType();
 		}
 		
+		eObj = XSDUtils.getEnclosingTypeDefinition(eObj);
+		
 		String localName = qname.getLocalPart();
 		String nsURI = qname.getNamespaceURI();
 		
 		if (eObj instanceof XSDComplexTypeDefinition) {
 			
 			XSDComplexTypeDefinition type = (XSDComplexTypeDefinition) eObj;
-			
-			// Look in the child elements
-			for(Object item : XSDUtils.getChildElements(type)) {
-				XSDElementDeclaration next = (XSDElementDeclaration) item;
-				
-				if (localName.equals( next.getName()) && sameNamespace(nsURI,next.getTargetNamespace())) {
-					return next.getType();
+			System.out.println("_______ Looking for: " + qname );
+			System.out.println("Type: " + type.getName() + "{" + type.getTargetNamespace() + "}");
+			if (axis == 0) {
+				// Look in the child elements
+				for(Object item : XSDUtils.getChildElements(type)) {
+					XSDElementDeclaration next = (XSDElementDeclaration) item;				
+					System.out.println("Element Declaration: " + next.getName() + "{" + next.getTargetNamespace() + "}");
+					if (localName.equals( next.getName()) && sameNamespace(nsURI,next.getTargetNamespace())) {
+						return next.getType();
+					}
 				}
+			} else if (axis == 1) {
+				
+				// Look in attributes
+				for(XSDAttributeDeclaration next : XSDUtils.getChildAttributes( type )) {
+					if (localName.equals( next.getName()) && sameNamespace(nsURI,next.getTargetNamespace())) {
+						return next.getType();
+					}
+				}
+				
 			}
 			
 			
@@ -388,15 +404,13 @@ public class EmfModelQuery {
 		if (eObj instanceof Import) {
 			
 			Import imp = (Import) eObj;
-			                     
-    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
-    	    
-            for (int i = 0; i < resolvers.length; i++)  {            	
-                EObject result =  resolvers[i].resolve(imp,null,null,ImportResolver.TOP);
-                if (result != null) {
+			                         	   
+    	    for (ImportResolver r : ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType()) ) {
+    	    	EObject result =  r.resolve(imp,null,null,ImportResolver.TOP);
+    	    	if (result != null) {
                     return result;
                 }
-            }
+    	    }
 		}
 		
 		return null;
@@ -597,6 +611,7 @@ public class EmfModelQuery {
 		if (srcXSD != null && dstXSD != null) {
 			return srcXSD.equals(dstXSD);
 		}
+		
 		XSDTypeDefinition srcType = null;
 		XSDTypeDefinition dstType = null;
 		
@@ -608,7 +623,22 @@ public class EmfModelQuery {
 		}
 		
 		if (srcType != null && dstType != null) {
-			return srcType.equals(dstType);
+			
+			if (srcType.equals(dstType)) {
+				return true;
+			}
+			
+			// check if src is derived from dst.
+			//   1) src is NCName, dst is string --> compatible.
+			//   2) reverse is not always true			
+			XSDTypeDefinition baseType = srcType.getBaseType();			
+			do {
+				// System.out.println("Checking: " + dstType + " against baseType: " + baseType);
+				if (dstType.equals(baseType)) {
+					return true;
+				}
+				baseType = baseType.getBaseType();
+			} while ( baseType.equals(baseType.getBaseType()) == false );								
 		}
 		
 		// otherwise, incompatible partner activity messages

@@ -368,24 +368,21 @@ public class XPathVisitor
 			// walk the step
 			INode context = (INode) last;
 			int axis = step.getAxis();
-			if (axis != Axis.CHILD) {
-				// information and ignore
-				problem = mValidator.createWarning();
-				problem.fill("XPATH_AXIS_NOT_CHECKED", //$NON-NLS-1$
-						step.getText()						
-				);
-				mContext.push(Collections.EMPTY_LIST);
-				
-			} else {
+			
+			if (axis == Axis.CHILD || axis == Axis.ATTRIBUTE ) {
 			
 				String nsURI = mNamespaceContext.translateNamespacePrefixToUri(prefix);
 				QName qname = new QName(nsURI,step.getLocalName(),prefix);
 	
 				// attempt to "step" using the model's meta data.
+				INode result = null;
+				if (axis == Axis.ATTRIBUTE) {
+					result = mModelQuery.lookup (context,IModelQueryLookups.LOOKUP_NODE_NAME_STEP_ATTRIBUTE, qname);
+				} else {
+					result = mModelQuery.lookup (context,IModelQueryLookups.LOOKUP_NODE_NAME_STEP , qname );
+				}
 				
-				INode result = mModelQuery.lookup (context, 
-						IModelQueryLookups.LOOKUP_NODE_NAME_STEP , qname );
-				if (result.isResolved()) {
+				if (result != null && result.isResolved()) {
 					mContext.push(result);
 				} else {
 					mContext.push(Collections.EMPTY_LIST);
@@ -395,6 +392,13 @@ public class XPathVisitor
 							step.getText()
 					);
 				}
+			} else {
+				// information and ignore
+				problem = mValidator.createWarning();
+				problem.fill("XPATH_AXIS_NOT_CHECKED", //$NON-NLS-1$
+						step.getText()						
+				);
+				mContext.push(Collections.EMPTY_LIST);				
 			}
 
 		} else {

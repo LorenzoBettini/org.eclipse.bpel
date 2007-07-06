@@ -472,6 +472,15 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 			}
 			break;
 		
+
+		case LOOKUP_NODE_NAME_STEP_ATTRIBUTE :			
+			if (context.isResolved()) {
+				modelObject = null;
+			}
+			if (modelObject == null) {
+				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
+			}
+			break;
 			
 		case LOOKUP_NODE_TYPE_OF_PART : 
 			if (context.isResolved()) {
