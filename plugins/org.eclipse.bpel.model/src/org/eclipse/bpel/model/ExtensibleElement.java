@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElement.java,v 1.1 2006/01/19 21:08:47 james Exp $
+ * $Id: ExtensibleElement.java,v 1.2 2007/07/09 19:16:47 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -76,5 +76,30 @@ public interface ExtensibleElement extends org.eclipse.wst.wsdl.ExtensibleElemen
 	 * @generated
 	 */
 	boolean isSetDocumentation();
+	
+	
+	/**
+	 * Get transient property of the model object. 
+	 * These properties are never saved as part of the model. 
+	 * 
+	 * @param <T> the type of the
+	 * @param key the key of the property.
+	 * @return the value of the property
+	 * @generated NOT
+	 */
+	
+	<T extends Object> T getTransientProperty ( String key ) ;
+	
+	/** 
+	 * Set transient property of this model object. 
+	 * These properties are never saved as part of the model object.
+	 * @param <T>  
+	 * @param key the key
+	 * @param value the value to set
+	 * @return  the previous value or null
+	 * @generated NOT
+	 */
+	
+	<T extends Object> T  setTransientProperty ( String key , T value) ;
 
 } // ExtensibleElement

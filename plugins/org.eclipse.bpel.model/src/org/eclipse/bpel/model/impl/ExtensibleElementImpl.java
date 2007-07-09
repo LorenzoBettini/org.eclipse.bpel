@@ -2,11 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.5 2007/07/09 19:16:47 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
@@ -259,6 +261,46 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	@Override
 	public Element getElement () {
 		return super.getElement();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	
+	Map<String,Object> fTransients = null;
+	
+	/**
+	 * This is not part of the EMF model.
+	 * 
+	 * @see org.eclipse.bpel.model.ExtensibleElement#getTransientProperty(java.lang.String) 
+	 * @generated NOT
+	 */
+	
+	
+	public <T extends Object> T getTransientProperty (String key) {
+		if (fTransients == null) {
+			return null;
+		}
+		Object obj = fTransients.get(key);
+		if (obj == null) {
+			return null;
+		}
+		return (T) obj; 		
+	}
+
+	/**
+	 * @see org.eclipse.bpel.model.ExtensibleElement#setTransientProperty(java.lang.String, java.lang.Object)
+	 * @generated NOT
+	 */
+	public <T extends Object> T setTransientProperty(String key, T value) {
+		if (fTransients == null) {
+			fTransients = new HashMap<String,Object>(7);
+		}
+		Object obj = fTransients.put(key,value);
+		if (obj == null) {
+			return null;
+		}
+		return (T) obj;		
 	}
 	
 	
