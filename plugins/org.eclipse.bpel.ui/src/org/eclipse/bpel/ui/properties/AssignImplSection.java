@@ -45,8 +45,12 @@ import org.eclipse.swt.widgets.Composite;
  * AssignImplDetails allows viewing and editing of the copy elements in an Assign.
  */
 
+@SuppressWarnings("nls")
 public class AssignImplSection extends BPELPropertySection {
 				
+	static String  CURRENT_INDEX_PROPERTY = "currentIndex";
+	
+	
 	/** The to section */
 	CategorySection fToSection   = new CategorySection ( this );
 	
@@ -306,17 +310,19 @@ public class AssignImplSection extends BPELPropertySection {
 	// Total Hack until we have Copy objects in graphical editor
 	@Override
 	protected void basicSetInput (EObject newInput) {
+		
+		Assign oldModel = getModel();
+		
+		if (oldModel != null) {
+			oldModel.setTransientProperty(CURRENT_INDEX_PROPERTY,getUserContext() );
+		}
+		
 		super.basicSetInput(newInput);
 		
-		Assign assign = getModel();
-		
+		Assign assign = getModel();		
 		adjustCopyRulesList ();
 		
-		if (assign.getCopy().size() > 0) {							
-			selectCategoriesForInput( (Copy) assign.getCopy().get(0) );		
-		} else {
-			selectCategoriesForInput(null);
-		}
+		restoreUserContext( assign.getTransientProperty(CURRENT_INDEX_PROPERTY) );
 				
 		if (fToSection.fCurrent != null) {
 			fToSection.fCurrent.refresh();
@@ -488,8 +494,8 @@ public class AssignImplSection extends BPELPropertySection {
 	@Override
 	public Object getUserContext() {
 		Assign assign = getModel();
-		if (fCurrentCopy == null) {
-			return -1 ;
+		if (assign == null) {
+			return -1;
 		}
 		return assign.getCopy().indexOf(fCurrentCopy);		
 	}
@@ -502,20 +508,24 @@ public class AssignImplSection extends BPELPropertySection {
 	@Override
 	public void restoreUserContext (Object userContext) {
 		
-		if (userContext instanceof Integer == false) {
-			return ;
+		int idx = 0;
+		if (userContext instanceof Number ) {
+			Number num = (Number) userContext;
+			idx = num.intValue();
 		}
-		
-		int idx = (Integer) userContext;
+				
 		Assign assign = getModel();
 		
 		int sz = assign.getCopy().size();
-		
-		if (idx < sz && idx >= 0) {
-			Copy copy = (Copy) assign.getCopy().get(idx);			
-			selectCategoriesForInput(copy);
+		Copy copy = null;
+		if (sz > 0) {					
+			if (idx < sz && idx >= 0) {
+				copy = (Copy) assign.getCopy().get(idx);
+			} else {
+				copy = (Copy) assign.getCopy().get(0);
+			}
 		}
-		
+		selectCategoriesForInput(copy);
 	}
 	
 	/**
