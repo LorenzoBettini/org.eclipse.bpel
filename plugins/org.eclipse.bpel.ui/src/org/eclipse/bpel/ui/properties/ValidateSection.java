@@ -14,12 +14,11 @@ import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
-import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetValidateCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -39,19 +38,15 @@ public class ValidateSection extends BPELPropertySection  {
 	protected Button validateXMLButton;
 	protected ChangeTracker validateXMLTracker;
 
-	protected boolean isValidateXMLAffected(Object context, Notification n) {
-		if (context instanceof Assign) {
-			return (n.getFeatureID(Assign.class) == BPELPackage.ASSIGN__VALIDATE);
-		}
-		throw new IllegalArgumentException();
-	}
 	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new MultiObjectAdapter() {
+				@Override
 				public void notify(Notification n) {
-					if (isValidateXMLAffected(getInput(), n)) {
+					if (n.getFeature() == BPELPackage.eINSTANCE.getAssign_Validate() ) {
 						updateValidateXMLWidgets();
 					} 
 				}
@@ -65,9 +60,13 @@ public class ValidateSection extends BPELPropertySection  {
 				return IBPELUIConstants.CMD_VALIDATE_XML;
 			}
 			public Command createApplyCommand() {
-				return wrapInShowContextCommand(new SetValidateCommand(
-					getInput(), validateXMLButton.getSelection()? Boolean.TRUE : null));
+				
+				return wrapInShowContextCommand(
+						new SetCommand(getInput(), 
+									validateXMLButton.getSelection()? Boolean.TRUE : null, 
+									BPELPackage.eINSTANCE.getAssign_Validate() ));
 			}
+			
 			public void restoreOldState() {
 				updateValidateXMLWidgets();
 			}
@@ -88,6 +87,7 @@ public class ValidateSection extends BPELPropertySection  {
 		validateXMLButton = fWidgetFactory.createButton(parent, Messages.Validate, SWT.CHECK); 
 	}
 	
+	@Override
 	protected void createClient(Composite parent) {
 		Composite composite = createFlatFormComposite(parent);
 		// HACK: the checkbox by itself looks cramped..give it a little extra space
@@ -112,15 +112,27 @@ public class ValidateSection extends BPELPropertySection  {
 		}
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#refresh()
+	 */
+	@Override
 	public void refresh() {
 		super.refresh();
 		updateValidateXMLWidgets();
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 		validateXMLButton.setFocus();
 	}

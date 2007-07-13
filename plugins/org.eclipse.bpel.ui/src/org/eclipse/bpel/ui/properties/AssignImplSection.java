@@ -21,6 +21,7 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
@@ -67,6 +68,8 @@ public class AssignImplSection extends BPELPropertySection {
 	protected ListViewer fCopyListViewer;
 
 	Button fDeleteCopy;
+
+	Button fKeepSrcElement;
 	
 	
 	/**
@@ -274,8 +277,41 @@ public class AssignImplSection extends BPELPropertySection {
 		data.left = new FlatFormAttachment(section.fLabel, 0, SWT.LEFT);
 		data.right = new FlatFormAttachment(section.fCombo, 0, SWT.RIGHT);
 		data.top = new FlatFormAttachment(section.fCombo, IDetailsAreaConstants.VSPACE);
-		data.bottom = new FlatFormAttachment(100,0);
+		data.bottom = new FlatFormAttachment(100,-25);
 		section.fOuterComposite.setLayoutData(data);
+		
+		
+		// Create the keepSrcElement check box button
+		if (isFrom == false) {
+			fKeepSrcElement = fWidgetFactory.createButton(composite, Messages.AssignImplDetails_KeepSrcElementName, SWT.CHECK );
+			data = new FlatFormData();
+			data.right = new FlatFormAttachment(50,-IDetailsAreaConstants.HSPACE);
+			data.bottom = new FlatFormAttachment(100,0);
+			fKeepSrcElement.setLayoutData(data);
+			
+			fKeepSrcElement.addSelectionListener(new SelectionListener() {
+
+				public void widgetDefaultSelected(SelectionEvent e) {
+					widgetSelected(e);					
+				}
+
+				@SuppressWarnings("boxing")
+				public void widgetSelected(SelectionEvent e) {
+					if (fCurrentCopy == null) {
+						return ;
+					}
+					
+					getCommandFramework().execute(wrapInShowContextCommand (
+							new SetCommand(fCurrentCopy, fKeepSrcElement.getSelection(), 
+									BPELPackage.eINSTANCE.getCopy_KeepSrcElementName() 
+							)
+					));								
+					
+				}								
+			} );
+			
+		} 
+				
 	}
 	
 	
@@ -339,13 +375,15 @@ public class AssignImplSection extends BPELPropertySection {
 	 * Called when the copy rule changes or is created.
 	 *
 	 */
+	@SuppressWarnings("boxing")
 	protected void selectCategoriesForInput (Copy copy) {
 			
 		fCurrentCopy = copy;
 
 		if (fCurrentCopy == null) {			
 			fToSection.hideCurrent();
-			fFromSection.hideCurrent();			
+			fFromSection.hideCurrent();		
+			fKeepSrcElement.setEnabled(false);
 			return ;
 		}
 				
@@ -384,6 +422,8 @@ public class AssignImplSection extends BPELPropertySection {
 			updateCategorySelection(fToSection,0,false);
 		}
 		
+		fKeepSrcElement.setEnabled(true);
+		fKeepSrcElement.setSelection( fCurrentCopy.getKeepSrcElementName() );
 	}
 	
 	
@@ -534,7 +574,7 @@ public class AssignImplSection extends BPELPropertySection {
 	@Override
 	public void gotoMarker(IMarker marker) {
 		
-		String uriFragment = marker.getAttribute(IBPELUIConstants.MARKER_ATT_FROM, ""); //$NON-NLS-1$
+		String uriFragment = marker.getAttribute(IBPELUIConstants.MARKER_ATT_FROM, EMPTY_STRING);
 		EObject from = modelObject.eResource().getEObject(uriFragment);
 		EObject copy = from.eContainer();
 		// currentCopyIndex = ((Assign)getModel()).getCopy().indexOf(copy);
