@@ -34,6 +34,7 @@ public final class Messages extends NLS {
 	public static String AssignImplDetails_NofM__4;
 	public static String AssignImplDetails_To__2;
 	public static String AssignImplDetails_KeepSrcElementName;
+	public static String AssignImplDetails_IgnoreMissingSourceData;
 	public static String BPELUtil_NCName_1;
 	public static String BPELUtil_NCName_2;
 	public static String BPELUtil_NCName_3;

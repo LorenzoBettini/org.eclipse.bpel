@@ -70,6 +70,7 @@ public class AssignImplSection extends BPELPropertySection {
 	Button fDeleteCopy;
 
 	Button fKeepSrcElement;
+	Button fIgnoreMissingSourceData;
 	
 	
 	/**
@@ -282,10 +283,39 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		
 		// Create the keepSrcElement check box button
-		if (isFrom == false) {
-			fKeepSrcElement = fWidgetFactory.createButton(composite, Messages.AssignImplDetails_KeepSrcElementName, SWT.CHECK );
+		if (isFrom) {
+			fIgnoreMissingSourceData = fWidgetFactory.createButton(composite, Messages.AssignImplDetails_IgnoreMissingSourceData, SWT.CHECK );
 			data = new FlatFormData();
 			data.right = new FlatFormAttachment(50,-IDetailsAreaConstants.HSPACE);
+			data.bottom = new FlatFormAttachment(100,0);
+			fIgnoreMissingSourceData.setLayoutData(data);
+			
+			fIgnoreMissingSourceData.addSelectionListener(new SelectionListener() {
+
+				public void widgetDefaultSelected(SelectionEvent e) {
+					widgetSelected(e);					
+				}
+
+				@SuppressWarnings("boxing")
+				public void widgetSelected(SelectionEvent e) {
+					if (fCurrentCopy == null) {
+						return ;
+					}
+					
+					getCommandFramework().execute(wrapInShowContextCommand (
+							new SetCommand(fCurrentCopy, fIgnoreMissingSourceData.getSelection(), 
+									BPELPackage.eINSTANCE.getCopy_IgnoreMissingFromData() 
+							)
+					));								
+					
+				}								
+			} );
+			
+		} else {
+			
+			fKeepSrcElement = fWidgetFactory.createButton(composite, Messages.AssignImplDetails_KeepSrcElementName, SWT.CHECK );
+			data = new FlatFormData();
+			data.right = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
 			data.bottom = new FlatFormAttachment(100,0);
 			fKeepSrcElement.setLayoutData(data);
 			
@@ -384,6 +414,7 @@ public class AssignImplSection extends BPELPropertySection {
 			fToSection.hideCurrent();
 			fFromSection.hideCurrent();		
 			fKeepSrcElement.setEnabled(false);
+			fIgnoreMissingSourceData.setEnabled(false);
 			return ;
 		}
 				
@@ -424,6 +455,8 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		fKeepSrcElement.setEnabled(true);
 		fKeepSrcElement.setSelection( fCurrentCopy.getKeepSrcElementName() );
+		fIgnoreMissingSourceData.setEnabled(true);
+		fIgnoreMissingSourceData.setSelection( fCurrentCopy.getIgnoreMissingFromData() );
 	}
 	
 	
