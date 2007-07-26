@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +51,7 @@ import org.xml.sax.ErrorHandler;
 public class BPELResourceImpl extends XMLResourceImpl implements BPELResource { 
 
 	static final String EMPTY_STRING = ""; //$NON-NLS-1$
+	static final String[] EMPTY_ARRAY_OF_STRING = {};
 	
 	protected static boolean USE_IMPORTS = false;
 
@@ -103,7 +106,7 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         
         if (getOptionUseNSPrefix()) {
         	
-        	for(String prefix : nsMap.getReverse(getNamespaceURI())) {
+        for (String prefix : nsMap.getReverse(getNamespaceURI()).toArray(EMPTY_ARRAY_OF_STRING)  ) {
 	        	if (EMPTY_STRING.equals(prefix)) {
 	        		nsMap.remove(prefix);
 	        	}
