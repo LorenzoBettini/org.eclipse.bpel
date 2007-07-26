@@ -10,10 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackageImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PartnerlinktypePackageImpl.java,v 1.5 2007/07/26 01:34:12 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.impl.BPELPackageImpl;
+import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
+import org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesPackageImpl;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
@@ -117,11 +121,19 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements Partnerl
 		WSDLPackage.eINSTANCE.eClass();
 		XSDPackage.eINSTANCE.eClass();
 
+		// Obtain or create and register interdependencies
+		BPELPackageImpl theBPELPackage = (BPELPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI) instanceof BPELPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI) : BPELPackage.eINSTANCE);
+		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI) instanceof MessagepropertiesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI) : MessagepropertiesPackage.eINSTANCE);
+
 		// Create package meta-data objects
 		thePartnerlinktypePackage.createPackageContents();
+		theBPELPackage.createPackageContents();
+		theMessagepropertiesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		thePartnerlinktypePackage.initializePackageContents();
+		theBPELPackage.initializePackageContents();
+		theMessagepropertiesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePartnerlinktypePackage.freeze();

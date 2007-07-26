@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ToImpl.java,v 1.5 2007/07/26 01:34:12 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Query;
@@ -47,6 +48,7 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.ToImpl#getPartnerLink <em>Partner Link</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ToImpl#getProperty <em>Property</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ToImpl#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ToImpl#getExpression <em>Expression</em>}</li>
  * </ul>
  * </p>
  *
@@ -108,6 +110,16 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @ordered
 	 */
 	protected Query query;
+
+	/**
+	 * The cached value of the '{@link #getExpression() <em>Expression</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected Expression expression;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -354,10 +366,55 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Expression getExpression() {
+		return expression;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetExpression(Expression newExpression, NotificationChain msgs) {
+		Expression oldExpression = expression;
+		expression = newExpression;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.TO__EXPRESSION, oldExpression, newExpression);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExpression(Expression newExpression) {
+		if (newExpression != expression) {
+			NotificationChain msgs = null;
+			if (expression != null)
+				msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TO__EXPRESSION, null, msgs);
+			if (newExpression != null)
+				msgs = ((InternalEObject)newExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TO__EXPRESSION, null, msgs);
+			msgs = basicSetExpression(newExpression, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__EXPRESSION, newExpression, newExpression));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.TO__QUERY:
 				return basicSetQuery(null, msgs);
+			case BPELPackage.TO__EXPRESSION:
+				return basicSetExpression(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -383,6 +440,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				return basicGetProperty();
 			case BPELPackage.TO__QUERY:
 				return getQuery();
+			case BPELPackage.TO__EXPRESSION:
+				return getExpression();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -408,6 +467,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				return;
 			case BPELPackage.TO__QUERY:
 				setQuery((Query)newValue);
+				return;
+			case BPELPackage.TO__EXPRESSION:
+				setExpression((Expression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -435,6 +497,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			case BPELPackage.TO__QUERY:
 				setQuery((Query)null);
 				return;
+			case BPELPackage.TO__EXPRESSION:
+				setExpression((Expression)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -456,6 +521,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 				return property != null;
 			case BPELPackage.TO__QUERY:
 				return query != null;
+			case BPELPackage.TO__EXPRESSION:
+				return expression != null;
 		}
 		return super.eIsSet(featureID);
 	}

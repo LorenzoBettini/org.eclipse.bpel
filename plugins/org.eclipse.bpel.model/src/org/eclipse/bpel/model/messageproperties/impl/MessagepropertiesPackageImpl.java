@@ -10,15 +10,19 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackageImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: MessagepropertiesPackageImpl.java,v 1.5 2007/07/26 01:34:12 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.impl.BPELPackageImpl;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesFactory;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.messageproperties.Query;
+import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
+import org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypePackageImpl;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesExtensibilityElementFactory;
 

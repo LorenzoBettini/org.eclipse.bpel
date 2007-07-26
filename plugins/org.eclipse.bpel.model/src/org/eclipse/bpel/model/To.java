@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: To.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: To.java,v 1.3 2007/07/26 01:34:12 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -34,6 +34,7 @@ import org.eclipse.wst.wsdl.Part;
  *   <li>{@link org.eclipse.bpel.model.To#getPartnerLink <em>Partner Link</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.To#getProperty <em>Property</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.To#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.To#getExpression <em>Expression</em>}</li>
  * </ul>
  * </p>
  *
@@ -171,5 +172,31 @@ public interface To extends ExtensibleElement {
 	 * @generated
 	 */
 	void setQuery(Query value);
+
+	/**
+	 * Returns the value of the '<em><b>Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Expression</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Expression</em>' containment reference.
+	 * @see #setExpression(Expression)
+	 * @see org.eclipse.bpel.model.BPELPackage#getTo_Expression()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Expression getExpression();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.To#getExpression <em>Expression</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Expression</em>' containment reference.
+	 * @see #getExpression()
+	 * @generated
+	 */
+	void setExpression(Expression value);
 
 } // To

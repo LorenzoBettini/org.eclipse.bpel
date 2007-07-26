@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.31 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: BPELPackage.java,v 1.32 2007/07/26 01:34:12 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -3533,13 +3533,22 @@ public interface BPELPackage extends EPackage{
 	int TO__QUERY = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO__EXPRESSION = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>To</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TO_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
+	int TO_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -7892,6 +7901,17 @@ public interface BPELPackage extends EPackage{
 	EReference getTo_Query();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.To#getExpression <em>Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Expression</em>'.
+	 * @see org.eclipse.bpel.model.To#getExpression()
+	 * @see #getTo()
+	 * @generated
+	 */
+	EReference getTo_Expression();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.From <em>From</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10433,6 +10453,14 @@ public interface BPELPackage extends EPackage{
 		 * @generated
 		 */
 		EReference TO__QUERY = eINSTANCE.getTo_Query();
+
+		/**
+		 * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO__EXPRESSION = eINSTANCE.getTo_Expression();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.FromImpl <em>From</em>}' class.

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.31 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: BPELPackageImpl.java,v 1.32 2007/07/26 01:34:12 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -1801,6 +1801,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTo_Expression() {
+		return (EReference)toEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFrom() {
 		return fromEClass;
 	}
@@ -3224,6 +3233,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(toEClass, TO__PARTNER_LINK);
 		createEReference(toEClass, TO__PROPERTY);
 		createEReference(toEClass, TO__QUERY);
+		createEReference(toEClass, TO__EXPRESSION);
 
 		fromEClass = createEClass(FROM);
 		createEAttribute(fromEClass, FROM__OPAQUE);
@@ -3660,6 +3670,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		initEReference(getTo_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTo_Property(), theMessagepropertiesPackage.getProperty(), null, "property", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTo_Query(), this.getQuery(), null, "query", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTo_Expression(), this.getExpression(), null, "expression", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fromEClass, From.class, "From", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFrom_Opaque(), ecorePackage.getEBooleanObject(), "opaque", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

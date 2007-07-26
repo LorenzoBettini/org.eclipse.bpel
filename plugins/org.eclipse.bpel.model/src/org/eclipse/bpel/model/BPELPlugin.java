@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.model;
 
+import org.eclipse.bpel.model.adapters.AdapterProvider;
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
+import org.eclipse.bpel.model.adapters.BasicBPELAdapterFactory;
+import org.eclipse.bpel.model.util.BPELAdapterFactory;
 import org.eclipse.core.internal.runtime.RuntimeLog;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -18,6 +22,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
 
@@ -41,6 +47,10 @@ public class BPELPlugin extends EMFPlugin
 	 */
 	public static final BPELPlugin INSTANCE = new BPELPlugin();
 
+	/**
+	 * The plugin id.
+	 */
+	
 	public static final String PLUGIN_ID = "org.eclipse.bpel.model"; //$NON-NLS-1$
 
 	/**
@@ -49,19 +59,34 @@ public class BPELPlugin extends EMFPlugin
 	 */
 	private static Implementation plugin;
 
+	/**
+	 * 
+	 */
 	public BPELPlugin()
 	{
 		super(new ResourceLocator[] {});
+		
+		/** The basic adapter factory for our EMF objects */
+		
+		AdapterRegistry.INSTANCE.registerAdapterFactory(				
+				BPELPackage.eINSTANCE,
+				BasicBPELAdapterFactory.INSTANCE
+		);
+		
 	}
 
-	/**
-	 * Returns an Eclipse plugin.
+	/** 
+	 * @return Returns an Eclipse plugin. 
 	 */
 	public static Implementation getPlugin()
 	{
 		return plugin;
 	}
 
+	/**
+	 * @see org.eclipse.emf.common.EMFPlugin#getPluginResourceLocator()
+	 */
+	@Override
 	public ResourceLocator getPluginResourceLocator()
 	{
 		return plugin;
@@ -83,6 +108,7 @@ public class BPELPlugin extends EMFPlugin
 
 		/**
 		 * Returns the workspace instance.
+		 * @return 
 		 */
 		public static IWorkspace getWorkspace()
 		{
@@ -91,41 +117,23 @@ public class BPELPlugin extends EMFPlugin
 	}
 
 	/**
-	 * @deprecated Use {@link BPELPlugin#INSTANCE}.
+	 * Utility methods for logging exceptions.
+	 * @param message 
+	 * @param e 
+	 * @param severity 
 	 */
-	public static BPELPlugin getDefault()
-	{
-		return INSTANCE;
-	}
 	
-	/**
-	 * @deprecated Use {@link ResourceLocator#getString(java.lang.String)}.
-	 */
-	public static String getMessageText(String msgId)
-	{
-		return INSTANCE.getString(msgId);
-	}
-	
-	/**
-	 * @deprecated Use {@link ResourceLocator#getString(java.lang.String, java.lang.Object[])}.
-	 */
-	public static String getMessageText(String msgId, Object arg)
-	{	
-		return INSTANCE.getString(msgId, new Object[]{ arg });	
-	}
-	
-	/**
-	 * @deprecated Use {@link ResourceLocator#getString(java.lang.String, java.lang.Object[])}.
-	 */
-	public static String getMessageText(String msgId, Object arg1, Object arg2)
-	{	
-		return INSTANCE.getString(msgId, new Object[]{ arg1, arg2 });	
+	public static void logMessage (String message, Throwable e, int severity) {
+		
+		IStatus status = new Status(severity, PLUGIN_ID, 0, message, e); 
+		Logger logger = INSTANCE.getPluginLogger();
+		logger.log(status);
 	}
 	
 	/**
 	 * Utility methods for logging exceptions.
 	 * @param message 
-	 * @param t 
+	 * @param e 
 	 * @param severity 
 	 */
 	
