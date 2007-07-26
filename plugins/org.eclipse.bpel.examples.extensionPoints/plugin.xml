@@ -20,5 +20,32 @@
                default="false"/>
       </additions>
    </extension>
+   <extension
+         point="org.eclipse.bpel.common.ui.embeddedEditors">
+      <editor
+            class="org.eclipse.bpel.examples.extensionpoints.expression.editors.SimpleTextEditor"
+            id="org.eclipse.bpel.examples.extensionPoints.textEditor"
+            name="Ruby-Text">
+      </editor>
+      <editor
+            class="org.eclipse.bpel.examples.extensionpoints.expression.editors.JavaTextEditor"
+            contributorClass="org.eclipse.jdt.internal.ui.javaeditor.BasicJavaEditorActionContributor"
+            id="org.eclipse.bpel.examples.extensionPoints.javaEditor"
+            name="Java Editor">
+      </editor>
+      <editor
+            class="org.eclipse.bpel.examples.extensionpoints.expression.editors.JavaScriptTextEditor"
+            id="org.eclipse.bpel.examples.extensionPoints.javaScriptEditor"
+            name="JavaScript Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.bpel.ui.expressionEditors">
+      <editor
+            class="org.eclipse.bpel.examples.extensionpoints.expression.editors.SimpleTextExpressionEditor"
+            expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:ruby"
+            label="Ruby (Simple Text Editor)">
+      </editor>
+   </extension>
 
 </plugin>
