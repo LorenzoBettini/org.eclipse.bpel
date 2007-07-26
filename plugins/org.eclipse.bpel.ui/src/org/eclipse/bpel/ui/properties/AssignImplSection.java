@@ -17,6 +17,7 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.adapters.IProperty;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
@@ -82,6 +83,7 @@ public class AssignImplSection extends BPELPropertySection {
 				
 		fToSection.fAllowed = new IAssignCategory[] {				
 			new VariablePartAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To() ),
+			new ExpressionAssignCategory(this),
 			new VariablePropertyAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To()),
 			new PartnerRoleAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To() )
 		};
@@ -379,8 +381,10 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		Assign oldModel = getModel();
 		
-		if (oldModel != null) {
-			oldModel.setTransientProperty(CURRENT_INDEX_PROPERTY,getUserContext() );
+		IProperty<String,Object> prop = BPELUtil.adapt(oldModel, IProperty.class);
+		
+		if (prop != null) {
+			prop.setProperty(CURRENT_INDEX_PROPERTY, getUserContext() );
 		}
 		
 		super.basicSetInput(newInput);
@@ -388,7 +392,9 @@ public class AssignImplSection extends BPELPropertySection {
 		Assign assign = getModel();		
 		adjustCopyRulesList ();
 		
-		restoreUserContext( assign.getTransientProperty(CURRENT_INDEX_PROPERTY) );
+		prop = BPELUtil.adapt(assign, IProperty.class);
+		
+		restoreUserContext( prop.getProperty(CURRENT_INDEX_PROPERTY) );
 				
 		if (fToSection.fCurrent != null) {
 			fToSection.fCurrent.refresh();

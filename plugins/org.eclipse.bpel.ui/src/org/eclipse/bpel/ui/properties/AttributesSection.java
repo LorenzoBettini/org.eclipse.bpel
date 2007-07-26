@@ -62,33 +62,13 @@ public class AttributesSection extends BPELPropertySection {
 	protected ChangeHelper expressionChangeHelper;
 	protected ChangeHelper queryChangeHelper;
 
+	@Override
 	protected void basicSetInput(EObject input) {
 		super.basicSetInput(input);
 		if (input == null) {
 			process = null;
 		} else {
 			process = (Process) input;
-		}
-
-		// since now we have a model object we should update the content providers
-		// to reflect the spec-compliance mode of the current process
-		boolean specCompliant = ModelHelper.isSpecCompliant(input);
-		
-		expressionChangeHelper.startNonUserChange();
-		try {
-			ExpressionEditorDescriptorContentProvider provider = (ExpressionEditorDescriptorContentProvider)expressionLanguageViewer.getContentProvider();
-			provider.setSpecCompliant(specCompliant);
-			expressionLanguageViewer.setContentProvider(provider);
-		} finally {
-			expressionChangeHelper.finishNonUserChange();
-		}
-
-		queryChangeHelper.startNonUserChange();
-		try {
-			((ExpressionEditorDescriptorContentProvider)queryLanguageViewer.getContentProvider()).setSpecCompliant(specCompliant);
-			queryLanguageViewer.refresh();
-		} finally {
-			queryChangeHelper.finishNonUserChange();
 		}
 	}
 

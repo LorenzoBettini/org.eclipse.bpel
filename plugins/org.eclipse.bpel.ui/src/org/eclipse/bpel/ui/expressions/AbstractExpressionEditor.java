@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.expressions;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bpel.common.ui.composite.EditorInViewManager;
@@ -30,51 +29,83 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-
-
+/**
+ * @author IBM Original Contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jul 16, 2007
+ *
+ */
 public abstract class AbstractExpressionEditor implements IExpressionEditor {
 
-	protected List listeners = new ArrayList();
-	protected EditorInViewManager manager;
-	protected BPELPropertySection section;
-	private Object modelObject;
-	private String exprType, exprContext;
+	protected List<Listener> listeners = new ArrayList<Listener>();
 
+	protected EditorInViewManager fManager;
+
+	/** The owner BPELProperty section */
+	protected BPELPropertySection fSection;
+
+	/** The underlying model object */
+	private Object fModelObject;
+	
+	/** The expression type */
+	private String fExprType ;
+
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#createControls(org.eclipse.swt.widgets.Composite,
+	 *      org.eclipse.bpel.ui.properties.BPELPropertySection)
+	 */
 	public void createControls(Composite parent, BPELPropertySection aSection) {
-		this.section = aSection;
+		this.fSection = aSection;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#addListener(org.eclipse.bpel.ui.expressions.IExpressionEditor.Listener)
+	 */
 	public void addListener(Listener listener) {
 		listeners.add(listener);
 	}
-	
+
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#removeListener(org.eclipse.bpel.ui.expressions.IExpressionEditor.Listener)
+	 */
+
 	public void removeListener(Listener listener) {
 		listeners.remove(listener);
 	}
 
 	protected void notifyListeners() {
-		Iterator it = listeners.iterator();
-		while (it.hasNext()) {
-			((Listener)it.next()).notifyChanged();
+		for (Listener next : listeners) {
+			next.notifyChanged();
 		}
 	}
-	
-	public abstract Object getBody();
 
 	/**
-	 * Implementors of this method should call refresh after
-	 * setting the body.
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#getEditorContent()
+	 * 
+	 * 
 	 */
-	public abstract void setBody(Object body);
+	public abstract String getEditorContent() ;
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#setEditorContent(java.lang.String)
+	 */
+	public abstract void setEditorContent (String body) ;
+
+	
 	protected void refresh() {
+
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#addExtraStoreCommands(org.eclipse.gef.commands.CompoundCommand)
+	 */
 	public void addExtraStoreCommands(CompoundCommand compoundCommand) {
 		// Default is to do nothing.
 	}
 
-	protected IEditorPart createEditor(String editorID, IEditorInput input, Composite parent) {
+	protected IEditorPart createEditor(String editorID, IEditorInput input,
+			Composite parent) {
 		try {
 			return getEditorManager().createEditor(editorID, input, parent);
 		} catch (CoreException e) {
@@ -84,38 +115,58 @@ public abstract class AbstractExpressionEditor implements IExpressionEditor {
 	}
 
 	protected EditorInViewManager getEditorManager() {
-		if (manager == null) {
+		if (fManager == null) {
 			IWorkbench workbench = PlatformUI.getWorkbench();
-			IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+			IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
+					.getActivePage();
 			IViewPart view = page.findView(IBPELUIConstants.PROPERTY_VIEW_ID);
 			try {
 				if (view == null) {
 					view = page.showView(IBPELUIConstants.PROPERTY_VIEW_ID);
 				}
-				manager = new EditorInViewManager(view.getViewSite());
+				fManager = new EditorInViewManager(view.getViewSite());
 			} catch (PartInitException e) {
 				BPELUIPlugin.log(e);
 			}
 		}
-		return manager;
-	}
-	
-	public BPELPropertySection getSection() {
-		return section;
-	}
-	public void setExpressionType(String exprType, String exprContext) {
-	    this.exprType = exprType;
-	    this.exprContext = exprContext;
-	}
-	public void setModelObject(Object modelObject) {
-	    this.modelObject = modelObject;
+		return fManager;
 	}
 
-	protected String getExprContext() { return exprContext; }
-	protected String getExprType() { return exprType; }
-	protected Object getModelObject() { return modelObject; }
-	
+	/**
+	 * Return the BPELPropertySection in which we are created.
+	 * 
+	 * @return the BPELProperty section.
+	 */
+
+	public BPELPropertySection getSection() {
+		return fSection;
+	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#setExpressionType(java.lang.String)
+	 */
+
+	public void setExpressionType (String exprType ) {
+		this.fExprType = exprType;		
+	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#setModelObject(java.lang.Object)
+	 */
+	public void setModelObject(Object modelObject) {
+		this.fModelObject = modelObject;
+	}
+
+
+	protected String getExprType() {
+		return fExprType;
+	}
+
+	protected Object getModelObject() {
+		return fModelObject;
+	}
+
 	protected TabbedPropertySheetWidgetFactory getWidgetFactory() {
-	    return section.getWidgetFactory();
+		return fSection.getWidgetFactory();
 	}
 }

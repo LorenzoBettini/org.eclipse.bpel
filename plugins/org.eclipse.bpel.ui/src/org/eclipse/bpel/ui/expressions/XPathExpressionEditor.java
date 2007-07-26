@@ -26,8 +26,6 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -47,15 +45,16 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 /**
  * Expression language editor for XPath.
  */
+@SuppressWarnings("nls")
 public class XPathExpressionEditor extends AbstractExpressionEditor {
 
-	private static final String BOOLEAN_EXPR_DEFAULT = "true()";
-	private static final String UNSIGNED_INT_EXPR_DEFAULT = "1";
+	static final String BOOLEAN_EXPR_DEFAULT = "true()"; //$NON-NLS-1$
+	static final String UNSIGNED_INT_EXPR_DEFAULT = "1"; //$NON-NLS-1$
 	
-	private static final String TEXT_STRING = Messages.XPathExpressionEditor_Text_0,
+	static final String TEXT_STRING = Messages.XPathExpressionEditor_Text_0,
 			LITERAL_STRING = Messages.XPathExpressionEditor_Literal_1;
 
-	private static final int TEXT = 0, LITERAL = 1;
+	static final int TEXT = 0, LITERAL = 1;
 
 	protected static final String DEFAULT_DURATION_VALUE = "\'P0D\'"; //$NON-NLS-1$
 
@@ -106,9 +105,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	 */
 	@Override
 	public void createControls(Composite parent, BPELPropertySection aSection) {
-		super.createControls(parent, aSection);
-		this.section = aSection;
-
+		super.createControls(parent, aSection);		
 		createEditor(parent);
 	}
 
@@ -261,10 +258,10 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 				
 				if (textEditorInput != null) {
 					int[] values = dateTimeSelector.getValues();         		        
-					textEditorInput.setBody ( BPELDateTimeHelpers.createXPathDateTime(values, false) , getModelObject() );
+					textEditorInput.setEditorContent ( BPELDateTimeHelpers.createXPathDateTime(values, false) , getModelObject() );
 				}
 				
-				if (!((TextSection) section).isExecutingStoreCommand()) {
+				if (!((TextSection) fSection).isExecutingStoreCommand()) {
 					notifyListeners();
 				}
 			}
@@ -322,11 +319,11 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 				
 				if (textEditorInput != null) {
 					int[] duration = durationSelector.getValues();         		        
-					textEditorInput.setBody ( BPELDateTimeHelpers.createXPathDuration(duration) , getModelObject() );
+					textEditorInput.setEditorContent( BPELDateTimeHelpers.createXPathDuration(duration) , getModelObject() );
 				}
 			
 				// 
-			 	if (!((TextSection)section).isExecutingStoreCommand() ) {
+			 	if (!((TextSection)fSection).isExecutingStoreCommand() ) {
 			 		notifyListeners();
 			 	}
 			 }
@@ -488,10 +485,16 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		return propertyListener;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#getUserContext()
+	 */
 	public Object getUserContext() {
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#restoreUserContext(java.lang.Object)
+	 */
 	public void restoreUserContext(Object userContext) {
 
 		// TODO! this is bogus
@@ -503,10 +506,10 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	/**
 	 * Return the body of the editor.
 	 * 
-	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#getBody()
+	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#getEditorContent()
 	 */
 	@Override
-	public Object getBody() {
+	public String getEditorContent() {
 
 		int editorType = combo.getSelectionIndex();
 
@@ -521,12 +524,12 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		return textEditor.getContents();
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#setEditorContent(java.lang.String)
+	 */
 	@Override
-	public void setBody (Object body) {
-
-		String value = (body instanceof String) ? (String) body : ""; //$NON-NLS-1$
-
-		this.textEditorInput = new TextEditorInput(value, getModelObject(), getExprContext());
+	public void setEditorContent (String body) {		
+		this.textEditorInput = new TextEditorInput(body, getModelObject(), getExprType() );
 		// Refresh the text editor input, if not set
 		if (textEditor != null) {
 			textEditor.setInput(this.textEditorInput);
@@ -551,7 +554,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	 * @return the default body to throw into the editor.
 	 */
 
-	public Object getDefaultBody() {
+	public String getDefaultContent() {
 
 		if (isLiteralType()) {
 			return getDefaultBody(LITERAL);
@@ -563,15 +566,15 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		String exprType = getExprType();
 		switch (comboValue) {
 		case TEXT: {
-			if (IEditorConstants.ET_BOOLEAN.equals(exprType)) {
+			if (exprType.indexOf(IEditorConstants.ET_BOOLEAN) >= 0) {
 				return BOOLEAN_EXPR_DEFAULT;
-			} else if (IEditorConstants.ET_UNSIGNED_INT.equals(exprType)) {
+			} else if (exprType.indexOf(IEditorConstants.ET_UNSIGNED_INT) >= 0) {
 				return UNSIGNED_INT_EXPR_DEFAULT;
 			}
 			return ""; //$NON-NLS-1$
 		}
 		case LITERAL: {
-			if (IEditorConstants.ET_DURATION.equals(exprType)) {
+			if (exprType.indexOf(IEditorConstants.ET_DURATION) >= 0) {
 				return DEFAULT_DURATION_VALUE;
 			}
 			int[] dateTime = BPELDateTimeHelpers.getCurrentLocalDateTime();
@@ -582,25 +585,20 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		return ""; //$NON-NLS-1$
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#gotoTextMarker(org.eclipse.core.resources.IMarker, java.lang.String, java.lang.Object)
+	 */
 	public void gotoTextMarker(IMarker marker, String codeType,
 			Object modelObject) {
 		// TODO
 	}
 
-	public boolean supportsExpressionType(String exprType, String exprContext) {
-		// TODO: are there other contexts where XPath is supported?
-		// Should we just return true everywhere?
-		if (IEditorConstants.ET_BOOLEAN.equals(exprType))
-			return true;
-		if (IEditorConstants.ET_DATETIME.equals(exprType))
-			return true;
-		if (IEditorConstants.ET_DURATION.equals(exprType))
-			return true;
-		if (IEditorConstants.ET_ASSIGNFROM.equals(exprType))
-			return true;
-		if (IEditorConstants.ET_UNSIGNED_INT.equals(exprType))
-			return true;
-		return false;
+	/**
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#supportsExpressionType(java.lang.String)
+	 */
+	
+	public boolean supportsExpressionType ( String exprType ) {
+		return true;
 	}
 
 	/**

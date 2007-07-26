@@ -10,85 +10,54 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
-import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
-import org.eclipse.bpel.model.Condition;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.bpel.model.BPELFactory;
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
-import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 
 /**
- * Details section for the duration/date of a Wait activity.
+ * Details section for the duration/date of a Wait activity and of the OnAlarm 
+ * activity.
+ * 
+ * This is a little more involved, because "until" and "for" are mutually exclusive in the model.
+ *   
  */
 
 public class WaitConditionSection extends RadioChoiceExpressionSection {
 	
 	@Override
 	protected Composite createNoEditorWidgets(Composite composite) {
-		
-		Composite section = fWidgetFactory.createComposite(composite);
-		section.setLayout(new FlatFormLayout());
-		    
-		FlatFormData ffdata;
-		
-		Label label1 = fWidgetFactory.createLabel(section,
-			Messages.WaitConditionSection_No_condition_specified_1); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(0, 0);
-		ffdata.right = new FlatFormAttachment(100, 0);
-		label1.setLayoutData(ffdata);
-
-		Label label2 = fWidgetFactory.createLabel(section,
-			Messages.WaitConditionSection_Create_condition_text_2); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(label1, IDetailsAreaConstants.VSPACE);
-		ffdata.right = new FlatFormAttachment(100, 0);
-		label2.setLayoutData(ffdata);
-		
-		Button createDefaultButton = fWidgetFactory.createButton(section, Messages.WaitConditionSection_Create_a_New_Condition_2, SWT.PUSH); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
-		createDefaultButton.setLayoutData(ffdata);
+		return createNoEditorWidgetsCreateComposite(composite,
 				
-		createDefaultButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				doChooseExpressionLanguage(SAME_AS_PARENT);
-			}
-			public void widgetDefaultSelected(SelectionEvent e) { }
-		});
-		
-		return section;
+				Messages.WaitConditionSection_No_condition_specified_1 + NL + NL +
+				Messages.WaitConditionSection_Create_condition_text_2 ,
+				
+				Messages.WaitConditionSection_Create_a_New_Condition_2);		
 	}
-	
-	// Returns an array of translated labels, one per button.
+		
+	 
 	@Override
 	protected String[] getButtonLabels() {
-		final String[] result = { Messages.WaitConditionSection_Date_1, Messages.WaitConditionSection_Duration_2 }; 
-		return result;
+		return gLabels;
 	}
 	
-	@Override
-	protected int getModelExpressionType() {
-		return super.getModelExpressionType();
-	}
 
 	@Override
 	protected String getButtonExprType (int buttonIndex) {
@@ -101,24 +70,90 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 		throw new IllegalArgumentException();
 	}
 	
+	
 	@Override
-	protected String getButtonExprContext (int buttonIndex) {
-		return IEditorConstants.EC_WAIT;
+	protected void radioButtonSelected (int index, Button button) {
+			
+		if (button.getSelection() == false) {
+			return ;
+		}
+		
+		/** Mark the current radio button selection */		
+		fCurrentButtonIndex = index;	
+		
+		Command cmd = newStoreToModelCommand( getDefaultBody(editorLanguage,getButtonExprType(index) ) );
+		getCommandFramework().execute(wrapInShowContextCommand(	cmd ));
+	}
+
+
+	/**
+	 * This is a map between classes (Wait, OnAlarm)
+	 * and the structural features that they support (For and Until).
+	 * 
+	 * Pay particular attention to the indices of the arrays because they are ... 
+	 * let's just say "connected"
+	 */
+	
+	static final String[] gLabels = 
+		{ 
+			Messages.WaitConditionSection_Date_1, 
+			Messages.WaitConditionSection_Duration_2 
+		};
+	
+	static Map<EClass, EStructuralFeature[]> CLASS2FEATURES  = new HashMap<EClass, EStructuralFeature[]>();
+	static {
+		CLASS2FEATURES.put( BPELPackage.eINSTANCE.getWait() , 
+				new EStructuralFeature [] { 
+			 		BPELPackage.eINSTANCE.getWait_For(),
+			 		BPELPackage.eINSTANCE.getWait_Until()
+				});
+		CLASS2FEATURES.put( BPELPackage.eINSTANCE.getOnAlarm() , 
+				new EStructuralFeature [] { 
+			 		BPELPackage.eINSTANCE.getOnAlarm_For(),
+			 		BPELPackage.eINSTANCE.getOnAlarm_Until()
+				});		
+	}
+	
+	
+	@Override
+	protected Expression getExprFromModel() {	
+	
+		EObject input = getInput();
+		
+		EStructuralFeature feature = getStructuralFeature (input);
+		if (feature == null) {
+			return null;
+		}
+		
+		Object result = input.eGet(feature);
+		if (result != null && result instanceof Expression) {
+			return (Expression) result;		
+		}
+		return null; 
 	}
 	
 	@Override
 	protected int getButtonIndexFromModel() {
-		return (ModelHelper.getExpressionSubKind(getInput(), ModelHelper.WAIT_EXPR) == ModelHelper.ESUB_FOR)? 1:0;
+		EObject input = getInput();
+		EStructuralFeature feature = getStructuralFeature(input);
+		if (feature == null) {
+			return 1;
+		}				
+		if (feature.getName().indexOf("until") >= 0) {
+			return 1;
+		}		
+		return 0;
 	}
 
+	
 	@Override
-	protected boolean isValidClientUseType(String useType) {
+	protected boolean isValidClientUseType (String useType) {
 		return IBPELUIConstants.USE_TYPE_DEADLINE_CONDITION.equals(useType)
 			|| IBPELUIConstants.USE_TYPE_DURATION_CONDITION.equals(useType);
 	}
 	
 	@Override
-	protected void createClient(Composite parent) {
+	protected void createClient (Composite parent) {
 		super.createClient(parent);
 		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
@@ -135,4 +170,79 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 	public boolean isValidMarker (IMarker marker ) {
 		return false;
 	}
+
+	/**
+	 * We override this parameter-less method since the feature changes as the button selection changes.
+	 * The target of this structural feature (for the SetCommand model mutation change) is the target itself,
+	 * that is the Wait activity.  
+	 */
+	
+	@Override
+	protected EStructuralFeature getStructuralFeature (  ) {
+		return getStructuralFeature ( fCurrentButtonIndex );
+	}
+	
+	protected EStructuralFeature getStructuralFeature ( int index ) {
+		EStructuralFeature features []  = CLASS2FEATURES.get( getInput().eClass() );		
+		assert (features != null);
+		return features[ index ];
+	}
+	
+	
+	@Override
+	protected EStructuralFeature getStructuralFeature ( EObject eObj ) {
+						
+		EStructuralFeature features [] = CLASS2FEATURES.get(eObj.eClass() );		
+		for (EStructuralFeature f : features) {
+			Object result = eObj.eGet(f);
+			if (result != null) {
+				return f;
+			}
+		}
+		
+		return super.getStructuralFeature(eObj);
+	}
+	
+	/**
+	 * Here we have to set the feature that we are setting and unset all
+	 * the other mutually exclusive features. 
+	 * 
+	 * 
+	 */
+	@Override
+	protected Command newStoreToModelCommand (Object body) {
+		
+		CompoundCommand result = new CompoundCommand();		
+		Expression oldExp = getExprFromModel();
+		
+		Expression exp = BPELFactory.eINSTANCE.createExpression();
+		
+		// Don't set the language, because if the user has changed the
+		// language, a condition would already exist at this point.
+		
+		if (oldExp != null) {
+			exp.setExpressionLanguage(oldExp.getExpressionLanguage());
+		}
+		exp.setBody(body);
+		
+		
+		/** Be nice and unset the features that should not be set. */
+		
+		EStructuralFeature aFeature = getStructuralFeature();
+		EObject target = getExpressionTarget();
+		
+		/** Set the feature being edited */
+		result.add (new SetCommand(target, exp, aFeature));
+		
+		// Unset others, if set
+		for (EStructuralFeature feature : CLASS2FEATURES.get( getInput().eClass() ) ) {
+			if (feature.equals(aFeature) || target.eIsSet(feature) == false ) {
+				continue;
+			}			
+			result.add( new SetCommand(target,null,feature)) ;
+		}
+		
+		return result;
+	}
+	
 }

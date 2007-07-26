@@ -36,20 +36,20 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	protected TextEditor editor;
 	protected IPropertyListener propertyListener;
 	protected String undoRedoLabel;
-	protected Object body;
+	protected String fBody;
 	protected boolean updating = false;
 	
 	/**
 	 * 
-	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#getBody()
+	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#getEditorContent()
 	 */
 	
 	@Override
-	public Object getBody() {
+	public String getEditorContent() {
 		if (editor != null) {
 			return editor.getContents();
 		}
-		return body;
+		return fBody;
 	}
 
 	
@@ -66,18 +66,18 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 
 	/**
 	 * (non-Javadoc)
-	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#setBody(java.lang.Object)
+	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#setEditorContent(java.lang.String)
 	 */
 	
 	@Override
-	public void setBody(Object aBody) {
-	    this.body = aBody;
+	public void setEditorContent (String aBody) {
+	    this.fBody = aBody;
 	    	    
 	    try {
 	    	updating = true;
 	    	
 	    	if (editor != null) {
-	    		editor.setInput(new TextEditorInput((String) body, getModelObject(), getExprContext() ));
+	    		editor.setInput(new TextEditorInput( fBody, getModelObject(), getExprType() ));
 	    	}
 	    	
 	    } finally {
@@ -86,7 +86,7 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	}
 	
 	protected void createEditor(Composite parent) {
-		IEditorInput input = new TextEditorInput((String)body, getModelObject(), getExprContext() );
+		IEditorInput input = new TextEditorInput( fBody, getModelObject(), getExprType() );
 		
 		TabbedPropertySheetWidgetFactory wf = getWidgetFactory();
 		
@@ -147,7 +147,7 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 		if (propertyListener == null) {
 			propertyListener = new IPropertyListener() {
 				public void propertyChanged(Object source, int propId) {
-					if (!updating && propId == IEditorPart.PROP_DIRTY && editor.isDirty() && !((TextSection)section).isExecutingStoreCommand()) {
+					if (!updating && propId == IEditorPart.PROP_DIRTY && editor.isDirty() && !((TextSection)fSection).isExecutingStoreCommand()) {
 						notifyListeners();
 					}
 				}
@@ -180,9 +180,9 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	/**
 	 * Return the default body for this type of expression. Since the editor is not aware of any syntax
 	 * for any particular language, the empty string is returned.
-	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#getDefaultBody()
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#getDefaultContent()
 	 */
-	public Object getDefaultBody() {
+	public String getDefaultContent() {
 		return ""; //$NON-NLS-1$
 	}
 	
@@ -197,9 +197,10 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	/** 
 	 * Answer true, because a generic text editor will simply do everything.
 	 * 
-	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#supportsExpressionType(java.lang.String, java.lang.String)
+	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#supportsExpressionType(java.lang.String)
 	 */
-	public boolean supportsExpressionType(String exprType, String exprContext) {
+	
+	public boolean supportsExpressionType( String exprType ) {
 		return true;
 	}
 	

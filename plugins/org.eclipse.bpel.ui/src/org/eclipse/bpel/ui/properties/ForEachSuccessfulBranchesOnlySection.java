@@ -10,20 +10,19 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.ForEach;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetCountSuccessfulBranchesOnlyCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
@@ -32,99 +31,124 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ForEachSuccessfulBranchesOnlySection extends BPELPropertySection {
 
-	private Button			successfulBranchesOnlyCheckbox;
-	private ChangeTracker	successfulBranchesOnlyCheckboxChangeTracker;
-	private Composite		successfulBranchesOnlyComposite;
+	Button		fSuccessfulBranchesOnlyCheckbox;
+	Composite	fSuccessfulBranchesOnlyComposite;
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#refresh()
+	 */
 	@Override
 	public void refresh() {
 		super.refresh();
+				
 		updateSuccessfulBranchesOnlyWidgets();
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
 	@Override
 	public void restoreUserContext(Object userContext) {
 		updateSuccessfulBranchesOnlyWidgets();
-		successfulBranchesOnlyCheckbox.setFocus();
+		fSuccessfulBranchesOnlyCheckbox.setFocus();
 	}
 
-	private void createChangeTrackers() {
-		IOngoingChange change = new IOngoingChange() {
-			public Command createApplyCommand() {
-				return wrapInShowContextCommand(new SetCountSuccessfulBranchesOnlyCommand(
-						((ForEach) getInput()).getCompletionCondition()
-								.getBranches(), successfulBranchesOnlyCheckbox
-								.getSelection()));
-			}
-
-			public String getLabel() {
-				return IBPELUIConstants.CMD_SET_SUCCESSFUL_BRANCHES_ONLY;
-			}
-
-			public void restoreOldState() {
-				updateSuccessfulBranchesOnlyWidgets();
-			}
-		};
-		successfulBranchesOnlyCheckboxChangeTracker = new ChangeTracker(
-				this.successfulBranchesOnlyCheckbox, change,
-				getCommandFramework());
-	}
-
-	private void createSuccessfulBranchesOnlyWidgets(Composite parentComposite) {
+	void createSuccessfulBranchesOnlyWidgets(Composite parentComposite) {
 		FlatFormData data;
 
-		successfulBranchesOnlyComposite = createFlatFormComposite(parentComposite);
+		fSuccessfulBranchesOnlyComposite = createFlatFormComposite(parentComposite);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.top = new FlatFormAttachment(0, 0);
 		data.right = new FlatFormAttachment(100, 0);
-		successfulBranchesOnlyComposite.setLayoutData(data);
+		fSuccessfulBranchesOnlyComposite.setLayoutData(data);
 
-		successfulBranchesOnlyCheckbox = fWidgetFactory
+		fSuccessfulBranchesOnlyCheckbox = fWidgetFactory
 				.createButton(
-						successfulBranchesOnlyComposite,
+						fSuccessfulBranchesOnlyComposite,
 						Messages.ForEachSuccessfulBranchesOnlySection_1,
 						SWT.CHECK);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.top = new FlatFormAttachment(0, 0);
-		successfulBranchesOnlyCheckbox.setLayoutData(data);
-	}
+		fSuccessfulBranchesOnlyCheckbox.setLayoutData(data);
+		
+		fSuccessfulBranchesOnlyCheckbox.addSelectionListener(new SelectionListener() {
 
-	private void updateSuccessfulBranchesOnlyWidgets() {
-		successfulBranchesOnlyCheckboxChangeTracker.stopTracking();
-		try {
-			CompletionCondition completionCondition = ((ForEach) getInput())
-					.getCompletionCondition();
-			if (completionCondition == null) {
-				this.successfulBranchesOnlyCheckbox.setEnabled(false);
-			} else {
-				Branches branches = completionCondition.getBranches();
-				if (branches == null) {
-					this.successfulBranchesOnlyCheckbox.setEnabled(false);
-				} else {
-					this.successfulBranchesOnlyCheckbox.setEnabled(true);
-					boolean successfulBranchesOnly = branches
-							.isSetCountCompletedBranchesOnly();
-					this.successfulBranchesOnlyCheckbox
-							.setSelection(successfulBranchesOnly);
-				}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
 			}
-		} finally {
-			successfulBranchesOnlyCheckboxChangeTracker.startTracking();
-		}
+
+			@SuppressWarnings("boxing")
+			public void widgetSelected(SelectionEvent e) {
+				ForEach input = getModel();
+				getCommandFramework().execute( wrapInShowContextCommand(
+						new SetCommand(input.getCompletionCondition().getBranches(), 
+								fSuccessfulBranchesOnlyCheckbox.getSelection(),
+								BPELPackage.eINSTANCE.getBranches_CountCompletedBranchesOnly() )) );
+			}
+			
+		});
 	}
 
+	@SuppressWarnings("boxing")
+	void updateSuccessfulBranchesOnlyWidgets() {
+		
+		ForEach input = getModel();
+		CompletionCondition completionCondition = input.getCompletionCondition();
+		if (completionCondition == null) {
+			
+			fSuccessfulBranchesOnlyCheckbox.setEnabled(false);
+			fSuccessfulBranchesOnlyCheckbox.setSelection(false);
+			
+		} else {
+			Branches branches = completionCondition.getBranches();
+			if (branches == null) {
+				fSuccessfulBranchesOnlyCheckbox.setEnabled(false);
+				fSuccessfulBranchesOnlyCheckbox.setSelection(false);
+			} else {
+				fSuccessfulBranchesOnlyCheckbox.setEnabled(true);
+				Boolean value = branches.getCountCompletedBranchesOnly();
+				
+				fSuccessfulBranchesOnlyCheckbox.setSelection(value == null ? false : value );
+			}
+		}
+	}		
+
+	/**
+	 * This implementation just hooks the first adapter on the input object.
+	 * Subclasses may override.
+	 */
+	
+	@Override
+	protected void addAllAdapters() {
+		
+		super.addAllAdapters();
+		
+		ForEach input = getModel();
+		CompletionCondition cc = input.getCompletionCondition();
+		if (cc == null) {
+			return ;
+		}
+		adapters[0].addToObject( cc );
+		Branches branches = cc.getBranches();
+		if (branches == null) {
+			return;
+		}
+		adapters[0].addToObject( branches );
+	}
+
+	
 	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] { new MultiObjectAdapter() {
 
+			@Override
 			public void notify(Notification n) {
-				if (n.getFeature() == BPELPackage.eINSTANCE
-						.getBranches_CountCompletedBranchesOnly()) {
-					updateSuccessfulBranchesOnlyWidgets();
-				}
-				if (n.getFeature() == BPELPackage.eINSTANCE.getForEach_CompletionCondition()) {
+				if (n.getFeature() == BPELPackage.eINSTANCE.getBranches_CountCompletedBranchesOnly() ||
+					n.getFeature() == BPELPackage.eINSTANCE.getCompletionCondition_Branches() ||
+					n.getFeature() == BPELPackage.eINSTANCE.getForEach_CompletionCondition() )
+				{
 					updateSuccessfulBranchesOnlyWidgets();
 				}
 			}
@@ -132,10 +156,10 @@ public class ForEachSuccessfulBranchesOnlySection extends BPELPropertySection {
 		}};
 	}
 
+	
+	@Override
 	protected void createClient(Composite parent) {
 		Composite parentComposite = createFlatFormComposite(parent);
 		createSuccessfulBranchesOnlyWidgets(parentComposite);
-
-		createChangeTrackers();
 	}
 }

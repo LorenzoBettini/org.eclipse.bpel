@@ -28,7 +28,7 @@ public class TextDocumentProvider extends AbstractDocumentProvider {
 		if (element instanceof TextEditorInput) {
 			
 			TextEditorInput input = (TextEditorInput) element;
-			Document doc = new Document( input.getBody() );
+			Document doc = new Document( input.getEditorContent() );
 			input.setDocument ( doc );
 			
 			return doc;

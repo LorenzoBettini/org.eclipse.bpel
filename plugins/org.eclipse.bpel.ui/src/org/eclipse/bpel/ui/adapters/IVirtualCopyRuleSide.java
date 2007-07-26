@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.EndpointReferenceRole;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Variable;
@@ -108,6 +109,20 @@ public interface IVirtualCopyRuleSide {
 	
 	public void setEndpointReference ( EndpointReferenceRole role );
 	
+	/**
+	 * 
+	 * @return the expression associated with this Copy Rule side.
+	 */
+	public Expression getExpression ();
+	
+	
+	/**
+	 * Set the expression associated with this copy rule side.
+	 * @param expression
+	 */
+	
+	public void setExpression (Expression expression);
+	
 	
 	/**
 	 * Create a new instance of the IVirtualCopyRule side that is of the same base
@@ -124,6 +139,7 @@ public interface IVirtualCopyRuleSide {
 	 * @return target of the virtual copy rule side
 	 */
 	public EObject getCopyRuleSide ();
+	
 	
 	
 	/** 

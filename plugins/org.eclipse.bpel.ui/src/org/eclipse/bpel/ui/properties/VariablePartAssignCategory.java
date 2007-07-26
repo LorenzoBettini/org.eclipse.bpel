@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
@@ -429,7 +430,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		if (displayQuery() && query.trim().length() >= 0) {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
-			queryObject.setQueryLanguage(IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH);
+			queryObject.setQueryLanguage(BPELConstants.XMLNS_XPATH_QUERY_LANGUAGE);
 			queryObject.setValue(query);
 			side.setQuery(queryObject);
 		} else {

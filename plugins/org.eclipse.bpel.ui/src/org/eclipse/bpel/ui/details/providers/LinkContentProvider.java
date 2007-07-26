@@ -1,17 +1,14 @@
 package org.eclipse.bpel.ui.details.providers;
 
 import java.util.List;
-import java.util.Iterator;
 
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.Link;
-import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.Flow;
-import org.eclipse.bpel.model.Target;
+import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.Source;
+import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.bpel.model.Target;
 
 
 /**
@@ -22,27 +19,102 @@ import org.eclipse.emf.common.util.EList;
 
 public class LinkContentProvider extends AbstractContentProvider  {
 
-	public void collectElements(Object input, List list)  {
-		if (input == null)
-			return;
+	/**
+	 * All incoming links to the activity in question
+	 */
+	public static final int INCOMING = 0;
+	
+	/**
+	 * All outgoing links to the activity in question
+	 */
+	public static final int OUTGOING = 1;
+	
+	/**
+	 * All declared links in the nearest flow
+	 */
+	public static final int DECLARED = 2;
+	
+	int fMode = INCOMING;
+	
+	
+	/**
+	 * @param mode
+	 */
+	public LinkContentProvider (int mode) {
+		fMode = mode;
+	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.details.providers.AbstractContentProvider#collectElements(java.lang.Object, java.util.List)
+	 */
+	@Override
+	public void collectElements (Object input, List<Object> list)  {
 		
+		if (input == null) {
+			return;
+		}
+				
+		if (fMode == INCOMING) {
+			collectIncoming( input, list) ;
+			return ;
+		}
+		
+		if (fMode == OUTGOING) {
+			collectOutgoing(input,list);
+			return ;
+		}
+		
+		collectDeclaredLinks ( input, list );
+	}
+	
+	
+	void collectDeclaredLinks ( Object input, List<Object> list) {
+		if (input == null) {
+			return;
+		}
+
 		if (input instanceof Flow) {
 			Flow flow = (Flow)input;
 			Links links = flow.getLinks();
-			
-			if (links != null) {
-				EList elist = links.getChildren();
-				if (elist != null) {
-					Iterator iter = elist.iterator();
-					while (iter.hasNext()) {
-						Link lnk = (Link)iter.next();
-						list.add(lnk.getName());
-					}
-				}
+			if (links == null) {
+				return ;
+			}
+			list.addAll( links.getChildren() );			
+			return ;
+		}
+		
+		if (input instanceof Activity) {
+			Activity activty = (Activity) input;
+			collectDeclaredLinks(activty.eContainer(), list);
+		}
+	}
+	
+	void collectIncoming (Object input, List<Object> list) {
+		if (input instanceof Activity) {
+			Activity activity = (Activity) input;
+			Targets targets = activity.getTargets();
+			if (targets == null) {
+				return ;
+			}
+			for(Object next : targets.getChildren()) {
+				Target aTarget = (Target) next;
+				list.add(aTarget.getLink());
 			}
 		}
-		else if (input instanceof Activity) {
-			collectElements(((Activity)input).eContainer(), list);
+	}
+	
+	void collectOutgoing (Object input, List<Object> list) {
+		if (input instanceof Activity) {
+			Activity activity = (Activity) input;
+			Sources sources = activity.getSources();
+			if (sources == null) {
+				return ;
+			}
+			for(Object next : sources.getChildren()) {
+				Source aSource = (Source) next;
+				list.add(aSource.getLink());
+			}
+			
 		}
 	}
 }

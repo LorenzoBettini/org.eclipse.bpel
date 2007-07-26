@@ -19,16 +19,38 @@ import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.resource.BPELResource;
+import org.eclipse.bpel.model.resource.BPELWriter;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.widgets.Display;
 
 /**
+ * The transfer buffer is the de-facto clipboard that us being used by the BPEL editor.
+ * 
+ * Each BPEL editor has its own transfer buffer. The objects in the transfer buffer
+ * are just clones of the selected EMF objects. A little post processing is done to make
+ * sure that in the case of a multiple selection only the top most objects of any tree
+ * are in the selection (so if you select "empty" and a "sequence" in which the "empty"
+ * resides then only "sequence" is copied to the transfer buffer.
+ * 
+ * In addition to coping the objects to the transfer buffer a serialized version of the
+ * them is dumped into the system clipboard as BPEL XML. This allows for cross-editor copy/paste
+ * that works reasonably well.
+ * 
+ * It also allows for valid BPEL XML to be pasted into the editor from other (textual) representations.
+ * 
+ *  
  * @author IBM, Original contribution. 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Jun 4, 2007
@@ -38,26 +60,109 @@ import org.eclipse.emf.ecore.EObject;
 public class TransferBuffer {
 
 	protected static final boolean DEBUG = false;
-
+		
+	
 	/**
 	 * @author IBM, Original contribution.
 	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)
 	 * @date Jun 4, 2007
 	 *
 	 */
-	public static class Contents {
+	public class Contents {
 		
-		Map fExtensionMap;
+		Map<?, ?> fExtensionMap;
+				
+		/** The list of root objects in our transfer buffer */
 		List<EObject> fRootObjects;
-
-		Contents(Map extensionMap, List<EObject> rootList ) {
-			this.fExtensionMap = extensionMap;
-			this.fRootObjects = rootList;
+		
+		/** The textual content of the clipboard */
+		String fText;
+		
+		Contents (Map<?, ?> extensionMap, List<EObject> rootList ) {			
+			fExtensionMap = extensionMap;
+			fRootObjects = rootList;					
 		}
+		
+		@SuppressWarnings("nls")
+		void transferToClipboard () {						
+			// Populate the clipboard with the XML version of this object list.
+			
+			if (fRootObjects.size() == 1) {				
+				EObject ref = fRootObjects.get(0);				
+				fText = fWriter.toXML ( ref );							
+				
+			} else if (fRootObjects.size() > 1) {
+				StringBuilder builder = new StringBuilder();
+				builder.append("<bag>").append("\n\n");			
+				for(EObject obj : fRootObjects) {								
+					builder.append(fWriter.toXML ( obj ));
+				}
+				builder.append("\n</bag>");
+				fText = builder.toString();				
+			}
+						
+			// System.out.println("BPEL Source: " + fClipboardText);
+		
+			/** Clipboard clipboard = new Clipboard(display);
+			 *	String textData = "Hello World";
+			 *	String rtfData = "{\\rtf1\\b\\i Hello World}";
+			 *	TextTransfer textTransfer = TextTransfer.getInstance();
+			 *	RTFTransfer rtfTransfer = RTFTransfer.getInstance();
+			 *	Transfer[] transfers = new Transfer[]{textTransfer, rtfTransfer};
+			 *	Object[] data = new Object[]{textData, rtfData};
+			 *	clipboard.setContents(data, transfers, DND.CLIPBOARD);
+			 *	clipboard.dispose();
+			 *
+			 * Object[] data, Transfer[] dataTypes
+			 */		
+			fClipboard.setContents(new Object[] { fText } , new Transfer[] { TextTransfer.getInstance() }) ;
+		}
+		
 	}
 
+	/** The system clipboard */
+	Clipboard fClipboard = null;
+	
+	/** The model BPEL Reader that we use to read the content from a clipboard (text paste) */
+	org.eclipse.bpel.model.resource.BPELReader fReader = null;	
+	
+	/** The model BPEL Writer that we use to serialize the content */
+	BPELWriter fWriter = null;
+	
+	/** The current contents of the transfer buffer */
 	Contents fContents;
-
+		
+	/** The target resource */
+	BPELResource fTargetResource;
+	
+	
+	/**
+	 * Brand new shiny transfer buffer with clipboard support.
+	 * 
+	 * @param display
+	 */
+	
+	public TransferBuffer ( Display display ) {	
+		fClipboard = new Clipboard(display);
+		
+		fWriter = new BPELWriter() {
+			@Override
+			public BPELResource getResource() {
+				return fTargetResource;
+			}			
+		};
+		
+		fReader = new org.eclipse.bpel.model.resource.BPELReader () {
+			@Override
+			public Resource getResource() {
+				return fTargetResource;
+			}			
+		};
+		
+		
+	}
+	
+	
 	/**
 	 * Return the contents of the transfer buffer.
 	 * 
@@ -71,14 +176,21 @@ public class TransferBuffer {
 	/**
 	 * Set the contents of this transfer buffer.
 	 * 
-	 * @param aContents
-	 *            contents of this transfer buffer.
+	 * This happens from the BPEL editor side, that is, when the Copy command is issued.
+	 * 
+	 * @param aContents  contents of this transfer buffer.
 	 */
 
-	public void setContents(Contents aContents) {
-		this.fContents = aContents;
+	@SuppressWarnings("nls")
+	void setContents (Contents aContents) {		
+		fContents = aContents;
 	}
 
+	
+	String getClipboardText () {			
+		return (String) fClipboard.getContents( TextTransfer.getInstance() );		
+	}
+	
 	/**
 	 * Get the list of outermost objects from the list of objects passed.
 	 * If a sequence and an activity in the sequence are present in aList, then only
@@ -88,7 +200,7 @@ public class TransferBuffer {
 	 * @return the list of outermost objects.
 	 */
 	
-	public List<EObject> getOutermostObjects(List<EObject> aList) {
+	List<EObject> getOutermostObjects(List<EObject> aList) {
 
 		ArrayList<EObject> trimmedList = new ArrayList<EObject>(aList.size());
 
@@ -117,19 +229,21 @@ public class TransferBuffer {
 	/**
 	 * Copy the passed source objects to the transfer buffer.
 	 * 
+	 * 
 	 * @param sourceObjects
 	 * @param sourceMap
 	 */
 	
-	public void copyObjectsToTransferBuffer(List<EObject> sourceObjects, ExtensionMap sourceMap) {
+	public void copyObjectsToTransferBuffer (List<EObject> sourceObjects, ExtensionMap sourceMap) {
 		if (DEBUG) {
 			System.out
 					.println("copyObjectsToTransferBuffer(" + sourceObjects.size() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		Map targetMap = new HashMap();
+		Map<?, ?> targetMap = new HashMap<Object, Object>();
 		List<EObject> sourceList = getOutermostObjects (sourceObjects);
 		List<EObject> targetList = new ArrayList<EObject>();
+		
 		
 		// TODO: are there issues here with processing subtrees one-by-one?
 		// E.g. references
@@ -139,23 +253,26 @@ public class TransferBuffer {
 		for (EObject source : sourceList) {
 			EObject target = BPELUtil
 					.cloneSubtree(source, sourceMap, targetMap).targetRoot;
-			targetList.add(target);
+			targetList.add(target);		
 		}
 
+		
 		// Remove links which are referenced by root activities and were not
 		// copied! Otherwise, when the root activities are pasted the stale
 		// references from
 		// roots to these links will be pasted too.
 		
-		for (EObject targetObject : targetList ) {
-			if (targetObject instanceof Activity == false) {
+		for ( EObject next : targetList ) {
+			if (next instanceof Activity == false) {
 				continue;
 			}
 			
-			Activity activity = (Activity) targetObject;
+			Activity activity = (Activity) next;
+			
 			Sources sources = activity.getSources();
 			if (sources != null) {
-				for(Object n : sources.getChildren()) {
+				
+				for(Object n : sources.getChildren().toArray() ) {
 					Source source = (Source) n;
 					if (!targetMap.containsValue(source.getLink())) {
 						source.setLink(null);
@@ -169,7 +286,7 @@ public class TransferBuffer {
 
 			Targets targets = activity.getTargets();
 			if (targets != null) {
-				for (Object n : targets.getChildren()) {
+				for (Object n : targets.getChildren().toArray() ) {
 					Target target = (Target) n;
 					if (!targetMap.containsValue(target.getLink())) {
 						target.setLink(null);
@@ -182,7 +299,14 @@ public class TransferBuffer {
 			}
 		}
 
-		setContents(new Contents(targetMap, targetList));
+		// This has to have a better way of being computed.
+		fTargetResource = (BPELResource) ModelHelper.getBPELEditor( sourceList.get(0) ).getResource();	
+		
+		
+		Contents contents = new Contents(targetMap,targetList );
+		contents.transferToClipboard();
+		
+		setContents( contents );
 	}
 
 	/**
@@ -197,55 +321,154 @@ public class TransferBuffer {
 	 * @return the list of new objects added.
 	 */
 
-	public List<EObject> copyTransferBuffer(EObject targetObject,
+	@SuppressWarnings("nls")
+	public List<EObject> copyTransferBuffer (EObject targetObject,
 			ExtensionMap targetMap, boolean bReference ) {
 
-		EObject target = targetObject;
-		EObject refObj = null;
-		IContainer container = BPELUtil.adapt(target, IContainer.class);
+		String xml = getClipboardText();
 
-		if (container == null || bReference) {
-			// check its container
-			refObj = targetObject;
-			target = targetObject.eContainer();
-			container = BPELUtil.adapt(target, IContainer.class);
+		// First check if we need to copy from clibpboard.
+		
+		if (fContents == null || xml.equals(fContents.fText) == false ) {
+			
+			if (couldBeXML(xml) == false) {
+				setContents( null );
+			} else {
+				// This has to have a better way of being computed.
+				fTargetResource = (BPELResource) ModelHelper.getBPELEditor( targetObject ).getResource();			
+	
+				List<EObject> result = fReader.fromXML(xml , "Clipboard");
+				if (result.size() > 0) {
+					setContents( new Contents(null,result) );
+				} else {
+					setContents( null );
+				}
+			} 
 		}
 		
-		Process process = ModelHelper.getProcess(targetObject);
+		Anchors anchors = getAnchors (targetObject,bReference,fContents);		
+		
+		return copyContentsTo (fContents, anchors, targetMap);				
+	}
+	
+	
+	
+	List<EObject> copyContentsTo ( Contents contents, Anchors anchors, ExtensionMap targetMap ) {
+	
 		ArrayList<EObject> newObjects = new ArrayList<EObject>();
-
-		for (EObject source : getContents().fRootObjects) {
+		
+		if (contents == null) {
+			return newObjects;
+		}
+		
+		for (EObject source : contents.fRootObjects) {
 
 			BPELUtil.CloneResult cloneResult = BPELUtil.cloneSubtree(source,
-					getContents().fExtensionMap, targetMap);
+					contents.fExtensionMap, targetMap);
 						
 			// Resolve name of the source activity to be unique
 			if (source instanceof Activity) {
 				Activity node = (Activity) cloneResult.targetRoot;								
-				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );				
+				String uniqueName = BPELUtil.generateUniqueModelName ( anchors.fTarget, node.getName(), node );				
 				node.setName(BPELUtil.upperCaseFirstLetter (uniqueName) );
 				
 			} else if (source instanceof Variable) {
 				Variable node = (Variable) cloneResult.targetRoot;								
-				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );
+				String uniqueName = BPELUtil.generateUniqueModelName ( anchors.fTarget, node.getName(), node );
 				node.setName(uniqueName);				
 			} else if (source instanceof PartnerLink) {
 				PartnerLink node = (PartnerLink) cloneResult.targetRoot;								
-				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );
+				String uniqueName = BPELUtil.generateUniqueModelName ( anchors.fTarget, node.getName(), node );
 				node.setName(uniqueName);								
 			} else if (source instanceof CorrelationSet ) {
 				CorrelationSet node = (CorrelationSet) cloneResult.targetRoot;								
-				String uniqueName = BPELUtil.generateUniqueModelName (process, node.getName(), node );
+				String uniqueName = BPELUtil.generateUniqueModelName (anchors.fTarget, node.getName(), node );
 				node.setName(uniqueName);								
 			}
 
-			container.addChild(target, cloneResult.targetRoot, refObj);
+			anchors.fContainer.addChild(anchors.fTarget, cloneResult.targetRoot, anchors.fRefObject );
 			newObjects.add(cloneResult.targetRoot);
 		}
 
 		return newObjects;
 	}
 
+	
+	class Anchors {
+		EObject fTarget;
+		EObject fRefObject;
+		IContainer fContainer;
+				
+	}
+	/**
+	 * Anchors just represent the anchor points for the paste operation.
+	 *  
+	 * There are several possibilities to consider.
+	 *   
+	 * <ol>
+	 * <li> The  
+	 */
+	
+	Anchors getAnchors ( EObject targetObject, boolean bReference, Contents contents ) {
+
+		Anchors anchors = new Anchors();		
+		
+		
+		anchors.fTarget = targetObject;		
+		anchors.fContainer = BPELUtil.adapt(anchors.fTarget, IContainer.class);
+			
+		/**
+		 * If we are not a container, then we presume that a container is our parent
+		 * (such an an activity and its container being say a sequence).
+		 * 
+		 * Also, if bReference is forced, then were a reference object (the insertion point)
+		 * and so we must go to our container.
+		 */
+		
+		if (anchors.fContainer == null || bReference ) {
+			
+			// check its container
+			anchors.fRefObject = targetObject;
+			anchors.fTarget  = targetObject.eContainer();
+			anchors.fContainer = BPELUtil.adapt(anchors.fTarget, IContainer.class);
+			
+		} else {
+		
+			/** Otherwise we are container.
+			 *  
+			 * But can we take the contents that is given to us ?
+			 */ 
+			
+			if (canCopyContents(anchors, contents) == true) {
+				return anchors;
+			}
+			
+			/** Otherwise we assume that we are referenced container*/
+			anchors.fRefObject = targetObject;
+			anchors.fTarget    = targetObject.eContainer();
+			anchors.fContainer = BPELUtil.adapt(anchors.fTarget, IContainer.class);
+			
+		}
+		return anchors;		
+	}
+
+	
+	boolean canCopyContents ( Anchors anchors, Contents content ) {
+		
+		if (content == null) {
+			return false;
+		}
+		
+		// check each root object's type against the container..
+		for (EObject next : content.fRootObjects ) {				
+			if (anchors.fContainer.canAddObject(anchors.fTarget, next, anchors.fRefObject) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 	/**
 	 * 
 	 * 
@@ -256,35 +479,74 @@ public class TransferBuffer {
 	 * @return true of copy of transfer buffer can be made, false otherwise.
 	 */
 
+	@SuppressWarnings("nls")
 	public boolean canCopyTransferBufferTo (EObject targetObject, boolean bReference  ) {
-		
-		if (targetObject == null) {
+		if (targetObject == null ) {
 			return false;
 		}
 		
-		EObject target = targetObject;
-		EObject refObj = null;
-		IContainer container = BPELUtil.adapt(target, IContainer.class);
-
-		if (container == null || bReference ) {
-			// check its container
-			refObj = targetObject;
-			target = targetObject.eContainer();
-			container = BPELUtil.adapt(target, IContainer.class);
-		}
-
-		if (container != null && fContents != null ) {
-			// check each root object's type against the container..
-			for (EObject next : fContents.fRootObjects ) {				
-				if (container.canAddObject(target, next, refObj) == false) {
-					return false;
-				}
-			}
-			return true;
-		}
-
+		Anchors anchors = getAnchors (targetObject,bReference, fContents );
+				
+		if (anchors.fContainer == null) {
+			return false;
+		}		
 		
-		return false;
+		return canCopyContents ( anchors, fContents ) || couldBeXML(getClipboardText()) ;
 	}
+
+	
+
+	
+	
+	/**
+	 * This is a completely heuristic test to see if we have something in XML in the clipboard
+	 * that "could" be converted into objects in our little world.
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	boolean couldBeXML (String xml) {
+		
+		int count1 = 0;
+		int count2 = 0;
+		
+		/** open and close should match, we count them, and then make sure we have about 0.95 ratio */
+		for (char ch : xml.toCharArray() ) {			
+			switch (ch) {
+				case '<' : count1 += 1; break;
+				case '>' : count2 += 1; break;				
+			}
+		}
+		
+		if (count1 == 0 || count2 == 0) {
+			return false;
+		}
+		
+		float ratio = (float) (Math.min(count1, count2) * 1.0 / 1.0 * Math.max(count1,	count2));
+		
+		if (ratio < 0.95) {
+			return false;
+		}
+		
+		/** Is the BPEL namespace someplace there ? */
+		if (xml.indexOf( BPELConstants.NAMESPACE ) < 0 ) { 
+			return false;
+		}
+		
+		return true;
+	}
+	/**
+	 * 
+	 */
+	
+	public void dispose() {
+		setContents(null);
+		
+		if (fClipboard != null) {
+			fClipboard.dispose();
+			fClipboard = null;
+		}		
+	}
+
 
 }

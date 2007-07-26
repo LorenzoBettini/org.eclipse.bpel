@@ -16,15 +16,34 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.widgets.Composite;
 
 
+/**
+ * @author IBM Original Contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jul 16, 2007
+ *
+ */
 public interface IExpressionEditor {
 	
+	/**
+	 * Goto the text marker indicated.
+	 * 
+	 * @param marker the marker
+	 * @param codeType code type
+	 * @param modelObject the model object
+	 */
 	public void gotoTextMarker(IMarker marker, String codeType, Object modelObject);
 
 	/**
 	 * Creates the editor widgets.
+	 * @param parent the parent composite
+	 * @param section the section
 	 */
 	void createControls(Composite parent, BPELPropertySection section);
 
+	/**
+	 * Dispose of the editor.
+	 */
+	
 	void dispose();
 
 	/**
@@ -40,54 +59,81 @@ public interface IExpressionEditor {
 	
 	/**
 	 * This method is used just like IDetailsSection.getUserContext().
-	 * 
-	 * @see IDetailsSection.getUserContext()
+	 * @return the user context 	 
 	 */
 	Object getUserContext();
 	
 	/**
 	 * This method is used just like IDetailsSection.restoreUserContext().
+	 * @param userContext the user context 
 	 * 
-	 * @see IDetailsSection.restoreUserContext(Object)
 	 */
-	void restoreUserContext(Object userContext);
+	void restoreUserContext (Object userContext);
 	
 	/**
-	 * Return the body
+	 * Return the editor content
+	 * @return return the body of the edited expression 
 	 */
-	Object getBody();
+	String getEditorContent ();
 	
 	/**
-	 * Set the body
+	 * Set the editor content
+	 * @param body the content of the editor.
 	 */
-	void setBody(Object body);
+	void setEditorContent (String body);
 	
+	/**
+	 * Add a listener
+	 * 
+	 * @param listener the listener to add.
+	 */
 	void addListener(Listener listener);
+	
+	/**
+	 * Remove a listener.
+	 * @param listener the listener to remove.
+	 */
 	void removeListener(Listener listener);
 	
+	/**
+	 * The listener interface. 
+	 */
+	
 	public static interface Listener {
+		/**
+		 * Notify that we have changed.
+		 */
 		public void notifyChanged();
 	}
 	
+	/**
+	 * Allow the editor to modify 
+	 * @param compoundCommand
+	 */
 	void addExtraStoreCommands(CompoundCommand compoundCommand);
 	
-	public Object getDefaultBody();	
+	/**
+	 * Get the default body.
+	 * @return the default body 
+	 */
+	
+	public String getDefaultContent ();	
 	
 	/**
-	 * Returns true if this editor supports this expression type in the given context.
+	 * Returns true if this editor supports this expression type.
 	 * 
-	 * Most editors will be able to support a given type of expression (e.g. boolean)
-	 * in any context, in which case they can just ignore the exprContext parameter.
+	 * @param exprType the expression type.
+	 * @return true if the expression type is supported.
 	 */
-	boolean supportsExpressionType(String exprType, String exprContext);
+	boolean supportsExpressionType(String exprType);
 	
 	/**
-	 * Informs the editor of the expression type it will be editing, and the context
-	 * in which it will be editing the expression.  The supportsExpressionType()
-	 * method will always be called first to make sure the editor actually supports
-	 * this exprType/exprContext combination.
+	 * Informs the editor of the expression type it will be editing.
+	 * The supportsExpressionType() method will always be called first to make sure
+	 * the editor actually supports this exprType combination.
+	 * @param exprType the expression type
 	 */
-	void setExpressionType(String exprType, String exprContext);
+	void setExpressionType ( String exprType );
 
 	/**
 	 * Informs the editor of the underlying model object in which this expression
@@ -95,8 +141,10 @@ public interface IExpressionEditor {
 	 * may depend on the expression type and context provided above (for example: the
 	 * model for a transition condition is a Link, but the model for a join condition
 	 * is an Activity). 
+	 * 
+	 * @param modelObject 
 	 */
-	void setModelObject(Object modelObject);
+	void setModelObject (Object modelObject);
 	
 	/**
 	 * Tells the editor to consider itself clean.

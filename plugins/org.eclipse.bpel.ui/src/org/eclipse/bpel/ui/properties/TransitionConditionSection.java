@@ -10,87 +10,70 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import java.util.Iterator;
-
-import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
-import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 
 /**
  * Details section for the TransitionCondition of a link source (a boolean expression).
  */
 public class TransitionConditionSection extends ExpressionSection {
-
+	
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
-		Link link = (Link)getInput();
-		Iterator it = link.getSources().iterator();
-		while (it.hasNext()) {
-			Source source = (Source)it.next();
-			adapters[0].addToObject(source);
-		}
+		Link link = getModel();
+		for(Object next : link.getSources()) {
+			Source source = (Source) next;
+			adapters[0].addToObject(source);		
+		}		
 	}
 	
-	protected String getExpressionType() { return IEditorConstants.ET_BOOLEAN; }
-	protected String getExpressionContext() { return IEditorConstants.EC_TRANSITION; }
+	@Override
+	protected String getExpressionType() { 
+		return IEditorConstants.ET_TRANSITION; 
+	}
+
 	
-	protected boolean isExpressionOptional() { return true; }
-	
+	@Override
+	protected boolean isExpressionOptional() { 
+		return true; 
+	}	
 	
 	@Override
 	protected Composite createNoEditorWidgets(Composite composite) {
 	
-		Composite section = fWidgetFactory.createComposite(composite);
-		section.setLayout(new FlatFormLayout());
-	
-		FlatFormData ffdata;
-		
-		Label label1 = fWidgetFactory.createLabel(section,
-			Messages.TransitionConditionSection_No_condition_specified_1); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(0, 0);
-		ffdata.right = new FlatFormAttachment(100, 0);
-		label1.setLayoutData(ffdata);
-
-		Label label2 = fWidgetFactory.createLabel(section,
-			Messages.TransitionConditionSection_Optional_condition_text_2); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(label1, IDetailsAreaConstants.VSPACE);
-		ffdata.right = new FlatFormAttachment(100, 0);
-		label2.setLayoutData(ffdata);
-		
-		Button createDefaultButton = fWidgetFactory.createButton(section, Messages.TransitionConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
-		createDefaultButton.setLayoutData(ffdata);
-		
-		createDefaultButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				doChooseExpressionLanguage(SAME_AS_PARENT);
-			}
-			public void widgetDefaultSelected(SelectionEvent e) { }
-		});
-
-		return section;
+		return createNoEditorWidgetsCreateComposite(composite,
+				
+				Messages.TransitionConditionSection_No_condition_specified_1 + NL + NL +
+				Messages.TransitionConditionSection_Optional_condition_text_2 ,
+				
+				Messages.TransitionConditionSection_Create_a_New_Condition_3);
 	}
 
-	protected boolean isValidClientUseType(String useType) {
+
+	@Override
+	protected EStructuralFeature getStructuralFeature (EObject object) {
+		return BPELPackage.eINSTANCE.getSource_TransitionCondition() ;		
+	}
+	
+	
+	@Override
+	protected EObject getExpressionTarget() {
+		Link link = getModel();
+		return  (Source) link.getSources().get(0);			
+	}
+
+	
+	@Override
+	protected boolean isValidClientUseType(String useType) {		
 		return IBPELUIConstants.USE_TYPE_TRANSITION_CONDITION.equals(useType);
 	}
 }

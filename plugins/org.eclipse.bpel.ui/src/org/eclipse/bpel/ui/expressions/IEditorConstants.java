@@ -10,27 +10,43 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.expressions;
 
+/**
+ * 
+ * Philosophical note.
+ * 
+ * Expression Editors present in the BPEL designer imply "expressions". Expressions tend 
+ * to return things, so there should always be a type to an expression. In some cases
+ * there are statically implied types (boolean, unsignedInt).
+ * 
+ * @author IBM Original Contribution
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jul 17, 2007
+ *
+ * 
+ */
+
+@SuppressWarnings("nls")
 public interface IEditorConstants {
 	
-	/** expression types */
+	/** General Boolean Expression Type */
 	public static final String ET_BOOLEAN = "boolean"; //$NON-NLS-1$
+	
+	/** General datetime expression type (deadline) used in Wait, OnAlarm */	
 	public static final String ET_DATETIME = "deadline"; //$NON-NLS-1$
+	
+	/** General duration expression type (time) used in Wait, OnAlarm */	
 	public static final String ET_DURATION = "duration"; //$NON-NLS-1$
+	
+	/** Unsigned integer expression type, used in forEach loop */	
 	public static final String ET_UNSIGNED_INT = "unsignedInt"; //$NON-NLS-1$
-	// TODO: what should expression type of Assign From be??
-	public static final String ET_ASSIGNFROM = "assignFrom"; //$NON-NLS-1$
-	public static final String ET_VOID = "void"; //$NON-NLS-1$
+		
+	/** Any expression type */
+	public static final String ET_ANY = "any"; 
+	
+	/** A Boolean expression within a jointCondition */
+	public static final String ET_JOIN = "joinCondition/boolean" ;
 
-	/** expression contexts */
-	public static final String EC_JOIN = "joinCondition"; //$NON-NLS-1$
-	public static final String EC_CASE = "case"; //$NON-NLS-1$
-	public static final String EC_WHILE = "while"; //$NON-NLS-1$
-	public static final String EC_FOREACH_COMPLETION_CONDITION = "forEachCompletion"; //$NON-NLS-1$
-	public static final String EC_FOREACH_START_COUNTER_VALUE = "forEachStartCounterValue"; //$NON-NLS-1$
-	public static final String EC_FOREACH_FINAL_COUNTER_VALUE = "forEachFinalCounterValue"; //$NON-NLS-1$
-	public static final String EC_TRANSITION = "linkTransition"; //$NON-NLS-1$
-	public static final String EC_ASSIGNFROM = "assignFrom"; //$NON-NLS-1$
-	public static final String EC_WAIT = "wait"; //$NON-NLS-1$
-	public static final String EC_ONALARM = "onAlarm"; //$NON-NLS-1$
-	public static final String EC_ONALARM_REPEATEVERY = "onAlarmRepeatEvery"; //$NON-NLS-1$
+	/** A Boolean expression within a transitionCondition */
+	public static final String ET_TRANSITION = "transitionCondition/boolean" ;
+
 }

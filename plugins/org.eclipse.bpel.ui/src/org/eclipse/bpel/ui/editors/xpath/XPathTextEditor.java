@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.contentassist.ExpressionContentAssistProcessor;
 import org.eclipse.bpel.ui.editors.TextEditor;
+import org.eclipse.bpel.ui.expressions.IEditorConstants;
+import org.eclipse.bpel.ui.expressions.IExpressionEditor;
 import org.eclipse.bpel.ui.preferences.PreferenceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
@@ -68,6 +70,8 @@ public class XPathTextEditor extends TextEditor {
 	private ColorManager fColorManager;
 	
 	IWhitespaceDetector fWhitespaceDetector = new XPathWhitespaceDetector();
+
+	VariablePickerAction fVariablePickerAction;
 	
 	/**
 	 * 
@@ -96,10 +100,10 @@ public class XPathTextEditor extends TextEditor {
 		
 
 		
-		action= new VariablePickerAction(XPathEditorMessages.getBundleForConstructedKeys(), "Editor.VariablePicker.", this); //$NON-NLS-1$
+		fVariablePickerAction = new VariablePickerAction(XPathEditorMessages.getBundleForConstructedKeys(), "Editor.VariablePicker.", this); //$NON-NLS-1$
 		// action.setHelpContextId(IAbstractTextEditorHelpContextIds.GOTO_LINE_ACTION);
-		action.setActionDefinitionId(IXPathEditorActionDefinitionIds.VARIABLE_PICKER);
-		setAction(IXPathEditorActionConstants.VARIABLE_PICKER, action);
+		fVariablePickerAction.setActionDefinitionId(IXPathEditorActionDefinitionIds.VARIABLE_PICKER);
+		setAction(IXPathEditorActionConstants.VARIABLE_PICKER, fVariablePickerAction);
 		
 		
 	}
@@ -124,6 +128,10 @@ public class XPathTextEditor extends TextEditor {
 		String expressionContext = (String) input.getAdapter(Integer.class);
 		if (expressionContext != null) {
 			caproc.setExpressionContext(expressionContext);
+			// 
+			if (fVariablePickerAction != null) {
+				fVariablePickerAction.setEnabled(expressionContext.indexOf(IEditorConstants.ET_JOIN) < 0);
+			}
 		}
 	}		
 	

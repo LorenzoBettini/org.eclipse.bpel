@@ -18,16 +18,17 @@ import org.eclipse.ui.IPersistableElement;
 /**
  * Editor input for TextEditor.
  */
+@SuppressWarnings("nls")
 public class TextEditorInput implements IEditorInput {
 
 	/** body of the document, the initial value */
-	String body;
+	String fBody = "";
 	
 	/** A context object */
-	Object eObj;
+	Object fContext;
 	
 	// expression context
-	String theExpressionContext;
+	String fExpressionContext;
 
 	/**
 	 * Create a new Text Editor Input. 
@@ -37,8 +38,7 @@ public class TextEditorInput implements IEditorInput {
 	 */
 	
 	public TextEditorInput (String text, Object eObject, String expressionContext) {
-		setBody (text,eObject);
-		theExpressionContext = expressionContext;
+		setEditorContent (text,eObject,expressionContext);		
 	}
 
 	
@@ -47,7 +47,7 @@ public class TextEditorInput implements IEditorInput {
 	 */
 	
 	public String getExpressionContext() {
-		return theExpressionContext;
+		return fExpressionContext;
 	}
 	
 	/**
@@ -57,8 +57,24 @@ public class TextEditorInput implements IEditorInput {
 	 * @return the editor's body.
 	 */
 	
-	public String getBody() {
-		return fDocument == null ? body : fDocument.get() ;		
+	public String getEditorContent() {
+		return fDocument == null ? fBody : fDocument.get() ;		
+	}
+
+	/**
+	 * Set the body on the document.
+	 * 
+	 * @param text
+	 * @param eObject
+	 */
+
+	public void setEditorContent (String text, Object eObject ) {		
+		fBody = text;
+		fContext = eObject;
+		if (fDocument != null) {
+			fDocument.set(text);
+		}
+		
 	}
 	
 	/**
@@ -66,17 +82,20 @@ public class TextEditorInput implements IEditorInput {
 	 * 
 	 * @param text
 	 * @param eObject
+	 * 
+	 * @param expressionContext
+	 * 
 	 */
 	
-	public void setBody (String text, Object eObject) {
+	public void setEditorContent (String text, Object eObject, String expressionContext) {
 		
-		body = text;
-		eObj = eObject;
+		fBody = text;
+		fContext = eObject;
+		fExpressionContext = expressionContext;
 		
 		if (fDocument != null) {
 			fDocument.set(text);
-		}
-		
+		}		
 	}
 
 	/** (non-Javadoc)
@@ -134,17 +153,17 @@ public class TextEditorInput implements IEditorInput {
 	@SuppressWarnings("unchecked")
 	public Object getAdapter (Class adapter) {
 		
-		if (adapter.isInstance(eObj)) {
-			return eObj;
+		if (adapter.isInstance(fContext)) {
+			return fContext;
 		}
 				
-		if (adapter.isInstance(body)) {
-			return getBody();
+		if (adapter.isInstance(fBody)) {
+			return getEditorContent() ;
 		}
 
 		// hack
 		if (adapter == Integer.class) {
-			return theExpressionContext;
+			return fExpressionContext;
 		}
 
 		return null;

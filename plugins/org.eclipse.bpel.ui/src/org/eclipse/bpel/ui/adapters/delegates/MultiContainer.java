@@ -72,6 +72,10 @@ public class MultiContainer extends AbstractContainer {
 		
 		AbstractContainer childContainer = getSubContainer(object, child);
 		if (insertBefore == null) {
+			/** This happens during copy/paste operations */
+			if (childContainer == null) {
+				return false;
+			}
 			return childContainer.addChild(object, child, null);
 		}
 		

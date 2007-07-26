@@ -10,23 +10,16 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
-import org.eclipse.bpel.common.ui.flatui.FlatFormData;
-import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 
 /**
@@ -34,14 +27,11 @@ import org.eclipse.swt.widgets.Label;
  */
 public class JoinConditionSection extends ExpressionSection {
 
-	protected Label label2, label3;
-	protected Button createDefaultButton;
-
 	
 	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
-		Activity activity = (Activity)getInput();
+		Activity activity = getModel();
 		Targets targets = activity.getTargets();
 		if (targets != null) {
 			adapters[0].addToObject(targets);
@@ -50,13 +40,9 @@ public class JoinConditionSection extends ExpressionSection {
 	
 	@Override
 	protected String getExpressionType() { 
-		return IEditorConstants.ET_BOOLEAN; 
+		return IEditorConstants.ET_JOIN; 
 	}
 	
-	@Override
-	protected String getExpressionContext() { 
-		return IEditorConstants.EC_JOIN; 
-	}
 	
 	@Override
 	protected boolean isExpressionOptional() { 
@@ -67,51 +53,26 @@ public class JoinConditionSection extends ExpressionSection {
 	@Override
 	protected Composite createNoEditorWidgets(Composite composite) {
 	
-		Composite section = fWidgetFactory.createComposite(composite);
-		section.setLayout(new FlatFormLayout());
+		return createNoEditorWidgetsCreateComposite(composite,			
+				Messages.JoinConditionSection_No_condition_specified_1 + NL + NL +
+				Messages.JoinConditionSection_Optional_condition_text_2 ,				
+				Messages.JoinConditionSection_Create_a_New_Condition_3);
+	}
 	
-	    FlatFormData ffdata;
-		
-		Label label1 = fWidgetFactory.createLabel(section,
-			Messages.JoinConditionSection_No_condition_specified_1); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(0, 0);
-		ffdata.right = new FlatFormAttachment(100, 0);
-		label1.setLayoutData(ffdata);
+	
+	@Override
+	protected EObject getExpressionTarget() {		
+		Activity activity = getModel();
+		return activity.getTargets();		
+	}
 
-		label2 = fWidgetFactory.createLabel(section,
-			Messages.JoinConditionSection_Optional_condition_text_2); 
-			ffdata = new FlatFormData();
-			ffdata.left = new FlatFormAttachment(0, 0);
-			ffdata.top = new FlatFormAttachment(label1, IDetailsAreaConstants.VSPACE);
-			ffdata.right = new FlatFormAttachment(100, 0);
-			label2.setLayoutData(ffdata);
-			
-		label3 = fWidgetFactory.createLabel(section,
-				Messages.JoinConditionSection_No_incoming_links_text_1); 
-			ffdata = new FlatFormData();
-			ffdata.left = new FlatFormAttachment(0, 0);
-			ffdata.top = new FlatFormAttachment(label1, IDetailsAreaConstants.VSPACE);
-			ffdata.right = new FlatFormAttachment(100, 0);
-			label3.setLayoutData(ffdata);
-		label3.setVisible(false);
-			
-		createDefaultButton = fWidgetFactory.createButton(section, Messages.JoinConditionSection_Create_a_New_Condition_3, SWT.PUSH); 
-		ffdata = new FlatFormData();
-		ffdata.left = new FlatFormAttachment(0, 0);
-		ffdata.top = new FlatFormAttachment(label2, IDetailsAreaConstants.VSPACE);
-		createDefaultButton.setLayoutData(ffdata);
-		
-		createDefaultButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				doChooseExpressionLanguage(SAME_AS_PARENT);
-			}
-			public void widgetDefaultSelected(SelectionEvent e) { }
-		});
-		
-		return section;
-		
+	
+	@Override
+	protected EStructuralFeature getStructuralFeature (EObject object) {		
+		if (object instanceof Activity) {
+			return BPELPackage.eINSTANCE.getTargets_JoinCondition() ;
+		}
+		return super.getStructuralFeature(object);
 	}
 	
 	/**
@@ -123,17 +84,14 @@ public class JoinConditionSection extends ExpressionSection {
 		
 		super.updateWidgets();
 		
-		Activity activity = (Activity)getInput();
+		Activity activity = getModel ();
 		Targets targets = activity.getTargets();
 		boolean enable = (targets != null);
 				
 		expressionLanguageViewer.getControl().setEnabled(enable);
 		
-		if (hasEditor() == false) {
-			label2.setVisible(enable);
-			label3.setVisible(!enable);
-			createDefaultButton.setVisible(enable);
-			createDefaultButton.setEnabled(enable);
+		if (hasEditor() == false && fCreateExpressionButton != null ) {					
+			fCreateExpressionButton.setEnabled(enable);
 		}
 	}
 

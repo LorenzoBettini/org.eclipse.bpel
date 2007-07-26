@@ -52,7 +52,7 @@ public class NamespaceMappingDialog extends StatusDialog {
 	protected Text fTargetNamespace;
 	protected Text fPrefixName;    		
 		
-	protected Map<Object,Object> fNamespaceMappings;
+	protected Map<String,String> fNamespaceMappings;
 
 	private String fTargetNamespaceValue = ""; //$NON-NLS-1$
 

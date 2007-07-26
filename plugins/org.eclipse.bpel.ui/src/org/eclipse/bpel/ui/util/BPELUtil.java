@@ -49,6 +49,7 @@ import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.adapters.AbstractAdapter;
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
@@ -189,21 +190,29 @@ public class BPELUtil {
 	 */
 	public static IPath lastXSDFilePath;
 	
-	private static Map<Object,AdapterFactory> keyToAdapterFactory;
-	
 	
 	static {
-	    keyToAdapterFactory = new HashMap<Object,AdapterFactory>();
-	    
-	    //	    
-	    keyToAdapterFactory.put(BPELPackage.eINSTANCE, BPELUIAdapterFactory.getInstance());
-	    keyToAdapterFactory.put(WSDLPackage.eINSTANCE, BPELUIWSDLAdapterFactory.getInstance());
-	    keyToAdapterFactory.put(PartnerlinktypePackage.eINSTANCE, BPELUIPartnerLinkTypeAdapterFactory.getInstance());
-	    keyToAdapterFactory.put(XSDPackage.eINSTANCE, BPELUIXSDAdapterFactory.getInstance());
-	    keyToAdapterFactory.put(MessagepropertiesPackage.eINSTANCE, BPELUIMessagePropertiesAdapterFactory.getInstance());
-	    keyToAdapterFactory.put(UiextensionmodelPackage.eINSTANCE, BPELUIExtensionAdapterFactory.getInstance());
-	    keyToAdapterFactory.put(InspectionPackage.eINSTANCE, BPELUIWSILAdapterFactory.getInstance() );
-	    
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+				BPELPackage.eINSTANCE, BPELUIAdapterFactory.getInstance());
+		
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    WSDLPackage.eINSTANCE, BPELUIWSDLAdapterFactory.getInstance());
+		
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    PartnerlinktypePackage.eINSTANCE, BPELUIPartnerLinkTypeAdapterFactory.getInstance());
+		
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    XSDPackage.eINSTANCE, BPELUIXSDAdapterFactory.getInstance());
+		
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    MessagepropertiesPackage.eINSTANCE, BPELUIMessagePropertiesAdapterFactory.getInstance());
+	
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    UiextensionmodelPackage.eINSTANCE, BPELUIExtensionAdapterFactory.getInstance());
+		
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    InspectionPackage.eINSTANCE, BPELUIWSILAdapterFactory.getInstance() );
+		
 	}
 
 	
@@ -215,7 +224,7 @@ public class BPELUtil {
 	 */
 	
 	public static void registerAdapterFactory(EClass key, AdapterFactory factory) {
-	    keyToAdapterFactory.put(key, factory);
+		AdapterRegistry.INSTANCE.registerAdapterFactory(key,factory);
 	}
 	
 	
@@ -245,33 +254,8 @@ public class BPELUtil {
 	
 	@SuppressWarnings("unchecked")
 	
-	public static <T extends Object> T adapt ( Object target,  Class<T> clazz) {
-		
-		if (target == null) {
-			return null;
-		}
-		if (clazz.isInstance(target)) {
-			return (T) target;
-		}
-		
-		if (target instanceof EObject) {
-		    AdapterFactory factory = null;
-		    EClass effectiveClass = getEClassFor(target);
-		    if (effectiveClass != null) {
-			    factory = keyToAdapterFactory.get(effectiveClass);
-			    if (factory == null) {
-			        factory = keyToAdapterFactory.get(effectiveClass.getEPackage());
-			    }
-		    }
-		    if (factory == null) {	    	
-		        factory = BPELUIAdapterFactory.getInstance();
-		    }
-		    
-		    return (T) factory.adapt(target, clazz);
-		}
-		
-		// otherwise, the object we are adapting is not an EObject, try any other adapters.		
-	    return (T) Platform.getAdapterManager().getAdapter(target, clazz);
+	public static <T extends Object> T adapt ( Object target,  Class<T> clazz) {	
+		return AdapterRegistry.INSTANCE.adapt(target, clazz);
 	}
 	
 	
@@ -286,11 +270,7 @@ public class BPELUtil {
 	 */
 	
 	public static Object adapt (Object target, Object type) {
-
-		if (target == null) {
-			return null;
-		}		 
-		return adapt ( target, adapterInterface(type) );
+		return AdapterRegistry.INSTANCE.adapt(target, type);
 	}
 	
 	
@@ -311,20 +291,8 @@ public class BPELUtil {
 	 * 
 	 * @return the adapter
 	 */
-	public static Object adapt (Object target, Object type, Object context) {
-		
-		Object adapter = adapt (target,type);
-		if (adapter == null) {
-			return adapter;
-		}
-		
-		if (target instanceof EObject) {				
-			EObject eObject = (EObject) target;		
-			Notification n = new NotificationImpl(AbstractAdapter.CONTEXT_UPDATE_EVENT_TYPE, null, context);		
-			eObject.eNotify(n);
-		}
-		
-		return adapter;
+	public static Object adapt (Object target, Object type, Object context) {		
+		return AdapterRegistry.INSTANCE.adapt(target, type,context);
 	}
 		
 
@@ -636,8 +604,8 @@ public class BPELUtil {
 	/**
 	 * return a mangled name (based on the given hint) which is unique in the given process.
 	 */	
-	public static String getUniqueModelName(Process process, String hint, Collection ignoreObjects) {
-		return getUniqueModelName2(process, hint, ignoreObjects);
+	public static String getUniqueModelName(EObject context, String hint, Collection ignoreObjects) {
+		return getUniqueModelName2(context, hint, ignoreObjects);
 	}
 
 	/**
@@ -666,13 +634,13 @@ public class BPELUtil {
 		}
 	}
 
-	public static String generateUniqueModelName (Process process, String hint, EObject model) {
+	public static String generateUniqueModelName (EObject context, String hint, EObject model) {
 		
 		if (hint == null || "".equals(hint)) { //$NON-NLS-1$
 			ILabeledElement element = BPELUtil.adapt(model, ILabeledElement.class);
 			hint = (element != null) ? element.getTypeLabel(model) : ""; //$NON-NLS-1$
 		}
-		return BPELUtil.getUniqueModelName(process, hint, Collections.singletonList(model));
+		return BPELUtil.getUniqueModelName(context, hint, Collections.singletonList(model));
 	}
 	
 	public static String getFilenameFromUri(String uri) {

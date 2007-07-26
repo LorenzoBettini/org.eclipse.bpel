@@ -239,9 +239,8 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	
 	public BPELEditor() {
 		super();
-		setEditDomain(new BPELEditDomain(this));
-
-		transferBuffer = new TransferBuffer();
+		
+	    setEditDomain(new BPELEditDomain(this));		
 
 		modelAutoUndoRecorder = new ModelAutoUndoRecorder();		
 	}
@@ -554,6 +553,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		if (outlinePage != null && outlinePage.getViewer() != null) {
 			outlinePage.getViewer().setContents(null);
 		}
+		if (transferBuffer != null) {
+			transferBuffer.dispose();
+		}
+		
 		lastSelectedEditPart = null;
 
 		super.dispose();
@@ -584,9 +587,6 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		//	resourceSet, BPELEditorAdapter.class);
 		//if (bpelEditorAdapter != null) resourceSet.eAdapters().remove(bpelEditorAdapter);
 
-		// Hacks to work around memory leaks: break references to large structures.
-		// Various objects are holding onto a BPELEditor or ResourceSet and that's hard to fix.
-		transferBuffer.setContents(null);
 		process = null;
 		if (getEditDomain() != null) {
 			((BPELEditDomain)getEditDomain()).setProcess(null);
@@ -1652,6 +1652,8 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		
 		super.init(site, editorInput);
 
+		transferBuffer = new TransferBuffer( getSite().getShell().getDisplay() );
+		
 		// remove the listener on the command stack created by the graphical editor
 		getCommandStack().removeCommandStackListener(this);
 
@@ -1672,6 +1674,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 
 		commandFramework = new EditModelCommandFramework(editModelClient.getCommandStack());
 
+		
 		// add a listener to the shared command stack
 		getCommandStack().addCommandStackListener(this);
 

@@ -12,6 +12,8 @@ package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.EndpointReferenceRole;
+import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
@@ -122,6 +124,25 @@ public class ToAdapter extends AbstractStatefulAdapter implements IVirtualCopyRu
 		To _to = getTarget(null, To.class);
 		_to.setVariable(aModel);				
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide#getExpression()
+	 */
+	
+	public Expression getExpression () {
+		To _to = getTarget(null,To.class);
+		return _to.getExpression();
+	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide#setExpression(org.eclipse.bpel.model.Expression)
+	 */
+	public void setExpression (Expression expression) {
+		To _to = getTarget(null,To.class);
+		_to.setExpression(expression);
+	}
+
+	
 
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide#create()

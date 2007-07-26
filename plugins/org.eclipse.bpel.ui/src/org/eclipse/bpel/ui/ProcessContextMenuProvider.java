@@ -106,7 +106,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		// Cut, Copy, Paste (always shown)
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.CUT.getId()));
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.COPY.getId()));
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.PASTE.getId()));
+		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.PASTE.getId()));	
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(BPELDuplicateAction.ACTION_ID));
 
 		// Frequently-used actions

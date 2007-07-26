@@ -11,17 +11,20 @@
 package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.model.BPELFactory;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetExpressionCommand;
-import org.eclipse.bpel.ui.expressions.IEditorConstants;
+import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.layout.FillLayout;
@@ -42,16 +45,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * Categories should become responsible for storing the value into the model themselves.
  */
 public class ExpressionAssignCategory extends ExpressionSection implements IAssignCategory {
-
-	@Override
-	protected String getExpressionType() { 
-		return IEditorConstants.ET_ASSIGNFROM; 
-	}
-	
-	@Override
-	protected String getExpressionContext() { 
-		return IEditorConstants.EC_ASSIGNFROM; 
-	}
 
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isHidden()
@@ -161,11 +154,11 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean isCategoryForModel ( EObject aModel ) {
-		From from = BPELUtil.adapt(aModel, From.class);
-		if (from == null) {
-			return false;
-		}
-		return from.getExpression() != null;
+		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel, IVirtualCopyRuleSide.class);
+		if (side != null) {
+			return side.getExpression() != null;
+		}		
+		return false;
 	}
 
 	
@@ -174,19 +167,31 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		CompoundCommand result = new CompoundCommand();
 		// If there is no condition, create one.
 		Expression oldExp = getExprFromModel();
-		Expression exp = BPELFactory.eINSTANCE.createCondition();
+		Expression exp = BPELFactory.eINSTANCE.createExpression();
+		
 		// Don't set the language, because if the user has changed the
 		// language, a condition would already exist at this point.
 		if (oldExp != null) {
 			exp.setExpressionLanguage(oldExp.getExpressionLanguage());
 		}
 		exp.setBody(body);
-		result.add(new SetExpressionCommand(getInput(), getModelExpressionType(),
-			getModelExpressionSubType(), exp));
-
-		editor.addExtraStoreCommands(result);
+		result.add(new SetCommand( getExpressionTarget(), exp, getStructuralFeature() ));
+		fEditor.addExtraStoreCommands(result);
 		return result;
 	}
+
+	
+	@Override
+	protected EStructuralFeature getStructuralFeature(EObject object) {
+		if (object instanceof To) {
+			return BPELPackage.eINSTANCE.getTo_Expression();
+		}
+		if (object instanceof From) {
+			return BPELPackage.eINSTANCE.getFrom_Expression();
+		}
+		return super.getStructuralFeature(object);
+	}
+
 
 	/**
 	 * This is just a workaround to keep the AssignCategory from changing too much.

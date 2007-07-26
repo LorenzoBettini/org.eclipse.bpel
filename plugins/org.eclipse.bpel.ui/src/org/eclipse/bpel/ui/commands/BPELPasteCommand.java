@@ -37,7 +37,7 @@ public class BPELPasteCommand extends AutoUndoCommand {
 	 * @param bpelEditor the BPEL editor reference.
 	 */
 	
-	public BPELPasteCommand(BPELEditor bpelEditor) {
+	public BPELPasteCommand (BPELEditor bpelEditor) {
 		// TODO: hack: use process as modelRoot		
 		super(bpelEditor.getProcess());		
 		this.fBpelEditor = bpelEditor;

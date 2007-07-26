@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.bpel.common.ui.decorator.EditPartMarkerDecorator;
 import org.eclipse.bpel.common.ui.tray.MainTrayEditPart;
 import org.eclipse.bpel.common.ui.tray.TrayMarkerDecorator;
+import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.PartnerLink;
@@ -181,22 +182,45 @@ public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelpe
 	 * We show scoped partnerLinks if a Scope is the current selection,
 	 * otherwise we show the process partnerLinks.
 	 */
-	protected PartnerLinks getPartnerLinks() {		
+	protected PartnerLinks getPartnerLinks() {
 		if (lastSelection instanceof Scope) {
-			return ((Scope)lastSelection).getPartnerLinks();
+			Scope scope = (Scope) lastSelection;
+			if ( scope.getPartnerLinks() == null) {
+				scope.setPartnerLinks( BPELFactory.eINSTANCE.createPartnerLinks() );
+			}
+			return scope.getPartnerLinks();						
 		} 
-		return getProcess().getPartnerLinks();
+		Process process = getProcess();
+		if (process.getPartnerLinks() == null) {
+			process.setPartnerLinks(  BPELFactory.eINSTANCE.createPartnerLinks()  );
+		}
+		
+		return process.getPartnerLinks();
+		
 	}
 
 	/**
 	 * We show scoped variables if a Scope is the current selection,
 	 * otherwise we show the process variables.
 	 */
-	protected Variables getVariables() {		
+	protected Variables getVariables() {
+		
 		if (lastSelection instanceof Scope) {
-			return ((Scope)lastSelection).getVariables();
+			
+			Scope scope = (Scope) lastSelection;
+			if ( scope.getVariables() == null) {
+				scope.setVariables( BPELFactory.eINSTANCE.createVariables() );
+			}
+			return scope.getVariables();
+			
 		} 
-		return getProcess().getVariables();
+		
+		Process process = getProcess();
+		if (process.getVariables() == null) {
+			process.setVariables(  BPELFactory.eINSTANCE.createVariables()  );
+		}
+		
+		return process.getVariables();		
 	}
 	
 	/**
@@ -205,10 +229,20 @@ public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelpe
 	 */
 	protected CorrelationSets getCorrelationSets() {		
 		if (lastSelection instanceof Scope) {
-			return ((Scope)lastSelection).getCorrelationSets();
-		} 
-		return getProcess().getCorrelationSets();
+			Scope scope = (Scope) lastSelection;
+			if ( scope.getCorrelationSets() == null) {
+				scope.setCorrelationSets( BPELFactory.eINSTANCE.createCorrelationSets() );
+			}
+			return scope.getCorrelationSets();
+		}
+		Process process = getProcess();
+		if (process.getCorrelationSets() == null) {
+			process.setCorrelationSets(  BPELFactory.eINSTANCE.createCorrelationSets()  );
+		}
+
+		return process.getCorrelationSets();
 	}
+	
 	
 	protected Process getProcess() {
 		return (Process)getModel();

@@ -18,25 +18,29 @@ import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetExpressionCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.details.providers.ExpressionEditorDescriptorContentProvider;
 import org.eclipse.bpel.ui.details.providers.ModelViewerSorter;
+import org.eclipse.bpel.ui.expressions.IEditorConstants;
 import org.eclipse.bpel.ui.expressions.IExpressionEditor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.extensions.ExpressionEditorDescriptor;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.Gate;
 import org.eclipse.bpel.ui.util.IGate;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -48,9 +52,12 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -87,7 +94,7 @@ import org.eclipse.swt.widgets.Label;
  */
 public abstract class ExpressionSection extends TextSection {
 	
-	
+	 
 	protected String editorLanguage;
 	
 	protected ComboViewer expressionLanguageViewer;	
@@ -128,6 +135,11 @@ public abstract class ExpressionSection extends TextSection {
 
 	protected StatusLabel2 expressionLanguageLabel;
 
+	/** The EMF structural feature that is this expression */
+	protected EStructuralFeature fStructuralFeature;
+
+	protected Button fCreateExpressionButton;
+
 	
 	protected static boolean objectsEqual(Object lhs, Object rhs) {
 		if (lhs == null) return (rhs == null);
@@ -156,7 +168,7 @@ public abstract class ExpressionSection extends TextSection {
 			Object[] descriptors = super.getElements(inputElement);
 			
 			ArrayList<Object> result = new ArrayList<Object>(descriptors.length + 2);
-			if (!isExpressionOptional() || selectedObject==NO_EXPRESSION) {
+			if (isExpressionOptional() || selectedObject==NO_EXPRESSION) {
 				result.add(NO_EXPRESSION);
 			}
 			if (selectedObject==SAME_AS_PARENT || allowItem(SAME_AS_PARENT)) {
@@ -216,7 +228,7 @@ public abstract class ExpressionSection extends TextSection {
 	}
 	
 	
-	protected Object getDefaultBody(String newLanguage, String exprType, String exprContext) {
+	protected Object getDefaultBody (String newLanguage, String exprType ) {
 		
 		IExpressionEditor ed = null;
 		try {
@@ -228,16 +240,11 @@ public abstract class ExpressionSection extends TextSection {
 		}
 		
 		// TODO: call supportsExpressionType in the right place
-		ed.setExpressionType(exprType, exprContext);
-		ed.setModelObject(getInput());
-		return ed.getDefaultBody();
+		ed.setExpressionType(exprType);
+		ed.setModelObject( getInput() );
+		return ed.getDefaultContent() ;
 	}
 	
-	
-	
-	protected Command newEraseModelCommand() {
-		return new SetExpressionCommand(getInput(), getModelExpressionType(), getModelExpressionSubType(), null);
-	}
 	
 	protected void createTitleWidgets(Composite composite) {
 		FlatFormData data;
@@ -283,7 +290,7 @@ public abstract class ExpressionSection extends TextSection {
 				if (element == SAME_AS_PARENT) {
 					String text = getBPELEditor().getProcess().getExpressionLanguage();
 					if (text == null) {
-						text = IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH;
+						text = BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE;
 					}
 					ExpressionEditorDescriptor descriptor = BPELUIRegistry.getInstance().getExpressionEditorDescriptor(text);
 					if (descriptor != null) {
@@ -302,7 +309,6 @@ public abstract class ExpressionSection extends TextSection {
 		
 		expressionComboContentProvider = new ExpressionComboContentProvider();		
 		expressionLanguageViewer.setContentProvider(expressionComboContentProvider);
-		expressionLanguageViewer.setSorter(ModelViewerSorter.getInstance());
 		expressionLanguageViewer.setInput( SAME_AS_PARENT );
 		
 		
@@ -326,22 +332,22 @@ public abstract class ExpressionSection extends TextSection {
 				Command cmd; 
 				
 				if (elm == NO_EXPRESSION) {
-					cmd = newEraseModelCommand();
+					cmd = new SetCommand(getExpressionTarget(), null, getStructuralFeature() );
 				} else {					
 					
 					String language = getExpressionLanguage(elm);											
-					Expression exp = BPELFactory.eINSTANCE.createCondition();
+					Expression exp = BPELFactory.eINSTANCE.createCondition();					
 					exp.setExpressionLanguage(language);
-					Object newDefaultBody = getDefaultBody(language, getExpressionType(), getExpressionContext());
+
+					Object newDefaultBody = getDefaultBody(language, getExpressionType()  );
 					
 					// Figure out what the new default value should be for this expression,
 					// 	and install it in the model.  It is necessary to do this before we
 					// 	properly create the editor (which happens when we update widgets in
 					// response to the model change).
 					exp.setBody(newDefaultBody);
-					
-					cmd = new SetExpressionCommand(getInput(), getModelExpressionType(),
-								getModelExpressionSubType(), exp);
+										
+					cmd = new SetCommand(getExpressionTarget(), getExpression4Target (exp), getStructuralFeature()) ;
 				}
 				
 				getCommandFramework().execute( wrapInShowContextCommand(cmd) ); 
@@ -425,28 +431,70 @@ public abstract class ExpressionSection extends TextSection {
 	
 	
 	@Override
-	protected void basicSetInput(EObject newInput) {
+	protected void basicSetInput (EObject newInput) {
 		
 		super.basicSetInput(newInput);
 		
-		// The content provider may change as a result of this input setting.
-		expressionComboContentProvider.setSpecCompliant(ModelHelper.isSpecCompliant(getInput()));
+		/** Figure out based in the input, what EMF structural feature we are setting */
+		setStructuralFeature ( getStructuralFeature (newInput) );
 		
 		// A different input may have different expression language settings.
 		expressionLanguageViewer.refresh(true);
-		
+				 
 		// Reveal the right selection in the widget.
 		updateExpressionLanguageWidgets();		
 	}
 	
+
+	protected void setStructuralFeature ( EStructuralFeature feature ) {
+		fStructuralFeature = feature;
+	}
+	
+	/**
+	 * Get the structural feature of this input object.
+	 * This will be something like BPELPackage.eINSTANCE.getWait_Until()
+	 *  
+	 * @param eObject
+	 * @return the structural feature that we will be setting.
+	 */
+	
+	protected EStructuralFeature getStructuralFeature ( EObject eObject ) {
+		return null;
+	}
+	
+	
+	/** 
+	 * Return the previously computed structural feature of the input object.
+	 * @return
+	 */
+	protected EStructuralFeature getStructuralFeature () {
+		return fStructuralFeature;
+	}
 	
 	protected boolean isExpressionOptional() { 
-		return false; 
+		return true; 
 	}
 
-	protected abstract String getExpressionType();
-	protected abstract String getExpressionContext();
-
+	
+	protected String getExpressionType() { 
+		return IEditorConstants.ET_ANY ; 
+	}
+	
+		
+	/** 
+	 * The expression target is the target object on which we can execute
+	 * the SetCommand(target,object,structural-feature).
+	 * 
+	 * In most cases, it is just the input of the section. But in some cases
+	 * the input if the section does not match the target, so sub-classes
+	 * may override this method.
+	 * 
+	 * @return
+	 */
+	protected EObject getExpressionTarget () {
+		return getInput();
+	}
+	
 	
 	/**
 	 * Returns the expressionLanguage string underlying the given combo element.  For
@@ -477,7 +525,7 @@ public abstract class ExpressionSection extends TextSection {
 		if (language == null) {
 			language = getBPELEditor().getProcess().getExpressionLanguage();
 			if (language == null) {
-				language = IBPELUIConstants.EXPRESSION_LANGUAGE_XPATH;
+				language = BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE;
 			}
 		}
 		return language;
@@ -494,18 +542,25 @@ public abstract class ExpressionSection extends TextSection {
 		return expression.getExpressionLanguage();
 	}
 	
-	// Do not override this method (except in WaitConditionSection)
-	protected int getModelExpressionType() {
-		return ModelHelper.expressionTypeAndContext2Kind(getExpressionType(), getExpressionContext());
-	}
-	protected int getModelExpressionSubType() {
-		return ModelHelper.expressionTypeAndContext2SubKind(getExpressionType(), getExpressionContext());
-	}
+	
 	
 	protected Expression getExprFromModel() {
 		
-		return ModelHelper.getExpression(getInput(), getModelExpressionType());
+		EObject target = getExpressionTarget();		
+		if (target != null) {
+			Object result = target.eGet( getStructuralFeature() );		
+			if (result instanceof Expression) {
+				return (Expression) result;
+			}
+		}		
+		return null;
 	}
+	
+	
+	protected Expression getExpression4Target ( Expression expression ) {
+		return expression;
+	}
+	
 	
 	
 	@Override
@@ -513,30 +568,36 @@ public abstract class ExpressionSection extends TextSection {
 		
 		if (n.getOldValue() instanceof Expression ||
 			n.getNewValue() instanceof Expression ||
-			n.getNotifier() instanceof Expression) return true;
-		
-		return ModelHelper.isExpressionAffected(getInput(), n, getModelExpressionType());
+			n.getNotifier() instanceof Expression) {
+			
+			return true;
+		}
+		return n.getFeature() == getStructuralFeature();			
 	}
 
 	
 	@Override
-	protected Command newStoreToModelCommand(Object body) {
-		CompoundCommand result = new CompoundCommand();
-		// If there is no condition, create one.
+	protected Command newStoreToModelCommand (Object body) {
+		
+		CompoundCommand result = new CompoundCommand();		
 		Expression oldExp = getExprFromModel();
+		
 		Expression exp = BPELFactory.eINSTANCE.createCondition();
+		
 		// Don't set the language, because if the user has changed the
 		// language, a condition would already exist at this point.
+		
 		if (oldExp != null) {
 			exp.setExpressionLanguage(oldExp.getExpressionLanguage());
 		}
 		exp.setBody(body);
-		result.add(new SetExpressionCommand(getInput(), getModelExpressionType(),
-			getModelExpressionSubType(), exp));
-
-		editor.addExtraStoreCommands(result);
+		
+		result.add (new SetCommand(getExpressionTarget(), getExpression4Target(exp) , getStructuralFeature() ));
+		fEditor.addExtraStoreCommands (result);
+		
 		return result;
 	}
+	
 	
 	/**
 	 * Create the client area. This is just done once.
@@ -579,6 +640,39 @@ public abstract class ExpressionSection extends TextSection {
 		return fWidgetFactory.createComposite(composite);
 	}
 	
+	protected Composite createNoEditorWidgetsCreateComposite (Composite composite, String message, String buttonMessage ) {
+			    	    
+		FlatFormData ffdata;
+		
+		Composite section = createFlatFormComposite(composite);		
+				
+		Label label = fWidgetFactory.createLabel(section,EMPTY_STRING, SWT.WRAP | SWT.READ_ONLY  );
+		
+		ffdata = new FlatFormData();
+		ffdata.left = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE );
+		ffdata.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE * 2);
+		ffdata.right = new FlatFormAttachment(100, 0);
+		label.setLayoutData(ffdata);
+		
+		
+		fCreateExpressionButton = fWidgetFactory.createButton(section, buttonMessage , SWT.PUSH); 
+		ffdata = new FlatFormData();
+		ffdata.left = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+		ffdata.top = new FlatFormAttachment(label, IDetailsAreaConstants.VSPACE * 2);
+		fCreateExpressionButton.setLayoutData(ffdata);
+		
+		fCreateExpressionButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				doChooseExpressionLanguage(SAME_AS_PARENT);
+			}
+			public void widgetDefaultSelected(SelectionEvent e) { }
+		});
+		
+		label.setText(message);
+		
+		return section;
+	}
+	
 	
 	/** 
 	 * Create the editor.
@@ -591,16 +685,16 @@ public abstract class ExpressionSection extends TextSection {
 		String language = getEffectiveLanguage(getExpressionLanguageFromModel());
 		
 		try {
-			editor = BPELUIRegistry.getInstance().getExpressionEditor(language);
+			fEditor = BPELUIRegistry.getInstance().getExpressionEditor(language);
 		} catch (CoreException e) {
 			BPELUIPlugin.log(e);			
 			return ;
 		}
 			
 		editorLanguage = language;
-		editor.createControls(parent, this);
+		fEditor.createControls(parent, this);
 		
-		editor.addListener(new IExpressionEditor.Listener() {
+		fEditor.addListener(new IExpressionEditor.Listener() {
 			public void notifyChanged() {
 				if (!updating) { // && !isExecutingStoreCommand()) {
 					notifyEditorChanged();
@@ -639,10 +733,13 @@ public abstract class ExpressionSection extends TextSection {
 		
 			// we update our editor with the model, since something may have changed
 			// in it that needs to be reflected in the editor.
-			editor.setExpressionType(getExpressionType(), getExpressionContext());
-			editor.setModelObject(getInput());
-			editor.setBody(expr.getBody());
-			editor.aboutToBeShown();
+			fEditor.setExpressionType( getExpressionType() );
+			// editor.setExpressionType(getExpressionType(), getExpressionContext());
+			fEditor.setModelObject(getInput());
+			
+			// TODO: WTF ?
+			fEditor.setEditorContent( (String) expr.getBody());
+			fEditor.aboutToBeShown();
 		}
 		
 		
@@ -657,13 +754,13 @@ public abstract class ExpressionSection extends TextSection {
 	 * can't be used with the current type/context.
 	 */
 	protected boolean isEditorSupported(IExpressionEditor exEditor) {
-		return exEditor.supportsExpressionType(getExpressionType(), getExpressionContext());
+		return exEditor.supportsExpressionType( getExpressionType() );
 	}
 	
 	/**
 	 * Whether the marker use type is useful for this section. 
 	 */
-	protected boolean isValidClientUseType(String useType) {
+	protected boolean isValidClientUseType (String useType) {
 		return false;
 	}
 	
@@ -674,7 +771,7 @@ public abstract class ExpressionSection extends TextSection {
 	 */
 	
 	public boolean hasEditor () {
-		return (editor != null && fEditorAreaStackLayout.topControl != fNoEditorWidgets) ;
+		return (fEditor != null && fEditorAreaStackLayout.topControl != fNoEditorWidgets) ;
 	}
 	
 	private void createBoldFont (Composite parent) {
@@ -696,12 +793,14 @@ public abstract class ExpressionSection extends TextSection {
 		super.dispose();
 	}
 	
+	@Override
 	protected void updateMarkers () {				
 		expressionLanguageLabel.clear();		
 		for(IMarker m : getMarkers(getInput())) {
 			expressionLanguageLabel.addStatus( BPELUtil.adapt(m, IStatus.class) );
 		}		
 	}	
+	
 	
 	
 //	public void aboutToBeHidden() {

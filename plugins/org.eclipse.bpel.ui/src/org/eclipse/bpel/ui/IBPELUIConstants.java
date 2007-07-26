@@ -43,9 +43,6 @@ public interface IBPELUIConstants {
 	// Namespace for model extension set
 	public final String MODEL_EXTENSIONS_NAMESPACE = "http://org.eclipse.bpel.ui/"; //$NON-NLS-1$
 
-	// Namespace for XPath expression and query language
-	public final String EXPRESSION_LANGUAGE_XPATH = "http://www.w3.org/TR/1999/REC-xpath-19991116"; //$NON-NLS-1$
-
 	// Image path
 	public final String ICON_PATH = "icons/"; //$NON-NLS-1$
 

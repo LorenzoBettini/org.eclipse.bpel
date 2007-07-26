@@ -13,13 +13,14 @@ package org.eclipse.bpel.ui.contentassist;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.details.providers.LinkContentProvider;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.XSDUtils;
@@ -45,16 +46,25 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 
-@SuppressWarnings("unchecked") //$NON-NLS-1$
+
+/**
+ * @author Edward Gee (edward.gee@oracle.com)
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * 
+ */
 
 public class ExpressionContentAssistProcessor
      implements IContentAssistProcessor, ICompletionListener {
 
+	static String EMPTY_STRING = ""; //$NON-NLS-1$
+	
+	static ICompletionProposal[] EMPTY_COMPLETION_PROPOSALS = {} ; 
+	
 	// members of class ExpressionContentAssistProcessor
 	private Object theModel = null;
 	private int theToggle = 3;
-	private String theLastBeginsWith = ""; //$NON-NLS-1$
-	private String theExpressionContext = ""; //$NON-NLS-1$
+	private String theLastBeginsWith = EMPTY_STRING; 
+	private String theExpressionContext = EMPTY_STRING; 
 	private IContentAssistantExtension2 theContentAssistant;
 	/**
 	 * The function templates content assist processor.
@@ -63,28 +73,28 @@ public class ExpressionContentAssistProcessor
     XPathTemplateCompletionProcessor xpathTemplates = new XPathTemplateCompletionProcessor();
     	
 	// public constants
-    public static final String MINUS = "-"; //$NON-NLS-1$
-    public static final String PLUS = "+"; //$NON-NLS-1$
-    public static final String MULTIPLY = "*"; //$NON-NLS-1$
-    public static final String DIVIDE = "/"; //$NON-NLS-1$
-    public static final String OPEN_PAREN = "("; //$NON-NLS-1$
-    public static final String CLOSE_PAREN = ")"; //$NON-NLS-1$
-    public static final String OPEN_BRACKET = "["; //$NON-NLS-1$
-    public static final String CLOSE_BRACKET = "]"; //$NON-NLS-1$
-    public static final String COMMA = ","; //$NON-NLS-1$
-    public static final String DOLLAR = "$"; //$NON-NLS-1$
-    public static final String EQUAL = "="; //$NON-NLS-1$
-    public static final String NOT_EQUAL = "!="; //$NON-NLS-1$
-    public static final String LESS_THAN = "<"; //$NON-NLS-1$
-    public static final String LESS_THAN_EQUAL = "<="; //$NON-NLS-1$
-    public static final String GREATER_THAN = ">"; //$NON-NLS-1$
-    public static final String GREATER_THAN_EQUAL = ">="; //$NON-NLS-1$
-    public static final String MOD = "mod"; //$NON-NLS-1$
-    public static final String DIV = "div"; //$NON-NLS-1$
-    public static final String AND = "and"; //$NON-NLS-1$
-    public static final String OR = "or"; //$NON-NLS-1$
-    public static final String COLON = ":"; //$NON-NLS-1$
-    public static final String AT = "@"; //$NON-NLS-1$
+    static final String MINUS = "-"; //$NON-NLS-1$
+    static final String PLUS = "+"; //$NON-NLS-1$
+    static final String MULTIPLY = "*"; //$NON-NLS-1$
+    static final String DIVIDE = "/"; //$NON-NLS-1$
+    static final String OPEN_PAREN = "("; //$NON-NLS-1$
+    static final String CLOSE_PAREN = ")"; //$NON-NLS-1$
+    static final String OPEN_BRACKET = "["; //$NON-NLS-1$
+    static final String CLOSE_BRACKET = "]"; //$NON-NLS-1$
+    static final String COMMA = ","; //$NON-NLS-1$
+    static final String DOLLAR = "$"; //$NON-NLS-1$
+    static final String EQUAL = "="; //$NON-NLS-1$
+    static final String NOT_EQUAL = "!="; //$NON-NLS-1$
+    static final String LESS_THAN = "<"; //$NON-NLS-1$
+    static final String LESS_THAN_EQUAL = "<="; //$NON-NLS-1$
+    static final String GREATER_THAN = ">"; //$NON-NLS-1$
+    static final String GREATER_THAN_EQUAL = ">="; //$NON-NLS-1$
+    static final String MOD = "mod"; //$NON-NLS-1$
+    static final String DIV = "div"; //$NON-NLS-1$
+    static final String AND = "and"; //$NON-NLS-1$
+    static final String OR = "or"; //$NON-NLS-1$
+    static final String COLON = ":"; //$NON-NLS-1$
+    static final String AT = "@"; //$NON-NLS-1$
     
 	// helper class for defining proposal types
 	class ProposalType {
@@ -92,19 +102,19 @@ public class ExpressionContentAssistProcessor
 		private String theBeginsWith;
 		
 		// bitwise flags for different types
-		public static final int PROPTYPE_VARIABLE = 1;
-		public static final int PROPTYPE_FUNCTION = 2;
-		public static final int PROPTYPE_OPERATOR = 4;
+		static final int PROPTYPE_VARIABLE = 1;
+		static final int PROPTYPE_FUNCTION = 2;
+		static final int PROPTYPE_OPERATOR = 4;
 		
 		ProposalType(int type, String beginsWith) {
 			theType = type;
 			theBeginsWith = beginsWith;
 		}
 		
-		public boolean isVariable() { return ((theType & PROPTYPE_VARIABLE) == PROPTYPE_VARIABLE); }
-		public boolean isFunction() { return ((theType & PROPTYPE_FUNCTION) == PROPTYPE_FUNCTION); }
-		public boolean isOperator() { return ((theType & PROPTYPE_OPERATOR) == PROPTYPE_OPERATOR); }
-		public boolean isVariableAndFunction() { return ((theType & (PROPTYPE_VARIABLE | PROPTYPE_FUNCTION)) == (PROPTYPE_VARIABLE | PROPTYPE_FUNCTION)); }
+		boolean isVariable() { return ((theType & PROPTYPE_VARIABLE) == PROPTYPE_VARIABLE); }
+		boolean isFunction() { return ((theType & PROPTYPE_FUNCTION) == PROPTYPE_FUNCTION); }
+		boolean isOperator() { return ((theType & PROPTYPE_OPERATOR) == PROPTYPE_OPERATOR); }
+		boolean isVariableAndFunction() { return ((theType & (PROPTYPE_VARIABLE | PROPTYPE_FUNCTION)) == (PROPTYPE_VARIABLE | PROPTYPE_FUNCTION)); }
 	}
 	
 	// helper class for defining expression types within xpath expression... used by XPathStack
@@ -112,20 +122,20 @@ public class ExpressionContentAssistProcessor
 		private int theType;
 		private String theGrammar;
 		
-		public static final int EXPRTYPE_VARIABLE = 1;
-		public static final int EXPRTYPE_FUNCTION = 2;
-		public static final int EXPRTYPE_LITERAL = 3;
-		public static final int EXPRTYPE_NUMBER = 4;
-		public static final int EXPRTYPE_UNARY_OPERATOR = 5;
-		public static final int EXPRTYPE_NUMERIC_OPERATOR = 6;
-		public static final int EXPRTYPE_BOOLEAN_OPERATOR = 7;
-		public static final int EXPRTYPE_NEW_EXPRESSION = 8;
-		public static final int EXPRTYPE_FUNCTION_ARGUMENTS = 9;
-		public static final int EXPRTYPE_FUNCTION_ARGUMENT_SEPARATOR = 10;
+		static final int EXPRTYPE_VARIABLE = 1;
+		static final int EXPRTYPE_FUNCTION = 2;
+		static final int EXPRTYPE_LITERAL = 3;
+		static final int EXPRTYPE_NUMBER = 4;
+		static final int EXPRTYPE_UNARY_OPERATOR = 5;
+		static final int EXPRTYPE_NUMERIC_OPERATOR = 6;
+		static final int EXPRTYPE_BOOLEAN_OPERATOR = 7;
+		static final int EXPRTYPE_NEW_EXPRESSION = 8;
+		static final int EXPRTYPE_FUNCTION_ARGUMENTS = 9;
+		static final int EXPRTYPE_FUNCTION_ARGUMENT_SEPARATOR = 10;
 		
-		public static final int CLASS_NUMERIC = 100;
-		public static final int CLASS_BOOLEAN = 101;
-		public static final int CLASS_EXPRESSION = 102;
+		static final int CLASS_NUMERIC = 100;
+		static final int CLASS_BOOLEAN = 101;
+		static final int CLASS_EXPRESSION = 102;
 		
 		
 		ExpressionType(int type, String grammar) {
@@ -134,18 +144,18 @@ public class ExpressionContentAssistProcessor
 		}
 	}
 	
-	// simple callstack used for parsing xpath expressions
-	class XPathStack {
+	// simple call stack used for parsing XPath expressions
+	protected class XPathStack {
 		
-		private Stack theCallStack;
-		private int theStatus;
-		private IDocument theDocument;
-		private int theOffset;
-		private int theIndex;
-		private int theTopOfStackExprType = -1;
+		Stack<ExpressionType> theCallStack;
+		int theStatus;
+		IDocument theDocument;
+		int theOffset;
+		int theIndex;
+		int theTopOfStackExprType = -1;
 		
 		XPathStack(ITextViewer viewer, int offset) {
-			theCallStack = new Stack();
+			theCallStack = new Stack<ExpressionType>();
 			theStatus = 0;	// flag for stack's integrity
 			theDocument = viewer.getDocument();
 			theOffset = offset;
@@ -204,7 +214,7 @@ public class ExpressionContentAssistProcessor
 								// pop the unary operator
 								theCallStack.pop();
 								// push "numeric" value
-								theCallStack.push(new ExpressionType(ExpressionType.CLASS_NUMERIC, "")); //$NON-NLS-1$
+								theCallStack.push(new ExpressionType(ExpressionType.CLASS_NUMERIC, EMPTY_STRING));
 								theTopOfStackExprType = ExpressionType.CLASS_NUMERIC;
 							}
 						}
@@ -230,22 +240,22 @@ public class ExpressionContentAssistProcessor
 							theCallStack.push(new ExpressionType(tempType, tempOper));
 							theTopOfStackExprType = tempType;
 							theIndex++;
-							if (tempType == ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR)
+							if (tempType == ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR) {
 								return parseBooleanExpression();
+							}
+							if (parseNumberExpression()) {
+								// pop the operand
+								theCallStack.pop();
+								// pop the operator
+								theCallStack.pop();
+								// pop the first operand;
+								theCallStack.pop();
+								// push "numeric value"
+								theCallStack.push(new ExpressionType(ExpressionType.CLASS_NUMERIC, EMPTY_STRING)); 
+								theTopOfStackExprType = ExpressionType.CLASS_NUMERIC;
+							}
 							else {
-								if (parseNumberExpression()) {
-									// pop the operand
-									theCallStack.pop();
-									// pop the operator
-									theCallStack.pop();
-									// pop the first operand;
-									theCallStack.pop();
-									// push "numeric value"
-									theCallStack.push(new ExpressionType(ExpressionType.CLASS_NUMERIC, "")); //$NON-NLS-1$
-									theTopOfStackExprType = ExpressionType.CLASS_NUMERIC;
-								}
-								else
-									return false;						
+								return false;						
 							}
 						}
 						else {// return
@@ -272,9 +282,9 @@ public class ExpressionContentAssistProcessor
 					theIndex++;
 					if (parseBooleanExpression()) {
 						// peek and set top of stack id
-						ExpressionType tempExpr = (ExpressionType)theCallStack.peek();
+						ExpressionType tempExpr = theCallStack.peek();
 						int type = tempExpr.theType;
-						theCallStack.push(new ExpressionType(ExpressionType.CLASS_EXPRESSION, "")); //$NON-NLS-1$
+						theCallStack.push(new ExpressionType(ExpressionType.CLASS_EXPRESSION, EMPTY_STRING)); 
 						theTopOfStackExprType = ExpressionType.CLASS_EXPRESSION;
 						if ((type == ExpressionType.EXPRTYPE_UNARY_OPERATOR) ||
 								(theTopOfStackExprType == ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR) ||
@@ -286,40 +296,38 @@ public class ExpressionContentAssistProcessor
 				}
 				else if (isClosingExpressionCharacter(currChar)) {
 					try {
-						ExpressionType tempExpr = (ExpressionType)theCallStack.pop();
+						ExpressionType tempExpr = theCallStack.pop();
 						while (!((tempExpr.theType == ExpressionType.EXPRTYPE_NEW_EXPRESSION) || 
 								(tempExpr.theType == ExpressionType.EXPRTYPE_FUNCTION_ARGUMENTS))) {
-							tempExpr = (ExpressionType)theCallStack.pop();	
+							tempExpr = theCallStack.pop();	
 						}
 						if (tempExpr != null) {
 							if (tempExpr.theType == ExpressionType.EXPRTYPE_NEW_EXPRESSION) {
 								switch (currChar) {
 								case ')':
-									if (tempExpr.theGrammar.compareTo(OPEN_PAREN) == 0)
+									if (tempExpr.theGrammar.compareTo(OPEN_PAREN) == 0) {
 										return true;
-									else {
-										theStatus = -1;
-										return false;
 									}
+									theStatus = -1;
+									return false;
+									
 								case ']':
-									if (tempExpr.theGrammar.compareTo(OPEN_BRACKET) == 0)
+									if (tempExpr.theGrammar.compareTo(OPEN_BRACKET) == 0) {
 										return true;
-									else {
-										theStatus = -1;
-										return false;
 									}
+									theStatus = -1;
+									return false;
 								default:
 									theStatus = -1;
 									return false;
 								}
 							}
 							else if (tempExpr.theType == ExpressionType.EXPRTYPE_FUNCTION_ARGUMENTS) {
-								if (currChar == ')')
+								if (currChar == ')') {
 									return true;
-								else {
-									theStatus = -1;
-									return false;
-								}							
+								}
+								theStatus = -1;
+								return false;
 							}
 							theStatus = -1;
 							return false;
@@ -354,21 +362,19 @@ public class ExpressionContentAssistProcessor
 							if (theTopOfStackExprType == ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR) {
 								return parseBooleanExpression();
 							}
-							else {
-								if (parseNumberExpression()) {
-									// pop the operand
-									theCallStack.pop();
-									// pop the operator
-									theCallStack.pop();
-									// pop the first operand;
-									theCallStack.pop();
-									// push "numeric value"
-									theCallStack.push(new ExpressionType(ExpressionType.CLASS_NUMERIC, "")); //$NON-NLS-1$
-									theTopOfStackExprType = ExpressionType.CLASS_NUMERIC;
-								}
-								else
-									return false;						
-							}									
+							if (parseNumberExpression()) {
+								// pop the operand
+								theCallStack.pop();
+								// pop the operator
+								theCallStack.pop();
+								// pop the first operand;
+								theCallStack.pop();
+								// push "numeric value"
+								theCallStack.push(new ExpressionType(ExpressionType.CLASS_NUMERIC, EMPTY_STRING)); 
+								theTopOfStackExprType = ExpressionType.CLASS_NUMERIC;
+							} else {
+								return false;
+							}
 						}
 						else {
 							if ((type == ExpressionType.EXPRTYPE_UNARY_OPERATOR) ||
@@ -387,11 +393,11 @@ public class ExpressionContentAssistProcessor
 		}
 		
 		// parse boolean expressions
-		private boolean parseBooleanExpression() throws BadLocationException {
+		boolean parseBooleanExpression() throws BadLocationException {
 			
 			boolean proceed = parseNumberExpression();
 			while (proceed) {
-				ExpressionType tempExpr = (ExpressionType)theCallStack.peek();
+				ExpressionType tempExpr = theCallStack.peek();
 				if (tempExpr.theType == ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR)
 					proceed = parseNumberExpression();
 				else
@@ -402,7 +408,7 @@ public class ExpressionContentAssistProcessor
 		
 		// parse word found in numeric expression
 		private boolean parseWord() throws BadLocationException {
-			String word = ""; //$NON-NLS-1$
+			String word = EMPTY_STRING; 
 			char nextChar;
 			while (theIndex < theOffset) {
 				nextChar = theDocument.getChar(theIndex);
@@ -415,12 +421,11 @@ public class ExpressionContentAssistProcessor
 							// pop the function name
 							theCallStack.pop();
 							// push the expression
-							theCallStack.push(new ExpressionType(ExpressionType.CLASS_EXPRESSION, "")); //$NON-NLS-1$
+							theCallStack.push(new ExpressionType(ExpressionType.CLASS_EXPRESSION, EMPTY_STRING));
 							theTopOfStackExprType = ExpressionType.CLASS_EXPRESSION;
 							return true;
 						}
-						else
-							return false;
+						return false;
 					}
 				}
 				if (Character.isWhitespace(nextChar)) {
@@ -442,12 +447,11 @@ public class ExpressionContentAssistProcessor
 						int tempIndex = theIndex;
 						while (tempIndex < theOffset) {
 							if (!Character.isWhitespace(theDocument.getChar(tempIndex))) {
-								if (theDocument.getChar(tempIndex) == '(') 
+								if (theDocument.getChar(tempIndex) == '(') { 
 									break;
-								else {
-									theStatus = -1;
-									return false;
 								}
+								theStatus = -1;
+								return false;
 							}
 							tempIndex++;						
 						}
@@ -474,7 +478,7 @@ public class ExpressionContentAssistProcessor
 					theCallStack.push(new ExpressionType(ExpressionType.EXPRTYPE_FUNCTION_ARGUMENTS, OPEN_PAREN));
 				else if (nextChar == ')') {
 					try {
-						ExpressionType tempExpr = (ExpressionType)theCallStack.peek();
+						ExpressionType tempExpr = theCallStack.peek();
 						
 						if (tempExpr != null) {
 							if (tempExpr.theType == ExpressionType.EXPRTYPE_FUNCTION)
@@ -523,7 +527,7 @@ public class ExpressionContentAssistProcessor
 		
 		// parse literal values
 		private boolean parseLiteral() throws BadLocationException {
-			String literal = ""; //$NON-NLS-1$
+			String literal = EMPTY_STRING; 
 			char nextChar = theDocument.getChar(theIndex);
 			// delimiter could be single or double quote
 			char delimiter = nextChar;
@@ -553,7 +557,7 @@ public class ExpressionContentAssistProcessor
 		
 		// parse number values
 		private boolean parseNumber() throws BadLocationException {
-			String number = ""; //$NON-NLS-1$
+			String number = EMPTY_STRING; 
 			char nextChar;
 			while (theIndex < theOffset) {
 				nextChar = theDocument.getChar(theIndex);
@@ -595,10 +599,10 @@ public class ExpressionContentAssistProcessor
 						nextChar = theDocument.getChar(theIndex);
 						if (nextChar == ']') {
 							try {
-								ExpressionType tempExpr = (ExpressionType)theCallStack.pop();
+								ExpressionType tempExpr = theCallStack.pop();
 								while (tempExpr.theType != ExpressionType.EXPRTYPE_NEW_EXPRESSION) {
 									// continue popping until we find a new expression type
-									tempExpr = (ExpressionType)theCallStack.pop();
+									tempExpr = theCallStack.pop();
 								}
 								if (tempExpr != null) {
 									if (tempExpr.theGrammar.compareTo(CLOSE_BRACKET) == 0) {
@@ -642,7 +646,11 @@ public class ExpressionContentAssistProcessor
 			return false;
 		}
 		
-		// publicly accessible function to parse xpath expression
+		/**
+		 * Parse XPath expression
+		 * @return true of parsed OK
+		 */
+		
 		public boolean parse() {
 			try {
 				parseBooleanExpression();
@@ -653,11 +661,14 @@ public class ExpressionContentAssistProcessor
 			}
 			return false;
 		}
-		
-		// publicly accessible function to retrieve suggestion after parsing
+		 
+		/** 
+		 * Retrieve suggestion after parsing
+		 * @return the suggestion.
+		 */
 		public ExpressionType getSuggestion() {
 			try {
-				return (ExpressionType)theCallStack.peek();
+				return theCallStack.peek();
 			}
 			catch (EmptyStackException e) {
 				return null;
@@ -667,72 +678,92 @@ public class ExpressionContentAssistProcessor
 	}
 	
 	
-	// from ICompletionListener
+	/**
+	 * @see org.eclipse.jface.text.contentassist.ICompletionListener#assistSessionStarted(org.eclipse.jface.text.contentassist.ContentAssistEvent)
+	 */
 	public void assistSessionStarted(ContentAssistEvent event) {
+		
 		IContentAssistant assistant= event.assistant;
 	    if (assistant instanceof IContentAssistantExtension2) {
 	        theContentAssistant= (IContentAssistantExtension2)assistant;
 	    }		
 	}
 	
-	// from ICompletionListener
+	/**
+	 * @see org.eclipse.jface.text.contentassist.ICompletionListener#assistSessionEnded(org.eclipse.jface.text.contentassist.ContentAssistEvent)
+	 */
 	public void assistSessionEnded(ContentAssistEvent event) {
         theContentAssistant= null;
         theToggle = 3;
-        theLastBeginsWith = ""; //$NON-NLS-1$
+        theLastBeginsWith = EMPTY_STRING; 
 	}
 	
-	// from ICompletionListener
+	/**
+	 * @see org.eclipse.jface.text.contentassist.ICompletionListener#selectionChanged(org.eclipse.jface.text.contentassist.ICompletionProposal, boolean)
+	 */
 	public void selectionChanged(ICompletionProposal proposal, boolean smartToggle) {
 		// do nothing
 	}
 	
 
+	/**
+	 * @param model
+	 */
 	public void setModelObject(Object model) {
 		theModel = model;
 		functionTemplates.setModel(model);
 	}
 	
+	/**
+	 * @param expressionContext
+	 */
 	public void setExpressionContext(String expressionContext) {
 		theExpressionContext = expressionContext;
 	}
 
 	
-	/** 
-	 * @param viewer 
-	 * @param offset 
-	 * @return 
-	 * @see org.eclipse.jface.text.templates.TemplateCompletionProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
+	/**
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
 	 */
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,	int offset) {
 		return generateProposals(viewer, offset);
 	}
 
+	
 	/**
-	 * @param viewer 
-	 * @param offset 
-	 * @return 
-	 * @see org.eclipse.jface.text.templates.TemplateCompletionProcessor#computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
 	 */
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {		
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getCompletionProposalAutoActivationCharacters()
+	 */
 	public char[] getCompletionProposalAutoActivationCharacters() {
 		// for variables
 		return new char[] { '$', '/', '@', '.' };
 	}
 
+	/**
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getContextInformationAutoActivationCharacters()
+	 */
 	public char[] getContextInformationAutoActivationCharacters() {
 		// do nothing for now
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getContextInformationValidator()
+	 */
 	public IContextInformationValidator getContextInformationValidator() {
 		// do nothing for now
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getErrorMessage()
+	 */
 	public String getErrorMessage() {
 		// do nothing for now
 		return Messages.getString("ExpressionContentAssistProcessor.32"); //$NON-NLS-1$
@@ -753,51 +784,53 @@ public class ExpressionContentAssistProcessor
 			if (expr != null) {		
 				switch (expr.theType) {
 				case ExpressionType.EXPRTYPE_VARIABLE:
-					if (callStack.theStatus == 1)
-						return (new ProposalType(ProposalType.PROPTYPE_VARIABLE, expr.theGrammar));
-					else
-						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, ""));  //$NON-NLS-1$
+					if (callStack.theStatus == 1) {
+						return new ProposalType(ProposalType.PROPTYPE_VARIABLE, expr.theGrammar);
+					}					
+					return new ProposalType(ProposalType.PROPTYPE_OPERATOR, EMPTY_STRING);
+					
 				case ExpressionType.EXPRTYPE_FUNCTION:
-					if (callStack.theStatus == 1)
-						return (new ProposalType(ProposalType.PROPTYPE_FUNCTION, expr.theGrammar));
-					else
-						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, ""));				 //$NON-NLS-1$
+					if (callStack.theStatus == 1) {
+						return new ProposalType(ProposalType.PROPTYPE_FUNCTION, expr.theGrammar);
+					}
+					return new ProposalType(ProposalType.PROPTYPE_OPERATOR, EMPTY_STRING);
+					
 				case ExpressionType.EXPRTYPE_BOOLEAN_OPERATOR:
 				case ExpressionType.EXPRTYPE_NUMERIC_OPERATOR:
 				case ExpressionType.EXPRTYPE_UNARY_OPERATOR:
 				case ExpressionType.EXPRTYPE_FUNCTION_ARGUMENTS:
 				case ExpressionType.EXPRTYPE_FUNCTION_ARGUMENT_SEPARATOR:
 				case ExpressionType.EXPRTYPE_NEW_EXPRESSION:
-					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
+					return new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, EMPTY_STRING);
 				case ExpressionType.CLASS_BOOLEAN:
 				case ExpressionType.CLASS_NUMERIC:
 				case ExpressionType.CLASS_EXPRESSION:
 				case ExpressionType.EXPRTYPE_NUMBER:
-					return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, "")); //$NON-NLS-1$
+					return new ProposalType(ProposalType.PROPTYPE_OPERATOR, EMPTY_STRING); 
 				case ExpressionType.EXPRTYPE_LITERAL:
-					if (callStack.theStatus == 1)
-						return (new ProposalType(0, "")); //$NON-NLS-1$
-					else
-						return (new ProposalType(ProposalType.PROPTYPE_OPERATOR, "")); //$NON-NLS-1$
+					if (callStack.theStatus == 1) {
+						return (new ProposalType(0, EMPTY_STRING));
+					}
+					return new ProposalType(ProposalType.PROPTYPE_OPERATOR, EMPTY_STRING);
+					
 				default:
-					return (new ProposalType(0, "")); //$NON-NLS-1$
+					return (new ProposalType(0, EMPTY_STRING)); 
 				}
 			}
-			else	// try suggesting everything
-				return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
+			// try suggesting everything
+			return new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, EMPTY_STRING);
 		}
-		else { // try last ditch effort
-			String tempContext = startOfVariable(viewer, offset);
-			if (tempContext != null)
-				return (new ProposalType(ProposalType.PROPTYPE_VARIABLE, tempContext));
-			else {
-				tempContext = startOfFunction(viewer, offset);
-				if (tempContext != null)
-					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION, tempContext));
-				else
-					return (new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, "")); //$NON-NLS-1$
-			}		
+		
+		// try last ditch effort
+		String tempContext = startOfVariable(viewer, offset);
+		if (tempContext != null) {
+			return new ProposalType(ProposalType.PROPTYPE_VARIABLE, tempContext);
 		}
+		tempContext = startOfFunction(viewer, offset);
+		if (tempContext != null) {
+			return new ProposalType(ProposalType.PROPTYPE_FUNCTION, tempContext);
+		}			
+		return new ProposalType(ProposalType.PROPTYPE_FUNCTION | ProposalType.PROPTYPE_VARIABLE, EMPTY_STRING); 
 	}
 	
 	/*
@@ -805,31 +838,28 @@ public class ExpressionContentAssistProcessor
 	 */
 	private ICompletionProposal[] generateProposals(ITextViewer viewer, int offset) {
 		ProposalType propType = determineProposalType2(viewer, offset);
-		// only toggle if the beginswith hasn't changed
+		// only toggle if the begins with hasn't changed
 		boolean toggle = false;
 		if (theLastBeginsWith.compareTo(propType.theBeginsWith) == 0)
 			toggle = true;
 		else
 			theLastBeginsWith = propType.theBeginsWith;
 
-		String funcStart = ""; //$NON-NLS-1$
-		String varlinkStart = ""; //$NON-NLS-1$
-		String tempStart = ""; //$NON-NLS-1$
+		String funcStart = EMPTY_STRING; 
+		String varlinkStart = EMPTY_STRING; 
 		
 		if (propType.isVariableAndFunction()) {
 			theToggle = (theToggle+1) % 4;
 			funcStart = propType.theBeginsWith;
 			varlinkStart = propType.theBeginsWith;
-			tempStart = ""; //$NON-NLS-1$
 		}
 		else if (propType.isVariable()) {
 			if (toggle)
 				theToggle = (theToggle+1) % 4;
 			else
 				theToggle = 0;
-			funcStart = ""; //$NON-NLS-1$
+			funcStart = EMPTY_STRING; 
 			varlinkStart = propType.theBeginsWith;
-			tempStart = ""; //$NON-NLS-1$
 		}
 		else if (propType.isFunction()) {
 			if (toggle)
@@ -837,35 +867,33 @@ public class ExpressionContentAssistProcessor
 			else
 				theToggle = 1;
 			funcStart = propType.theBeginsWith;
-			varlinkStart = ""; //$NON-NLS-1$
-			tempStart = ""; //$NON-NLS-1$
+			varlinkStart = EMPTY_STRING; 
 		}
 		else if (propType.isOperator()) {
 			if (toggle)
 				theToggle = (theToggle+1) % 4;
 			else
 				theToggle = 2;
-			funcStart = ""; //$NON-NLS-1$
-			varlinkStart = ""; //$NON-NLS-1$
-			tempStart = ""; //$NON-NLS-1$
+			funcStart = EMPTY_STRING; 
+			varlinkStart = EMPTY_STRING; 
 		}
 		
 		switch (theToggle) {
 		case 0:
 			theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.44")); //$NON-NLS-1$
-			if (theExpressionContext.compareTo(IEditorConstants.EC_JOIN) == 0)
+			if (theExpressionContext.compareTo(IEditorConstants.ET_JOIN) == 0) {
 				return generateLinkProposals(varlinkStart, offset);
-			else
-				return generateVariableProposals(varlinkStart, offset);
+			}
+			return generateVariableProposals(varlinkStart, offset);
 		case 1:
-			theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.45"));				 //$NON-NLS-1$
+			theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.45"));   //$NON-NLS-1$
 			return generateFunctionProposals(viewer, funcStart, offset);
 		case 2:
-			theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.46"));				 //$NON-NLS-1$
-			return generateOperatorProposals("", offset); //$NON-NLS-1$
+			theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.46"));   //$NON-NLS-1$
+			return generateOperatorProposals(EMPTY_STRING, offset);
 
 		case 3:
-			if (theExpressionContext.compareTo(IEditorConstants.EC_JOIN) == 0)
+			if (theExpressionContext.compareTo(IEditorConstants.ET_JOIN) == 0)
 				theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.48")); //$NON-NLS-1$
 			else
 				theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.49")); //$NON-NLS-1$
@@ -906,7 +934,7 @@ public class ExpressionContentAssistProcessor
 		ICompletionProposal[] proposals = null;
 		if (results.size() < 1) {
 			proposals = new ICompletionProposal[1];
-			proposals[0] = new CompletionProposal("", offset, 0,
+			proposals[0] = new CompletionProposal(EMPTY_STRING, offset, 0,
 					0, null, "No proposals",
 					null, null);
 		}
@@ -924,9 +952,11 @@ public class ExpressionContentAssistProcessor
 	 * Static proposal list of supported operators.  Could refine the list
 	 * to group by numeric or boolean operators.
 	 */
-	private ICompletionProposal[] generateOperatorProposals(String context, int offset) {
-		final String[] OPERATOR_LIST = {AND, OR, EQUAL, NOT_EQUAL, LESS_THAN, GREATER_THAN, 
-				LESS_THAN_EQUAL, GREATER_THAN_EQUAL, PLUS, MINUS, MULTIPLY, DIV, MOD};
+	static final String[] OPERATOR_LIST = {AND, OR, EQUAL, NOT_EQUAL, LESS_THAN, GREATER_THAN, 
+			LESS_THAN_EQUAL, GREATER_THAN_EQUAL, PLUS, MINUS, MULTIPLY, DIV, MOD};
+
+	ICompletionProposal[] generateOperatorProposals(String context, int offset) {
+
 		Image img = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OPERATION_16);
 		
 		ICompletionProposal[] proposals = new ICompletionProposal[OPERATOR_LIST.length];
@@ -936,48 +966,39 @@ public class ExpressionContentAssistProcessor
 		return proposals;
 	}
 	
-	private ICompletionProposal[] generateLinkProposals(String context, int offset) {
-		ArrayList results = new ArrayList();
+	
+	ICompletionProposal[] generateLinkProposals(String context, int offset) {
 		
-		org.eclipse.bpel.ui.details.providers.LinkContentProvider pro = 
-			new org.eclipse.bpel.ui.details.providers.LinkContentProvider();
-		
-		Object[] links = pro.getElements(theModel);
+		ArrayList<ICompletionProposal> results = new ArrayList<ICompletionProposal>();
+				
 		Image linkImg = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_LINK_16);
 		
-		if (links != null) {
-			for (int i=0; i<links.length; i++) {
-				String replName = DOLLAR + (String)links[i];
-				if (replName.startsWith(context)) {
-					results.add(new CompletionProposal(replName, 
-							offset - context.length(), context.length(),
-							replName.length(), linkImg, (String)links[i], 
-							null, null));	
-				}
-			}
+		for( Object next : new LinkContentProvider( LinkContentProvider.INCOMING ).getElements(theModel) ) {
+			Link link = (Link) next;
+			
+			String replName = DOLLAR + link.getName();
+			if (replName.startsWith(context)) {
+				results.add(new CompletionProposal(replName, 
+						offset - context.length(), context.length(),
+						replName.length(), linkImg, link.getName() , 
+						null, null));	
+			}			
 		}
-		
-		ICompletionProposal[] proposals = null;
+				
 		if (results.size() < 1) {
-			proposals = new ICompletionProposal[1];
-			proposals[0] = new CompletionProposal("", offset, 0, //$NON-NLS-1$
+			return new ICompletionProposal[] {
+					new CompletionProposal(EMPTY_STRING, offset, 0,			
 					0, null, Messages.getString("ExpressionContentAssistProcessor.31"), //$NON-NLS-1$
-					null, null);			
+					null, null) };			
 		}
-		else {
-			proposals = new ICompletionProposal[results.size()];
-			for (int i=0; i<results.size(); i++) {
-				proposals[i] = (CompletionProposal)results.get(i);
-			}
-		}
-		return proposals;
-		
+		return results.toArray(EMPTY_COMPLETION_PROPOSALS);
 	}
 	
-	/*
+	
+	/**
 	 * From model, determine list of variables the user may want to choose from.
 	 */
-	private ICompletionProposal[] generateVariableProposals(String context, int offset) {
+	ICompletionProposal[] generateVariableProposals(String context, int offset) {
 		boolean seekChildren = false;
 
 		String context2;
@@ -994,7 +1015,7 @@ public class ExpressionContentAssistProcessor
 			seekChildren = true;
 		
 		Variable[] variables = BPELUtil.getVisibleVariables((EObject)theModel);
-		ArrayList results = new ArrayList();
+		ArrayList<ICompletionProposal> results = new ArrayList<ICompletionProposal>();
 		CompletionProposal prop = null;
 		String name;
 		Variable currVar = null;
@@ -1049,11 +1070,10 @@ public class ExpressionContentAssistProcessor
 					else {
 						boolean childFound = false;
 						if (context2.charAt(token) == '.') {
-							if (currMsg != null) {
+							if (currMsg != null) {								
 								if (currMsg.getParts() != null) {	
-									Iterator partIter = currMsg.getParts().values().iterator();
-									while (partIter.hasNext()) {
-										Part item = (Part)partIter.next();
+									for(Object next : currMsg.getParts().values()) {
+										Part item = (Part) next ;
 										if (levelName.compareTo(item.getName()) == 0) {
 											currXsdType = item.getTypeDefinition();
 											currMsg = item.getEMessage();
@@ -1077,10 +1097,8 @@ public class ExpressionContentAssistProcessor
 							if (currXsdType instanceof XSDComplexTypeDefinition) {
 								XSDComplexTypeDefinition xsdcomplex = (XSDComplexTypeDefinition)currXsdType;
 								
-								List list = XSDUtils.getChildElements(xsdcomplex);
-								Iterator elemIter = list.iterator();
-								while (elemIter.hasNext()) {
-									XSDElementDeclaration elem = ((XSDElementDeclaration)elemIter.next()).getResolvedElementDeclaration();
+								for(Object next : XSDUtils.getChildElements(xsdcomplex)) {
+									XSDElementDeclaration elem = ((XSDElementDeclaration)next).getResolvedElementDeclaration();
 									String elemName = elem.getName();
 									if (elem.getTargetNamespace() != null) {
 										String elemNSPrefix = BPELUtils.getNamespacePrefix(currVar, elem.getTargetNamespace());
@@ -1126,7 +1144,7 @@ public class ExpressionContentAssistProcessor
 				// looking for parts, attributes or elements?
 				String beginsWith;
 				if ((index-1) == token)
-					beginsWith = ""; //$NON-NLS-1$
+					beginsWith = EMPTY_STRING;
 				else
 					beginsWith = context2.substring(token+1);
 				
@@ -1203,9 +1221,8 @@ public class ExpressionContentAssistProcessor
 				else if (context2.charAt(token) == '.') {
 					if (currMsg != null) {
 						if (currMsg.getParts() != null) {
-							Iterator iter = currMsg.getParts().values().iterator();
-							while (iter.hasNext()) {
-								Part item = (Part)iter.next();
+							for(Object next : currMsg.getParts().values() ) {													
+								Part item = (Part) next;
 								if ((beginsWith.length() == 0) || (item.getName().startsWith(beginsWith))) {
 									prop = new CompletionProposal(item.getName(), offset-beginsWith.length(), beginsWith.length(),
 											item.getName().length(), partImg, item.getName() + "   " , //$NON-NLS-1$
@@ -1219,10 +1236,9 @@ public class ExpressionContentAssistProcessor
 			}
 		}
 		//variables
-		else{
-			for (int i=0; i<variables.length; i++) {
-				name = variables[i].getName();
-				
+		else {
+			for (Variable v : variables) {			
+				name = v.getName();			
 				if (name.startsWith(context2)) {
 					prop = new CompletionProposal(DOLLAR + name, offset-context.length(), context.length(),
 							name.length()+1, varImg, name + "   " , //$NON-NLS-1$
@@ -1232,27 +1248,22 @@ public class ExpressionContentAssistProcessor
 			}
 		}
 
-		ICompletionProposal[] proposals = null;
+		
 		if (results.size() < 1) {
-			proposals = new ICompletionProposal[1];
-			proposals[0] = new CompletionProposal("", offset, 0, //$NON-NLS-1$
-					0, null, Messages.getString("ExpressionContentAssistProcessor.31"), //$NON-NLS-1$
-					null, null);			
+			return new ICompletionProposal [] {
+						new CompletionProposal(EMPTY_STRING, offset, 0, 
+								0, null, Messages.getString("ExpressionContentAssistProcessor.31"), //$NON-NLS-1$
+								null, null) };
 		}
-		else {
-			proposals = new ICompletionProposal[results.size()];
-			for (int i=0; i<results.size(); i++) {
-				proposals[i] = (CompletionProposal)results.get(i);
-			}
-		}
-		return proposals;
+		
+		return results.toArray(EMPTY_COMPLETION_PROPOSALS);
 	}
 	
 	// simple form of determining if variable is located at offset
-	private String startOfVariable(ITextViewer viewer, int offset) {
+	String startOfVariable(ITextViewer viewer, int offset) {
 		int startPosition = offset-1;
 		char currChar;
-		String context = ""; //$NON-NLS-1$
+		String context = EMPTY_STRING; 
 		IDocument document = viewer.getDocument();
 
 		try {
@@ -1277,10 +1288,10 @@ public class ExpressionContentAssistProcessor
 	}
 	
 	// simple form of determing if function is located at offset
-	private String startOfFunction(ITextViewer viewer, int offset) {
+	String startOfFunction(ITextViewer viewer, int offset) {
 		int startPosition = offset-1;
 		char currChar;
-		String context = ""; //$NON-NLS-1$
+		String context = EMPTY_STRING; 
 		IDocument document = viewer.getDocument();
 
 		try {
@@ -1288,10 +1299,10 @@ public class ExpressionContentAssistProcessor
 				if (Character.isWhitespace(currChar = document.getChar(startPosition)) ||
 						isReservedOperatorCharacter(currChar) ||
 						(currChar == '(') || (currChar == '[')) {
-					if (context.length() > 0)
+					if (context.length() > 0) {
 						return context;
-					else
-						return null;
+					}
+					return null;
 				}
 				context = currChar + context;
 				startPosition--;
@@ -1310,29 +1321,15 @@ public class ExpressionContentAssistProcessor
 		return false;
 	}
 	
+	final static String RESERVED_OPERATOR_CHARS = "+-*/"; //$NON-NLS-1$
+	
 	private boolean isReservedOperatorCharacter(char c) {
-		final String RESERVED_OPERATOR_CHARS = "+-*/"; //$NON-NLS-1$
-		if (RESERVED_OPERATOR_CHARS.indexOf(c) > -1)
-			return true;
-		return false;
+		return RESERVED_OPERATOR_CHARS.indexOf(c) > -1;			
 	}
 	
-	private boolean isClosingExpressionCharacter(char c) {
-		final String RESERVED_CLOSING_EXPR_CHARS = ")]"; //$NON-NLS-1$
-		if (RESERVED_CLOSING_EXPR_CHARS.indexOf(c) > -1)
-			return true;
-		return false;
-	}
+	final String RESERVED_CLOSING_EXPR_CHARS = ")]"; //$NON-NLS-1$
 	
-	private boolean isReservedCharacter(char c) {
-		final String RESERVED_CHARS = "()[].@,:/*|$"; //$NON-NLS-1$
-		if (RESERVED_CHARS.indexOf(c) > -1)
-			return true;
-		return false;
+	private boolean isClosingExpressionCharacter(char c) {		
+		return (RESERVED_CLOSING_EXPR_CHARS.indexOf(c) > -1);
 	}	
-	
-	private boolean isSpecialCharacter(char c) {
-		return (isReservedOperatorCharacter(c) || isReservedCharacter(c));
-	}
-
 }
