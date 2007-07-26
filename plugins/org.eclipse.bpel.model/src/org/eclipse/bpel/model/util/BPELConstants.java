@@ -23,6 +23,25 @@ public class BPELConstants {
 	/** The 2.0 BPEL Namespace */
 	static final String NAMESPACE_2007 = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
 	
+	/** The default query language */
+	static final String XMLNS_XPATH_QUERY_LANGUAGE_2007 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
+
+	/** The "old" default query language */
+	static final String XMLNS_XPATH_QUERY_LANGUAGE_2004 = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+
+	/** The current query language */
+	public static final String XMLNS_XPATH_QUERY_LANGUAGE = XMLNS_XPATH_QUERY_LANGUAGE_2007;
+	
+	/** The default expression language */
+	static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2007 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
+
+	/** The "old" default expression language */
+	static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2004 = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+
+	/** The current expression language */
+	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE = XMLNS_XPATH_EXPRESSION_LANGUAGE_2007;
+	
+	
 	/**
 	 * The current namespace.
 	 */

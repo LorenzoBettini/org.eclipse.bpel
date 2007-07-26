@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -32,6 +33,8 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
+import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.proxy.MessageProxy;
 import org.eclipse.bpel.model.proxy.OperationProxy;
 import org.eclipse.bpel.model.proxy.PortTypeProxy;
@@ -41,7 +44,6 @@ import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.Message;
@@ -125,44 +127,27 @@ public class BPELUtils {
 	/**
 	 * Get name namespace associated to the prefix.
 	 *  
-	 * @param resource the BPEL resource
 	 * @param eObject the reference object
 	 * @param prefix the prefix to lookup
 	 * @return the namespace associated with the prefix.
 	 */
 	
-	public static String getNamespace (BPELResource resource, EObject eObject, String prefix) {
+	public static String getNamespace (EObject eObject, String prefix) {
 		
-		BPELResource.NotifierMap prefixNSMap = null;
+		Map<String,String> prefixNSMap = null;
 		EObject context = eObject;
 				
 		while (context != null) {
-			prefixNSMap = resource.getPrefixToNamespaceMap(context);
-			if (!prefixNSMap.isEmpty()) {
-				if (prefixNSMap.containsKey(prefix)) {
-					return (String)prefixNSMap.get(prefix);
-				}	
-			}	
+			prefixNSMap = getNamespaceMap(context);
+			String value = prefixNSMap.get(prefix);
+			if (value != null) {
+				return value;
+			}
 			context = context.eContainer();						
 		}
 		return null;		
 	}	
 	
-	/**
-	 * Given an eObject, and a prefix, get the mapped prefix namespace.
-	 * 
-	 * @param eObject the object
-	 * @param prefix the prefix  
-	 * @return the namespace or null, if the namespace is not mapped
-	 */
-	
-	public static String getNamespace ( EObject eObject, String prefix) {
-		Resource resource = eObject.eResource();
-		if (resource instanceof BPELResource) {
-			return getNamespace ( (BPELResource) resource, eObject, prefix);
-		}
-		throw new IllegalArgumentException("EMF object is not a BPEL resource.");	
-	}
 	
 
 	/**
@@ -170,7 +155,6 @@ public class BPELUtils {
 	 * on the object passed. Note that this is different then getPrefix(), where the prefix mapping
 	 * is searched via the hierarchy of the EMF model.
 	 * 
-	 * @param resource the BPEL resource
 	 * @param eObject an object at which level the prefix mapping ought to be set.
 	 * @param namespaceURI namespace URI
 	 * @param prefix the prefix.
@@ -179,9 +163,9 @@ public class BPELUtils {
 	
 	
 	@SuppressWarnings("unchecked")
-	public static void setPrefix (BPELResource resource, EObject eObject, String namespaceURI, String prefix) {
+	public static void setPrefix ( EObject eObject, String namespaceURI, String prefix) {
 		
-		BPELResource.NotifierMap prefixNSMap = resource.getPrefixToNamespaceMap(eObject);
+		INamespaceMap<String,String> prefixNSMap = getNamespaceMap(eObject);
 		if (prefixNSMap.containsKey(prefix)) {
 			throw new RuntimeException("Prefix is already mapped!");
 		}
@@ -189,32 +173,6 @@ public class BPELUtils {
 	}	
 
 
-	
-	/**
-	 * Get prefix associated with a namespace.
-	 * @param resource the resource 
-	 * @param eObject the reference object
-	 * @param namespaceURI the namesaceURI
-	 * @return the namespace prefix associated to that namespace URI.
-	 */
-	
-	public static String getPrefix (BPELResource resource, EObject eObject, String namespaceURI) {
-		BPELResource.NotifierMap prefixNSMap = null;
-		EObject context = eObject;
-										
-		while (context != null) {
-			prefixNSMap = resource.getPrefixToNamespaceMap(context);
-			if (!prefixNSMap.isEmpty()) {
-				if (prefixNSMap.containsValue(namespaceURI)) {			
-					BPELResource.NotifierMap nsPrefixMap = prefixNSMap.reserve();						
-					return (String)nsPrefixMap.get(namespaceURI);
-				}				
-			}
-			context = context.eContainer();
-		}
-		return null;
-	}	
-	
 	
 	/**
 	 * Given a starting object from within our EMF model return the prefix 
@@ -227,11 +185,14 @@ public class BPELUtils {
 	 */
 	
 	public static String getNamespacePrefix (EObject eObject, String namespace) {
-		Resource resource = eObject.eResource();
-		if (resource instanceof BPELResource) {
-			return getPrefix ( (BPELResource) resource, eObject, namespace);
+		
+		for (EObject context = eObject; context != null; context = context.eContainer() ) {
+			List<String> pfxList = getNamespaceMap(context).getReverse(namespace);			
+			if (pfxList.size() > 0) {
+				return pfxList.get(0);
+			}			
 		}
-		throw new IllegalArgumentException("EMF object is not a BPEL resource.");	
+		return null;
 	}
 	
 	
@@ -247,13 +208,28 @@ public class BPELUtils {
 	 * 
 	 */
 	
-	public static void setNamespacePrefix (EObject eObject, String namespace, String prefix) {
-		Resource resource = eObject.eResource();
-		if (resource instanceof BPELResource) {
-			setPrefix ( (BPELResource) resource, getNearestScopeOrProcess(eObject) , namespace, prefix) ;
-			return ;
+	public static void setNamespacePrefix (EObject eObject, String namespace, String prefix) {		
+		setPrefix (  getNearestScopeOrProcess(eObject) , namespace, prefix) ;
+	}
+	
+	/**
+	 * @param eObject
+	 * @return the namespace map for the given object.
+	 */
+	
+	static public INamespaceMap<String, String> getNamespaceMap ( EObject eObject ) {
+
+		if (eObject == null) {
+			throw new NullPointerException("eObject cannot be null in getNamespaceMap()");
+		}		
+		
+		INamespaceMap<String, String> nsMap = AdapterRegistry.INSTANCE.adapt(eObject, INamespaceMap.class);
+		
+		if (nsMap == null) {
+			throw new IllegalStateException("INamespaceMap cannot be attached to an eObject");
 		}
-		throw new IllegalArgumentException("EMF object is not a BPEL resource.");
+		
+		return nsMap;
 	}
 	
 	/**
@@ -306,19 +282,16 @@ public class BPELUtils {
 	 * @param eObject reference object
 	 * @return the prefix map.
 	 */
-	@SuppressWarnings("unchecked")
-	public static Map getAllNamespacesForContext(EObject eObject) {
-		Map nsMap = new HashMap();
-		BPELResource resource = (BPELResource)eObject.eResource();
+	
+	public static Map<String,String> getAllNamespacesForContext (EObject eObject) {
+		Map<String,String> nsMap = new HashMap<String,String>();		
 		EObject context = eObject;
 		
 		while (context != null) {
-			Map localNSMap = resource.getPrefixToNamespaceMap(context);
-			if (!localNSMap.isEmpty()) {
-				for (Iterator i=localNSMap.entrySet().iterator(); i.hasNext(); ) {
-					Map.Entry entry = (Map.Entry)i.next();
-					if (!nsMap.containsKey(entry.getKey()))
-						nsMap.put(entry.getKey(), entry.getValue());
+			Map<String,String> localNSMap = getNamespaceMap(context);
+			for(Entry<String,String> entry : localNSMap.entrySet()) {
+				if (!nsMap.containsKey(entry.getKey())) {
+					nsMap.put(entry.getKey(), entry.getValue());
 				}
 			}
 			context = context.eContainer();
