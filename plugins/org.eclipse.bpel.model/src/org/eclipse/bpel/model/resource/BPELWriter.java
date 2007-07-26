@@ -12,8 +12,9 @@ package org.eclipse.bpel.model.resource;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +24,6 @@ import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xerces.util.DOMUtil;
 import org.apache.xml.serialize.OutputFormat;
@@ -93,7 +89,6 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
-import org.eclipse.bpel.model.Then;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -102,6 +97,7 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
+import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.extensions.BPELActivitySerializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
 import org.eclipse.bpel.model.extensions.BPELExtensionSerializer;
@@ -144,10 +140,15 @@ import org.w3c.dom.Text;
 /**
  * BPELWriter is responsible for serializing the BPEL EMF model to an output stream.
  */
+
+@SuppressWarnings("nls")
+
 public class BPELWriter {
 
+	static final String EMPTY_STRING = ""; //$NON-NLS-1$
+	
 	private Document document = null;
-	private BPELResource bpelResource = null;
+	BPELResource fBPELResource = null;
 	private WsdlImportsManager wsdlNamespacePrefixManager;
 	private NamespacePrefixManager bpelNamespacePrefixManager;
 	private List extensibilityElementListHandlers = null;
@@ -155,156 +156,175 @@ public class BPELWriter {
 	
 	private BPELExtensionRegistry extensionRegistry = BPELExtensionRegistry.getInstance();
 
-	private Process process;
+	private Process fProcess;
 	
-	public class NamespacePrefixManager implements BPELResourceImpl.MapListener {
-		private Map myNamespacePrefixMap; // for performance, we need to know which prefix to use for a namespace
-		private BPELResource resource;
+	
+	@SuppressWarnings("nls")
+	class NamespacePrefixManager {
 		
-		public NamespacePrefixManager(BPELResource resource) {
-			this.resource = resource;
-			myNamespacePrefixMap = new Hashtable();
-			// for performance, just register the process namespace map first
-			Process process = resource.getProcess();
-			BPELResource.NotifierMap nsMap = 
-				(BPELResource.NotifierMap)resource.getPrefixToNamespaceMap(process);
-			myNamespacePrefixMap.put(process, nsMap.reserve());
-			// listen to the process namespace map if any extension model modify this map;
-			nsMap.addListener(this);
+		static final String EMPTY = "";
+		
+		EObject fTopElement;
+		
+		/**
+		 * @param eObj 
+		 */
+		
+		public NamespacePrefixManager (EObject eObj) {
+			
+			fTopElement = eObj;
+			assert(fTopElement != null);
+			
+			INamespaceMap<String,String> nsMap = BPELUtils.getNamespaceMap (fTopElement); 
+			assert(nsMap != null);
             
-            if (resource.getOptionUseNSPrefix()) {
-                addNewRootPrefix(BPELConstants.PREFIX, resource.getNamespaceURI());
+			if (getResource() == null || getResource().getOptionUseNSPrefix()) {
+                addNewRootPrefix(BPELConstants.PREFIX, BPELConstants.NAMESPACE);
+            } else {
+            	addNewRootPrefix(EMPTY_STRING, BPELConstants.NAMESPACE);
             }
+			
 		}
 		
 		/**
-		 * add prefix to the root of a bpel, i.e. the process level
+		 * Add prefix to the root of a BPEL, i.e. the process level
+		 * 
+		 * If the namespace is already mapped, it returns the current prefix name
+		 * already mapped.
+		 * 
+		 * @param basePrefix the base prefix to use
+		 * @param namespace  the namespace URI
+		 * @return the newly allocated or already used prefix for this namespace.
 		 */
-		public String addNewRootPrefix(String basePrefix, String namespace) {
-			Process process = resource.getProcess();
-			Map prefixNSMap = (Map)resource.getPrefixToNamespaceMap(process);
-			Map nsPrefixMap = (Map)myNamespacePrefixMap.get(process);
+		
+		public String addNewRootPrefix (String basePrefix, String namespace) {
+		
+			INamespaceMap<String,String> prefixNSMap = BPELUtils.getNamespaceMap (fTopElement);
 			
-			if (nsPrefixMap.get(namespace) == null) {
-				// Compute unique prefix for the current namespace
-				int i = 0;
-				String prefix = basePrefix;
-				while (prefixNSMap.containsKey(prefix)) {
-					prefix = basePrefix + i;
-					i++;					
-				}
-				prefixNSMap.put(prefix, namespace);
-				// We will now get notified by the NotifierMap that this prefix and namespace are added,
-				// and will respond to the event there, not below:
-				// myNamespacePrefixMap.put(namespace, testPrefix);
-				return prefix;				
+			List<String> prefixList = prefixNSMap.getReverse(namespace);
+			if (prefixList.size() > 0) {
+				return prefixList.get(0);
 			}
-			return (String)nsPrefixMap.get(namespace);
+			
+			// Compute unique prefix for the current namespace
+			int i = 0;
+			String prefix = basePrefix;
+			while (prefixNSMap.containsKey(prefix)) {
+				prefix = basePrefix + i;
+				i++;					
+			}
+			prefixNSMap.put(prefix, namespace);
+			// We will now get notified by the NotifierMap that this prefix and namespace are added,
+			// and will respond to the event there, not below:
+			// myNamespacePrefixMap.put(namespace, testPrefix);
+			return prefix;				
 		}
 
-        public String getRootPrefix(String namespaceURI) {
-            Process process = resource.getProcess();
-            Map nsPrefixMap = (Map)myNamespacePrefixMap.get(process);
-            return (String) nsPrefixMap.get(namespaceURI);
+        /**
+         * Get the root prefix for this namespace URI. 
+         * 
+         * @param namespaceURI
+         * @return the prefix for the namespace.
+         */
+		
+        public String getRootPrefix (String namespaceURI) {
+        	List<String> pfxList = BPELUtils.getNamespaceMap(fTopElement).getReverse( namespaceURI );
+        	return pfxList.size() > 0 ? pfxList.get(0) : null;
         }
 
-		public String qNameToString(EObject eObject, QName qname) {
-			BPELResource.NotifierMap prefixNSMap = null;
-			EObject context = eObject;
+        
+		/**
+		 * @param eObject
+		 * @param qname
+		 * @return
+		 */
+        
+		public String qNameToString (EObject eObject, QName qname) {
+									
 			String prefix = null;
 			String namespace = qname.getNamespaceURI();
 				
-			if (namespace != null && namespace.length() > 0) {
-				// Transform BPEL namespaces to the latest version so that references to the old namespace are not serialized.
-				if (BPELConstants.isBPELNamespace(namespace)) {
-					namespace = BPELConstants.NAMESPACE;
-				}
-				while (context != null) {
-					prefixNSMap = resource.getPrefixToNamespaceMap(context);
-					if (!prefixNSMap.isEmpty()) {
-						if (prefixNSMap.containsValue(namespace)) {
-							Map nsPrefixMap = (Map)myNamespacePrefixMap.get(context);
-							if (nsPrefixMap == null) {
-								nsPrefixMap = prefixNSMap.reserve();
-								myNamespacePrefixMap.put(context, nsPrefixMap);
-							}
-							prefix = (String)nsPrefixMap.get(namespace);
-							if (prefix != null) 
-								break;
-						}
-					}
-					context = context.eContainer();
-				}				
-				// if a prefix is not found for the namespaceURI, create a new prefix
-				if (prefix == null) 
-					prefix = addNewRootPrefix("ns", namespace);
-				if (prefix != null && !prefix.equals(""))
-					return prefix + ":" + qname.getLocalPart();
+			if (namespace == null || namespace.length() == 0) {
+				return qname.getLocalPart();
 			}
+			
+			// Transform BPEL namespaces to the latest version so that references to the old namespace are not serialized.
+			if (BPELConstants.isBPELNamespace(namespace)) {
+				namespace = BPELConstants.NAMESPACE;
+			}
+			for(EObject context = eObject ; context != null && prefix == null; context = context.eContainer() ) {
+				List<String> pfxList = BPELUtils.getNamespaceMap(context).getReverse(namespace);
+				if (pfxList.size() > 0 ) {
+					prefix = pfxList.get(0);
+				}							
+			}
+			
+			// if a prefix is not found for the namespaceURI, create a new prefix
+			if (prefix == null) { 
+				prefix = addNewRootPrefix("ns", namespace);
+			}
+			if (prefix != null && prefix.equals(EMPTY) == false) {
+				return prefix + ":" + qname.getLocalPart();
+			}
+			
 			return qname.getLocalPart();
-		}
-        
-		public void serializePrefixes(EObject eObject, Element context) {
-			Map nsMap = resource.getPrefixToNamespaceMap(eObject);
-			if (!nsMap.isEmpty()) {
-				for (Iterator i = nsMap.keySet().iterator(); i.hasNext(); ) {
-					String prefix = (String)i.next();
-					String namespace = (String)nsMap.get(prefix);
-					if (prefix == "")
-						context.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns", namespace);
-					else
-						context.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:"+prefix, namespace);
-				}
-			}
-		}
+		}        
 		
-		public void objectAdded(Object key, Object value) {
-			// we only listen the process namespace map
-            if (! resource.getContents().isEmpty()) {
-    			Process process = resource.getProcess();
-    			((Map)myNamespacePrefixMap.get(process)).put(value, key);
-            }
-            // TODO What should happen if the process does not yet exist?
-		}
+		/**
+		 * Serializes the prefix present in the context to the DOM element.
+		 * @param eObject the EMF context object
+		 * @param context the DOM element into which the prefixes are to be serialized.
+		 */
+		
+		public void serializePrefixes (EObject eObject, Element context) {
+			
+			INamespaceMap<String,String> nsMap = BPELUtils.getNamespaceMap( eObject );
+			
+			for(String namespace : nsMap.values() ) {																			
+				for(String prefix : nsMap.getReverse( namespace )) {					
+					String xmlns = "xmlns";
+					if (EMPTY.equals(prefix) == false) {
+						xmlns += ":" + prefix;
+					}
+					context.setAttributeNS(XSDConstants.XMLNS_URI_2000,xmlns , namespace);
+				}
+				
+			}
+		}				
 	}
 
+	
 	/**
 	 * WsdlImportsManager is responsible for ensuring that, for a given
 	 * namespace and resource uri, an import exists in the bpel file.
 	 */
-	private class WsdlImportsManager {
-		private Process process;
+	class WsdlImportsManager {
 		
-		// Map of resource uris to namespaces
-		private Map resourceNamespaceMap;
+		Process fProcessContext;
 		
-		// The URI of the BPEL resource. We use this to calculate
-		// relative locations for the imported WSDL files.
-		private URI bpelResourceURI;
+		// Map of resource URIs to namespaces
+		private Map<String,String> fResourceNamespaceMap;
+	
 		
-		// Constructor for new-style writing
-		public WsdlImportsManager(Process process) {
-			this.process = process;
-			init();
-		}
-		
-		private void init() {
-			Resource bpelResource = process.eResource();
-			// Cache the URI of the BPEL resource for later.
-			this.bpelResourceURI = bpelResource.getURI();
-
-			resourceNamespaceMap = new HashMap();
+		/**
+		 * @param context
+		 */
+		WsdlImportsManager (Process process) {
+			
+			fProcessContext = process;
+			
+			fResourceNamespaceMap = new HashMap<String,String>();
 			
 			// For each existing import in the process, add it to the namespace map.
-			Iterator it = process.getImports().iterator();
-			while (it.hasNext()) {
-				Import imp = (org.eclipse.bpel.model.Import)it.next();
+			for(Object next : fProcessContext.getImports()) {
+				Import imp = (org.eclipse.bpel.model.Import) next;
 				if (imp.getLocation() == null) {
 				    System.err.println("Import location is unexpectedly null: " + imp);
 				} else {
 					URI locationURI = URI.createURI(imp.getLocation());
-					String importPath = locationURI.resolve(bpelResourceURI).toString();
-					resourceNamespaceMap.put(importPath, imp.getNamespace());
+					String importPath = locationURI.resolve( getResource().getURI() ).toString();
+					
+					fResourceNamespaceMap.put(importPath, imp.getNamespace());
 				}
 			}
 		}
@@ -313,44 +333,76 @@ public class BPELWriter {
 		 * Ensure that there exists an import mapping the given namespace
 		 * to the given resource. If the import doesn't exist in our map,
 		 * add it to the map and create a new Import in the process.
+		 * 
+		 * @param resource 
+		 * @param namespace 
 		 */
-		public void ensureImported(Resource resource, String namespace) {
+		
+		void ensureImported (Resource resource, String namespace) {
+			
 			// For service references. If the declaration comes from the
 			// bpel xsd, bail out.
-			if (BPELConstants.NAMESPACE.equals(namespace)) return;
+			if (BPELConstants.NAMESPACE.equals(namespace)) {
+				return;
+			}
 			
 			String key = resource.getURI().toString();
 
-			if (!resourceNamespaceMap.containsKey(key)) {
-				// second check to ensure the calculated path is not empty
-				String locationURI = getRelativeLocation(resource.getURI());
-				if (locationURI != null && locationURI.length() != 0) {
-					// Create and add the import to the process
-					org.eclipse.bpel.model.Import _import = BPELFactory.eINSTANCE.createImport();
-					_import.setNamespace(namespace);
-					_import.setLocation(locationURI);
-                    if (resource instanceof WSDLResourceImpl)
-                        _import.setImportType(WSDLConstants.WSDL_NAMESPACE_URI);
-                    else if (resource instanceof XSDResourceImpl)
-                        _import.setImportType(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
-					process.getImports().add(_import);
-					
-					// Add it to our namespace map for easy reference
-					resourceNamespaceMap.put(key, namespace);
-				}
+			if (fResourceNamespaceMap.containsKey(key)) {
+				return ;
+			}
+			// second check to ensure the calculated path is not empty
+			String locationURI = getRelativeLocation(resource.getURI());
+			if (locationURI != null && locationURI.length() != 0) {
+				
+				// Create and add the import to the process
+				org.eclipse.bpel.model.Import _import = BPELFactory.eINSTANCE.createImport();
+				
+				_import.setNamespace(namespace);
+				_import.setLocation(locationURI);
+				
+                if (resource instanceof WSDLResourceImpl) {
+                    _import.setImportType(WSDLConstants.WSDL_NAMESPACE_URI);
+                } else if (resource instanceof XSDResourceImpl) {
+                    _import.setImportType(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
+                }
+                
+                fProcessContext.getImports().add(_import);
+				
+				// Add it to our namespace map for easy reference
+				fResourceNamespaceMap.put(key, namespace);
 			}
 		}
+		
 		
 		/**
 		 * Helper method. Return the relative location of the given file uri,
 		 * relative to the location of the BPEL file.
 		 */
-		private String getRelativeLocation(URI importedFileUri) {
-		    URI relativeURI = importedFileUri.deresolve(bpelResourceURI, true, true, false);
+		String getRelativeLocation(URI importedFileUri) {
+		    URI relativeURI = importedFileUri.deresolve( getResourceURI() , true, true, false);
 		    return relativeURI.toString();
+		}
+		
+		URI getResourceURI () {
+			return getResource().getURI();
 		}
 	}
     
+	
+	
+	
+	/**
+	 * Return the resource used in this writer.
+	 * @return the resource used in this writer.
+	 */
+	
+	
+	public BPELResource getResource () {
+		return fBPELResource;
+	}
+	
+	
 	/** 
 	 * Convert the BPEL model to an XML DOM model and then write the DOM model
 	 * to the output stream.
@@ -378,10 +430,11 @@ public class BPELWriter {
 			
 			bpelPackage = BPELPackage.eINSTANCE;
 
-			this.bpelResource = resource;
+			fBPELResource = resource;
 
-			bpelNamespacePrefixManager = new NamespacePrefixManager(resource);
 			Process process = resource.getProcess();
+			
+			bpelNamespacePrefixManager = new NamespacePrefixManager( resource.getProcess() );
 			wsdlNamespacePrefixManager = new WsdlImportsManager(process);
 			
 			walkExternalReferences();
@@ -427,7 +480,124 @@ public class BPELWriter {
 			ex.printStackTrace();
 		}
 	}
+	
+	/** 
+	 * Convert the BPEL model to an XML DOM model and then write the DOM model
+	 * to the output stream.
+	 * @param eObj 
+	 * @return 
+	 * 
+	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#doSave(OutputStream, Map)
+	 */
+	public String toXML (EObject eObj) 
+	{		
+	
+		// Create a DOM document.
+		
+		final DocumentBuilderFactory documentBuilderFactory = 
+			    // DocumentBuilderFactory.newInstance();
+			    // new org.apache.crimson.jaxp.DocumentBuilderFactoryImpl();				
+				new org.apache.xerces.jaxp.DocumentBuilderFactoryImpl();
 
+		documentBuilderFactory.setNamespaceAware(true);
+		documentBuilderFactory.setValidating(false);
+		DocumentBuilder builder = null;
+		try {
+			builder = documentBuilderFactory.newDocumentBuilder();
+		} catch (Exception ex) {
+			return EMPTY_STRING;
+		}
+		document = builder.newDocument();
+
+		// Transform the EMF model to the DOM document.
+		
+		bpelPackage = BPELPackage.eINSTANCE;
+		
+		bpelNamespacePrefixManager = new NamespacePrefixManager( eObj );
+		if (eObj instanceof Process) {
+			wsdlNamespacePrefixManager = new WsdlImportsManager( (Process) eObj );
+		} else {
+			wsdlNamespacePrefixManager = null;	
+		}
+
+		anyBPELObject2xml (eObj);			
+
+		// Transform the DOM document to its serialized form.							
+
+		OutputFormat fmt = new OutputFormat(document);
+		fmt.setIndenting(true);
+		fmt.setIndent(4);
+		fmt.setOmitDocumentType(true);
+		fmt.setOmitXMLDeclaration(true);
+		
+		StringWriter out = new StringWriter ();				
+		XMLSerializer serializer = new XMLSerializer( out, fmt );
+		
+		try {
+			serializer.serialize(document);
+		} catch (Exception ex) {			
+			// 
+		}
+		
+		return out.toString();
+	}
+
+	
+	protected Document anyBPELObject2xml ( EObject eObj ) {
+		
+		Element element = anyObject2xml(eObj);		
+		document.appendChild( element );		
+		bpelNamespacePrefixManager.serializePrefixes(eObj, element);		
+		
+		return document;		
+	}
+	
+	
+	
+	protected Element anyObject2xml ( EObject eObj ) {
+		
+		String methodName = eObj.eClass().getName();
+		methodName = Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1) + "2XML";
+		
+		Method serializeMethod = lookupMethod( getClass(), methodName, EObject.class ) ;
+				
+		if (serializeMethod == null) {
+			throw new IllegalArgumentException("No serialize method " + methodName);
+		}
+		
+		Class<?> paramClazz = serializeMethod.getParameterTypes()[0];	
+		try {
+			return (Element) serializeMethod.invoke(this,paramClazz.cast(eObj));		
+		} catch (Throwable t) {			
+			t.printStackTrace();
+			
+		}
+		throw new IllegalArgumentException("Cannot serialize object " + eObj);
+	}
+
+	
+	Method lookupMethod ( Class<?> target, String methodName, Class<?> ... args ) {
+		if (target == null || target == Object.class) {
+			return null ;
+		}
+		
+		for(Method m : target.getDeclaredMethods()) {
+			if (methodName.equals(m.getName()) == false || m.getParameterTypes().length != args.length ) { 
+				continue;
+			}			
+			Class<?> argTypes[] = m.getParameterTypes();			
+			for(int i=0; i < args.length; i++) {
+				// This is reversed, on purpose. 
+				if ( args[i].isAssignableFrom(argTypes[i]) == false ) {
+					continue;
+				}
+			}			
+			return m;			
+		}
+		return lookupMethod(target.getSuperclass(), methodName, args);		
+	}
+	
+	
 	protected Document resource2XML(BPELResource resource) {
 		Process process = resource.getProcess();
 		Element procElement = process2XML(process);
@@ -436,8 +606,9 @@ public class BPELWriter {
 		return document;
 	}
 
-	protected Element process2XML(Process process) {
-		this.process=process;
+	protected Element process2XML (Process process) {
+		
+		fProcess = process;
 		
 		Element processElement = createBPELElement("process");
 		if (process.getName() != null)
@@ -454,11 +625,9 @@ public class BPELWriter {
 			processElement.setAttribute("queryLanguage", process.getQueryLanguage());
 		if (process.isSetExpressionLanguage())
 			processElement.setAttribute("expressionLanguage", process.getExpressionLanguage());
-			
-		Iterator it = process.getImports().iterator();
-		while (it.hasNext()) {
-			org.eclipse.bpel.model.Import imp = (org.eclipse.bpel.model.Import)it.next();
-			processElement.appendChild(import2XML(imp));
+		
+		for(Object next : process.getImports()) {			
+			processElement.appendChild(import2XML( (org.eclipse.bpel.model.Import) next ));
 		}
 		
 		if (process.getPartnerLinks() != null && !process.getPartnerLinks().getChildren().isEmpty())
@@ -491,7 +660,7 @@ public class BPELWriter {
 	}
 	
 	protected void walkExternalReferences() {        
-		Map crossReferences = EcoreUtil.ExternalCrossReferencer.find(bpelResource);
+		Map crossReferences = EcoreUtil.ExternalCrossReferencer.find( getResource() );
 
         for (Iterator externalRefIt = crossReferences.keySet().iterator(); externalRefIt.hasNext(); ) {
 			EObject externalObject = (EObject)externalRefIt.next();
@@ -571,11 +740,10 @@ public class BPELWriter {
 	protected Element partnerLinks2XML(PartnerLinks partnerLinks) {
 		Element partnerLinksElement = createBPELElement("partnerLinks");
 		
-		Iterator it = partnerLinks.getChildren().iterator();
-		while (it.hasNext()) {
-			PartnerLink partnerLink = (PartnerLink)it.next();
-			partnerLinksElement.appendChild(partnerLink2XML(partnerLink));
+		for(Object next : partnerLinks.getChildren()) {
+			partnerLinksElement.appendChild(partnerLink2XML( (PartnerLink) next ));
 		}
+		
 		// serialize local namespace prefixes to XML
 		bpelNamespacePrefixManager.serializePrefixes(partnerLinks, partnerLinksElement);			
 		extensibleElement2XML(partnerLinks, partnerLinksElement);
@@ -617,23 +785,13 @@ public class BPELWriter {
 	protected Element variables2XML(Variables variables) {
 		Element variablesElement = createBPELElement("variables");
 		
-		Iterator it = variables.getChildren().iterator();
-		while (it.hasNext()) {
-			Variable variable = (Variable)it.next();
-			if (variable instanceof Variable){
-				if(variable instanceof Variable)
-					variablesElement.appendChild(variable2XML((Variable)variable));
-				else if(variable instanceof ExtensibilityElement){
-					Element varElement = extensibilityElement2XML((ExtensibilityElement)variable);
-					if(variablesElement.getFirstChild() == null)  
-						variablesElement.appendChild(varElement);
-					else
-						variablesElement.insertBefore(varElement,variablesElement.getFirstChild());
-				}
-			}	
-				
+		for(Object next : variables.getChildren()) {
+			Variable variable = (Variable) next ;
+			variablesElement.appendChild(variable2XML( variable ));
 		}
 
+		extensibleElement2XML(variables,variablesElement);
+		
 		// serialize local namespace prefixes to XML
 		bpelNamespacePrefixManager.serializePrefixes(variables, variablesElement);			
 		extensibleElement2XML(variables, variablesElement);									
@@ -873,6 +1031,7 @@ public class BPELWriter {
 		}
 	}
 	
+	
 	protected Element compensationHandler2XML(CompensationHandler compensationHandler) {
 		Element compensationHandlerElement = createBPELElement("compensationHandler");
 		
@@ -921,62 +1080,61 @@ public class BPELWriter {
 	}
 	
 	protected Element activity2XML(Activity activity) {
+		
 		Element activityElement = null;
 
 		if (activity instanceof Empty)
-			activityElement = empty2XML(activity);
+			activityElement = empty2XML((Empty) activity);
 		else if (activity instanceof Invoke)
-			activityElement = invoke2XML(activity);
-		else if (activity instanceof Receive)
-			activityElement = receive2XML(activity);
-		else if (activity instanceof Reply)
-			activityElement = reply2XML(activity);
+			activityElement = invoke2XML((Invoke) activity);
 		else if (activity instanceof Assign)
-			activityElement = assign2XML(activity);
+			activityElement = assign2XML((Assign) activity);
+		else if (activity instanceof Reply)
+			activityElement = reply2XML((Reply) activity);
+		else if (activity instanceof Receive)
+			activityElement = receive2XML((Receive) activity);
 		else if (activity instanceof Wait)
-			activityElement = wait2XML(activity);
+			activityElement = wait2XML((Wait) activity);
 		else if (activity instanceof Throw)
-			activityElement = throw2XML(activity);
+			activityElement = throw2XML((Throw) activity);
 		else if (activity instanceof Exit)
-			activityElement = exit2XML(activity);
+			activityElement = exit2XML((Exit) activity);
 		else if (activity instanceof Flow)
-			activityElement = flow2XML(activity);
+			activityElement = flow2XML((Flow) activity);
 		else if (activity instanceof If)
-			activityElement = if2XML(activity);
+			activityElement = if2XML((If) activity);
 		else if (activity instanceof While)
-			activityElement = while2XML(activity);
+			activityElement = while2XML((While) activity);
 		else if (activity instanceof Sequence)
-			activityElement = sequence2XML(activity);
+			activityElement = sequence2XML((Sequence) activity);
 		else if (activity instanceof Pick)
-			activityElement = pick2XML(activity);
+			activityElement = pick2XML((Pick) activity);
 		else if (activity instanceof Scope)
-			activityElement = scope2XML(activity);
+			activityElement = scope2XML((Scope) activity);
 		else if (activity instanceof Compensate)
-			activityElement = compensate2XML(activity);
+			activityElement = compensate2XML((Compensate) activity);
 		else if (activity instanceof CompensateScope)
-			activityElement = compensateScope2XML(activity);
+			activityElement = compensateScope2XML((CompensateScope) activity);
 		else if (activity instanceof Rethrow)
-			activityElement = rethrow2XML(activity);
+			activityElement = rethrow2XML((Rethrow) activity);
 		else if (activity instanceof OpaqueActivity)
-			activityElement = opaqueActivity2XML(activity);
+			activityElement = opaqueActivity2XML((OpaqueActivity) activity);
 		else if (activity instanceof ForEach)
-			activityElement = forEach2XML(activity);
+			activityElement = forEach2XML((ForEach) activity);
 		else if (activity instanceof RepeatUntil)
-			activityElement = repeatUntil2XML(activity);
+			activityElement = repeatUntil2XML((RepeatUntil) activity);
 		else if (activity instanceof Validate)
-			activityElement = validate2XML(activity);
-		else if (activity instanceof ExtensionActivity) {
-			// NOTE: Support for ExtensionActivity is special in that
-			// the standard elements and attributes are not written out
-			// as part of the extensionActivity element, and it is not
-			// extensible. So return after calling this method so that
-			// the standard support is not run.
-			activityElement = extensionActivity2XML(activity);
-			return activityElement;
-		}
-		else
-			return null;
+			activityElement = validate2XML((Validate) activity);
+		else if (activity instanceof ExtensionActivity) 
+			activityElement = extensionActivity2XML((ExtensionActivity) activity);
+			
+		 
+		return activityElement;
+	}
 
+	
+	protected Element addCommonActivityItems ( Element activityElement, Activity activity) {
+		
 		addStandardAttributes(activityElement, activity);
 		addStandardElements(activityElement, activity);
 		
@@ -987,7 +1145,8 @@ public class BPELWriter {
 			
 		return activityElement;
 	}
-
+	
+	
 	protected void addStandardAttributes(Element activityElement, Activity activity) {
 		if (activity.getName() != null)
 			activityElement.setAttribute("name", activity.getName());
@@ -1053,18 +1212,23 @@ public class BPELWriter {
 		return catchAllElement;
 	}
 
-	protected Element empty2XML(Activity activity) {
-		Element activityElement = createBPELElement("empty");
+	
+	protected Element empty2XML (Empty empty) {
+		Element activityElement = createBPELElement("empty");	
+		
+		addCommonActivityItems(activityElement,empty);
 		return activityElement;
 	}
 
-	protected Element opaqueActivity2XML(Activity activity) {
+	protected Element opaqueActivity2XML(OpaqueActivity activity) {
 		Element activityElement = createBPELElement("opaqueActivity");
+		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element forEach2XML(Activity activity) {
-		ForEach forEach = (ForEach)activity;
+	protected Element forEach2XML (ForEach forEach) {
+		
 		Element activityElement = createBPELElement("forEach");
 		
 		if (forEach.getParallel() != null)
@@ -1091,6 +1255,8 @@ public class BPELWriter {
 		if (forEach.getActivity() != null ){
 			activityElement.appendChild(activity2XML(forEach.getActivity()));
 		}
+		
+		addCommonActivityItems(activityElement,forEach);
 		return activityElement;
 	}
 
@@ -1114,16 +1280,17 @@ public class BPELWriter {
 		return branchesElement;
 	}
 
-	protected Element rethrow2XML(Activity activity) {
+	protected Element rethrow2XML(Rethrow activity) {
 		Element activityElement = createBPELElement("rethrow");
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element validate2XML(Activity activity) {
+	protected Element validate2XML(Validate activity) {
 		Element activityElement = createBPELElement("validate");
 		
-		StringBuffer variablesList = new StringBuffer();
-		Iterator variables = ((Validate)activity).getVariables().iterator();
+		StringBuilder variablesList = new StringBuilder();
+		Iterator<?> variables = activity.getVariables().iterator();
 		while (variables.hasNext()) {
 			Variable variable = (Variable)variables.next();			
 			variablesList.append(variable.getName());
@@ -1132,18 +1299,21 @@ public class BPELWriter {
 		if (variablesList.length() > 0) {
 			activityElement.setAttribute("variables", variablesList.toString());
 		}
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element extensionActivity2XML(Activity activity) {
+	protected Element extensionActivity2XML(ExtensionActivity activity) {
+		
 		Element activityElement = createBPELElement("extensionActivity");
+		
 		String localName = activity.eClass().getName();
 		String namespace = activity.eClass().getEPackage().getNsURI();
 		QName qName = new QName(namespace, localName);
 		BPELActivitySerializer serializer = extensionRegistry.getActivitySerializer(qName);
 		if (serializer != null) {
 			DocumentFragment fragment = document.createDocumentFragment();
-		    serializer.marshall(qName, activity, fragment, process, this);
+		    serializer.marshall(qName, activity, fragment, fProcess, this);
 			Element child = (Element)fragment.getFirstChild();
 			activityElement.appendChild(child);
 			// Standard attributes
@@ -1155,111 +1325,118 @@ public class BPELWriter {
 		return activityElement;
 	}
 
-	protected Element invoke2XML(Activity activity) {
-		Invoke invoke = (Invoke)activity;
-		Element activityElement = createBPELElement("invoke");
-		if (invoke.getPartnerLink() != null)
-			activityElement.setAttribute("partnerLink", invoke.getPartnerLink().getName());
-		if (invoke.getPortType() != null)
-			activityElement.setAttribute("portType", bpelNamespacePrefixManager.qNameToString(invoke, invoke.getPortType().getQName()));
-		if (invoke.getOperation() != null)
-			activityElement.setAttribute("operation", getOperationSignature(invoke.getOperation()));
-		if (invoke.getInputVariable() != null)
-			activityElement.setAttribute("inputVariable", invoke.getInputVariable().getName());
-		if (invoke.getOutputVariable() != null)
-			activityElement.setAttribute("outputVariable", invoke.getOutputVariable().getName());
-			
-		if (invoke.getCorrelations() != null)
-			activityElement.appendChild(correlations2XML(invoke.getCorrelations()));
+	protected Element invoke2XML(Invoke activity) {
 		
-		FaultHandler faultHandler = invoke.getFaultHandler();
+		Element activityElement = createBPELElement("invoke");
+		
+		if (activity.getPartnerLink() != null)
+			activityElement.setAttribute("partnerLink", activity.getPartnerLink().getName());
+		if (activity.getPortType() != null)
+			activityElement.setAttribute("portType", bpelNamespacePrefixManager.qNameToString(activity, activity.getPortType().getQName()));
+		if (activity.getOperation() != null)
+			activityElement.setAttribute("operation", getOperationSignature(activity.getOperation()));
+		if (activity.getInputVariable() != null)
+			activityElement.setAttribute("inputVariable", activity.getInputVariable().getName());
+		if (activity.getOutputVariable() != null)
+			activityElement.setAttribute("outputVariable", activity.getOutputVariable().getName());
+			
+		if (activity.getCorrelations() != null)
+			activityElement.appendChild(correlations2XML(activity.getCorrelations()));
+		
+		FaultHandler faultHandler = activity.getFaultHandler();
 		if (faultHandler != null) {
 			faultHandler2XML(activityElement, faultHandler);
 		}
 		
-		if (invoke.getCompensationHandler() != null)
-			activityElement.appendChild(compensationHandler2XML(invoke.getCompensationHandler()));
+		if (activity.getCompensationHandler() != null)
+			activityElement.appendChild(compensationHandler2XML(activity.getCompensationHandler()));
 		
-		Iterator it = invoke.getFromPart().iterator();
+		Iterator it = activity.getFromPart().iterator();
 		while (it.hasNext()) {
 			FromPart fromPart = (FromPart)it.next();
 			activityElement.appendChild(fromPart2XML(fromPart));
 		}
-		it = invoke.getToPart().iterator();
+		it = activity.getToPart().iterator();
 		while (it.hasNext()) {
 			ToPart toPart = (ToPart)it.next();
 			activityElement.appendChild(toPart2XML(toPart));
 		}
 		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element receive2XML(Activity activity) {
-		Receive receive = (Receive)activity;
+	protected Element receive2XML (Receive activity) {
+				
 		Element activityElement = createBPELElement("receive");
-		if (receive.getPartnerLink() != null)
-			activityElement.setAttribute("partnerLink", receive.getPartnerLink().getName());
-		if (receive.getPortType() != null)
-			activityElement.setAttribute("portType", bpelNamespacePrefixManager.qNameToString(receive, receive.getPortType().getQName()));
-		if (receive.getOperation() != null)
-			activityElement.setAttribute("operation", getOperationSignature(receive.getOperation()));
-		if (receive.getVariable() != null)
-			activityElement.setAttribute("variable", receive.getVariable().getName());
-		if (receive.isSetCreateInstance())
-			activityElement.setAttribute("createInstance",BPELUtils.boolean2XML(receive.getCreateInstance()));
-
-		if (receive.getCorrelations() != null)
-			activityElement.appendChild(correlations2XML(receive.getCorrelations()));			
 		
-		Iterator it = receive.getFromPart().iterator();
+		if (activity.getPartnerLink() != null)
+			activityElement.setAttribute("partnerLink", activity.getPartnerLink().getName());
+		if (activity.getPortType() != null)
+			activityElement.setAttribute("portType", bpelNamespacePrefixManager.qNameToString(activity, activity.getPortType().getQName()));
+		if (activity.getOperation() != null)
+			activityElement.setAttribute("operation", getOperationSignature(activity.getOperation()));
+		if (activity.getVariable() != null)
+			activityElement.setAttribute("variable", activity.getVariable().getName());
+		if (activity.isSetCreateInstance())
+			activityElement.setAttribute("createInstance",BPELUtils.boolean2XML(activity.getCreateInstance()));
+
+		if (activity.getCorrelations() != null)
+			activityElement.appendChild(correlations2XML(activity.getCorrelations()));			
+		
+		Iterator<?> it = activity.getFromPart().iterator();
 		while (it.hasNext()) {
 			FromPart fromPart = (FromPart)it.next();
 			activityElement.appendChild(fromPart2XML(fromPart));
 		}
-
+		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element reply2XML(Activity activity) {
-		Reply reply = (Reply)activity;
+	protected Element reply2XML (Reply activity) {
+		
 		Element activityElement = createBPELElement("reply");
-		if (reply.getPartnerLink() != null )
-			activityElement.setAttribute("partnerLink", reply.getPartnerLink().getName());
-		if (reply.getPortType() != null )
-			activityElement.setAttribute("portType", bpelNamespacePrefixManager.qNameToString(reply, reply.getPortType().getQName()));
-		if (reply.getOperation() != null )
-			activityElement.setAttribute("operation", getOperationSignature(reply.getOperation()));
-		if (reply.getVariable() != null )
-			activityElement.setAttribute("variable", reply.getVariable().getName());
-		if (reply.getFaultName() != null) {
-			activityElement.setAttribute("faultName", bpelNamespacePrefixManager.qNameToString(reply, reply.getFaultName()));
+		if (activity.getPartnerLink() != null )
+			activityElement.setAttribute("partnerLink", activity.getPartnerLink().getName());
+		if (activity.getPortType() != null )
+			activityElement.setAttribute("portType", bpelNamespacePrefixManager.qNameToString(activity, activity.getPortType().getQName()));
+		if (activity.getOperation() != null )
+			activityElement.setAttribute("operation", getOperationSignature(activity.getOperation()));
+		if (activity.getVariable() != null )
+			activityElement.setAttribute("variable", activity.getVariable().getName());
+		if (activity.getFaultName() != null) {
+			activityElement.setAttribute("faultName", bpelNamespacePrefixManager.qNameToString(activity, activity.getFaultName()));
 		}
-		if (reply.getCorrelations() != null)
-			activityElement.appendChild(correlations2XML(reply.getCorrelations()));
+		if (activity.getCorrelations() != null)
+			activityElement.appendChild(correlations2XML(activity.getCorrelations()));
 			
-		Iterator it = reply.getToPart().iterator();
+		Iterator<?> it = activity.getToPart().iterator();
 		while (it.hasNext()) {
 			ToPart toPart = (ToPart)it.next();
 			activityElement.appendChild(toPart2XML(toPart));
 		}
-
+		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element assign2XML(Activity activity) {
-		Assign assign = (Assign)activity;
+	protected Element assign2XML (Assign activity) {
+		
 		Element activityElement = createBPELElement("assign");
 		
-		if (assign.getValidate() != null)
-			activityElement.setAttribute("validate", BPELUtils.boolean2XML(assign.getValidate()));
+		if (activity.getValidate() != null)
+			activityElement.setAttribute("validate", BPELUtils.boolean2XML(activity.getValidate()));
 		
-		List copies = assign.getCopy();
+		List<?> copies = activity.getCopy();
 		if (!copies.isEmpty()) {
-			for (Iterator i = copies.iterator(); i.hasNext();) {
+			for (Iterator<?> i = copies.iterator(); i.hasNext();) {
 				Copy copy = (Copy)i.next();
 				activityElement.appendChild(copy2XML(copy));				
 			}
 		}
+		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
@@ -1340,7 +1517,7 @@ public class BPELWriter {
 			fromElement.appendChild(literal);
 			
 			if (Boolean.TRUE.equals(from.getUnsafeLiteral())) {
-				node = BPELUtils.convertStringToNode(from.getLiteral(), bpelResource);
+				node = BPELUtils.convertStringToNode(from.getLiteral(), getResource() );
 			}
 			
 			if (node != null) {
@@ -1378,7 +1555,7 @@ public class BPELWriter {
 						// ExtensibleElement
 						DocumentFragment fragment=document.createDocumentFragment();
 						try {
-						    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,process,extensionRegistry);
+						    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
 							Element child = (Element)fragment.getFirstChild();
 							serviceRefElement.appendChild(child);
 						} catch (WSDLException e) {
@@ -1389,7 +1566,7 @@ public class BPELWriter {
 					ServiceReferenceSerializer serializer = extensionRegistry.getServiceReferenceSerializer(referenceScheme);
 					if (serializer != null) {
 						DocumentFragment fragment=document.createDocumentFragment();
-					    serializer.marshall(value, fragment, process, from, this);
+					    serializer.marshall(value, fragment, fProcess, from, this);
 						Element child = (Element)fragment.getFirstChild();
 						serviceRefElement.appendChild(child);
 					} else {
@@ -1455,61 +1632,80 @@ public class BPELWriter {
 			}
 			toElement.appendChild(queryElement);
 		}
+		if (to.getExpression() != null) {
+			Expression expression = to.getExpression();
+			
+			if (expression.getExpressionLanguage() != null) {
+				toElement.setAttribute("expressionLanguage", expression.getExpressionLanguage());
+			}
+			if (expression.getBody() != null) {
+				CDATASection cdata = BPELUtils.createCDATASection(document, (String)expression.getBody());
+				toElement.appendChild(cdata);
+			}			
+		}
+		
 		// serialize local namespace prefixes to XML
 		bpelNamespacePrefixManager.serializePrefixes(to, toElement);	
 		extensibleElement2XML(to, toElement);			
 	}
 	
-	protected Element wait2XML(Activity activity) {
+	protected Element wait2XML(Wait activity) {
 		Element activityElement = createBPELElement("wait");
-		if (((Wait)activity).getFor() != null) {
-			activityElement.appendChild(expression2XML(((Wait)activity).getFor(), "for"));
+		
+		if (activity.getFor() != null) {
+			activityElement.appendChild(expression2XML(activity.getFor(), "for"));
 		}
-		if (((Wait)activity).getUntil() != null) {
-			activityElement.appendChild(expression2XML(((Wait)activity).getUntil(), "until"));
+		if (activity.getUntil() != null) {
+			activityElement.appendChild(expression2XML(activity.getUntil(), "until"));
 		}
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element throw2XML(Activity activity) {
+	protected Element throw2XML(Throw activity) {
 		Element activityElement = createBPELElement("throw");
-		if (((Throw)activity).getFaultVariable() != null && ((Throw)activity).getFaultVariable().getName() != null) {
-			activityElement.setAttribute("faultVariable", ((Throw)activity).getFaultVariable().getName()); 
+		
+		if (activity.getFaultVariable() != null && activity.getFaultVariable().getName() != null) {
+			activityElement.setAttribute("faultVariable", activity.getFaultVariable().getName()); 
 		}
-		if (((Throw)activity).getFaultName() != null) {
-			activityElement.setAttribute("faultName", bpelNamespacePrefixManager.qNameToString(activity, ((Throw)activity).getFaultName()));
+		if (activity.getFaultName() != null) {
+			activityElement.setAttribute("faultName", bpelNamespacePrefixManager.qNameToString(activity, activity.getFaultName()));
 		}
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element exit2XML(Activity activity) {
+	protected Element exit2XML(Exit activity) {
 		Element activityElement = createBPELElement("exit");
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element flow2XML(Activity activity) {
-		Flow flow = (Flow)activity;
+	void addActivities ( Element activityElement, List<?> listOfActivities) {
+		for(Object next : listOfActivities) {
+			activityElement.appendChild( activity2XML( (Activity) next) );				
+		}
+	}
+	
+	protected Element flow2XML (Flow activity) {
+		
 		Element activityElement = createBPELElement("flow");
 		
-		Links links = ((Flow)activity).getLinks();
+		Links links = activity.getLinks();
 		if (links != null) {
 			Element linksElement = links2XML(links);
 			activityElement.appendChild(linksElement);
 		}
 			
-		CompletionCondition completionCondition = flow.getCompletionCondition();
+		CompletionCondition completionCondition = activity.getCompletionCondition();
 		if (completionCondition != null) {
 			Element completionConditionElement = completionCondition2XML(completionCondition);
 			activityElement.appendChild(completionConditionElement);
 		}
-		List activities = ((Flow)activity).getActivities();
-		if( !activities.isEmpty() ){
-			for( Iterator i=activities.iterator(); i.hasNext(); ){
-				Activity a = (Activity) i.next();
-				activityElement.appendChild( activity2XML(a) );				
-			}
-		}
-
+		
+		addActivities (activityElement, activity.getActivities()) ;
+		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 	
@@ -1532,12 +1728,10 @@ public class BPELWriter {
 
 	protected Element links2XML(Links links) {
 		Element linksElement = createBPELElement("links");
-					
-		for( Iterator i = links.getChildren().iterator(); i.hasNext(); ){
-			Link link = (Link)i.next();
-			linksElement.appendChild(link2XML(link));				
-		}
 		
+		for(Object next : links.getChildren()) {
+			linksElement.appendChild( link2XML ((Link) next) );
+		}		
 		// serialize local namespace prefixes to XML
 		bpelNamespacePrefixManager.serializePrefixes(links, linksElement);			
 		extensibleElement2XML(links, linksElement);
@@ -1557,22 +1751,21 @@ public class BPELWriter {
 		return linkElement;
 	}
 
-	protected Element if2XML(Activity activity) {
-		If _if = (If)activity;
+	protected Element if2XML (If activity) {
+		
 		Element ifElement = createBPELElement("if");
 		
-		if (_if.getActivity() != null) {
-			Element activityElement = activity2XML(_if.getActivity());
-			ifElement.appendChild(activityElement);
+		if (activity.getActivity() != null) {			
+			ifElement.appendChild(activity2XML(activity.getActivity()));
 		}
 		
-		if (_if.getCondition() != null) {
-			ifElement.appendChild(expression2XML(_if.getCondition(), "condition"));
+		if (activity.getCondition() != null) {
+			ifElement.appendChild(expression2XML(activity.getCondition(), "condition"));
 		}
 		
-		List elseIfs = _if.getElseIf();
+		List<?> elseIfs = activity.getElseIf();
 		if (!elseIfs.isEmpty()) {
-			for (Iterator i = elseIfs.iterator(); i.hasNext();) {
+			for (Iterator<?> i = elseIfs.iterator(); i.hasNext();) {
 				ElseIf elseIf = (ElseIf)i.next();
 				Element elseIfElement = createBPELElement("elseif");
 				ifElement.appendChild(elseIfElement);
@@ -1587,16 +1780,18 @@ public class BPELWriter {
 				extensibleElement2XML(elseIf, elseIfElement);
 			}
 		}
-		Else _else = _if.getElse(); 
+		Else _else = activity.getElse(); 
 		if (_else != null) {
 			Element elseElement = else2XML(_else);
 			ifElement.appendChild(elseElement);
 		}
 		
+		addCommonActivityItems(ifElement,activity);
 		return ifElement;
 	}
 	
-	protected Element else2XML(Else _else) {
+	
+	protected Element else2XML (Else _else) {
 		Element elseElement = createBPELElement("else");
 		if (_else.getActivity() != null) {
 			Element activityElement = activity2XML(_else.getActivity());
@@ -1609,30 +1804,31 @@ public class BPELWriter {
 		return elseElement;
 	}
 	
-	protected Element while2XML(Activity activity) {
+	protected Element while2XML(While activity) {
 		Element activityElement = createBPELElement("while");
 		
-		if (((While)activity).getCondition() != null) {
-			activityElement.appendChild(expression2XML(((While)activity).getCondition(), "condition"));
+		if (activity.getCondition() != null) {
+			activityElement.appendChild(expression2XML(activity.getCondition(), "condition"));
 		}
-		if (((While)activity).getActivity() != null) {
-			activityElement.appendChild(activity2XML(((While)activity).getActivity()));
+		if (activity.getActivity() != null) {
+			activityElement.appendChild(activity2XML(activity.getActivity()));
 		}
-
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 	
-	protected Element repeatUntil2XML(Activity activity) {
-		RepeatUntil repeatUntil = (RepeatUntil)activity;
+	protected Element repeatUntil2XML(RepeatUntil activity) {
+		
 		Element activityElement = createBPELElement("repeatUntil");
 		
-		if (repeatUntil.getActivity() != null) {
-			activityElement.appendChild(activity2XML(repeatUntil.getActivity()));
+		if (activity.getActivity() != null) {
+			activityElement.appendChild(activity2XML(activity.getActivity()));
 		}
-		if (repeatUntil.getCondition() != null) {
-			activityElement.appendChild(expression2XML(repeatUntil.getCondition(), "condition"));
+		if (activity.getCondition() != null) {
+			activityElement.appendChild(expression2XML(activity.getCondition(), "condition"));
 		}
-
+		
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
@@ -1661,7 +1857,7 @@ public class BPELWriter {
 				// ExtensibleElement
 				DocumentFragment fragment=document.createDocumentFragment();
 				try {
-				    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,process,extensionRegistry);
+				    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
 					Element child = (Element)fragment.getFirstChild();
 					expressionElement.appendChild(child);
 				} catch (WSDLException e) {
@@ -1677,58 +1873,61 @@ public class BPELWriter {
 		return expressionElement;
 	}
 
-	protected Element sequence2XML(Activity activity) {
+	protected Element sequence2XML(Sequence activity) {
 		Element activityElement = createBPELElement("sequence");
-		List activities = ((Sequence) activity).getActivities();
-		if (!activities.isEmpty()) {
-			for (Iterator i = activities.iterator(); i.hasNext();) {
-				Activity a = (Activity) i.next();
-				activityElement.appendChild(activity2XML(a));
-			}
-		}
+		
+		addActivities (activityElement, activity.getActivities()) ;		
+		addCommonActivityItems(activityElement,activity);
 		
 		return activityElement;
 	}
 	
-	protected Element sources2XML(Sources sources) {
-		Element sourcesElement = createBPELElement("sources");		
-		Iterator it = sources.getChildren().iterator();
-		while (it.hasNext()) {
-			Element sourceElement = createBPELElement("source");
-			sourcesElement.appendChild(sourceElement);
-			Source source = (Source)it.next();
-			sourceElement.setAttribute("linkName", source.getLink().getName());
-			Condition transitionCondition = source.getTransitionCondition();
-			if (transitionCondition != null) {
-				sourceElement.appendChild(expression2XML(transitionCondition, "transitionCondition"));
-			}
-			extensibleElement2XML(source, sourceElement);
-		}
+	protected Element sources2XML (Sources sources) {
+		Element sourcesElement = createBPELElement("sources");	
+		for(Object next : sources.getChildren()) {
+			sourcesElement.appendChild ( source2XML ((Source)next));
+		}		
 		extensibleElement2XML(sources, sourcesElement);
 		return sourcesElement;
 	}
 	
+	protected Element source2XML (Source source) {
+		
+		Element sourceElement = createBPELElement("source");
+		sourceElement.setAttribute("linkName", source.getLink().getName());
+		Condition transitionCondition = source.getTransitionCondition();
+		if (transitionCondition != null) {
+			sourceElement.appendChild(expression2XML(transitionCondition, "transitionCondition"));
+		}
+		extensibleElement2XML(source, sourceElement);
+		return sourceElement;
+	}
+	
 	protected Element targets2XML(Targets targets) {
-		Element targetsElement = createBPELElement("targets");		
+		Element targetsElement = createBPELElement("targets");
+		
 		// Write out the join condition
 		Condition joinCondition = targets.getJoinCondition();
 		if (joinCondition != null) {
 			targetsElement.appendChild(expression2XML(joinCondition, "joinCondition"));
 		}
-		// Write out each of the targets
-		Iterator it = targets.getChildren().iterator();
-		while (it.hasNext()) {
-			Element targetElement = createBPELElement("target");
-			targetsElement.appendChild(targetElement);
-			Target target = (Target)it.next();
-			targetElement.setAttribute("linkName", target.getLink().getName());
-			extensibleElement2XML(target, targetElement);
+		for(Object next : targets.getChildren()) {
+			targetsElement.appendChild( target2XML((Target)next) );
 		}
+		
 		extensibleElement2XML(targets, targetsElement);		
 		return targetsElement;
 	}
 	
-	protected Element onMessage2XML(OnMessage onMsg) {
+	protected Element target2XML (Target target) {
+		Element targetElement = createBPELElement("target");
+		targetElement.setAttribute("linkName", target.getLink().getName());
+		extensibleElement2XML(target, targetElement);
+		return targetElement;
+	}
+	
+	
+	protected Element onMessage2XML (OnMessage onMsg) {
 		Element onMessageElement = createBPELElement("onMessage");
 		if (onMsg.getPartnerLink() != null && onMsg.getPartnerLink().getName() != null) {
 			onMessageElement.setAttribute("partnerLink", onMsg.getPartnerLink().getName());
@@ -1748,11 +1947,8 @@ public class BPELWriter {
 		if (onMsg.getActivity() != null) {
 			onMessageElement.appendChild(activity2XML(onMsg.getActivity()));
 		}
-		
-		Iterator it = onMsg.getFromPart().iterator();
-		while (it.hasNext()) {
-			FromPart fromPart = (FromPart)it.next();
-			onMessageElement.appendChild(fromPart2XML(fromPart));
+		for(Object next : onMsg.getFromPart()) {			
+			onMessageElement.appendChild(fromPart2XML((FromPart) next));
 		}
 
 		
@@ -1791,10 +1987,9 @@ public class BPELWriter {
 		if (onEvent.getActivity() != null) {
 			onEventElement.appendChild(activity2XML(onEvent.getActivity()));
 		}		
-		Iterator it = onEvent.getFromPart().iterator();
-		while (it.hasNext()) {
-			FromPart fromPart = (FromPart)it.next();
-			onEventElement.appendChild(fromPart2XML(fromPart));
+		
+		for(Object next : onEvent.getFromPart()) {
+			onEventElement.appendChild(fromPart2XML((FromPart) next));
 		}
 
 		// serialize local namespace prefixes to XML
@@ -1827,63 +2022,70 @@ public class BPELWriter {
 		return onAlarmElement;		
 	}
 
-	protected Element pick2XML(Activity activity) {
+	protected Element pick2XML(Pick activity) {
 		Element activityElement = createBPELElement("pick");
-		if (((Pick)activity).isSetCreateInstance()) {
-			activityElement.setAttribute("createInstance", BPELUtils.boolean2XML(((Pick)activity).getCreateInstance()));
+		
+		if (activity.isSetCreateInstance()) {
+			activityElement.setAttribute("createInstance", BPELUtils.boolean2XML( activity.getCreateInstance()));
 		}
-		for (Iterator it = ((Pick)activity).getMessages().iterator(); it.hasNext(); ) {
-			OnMessage onMsg = (OnMessage)it.next();
-			activityElement.appendChild(onMessage2XML(onMsg));			
+		for(Object next : activity.getMessages()) {
+			activityElement.appendChild(onMessage2XML((OnMessage) next));
 		}
-		for (Iterator it = ((Pick)activity).getAlarm().iterator(); it.hasNext(); ) {
-			OnAlarm onAlarm = (OnAlarm)it.next();			
-			activityElement.appendChild(onAlarm2XML(onAlarm));			
+		for(Object next : activity.getAlarm()) {
+			activityElement.appendChild(onAlarm2XML( (OnAlarm) next ));			
 		}
+		addCommonActivityItems(activityElement,activity);
 		return activityElement;
 	}
 
-	protected Element scope2XML(Activity activity) {
-		Scope scope = (Scope)activity;
+	protected Element scope2XML(Scope activity) {
+		
 		Element activityElement = createBPELElement("scope");
 		
-		if (scope.isSetIsolated())
-			activityElement.setAttribute("isolated", BPELUtils.boolean2XML(scope.getIsolated()));
-		if (scope.isSetExitOnStandardFault())
-			activityElement.setAttribute("exitOnStandardFault", BPELUtils.boolean2XML(scope.getExitOnStandardFault()));
-		if (scope.getVariables() != null && !scope.getVariables().getChildren().isEmpty())
-			activityElement.appendChild(variables2XML(scope.getVariables()));
-		if (scope.getCorrelationSets() != null && !scope.getCorrelationSets().getChildren().isEmpty())
-			activityElement.appendChild(correlationSets2XML(scope.getCorrelationSets()));
-		if (scope.getPartnerLinks() != null && !scope.getPartnerLinks().getChildren().isEmpty())
-			activityElement.appendChild(partnerLinks2XML(scope.getPartnerLinks()));
-		if (scope.getFaultHandlers() != null )
-			activityElement.appendChild(faultHandlers2XML(scope.getFaultHandlers()));
-		if (scope.getCompensationHandler() != null )
-			activityElement.appendChild(compensationHandler2XML(scope.getCompensationHandler()));
-		if (scope.getTerminationHandler() != null )
-			activityElement.appendChild(terminationHandler2XML(scope.getTerminationHandler()));
-		if (scope.getEventHandlers() != null)
-			activityElement.appendChild(eventHandler2XML(scope.getEventHandlers()));
-		if (scope.getMessageExchanges() != null)
-			activityElement.appendChild(messageExchanges2XML(scope.getMessageExchanges()));
-		if (scope.getActivity() != null )
-			activityElement.appendChild(activity2XML(scope.getActivity()));
+		if (activity.isSetIsolated())
+			activityElement.setAttribute("isolated", BPELUtils.boolean2XML(activity.getIsolated()));
+		if (activity.isSetExitOnStandardFault())
+			activityElement.setAttribute("exitOnStandardFault", BPELUtils.boolean2XML(activity.getExitOnStandardFault()));
+		if (activity.getVariables() != null && !activity.getVariables().getChildren().isEmpty())
+			activityElement.appendChild(variables2XML(activity.getVariables()));
+		if (activity.getCorrelationSets() != null && !activity.getCorrelationSets().getChildren().isEmpty())
+			activityElement.appendChild(correlationSets2XML(activity.getCorrelationSets()));
+		if (activity.getPartnerLinks() != null && !activity.getPartnerLinks().getChildren().isEmpty())
+			activityElement.appendChild(partnerLinks2XML(activity.getPartnerLinks()));
+		if (activity.getFaultHandlers() != null )
+			activityElement.appendChild(faultHandlers2XML(activity.getFaultHandlers()));
+		if (activity.getCompensationHandler() != null )
+			activityElement.appendChild(compensationHandler2XML(activity.getCompensationHandler()));
+		if (activity.getTerminationHandler() != null )
+			activityElement.appendChild(terminationHandler2XML(activity.getTerminationHandler()));
+		if (activity.getEventHandlers() != null)
+			activityElement.appendChild(eventHandler2XML(activity.getEventHandlers()));
+		if (activity.getMessageExchanges() != null)
+			activityElement.appendChild(messageExchanges2XML(activity.getMessageExchanges()));
+		if (activity.getActivity() != null )
+			activityElement.appendChild(activity2XML(activity.getActivity()));
+		
+		addCommonActivityItems(activityElement,activity);
+		
 		return activityElement;
 	}
 
-	protected Element compensateScope2XML (Activity activity) {
-		Element compensateScopeElement = createBPELElement("compensateScope");
-		Activity scopeOrInvoke = ((CompensateScope)activity).getTarget();
+	protected Element compensateScope2XML (CompensateScope activity) {
+		Element activityElement = createBPELElement("compensateScope");
+		
+		Activity scopeOrInvoke = activity.getTarget();
 		if ( scopeOrInvoke != null ) {			
-			compensateScopeElement.setAttribute("scope",scopeOrInvoke.getName());
+			activityElement.setAttribute("scope",scopeOrInvoke.getName());
 		}
-		return compensateScopeElement;
+		
+		addCommonActivityItems(activityElement,activity);
+		return activityElement;
 	}
 	
-	protected Element compensate2XML(Activity activity) {
-		Element compensateElement = createBPELElement("compensate");
-		return compensateElement;
+	protected Element compensate2XML(Compensate activity) {
+		Element activityElement = createBPELElement("compensate");
+		addCommonActivityItems(activityElement,activity);
+		return activityElement;
 	}
 	
 	protected QName getQName(org.eclipse.wst.wsdl.ExtensibilityElement element, String localName) {
@@ -1946,12 +2148,12 @@ public class BPELWriter {
 				
 				// Serialize the extensibility element into the parent DOM element
 				try {
-					serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,process,extensionRegistry);
+					serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
 				} catch (WSDLException e) {
 					throw new WrappedException(e);
 				}
 				
-				Node tempElement=(Element)fragment.getFirstChild();
+				Node tempElement= fragment.getFirstChild();
 				String nodeName=tempElement.getNodeName();
 				nodeName=nodeName.substring(nodeName.lastIndexOf(':')+1);
 				if (nodeName.equals("extensibilityAttributes")) {
@@ -1967,7 +2169,7 @@ public class BPELWriter {
 							attrName=prefix+':'+attrName;
 						if (attrName.startsWith("xmlns:")) {
 							String localName = attrName.substring("xmlns:".length());
-							Map nsMap = ((BPELResource)process.eResource()).getPrefixToNamespaceMap(extensibleElement);
+							Map<String,String> nsMap = BPELUtils.getNamespaceMap(extensibleElement);
 							if (!nsMap.containsKey(localName) || !attr.getNodeValue().equals(nsMap.get(localName))) {
 								nsMap.put(localName, attr.getNodeValue());								
 							}																
@@ -2006,22 +2208,37 @@ public class BPELWriter {
 		// ExtensibleElement
 		DocumentFragment fragment=document.createDocumentFragment();
 		try {
-			serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,process,extensionRegistry);
+			serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
 			return (Element)fragment.getFirstChild();
 		} catch (WSDLException e) {
 			throw new WrappedException(e);
 		}
 	}	
 	
-    private Element createBPELElement(String tagName) {
-        if (bpelResource.getOptionUseNSPrefix()) {
-            String namespaceURI = bpelResource.getNamespaceURI();
-            String prefix = bpelNamespacePrefixManager.getRootPrefix(namespaceURI);
-            return document.createElementNS(namespaceURI, prefix + ":" + tagName);
-        } else {
-            return document.createElement(tagName);
-        }
+    private Element createBPELElement (String tagName) {
+        
+    	String namespaceURI = null;
+        
+    	if (getResource() != null ) { 
+    		namespaceURI = getResource().getNamespaceURI();
+    	} else {
+    		namespaceURI = BPELConstants.NAMESPACE;
+    	}
+    	
+    	if (namespaceURI != null ) {
+    		String prefix = bpelNamespacePrefixManager.getRootPrefix(namespaceURI);
+    		if ( EMPTY_STRING.equals(prefix) == false && prefix != null) {
+    			return document.createElementNS(namespaceURI, prefix + ":" + tagName);
+    		}
+    	}
+    	
+        return document.createElement(tagName);        
     }
+    
+	/**
+	 * 
+	 * @return the namespace prefix manager.
+	 */
     
 	public NamespacePrefixManager getNamespacePrefixManager() {
 		return bpelNamespacePrefixManager;

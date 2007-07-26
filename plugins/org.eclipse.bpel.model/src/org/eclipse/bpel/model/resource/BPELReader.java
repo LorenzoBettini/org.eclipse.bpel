@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.resource;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,8 +28,78 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 
 import org.apache.xerces.parsers.DOMParser;
-import org.eclipse.bpel.model.*;
+import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.Assign;
+import org.eclipse.bpel.model.BPELFactory;
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.BPELPlugin;
+import org.eclipse.bpel.model.Branches;
+import org.eclipse.bpel.model.Catch;
+import org.eclipse.bpel.model.CatchAll;
+import org.eclipse.bpel.model.Compensate;
+import org.eclipse.bpel.model.CompensateScope;
+import org.eclipse.bpel.model.CompensationHandler;
+import org.eclipse.bpel.model.CompletionCondition;
+import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.Correlation;
+import org.eclipse.bpel.model.CorrelationPattern;
+import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.Else;
+import org.eclipse.bpel.model.ElseIf;
+import org.eclipse.bpel.model.Empty;
+import org.eclipse.bpel.model.EndpointReferenceRole;
+import org.eclipse.bpel.model.EventHandler;
+import org.eclipse.bpel.model.Exit;
+import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
+import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.ForEach;
+import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.If;
+import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.Link;
+import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
+import org.eclipse.bpel.model.OnAlarm;
+import org.eclipse.bpel.model.OnEvent;
+import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.OpaqueActivity;
+import org.eclipse.bpel.model.PartnerActivity;
+import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.PartnerLinks;
+import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.Query;
+import org.eclipse.bpel.model.Receive;
+import org.eclipse.bpel.model.RepeatUntil;
+import org.eclipse.bpel.model.Reply;
+import org.eclipse.bpel.model.Rethrow;
+import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.Sequence;
+import org.eclipse.bpel.model.ServiceRef;
+import org.eclipse.bpel.model.Source;
+import org.eclipse.bpel.model.Sources;
+import org.eclipse.bpel.model.Target;
+import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.Throw;
+import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.Validate;
+import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.Wait;
+import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.extensions.BPELActivityDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
@@ -52,10 +124,12 @@ import org.eclipse.bpel.model.proxy.XSDElementDeclarationProxy;
 import org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.xsd.XSDElementDeclaration;
@@ -69,8 +143,11 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -80,18 +157,22 @@ import org.xml.sax.SAXParseException;
 
 @SuppressWarnings("nls")
 
-public class BPELReader {
+public class BPELReader implements ErrorHandler {
 
 	// The process we are reading
 	private Process process = null;
 	// The resource we are reading from
-	private BPELResource resource = null;
+	private BPELResource fResource = null;
 	// The document builder controls various DOM characteristics
 	private DocumentBuilder docBuilder = null;
 	// Registry for extensibility element serializers and deserializers
 	private BPELExtensionRegistry extensionRegistry = BPELExtensionRegistry.getInstance();
 	
-	private DOMParser domParser;
+	private DOMParser fDOMParser;
+	
+	/** The XML Error handler */
+	ErrorHandler fErrorHandler = null;
+	
 	
 	// The WS-BPEL Specification says how to resolve variables, taking into
 	// account scopes, etc. Technically, no one should override this behavior,
@@ -104,6 +185,8 @@ public class BPELReader {
 	// you to optimize the search or provide different behavior.
 	public static LinkResolver LINK_RESOLVER = new BPELLinkResolver();
 	
+	
+	List<Runnable> fPass2Runnables = new ArrayList<Runnable>();
 	
 	/**
 	 * Construct a new BPELReader using the given DocumentBuilder to determine
@@ -119,78 +202,178 @@ public class BPELReader {
 		this.docBuilder = builder;
 	}
 
+	/**
+	 * @param parser
+	 */
 	public BPELReader (DOMParser parser )  {		
-		this.domParser = parser;
+		this.fDOMParser = parser;
 	}
+	
+	/**
+	 * 
+	 */
+	
+	public BPELReader () {
+		this.fDOMParser = new LineCapturingDOMParser();
+				
+		// domParser.setProperty("http://xml.org/sax/features/namespaces",true);
+		try {
+			fDOMParser.setFeature( "http://apache.org/xml/features/dom/defer-node-expansion", false );
+			fDOMParser.setFeature( "http://apache.org/xml/features/xinclude", false);
+		} catch (SAXNotRecognizedException e) { 
+			BPELPlugin.log("Not Recognized DOM Parser Feature",e );
+		} catch (SAXNotSupportedException e) {		
+			BPELPlugin.log("Not Supported DOM Parser Feature",e );
+		}				
+	}
+	
+	/** 
+	 * Set the error handler 
+	 * @param errorHandler 
+	 */
+	
+	public void setErrorHandler ( ErrorHandler errorHandler ) {
+		fErrorHandler = errorHandler;
+	}
+
+	void armErrorHandler ( ) {
+		
+		assert (docBuilder  != null || fDOMParser != null);
+		
+		if (docBuilder != null) {
+			docBuilder.setErrorHandler(fErrorHandler != null ? fErrorHandler : this);
+		} else {
+			fDOMParser.setErrorHandler(fErrorHandler != null ? fErrorHandler : this);
+		}	
+	}
+
+	
+	Document read ( InputSource inputSource ) throws IOException, SAXException {	
+		assert (docBuilder  != null || fDOMParser != null);
+
+		if (docBuilder != null) {
+			return docBuilder.parse(inputSource);
+		} 		
+		fDOMParser.parse(inputSource);
+		return fDOMParser.getDocument();
+	}
+	
 	
 	/**
 	 * Read from the given input stream into the given resource.
 	 * 
 	 * @param resource  the EMF resource to construct
 	 * @param inputStream  the input stream to read the BPEL from
-	 * @throws IOException if an error occurs during reading
 	 */
-	public void read(BPELResource resource, InputStream inputStream) throws IOException {
+	
+	public void read(BPELResource resource, InputStream inputStream)  {
+		
+		armErrorHandler ();
+		
+		Document doc = null;
 		try {
+			InputSource inputSource = new InputSource(inputStream);
+			inputSource.setPublicId( resource.getURI().toString() );
+			inputSource.setSystemId( resource.getURI().toString() );
 			
-			Document doc = null;
-			if (docBuilder != null) {
-				doc = docBuilder.parse(inputStream);
-			} else if (domParser != null) {
-				domParser.parse(new InputSource(inputStream));
-				doc = domParser.getDocument();
-			}
-			
+			doc = read ( inputSource );
 			// After the document has successfully parsed, it's okay
 			// to assign the resource.
-			this.resource = resource;
-			// Pass 1 and 2 are inside the try so they don't occur if
-			// an error happens during parsing.
-			// In pass 1 we parse and create the structural elements and attributes. 
-			pass1(doc);
-			// In pass 2, we run any postLoadRunnables which need to happen after
-			// pass 1 (for example, establishing object links to variables).
-			pass2();
-		} catch (SAXParseException exc) {
-			// TODO: Error handling
-			exc.printStackTrace();
-		} catch (SAXException se) {
-			// TODO: Error handling
-			se.printStackTrace();
-		} catch (EOFException exc) {
-			// Ignore end of file exception
+			fResource = resource;
+		} catch (SAXException sax) {
+			// the error handlers will catch this.			
 		} catch (IOException ioe) {
-			// TODO: Error handling
-			ioe.printStackTrace();
-		} catch (RuntimeException rte) {
-			rte.printStackTrace();			
+			BPELPlugin.log("I/O Error Reading BPEL XML", ioe ) ;
+		} finally {
+			
 		}
+		
+		if (doc == null) {
+			return ;
+		}
+		
+		pass1(doc);		
+		pass2();
 	}
 
+	
+	/**
+	 * Return the resource that was used to read in this BPEL process.
+	 * 
+	 * @return the resource that was used to read in this BPEL process.
+	 */
+	
+	public Resource getResource () {
+		return fResource;
+	}
+	
+	
+	/**
+	 * @param xmlSource the XML source
+	 * @param sourceDesciption some textual description of the source (for example Clipboard).
+	 * @return a list of objects 
+	 */
+	
+	public List<EObject> fromXML ( String xmlSource , String sourceDesciption ) {
+		
+		armErrorHandler ();
+		
+		if (sourceDesciption == null) {
+			sourceDesciption = "String";
+		}
+		
+		Document doc = null;
+		try {
+			InputSource inputSource = new InputSource(new StringReader ( xmlSource ));
+			inputSource.setPublicId( sourceDesciption );
+			doc = read (inputSource);
+			
+		} catch (SAXException sax) {
+			// done by the handler.
+		} catch (IOException ioe) {
+			BPELPlugin.log("I/O Error Reading BPEL XML", ioe ) ;
+		} finally {
+			
+		}
+				
+		if (doc == null) {
+			return Collections.emptyList();		
+		}
+		
+		// Pass 1 and 2 are inside the try so they don't occur if
+		// an error happens during parsing.
+		// In pass 1 we parse and create the structural elements and attributes. 
+		List<EObject> result = parseDocument(doc);
+		// In pass 2, we run any postLoadRunnables which need to happen after
+		// pass 1 (for example, establishing object links to variables).
+		pass2();
+		
+		return result;		
+	}
+	
+	
 	/**
 	 * In pass 1, we parse and create the structural elements and attributes,
 	 * and add the process to the EMF resource's contents
 	 * @param document  the DOM document to parse
 	 */
-	protected void pass1(Document document) {
+	protected void pass1 (Document document) {
 		Process p = xml2Resource(document);
 		if (p != null) {
-			resource.getContents().add(p);
+			fResource.getContents().add(p);
 		}
 	}
 	
 	/**
 	 * In pass 2, we run any post load runnables which were queued during pass 1.
 	 */
-	protected void pass2() {
-		if (process == null) {
-			return ;
-		}
-		for(Runnable r : process.getPostLoadRunnables()) {
+	protected void pass2() {	
+		for(Runnable r : fPass2Runnables) {
 			r.run();
 		}
-		process.getPostLoadRunnables().clear();
+		fPass2Runnables.clear();
 	}
+	
 	
 	/**
      * Returns a list of child nodes of <code>parentElement</code> that are
@@ -287,14 +470,15 @@ public class BPELReader {
 	 * @param element
 	 */
 	protected void saveNamespacePrefix(EObject eObject, Element element) {
-		Map nsMap = null; // lazy init since it may require a new map
+		Map<String,String> nsMap = null; // lazy init since it may require a new map
 		NamedNodeMap attrs = element.getAttributes();
+		
 		for (int i=0; i < attrs.getLength(); i++) {
 			Attr attr = (Attr) attrs.item(i);        
 			// XML namespace attributes use the reserved namespace "http://www.w3.org/2000/xmlns/". 
 			if (XSDConstants.XMLNS_URI_2000.equals(attr.getNamespaceURI())) {
 				if (nsMap == null) {
-					nsMap = resource.getPrefixToNamespaceMap(eObject);
+					nsMap = BPELUtils.getNamespaceMap(eObject);
 				}
 				nsMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()), attr.getValue());
 			}
@@ -341,11 +525,11 @@ public class BPELReader {
 		final String partnerLinkName = activityElement.getAttribute("partnerLink");
 		// We must do this as a post load runnable because the partner link might not
 		// exist yet.
-		process.getPostLoadRunnables().add(new Runnable() {
+		fPass2Runnables.add(new Runnable() {
 			public void run() {	
 				PartnerLink targetPartnerLink = BPELUtils.getPartnerLink(eObject, partnerLinkName);
 				if (targetPartnerLink == null) {
-					targetPartnerLink = new PartnerLinkProxy(resource.getURI(), partnerLinkName);
+					targetPartnerLink = new PartnerLinkProxy(getResource().getURI(), partnerLinkName);
 				}
 				eObject.eSet(reference, targetPartnerLink);				
 			}
@@ -369,11 +553,11 @@ public class BPELReader {
 		final String variableName = activityElement.getAttribute(variableNameAttr);
 		// We must do this as a post load runnable because the variable might not
 		// exist yet.
-		process.getPostLoadRunnables().add(new Runnable() {
+		fPass2Runnables.add(new Runnable() {
 			public void run() {				
 				Variable targetVariable = getVariable(eObject, variableName);
 				if (targetVariable == null) {
-					targetVariable = new VariableProxy(resource.getURI(), variableName);
+					targetVariable = new VariableProxy(getResource().getURI(), variableName);
 				}		
 				eObject.eSet(reference, targetVariable);				
 			}
@@ -396,7 +580,7 @@ public class BPELReader {
 
 		while (st.hasMoreTokens()) {
 			QName qName = BPELUtils.createQName(element, st.nextToken());
-			Property property = new PropertyProxy(resource.getURI(), qName);
+			Property property = new PropertyProxy(getResource().getURI(), qName);
 			if (eObject instanceof CorrelationSet) {
 				((CorrelationSet)eObject).getProperties().add(property);
 			} else if (eObject instanceof To) {
@@ -488,14 +672,14 @@ public class BPELReader {
 		// Set portType
         PortType portType = null;
         if (activityElement.hasAttribute("portType")) {
-            portType = BPELUtils.getPortType(resource.getURI(), activityElement, "portType");
+            portType = BPELUtils.getPortType(getResource().getURI(), activityElement, "portType");
             activity.setPortType(portType);
         }
 
 		// Set operation
 		if (activityElement.hasAttribute("operation")) {
             if (portType != null) {
-				activity.setOperation(BPELUtils.getOperation(resource.getURI(), portType, activityElement, "operation"));
+				activity.setOperation(BPELUtils.getOperation(getResource().getURI(), portType, activityElement, "operation"));
 			} else {
                 ((PartnerActivityImpl) activity).setOperationName(activityElement.getAttribute("operation"));
             }
@@ -530,14 +714,14 @@ public class BPELReader {
         // Set portType
         PortType portType = null;
         if (activityElement.hasAttribute("portType")) {
-            portType = BPELUtils.getPortType(resource.getURI(), activityElement, "portType");
+            portType = BPELUtils.getPortType(getResource().getURI(), activityElement, "portType");
             onMessage.setPortType(portType);
         }
         
         // Set operation
         if (activityElement.hasAttribute("operation")) {
             if (portType != null) {
-                onMessage.setOperation(BPELUtils.getOperation(resource.getURI(), portType, activityElement, "operation"));
+                onMessage.setOperation(BPELUtils.getOperation(getResource().getURI(), portType, activityElement, "operation"));
             } else {
                 // If portType is not specified it will be resolved lazily and so will the operation.
                 // Save the deserialized name so the operation can be later resolved.
@@ -566,14 +750,14 @@ public class BPELReader {
         // Set portType
         PortType portType = null;
         if (activityElement.hasAttribute("portType")) {
-            portType = BPELUtils.getPortType(resource.getURI(), activityElement, "portType");
+            portType = BPELUtils.getPortType(getResource().getURI(), activityElement, "portType");
             onEvent.setPortType(portType);
         }
 
         // Set operation
         if (activityElement.hasAttribute("operation")) {
             if (portType != null) {
-                onEvent.setOperation(BPELUtils.getOperation(resource.getURI(), portType, activityElement, "operation"));
+                onEvent.setOperation(BPELUtils.getOperation(getResource().getURI(), portType, activityElement, "operation"));
             } else {
                 ((OnEventImpl) onEvent).setOperationName(activityElement.getAttribute("operation"));
             }
@@ -594,7 +778,7 @@ public class BPELReader {
 		// Set message type
 		if (activityElement.hasAttribute("messageType")) {
 			QName qName = BPELUtils.createAttributeValue(activityElement, "messageType");
-			Message messageType = new MessageProxy(resource.getURI(), qName);
+			Message messageType = new MessageProxy(getResource().getURI(), qName);
 			onEvent.setMessageType(messageType);
 		}
 
@@ -607,10 +791,93 @@ public class BPELReader {
 	}
 
 	/**
+	 * 
+	 */
+	protected List<EObject> parseDocument (Document document) {
+		
+		Element element = (document != null)? document.getDocumentElement(): null;
+		List<EObject> list = new ArrayList<EObject>();		
+		if (element == null) {
+			return list;
+		}
+		
+		if (element.getLocalName().equals("bag")) {			
+			
+			for(Node n = element.getFirstChild(); n != null; n = n.getNextSibling()) {
+				if (n instanceof Element == false) {
+					continue;
+				}
+				EObject next = parseElement ( (Element) n );
+				if (next != null) {
+					list.add(next);
+				}
+			}
+			
+		} else { 
+			EObject next = parseElement(element);
+			if (next != null) {
+				list.add(next);
+			}
+		}
+		return list;
+	}
+
+	
+	EObject parseElement ( Element element ) {
+		
+		Method parseMethod = getParseMethod ( element );
+		if (parseMethod == null) {
+			return null;
+		}								
+		try {
+			return (EObject) parseMethod.invoke(this, element) ;
+		} catch (Throwable t) {
+			t.printStackTrace();
+			// 
+		}
+		return null;
+	}
+	
+	Method getParseMethod ( Element element ) {
+		if (BPELUtils.isBPELElement( element ) == false) {
+			return null;
+		}
+		
+		String methodName = element.getLocalName();
+		methodName = "xml2" + Character.toUpperCase(methodName.charAt(0)) + methodName.substring(1);		
+		
+		return lookupMethod ( getClass(), methodName, Element.class );
+	}
+	
+	Method lookupMethod ( Class<?> target, String methodName, Class<?> ... args ) {
+		if (target == null || target == Object.class) {
+			return null ;
+		}
+		
+		for(Method m : target.getDeclaredMethods()) {
+			if (methodName.equals(m.getName()) == false || m.getParameterTypes().length != args.length ) { 
+				continue;
+			}			
+			Class<?> argTypes[] = m.getParameterTypes();			
+			for(int i=0; i < args.length; i++) {
+				if (argTypes[i].isAssignableFrom(args[i]) == false) {
+					continue;
+				}
+			}			
+			return m;			
+		}
+		return lookupMethod(target.getSuperclass(), methodName, args);		
+
+	}
+	
+	/**
 	 * Converts an XML document to a BPEL Resource object.
 	 */
 	protected Process xml2Resource(Document document) {
 		Element processElement = (document != null)? document.getDocumentElement(): null;
+		if (processElement == null) {
+			return null;
+		}
 		return xml2Process(processElement);
 	}
 
@@ -928,18 +1195,18 @@ public class BPELReader {
 		if (partnerLinkTypeName != null && partnerLinkTypeName.getSpecified()) {
 			QName sltQName = BPELUtils.createAttributeValue(partnerLinkElement, "partnerLinkType");
 			
-			PartnerLinkTypeProxy slt = new PartnerLinkTypeProxy(resource.getURI(), sltQName);
+			PartnerLinkTypeProxy slt = new PartnerLinkTypeProxy(getResource().getURI(), sltQName);
 			partnerLink.setPartnerLinkType(slt);
 			
 			if(slt != null) {
 				partnerLink.setPartnerLinkType(slt);
 				
 				if (partnerLinkElement.hasAttribute("myRole")) {
-					RoleProxy role = new RoleProxy(resource, slt, partnerLinkElement.getAttribute("myRole"));
+					RoleProxy role = new RoleProxy(getResource(), slt, partnerLinkElement.getAttribute("myRole"));
 					partnerLink.setMyRole(role);
 				}
 				if (partnerLinkElement.hasAttribute("partnerRole")) {
-					RoleProxy role = new RoleProxy(resource, slt, partnerLinkElement.getAttribute("partnerRole"));
+					RoleProxy role = new RoleProxy(getResource(), slt, partnerLinkElement.getAttribute("partnerRole"));
 					partnerLink.setPartnerRole(role);
 				}
 			}
@@ -972,21 +1239,21 @@ public class BPELReader {
 		
 		if (variableElement.hasAttribute("messageType")) {
 			QName qName = BPELUtils.createAttributeValue(variableElement,"messageType");
-			Message messageType = new MessageProxy(resource.getURI(), qName);
+			Message messageType = new MessageProxy(getResource().getURI(), qName);
 			variable.setMessageType(messageType);
 		}
 
 		// Set xsd type
 		if (variableElement.hasAttribute("type")) {
 			QName qName = BPELUtils.createAttributeValue(variableElement, "type");
-			XSDTypeDefinition type = new XSDTypeDefinitionProxy(resource.getURI(), qName);
+			XSDTypeDefinition type = new XSDTypeDefinitionProxy(getResource().getURI(), qName);
 			variable.setType(type);						
 		}
 		
 		// Set xsd element
 		if (variableElement.hasAttribute("element")) {
 			QName qName = BPELUtils.createAttributeValue(variableElement, "element");
-			XSDElementDeclaration element = new XSDElementDeclarationProxy(resource.getURI(), qName);
+			XSDElementDeclaration element = new XSDElementDeclarationProxy(getResource().getURI(), qName);
 			variable.setXSDElement(element);			
 		}
 
@@ -1096,13 +1363,13 @@ public class BPELReader {
 		
 		if (catchElement.hasAttribute("faultMessageType")) {
 			QName qName = BPELUtils.createAttributeValue(catchElement,"faultMessageType");
-			Message messageType = new MessageProxy(resource.getURI(), qName);
+			Message messageType = new MessageProxy(getResource().getURI(), qName);
 			_catch.setFaultMessageType(messageType);
 		}
 
 		if (catchElement.hasAttribute("faultElement")) {
 			QName qName = BPELUtils.createAttributeValue(catchElement,"faultElement");
-			XSDElementDeclaration element = new XSDElementDeclarationProxy(resource.getURI(), qName);
+			XSDElementDeclaration element = new XSDElementDeclarationProxy(getResource().getURI(), qName);
 			_catch.setFaultElement(element);
 		}
 
@@ -1251,13 +1518,13 @@ public class BPELReader {
 
 		if (targetElement.hasAttribute("linkName")) {
 			final String linkName = targetElement.getAttribute("linkName");			
-			process.getPostLoadRunnables().add(new Runnable() {
+			fPass2Runnables.add(new Runnable() {
 				public void run() {
 					Link link = getLink(target.getActivity(), linkName);
 					if (link != null)
 						target.setLink(link);
 					else
-						target.setLink(new LinkProxy(resource.getURI(), linkName));
+						target.setLink(new LinkProxy(getResource().getURI(), linkName));
 				}
 			});
 		}
@@ -1293,13 +1560,13 @@ public class BPELReader {
 		
 		xml2ExtensibleElement(source, sourceElement);
 		
-		process.getPostLoadRunnables().add(new Runnable() {
+		fPass2Runnables.add(new Runnable() {
 			public void run() {
 				Link link = getLink(source.getActivity(), linkName);
 				if (link != null)
 					source.setLink(link);
 				else
-					source.setLink(new LinkProxy(resource.getURI(), linkName));
+					source.setLink(new LinkProxy(getResource().getURI(), linkName));
 			}
 		});
 		return source;							
@@ -1958,11 +2225,11 @@ public class BPELReader {
 				final String variableName = st.nextToken();
 				// We must do this as a post load runnable because the variable might not
 				// exist yet.
-				process.getPostLoadRunnables().add(new Runnable() {
+				fPass2Runnables.add(new Runnable() {
 					public void run() {				
 						Variable targetVariable = getVariable(validate, variableName);
 						if (targetVariable == null) {
-							targetVariable = new VariableProxy(resource.getURI(), variableName);
+							targetVariable = new VariableProxy(getResource().getURI(), variableName);
 						}
 						validate.getVariables().add(targetVariable);
 					}
@@ -2005,7 +2272,7 @@ public class BPELReader {
 			if (deserializer != null) {
 				// Deserialize the DOM element and return the new Activity
 				Map nsMap = getAllNamespacesForElement((Element)child);
-				Activity activity = deserializer.unmarshall(qname,child,process,nsMap,extensionRegistry,resource.getURI(), this);
+				Activity activity = deserializer.unmarshall(qname,child,process,nsMap,extensionRegistry,getResource().getURI(), this);
 				// Now let's do the standard attributes and elements
 				setStandardAttributes((Element)child, activity);
 				setStandardElements((Element)child, activity);
@@ -2266,6 +2533,25 @@ public class BPELReader {
 			if (data != null) {
 				queryObject.setValue(data);
 			}
+		} else {	
+			
+			// must be expression
+			Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
+			expressionObject.setElement(toElement);
+			
+			to.setExpression(expressionObject);
+			
+			// Set expressionLanguage
+			if (toElement.hasAttribute("expressionLanguage")) {
+				expressionObject.setExpressionLanguage(toElement.getAttribute("expressionLanguage"));
+			}
+	
+			// Set expression text
+			// Get the condition text
+			String data = getText( toElement );
+			if (data != null) {			
+				expressionObject.setBody(data);
+			}				
 		}
 	}
 
@@ -2389,7 +2675,7 @@ public class BPELReader {
 						// ExtensibleElement
 						try {
 							Map nsMap = getAllNamespacesForElement(serviceRefElement);
-							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,resource.getURI());
+							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,getResource().getURI());
 							serviceRef.setValue(extensibilityElement);
 						} catch (WSDLException e) {
 							throw new WrappedException(e);
@@ -2470,7 +2756,7 @@ public class BPELReader {
 		// See if there is an xsi:type attribue.
 		if (fromElement.hasAttribute("xsi:type")) {
 			QName qName = BPELUtils.createAttributeValue(fromElement, "xsi:type");
-			XSDTypeDefinition type = new XSDTypeDefinitionProxy(resource.getURI(), qName);
+			XSDTypeDefinition type = new XSDTypeDefinitionProxy(getResource().getURI(), qName);
 			from.setType(type);						
 		}
 	}
@@ -2599,7 +2885,9 @@ public class BPELReader {
 		setStandardAttributes(forEachElement, forEach);
 
 		if (forEachElement.hasAttribute("parallel")) {
-			process.setSuppressJoinFailure(new Boolean(forEachElement.getAttribute("parallel").equals("yes")));
+			if (process != null) {
+				process.setSuppressJoinFailure(new Boolean(forEachElement.getAttribute("parallel").equals("yes")));
+			}
 		}
 
 		// Set counterName variable
@@ -2608,7 +2896,7 @@ public class BPELReader {
 			// TODO: How to facade this ?
 			variable.setName(forEachElement.getAttribute("counterName"));
 			QName qName = new QName(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, "unsignedInt");
-			XSDTypeDefinition type = new XSDTypeDefinitionProxy(resource.getURI(), qName);
+			XSDTypeDefinition type = new XSDTypeDefinitionProxy(getResource().getURI(), qName);
 			variable.setType(type);
 			forEach.setCounterName(variable);					
 		}		
@@ -2772,11 +3060,11 @@ public class BPELReader {
 		// Set set
 		if (correlationElement.hasAttribute("set")) {
 			final String correlationSetName = correlationElement.getAttribute("set");
-			process.getPostLoadRunnables().add(new Runnable() {
+			fPass2Runnables.add(new Runnable() {
 				public void run() {	
 					CorrelationSet cSet = BPELUtils.getCorrelationSetForActivity(correlation, correlationSetName);
 					if (cSet == null) {
-						cSet = new CorrelationSetProxy(resource.getURI(), correlationSetName);
+						cSet = new CorrelationSetProxy(getResource().getURI(), correlationSetName);
 					}
 					correlation.setSet(cSet);								
 				}
@@ -2828,7 +3116,7 @@ public class BPELReader {
 		final String target = compensateScopeElement.getAttribute("target");
 		
 		if (target != null && target.length() > 0) {
-			process.getPostLoadRunnables().add(new Runnable() {
+			fPass2Runnables.add(new Runnable() {
 				public void run() {
 					compensateScope.setTarget(target);
 				}
@@ -2899,7 +3187,7 @@ public class BPELReader {
 					try {
 						Map nsMap = getAllNamespacesForElement(element);
 						//ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,resource.getURI());
-						ExtensibilityElement extensibilityElement=deserializer.unmarshall(extensibleElement.getClass(),qname,childElement,process,nsMap,extensionRegistry,resource.getURI());
+						ExtensibilityElement extensibilityElement=deserializer.unmarshall(extensibleElement.getClass(),qname,childElement,process,nsMap,extensionRegistry,getResource().getURI());
 						extensibleElement.addExtensibilityElement(extensibilityElement);
 					} catch (WSDLException e) {
 						throw new WrappedException(e);
@@ -2932,7 +3220,7 @@ public class BPELReader {
 						// ExtensibleElement
 						try {
 							Map nsMap = getAllNamespacesForElement(element);
-							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,tempElement,process,nsMap,extensionRegistry,resource.getURI());
+							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,tempElement,process,nsMap,extensionRegistry,getResource().getURI());
 							if (extensibilityElement!=null)
 								extensibleElement.addExtensibilityElement(extensibilityElement);
 						} catch (WSDLException e) {
@@ -3012,11 +3300,74 @@ public class BPELReader {
 		return data;
 	}
 
+	/**
+	 * @param eObject
+	 * @param variableName
+	 * @return
+	 */
 	public static Variable getVariable(EObject eObject, String variableName) {
 		return VARIABLE_RESOLVER.getVariable(eObject, variableName);
 	}	
 	
+	/**
+	 * @param activity
+	 * @param linkName
+	 * @return
+	 */
 	public static Link getLink(Activity activity, String linkName) {
 		return LINK_RESOLVER.getLink(activity, linkName);
+	}
+
+	
+	
+	/**
+	 * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
+	 */
+	@SuppressWarnings("boxing")
+	public void error (SAXParseException exception) {
+		
+		String message = java.text.MessageFormat.format(
+				"Error in {0} [{2}:{3}] {4}",				
+				exception.getPublicId(),
+				exception.getSystemId(),
+				exception.getLineNumber(), 
+				exception.getColumnNumber(),
+				exception.getLocalizedMessage()
+		);			
+		BPELPlugin.logMessage(message, exception, IStatus.ERROR);		
+	}
+
+	/**
+	 * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
+	 */
+	@SuppressWarnings("boxing")
+	public void fatalError(SAXParseException exception)  {
+		String message = java.text.MessageFormat.format(
+				"Fatal Error in {0} [{2}:{3}] {4}",				
+				exception.getPublicId(),
+				exception.getSystemId(),
+				exception.getLineNumber(), 
+				exception.getColumnNumber(),
+				exception.getLocalizedMessage()
+		);			
+		BPELPlugin.logMessage(message, exception, IStatus.ERROR);
+	}
+
+	/**
+	 * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
+	 */
+	@SuppressWarnings("boxing")
+	public void warning (SAXParseException exception)  {
+		String message = java.text.MessageFormat.format(
+				"Warning in {0} [{2}:{3}] {4}",				
+				exception.getPublicId(),
+				exception.getSystemId(),
+				exception.getLineNumber(), 
+				exception.getColumnNumber(),
+				exception.getLocalizedMessage()
+		);			
+		BPELPlugin.logMessage(message, exception, IStatus.WARNING);		
+
+		
 	}	
 }

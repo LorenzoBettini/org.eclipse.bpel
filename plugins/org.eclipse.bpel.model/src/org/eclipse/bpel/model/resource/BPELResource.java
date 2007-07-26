@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.resource;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
@@ -18,6 +17,12 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.emf.ecore.resource.Resource;
 
 
+/**
+ * @author IBM Original Contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jul 19, 2007
+ *
+ */
 public interface BPELResource extends Resource {
 
     /**
@@ -32,51 +37,40 @@ public interface BPELResource extends Resource {
     
     /**
      * Returns the BPEL process contained by this resource or <code>null</code> if there is none.
+     * @return the process
      */
     Process getProcess();
 
-    /**
-     * Returns the namespace URI for the process/resource.
+    /** 
      * If unset the default value is {@link org.eclipse.bpel.model.util.BPELConstants#NAMESPACE}.
+     * 
+     * @return the namespace URI for the process/resource. 
      */
     String getNamespaceURI();    
     
     /**
      * Sets the <code>namespaceURI</code> for the process/resource.
      * Expected to be one of the BPEL namespaces defined by {@link org.eclipse.bpel.model.util.BPELConstants}.
+     * @param namespaceURI the namespace URI
      */
     void setNamespaceURI(String namespaceURI);
     
     /**
      * Returns <code>true</code> if the resource will be saved using a prefix for the BPEL namespace.
      * Returns <code>false</code> if the resource will be saved with BPEL as the default namespace.
+     * 
+     * @return true/false accordingly 
      */
     boolean getOptionUseNSPrefix();
     
     /**
      * Sets the useNSPrefix option.
+     * @param useNSPrefix 
      * @see #getOptionUseNSPrefix()
      */
     void setOptionUseNSPrefix(boolean useNSPrefix);
 
-    interface MapListener {
-        public void objectAdded(Object key, Object value);
-    }
     
-    interface NotifierMap extends Map {
-        public void addListener(MapListener listener);
-        public void removeListener(MapListener listener);
-        public NotifierMap reserve();
-    }
-
-    /**
-     * Returns the prefix-to-namespace map for the resource/process.
-     */
-    NotifierMap getPrefixToNamespaceMap();
-
-    /**
-     * Returns the prefix-to-namespace map for the specified <code>object</code>.
-     */
-    NotifierMap getPrefixToNamespaceMap(Object object);
+   
     
 }
