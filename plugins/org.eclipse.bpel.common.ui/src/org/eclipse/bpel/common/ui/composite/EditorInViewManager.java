@@ -60,8 +60,8 @@ import org.eclipse.ui.services.IServiceLocator;
 public class EditorInViewManager {
 
 	protected WorkbenchPage page;
-	protected IViewSite viewSite;
-	protected Map idToDescriptor;
+	protected IViewSite fViewSite;
+	protected Map<String,EditorDescriptor> idToDescriptor;
 	protected EditorManager eclipseEditorManager;
 
 	private static final String EXTPT_EMBEDDED_EDITORS = "embeddedEditors"; //$NON-NLS-1$
@@ -69,14 +69,24 @@ public class EditorInViewManager {
 	private static final String ATT_EDITOR_ID = "id"; //$NON-NLS-1$
 	private static final String ATT_EDITOR_CLASS = "class"; //$NON-NLS-1$
 	
-	public EditorInViewManager(IViewSite viewSite) {
-		this.viewSite = viewSite;
-		idToDescriptor = new HashMap(10);
+	/**
+	 * Brand new EditorInView manager.
+	 * 
+	 * @param viewSite
+	 */
+	
+	public EditorInViewManager (IViewSite viewSite) {
+		this.fViewSite = viewSite;
+		idToDescriptor = new HashMap<String,EditorDescriptor>(10);
 		page = (WorkbenchPage) viewSite.getPage();
 	}
 
 	/**
 	 * Creates and initializes an IEditorPart given its id and input. 
+	 * @param editorId 
+	 * @param input 
+	 * @return the editor part.
+	 * @throws CoreException 
 	 */
 	public IEditorPart createEditor(String editorId, IEditorInput input) throws CoreException {
 		IEditorPart editor = instantiateEditor(editorId);
@@ -100,8 +110,8 @@ public class EditorInViewManager {
 	 * 
 	 * @throws CoreException if the editorId is not found
 	 */
-	protected IEditorPart instantiateEditor(String editorId) throws CoreException {
-		EditorDescriptor descriptor = (EditorDescriptor) idToDescriptor.get(editorId);
+	protected IEditorPart instantiateEditor (String editorId) throws CoreException {
+		EditorDescriptor descriptor = idToDescriptor.get(editorId);
 		if (descriptor == null) {
 			descriptor = readDescriptor(editorId);
 			if (descriptor == null) {
@@ -118,48 +128,57 @@ public class EditorInViewManager {
 	 * 
 	 * @return the editor descriptor or <code>null</code> if there none for the given editorId  
 	 */
-	protected EditorDescriptor readDescriptor(String editorId) {
-		IConfigurationElement[] elements = Utils.getConfigurationElements(EXTPT_EMBEDDED_EDITORS);
-		for (int i = 0; i < elements.length; i++) {
-			IConfigurationElement element = elements[i];
-			if (element.getName().equals(CHILD_EDITOR)) {
-				String extensionId = element.getAttribute(ATT_EDITOR_ID);
-				if (extensionId == null) {
-					// the editor id is mandatory - log error
-					String pluginId = element.getDeclaringExtension().getNamespace();
-					IStatus status = new Status(IStatus.ERROR, pluginId, ICompositeEditorConstants.MISSING_ATTRIBUTE, Messages.CompositeEditorManager_5, null); 
-					CommonUIPlugin.getDefault().getLog().log(status);
-				} else if (editorId.equals(extensionId)) {
-					// Use reflection to create and set state on an editor descriptor
-					// This was done to avoid copying the class to this package
-					try {
-						Constructor constuctor = EditorDescriptor.class.getDeclaredConstructor(new Class[0]);
-						constuctor.setAccessible(true);
-						EditorDescriptor descriptor = (EditorDescriptor)constuctor.newInstance(new Object[0]);
+	protected EditorDescriptor readDescriptor (String editorId) {
+		
+		for(IConfigurationElement element : Utils.getConfigurationElements(EXTPT_EMBEDDED_EDITORS)) {
+			if (CHILD_EDITOR.equals(element.getName()) == false) {
+				continue;
+			}
+			String extensionId = element.getAttribute(ATT_EDITOR_ID);
+			if (extensionId == null) {
+				// the editor id is mandatory - log error
+				String pluginId = element.getDeclaringExtension().getNamespace();
+				IStatus status = new Status(IStatus.ERROR, pluginId, ICompositeEditorConstants.MISSING_ATTRIBUTE, Messages.CompositeEditorManager_5, null); 
+				CommonUIPlugin.getDefault().getLog().log(status);
+				continue;
+			}
+			
+			if (editorId.equals(extensionId)) {
+				// Use reflection to create and set state on an editor descriptor
+				// This was done to avoid copying the class to this package
+				try {
+					Constructor constuctor = EditorDescriptor.class.getDeclaredConstructor(new Class[0]);
+					constuctor.setAccessible(true);
+					EditorDescriptor descriptor = (EditorDescriptor)constuctor.newInstance(new Object[0]);
 
-						Method method = descriptor.getClass().getDeclaredMethod("setID", new Class[] {String.class});
-						method.setAccessible(true);
-						method.invoke(descriptor, new Object[]{editorId});
+					Method method = descriptor.getClass().getDeclaredMethod("setID", new Class[] {String.class});
+					method.setAccessible(true);
+					method.invoke(descriptor, new Object[]{editorId});
 
-						method = descriptor.getClass().getDeclaredMethod("setConfigurationElement", new Class[] {IConfigurationElement.class});
-						method.setAccessible(true);
-						method.invoke(descriptor, new Object[]{element});
+					method = descriptor.getClass().getDeclaredMethod("setConfigurationElement", new Class[] {IConfigurationElement.class});
+					method.setAccessible(true);
+					method.invoke(descriptor, new Object[]{element});
 
-						idToDescriptor.put(editorId, descriptor);
-						return descriptor;
-					} catch (SecurityException e) {
-						CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
-					} catch (IllegalArgumentException e) {
-						CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
-					} catch (NoSuchMethodException e) {
-						CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
-					} catch (InstantiationException e) {
-						CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
-					} catch (IllegalAccessException e) {
-						CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
-					} catch (InvocationTargetException e) {
-						CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
-					}
+					method = descriptor.getClass().getDeclaredMethod("setName", new Class[] {String.class});
+					method.setAccessible(true);
+					method.invoke(descriptor, new Object[]{editorId});
+
+					idToDescriptor.put(editorId, descriptor);
+					
+					return descriptor;
+					
+				} catch (SecurityException e) {
+					CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
+				} catch (IllegalArgumentException e) {
+					CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
+				} catch (NoSuchMethodException e) {
+					CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
+				} catch (InstantiationException e) {
+					CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
+				} catch (IllegalAccessException e) {
+					CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
+				} catch (InvocationTargetException e) {
+					CommonUIPlugin.getDefault().createErrorStatus("Problem creating descriptor for " + editorId, e, true);
 				}
 			}
 		}
@@ -170,9 +189,10 @@ public class EditorInViewManager {
 	 * Creates and populates an editor site for the given editor.
 	 */
 	protected EditorSite createEditorSite(String editorId, IEditorInput input, IEditorPart editor) {
-		EditorDescriptor descriptor = (EditorDescriptor) idToDescriptor.get(editorId);
+		EditorDescriptor descriptor = idToDescriptor.get(editorId);
 		IEditorReference ref = new EditorReference(getEditorManager(), input, descriptor);
-		EditorSite site = new EditorInViewSite(viewSite, ref, editor, page, descriptor);
+		EditorSite site = new EditorInViewSite(fViewSite, ref, editor, page, descriptor);
+		
 		IEditorActionBarContributor contributor = descriptor.createActionBarContributor();
 		site.setActionBars(createEditorActionBars(descriptor, contributor, site));
 		return site;
@@ -242,6 +262,7 @@ public class EditorInViewManager {
 
 	/**
 	 * Activate contributions.
+	 * @param editor 
 	 */
 	public void activate(IEditorPart editor) {
 		editor.setFocus();
@@ -254,6 +275,7 @@ public class EditorInViewManager {
 
 	/**
 	 * Deactivate contributions.
+	 * @param editor 
 	 */
 	public void deactivate(IEditorPart editor) {
 		if (editor != null) {
@@ -318,18 +340,19 @@ public class EditorInViewManager {
 	 * instead. The main editor cannot be disconnected by calling this
 	 * method.
 	 * 
-	 * @exception CoreException if the editor cannot be disconnected. Reasons include:
-	 * <ul>
-	 * <li> The editor is the main editor.</li>
-	 * <li> The editor is the current active editor and the main editor was not defined.</li>
-	 * </ul>
+	 * @param editor   
 	 */
+	
 	public void disposeEditor(IEditorPart editor) {
 		EditorInViewSite site = (EditorInViewSite) editor.getSite();
 		CompositeEditorActionBars actionBars = (CompositeEditorActionBars) site.getActionBars();
-		actionBars.dispose();
+		actionBars.dispose();		
 		site.dispose();
-		editor.dispose();
+		try {
+			editor.dispose();
+		} catch (Throwable t) {
+			System.out.println("disposeEditor: " + editor);
+		}
 	}
 
 	/**

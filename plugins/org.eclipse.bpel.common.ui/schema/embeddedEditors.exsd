@@ -10,7 +10,6 @@
 to edit expressions in the expression languages selected by the BPEL process.
 &lt;p&gt;
 Such &quot;embedded&quot; editors differ from a normal text editor in eclispe in that they do not open a resource (such as a file) but operate on some internal memory representation of a document. Such editos also are not openeable in the main editor area but rather open in various views where their services is necessary.
-
       </documentation>
    </annotation>
 
@@ -52,14 +51,13 @@ Such &quot;embedded&quot; editors differ from a normal text editor in eclispe in
             <annotation>
                <documentation>
                   The name of a class that implements &lt;tt&gt;org.eclipse.ui.IEditorPart.&lt;/tt&gt;.
-
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.ui.texteditor.IEditorPart"/>
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="contributorClass" type="string" use="required">
+         <attribute name="contributorClass" type="string">
             <annotation>
                <documentation>
                   The name of a class that implements &lt;tt&gt;org.eclipse.ui.IEditorActionBarContributor.&lt;/tt&gt;
@@ -73,14 +71,14 @@ This attribute should only be defined if the class attribute is defined. This cl
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  A unique name that will be used to identify this editor
+                  A unique id that will be used to identify this editor
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="namespace" type="string">
+         <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  The value of an XML associated namespace that uniquely referes to the content editable by this editor.
+                  The name of this editor (XPath Editor, Ruby Editor).
                </documentation>
             </annotation>
          </attribute>
