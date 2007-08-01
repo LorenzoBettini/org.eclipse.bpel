@@ -608,9 +608,7 @@ public class ModelQuery extends ModelQueryImpl {
 			ensureEMFReference( target,domElement );
 			return adapt (domElement, INode.class);			
 		}		
-
-		// Adapt the EObject to the INode interface if we can't get the DOM element.
-		return adapt(target,INode.class);		
+		return null;
 	}
 	
  

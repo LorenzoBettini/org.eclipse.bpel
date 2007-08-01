@@ -37,6 +37,7 @@ import org.w3c.dom.Node;
 
 public class DOMNodeAdapter implements INode, IConstants {
 	
+	/**  */
 	public static final String KEY = DOMNodeAdapter.class.getName();
 				
 	/** The validator that we want */

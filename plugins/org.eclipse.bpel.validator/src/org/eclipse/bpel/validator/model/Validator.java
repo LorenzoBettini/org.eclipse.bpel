@@ -444,13 +444,20 @@ public class Validator implements IConstants {
 	protected void internalProblem ( Rule rule, Throwable t ) {
 		
 		IProblem problem = createWarning();		
+		
+		while ( t.getCause() != null ) {
+			t = t.getCause();
+		}
+						
 		problem.fill("BPELC__INTERNAL",
 				mNode.nodeName(),
 				rule.getFullName(),
 				rule.getIndex(),
 				rule.getTag(),
-				t );
-	}
+				t);
+		
+		problem.setAttribute(IProblem.EXCEPTION, t);
+	}		
 	
 	/**
 	 * Mark that an SA check has been performed. 

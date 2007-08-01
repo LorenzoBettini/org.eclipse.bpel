@@ -13,6 +13,7 @@ package org.eclipse.bpel.validator.adapters;
 /**
  * BPEL validation model dependency
  */
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 /** 
  * BPEL EMF Model dependency 
  */
+import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.validator.model.INode;
@@ -45,7 +47,10 @@ public class PartnerActivityAdapter extends BasicAdapter {
 		if (ND_CORRELATION.equals ( name )) {
 			Correlations c = pa.getCorrelations();
 			if (c != null) {
-				return c.getChildren();
+				ArrayList<INode> children = new ArrayList<INode> ( c.getChildren().size() );
+				for(Correlation next : c.getChildren()) {
+					children.add( adapt ( next, INode.class ));
+				}				
 			}
 			return Collections.emptyList();
 		}	

@@ -204,6 +204,15 @@ public interface IProblem  {
 	 */
 	public static final String BUNDLE_CLAZZ = "bundle.clazz";
 
+	/** 
+	 * The java exception that is to be associated with this problem. 
+	 * This is typically only used for reporting fatal code errors, for which a little 
+	 * extra help is necessary.
+	 * 
+	 */
+	
+	public static final String EXCEPTION = "exception";
+
 	
 
 	

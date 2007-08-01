@@ -22,14 +22,12 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
 import org.eclipse.bpel.validator.Activator;
-import org.eclipse.bpel.validator.AdapterManagerHelper;
-
+import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IConstants;
+import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.INode;
-
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
-
 import org.eclipse.emf.ecore.EObject;
 import org.w3c.dom.Element;
 
@@ -89,7 +87,7 @@ public class BasicAdapter extends AbstractStatefulAdapter
 		ArrayList<INode> list = new ArrayList<INode>(childList.size());
 		
 		for(Object next : obj.eContents()) {
-			INode node = (INode) adapt(next, INode.class );
+			INode node = adapt(next, INode.class );
 			if (node != null) {
 				list.add( node );
 			}
@@ -161,8 +159,7 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	
 	public String getAttribute (String name) {
 
-		ExtensibleElement obj = (ExtensibleElement) 
-						getTarget(getTarget(), ExtensibleElement.class);
+		ExtensibleElement obj =	getTarget(getTarget(), ExtensibleElement.class);
 		
 		// Turn to the DOM for that information
 		Element element = obj.getElement();
@@ -217,7 +214,7 @@ public class BasicAdapter extends AbstractStatefulAdapter
 		try {
 			Object result = method.invoke(getTarget());			
 			if (result != null) {
-				return (INode) adapt(result, INode.class);
+				return adapt(result, INode.class);
 			}
 			
 		} catch (Exception ex) {
@@ -253,14 +250,14 @@ public class BasicAdapter extends AbstractStatefulAdapter
 			return Collections.emptyList();
 		}		
 		// convert to a list of INode objects.
-		List<?> r = (List) result;
+		List<?> r = (List<?>) result;
 		if (r.size() == 0) {
 			return Collections.emptyList();
 		}
 		List<INode> newList = new LinkedList<INode>();
 		Iterator<?> it = r.iterator();
 		while (it.hasNext()) {
-			newList.add ( (INode) adapt ( it.next(), INode.class ) );
+			newList.add ( adapt ( it.next(), INode.class ) );
 		}		
 		return newList;
 	}
@@ -328,7 +325,7 @@ public class BasicAdapter extends AbstractStatefulAdapter
 		if (parent == null) {
 			return null;
 		}
-		return (INode) adapt ( parent, INode.class );		
+		return adapt ( parent, INode.class );		
 	}
 
 	
@@ -345,7 +342,7 @@ public class BasicAdapter extends AbstractStatefulAdapter
 		while (obj.eContainer() != null) {
 			obj = obj.eContainer();
 		}		
-		return (INode) adapt ( obj, INode.class );
+		return adapt ( obj, INode.class );
 	}
 	
 	/**
@@ -356,14 +353,8 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	 * @return the object adapted.
 	 */
 	
-	protected Object adapt ( Object target, Class<?> type) {
-
-		// short cut
-		if (type.isInstance( target )) {
-			return target;
-		}
-		
-		return AdapterManagerHelper.getAdapterManager().getAdapter( target, type );
-		
+	protected <T extends Object> T adapt ( Object target, Class<T> type) {
+		IModelQuery mq = ModelQueryImpl.getModelQuery();
+		return mq.adapt(target,type);				
 	}
 }

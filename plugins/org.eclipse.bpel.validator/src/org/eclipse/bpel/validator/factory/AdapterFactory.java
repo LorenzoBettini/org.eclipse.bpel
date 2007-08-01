@@ -154,8 +154,31 @@ public class AdapterFactory implements IAdapterFactory {
 				
 		props.put("bpel.validation.rule", rule);
 		
-		if (DEBUG) {			
-			props.put(IMarker.MESSAGE, msg + "[" + rule + "]" );
+		if (DEBUG) {
+			Throwable t = problem.getAttribute(IProblem.EXCEPTION);
+			String emsg = msg;
+			emsg += " (rule=";
+			emsg += rule;			
+			
+			if (t != null) {
+				emsg += "; stack=";
+				
+				int count = 0;
+				for(StackTraceElement e : t.getStackTrace()) {
+					emsg += "[" + count + "]";
+					emsg += e.getClassName() + ".";
+					emsg += e.getMethodName() + "@" + e.getLineNumber();
+					count += 1;
+					if (count > 2) {
+						break;
+					}
+					emsg += "/";
+				}
+			}
+			
+			emsg += ")";			
+			props.put(IMarker.MESSAGE, emsg);
+			
 		} else {
 			props.put(IMarker.MESSAGE, msg );
 		}
