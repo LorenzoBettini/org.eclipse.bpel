@@ -11,8 +11,6 @@
 package org.eclipse.bpel.ui.properties;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.bpel.common.ui.command.ICommandFramework;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
@@ -21,6 +19,7 @@ import org.eclipse.bpel.common.ui.editmodel.AbstractEditModelCommand;
 import org.eclipse.bpel.common.ui.editmodel.EditModelCommandStack;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.adapters.IProperty;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELTabbedPropertySheetPage;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
@@ -35,7 +34,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -59,30 +57,40 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  * pages.
  * 
  * Implementors may subclass this class, or they could extend AbstractPropertySection directly.
- */  
+ */ 
+@SuppressWarnings("nls")
 public abstract class BPELPropertySection extends AbstractPropertySection 	
 {
 	protected static final String EMPTY_STRING = ""; //$NON-NLS-1$
-	
+			
 	protected static final IMarker EMPTY_MARKERS[] = new IMarker[] {};
-	
+		
 	protected static final MultiObjectAdapter[] EMPTY_MULTI_OBJECT_ARRAY = new MultiObjectAdapter[0];
-	protected static final List NULL_LIST = Collections.singletonList(null);
-
+	
+	/** Standard label width */
 	public static final int STANDARD_LABEL_WIDTH_SM = 105;
+	
+	/** Standard label width - applying the 25% fudge factor */
 	public static final int STANDARD_LABEL_WIDTH_AVG = STANDARD_LABEL_WIDTH_SM * 5/4;
+	
+	/** Standard label width - applying the 50% fudge factor */
 	public static final int STANDARD_LABEL_WIDTH_LRG = STANDARD_LABEL_WIDTH_SM * 3/2;
+	
+	/** Standard button width */
 	public static final int STANDARD_BUTTON_WIDTH = 60;
+	
+	/** Short button width */
 	public static final int SHORT_BUTTON_WIDTH = 45;
 
-	protected MultiObjectAdapter[] adapters;
+	protected MultiObjectAdapter[] fAdapters;
 	protected boolean isCreated;
 	protected boolean isHidden;
-	protected EObject modelObject;
+	protected EObject fModelObject;
 	
 	protected TabbedPropertySheetWidgetFactory fWidgetFactory;
 	
-	protected BPELTabbedPropertySheetPage tabbedPropertySheetPage;
+	
+	protected BPELTabbedPropertySheetPage fTabbedPropertySheetPage;
 
 	
 		
@@ -110,7 +118,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	
 	public BPELPropertySection() {
 		super();
-		adapters = createAdapters();
+		fAdapters = createAdapters();
 	}
 
 	/**
@@ -126,8 +134,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * Subclasses may override.
 	 */
 	protected void removeAllAdapters() {
-//		Assert.isTrue(isCreated);
-		for (MultiObjectAdapter a : adapters) {
+		for (MultiObjectAdapter a : fAdapters) {
 			a.removeFromAll();
 		}
 	}
@@ -137,9 +144,13 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * Subclasses may override.
 	 */
 	protected void addAllAdapters() {
-		Assert.isTrue(isCreated);
-		if (adapters.length > 0)
-			adapters[0].addToObject(getModel());
+		assert isCreated : "Not yet created!" ;
+		
+		if (fAdapters.length > 0) {
+			if (getModel() != null) {
+				fAdapters[0].addToObject(getModel());
+			}
+		}
 	}
 
 	/**
@@ -163,9 +174,27 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * For example: a section for a custom activity, may wish to override this method
 	 * to use the custom activity ExtensibilityElement as the "main" input object.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void basicSetInput(EObject newInput) {
-		modelObject = newInput;
+		fModelObject = newInput;
 	}
+	
+	@SuppressWarnings("unchecked")
+	protected void restoreUserContextFromInput () {
+		IProperty<String,Object> prop = BPELUtil.adapt(fModelObject, IProperty.class);
+		if (prop != null) {
+			restoreUserContext( prop.getProperty( getClass().getName() ) );			
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void saveUserContextToInput () {
+		IProperty<String,Object> prop = BPELUtil.adapt(fModelObject, IProperty.class);
+		if (prop != null) {
+			prop.setProperty(getClass().getName(), getUserContext() );			
+		}		
+	}
+	
 	
 	/**
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
@@ -180,7 +209,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		}
 		
 		Object model = ((IStructuredSelection)selection).getFirstElement();
-		if (model == modelObject) {
+		if (model == fModelObject) {
 			return;
 		}
 				
@@ -202,7 +231,6 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	@Override
 	public void aboutToBeHidden() {
-//		Assert.isTrue(!isHidden);
 		isHidden = true;
 	}
 
@@ -211,13 +239,12 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	@Override
 	public void aboutToBeShown() {
-//		Assert.isTrue(isHidden && (getModel() != null));
 		isHidden = false;
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T extends EObject> T getModel() {
-		return (T) modelObject;
+		return (T) fModelObject;
 	}
 
 	protected final <T extends EObject> T getInput() {
@@ -230,11 +257,11 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	protected void refreshCCombo(CComboViewer viewer, Object selectedObject) {
 		viewer.refresh();
+		
 		if (selectedObject == null) {
-			// work-around the null check in StructuredSelection(Object) ctor.
-			viewer.setSelectionNoNotify(new StructuredSelection(NULL_LIST), false);
+			viewer.setSelectionNoNotify ( StructuredSelection.EMPTY ,false );
 		} else {
-			viewer.setSelectionNoNotify(new StructuredSelection(selectedObject), false);
+			viewer.setSelectionNoNotify (new StructuredSelection(selectedObject), false);
 		}
 	}
 
@@ -248,9 +275,11 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	public void createControls (final Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		
 		super.createControls(parent, aTabbedPropertySheetPage);
-		this.tabbedPropertySheetPage = (BPELTabbedPropertySheetPage)aTabbedPropertySheetPage;
+		
+		this.fTabbedPropertySheetPage = (BPELTabbedPropertySheetPage)aTabbedPropertySheetPage;
 		this.fWidgetFactory = getWidgetFactory();
-		Assert.isTrue(!isCreated);
+		
+		assert !isCreated : "Not yet created!";
 		
 		Composite marginComposite = fWidgetFactory.createComposite(parent); 
 		FillLayout fillLayout = new FillLayout();
@@ -260,11 +289,14 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		createClient(marginComposite);
 		isHidden = true;
 		isCreated = true;
+			
 		parent.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				removeAllAdapters();
+				dispose();
 			}
+			
 		});
+		
 	}
 	
 	/**
@@ -276,13 +308,13 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#dispose()
 	 */
 	@Override
-	public void dispose() {
+	public void dispose() {		
 		if (isCreated) {
 			// TODO HACK: this shouldn't really be here!  But where should it be??
 			getCommandFramework().applyCurrentChange();
 			removeAllAdapters();
-			isCreated = false;
 		}
+		isCreated = false;
 	}
 
 	/**
@@ -333,8 +365,16 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		
 	}
 
+	protected void runCommand ( Command command ) {
+		getCommandFramework().execute( wrapInShowContextCommand(command) );
+	}
+	
 	protected ICommandFramework getCommandFramework() {
-		return getBPELEditor().getCommandFramework();
+		BPELEditor editor = getBPELEditor();
+		if (editor != null) {
+			return editor.getCommandFramework();
+		}
+		return null;
 	}
 
 	/**
@@ -342,7 +382,10 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	
 	public BPELEditor getBPELEditor() {
-		return getTabbedPropertySheetPage().getEditor();
+		if (fTabbedPropertySheetPage != null) {
+			return fTabbedPropertySheetPage.getEditor();
+		}
+		return null;
 	}
 
 	/**
@@ -352,6 +395,16 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		return getBPELEditor().getProcess();
 	}
 
+	protected EditController createEditController ( ) {
+		return new EditController ( getCommandFramework() ) {
+			@Override
+			public Command createApplyCommand() {				
+				return wrapInShowContextCommand( super.createApplyCommand() );
+			}			
+		};
+	}
+	
+	
 	/**
 	 * Convenience accessor with default policy (this is overridden in certain subclasses).
 	 */
@@ -511,7 +564,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 	 */
 	
 	public BPELTabbedPropertySheetPage getTabbedPropertySheetPage() {
-		return tabbedPropertySheetPage;
+		return fTabbedPropertySheetPage;
 	}
 	
 	

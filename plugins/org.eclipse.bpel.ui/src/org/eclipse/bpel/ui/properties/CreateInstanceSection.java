@@ -10,19 +10,17 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.common.ui.details.ButtonIValue;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
-import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Pick;
+import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetCreateInstanceCommand;
-import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.bpel.ui.util.MultiObjectAdapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,36 +33,31 @@ import org.eclipse.ui.PlatformUI;
  */
 public class CreateInstanceSection extends BPELPropertySection  {
 
-	protected Button createInstanceButton;
-	protected ChangeTracker createInstanceTracker;
+	Button fCreateInstanceButton;	
+	EditController fCreteInstanceController ;
 
-	protected MultiObjectAdapter[] createAdapters() {
-		return new MultiObjectAdapter[] {
-			/* model object */
-			new MultiObjectAdapter() {
-				public void notify(Notification n) {
-					if (ModelHelper.isCreateInstanceAffected(getInput(), n)) {
-						updateCreateInstanceWidgets();
-					} 
-				}
-			},
-		};
+
+	protected void createChangeTrackers() {	
+		fCreteInstanceController = createEditController();
+		fCreteInstanceController.setViewIValue(new ButtonIValue(fCreateInstanceButton));
+		fCreteInstanceController.startListeningTo(fCreateInstanceButton);
 	}
 
-	protected void createChangeTrackers() {
-		IOngoingChange change = new IOngoingChange() {
-			public String getLabel() {
-				return IBPELUIConstants.CMD_SELECT_CREATEINSTANCE;
-			}
-			public Command createApplyCommand() {
-				return wrapInShowContextCommand(new SetCreateInstanceCommand(
-					getInput(), createInstanceButton.getSelection()? Boolean.TRUE : null));
-			}
-			public void restoreOldState() {
-				updateCreateInstanceWidgets();
-			}
-		};
-		createInstanceTracker = new ChangeTracker(createInstanceButton, change, getCommandFramework());
+	@Override
+	protected void basicSetInput(EObject newInput) {
+
+		super.basicSetInput(newInput);
+		
+		if (newInput instanceof Receive) {
+			fCreteInstanceController.setFeature(BPELPackage.eINSTANCE.getReceive_CreateInstance());
+			fCreteInstanceController.setInput(newInput);
+		} else if (newInput instanceof Pick) {
+			fCreteInstanceController.setFeature(BPELPackage.eINSTANCE.getPick_CreateInstance());
+			fCreteInstanceController.setInput(newInput);
+		} else {
+			fCreteInstanceController.setFeature( null );		
+			fCreteInstanceController.setInput(newInput);
+		}
 	}
 
 	protected void createCreateInstanceWidgets(Composite composite) {
@@ -78,9 +71,10 @@ public class CreateInstanceSection extends BPELPropertySection  {
 		parent.setLayoutData(data);
 		parent.setLayout(new FillLayout());
 
-		createInstanceButton = fWidgetFactory.createButton(parent, Messages.CreateInstanceDetails_Create_a_new_Process_instance_if_one_does_not_already_exist_1, SWT.CHECK); 
+		fCreateInstanceButton = fWidgetFactory.createButton(parent, Messages.CreateInstanceDetails_Create_a_new_Process_instance_if_one_does_not_already_exist_1, SWT.CHECK); 
 	}
 	
+	@Override
 	protected void createClient(Composite parent) {
 		Composite composite = createFlatFormComposite(parent);
 		// HACK: the checkbox by itself looks cramped..give it a little extra space
@@ -93,36 +87,36 @@ public class CreateInstanceSection extends BPELPropertySection  {
 			composite, IHelpContextIds.PROPERTY_PAGE_PICK_IMPLEMENTATION);
 	}
 
-	protected void updateCreateInstanceWidgets() {
-		createInstanceTracker.stopTracking();
-		try {
-			boolean modelValue = Boolean.TRUE.equals(ModelHelper.getCreateInstance(getInput()));
-			if (createInstanceButton.getSelection() != modelValue) {
-				createInstanceButton.setSelection(modelValue);
-			}
-		} finally {
-			createInstanceTracker.startTracking();
-		}
-	}
 
-	public void refresh() {
-		super.refresh();
-		updateCreateInstanceWidgets();
-	}
-
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
-		createInstanceButton.setFocus();
+		fCreateInstanceButton.setFocus();
 		
 	}
 	
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#shouldUseExtraSpace()
+	 */
+	@Override
 	public boolean shouldUseExtraSpace () {
 		return false;
 	}
 	
+	/**
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#getMinimumHeight()
+	 */
+	@Override
 	public int getMinimumHeight () {
 		return 40;
 	}

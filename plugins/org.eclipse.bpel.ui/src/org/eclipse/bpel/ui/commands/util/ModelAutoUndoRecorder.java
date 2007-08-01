@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,46 +46,59 @@ import org.eclipse.jface.util.Assert;
 */
 public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 	
-	protected Set ignoreResources = new HashSet();
+	protected Set<Resource> ignoreResources = new HashSet<Resource>();
 
 	protected boolean VERBOSE_DEBUG = false;
 	protected boolean DEBUG = false || VERBOSE_DEBUG;
 	
-	protected Set listenerRootSet = new HashSet(); 
+	protected Set<Notifier> listenerRootSet = new HashSet<Notifier>(); 
 	
-	protected List currentChangeList = null;
+	protected List<Object> currentChangeList = null;
 	
 	/**
 	 * IUndoHandler to undo/redo a change to the ExtensionMap (adding, changing or
 	 * removing an extension entry).
 	 */
 	class EMapSingleChangeHandler implements IUndoHandler {
-		ExtensionMap extensionMap;
-		EObject extendedObject, oldExtension, newExtension;
+		ExtensionMap fExtensionMap;
+		EObject fExtendedObject, fOldExtension, fNewExtension;
+		
+		/**
+		 * @param extensionMap
+		 * @param extendedObject
+		 * @param oldExtension
+		 * @param newExtension
+		 */
 		public EMapSingleChangeHandler(ExtensionMap extensionMap, EObject extendedObject,
 			EObject oldExtension, EObject newExtension)
 		{
-			this.extensionMap = extensionMap; this.extendedObject = extendedObject;
-			this.oldExtension = oldExtension; this.newExtension = newExtension;
+			this.fExtensionMap = extensionMap; this.fExtendedObject = extendedObject;
+			this.fOldExtension = oldExtension; this.fNewExtension = newExtension;
 		}
+		/**
+		 * @see org.eclipse.bpel.ui.commands.util.IUndoHandler#undo()
+		 */
 		public void undo() {
 			if (DEBUG) System.out.println("undo single change"); //$NON-NLS-1$
-			if (oldExtension == null) {
-				if (extensionMap.containsKey(extendedObject)) {
-					extensionMap.remove(extendedObject);
+			if (fOldExtension == null) {
+				if (fExtensionMap.containsKey(fExtendedObject)) {
+					fExtensionMap.remove(fExtendedObject);
 				}
 			} else {
-				extensionMap.put(extendedObject, oldExtension);
+				fExtensionMap.put(fExtendedObject, fOldExtension);
 			}
 		}
+		/**
+		 * @see org.eclipse.bpel.ui.commands.util.IUndoHandler#redo()
+		 */
 		public void redo() {
 			if (DEBUG) System.out.println("redo single change"); //$NON-NLS-1$
-			if (newExtension == null) {
-				if (extensionMap.containsKey(extendedObject)) {
-					extensionMap.remove(extendedObject);
+			if (fNewExtension == null) {
+				if (fExtensionMap.containsKey(fExtendedObject)) {
+					fExtensionMap.remove(fExtendedObject);
 				}
 			} else {
-				extensionMap.put(extendedObject, newExtension);
+				fExtensionMap.put(fExtendedObject, fNewExtension);
 			}
 		}
 	}
@@ -95,22 +107,37 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 	 * IUndoHandler to undo/redo a bulk change to the ExtensionMap (i.e. putAll or clear).
 	 */
 	class EMapMultiChangeHandler implements IUndoHandler {
-		ExtensionMap extensionMap;
-		Map oldContents, newContents;
+		ExtensionMap fExtensionMap;
+		Map fEldContents, fNewContents;
+		
+		/**
+		 * @param extensionMap
+		 * @param oldContents
+		 * @param newContents
+		 */
 		public EMapMultiChangeHandler(ExtensionMap extensionMap, Map oldContents, Map newContents) {
-			this.extensionMap = extensionMap;
-			this.oldContents = oldContents;
-			this.newContents = newContents;
+			this.fExtensionMap = extensionMap;
+			this.fEldContents = oldContents;
+			this.fNewContents = newContents;
 		}
+		/**
+		 * @see org.eclipse.bpel.ui.commands.util.IUndoHandler#undo()
+		 */
 		public void undo() {
 			if (DEBUG) System.out.println("undo multi-change"); //$NON-NLS-1$
-			extensionMap.clear();
-			if (oldContents != null) extensionMap.putAll(oldContents);
+			fExtensionMap.clear();
+			if (fEldContents != null) fExtensionMap.putAll(fEldContents);
 		}
+		
+		/**
+		 * @see org.eclipse.bpel.ui.commands.util.IUndoHandler#redo()
+		 */
 		public void redo() {
 			if (DEBUG) System.out.println("redo multi-change"); //$NON-NLS-1$
-			extensionMap.clear();
-			if (newContents != null) extensionMap.putAll(newContents);
+			fExtensionMap.clear();
+			if (fNewContents != null) {
+				fExtensionMap.putAll(fNewContents);
+			}
 		}
 	}
 	
@@ -121,6 +148,7 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		/**
 		 * Handles a containment change by adding and removing the adapter as appropriate.
 		 */
+		@Override
 		protected void handleContainment(Notification notification) {
 			switch (notification.getEventType()) {
 			case Notification.SET:
@@ -132,16 +160,16 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		        break;
 			}
 		    case Notification.ADD: {
-		    	Notifier newValue = (Notifier)notification.getNewValue();
+		    	Notifier newValue = (Notifier) notification.getNewValue();
 		    	if (newValue != null && !newValue.eAdapters().contains(this)) {
 	    			newValue.eAdapters().add(this);
 		    	}
 		        break;
 		    }
 		    case Notification.ADD_MANY: {
-		    	Collection newValues = (Collection)notification.getNewValue();
-		    	for (Iterator i = newValues.iterator(); i.hasNext(); ) {
-		    		Notifier newValue = (Notifier)i.next();
+		    	Collection<?> newValues = (Collection) notification.getNewValue();
+		    	for(Object next : newValues) {
+		    		Notifier newValue = (Notifier) next;
 		    		if (!newValue.eAdapters().contains(this)) {
 		    			newValue.eAdapters().add(this);
 		    		}
@@ -153,26 +181,41 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 			}
 	
 		}
+  
+		/**
+		 * note: super implementation doesn't handle overlapping targets very well
+		 * 
+		 * @see org.eclipse.emf.ecore.util.EContentAdapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+		 */
+		@Override
+		public void setTarget(Notifier aTarget) {
+			this.target = aTarget;
 
-		// note: super implementation doesn't handle overlapping targets very well 
-		public void setTarget(Notifier target) {
-			this.target = target;
-
-		    Collection contents = (target instanceof EObject)?
-		    	((EObject)target).eContents() : (target instanceof ResourceSet)?
-		        ((ResourceSet)target).getResources() : (target instanceof Resource)?
-		        ((Resource)target).getContents() : null;
-
-		    if (contents != null) {
-		    	for (Iterator i = contents.iterator(); i.hasNext(); ) {
-		    		Notifier notifier = (Notifier)i.next();
-		    		if (!notifier.eAdapters().contains(this)) {
-	    			notifier.eAdapters().add(this);
-		    		}
-		    	}
+		    List<?> contents = null;
+		    
+		    if (target instanceof EObject) {
+		    	contents = ((EObject)aTarget).eContents();
+		    } else if (target instanceof ResourceSet) {
+		    	contents = ((ResourceSet)target).getResources();
+		    } else if (target instanceof Resource) {
+		    	contents = ((Resource)target).getContents();
+		    } else {
+		    	return ;
 		    }
+
+		    for (Object next : contents) {		    	
+	    		Notifier notifier = (Notifier) next ;
+	    		if (!notifier.eAdapters().contains(this)) {
+	    			notifier.eAdapters().add(this);
+	    		}
+	    	}
 		}
 		
+		/**
+		 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 */
+		
+		@Override
 		public void notifyChanged(Notification n) {
 			switch (n.getEventType()) {
 			case Notification.ADD_MANY:
@@ -182,7 +225,9 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 			case Notification.SET:
 			case Notification.UNSET:
 			case Notification.MOVE:
-				if (!ignoreChange(n)) recordChange(n);
+				if (!ignoreChange(n)) {
+					recordChange(n);
+				}
 			}
 			super.notifyChanged(n);
 		}
@@ -278,24 +323,45 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		currentChangeList.add(n);
 	}
 
+	/**
+	 * @param resource
+	 */
 	public void startIgnoringResource(Resource resource) {
 		ignoreResources.add(resource);
 	}
+	/**
+	 * @param resource
+	 */
+	
 	public void stopIgnoringResource(Resource resource) {
 		ignoreResources.remove(resource);
 	}
 	
-	public void startChanges(List modelRoots) {
-		if (VERBOSE_DEBUG) System.out.println("startChanges()"); //$NON-NLS-1$
-		if (currentChangeList != null) throw new IllegalStateException(); 
-		currentChangeList = new ArrayList();
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#startChanges(java.util.List)
+	 */
+	@SuppressWarnings("nls")
+	public void startChanges( List<Object> modelRoots) {
+		if (VERBOSE_DEBUG) {
+			System.out.println("startChanges()"); //$NON-NLS-1$
+		}
+		if (currentChangeList != null) {
+			throw new IllegalStateException("startChages(): pending current change list"); 			
+		}
+		currentChangeList = new ArrayList<Object>();
 		addModelRoots(modelRoots);
 	}
 	
-	public List finishChanges() {
-		if (currentChangeList == null) throw new IllegalStateException(); 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#finishChanges()
+	 */
+	@SuppressWarnings("nls")
+	public List<Object> finishChanges() {
+		if (currentChangeList == null) {
+			throw new IllegalStateException("Nothing to finish, currentChangeList is committed"); 
+		}
 		if (VERBOSE_DEBUG) System.out.println("finishChanges(): "+currentChangeList.size()); //$NON-NLS-1$
-		List result = currentChangeList;
+		List<Object> result = currentChangeList;
 		currentChangeList = null;
 		clearModelRoots();
 		return result;
@@ -308,28 +374,33 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		if (root instanceof EObject) { root = ((EObject)root).eResource(); }
 		
 		if (root instanceof Notifier) {
-			List adapters = ((Notifier)root).eAdapters();
+			List<Adapter> adapters = ((Notifier)root).eAdapters();
 			// careful: only add adapter if it hasn't already been added, or duplicate
 			// notifications will be recorded and things will break.
 			if (!adapters.contains(modelAutoUndoAdapter)) {
 				if (VERBOSE_DEBUG) System.out.println(" >>> Add Root: "+root); //$NON-NLS-1$
 				adapters.add(modelAutoUndoAdapter);
-				listenerRootSet.add(root);
+				listenerRootSet.add((Notifier) root);
 			} else {
 				if (VERBOSE_DEBUG) System.out.println(" >>> Overlapping Root: "+root); //$NON-NLS-1$
 			}
 		}
 	}
 	
-	public void addModelRoots(List modelRoots) {
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#addModelRoots(java.util.List)
+	 */
+	public void addModelRoots(List<Object> modelRoots) {
 		boolean gotExtensionMap = false;
-		for (Iterator it = modelRoots.iterator(); it.hasNext(); ) {
-			Object root = it.next(); 
+
+		for(Object root : modelRoots) {
 			addModelRoot(root);
 			// HACK! treat the ExtensionMap as a model root
 			if (!gotExtensionMap) {
 				BPELEditor bpelEditor = ModelHelper.getBPELEditor(root);
-				if (bpelEditor != null) addModelRoot(bpelEditor.getExtensionMap());
+				if (bpelEditor != null) {
+					addModelRoot(bpelEditor.getExtensionMap());
+				}
 				gotExtensionMap = true;
 			}
 		}
@@ -337,8 +408,8 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 	
 	protected void clearModelRoots() {
 		if (VERBOSE_DEBUG) System.out.println(" <<< Clear Model Roots"); //$NON-NLS-1$
-		for (Iterator it = listenerRootSet.iterator(); it.hasNext(); ) {
-			Notifier notifier = (Notifier)it.next();
+		
+		for (Notifier notifier : listenerRootSet) {			
 			// HACK!
 			while ((notifier instanceof EObject) && ((EObject)notifier).eContainer().eAdapters().contains(modelAutoUndoAdapter)) {
 				notifier = ((EObject)notifier).eContainer();
@@ -348,10 +419,16 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		listenerRootSet.clear();
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#isRecordingChanges()
+	 */
 	public boolean isRecordingChanges() {
 		return (currentChangeList != null);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#insertUndoHandler(org.eclipse.bpel.ui.commands.util.IUndoHandler)
+	 */
 	public void insertUndoHandler(IUndoHandler undoHandler) {
 		if (currentChangeList != null) {
 			currentChangeList.add(undoHandler);
@@ -435,7 +512,7 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 	
 	// TODO: this stuff should be refactored/moved somewhere else.
 	protected void redoNotification(Notification n) {
-		List list;
+		List<Object> list;
 		if (DEBUG) System.out.println((n.isTouch()? "<t> " : "redo: ")+BPELUtil.debug(n)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		EStructuralFeature feature = (EStructuralFeature)n.getFeature();
@@ -496,15 +573,18 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		}
 	}
 	
-	public void undo(List changes) {
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#undo(java.util.List)
+	 */
+	public void undo (List<Object> changes) {
 		if (VERBOSE_DEBUG) System.out.println("UNDOING "+changes.size()+" changes"); //$NON-NLS-1$ //$NON-NLS-2$
+		
 		for (int i = changes.size(); --i >= 0; ) {
 			Object change = changes.get(i);
 			if (change instanceof Notification) {
 				try {
 					undoNotification((Notification)change);
 				} catch (RuntimeException e) {
-					// TODO! remove this debugging hack
 					BPELUIPlugin.log(e);
 				}
 			} else if (change instanceof IUndoHandler) {
@@ -513,15 +593,16 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		}
 	}
 	
-	public void redo(List changes) {
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.IAutoUndoRecorder#redo(java.util.List)
+	 */
+	public void redo (List<Object> changes) {
 		if (VERBOSE_DEBUG) System.out.println("REDOING "+changes.size()+" changes"); //$NON-NLS-1$ //$NON-NLS-2$
-		for (int i = 0; i<changes.size(); i++) {
-			Object change = changes.get(i);
+		for(Object change : changes) {
 			if (change instanceof Notification) {
 				try {
 					redoNotification((Notification)change);
 				} catch (RuntimeException e) {
-					// TODO! remove this debugging hack
 					BPELUIPlugin.log(e);
 				}
 			} else if (change instanceof IUndoHandler) {
@@ -530,9 +611,14 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		}
 	}
 	
-	public static IAutoUndoRecorder getFromAdapter(Notifier notifier) {
-		for (Iterator it = notifier.eAdapters().iterator(); it.hasNext(); ) {
-			Adapter a = (Adapter)it.next();
+	/**
+	 * @param notifier
+	 * @return the undo recorder from the adapter.
+	 */
+	
+	
+	public static IAutoUndoRecorder getFromAdapter (Notifier notifier) {
+		for(Adapter a : notifier.eAdapters()) {
 			if (a instanceof ModelAutoUndoAdapter) {
 				return ((ModelAutoUndoAdapter)a).getAutoUndoRecorder();
 			}

@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
+import org.eclipse.bpel.common.ui.details.DelegateIValue;
+import org.eclipse.bpel.common.ui.details.FocusContext;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
+import org.eclipse.bpel.common.ui.details.IValue;
+import org.eclipse.bpel.common.ui.details.TextIValue;
+import org.eclipse.bpel.common.ui.details.ViewerIValue;
 import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
 import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
@@ -25,7 +27,6 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.util.BPELUtils;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.SetCommand;
@@ -41,8 +42,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Combo;
@@ -67,21 +66,24 @@ public class DocumentationSection extends BPELPropertySection {
 	
 	/** The current documentation model */
 	protected Documentation fDocumentation;	
-	
-	protected ChangeTracker fChangeTracker;
+		
 	protected Combo fLangCombo;
 	protected ComboViewer fLangViewer;
 	
 	
-	static Set<Object> affectedFeatures = new HashSet<Object>();
+	EditController fValueEditHelper ;
+	EditController fSourceEditHelper;
+	EditController fLangEditHelper;
 	
-	static {
-		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Lang() );
-		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Source() );
-		affectedFeatures.add( BPELPackage.eINSTANCE.getDocumentation_Value() );	
-		affectedFeatures.add( BPELPackage.eINSTANCE.getExtensibleElement_Documentation() );
-	}
+	IValue fContext;
 	
+	ExtensibleElement fModelEE;
+	
+
+	/**
+	 * The adapter here is on the model object for this section, which is any ExtensibleElement
+	 * 
+	 */
 	
 	@Override
 	protected MultiObjectAdapter[] createAdapters() {
@@ -90,43 +92,72 @@ public class DocumentationSection extends BPELPropertySection {
 			new MultiObjectAdapter() {
 				
 				@Override
-				public void notify (Notification n) {
+				public void notify (Notification n) {					
 					if (markersHaveChanged(n)) {
 						updateMarkers();
 						return ;
 					}
 					
-					if (affectedFeatures.contains(n.getFeature())) {					
-						updateWidgets();
+					if (n.getFeature() == BPELPackage.eINSTANCE.getExtensibleElement_Documentation()) {
+						/** Documentation has been replaced. */
+						Documentation eObj = (Documentation) n.getNewValue();
+						
+						if ( eObj != fDocumentation ) {
+							
+							fValueEditHelper.setInput( eObj );
+							fSourceEditHelper.setInput( eObj );
+							fLangEditHelper.setInput( eObj );
+							
+							fDocumentation = eObj;
+						}
 					}
 				}
 			},
 		};
 	}
 
+	
+	CompoundCommand attachDocumentationCommand () {
+		CompoundCommand ccmd = null;
+		if (fDocumentation.eContainer() == null) {
+			ccmd = new CompoundCommand();
+			ccmd.add( new SetCommand(fModelEE,fDocumentation,BPELPackage.eINSTANCE.getExtensibleElement_Documentation()) );
+		}
+		return ccmd;
+	}
+	
+	
 	@SuppressWarnings("nls")
 	@Override
 	protected void basicSetInput (EObject input) {
 		
+		saveUserContextToInput();
+		
 		super.basicSetInput (input);
+		
+		restoreUserContextFromInput();
+		
 		if (input instanceof ExtensibleElement == false) {
 			throw new IllegalArgumentException("input must be ExtensibleElement");
 		}
 		
-		ExtensibleElement ee = (ExtensibleElement) input;
+		fModelEE = (ExtensibleElement) input;
 		
-		fDocumentation = ee.getDocumentation();
+		fDocumentation = fModelEE.getDocumentation();
 		
 		// Create one if not there.
 		if (fDocumentation == null) {
 			fDocumentation = BPELFactory.eINSTANCE.createDocumentation();
 		}
 		
-		// push into widgets
-		updateWidgets();
+		fValueEditHelper.setInput(fDocumentation) ;
+		fSourceEditHelper.setInput(fDocumentation) ;
+		fLangEditHelper.setInput(fDocumentation) ;			
 	}
 	
+	 
 
+	@SuppressWarnings("nls")
 	protected void createSourceWidgets(Composite composite) {
 		FlatFormData data;
 
@@ -136,6 +167,8 @@ public class DocumentationSection extends BPELPropertySection {
 		fSourceLabel = new StatusLabel2( nameLabel );		
 		
 		fSourceText = fWidgetFactory.createText(composite, EMPTY_STRING);
+		fSourceText.setData(FocusContext.NAME,"source");
+		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(IDetailsAreaConstants.HSPACE, BPELUtil.calculateLabelWidth(nameLabel, STANDARD_LABEL_WIDTH_AVG));
 		data.right = new FlatFormAttachment(100,  -2 * IDetailsAreaConstants.HSPACE);
@@ -149,17 +182,18 @@ public class DocumentationSection extends BPELPropertySection {
 		nameLabel.setLayoutData(data);								
 	}
 
+	@SuppressWarnings("nls")
 	protected void createLanguageWidgets(Composite composite) {
 		FlatFormData data;
 
 		DecoratedLabel nameLabel = new DecoratedLabel(composite,SWT.LEFT);
 		fWidgetFactory.adapt(nameLabel);		
 		nameLabel.setText(Messages.DocumentationSection_Language_1); 
-		fLangLabel = new StatusLabel2( nameLabel );		
-		
-		fLangCombo = new Combo(composite, SWT.READ_ONLY);
-		
+		fLangLabel = new StatusLabel2( nameLabel );				
+		fLangCombo = new Combo(composite, SWT.READ_ONLY);		
 		fWidgetFactory.adapt(fLangCombo);
+		fLangCombo.setData(FocusContext.NAME,"language");
+		
 		fLangViewer = new ComboViewer(fLangCombo);
 		fLangViewer.setContentProvider(new LanguageContentProvider());
 		fLangViewer.setLabelProvider( new ILabelProvider () {
@@ -206,6 +240,7 @@ public class DocumentationSection extends BPELPropertySection {
 									
 	}
 
+	@SuppressWarnings("nls")
 	protected void createDescriptionWidgets (Composite composite) {
 		FlatFormData data;
 
@@ -215,6 +250,7 @@ public class DocumentationSection extends BPELPropertySection {
 		fDescriptionLabel = new StatusLabel2( nameLabel );		
 		
 		fDescription = fWidgetFactory.createText(composite, EMPTY_STRING , SWT.V_SCROLL | SWT.MULTI );
+		fDescription.setData(FocusContext.NAME,"description");
 		
 		// description
 		data = new FlatFormData();
@@ -229,49 +265,65 @@ public class DocumentationSection extends BPELPropertySection {
 		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE );
 		data.right = new FlatFormAttachment(fDescription, -IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(fDescription, IDetailsAreaConstants.VSPACE, SWT.TOP);		
-		nameLabel.setLayoutData(data);								
-	}
+		nameLabel.setLayoutData(data);	
+		
 	
+	}
 	
 
-	protected void createChangeTrackers() {
-		
-		IOngoingChange change = new IOngoingChange() {
-			
-			public String getLabel() {
-				return IBPELUIConstants.CMD_EDIT_NAME;
-			}
-			
-			public Command createApplyCommand() {
-							
-				CompoundCommand ccmd = new CompoundCommand ();
-				
-				if (fDocumentation.eContainer() == null) {
-					ccmd.add (new SetCommand(getInput(), fDocumentation, 
-							BPELPackage.eINSTANCE.getExtensibleElement_Documentation() ));
-				}
-				
-				ccmd.add (new SetCommand(fDocumentation,fSourceText.getText().trim(), 
-						BPELPackage.eINSTANCE.getDocumentation_Source() ));
-				
-				ccmd.add (new SetCommand(fDocumentation,fDescription.getText().trim(), 
-						BPELPackage.eINSTANCE.getDocumentation_Value()  ));
-				
-				
-				ccmd.add( new SetCommand(fDocumentation,getDocumentationLanguage ()  ,
-						BPELPackage.eINSTANCE.getDocumentation_Lang()) );
-								
-				return wrapInShowContextCommand( ccmd );
-			}
-			
-			public void restoreOldState() {
-				updateWidgets();
-			}
-		};
-		
-		fChangeTracker = new ChangeTracker(change, getCommandFramework(), 
-				fSourceText, fDescription, fLangCombo );
+	
+
+	@Override
+	protected EditController createEditController() {
+		 return new EditController(getCommandFramework()) {
+				@Override
+				public Command createApplyCommand() {
+					CompoundCommand cmd = attachDocumentationCommand();
+					if (cmd != null) {					
+						cmd.add (super.createApplyCommand());
+						return wrapInShowContextCommand (cmd);
+					}
+					return wrapInShowContextCommand (super.createApplyCommand() ) ;
+				}			
+			};
 	}
+
+
+	protected void createChangeTrackers() {			
+	
+		/** Value Edit Helper */
+		fValueEditHelper = createEditController() ;
+		fValueEditHelper.setFeature( BPELPackage.eINSTANCE.getDocumentation_Value() );
+		fValueEditHelper.setViewIValue(new TextIValue ( fDescription ) );
+		fValueEditHelper.startListeningTo(fDescription);
+		
+		
+		/** Source Edit Helper */
+		fSourceEditHelper = createEditController() ;	
+		fSourceEditHelper.setFeature( BPELPackage.eINSTANCE.getDocumentation_Source() );
+		fSourceEditHelper.setViewIValue( new TextIValue ( fSourceText ) );
+		fSourceEditHelper.startListeningTo(fSourceText);
+		
+		
+		/** Language Edit Helper */
+		fLangEditHelper = createEditController() ;		
+		fLangEditHelper.setFeature( BPELPackage.eINSTANCE.getDocumentation_Lang() );		
+		fLangEditHelper.setViewIValue( new DelegateIValue( new ViewerIValue ( fLangViewer )) {
+			@Override
+			public Object get() {				
+				Locale locale = (Locale) fDelegate.get() ;
+				return locale.getLanguage();
+			}
+			@Override
+			public void set(Object object) {
+				fDelegate.set( BPELUtils.lookupLocaleFor( (String) object ));				
+			}			
+		});
+		
+		fLangEditHelper.startListeningTo( fLangCombo );
+	}
+	
+	
 	
 	@Override
 	protected void createClient(Composite parent) {
@@ -281,39 +333,13 @@ public class DocumentationSection extends BPELPropertySection {
 		createLanguageWidgets(composite);
 		createDescriptionWidgets(composite);
 		
+		fContext = new FocusContext( fDescription, fSourceText, fLangCombo );
+		
 		createChangeTrackers();
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
 			composite, IHelpContextIds.PROPERTY_PAGE_NAME);
 	}
 
-	protected void updateWidgets()  {
-				
-		
-		fChangeTracker.stopTracking();
-		try {
-			String value = fDocumentation.getSource();
-			fSourceText.setText( value != null ? value : EMPTY_STRING );
-			
-			Locale locale = BPELUtils.lookupLocaleFor(fDocumentation.getLang());
-			fLangViewer.setSelection(new StructuredSelection( locale ), true);
-			
-			value = fDocumentation.getValue();
-			fDescription.setText(value != null ? value : EMPTY_STRING );
-			
-		} finally {
-			fChangeTracker.startTracking();
-		}
-		
-		updateMarkers();
-	}
-	
-	@SuppressWarnings("nls")
-	protected String getDocumentationLanguage () {
-		IStructuredSelection sel = (IStructuredSelection) fLangViewer.getSelection();
-		
-		Locale locale = (Locale) sel.getFirstElement();
-		return BPELUtils.lookupLocaleKeyFor(locale);
-	}	
 		
 	/**
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#shouldUseExtraSpace()
@@ -337,7 +363,7 @@ public class DocumentationSection extends BPELPropertySection {
 	 */
 	@Override
 	public Object getUserContext() {
-		return null;
+		return fContext.get();
 	}
 	
 	
@@ -345,8 +371,8 @@ public class DocumentationSection extends BPELPropertySection {
 	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
 	 */
 	@Override
-	public void restoreUserContext(Object userContext) {
-		fDescription.setFocus();
+	public void restoreUserContext (Object userContext) {
+		fContext.set( userContext );
 	}
 
 	/**
@@ -358,7 +384,7 @@ public class DocumentationSection extends BPELPropertySection {
 	
 	@Override
 	public void gotoMarker (IMarker marker) {
-		fDescription.setFocus() ;		
+		// fDescription.setFocus() ;		
 	}
 
 	/**

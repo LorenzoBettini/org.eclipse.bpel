@@ -17,7 +17,6 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
@@ -31,8 +30,8 @@ public class EndpointReferenceAssignCategory extends AssignCategoryBase {
 
 	protected int lastChangeContext = -1;
 
-	protected EndpointReferenceAssignCategory (BPELPropertySection ownerSection, EStructuralFeature feature ) {
-		super(ownerSection,feature);		
+	protected EndpointReferenceAssignCategory (BPELPropertySection ownerSection ) {
+		super( ownerSection );		
 	}
 
 	protected class ContextModifyListener implements ModifyListener {

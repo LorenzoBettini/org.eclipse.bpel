@@ -130,12 +130,12 @@ public class ForEachSuccessfulBranchesOnlySection extends BPELPropertySection {
 		if (cc == null) {
 			return ;
 		}
-		adapters[0].addToObject( cc );
+		fAdapters[0].addToObject( cc );
 		Branches branches = cc.getBranches();
 		if (branches == null) {
 			return;
 		}
-		adapters[0].addToObject( branches );
+		fAdapters[0].addToObject( branches );
 	}
 
 	

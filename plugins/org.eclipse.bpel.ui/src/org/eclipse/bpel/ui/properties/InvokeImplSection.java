@@ -997,7 +997,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 
 	protected String getVariableDialogTitle(EObject target, int direction) {
-		if (modelObject instanceof Invoke) {
+		if (fModelObject instanceof Invoke) {
 			return (direction == ModelHelper.OUTGOING) ?
 				Messages.InvokeImplSection_Select_Request_Variable_1 : 
 				Messages.InvokeImplSection_Select_Response_Variable_1; 

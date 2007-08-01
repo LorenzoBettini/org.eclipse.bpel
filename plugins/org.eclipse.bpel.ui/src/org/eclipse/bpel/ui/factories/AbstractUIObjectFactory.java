@@ -68,10 +68,14 @@ public abstract class AbstractUIObjectFactory implements CreationFactory {
 	/**
 	 * Return a new instance of the type of model object this factory creates.
 	 * This implementation can create instances of any EClass.
+	 * @param <T> the type of the return object 
+	 * @return Return a new instance of the type of model object this factory creates.
 	 */
-	public EObject createInstance() {
+	
+	@SuppressWarnings("unchecked")
+	public <T extends EObject> T createInstance() {
 	    EClass modelType = getModelType();
-		return modelType.getEPackage().getEFactoryInstance().create(modelType);
+		return (T) modelType.getEPackage().getEFactoryInstance().create(modelType);
 	}
 
 	/**

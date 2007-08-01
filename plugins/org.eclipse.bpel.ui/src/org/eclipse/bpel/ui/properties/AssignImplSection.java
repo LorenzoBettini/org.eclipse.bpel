@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.common.ui.details.ButtonIValue;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
@@ -22,7 +23,6 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
-import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
@@ -38,13 +38,15 @@ import org.eclipse.swt.widgets.Composite;
 
 
 /**
+ * AssignImplDetails allows viewing and editing of the copy elements in an Assign.
+ * 
+ * The input of this section is the Assign activity.
+ *  
+ *
+ * @author IBM Original Contribution
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Jun 7, 2007
  *
- */
-
-/**
- * AssignImplDetails allows viewing and editing of the copy elements in an Assign.
  */
 
 @SuppressWarnings("nls")
@@ -73,6 +75,8 @@ public class AssignImplSection extends BPELPropertySection {
 	Button fKeepSrcElement;
 	Button fIgnoreMissingSourceData;
 	
+	EditController fKeepSrcElementController;
+	EditController fIgnoreMissingSourceDataController;
 	
 	/**
 	 * 
@@ -82,20 +86,20 @@ public class AssignImplSection extends BPELPropertySection {
 		super();
 				
 		fToSection.fAllowed = new IAssignCategory[] {				
-			new VariablePartAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To() ),
+			new VariablePartAssignCategory(this ),
 			new ExpressionAssignCategory(this),
-			new VariablePropertyAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To()),
-			new PartnerRoleAssignCategory(this, BPELPackage.eINSTANCE.getCopy_To() )
+			new VariablePropertyAssignCategory(this),
+			new PartnerRoleAssignCategory(this, false )
 		};
 
 		fFromSection.fAllowed = new IAssignCategory[] {				
-			new VariablePartAssignCategory(this,BPELPackage.eINSTANCE.getCopy_From() ),
+			new VariablePartAssignCategory(this ),
 			new ExpressionAssignCategory(this),
-			new LiteralAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From()  ),
-			new VariablePropertyAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From()),
-			new PartnerRoleAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From()),
-			new EndpointReferenceAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From() ),						
-			new OpaqueAssignCategory(this, BPELPackage.eINSTANCE.getCopy_From() )
+			new LiteralAssignCategory(this ),
+			new VariablePropertyAssignCategory(this ),
+			new PartnerRoleAssignCategory(this , true ),
+			new EndpointReferenceAssignCategory(this ),						
+			new OpaqueAssignCategory(this )
 		};
 		
 	}
@@ -108,16 +112,7 @@ public class AssignImplSection extends BPELPropertySection {
 				
 				@Override
 				public void notify (Notification n) {
-					
-					if (n.getFeature() == BPELPackage.eINSTANCE.getCopy_From() ) {
-						EObject val = (EObject) n.getNewValue();
-						selectCategoriesForInput( (Copy) val.eContainer() ) ; 
-					}
-					
-					if (n.getFeature() == BPELPackage.eINSTANCE.getCopy_To()) {
-						EObject val = (EObject) n.getNewValue();
-						selectCategoriesForInput( (Copy) val.eContainer() ) ;
-					}
+					// System.out.println("AssignImplSection: notification() " + n);
 					
 					if ( n.getFeature() == BPELPackage.eINSTANCE.getAssign_Copy() ) {
 						
@@ -292,26 +287,10 @@ public class AssignImplSection extends BPELPropertySection {
 			data.bottom = new FlatFormAttachment(100,0);
 			fIgnoreMissingSourceData.setLayoutData(data);
 			
-			fIgnoreMissingSourceData.addSelectionListener(new SelectionListener() {
-
-				public void widgetDefaultSelected(SelectionEvent e) {
-					widgetSelected(e);					
-				}
-
-				@SuppressWarnings("boxing")
-				public void widgetSelected(SelectionEvent e) {
-					if (fCurrentCopy == null) {
-						return ;
-					}
-					
-					getCommandFramework().execute(wrapInShowContextCommand (
-							new SetCommand(fCurrentCopy, fIgnoreMissingSourceData.getSelection(), 
-									BPELPackage.eINSTANCE.getCopy_IgnoreMissingFromData() 
-							)
-					));								
-					
-				}								
-			} );
+			fIgnoreMissingSourceDataController = createEditController();
+			fIgnoreMissingSourceDataController.setFeature( BPELPackage.eINSTANCE.getCopy_IgnoreMissingFromData() );
+			fIgnoreMissingSourceDataController.setViewIValue( new ButtonIValue(fIgnoreMissingSourceData) );
+			fIgnoreMissingSourceDataController.startListeningTo(fIgnoreMissingSourceData);
 			
 		} else {
 			
@@ -320,28 +299,12 @@ public class AssignImplSection extends BPELPropertySection {
 			data.right = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
 			data.bottom = new FlatFormAttachment(100,0);
 			fKeepSrcElement.setLayoutData(data);
-			
-			fKeepSrcElement.addSelectionListener(new SelectionListener() {
 
-				public void widgetDefaultSelected(SelectionEvent e) {
-					widgetSelected(e);					
-				}
-
-				@SuppressWarnings("boxing")
-				public void widgetSelected(SelectionEvent e) {
-					if (fCurrentCopy == null) {
-						return ;
-					}
-					
-					getCommandFramework().execute(wrapInShowContextCommand (
-							new SetCommand(fCurrentCopy, fKeepSrcElement.getSelection(), 
-									BPELPackage.eINSTANCE.getCopy_KeepSrcElementName() 
-							)
-					));								
-					
-				}								
-			} );
-			
+			fKeepSrcElementController = createEditController();
+			fKeepSrcElementController.setFeature( BPELPackage.eINSTANCE.getCopy_KeepSrcElementName() );
+			fKeepSrcElementController.setViewIValue( new ButtonIValue(fKeepSrcElement) );
+			fKeepSrcElementController.startListeningTo(fKeepSrcElement);
+						
 		} 
 				
 	}
@@ -379,22 +342,12 @@ public class AssignImplSection extends BPELPropertySection {
 	@Override
 	protected void basicSetInput (EObject newInput) {
 		
-		Assign oldModel = getModel();
+		saveUserContextToInput();
 		
-		IProperty<String,Object> prop = BPELUtil.adapt(oldModel, IProperty.class);
-		
-		if (prop != null) {
-			prop.setProperty(CURRENT_INDEX_PROPERTY, getUserContext() );
-		}
-		
-		super.basicSetInput(newInput);
-		
-		Assign assign = getModel();		
-		adjustCopyRulesList ();
-		
-		prop = BPELUtil.adapt(assign, IProperty.class);
-		
-		restoreUserContext( prop.getProperty(CURRENT_INDEX_PROPERTY) );
+		super.basicSetInput(newInput);		
+		adjustCopyRulesList ();		
+				
+		restoreUserContextFromInput();
 				
 		if (fToSection.fCurrent != null) {
 			fToSection.fCurrent.refresh();
@@ -415,7 +368,10 @@ public class AssignImplSection extends BPELPropertySection {
 	protected void selectCategoriesForInput (Copy copy) {
 			
 		fCurrentCopy = copy;
-
+		
+		fKeepSrcElementController.setInput(fCurrentCopy);
+		fIgnoreMissingSourceDataController.setInput( fCurrentCopy );
+		
 		if (fCurrentCopy == null) {			
 			fToSection.hideCurrent();
 			fFromSection.hideCurrent();		
@@ -427,6 +383,11 @@ public class AssignImplSection extends BPELPropertySection {
 		Assign assign = getModel();		
 		int pos = assign.getCopy().indexOf(fCurrentCopy);
 		fCopyList.select( pos );
+		
+		fKeepSrcElement.setEnabled(true);
+		fIgnoreMissingSourceData.setEnabled(true);
+		
+		
 		
 		// Find the proper copy-from category
 		boolean bFound = false;
@@ -458,11 +419,6 @@ public class AssignImplSection extends BPELPropertySection {
 		if (bFound == false || fToSection.fCurrent == null) {
 			updateCategorySelection(fToSection,0,false);
 		}
-		
-		fKeepSrcElement.setEnabled(true);
-		fKeepSrcElement.setSelection( fCurrentCopy.getKeepSrcElementName() );
-		fIgnoreMissingSourceData.setEnabled(true);
-		fIgnoreMissingSourceData.setSelection( fCurrentCopy.getIgnoreMissingFromData() );
 	}
 	
 	
@@ -614,7 +570,7 @@ public class AssignImplSection extends BPELPropertySection {
 	public void gotoMarker(IMarker marker) {
 		
 		String uriFragment = marker.getAttribute(IBPELUIConstants.MARKER_ATT_FROM, EMPTY_STRING);
-		EObject from = modelObject.eResource().getEObject(uriFragment);
+		EObject from = fModelObject.eResource().getEObject(uriFragment);
 		EObject copy = from.eContainer();
 		// currentCopyIndex = ((Assign)getModel()).getCopy().indexOf(copy);
 		refresh();

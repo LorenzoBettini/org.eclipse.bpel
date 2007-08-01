@@ -34,7 +34,7 @@ public class JoinConditionSection extends ExpressionSection {
 		Activity activity = getModel();
 		Targets targets = activity.getTargets();
 		if (targets != null) {
-			adapters[0].addToObject(targets);
+			fAdapters[0].addToObject(targets);
 		}
 	}
 	

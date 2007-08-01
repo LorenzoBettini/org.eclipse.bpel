@@ -10,146 +10,109 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.common.ui.details.ButtonIValue;
+import org.eclipse.bpel.common.ui.details.DelegateIValue;
+import org.eclipse.bpel.common.ui.details.FocusContext;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
+import org.eclipse.bpel.common.ui.details.IValue;
+import org.eclipse.bpel.common.ui.details.TextIValue;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetForEachIsParallelCommand;
-import org.eclipse.bpel.ui.commands.SetNameCommand;
-import org.eclipse.bpel.ui.commands.SetVariableCommand;
 import org.eclipse.bpel.ui.factories.BPELUIObjectFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.XSDUtils;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.xsd.XSDTypeDefinition;
 
 /**
  * Details section for the ForEach activity
  */
 public class ForEachSection extends BPELPropertySection {
 
-	public static class ForEachContext {
-		public int		context;
-
-		public Object	innerContext;
-
-		public ForEachContext(int context) {
-			this.context = context;
-		}
-	}
-
-	protected static final int	IS_PARALLEL_CONTEXT				= 1;
-	protected static final int	COUNTER_NAME_VARIABLE_CONTEXT	= 2;
-
-	private Text				counterNameText;
-	private Composite			counterNameVariableComposite;
-	private Button				isParallelCheckbox;
-	private ChangeTracker		isParallelCheckboxChangeTracker;
-	private Composite			isParallelComposite;
-	private ChangeTracker		variableNameChangeTracker;
-	protected int				lastChangeContext				= -1;
-
+	Text				fCounterNameText;
+	Composite			counterNameVariableComposite;
+	Button				fIsParallelCheckbox;
+	Composite			isParallelComposite;
+	
+	EditController fParallelExecutionController ;
+	EditController fVariableNameController;
+	
+	IValue fContext;
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
 	@Override
 	public Object getUserContext() {
-		ForEachContext result = new ForEachContext(lastChangeContext);
-		return result;
+		return fContext.get();
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
 	@Override
-	public void refresh() {
-		super.refresh();
-		updateIsParallelWidgets();
-		updateCounterNameWidgets();
+	public void restoreUserContext (Object userContext) {
+		fContext.set(userContext);
 	}
 
+	
 	@Override
-	public void restoreUserContext(Object userContext) {
-		ForEachContext c = (ForEachContext) userContext;
-		switch (c.context) {
-		case IS_PARALLEL_CONTEXT:
-			isParallelCheckbox.setFocus();
-			return;
-		case COUNTER_NAME_VARIABLE_CONTEXT:
-			counterNameText.setFocus();
-			return;
-		}
-		throw new IllegalStateException();
+	protected void basicSetInput(EObject newInput) {		
+		super.basicSetInput(newInput);
+		
+		fParallelExecutionController.setInput(newInput);
+		fVariableNameController.setInput(newInput);
 	}
 
-	private void createChangeTrackers() {
-		IOngoingChange change = new IOngoingChange() {
-			public Command createApplyCommand() {
-				lastChangeContext = IS_PARALLEL_CONTEXT;
-				return wrapInShowContextCommand(new SetForEachIsParallelCommand(
-						getInput(), isParallelCheckbox.getSelection()));
-			}
-
-			public String getLabel() {
-				return IBPELUIConstants.CMD_SET_PARALLEL_EXECUTION;
-			}
-
-			public void restoreOldState() {
-				updateIsParallelWidgets();
-			}
-		};
-		isParallelCheckboxChangeTracker = new ChangeTracker(
-				this.isParallelCheckbox, change, getCommandFramework());
-
-		change = new IOngoingChange() {
-
-			public Command createApplyCommand() {
-				ForEach forEach = (ForEach) getInput();
-				String variableName = counterNameText.getText();
-				if ("".equals(variableName)) {
-					variableName = null;
+	void createChangeTrackers() {
+		
+		/** Parallel execution setting/un-setting */
+		fParallelExecutionController = createEditController();
+		fParallelExecutionController.setFeature( BPELPackage.eINSTANCE.getForEach_Parallel() );
+		fParallelExecutionController.setViewIValue( new ButtonIValue( fIsParallelCheckbox ));
+		fParallelExecutionController.startListeningTo( fIsParallelCheckbox );
+		
+	
+		/** Variable name setting/un-setting */
+		fVariableNameController = createEditController();				
+		
+		fVariableNameController.setFeature( BPELPackage.eINSTANCE.getForEach_CounterName() );
+		fVariableNameController.setViewIValue( new DelegateIValue( new TextIValue ( fCounterNameText ) ) {
+			@Override
+			public Object get() {
+				String name = (String) fDelegate.get();
+				if (name.length() == 0) {
+					return null;
 				}
-				CompoundCommand result = new CompoundCommand();
-				Variable variable = forEach.getCounterName();
-				if (variableName != null) {
-					if (variable == null) {
-						variable = BPELFactory.eINSTANCE.createVariable();
-						XSDTypeDefinition varType = XSDUtils.getPrimitive(BPELUIObjectFactory.FOR_EACH_COUNTER_VARIABLE_TYPE);
-						variable.setType(varType);
-						result.add(new SetVariableCommand(forEach, variable,
-								ModelHelper.INCOMING));
-					}
-					result.add(new SetNameCommand(variable, variableName));
-				} else {
-					if (variable != null) {
-						result.add(new SetVariableCommand(forEach, null,
-								ModelHelper.INCOMING));
-					}
+				/** Convert text to variable for insertion into for each */
+				Variable variable =  BPELFactory.eINSTANCE.createVariable(); 
+				variable.setName(name);
+				variable.setType( XSDUtils.getPrimitive(BPELUIObjectFactory.FOR_EACH_COUNTER_VARIABLE_TYPE) );
+				return variable;
+			}
+
+			@Override
+			public void set (Object object) {
+				if (object == null) {
+					fDelegate.set(object);
+					return;
 				}
-				lastChangeContext = COUNTER_NAME_VARIABLE_CONTEXT;
-				return wrapInShowContextCommand(result);
+				Variable variable = (Variable) object;
+				fDelegate.set ( variable.getName() );
 			}
-
-			public String getLabel() {
-				return IBPELUIConstants.CMD_SET_COUNTER_VARIABLE_NAME;
-			}
-
-			public void restoreOldState() {
-				updateCounterNameWidgets();
-			}
-
-		};
-		variableNameChangeTracker = new ChangeTracker(this.counterNameText,
-				change, getCommandFramework());
+			
+		});
+		fVariableNameController.startListeningTo(fCounterNameText);
+		
+		
 	}
 
 	private void createCounterNameWidgets(Composite parentComposite) {
@@ -168,19 +131,19 @@ public class ForEachSection extends BPELPropertySection {
 						counterNameVariableComposite,
 						Messages.ForEachSection_COUNTER_NAME);
 
-		counterNameText = fWidgetFactory.createText(counterNameVariableComposite, "");
+		fCounterNameText = fWidgetFactory.createText(counterNameVariableComposite,EMPTY_STRING);
 		data = new FlatFormData();
 		data.top = new FlatFormAttachment(0, 0);
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
 				variableLabel, STANDARD_LABEL_WIDTH_AVG));
 		data.right = new FlatFormAttachment(100, 0);
-		counterNameText.setLayoutData(data);
+		fCounterNameText.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(counterNameText,
+		data.right = new FlatFormAttachment(fCounterNameText,
 				-IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(counterNameText, 0, SWT.CENTER);
+		data.top = new FlatFormAttachment(fCounterNameText, 0, SWT.CENTER);
 		variableLabel.setLayoutData(data);
 
 	}
@@ -195,67 +158,26 @@ public class ForEachSection extends BPELPropertySection {
 		data.right = new FlatFormAttachment(100, 0);
 		isParallelComposite.setLayoutData(data);
 
-		isParallelCheckbox = fWidgetFactory
+		fIsParallelCheckbox = fWidgetFactory
 				.createButton(
 						isParallelComposite,
 						Messages.ForEachSection_IS_PARALLEL,
 						SWT.CHECK);
+		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
 		data.top = new FlatFormAttachment(0, 0);
-		isParallelCheckbox.setLayoutData(data);
+		fIsParallelCheckbox.setLayoutData(data);
 	}
 
-	private void updateCounterNameWidgets() {
-		variableNameChangeTracker.stopTracking();
-		try {
-			ForEach forEach = (ForEach) getInput();
-			Variable variable = forEach.getCounterName();
-			if (variable == null) {
-				counterNameText.setText(""); //$NON-NLS-1$
-			} else {
-				counterNameText
-						.setText(variable.getName() == null ? "" : variable.getName()); //$NON-NLS-1$
-			}
-		} finally {
-			variableNameChangeTracker.startTracking();
-		}
-	}
-
-	private void updateIsParallelWidgets() {
-		isParallelCheckboxChangeTracker.stopTracking();
-		try {
-			boolean isParallel = ((ForEach) getInput()).getParallel()
-					.booleanValue();
-			this.isParallelCheckbox.setSelection(isParallel);
-		} finally {
-			isParallelCheckboxChangeTracker.startTracking();
-		}
-	}
-
+	
 	@Override
-	protected MultiObjectAdapter[] createAdapters() {
-		return new MultiObjectAdapter[] {
-				new MultiObjectAdapter() {
-
-					public void notify(Notification n) {
-						if (n.getFeature() == BPELPackage.eINSTANCE.getForEach_Parallel()) {
-							updateIsParallelWidgets();
-						}
-						if (n.getFeature() == BPELPackage.eINSTANCE.getForEach_CounterName()) {
-							updateCounterNameWidgets();
-						}
-					}
-					
-				}
-		};
-	}
-
 	protected void createClient(Composite parent) {
 		Composite parentComposite = createFlatFormComposite(parent);
 		createIsParallelWidgets(parentComposite);
 		createCounterNameWidgets(parentComposite);
-
+		fContext = new FocusContext ( fIsParallelCheckbox, fCounterNameText );
+		
 		createChangeTrackers();
 	}
 }

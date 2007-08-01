@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
+import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
@@ -227,7 +228,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			Pick pick = (Pick) result;
 
 			// create a free OnMessage inside the Pick.
-			EObject onMessage = UIObjectFactoryProvider.getInstance()
+			OnMessage onMessage = UIObjectFactoryProvider.getInstance()
 					.getFactoryFor(BPELPackage.eINSTANCE.getOnMessage())
 					.createInstance();
 

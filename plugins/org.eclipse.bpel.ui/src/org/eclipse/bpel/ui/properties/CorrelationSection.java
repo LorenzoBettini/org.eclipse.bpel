@@ -277,7 +277,7 @@ public class CorrelationSection extends BPELPropertySection {
 						if (c != null) {
 							for (Iterator it = c.getChildren().iterator(); it.hasNext(); ) {
 								Correlation corr = (Correlation)it.next();
-								adapters[1].addToObject(corr);
+								fAdapters[1].addToObject(corr);
 								if (n.getNotifier() == corr.getSet()) {
 									updateCorrelationWidgets(corr);
 									refreshAdapters();
@@ -295,11 +295,11 @@ public class CorrelationSection extends BPELPropertySection {
 		super.addAllAdapters();
 		Correlations c = ModelHelper.getCorrelations(getInput());
 		if (c != null) {
-			adapters[0].addToObject(c);
+			fAdapters[0].addToObject(c);
 			for (Iterator it = c.getChildren().iterator(); it.hasNext(); ) {
 				Correlation corr = (Correlation)it.next();
-				adapters[1].addToObject(corr);
-				if (corr.getSet() != null)  adapters[1].addToObject(corr.getSet());
+				fAdapters[1].addToObject(corr);
+				if (corr.getSet() != null)  fAdapters[1].addToObject(corr.getSet());
 			}
 		}
 	}

@@ -55,7 +55,7 @@ public abstract class MultiObjectAdapter implements Adapter {
 	 */
 		
 	
-	public void addToObject (Notifier target) {		
+	public void addToObject (Notifier target) {	
 		if (addedTo.contains(target)) {
 			return ;
 		}
@@ -93,7 +93,7 @@ public abstract class MultiObjectAdapter implements Adapter {
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	
-	public final void notifyChanged(Notification n) {
+	public final void notifyChanged (Notification n) {
 		if (n == null)  {
 			throw new IllegalStateException();
 		}

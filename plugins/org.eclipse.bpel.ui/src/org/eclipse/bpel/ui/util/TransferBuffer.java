@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.model.Activity;
@@ -57,10 +59,12 @@ import org.eclipse.swt.widgets.Display;
  * 
  */
 
+@SuppressWarnings("nls")
 public class TransferBuffer {
 
 	protected static final boolean DEBUG = false;
 		
+	static final String NL = System.getProperty("line.separator");
 	
 	/**
 	 * @author IBM, Original contribution.
@@ -70,7 +74,7 @@ public class TransferBuffer {
 	 */
 	public class Contents {
 		
-		Map<?, ?> fExtensionMap;
+		Map<EObject, EObject> fExtensionMap;
 				
 		/** The list of root objects in our transfer buffer */
 		List<EObject> fRootObjects;
@@ -78,7 +82,7 @@ public class TransferBuffer {
 		/** The textual content of the clipboard */
 		String fText;
 		
-		Contents (Map<?, ?> extensionMap, List<EObject> rootList ) {			
+		Contents (Map<EObject, EObject> extensionMap, List<EObject> rootList ) {			
 			fExtensionMap = extensionMap;
 			fRootObjects = rootList;					
 		}
@@ -240,7 +244,7 @@ public class TransferBuffer {
 					.println("copyObjectsToTransferBuffer(" + sourceObjects.size() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		Map<?, ?> targetMap = new HashMap<Object, Object>();
+		Map<EObject, EObject> targetMap = new HashMap<EObject, EObject>();
 		List<EObject> sourceList = getOutermostObjects (sourceObjects);
 		List<EObject> targetList = new ArrayList<EObject>();
 		
@@ -299,11 +303,18 @@ public class TransferBuffer {
 			}
 		}
 
-		// This has to have a better way of being computed.
-		fTargetResource = (BPELResource) ModelHelper.getBPELEditor( sourceList.get(0) ).getResource();	
+		/**
+		 * This has to have a better way of being computed.
+		 * The transfer buffer belongs to the editor and an editor edits one resource. So this should be an invariant 
+		 * over the lifetime of the transfer buffer.
+		 * 
+		 */
 		
+		if (fTargetResource == null) {
+			fTargetResource = (BPELResource) ModelHelper.getBPELEditor( sourceList.get(0) ).getResource();
+		}		
 		
-		Contents contents = new Contents(targetMap,targetList );
+		Contents contents = new Contents( targetMap,targetList );
 		contents.transferToClipboard();
 		
 		setContents( contents );
@@ -327,17 +338,19 @@ public class TransferBuffer {
 
 		String xml = getClipboardText();
 
-		// First check if we need to copy from clibpboard.
+		// First check if we need to copy from clipboard.
 		
 		if (fContents == null || xml.equals(fContents.fText) == false ) {
 			
 			if (couldBeXML(xml) == false) {
 				setContents( null );
 			} else {
-				// This has to have a better way of being computed.
-				fTargetResource = (BPELResource) ModelHelper.getBPELEditor( targetObject ).getResource();			
+				if (fTargetResource == null) {
+					// This has to have a better way of being computed.
+					fTargetResource = (BPELResource) ModelHelper.getBPELEditor( targetObject ).getResource();
+				}
 	
-				List<EObject> result = fReader.fromXML(xml , "Clipboard");
+				List<EObject> result = fReader.fromXML( adjustXMLSource(xml) , "Clipboard");
 				if (result.size() > 0) {
 					setContents( new Contents(null,result) );
 				} else {
@@ -363,8 +376,7 @@ public class TransferBuffer {
 		
 		for (EObject source : contents.fRootObjects) {
 
-			BPELUtil.CloneResult cloneResult = BPELUtil.cloneSubtree(source,
-					contents.fExtensionMap, targetMap);
+			BPELUtil.CloneResult cloneResult = BPELUtil.cloneSubtree(source,contents.fExtensionMap, targetMap);
 						
 			// Resolve name of the source activity to be unique
 			if (source instanceof Activity) {
@@ -461,11 +473,12 @@ public class TransferBuffer {
 		
 		// check each root object's type against the container..
 		for (EObject next : content.fRootObjects ) {				
-			if (anchors.fContainer.canAddObject(anchors.fTarget, next, anchors.fRefObject) == false) {
-				return false;
+			if (anchors.fContainer.canAddObject(anchors.fTarget, next, anchors.fRefObject) ) {
+				return true;
 			}
 		}
-		return true;
+		
+		return false;
 	}
 	
 	
@@ -502,38 +515,109 @@ public class TransferBuffer {
 	 * This is a completely heuristic test to see if we have something in XML in the clipboard
 	 * that "could" be converted into objects in our little world.
 	 * 
+	 * 
+	 * 
 	 * @param xml
 	 * @return
 	 */
 	boolean couldBeXML (String xml) {
 		
-		int count1 = 0;
-		int count2 = 0;
+		if (xml == null || xml.length() < 4) {
+			return false;
+		}
+		// Short valid XML element would be .... ?
+		// <f/>
+		
+		int nOpen = 0;
+		int nClose = 0;
+		int nNonWhitespace = 0;
+		int nWhitespace = 0;
 		
 		/** open and close should match, we count them, and then make sure we have about 0.95 ratio */
-		for (char ch : xml.toCharArray() ) {			
-			switch (ch) {
-				case '<' : count1 += 1; break;
-				case '>' : count2 += 1; break;				
+		for (char ch : xml.toCharArray() ) {
+			
+			if (Character.isWhitespace(ch)) {
+				nWhitespace += 1;
+			} else if (ch == '<') {
+				// leading non-whitespace 
+				if (nOpen == 0 && nNonWhitespace > 0) {
+					return false;
+				}
+				nOpen += 1;
+			} else if (ch == '>') {
+				nClose += 1;
+			} else {
+				nNonWhitespace += 1;
 			}
+			
 		}
 		
-		if (count1 == 0 || count2 == 0) {
+		if (nOpen == 0 || nClose == 0) {
 			return false;
 		}
 		
-		float ratio = (float) (Math.min(count1, count2) * 1.0 / 1.0 * Math.max(count1,	count2));
+		float ratio = (float) (Math.min(nOpen, nClose) * 1.0 / 1.0 * Math.max(nOpen,nClose));
 		
 		if (ratio < 0.95) {
 			return false;
 		}
+
+		return true;
+	}
+	
+	
+	/** Any namespace declaration, either xmlns="" or pfx:xmlns="xx" */
+	static Pattern anyNamespace = Pattern.compile("(\\:|\\s)xmlns=(\\\"|\\')", Pattern.MULTILINE );
+	
+	/** BPEL 2004 namespace, as default (no prefix mapping) */
+	static Pattern bpel2004DefaultNS = Pattern.compile("\\sxmlns=(\"|\')" + Pattern.quote(BPELConstants.NAMESPACE_2004) + "(\"|\')",
+			Pattern.MULTILINE);
+	
+	/** BPEL 2003 namespace, as default (no prefix mapping) */
+	static Pattern bpel2003DefaultNS = Pattern.compile("\\sxmlns=(\"|\')" + Pattern.quote(BPELConstants.NAMESPACE_2003) + "(\"|\')",
+			Pattern.MULTILINE);
+	
+	static String EMPTY_STRING = "";
+	
+	 
+	/**
+	 * Adjust XML source so that we can parse it as BPEL 2.0 
+	 * 
+	 * @param buffer the current XML source.
+	 * @return the adjust source.
+	 */
+	
+	String adjustXMLSource ( String buffer ) {
+		 
+		/** Check if no Namespaces at all. Then there are no prefixes that are namespace bound */
+		Matcher matcher = anyNamespace.matcher(buffer);
 		
-		/** Is the BPEL namespace someplace there ? */
-		if (xml.indexOf( BPELConstants.NAMESPACE ) < 0 ) { 
-			return false;
+		if (matcher.find() == false) {
+			StringBuilder sb = new StringBuilder(buffer.length() + 128);
+			sb.append("<bag xmlns=\"").append( BPELConstants.NAMESPACE ).append("\">").append(NL);
+			sb.append(buffer);			
+			sb.append(NL).append("</bag>");
+			return sb.toString();
+			
 		}
 		
-		return true;
+		/** Check if there is a BPELNamespace source mapping in the buffer. */
+
+		/** Check pre-2.0 namespaces as well and replace them by the 2.0 BPEL namespace */
+		
+		matcher = bpel2004DefaultNS.matcher(buffer);
+		if ( matcher.find() ) {			
+			return adjustXMLSource(matcher.replaceAll( EMPTY_STRING )) ;
+		}
+		
+		matcher = bpel2003DefaultNS.matcher(buffer);
+		if ( matcher.find() ) {			
+			return adjustXMLSource ( matcher.replaceAll( EMPTY_STRING ) );			
+		}
+		
+		/** Return buffer as is */
+		return buffer;
+		
 	}
 	/**
 	 * 

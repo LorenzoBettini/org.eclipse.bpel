@@ -10,59 +10,47 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.common.ui.details.DelegateIValue;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
+import org.eclipse.bpel.common.ui.details.TextIValue;
 import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.ILabeledElement;
-import org.eclipse.bpel.ui.commands.SetTargetNamespaceCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NamespaceUtils;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 
+/**
+ * @author Original Contribution by IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Jul 26, 2007
+ *
+ */
 public class NamespaceSection extends BPELPropertySection {
+
 
 	protected Text namespaceText;
 	protected StatusLabel2 statusLabel;
-	protected ChangeTracker namespaceTracker;
 	
-	protected MultiObjectAdapter[] createAdapters() {
-		return new MultiObjectAdapter[] {
-			/* model object */
-			new MultiObjectAdapter() {
-				public void notify(Notification n) {
-					if (n.getFeatureID(Process.class) == BPELPackage.PROCESS__TARGET_NAMESPACE) {
-						updateNamespaceWidgets();
-					}
-				}
-			},
-		};
-	}
+	protected EditController fNamspaceEditHelper;
+	
 
 	protected void createNamespaceWidgets(Composite composite) {
 		FlatFormData data;
 
 		Label namespaceLabel = fWidgetFactory.createLabel(composite, Messages.NamespaceSection_Target_namespace_1); 
 	
-		namespaceText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
+		namespaceText = fWidgetFactory.createText(composite, EMPTY_STRING);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(namespaceLabel, STANDARD_LABEL_WIDTH_AVG));
 		data.right = new FlatFormAttachment(100, 0);
@@ -77,39 +65,31 @@ public class NamespaceSection extends BPELPropertySection {
 	}
 	
 	protected void createChangeTrackers() {
-		IOngoingChange change = new IOngoingChange() {
-			public String getLabel() {
-				return IBPELUIConstants.CMD_SELECT_TARGETNAMESPACE;
+		
+		fNamspaceEditHelper = createEditController() ;
+		fNamspaceEditHelper.setFeature( BPELPackage.eINSTANCE.getProcess_TargetNamespace() );
+		fNamspaceEditHelper.setViewIValue(new DelegateIValue( new TextIValue ( namespaceText )) {
+			@Override
+			public String get() {
+				String text = fDelegate.get().toString();
+				return EMPTY_STRING.equals(text) ? null : NamespaceUtils.convertNamespaceToUri(text);
 			}
-			public Command createApplyCommand() {
-				String s = namespaceText.getText();
-				if ("".equals(s)) { //$NON-NLS-1$
-					s = null;
-				} else {
-					s = NamespaceUtils.convertNamespaceToUri(s);
-				}
-				//IStatus status = ValidationHelper.validateTargetNamespace(s);
-				IStatus status = Status.OK_STATUS;
-				if (status.isOK()) {
-					return wrapInShowContextCommand(new SetTargetNamespaceCommand(
-						getInput(), s)); //$NON-NLS-1$
-				}
-
-				MessageBox dialog = new MessageBox(namespaceText.getShell(), SWT.ICON_ERROR | SWT.OK);
-				dialog.setText(Messages.ServerDetails_TargetNamespaceError); 
-				ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(getInput(), ILabeledElement.class);
-				String message = NLS.bind(Messages.ServerDetails_TargetNamespaceErrorMessage, (new Object[] {labeledElement.getTypeLabel(getInput()), labeledElement.getLabel(getInput())}));
-				dialog.setMessage(message);
-				dialog.open();
-				return null;
-			}
-			public void restoreOldState() {
-				updateNamespaceWidgets();
-			}
-		};
-		namespaceTracker = new ChangeTracker(namespaceText, change, getCommandFramework());
+			@Override
+			public void set (Object object) {
+				if (object == null) {
+					fDelegate.set(EMPTY_STRING);
+					return;
+				}							
+				fDelegate.set( NamespaceUtils.convertUriToNamespace( object.toString() ) );
+			}			
+		});		
+		fNamspaceEditHelper.startListeningTo(namespaceText);
+		
 	}
 	
+	
+	
+	@Override
 	protected void createClient(Composite parent) {
 		Composite composite = createFlatFormComposite(parent);
 		createNamespaceWidgets(composite);
@@ -118,30 +98,25 @@ public class NamespaceSection extends BPELPropertySection {
 			composite, IHelpContextIds.PROPERTY_PAGE_NAME);
 	}
 
-	protected void updateNamespaceWidgets()  {
-		namespaceTracker.stopTracking();
-		try {
-			String objValue = ((Process)getInput()).getTargetNamespace();
-			if (objValue == null) {
-				objValue = ""; //$NON-NLS-1$
-			} else {
-				objValue = NamespaceUtils.convertUriToNamespace(objValue);
-			}
-			namespaceText.setText(objValue);
-		} finally {
-			namespaceTracker.startTracking();
-		}
-	}
-	
-	public void refresh() {
-		super.refresh();
-		updateNamespaceWidgets();
+	@Override
+	protected void basicSetInput(EObject newInput) {		
+		super.basicSetInput(newInput);
+		fNamspaceEditHelper.setInput (newInput);
 	}
 
+	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
+	 */
+	@Override
 	public Object getUserContext() {
 		return null;
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#restoreUserContext(java.lang.Object)
+	 */
+	@Override
 	public void restoreUserContext(Object userContext) {
 		namespaceText.setFocus();
 	}

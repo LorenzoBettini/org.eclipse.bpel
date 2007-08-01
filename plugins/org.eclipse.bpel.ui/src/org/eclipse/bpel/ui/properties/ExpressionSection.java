@@ -18,23 +18,17 @@ import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
-import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.details.providers.ExpressionEditorDescriptorContentProvider;
-import org.eclipse.bpel.ui.details.providers.ModelViewerSorter;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
 import org.eclipse.bpel.ui.expressions.IExpressionEditor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.extensions.ExpressionEditorDescriptor;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.Gate;
-import org.eclipse.bpel.ui.util.IGate;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -44,10 +38,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -58,6 +50,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -113,10 +106,6 @@ public abstract class ExpressionSection extends TextSection {
 	// the expression (i.e. the expression language is inherited from the Process).
 	protected static final Object SAME_AS_PARENT = new Object();
 	
-	
-	/** The gated selection changed listener for the combo viewer. */
-	protected IGate fListenerGate ;
-
 	/** The composite which holds the no-editor widgets */
 	protected Composite fNoEditorWidgets;
 
@@ -139,6 +128,8 @@ public abstract class ExpressionSection extends TextSection {
 	protected EStructuralFeature fStructuralFeature;
 
 	protected Button fCreateExpressionButton;
+
+	Combo expressionLanguageCombo;
 
 	
 	protected static boolean objectsEqual(Object lhs, Object rhs) {
@@ -207,7 +198,7 @@ public abstract class ExpressionSection extends TextSection {
 		super.addAllAdapters();
 		Expression e = getExprFromModel();
 		if (e != null) {
-			adapters[0].addToObject(e);
+			fAdapters[0].addToObject(e);
 		}
 	}
 
@@ -265,9 +256,10 @@ public abstract class ExpressionSection extends TextSection {
 		fWidgetFactory.adapt(nameLabel);		
 		nameLabel.setText( Messages.ExpressionSection_Expression_language_1); 
 		expressionLanguageLabel = new StatusLabel2( nameLabel );				
-
-		expressionLanguageViewer = new ComboViewer(composite, SWT.FLAT | SWT.READ_ONLY );		
-		expressionLanguageViewer.getControl().setFont( nameLabel.getFont() );
+		expressionLanguageCombo = new Combo (composite, SWT.FLAT | SWT.READ_ONLY );
+		fWidgetFactory.adapt(expressionLanguageCombo);
+		
+		expressionLanguageViewer = new ComboViewer(expressionLanguageCombo);				
 		
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameLabel, STANDARD_LABEL_WIDTH_LRG));
@@ -319,43 +311,43 @@ public abstract class ExpressionSection extends TextSection {
 		expressionLanguageLabel.setLayoutData(data);
 		
 		// Selection on the combo.
-		// During programmatic changes, we want to disable the selection listener.
-		// 
-		fListenerGate = (IGate) Gate.newInstance( new ISelectionChangedListener() {
+		expressionLanguageCombo.addSelectionListener(new SelectionListener() {
 
-			public void selectionChanged (SelectionChangedEvent event) {
-				
-				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
-												
-				Object elm = sel.getFirstElement();
-				
-				Command cmd; 
-				
-				if (elm == NO_EXPRESSION) {
-					cmd = new SetCommand(getExpressionTarget(), null, getStructuralFeature() );
-				} else {					
-					
-					String language = getExpressionLanguage(elm);											
-					Expression exp = BPELFactory.eINSTANCE.createCondition();					
-					exp.setExpressionLanguage(language);
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);				
+			}
 
-					Object newDefaultBody = getDefaultBody(language, getExpressionType()  );
-					
-					// Figure out what the new default value should be for this expression,
-					// 	and install it in the model.  It is necessary to do this before we
-					// 	properly create the editor (which happens when we update widgets in
-					// response to the model change).
-					exp.setBody(newDefaultBody);
-										
-					cmd = new SetCommand(getExpressionTarget(), getExpression4Target (exp), getStructuralFeature()) ;
-				}
-				
-				getCommandFramework().execute( wrapInShowContextCommand(cmd) ); 
-			}			
-		});
+			public void widgetSelected(SelectionEvent e) {								
+				updateFromSelection ( selectedExpressionLanguage() );
+			}
 		
- 				
-		expressionLanguageViewer.addSelectionChangedListener( (ISelectionChangedListener) fListenerGate );		
+		});			
+	}
+	
+	protected void updateFromSelection ( Object elm ) {
+
+		Command cmd; 
+		
+		if (elm == NO_EXPRESSION || elm == null ) {
+			cmd = new SetCommand(getExpressionTarget(), null, getStructuralFeature() );
+		} else {					
+			
+			String language = getExpressionLanguage(elm);											
+			Expression exp = BPELFactory.eINSTANCE.createCondition();					
+			exp.setExpressionLanguage(language);
+
+			Object newDefaultBody = getDefaultBody(language, getExpressionType()  );
+			
+			// Figure out what the new default value should be for this expression,
+			// 	and install it in the model.  It is necessary to do this before we
+			// 	properly create the editor (which happens when we update widgets in
+			// response to the model change).
+			exp.setBody(newDefaultBody);
+								
+			cmd = new SetCommand(getExpressionTarget(), getExpression4Target (exp), getStructuralFeature()) ;
+		}
+		
+		getCommandFramework().execute( wrapInShowContextCommand(cmd) ); 
 	}
 	
 	/**
@@ -376,8 +368,8 @@ public abstract class ExpressionSection extends TextSection {
 	
 	protected void doChooseExpressionLanguage (Object model) {
 		
-		IStructuredSelection selection = (IStructuredSelection) expressionLanguageViewer.getSelection();
-		if (selection.getFirstElement() == model) {
+		Object selection = selectedExpressionLanguage();
+		if (selection == model) {
 			return ;
 		}
 		
@@ -385,9 +377,7 @@ public abstract class ExpressionSection extends TextSection {
 		// This is intentional, because we are emulating the a user interface command.
 		
 		expressionLanguageViewer.setSelection(new StructuredSelection( model ), true);
-		
-		// Now we update the editor, after the model had been mutated.
-		updateEditor();
+		updateFromSelection( selectedExpressionLanguage() );
 	}
 	
 	
@@ -406,10 +396,7 @@ public abstract class ExpressionSection extends TextSection {
 	        }
         }
         
-        // The gate prevents the selection listener form being fired.
-		fListenerGate.on();
 		expressionLanguageViewer.setSelection( new StructuredSelection( model ), true );				
-		fListenerGate.off();
 		
 		// Reflect the model in the editor
 		updateEditor();
@@ -708,8 +695,7 @@ public abstract class ExpressionSection extends TextSection {
 	 * 
 	 */
 	@Override
-	protected void updateEditor() {
-		
+	protected void updateEditor() {		
 		Expression expr = getExprFromModel();
 		
 		Control previousTop = fEditorAreaStackLayout.topControl;
@@ -797,7 +783,12 @@ public abstract class ExpressionSection extends TextSection {
 	protected void updateMarkers () {				
 		expressionLanguageLabel.clear();		
 		for(IMarker m : getMarkers(getInput())) {
-			expressionLanguageLabel.addStatus( BPELUtil.adapt(m, IStatus.class) );
+			if (expressionLanguageLabel.getControl().isDisposed() == false) {
+				expressionLanguageLabel.addStatus( BPELUtil.adapt(m, IStatus.class) );
+			} else {
+				new Throwable("FixMe: Why is update markers being called ?").printStackTrace();
+			}
+			
 		}		
 	}	
 	

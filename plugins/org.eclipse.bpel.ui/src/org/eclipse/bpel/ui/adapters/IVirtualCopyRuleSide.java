@@ -124,14 +124,6 @@ public interface IVirtualCopyRuleSide {
 	public void setExpression (Expression expression);
 	
 	
-	/**
-	 * Create a new instance of the IVirtualCopyRule side that is of the same base
-	 * class/kind as the current one.
-	 * 
-	 * @return return the facaded version of the new instance of the copy rule side.
-	 */
-	public IVirtualCopyRuleSide create () ;
-	
 	
 	/**
 	 * Return the target of this virtual copy rule (it is either a to or a from)

@@ -177,16 +177,16 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
-		if (adapters.length > 0) {
+		if (fAdapters.length > 0) {
 			PartnerLink partnerLink = (PartnerLink)getInput();
 			if (partnerLink.getPartnerLinkType() != null) {
-				adapters[0].addToObject(partnerLink.getPartnerLinkType());
+				fAdapters[0].addToObject(partnerLink.getPartnerLinkType());
 			}
 			Role[] roles = {partnerLink.getMyRole(), partnerLink.getPartnerRole()};
 			for (int i = 0; i < roles.length; i++) {
 				Role role = roles[i];
 				if (role != null) {
-					adapters[0].addToObject(role);
+					fAdapters[0].addToObject(role);
 				}
 			}
 		}
@@ -567,7 +567,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	
 	
 	protected PartnerLinkType getPartnerLinkType () {
-		PartnerLink pl = (PartnerLink) modelObject;
+		PartnerLink pl = (PartnerLink) fModelObject;
 		return pl.getPartnerLinkType();
 	}
 	

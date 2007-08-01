@@ -13,7 +13,6 @@ package org.eclipse.bpel.ui.properties;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 /**
@@ -21,8 +20,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public class NullAssignCategory extends AssignCategoryBase {
 
-	protected NullAssignCategory(BPELPropertySection ownerSection, EStructuralFeature feature) {
-		super(ownerSection,feature);
+	protected NullAssignCategory(BPELPropertySection ownerSection) {
+		super(ownerSection);
 	}
 
 	/**

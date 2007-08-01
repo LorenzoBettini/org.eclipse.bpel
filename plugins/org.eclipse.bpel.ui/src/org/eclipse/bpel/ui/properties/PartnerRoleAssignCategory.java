@@ -25,7 +25,6 @@ import org.eclipse.bpel.ui.details.providers.PartnerLinkContentProvider;
 import org.eclipse.bpel.ui.details.providers.RoleContentProvider;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -60,10 +59,9 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 	
 	protected boolean fIsFrom = false;
 	
-	protected PartnerRoleAssignCategory( BPELPropertySection ownerSection, EStructuralFeature feature ) {
-		super(ownerSection,feature);			
-		// Hmmm ...
-		fIsFrom = "from".equals(feature.getName());
+	protected PartnerRoleAssignCategory( BPELPropertySection ownerSection , boolean isFrom ) {
+		super(ownerSection);			
+		fIsFrom = isFrom;
 	}
 
 	/**

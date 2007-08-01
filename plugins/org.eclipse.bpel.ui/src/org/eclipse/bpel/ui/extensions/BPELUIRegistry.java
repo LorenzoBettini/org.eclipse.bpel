@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.extensions;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,13 +55,15 @@ public class BPELUIRegistry {
 	static final String ELEMENT_LISTENER = "listener"; //$NON-NLS-1$
 	static final String ATT_SPEC_COMPLIANT = "specCompliant"; //$NON-NLS-1$
 
+	static final ExpressionEditorDescriptor[] EMPTY_EDITOR_DESCRIPTORS = {};
+	
 	private static BPELUIRegistry instance;
 
-	private Map languageToEditorDescriptor;
+	private Map<String,ExpressionEditorDescriptor> fLanguageToEditorDescriptor;
 	private HoverHelperDescriptor hoverHelperDescriptor;
-	private ActionCategoryDescriptor[] actionCategoryDescriptors;
-	private ActionDescriptor[] actionDescriptors;
-	private ListenerDescriptor[] listenerDescriptors;
+	private ActionCategoryDescriptor[] fActionCategoryDescriptors;
+	private ActionDescriptor[] fActionDescriptors;
+	private ListenerDescriptor[] fListenerDescriptors;
 	private IHoverHelper hoverHelper;
 	
 	private BPELUIRegistry() {
@@ -72,6 +73,10 @@ public class BPELUIRegistry {
 		readListeners();
 	}
 
+	/**
+	 * @return the singleton instance of this regitry.
+	 */
+	
 	public static BPELUIRegistry getInstance() {
 		if (instance == null) {
 			instance = new BPELUIRegistry();
@@ -80,6 +85,11 @@ public class BPELUIRegistry {
 	}
 
 	
+	/**
+	 * Return the hover helper.
+	 * @return the hover helper extension.
+	 * @throws CoreException
+	 */
 	public IHoverHelper getHoverHelper() throws CoreException {
 		
 		if (hoverHelperDescriptor == null) {
@@ -93,9 +103,12 @@ public class BPELUIRegistry {
 	
 	/**
 	 * Returns an expression editor for the given expression language.
+	 * @param expressionLanguage 
+	 * @return the IExpression editor for the given expression language.
+	 * @throws CoreException 
 	 */
-	public IExpressionEditor getExpressionEditor(String expressionLanguage) throws CoreException {
-		ExpressionEditorDescriptor descriptor = (ExpressionEditorDescriptor) languageToEditorDescriptor.get(expressionLanguage);
+	public IExpressionEditor getExpressionEditor (String expressionLanguage) throws CoreException {
+		ExpressionEditorDescriptor descriptor = fLanguageToEditorDescriptor.get(expressionLanguage);
 		if (descriptor == null) {
 			return new DefaultExpressionEditor();
 		}
@@ -105,16 +118,19 @@ public class BPELUIRegistry {
 
 	/**
 	 * Returns an expression editor descriptor for the given expression language.
+	 * 
+	 * @param expressionLanguage 
+	 * @return the expression language descriptor for the given expression language.
 	 */
 	public ExpressionEditorDescriptor getExpressionEditorDescriptor(String expressionLanguage) {
-		return (ExpressionEditorDescriptor) languageToEditorDescriptor.get(expressionLanguage);
+		return fLanguageToEditorDescriptor.get(expressionLanguage);
 	}
 
 	private void readExpressionLanguageEditors() {
-		languageToEditorDescriptor = new HashMap();
-		IConfigurationElement[] extensions = getConfigurationElements(EXTPT_EXPRESSION_EDITORS);
-		for (int i = 0; i < extensions.length; i++) {
-			IConfigurationElement editor = extensions[i];
+		fLanguageToEditorDescriptor = new HashMap<String,ExpressionEditorDescriptor>();
+		
+		for(IConfigurationElement editor : getConfigurationElements(EXTPT_EXPRESSION_EDITORS) ) {
+			
 			if (editor.getName().equals(ELEMENT_EDITOR)) {
 				String language = editor.getAttribute(ATT_EXPRESSION_LANGUAGE);
 				String clazz = editor.getAttribute(ATT_CLASS);
@@ -128,22 +144,27 @@ public class BPELUIRegistry {
 					descriptor.setElement(editor);
 					String label = editor.getAttribute(ATT_LABEL);
 					descriptor.setLabel(label);
-					languageToEditorDescriptor.put(language, descriptor);
+					fLanguageToEditorDescriptor.put(language, descriptor);
 				}
 			}
 		}
 	}
 
+	/**
+	 * Return all action descriptors.
+	 * @return Return all action descriptors.
+	 */
 	public ActionDescriptor[] getActionDescriptors() {
-	    return actionDescriptors;
+	    return fActionDescriptors;
 	}
 	
 	/**
 	 * Returns the ActionDescriptor for the given EClass.
+	 * @param target the target 
+	 * @return Returns the ActionDescriptor for the given EClass.
 	 */
 	public ActionDescriptor getActionDescriptor(EClass target) {
-		for (int i = 0; i < actionDescriptors.length; i++) {
-			ActionDescriptor descriptor = actionDescriptors[i];
+		for(ActionDescriptor descriptor : fActionDescriptors ) {
 			if (descriptor.getAction().getModelType() == target) {
 				return descriptor;
 			}
@@ -151,12 +172,18 @@ public class BPELUIRegistry {
 	    return null;
 	}
 	
+	/**
+	 * @return the action category descriptors.
+	 */
 	public ActionCategoryDescriptor[] getActionCategoryDescriptors() {
-	    return actionCategoryDescriptors;
+	    return fActionCategoryDescriptors;
 	}
 	
+	/**
+	 * @return the listener descriptors.
+	 */
 	public ListenerDescriptor[] getListenerDescriptors() {
-	    return listenerDescriptors;
+	    return fListenerDescriptors;
 	}
 	
 	private void readHoverHelpers() {
@@ -181,11 +208,11 @@ public class BPELUIRegistry {
 	 * Read all the actions and categories.
 	 */
 	private void readActions() {
-	    List categories = new ArrayList();
-	    List actions = new ArrayList();
-		IConfigurationElement[] extensions = getConfigurationElements(EXTPT_ACTIONS);
-		for (int i = 0; i < extensions.length; i++) {
-			IConfigurationElement element = extensions[i];
+	    List<ActionCategoryDescriptor> categories = new ArrayList<ActionCategoryDescriptor>();
+	    List<ActionDescriptor> actions = new ArrayList<ActionDescriptor>();
+	    		
+		for (IConfigurationElement element : getConfigurationElements(EXTPT_ACTIONS)) {
+			
 			if (element.getName().equals(ELEMENT_CATEGORY)) {
 				String name = element.getAttribute(ATT_NAME);
 				String id = element.getAttribute(ATT_ID);
@@ -221,20 +248,19 @@ public class BPELUIRegistry {
 			}
 		}
 		
-		actionCategoryDescriptors = new ActionCategoryDescriptor[categories.size()];
-		categories.toArray(actionCategoryDescriptors);
-		actionDescriptors = new ActionDescriptor[actions.size()];
-		actions.toArray(actionDescriptors);
+		fActionCategoryDescriptors = new ActionCategoryDescriptor[categories.size()];
+		categories.toArray(fActionCategoryDescriptors);
+		fActionDescriptors = new ActionDescriptor[actions.size()];
+		actions.toArray(fActionDescriptors);
 	}
 
 	/**
 	 * Read all the model listeners
 	 */
 	private void readListeners() {
-	    List listeners = new ArrayList();
-		IConfigurationElement[] extensions = getConfigurationElements(EXTPT_MODELLISTENER);
-		for (int i = 0; i < extensions.length; i++) {
-			IConfigurationElement element = extensions[i];
+	    List<ListenerDescriptor> listeners = new ArrayList<ListenerDescriptor>();
+
+	    for (IConfigurationElement element : getConfigurationElements(EXTPT_MODELLISTENER)) {
 			if (element.getName().equals(ELEMENT_LISTENER)) {
 				String id = element.getAttribute(ATT_ID);
 				if (id != null) {
@@ -251,8 +277,8 @@ public class BPELUIRegistry {
 			}
 		}
 		
-		listenerDescriptors = new ListenerDescriptor[listeners.size()];
-		listeners.toArray(listenerDescriptors);
+		fListenerDescriptors = new ListenerDescriptor[listeners.size()];
+		listeners.toArray(fListenerDescriptors);
 	}
 
 	/**
@@ -267,8 +293,10 @@ public class BPELUIRegistry {
 		return extensionPoint.getConfigurationElements();
 	}
 
+	/**
+	 * @return an array of ExpressionEditorDescriptor values.
+	 */
 	public ExpressionEditorDescriptor[] getExpressionEditorDescriptors() {
-		Collection descriptors = languageToEditorDescriptor.values();
-		return (ExpressionEditorDescriptor[]) descriptors.toArray(new ExpressionEditorDescriptor[descriptors.size()]);
+		return fLanguageToEditorDescriptor.values().toArray( EMPTY_EDITOR_DESCRIPTORS );		
 	}
 }

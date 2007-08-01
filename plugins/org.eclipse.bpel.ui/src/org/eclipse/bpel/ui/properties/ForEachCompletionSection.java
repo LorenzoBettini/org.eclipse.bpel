@@ -37,7 +37,7 @@ public class ForEachCompletionSection extends ExpressionSection {
 	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();		
-		adapters[0].addToObject( getExpressionTarget() );		
+		fAdapters[0].addToObject( getExpressionTarget() );		
 	}
 	
 	@Override

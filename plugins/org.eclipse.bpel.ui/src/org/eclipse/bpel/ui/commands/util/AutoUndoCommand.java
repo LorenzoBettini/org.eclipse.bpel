@@ -46,7 +46,7 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	 */
 	
 	@SuppressWarnings("nls")
-	public AutoUndoCommand(EObject modelRoot) {
+	public AutoUndoCommand (EObject modelRoot) {
 		super();
 		if (modelRoot == null) {
 			throw new IllegalArgumentException("modelRoot cannot be null here.");
@@ -238,7 +238,9 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	/**
 	 * Subclasses should override this method.
 	 */
-	public void doExecute() { }
+	public void doExecute() { 
+		
+	}
 	
 	/**
 	 * @see org.eclipse.gef.commands.Command#canUndo()

@@ -17,7 +17,6 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -29,8 +28,8 @@ import org.eclipse.swt.widgets.Label;
  */
 public class OpaqueAssignCategory extends AssignCategoryBase {
 
-	protected OpaqueAssignCategory(BPELPropertySection ownerSection, EStructuralFeature feature) {
-		super(ownerSection,feature);
+	protected OpaqueAssignCategory(BPELPropertySection ownerSection) {
+		super(ownerSection);
 	}
 
 	/**

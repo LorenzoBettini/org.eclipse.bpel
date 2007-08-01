@@ -20,7 +20,6 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -37,8 +36,8 @@ public class LiteralAssignCategory extends AssignCategoryBase {
 
 	Text fLiteralText;
 	
-	protected LiteralAssignCategory (BPELPropertySection ownerSection, EStructuralFeature feature) {
-		super(ownerSection ,feature);
+	protected LiteralAssignCategory (BPELPropertySection ownerSection ) {
+		super(ownerSection);
 	}
 
 	/**

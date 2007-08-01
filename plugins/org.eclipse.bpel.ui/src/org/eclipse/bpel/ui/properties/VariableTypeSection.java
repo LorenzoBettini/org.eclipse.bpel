@@ -122,7 +122,7 @@ public class VariableTypeSection extends BPELPropertySection {
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		VariableExtension varExt = (VariableExtension)ModelHelper.getExtension(getInput());
-		if (varExt != null) adapters[0].addToObject(varExt);
+		if (varExt != null) fAdapters[0].addToObject(varExt);
 	}
 	
 	

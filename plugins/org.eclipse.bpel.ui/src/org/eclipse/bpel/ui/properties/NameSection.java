@@ -11,18 +11,17 @@
 package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
+import org.eclipse.bpel.common.ui.details.IValue;
+import org.eclipse.bpel.common.ui.details.TextIValue;
 import org.eclipse.bpel.common.ui.details.widgets.DecoratedLabel;
 import org.eclipse.bpel.common.ui.details.widgets.StatusLabel2;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.BPELUIPlugin;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.adapters.INamedElement;
-import org.eclipse.bpel.ui.commands.SetNameCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
@@ -38,7 +37,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.views.markers.internal.MarkerSupportRegistry;
 
 
 /**
@@ -47,11 +45,15 @@ import org.eclipse.ui.views.markers.internal.MarkerSupportRegistry;
 
 @SuppressWarnings("boxing")
 public class NameSection extends BPELPropertySection {
-
-	protected INamedElement namedElement;
-	protected Text nameText;
+	
+	protected Text fNameText;
+	
 	protected StatusLabel2 statusLabel;
-	protected ChangeTracker nameTracker;	
+
+	protected EditController fNameEditController;
+
+	INamedElement fNamedElement;
+		
 	
 	@Override
 	protected MultiObjectAdapter[] createAdapters() {
@@ -65,10 +67,6 @@ public class NameSection extends BPELPropertySection {
 						updateMarkers();
 						return ;
 					}
-					
-					if (namedElement.isNameAffected(getInput(), n))  {
-						updateNameWidgets();
-					}
 				}
 			},
 		};
@@ -77,14 +75,10 @@ public class NameSection extends BPELPropertySection {
 	@Override
 	protected void basicSetInput (EObject input) {
 		super.basicSetInput(input);
-		
-		if (input == null)  {
-			namedElement = null;
-		} else  {
-			namedElement = BPELUtil.adapt(input, INamedElement.class);
-		}
 
-		updateNameWidgets();
+		fNamedElement = BPELUtil.adapt(input,INamedElement.class);
+		
+		fNameEditController.setInput(input);
 	}
 	
 
@@ -96,17 +90,17 @@ public class NameSection extends BPELPropertySection {
 		nameLabel.setText(Messages.NameDetails_BPEL_Name__3); 
 		statusLabel = new StatusLabel2( nameLabel );		
 		
-		nameText = fWidgetFactory.createText(composite, ""); //$NON-NLS-1$
+		fNameText = fWidgetFactory.createText(composite, EMPTY_STRING);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameLabel, STANDARD_LABEL_WIDTH_AVG));
-		data.right = new FlatFormAttachment(100, 0);
-		data.top = new FlatFormAttachment(0, 0);
-		nameText.setLayoutData(data);
+		data.right = new FlatFormAttachment(100, (-2) * IDetailsAreaConstants.HSPACE );
+		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE );
+		fNameText.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(nameText, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(nameText, 0, SWT.CENTER);
+		data.right = new FlatFormAttachment(fNameText, -IDetailsAreaConstants.HSPACE);
+		data.top = new FlatFormAttachment(fNameText, 0, SWT.CENTER);
 		nameLabel.setLayoutData(data);
 				
 		
@@ -114,25 +108,66 @@ public class NameSection extends BPELPropertySection {
 	}
 	
 	protected void createChangeTrackers() {
-		IOngoingChange change = new IOngoingChange() {
-			public String getLabel() {
-				return IBPELUIConstants.CMD_EDIT_NAME;
+			
+		
+//		fChangeHelper = new ChangeHelper ( getCommandFramework() ) {
+//			public String getLabel() {
+//				return IBPELUIConstants.CMD_EDIT_NAME;
+//			}
+//			public Command createApplyCommand() {
+//									
+//				final String newName = fNameText.getText().trim();
+//				
+//				if (newName.length() == 0 || newName.equals(namedElement.getName(getModel()))) {
+//					return null; // there is nothing to be done
+//				}
+//				
+//				return wrapInShowContextCommand(
+//						new UpdateModelCommand(getInput(), getLabel() ) {							
+//							@Override
+//							public void doExecute() {
+//								namedElement.setName(fTarget, newName);
+//							}													
+//						});						
+//			}
+//			
+//			public void restoreOldState() {
+//				updateNameWidgets();
+//			}			
+//		};
+//		
+//		fChangeHelper.startListeningTo(fNameText);
+//		
+		
+		/** TODO: Empty Name should never be set */
+		
+		fNameEditController = new EditController(getCommandFramework()) {
+			@Override
+			public boolean checkNotification (Notification notification) {
+				return fNamedElement != null && fNamedElement.isNameAffected(fNameEditController.getInput(), notification);				
 			}
+			@Override
 			public Command createApplyCommand() {
-									
-				String newName = nameText.getText().trim();
-				
-				if (newName.length() == 0 || newName.equals(namedElement.getName(getModel()))) {
-					return null; // there is nothing to be done
-				}				
-				return wrapInShowContextCommand(new SetNameCommand(getInput(), newName));
+				return wrapInShowContextCommand( super.createApplyCommand() );
 			}
 			
-			public void restoreOldState() {
-				updateNameWidgets();
+		};		
+		fNameEditController.setLabel( BPELPackage.eINSTANCE.getActivity_Name().getName() );
+		
+		fNameEditController.setViewIValue(new TextIValue ( fNameText )) ;
+		fNameEditController.setModeIValue(new IValue () {
+			public Object get() {			
+				return fNamedElement != null ? fNamedElement.getName( fNameEditController.getInput() ) : null;
 			}
-		};
-		nameTracker = new ChangeTracker(nameText, change, getCommandFramework());
+			public void set (Object object) {				
+				if (fNamedElement != null) {
+					fNamedElement.setName(fNameEditController.getInput(),object.toString() );								
+				}
+			}			
+		});
+		
+		fNameEditController.startListeningTo(fNameText);
+	
 	}
 	
 	@Override
@@ -144,28 +179,6 @@ public class NameSection extends BPELPropertySection {
 			composite, IHelpContextIds.PROPERTY_PAGE_NAME);
 	}
 
-	protected void updateNameWidgets()  {
-		
-		String name = EMPTY_STRING;
-		
-		if (namedElement != null) {
-			name = namedElement.getName(getInput());
-			if (name == null) {
-				name = EMPTY_STRING;
-			}
-		}
-				
-		if (name.equals(nameText.getText()) == false) {
-			nameTracker.stopTracking();
-			try {
-				nameText.setText(name);
-			} finally {
-				nameTracker.startTracking();
-			}
-		}
-		
-		updateMarkers();
-	}
 	
 	
 	@Override
@@ -208,8 +221,8 @@ public class NameSection extends BPELPropertySection {
                         Object name = loopElement.eGet(eAttribute);
                         if (name != null) {
                             // is there another element with the same name?
-                            if (name.equals(nameText.getText()) && !loopElement.equals(currentElement)) {   
-                                String message = NLS.bind(Messages.NameDetails_RenameErrorMessage, (new Object[] {nameText.getText()})); 
+                            if (name.equals(fNameText.getText()) && !loopElement.equals(currentElement)) {   
+                                String message = NLS.bind(Messages.NameDetails_RenameErrorMessage, (new Object[] {fNameText.getText()})); 
                                 return new Status( IStatus.ERROR, BPELUIPlugin.PLUGIN_ID, IStatus.ERROR, message, null);
                             } 
                         }
@@ -223,6 +236,7 @@ public class NameSection extends BPELPropertySection {
 	
 	
 	protected EAttribute getNAMEAttribute(EList list) {
+		
 		if (list != null) {
 			for (int i = 0; i < list.size();i++) {
 				EObject eo = (EObject)list.get(i);
@@ -253,7 +267,7 @@ public class NameSection extends BPELPropertySection {
 	 */
 	@Override
 	public void restoreUserContext(Object userContext) {
-		nameText.setFocus();
+		fNameText.setFocus();
 	}
 
 	/**
@@ -265,7 +279,7 @@ public class NameSection extends BPELPropertySection {
 	
 	@Override
 	public void gotoMarker (IMarker marker) {
-		nameText.setFocus() ;		
+		fNameText.setFocus() ;		
 	}
 
 	/**

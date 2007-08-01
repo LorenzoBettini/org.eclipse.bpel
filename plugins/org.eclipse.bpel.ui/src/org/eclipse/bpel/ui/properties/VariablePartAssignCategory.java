@@ -22,7 +22,6 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
@@ -31,7 +30,6 @@ import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.XSDUtils;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -47,34 +45,36 @@ import org.eclipse.wst.wsdl.Part;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDTypeDefinition;
 
 /**
  * An AssignCategory presenting a tree from which the user can select any of:
+ * 
  *  - a Variable
  *  - a Part within a Variable
  *  - some XSD element within a Part within a Variable.
+ *     
  */
 
 
 public class VariablePartAssignCategory extends AssignCategoryBase {
 
-	Label nameLabel;
-	Text nameText;
-	Tree variableTree;
-	TreeViewer variableViewer;	
+	Label fNameLabel;
+	Text fNameText;
+	Tree fVariableTree;
+	
+	TreeViewer fVariableViewer;	
 
 	VariableTreeContentProvider variableContentProvider;
 	Shell shell;
 
-	protected VariablePartAssignCategory(BPELPropertySection anOwnerSection, EStructuralFeature feature ) {
-		super(anOwnerSection,feature);
+	protected VariablePartAssignCategory(BPELPropertySection anOwnerSection  ) {
+		super(anOwnerSection );
 	}
 
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
 	 */
+	@Override
 	public String getName() {
 		return Messages.VariablePartAssignCategory_Variable_or_Part_1; 
 	} 
@@ -96,12 +96,12 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		if (displayQuery() == false || 
 				fChangeHelper.isNonUserChange() || 
-				this.modelObject == null) 
+				this.fModelObject == null) 
 		{
 			return ;
 		}
 				
-		IStructuredSelection sel = (IStructuredSelection) variableViewer.getSelection();
+		IStructuredSelection sel = (IStructuredSelection) fVariableViewer.getSelection();
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
 				
 		StringBuilder builder = new StringBuilder();
@@ -123,7 +123,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				
 				if (targetNamespace != null) {
 					
-					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( modelObject , targetNamespace , shell);
+					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( fModelObject , targetNamespace , shell);
 					if (namespacePrefix == null) {						
 						break ;
 					}
@@ -140,7 +140,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				
 				builder.append("/");
 				if (targetNamespace != null) {
-					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( modelObject , targetNamespace , shell);
+					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( fModelObject , targetNamespace , shell);
 					if (namespacePrefix == null) {
 						break;
 					}
@@ -166,9 +166,17 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			builder.append(s);
 		}
 		
-		nameText.setText( builder.toString() );
-		nameText.setEnabled(true);
-		nameLabel.setEnabled(true);		
+		
+		try {
+			fChangeHelper.startNonUserChange();
+			
+			fNameText.setText( builder.toString() );
+			fNameText.setEnabled(true);
+			fNameLabel.setEnabled(true);
+			
+		} finally {			
+			fChangeHelper.finishNonUserChange();
+		}
 	}
 	
 	
@@ -178,28 +186,28 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		FlatFormData data; 
 		
-		variableTree = fWidgetFactory.createTree(parent, SWT.NONE /*SWT.BORDER*/);
+		fVariableTree = fWidgetFactory.createTree(parent, SWT.NONE /*SWT.BORDER*/);
 
 		if (displayQuery()) {
 			// area for query string and wizard button
-			nameLabel = fWidgetFactory.createLabel(parent, Messages.VariablePartAssignCategory_Query__8); 
-			nameText = fWidgetFactory.createText(parent, ""); //$NON-NLS-1$
+			fNameLabel = fWidgetFactory.createLabel(parent, Messages.VariablePartAssignCategory_Query__8); 
+			fNameText = fWidgetFactory.createText(parent, ""); //$NON-NLS-1$
 			data = new FlatFormData();
-			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(nameText, STANDARD_LABEL_WIDTH_SM));
+			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(fNameText, STANDARD_LABEL_WIDTH_SM));
 			data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
 			data.bottom = new FlatFormAttachment(100, 0);
 			
-			data.top = new FlatFormAttachment(100, (-1)* (nameText.getLineHeight() + 4*nameText.getBorderWidth()) - IDetailsAreaConstants.VSPACE);
-			nameText.setLayoutData(data);
+			data.top = new FlatFormAttachment(100, (-1)* (fNameText.getLineHeight() + 4*fNameText.getBorderWidth()) - IDetailsAreaConstants.VSPACE);
+			fNameText.setLayoutData(data);
 			
-			fChangeHelper.startListeningTo(nameText);
-			fChangeHelper.startListeningForEnter(nameText);
+			fChangeHelper.startListeningTo(fNameText);
+			fChangeHelper.startListeningForEnter(fNameText);
 
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0, 0);
-			data.right = new FlatFormAttachment(nameText, -IDetailsAreaConstants.HSPACE);
-			data.top = new FlatFormAttachment(nameText, 0, SWT.CENTER);
-			nameLabel.setLayoutData(data);
+			data.right = new FlatFormAttachment(fNameText, -IDetailsAreaConstants.HSPACE);
+			data.top = new FlatFormAttachment(fNameText, 0, SWT.CENTER);
+			fNameLabel.setLayoutData(data);
 		} 
 
 		data = new FlatFormData();
@@ -207,29 +215,29 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		data.top = new FlatFormAttachment(0, 0); 
 		data.right = new FlatFormAttachment(100, 0); 
 		if (displayQuery()) {
-			data.bottom = new FlatFormAttachment(nameText, -IDetailsAreaConstants.VSPACE, SWT.TOP);
+			data.bottom = new FlatFormAttachment(fNameText, -IDetailsAreaConstants.VSPACE, SWT.TOP);
 		} else {
 			data.bottom = new FlatFormAttachment(100, 0);
 		}
 			
 //		data.borderType = IBorderConstants.BORDER_2P2_BLACK;
-		variableTree.setLayoutData(data);
+		fVariableTree.setLayoutData(data);
 		
 		variableContentProvider = new VariableTreeContentProvider(true, isPropertyTree(), displayQuery());
-		variableViewer = new TreeViewer(variableTree);
-		variableViewer.setContentProvider(variableContentProvider);
-		variableViewer.setLabelProvider(new ModelTreeLabelProvider());
+		fVariableViewer = new TreeViewer(fVariableTree);
+		fVariableViewer.setContentProvider(variableContentProvider);
+		fVariableViewer.setLabelProvider(new ModelTreeLabelProvider());
 		// TODO: does this sorter work at the top level?  does it affect nested levels too?
 		//variableViewer.setSorter(ModelViewerSorter.getInstance());
-		variableViewer.setInput(fOwnerSection.getModel());
+		fVariableViewer.setInput(fOwnerSection.getModel());
 		
-		variableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		fVariableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateQueryFieldFromTreeSelection();
 			}
 		});
 		
-		fChangeHelper.startListeningTo(variableTree);
+		fChangeHelper.startListeningTo(fVariableTree);
 	}
 	
 	
@@ -237,6 +245,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
 	
+	@Override
 	public boolean isCategoryForModel( EObject aModel ) {
 		
 		if (aModel == null)  {
@@ -256,11 +265,11 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		fChangeHelper.startNonUserChange();
 		try {
-			variableViewer.setSelection(StructuredSelection.EMPTY, false);
+			fVariableViewer.setSelection(StructuredSelection.EMPTY, false);
 			if (displayQuery()) {
-				nameText.setText( EMPTY_STRING );
-				nameText.setEnabled(true);
-				nameLabel.setEnabled(true);
+				fNameText.setText( EMPTY_STRING );
+				fNameText.setEnabled(true);
+				fNameLabel.setEnabled(true);
 			}					
 		} finally {
 			fChangeHelper.finishNonUserChange();
@@ -273,7 +282,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		Object context = side.getVariable();
 		if (context != null) {
 						
-			Object[] items = variableContentProvider.getElements(variableViewer.getInput());
+			Object[] items = variableContentProvider.getElements(fVariableViewer.getInput());
 			node = variableContentProvider.findModelNode(items, context, 0);
 			if (node != null)  {
 				pathToNode.add(node);
@@ -326,7 +335,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 					}
 																		
 					QueryStep step = new QueryStep(token);
-					step.updateNamespaceURI( this.modelObject );
+					step.updateNamespaceURI( this.fModelObject );
 					
 					if (step.fAxis.equals("child") == false) {
 						break outer;
@@ -380,10 +389,10 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			fChangeHelper.startNonUserChange();
 			try {
 				if (displayQuery()) {
-					nameText.setText(query == null? EMPTY_STRING : query);
+					fNameText.setText(query == null? EMPTY_STRING : query);
 				}
-				variableViewer.expandToLevel(node, 0);
-				variableViewer.setSelection(new StructuredSelection(node), true);
+				fVariableViewer.expandToLevel(node, 0);
+				fVariableViewer.setSelection(new StructuredSelection(node), true);
 			} finally {	
 				fChangeHelper.finishNonUserChange();
 			}
@@ -406,10 +415,10 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	
 	@Override
 	protected void store (IVirtualCopyRuleSide side) {
-		IStructuredSelection sel = (IStructuredSelection)variableViewer.getSelection();
+		IStructuredSelection sel = (IStructuredSelection)fVariableViewer.getSelection();
 		
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
-		String query = displayQuery() ? nameText.getText() : EMPTY_STRING;
+		String query = displayQuery() ? fNameText.getText() : EMPTY_STRING;
 				
 		
 		for(Object n : path ) {
@@ -430,7 +439,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		if (displayQuery() && query.trim().length() >= 0) {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
-			queryObject.setQueryLanguage(BPELConstants.XMLNS_XPATH_QUERY_LANGUAGE);
+			queryObject.setQueryLanguage (BPELConstants.XMLNS_XPATH_QUERY_LANGUAGE);
 			queryObject.setValue(query);
 			side.setQuery(queryObject);
 		} else {
@@ -454,10 +463,10 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			
 		EObject container = newInput.eContainer();		
 		if (container instanceof Variable) {
-			
+				
 			fChangeHelper.startNonUserChange();
-			try {
-				variableViewer.setInput( container );
+			try {				
+				fVariableViewer.setInput( container );
 			} finally {
 				fChangeHelper.finishNonUserChange();
 			}
@@ -477,7 +486,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	 */
 	@Override
 	public void restoreUserContext(Object userContext) {
-		variableTree.setFocus();
+		fVariableTree.setFocus();
 	}
 	
 	

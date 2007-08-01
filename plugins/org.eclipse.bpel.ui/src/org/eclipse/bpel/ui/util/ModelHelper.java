@@ -133,6 +133,7 @@ import org.eclipse.xsd.util.XSDConstants;
  * This is analogous to the way casting an object to an interface type would throw
  * a ClassCastException if the object didn't support (implement) that interface.
  */
+@SuppressWarnings("nls")
 public class ModelHelper {
 	
 	public static Object[] EMPTY_ARRAY = new Object[0];
@@ -668,9 +669,14 @@ public class ModelHelper {
 		if (context instanceof CompensationHandler)  return ((CompensationHandler)context).getActivity();
 		if (context instanceof TerminationHandler)  return ((TerminationHandler)context).getActivity();
 		if (context instanceof If) return ((If) context).getActivity();
-		throw new IllegalArgumentException();
+		
+		if (context instanceof ForEach) {
+			return ((ForEach)context).getActivity();
+		}
+		throw new IllegalArgumentException("ModelHelper.getActivity() - no activity for this context");
 	}
 
+	
 	// TODO: this method is never called - remove it???
 	public static void setActivity(Object context, Activity activity) {
 		if (context instanceof ElseIf) {
@@ -718,9 +724,13 @@ public class ModelHelper {
 		if (context instanceof If) {
 			setElse((If)context, activity); return;
 		}
+		if (context instanceof ForEach) {
+			((ForEach)context).setActivity(activity);
+			return;
+		}
 		//TODO: ELSEIF ???
 		
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("ModelHelper.setActivity() - cannot set activity in this context");
 	}
 	
 	// TODO: this method is never called - remove it???
@@ -1075,7 +1085,7 @@ public class ModelHelper {
 	 * have created new model objects and not yet added them to the ResourceSet and
 	 * you want to do things to the extension.
 	 */
-	public static void createExtensionIfNecessary(ExtensionMap extensionMap, EObject input) {
+	public static void createExtensionIfNecessary (ExtensionMap extensionMap, EObject input) {
 		if (extensionMap == null || input == null || input.eIsProxy()) return;
 		try {
 			if (extensionMap.get(input) != null) return;
@@ -1085,12 +1095,13 @@ public class ModelHelper {
 		}
 		
 		// If it supports IExtensionFactory, create an extension and add it to the map.
-		IExtensionFactory extensionFactory = (IExtensionFactory)BPELUtil.adapt(
-			input, IExtensionFactory.class);
+		IExtensionFactory extensionFactory = BPELUtil.adapt( input, IExtensionFactory.class);
 		if (extensionFactory != null) {
 			if (Policy.DEBUG) System.out.println("creating extension for: "+input); //$NON-NLS-1$
-			Object extension = extensionFactory.createExtension(input);
-			if (extension != null) extensionMap.put(input, extension);
+			EObject extension = (EObject) extensionFactory.createExtension(input);
+			if (extension != null) {
+				extensionMap.put(input, extension);
+			}
 		}
 	}
 	
@@ -1236,17 +1247,19 @@ public class ModelHelper {
 			modelObject = ((StartNode)modelObject).getProcess();
 		}
 		if (modelObject instanceof EObject) {
+			
 			Resource r = ((EObject)modelObject).eResource();
 			if (r != null) {
 				return BPELEditor.getBPELEditor(r.getResourceSet());
 			}
-			System.out.println("modelObject: does not have a eResource() == null ??!!!!");
+			throw new IllegalArgumentException("EObject does not have an eResource()");
+			
 		} else if (modelObject instanceof Resource) {
 			return BPELEditor.getBPELEditor(((Resource)modelObject).getResourceSet());
 		} else if (modelObject instanceof ResourceSet) {
 			return BPELEditor.getBPELEditor((ResourceSet)modelObject);
 		}
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Not an EObject/Resource/ResourceSet");
 	}
 
 	public static TreeIterator getAllContents(Object modelObject) {

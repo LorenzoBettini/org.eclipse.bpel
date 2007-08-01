@@ -143,7 +143,7 @@ public class CorrSetImplSection extends BPELPropertySection  {
 		List corrList = ((CorrelationSet)getInput()).getProperties();
 		for (Iterator it = corrList.iterator(); it.hasNext(); ) {
 			Property property = (Property)it.next();
-			adapters[1].addToObject(property);
+			fAdapters[1].addToObject(property);
 		}
 	}
 

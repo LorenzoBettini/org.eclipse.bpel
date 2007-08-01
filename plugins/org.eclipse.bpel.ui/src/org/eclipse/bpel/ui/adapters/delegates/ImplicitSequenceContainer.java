@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters.delegates;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.uiextensionmodel.ActivityExtension;
@@ -46,10 +48,12 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#getChildList(java.lang.Object)
 	 */
 	@Override
-	public List<Object> getChildList(Object object) {
+	public List<Object> getChildList (Object object) {
 		Object child = getSingleChild(object);
 		if (child != null && isImplicitSequence(child)) {
-			return ((Sequence)child).getActivities();
+			ArrayList<Object> activities = new ArrayList<Object>();
+			Collections.copy(activities, ((Sequence)child).getActivities() );
+			return activities;
 		}
 		return null;
 	}
@@ -88,9 +92,10 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 	 * @see org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public boolean addChild(Object object, Object newChild, Object insertBefore) {
+	public boolean addChild (Object object, Object newChild, Object insertBefore) {
 		
 		Object currentChild = getSingleChild(object);
+		
 		if (currentChild != null && isImplicitSequence(currentChild)) {
 			return super.addChild(object, newChild, insertBefore);
 		}
@@ -116,11 +121,11 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 		// those children.
 		setSingleChild(object, implicitSequence);
 		if (insertBefore==originalChild) {
-			implicitSequence.getActivities().add(newChild);
+			implicitSequence.getActivities().add( (Activity) newChild);
 		}
-		implicitSequence.getActivities().add(originalChild);
+		implicitSequence.getActivities().add( (Activity)originalChild);
 		if (insertBefore!=originalChild) {
-			implicitSequence.getActivities().add(newChild);
+			implicitSequence.getActivities().add((Activity) newChild);
 		}
 		return true;
 	}

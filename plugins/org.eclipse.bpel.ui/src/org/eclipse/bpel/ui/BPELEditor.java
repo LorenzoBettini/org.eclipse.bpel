@@ -1496,7 +1496,11 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	 */
 	public void selectModelObject(Object modelObject) {
 		setFocus(); // give focus to the editor so that it can notify the properties view of input change
-		adaptingSelectionProvider.setSelection(new StructuredSelection(modelObject));
+		if (modelObject == null) {
+			adaptingSelectionProvider.setSelection(StructuredSelection.EMPTY);
+		} else {
+			adaptingSelectionProvider.setSelection(new StructuredSelection(modelObject));	
+		}		
 	}
 
 	/**

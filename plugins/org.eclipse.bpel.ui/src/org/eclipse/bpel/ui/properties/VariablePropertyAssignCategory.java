@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * An AssignCategory presenting a tree from which the user can select any of:
@@ -21,8 +20,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public class VariablePropertyAssignCategory extends VariablePartAssignCategory {
 
-	protected VariablePropertyAssignCategory (BPELPropertySection ownerSection, EStructuralFeature feature ) {
-		super(ownerSection, feature);
+	protected VariablePropertyAssignCategory (BPELPropertySection ownerSection ) {
+		super(ownerSection );
 	}
 
 	/**

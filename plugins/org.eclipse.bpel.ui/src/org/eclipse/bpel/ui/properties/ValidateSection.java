@@ -10,19 +10,14 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
-import org.eclipse.bpel.common.ui.details.IOngoingChange;
+import org.eclipse.bpel.common.ui.details.ButtonIValue;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.SetCommand;
-import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.bpel.ui.util.MultiObjectAdapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,43 +30,15 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ValidateSection extends BPELPropertySection  {
 
-	protected Button validateXMLButton;
-	protected ChangeTracker validateXMLTracker;
-
+	Button fValidateXMLButton;
 	
-	@Override
-	protected MultiObjectAdapter[] createAdapters() {
-		return new MultiObjectAdapter[] {
-			/* model object */
-			new MultiObjectAdapter() {
-				@Override
-				public void notify(Notification n) {
-					if (n.getFeature() == BPELPackage.eINSTANCE.getAssign_Validate() ) {
-						updateValidateXMLWidgets();
-					} 
-				}
-			},
-		};
-	}
+	EditController fValidateController;
 
-	protected void createChangeTrackers() {
-		IOngoingChange change = new IOngoingChange() {
-			public String getLabel() {
-				return IBPELUIConstants.CMD_VALIDATE_XML;
-			}
-			public Command createApplyCommand() {
-				
-				return wrapInShowContextCommand(
-						new SetCommand(getInput(), 
-									validateXMLButton.getSelection()? Boolean.TRUE : null, 
-									BPELPackage.eINSTANCE.getAssign_Validate() ));
-			}
-			
-			public void restoreOldState() {
-				updateValidateXMLWidgets();
-			}
-		};
-		validateXMLTracker = new ChangeTracker(validateXMLButton, change, getCommandFramework());
+	protected void createChangeTrackers() {		
+		fValidateController = createEditController();
+		fValidateController.setFeature( BPELPackage.eINSTANCE.getAssign_Validate() );
+		fValidateController.setViewIValue( new ButtonIValue ( fValidateXMLButton ) );
+		fValidateController.startListeningTo(fValidateXMLButton);
 	}
 
 	protected void createValidateWidgets(Composite composite) {
@@ -84,7 +51,7 @@ public class ValidateSection extends BPELPropertySection  {
 		parent.setLayoutData(data);
 		parent.setLayout(new FillLayout());
 
-		validateXMLButton = fWidgetFactory.createButton(parent, Messages.Validate, SWT.CHECK); 
+		fValidateXMLButton = fWidgetFactory.createButton(parent, Messages.Validate, SWT.CHECK); 
 	}
 	
 	@Override
@@ -99,28 +66,16 @@ public class ValidateSection extends BPELPropertySection  {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
 			composite, IHelpContextIds.PROPERTY_PAGE_VALIDATE_DETAILS);
 	}
-
-	protected void updateValidateXMLWidgets() {
-		validateXMLTracker.stopTracking();
-		try {
-			boolean modelValue = Boolean.TRUE.equals(ModelHelper.getValidate(getInput()));
-			if (validateXMLButton.getSelection() != modelValue) {
-				validateXMLButton.setSelection(modelValue);
-			}
-		} finally {
-			validateXMLTracker.startTracking();
-		}
-	}
-
-	/**
-	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#refresh()
-	 */
+	
+	
 	@Override
-	public void refresh() {
-		super.refresh();
-		updateValidateXMLWidgets();
+	protected void basicSetInput(EObject newInput) { 
+		super.basicSetInput(newInput);
+		
+		fValidateController.setInput(newInput);
 	}
 
+	
 	/**
 	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#getUserContext()
 	 */
@@ -134,6 +89,6 @@ public class ValidateSection extends BPELPropertySection  {
 	 */
 	@Override
 	public void restoreUserContext(Object userContext) {
-		validateXMLButton.setFocus();
+		fValidateXMLButton.setFocus();
 	}
 }

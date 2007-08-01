@@ -426,7 +426,7 @@ public class FaultThrowNameSection extends BPELPropertySection {
 				dialog.setTitle(Messages.FaultThrowNameSection_Select_Fault_Variable_2); 
 				if (dialog.open() == Window.OK) {
 					Variable variable = dialog.getVariable();
-					Command command = new SetVariableCommand(modelObject, variable, ModelHelper.OUTGOING);
+					Command command = new SetVariableCommand(fModelObject, variable, ModelHelper.OUTGOING);
 					lastChangeContext = VARIABLE_CONTEXT; 
 					getCommandFramework().execute(wrapInShowContextCommand(command));
 				}

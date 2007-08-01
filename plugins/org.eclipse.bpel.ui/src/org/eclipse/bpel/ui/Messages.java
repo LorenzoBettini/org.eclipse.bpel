@@ -217,8 +217,6 @@ public final class Messages extends NLS {
 	public static String BPELPreferencePage_3TT;
 	public static String BPELPreferencePage_4;
 	public static String BPELPreferencePage_4TT;
-	public static String BPELPreferencePage_5;
-	public static String BPELPreferencePage_5TT;	
 	public static String BPELPreferencePage_WSIL_1;
 	public static String BPELPreferencePage_WSIL_2;
 	public static String BPELPreferencePage_WSIL_Location;
@@ -543,9 +541,6 @@ public final class Messages extends NLS {
 	public static String SetVariableAction_Select_Request_Variable_2;
 	public static String SetVariableAction_Select_Response_Variable_2;
 	public static String SimpleAction_Simple_Action_0;
-	public static String SpecCompliantSection_Are_you_sure_2;
-	public static String SpecCompliantSection_Cannot_be_reverted_warning_3;
-	public static String SpecCompliantSection_Disable_WebSphere_Process_Server_BPEL_Extensions_1;
 	public static String StartNodeAdapter_Start_1;
 	public static String TableCursor_ScreenReader_Cell_Action1;
 	public static String ToggleAutoFlowLayout_Align_Flow_Contents_Automatically_2;

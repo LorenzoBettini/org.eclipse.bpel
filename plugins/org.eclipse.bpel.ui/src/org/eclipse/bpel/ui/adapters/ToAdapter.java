@@ -10,17 +10,14 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.EndpointReferenceRole;
 import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
 import org.eclipse.bpel.model.messageproperties.Property;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.Part;
 
@@ -143,14 +140,6 @@ public class ToAdapter extends AbstractStatefulAdapter implements IVirtualCopyRu
 	}
 
 	
-
-	/**
-	 * @see org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide#create()
-	 */
-	public IVirtualCopyRuleSide create() {
-		return BPELUtil.adapt(BPELFactory.eINSTANCE.createTo(), IVirtualCopyRuleSide.class);
-	}
-
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide#getCopyRuleSide()
 	 */

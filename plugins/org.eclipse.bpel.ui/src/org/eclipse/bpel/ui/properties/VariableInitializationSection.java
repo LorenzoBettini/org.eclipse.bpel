@@ -62,14 +62,14 @@ public class VariableInitializationSection extends BPELPropertySection {
 		fFromSection = new CategorySection(this);
 	
 		fFromSection.fAllowed = new IAssignCategory[] {			
-			new VariablePartAssignCategory(this, BPELPackage.eINSTANCE.getVariable_From() ),
+			new VariablePartAssignCategory( this ),
 			new ExpressionAssignCategory( this ),
-			new LiteralAssignCategory(this, BPELPackage.eINSTANCE.getVariable_From() ),
-			new VariablePropertyAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),
-			new PartnerRoleAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),
-			new EndpointReferenceAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),						
-			new OpaqueAssignCategory( this, BPELPackage.eINSTANCE.getVariable_From()  ),
-			new NullAssignCategory (this, BPELPackage.eINSTANCE.getVariable_From() ) 
+			new LiteralAssignCategory( this ),
+			new VariablePropertyAssignCategory( this ),
+			new PartnerRoleAssignCategory( this, true ),
+			new EndpointReferenceAssignCategory( this ),						
+			new OpaqueAssignCategory( this ),
+			new NullAssignCategory (this  ) 
 		};
 		
 	}

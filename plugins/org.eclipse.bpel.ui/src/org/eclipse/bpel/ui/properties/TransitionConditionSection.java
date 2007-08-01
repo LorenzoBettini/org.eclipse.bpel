@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import java.util.List;
+
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Source;
@@ -32,7 +34,7 @@ public class TransitionConditionSection extends ExpressionSection {
 		Link link = getModel();
 		for(Object next : link.getSources()) {
 			Source source = (Source) next;
-			adapters[0].addToObject(source);		
+			fAdapters[0].addToObject(source);		
 		}		
 	}
 	
@@ -68,9 +70,12 @@ public class TransitionConditionSection extends ExpressionSection {
 	@Override
 	protected EObject getExpressionTarget() {
 		Link link = getModel();
-		return  (Source) link.getSources().get(0);			
+		List<?> sources = link.getSources();
+		if (sources.size() > 0) {
+			return (Source) sources.get(0);
+		}
+		return  null;			
 	}
-
 	
 	@Override
 	protected boolean isValidClientUseType(String useType) {		

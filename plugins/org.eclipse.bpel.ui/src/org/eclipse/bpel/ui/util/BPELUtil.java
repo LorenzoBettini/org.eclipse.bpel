@@ -350,37 +350,51 @@ public class BPELUtil {
 	// This is a hack to bundle the result of a cloneSubtree with enough state to undo/redo
 	// the extension map changes it caused. 
 	public static class CloneResult {
+		
+		/** The result of the clone */
 		public EObject targetRoot;
-		Map targetMap;
-		Map targetMapAdditions = new HashMap();
+		Map<EObject,EObject> targetMap;
+		Map<EObject,EObject> targetMapAdditions = new HashMap<EObject,EObject>();
+		
+		/**
+		 * Undo ... ?
+		 */
 		public void undo() {
-			for (Iterator it = targetMapAdditions.keySet().iterator(); it.hasNext(); ) {
-				targetMap.remove(it.next());
+			for (EObject next : targetMapAdditions.keySet()) {			
+				targetMap.remove(next);
 			}
 		}
+		
+		/**
+		 * Redo ... ? 
+		 */
 		public void redo() {
-			for (Iterator it = targetMapAdditions.keySet().iterator(); it.hasNext(); ) {
-				Object key = it.next();
+			for (EObject key : targetMapAdditions.keySet()) {				
 				targetMap.put(key, targetMapAdditions.get(key));
 			}
 		}
 	}
 	
 	// This helper is used by the cloneSubtree() method.
-	protected static void cloneSubtreeHelper(EObject source, Map sourceMap, Map targetMap,
-		Map copyMap, CloneResult result)
+	protected static void cloneSubtreeHelper (EObject source, Map<EObject,EObject> sourceMap, Map<EObject,EObject> targetMap,
+		Map<EObject,EObject> copyMap, CloneResult result)
 	{
 		EObject targetObject = createEObject(source.eClass());
 		copyMap.put(source, targetObject);
+		
 		if (sourceMap != null && sourceMap.containsKey(source)) {
-			EObject sourceExtension = (EObject)sourceMap.get(source);
+			
+			EObject sourceExtension = sourceMap.get(source);
 			EObject targetExtension = createEObject(sourceExtension.eClass());
+			
 			copyMap.put(sourceExtension, targetExtension);
-			for (TreeIterator it2 = sourceExtension.eAllContents(); it2.hasNext(); ) {
+			
+			for (TreeIterator<?> it2 = sourceExtension.eAllContents(); it2.hasNext(); ) {
 				EObject source2 = (EObject)it2.next();
 				EObject target2 = createEObject(source2.eClass());
 				copyMap.put(source2, target2);
 			}
+			
 			targetMap.put(targetObject, targetExtension);
 			result.targetMapAdditions.put(targetObject, targetExtension);
 		}
@@ -403,8 +417,11 @@ public class BPELUtil {
 	 * @return a CloneResult containing the root of the target subtree, which can be used
 	 * for undo/redo.
 	 */
-	public static CloneResult cloneSubtree(EObject source, Map sourceMap, Map targetMap) {
-		HashMap copyMap = new HashMap();
+	@SuppressWarnings("nls")
+	public static CloneResult cloneSubtree (EObject source, Map<EObject,EObject> sourceMap, Map<EObject,EObject> targetMap) {
+		
+		HashMap<EObject,EObject> copyMap = new HashMap<EObject,EObject>();
+		
 		CloneResult result = new CloneResult();
 		result.targetMap = targetMap;
 		
@@ -415,7 +432,8 @@ public class BPELUtil {
 		// work with fixing up references.  We have to iterate its eAllContents also here.
 
 		cloneSubtreeHelper(source, sourceMap, targetMap, copyMap, result);
-		for (TreeIterator it = source.eAllContents(); it.hasNext(); ) {
+		
+		for (TreeIterator<?> it = source.eAllContents(); it.hasNext(); ) {
 			EObject sourceObject = (EObject)it.next();
 			cloneSubtreeHelper(sourceObject, sourceMap, targetMap, copyMap, result);
 		}
@@ -424,22 +442,32 @@ public class BPELUtil {
 		// object.  As we copy, we replace any references to cloned source objects with
 		// references to the corresponding target objects--but references to non-cloned
 		// objects are copied as-is.
-
-		for (Iterator it = copyMap.keySet().iterator(); it.hasNext(); ) {
-			EObject sourceObject = (EObject)it.next();
-			EObject targetObject = (EObject)copyMap.get(sourceObject);
-			if (sourceObject.eClass() != targetObject.eClass()) throw new IllegalStateException();
-			if (Policy.DEBUG) System.out.println("copying a "+sourceObject.eClass().getName()); //$NON-NLS-1$
-			for (Iterator it2 = sourceObject.eClass().getEAllStructuralFeatures().iterator(); it2.hasNext(); ) {
-				EStructuralFeature feature = (EStructuralFeature)it2.next();
+		
+		for (Map.Entry<EObject,EObject> entry : copyMap.entrySet() ) {
+			
+			EObject sourceObject = entry.getKey();
+			EObject targetObject = entry.getValue(); 
+			
+			if (sourceObject.eClass() != targetObject.eClass()) {
+				throw new IllegalStateException("Source and target objects are not of the same class after cloning.");
+			}
+			
+			if (Policy.DEBUG) {
+				System.out.println("copying a "+sourceObject.eClass().getName()); //$NON-NLS-1$
+			}
+			
+			for ( EStructuralFeature feature : sourceObject.eClass().getEAllStructuralFeatures()) {
+				
 				// special cases first.
 				if (!feature.isChangeable()) {
 					if (Policy.DEBUG) System.out.println("  *** skipping unchangeable feature "+feature); //$NON-NLS-1$
 					continue;
 				} 
+				
 				if (feature.isUnsettable() && !targetObject.eIsSet(feature)) {
 					if (Policy.DEBUG) System.out.println("  unsetting feature "+feature.getName()); //$NON-NLS-1$
-					targetObject.eUnset(feature); continue;
+					targetObject.eUnset(feature); 
+					continue;
 				}
 				
 				Object value = sourceObject.eGet(feature);
@@ -448,12 +476,16 @@ public class BPELUtil {
 				if (treatAsReference) {
 					if (feature.isMany()) {
 						// list of references.
-						EList newValues = new BasicEList();
+						EList<Object> newValues = new BasicEList<Object>();
 						if (Policy.DEBUG) System.out.println("  copying multi-reference feature "+feature.getName()+":"); //$NON-NLS-1$ //$NON-NLS-2$
-						for (Iterator it3 = ((Collection)value).iterator(); it3.hasNext(); ) {
+						
+						for (Iterator<?> it3 = ((Collection)value).iterator(); it3.hasNext(); ) {
 							Object oldValue = it3.next();
-							Object newValue = (oldValue==null? null : copyMap.get(oldValue));
-							if (newValue == null)  newValue = oldValue;
+							Object newValue = (oldValue==null ? null : copyMap.get(oldValue));
+							
+							if (newValue == null)  {
+								newValue = oldValue;
+							}
 							if (Policy.DEBUG) System.out.println("+ (oldValue="+oldValue+" newValue="+newValue+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 							newValues.add(newValue); 
 						}
@@ -461,7 +493,9 @@ public class BPELUtil {
 					} else {
 						// single reference.
 						Object newValue = (value==null? null : copyMap.get(value));
-						if (newValue == null)  newValue = value;
+						if (newValue == null)  {
+							newValue = value;
+						}
 						if (Policy.DEBUG) System.out.println("  copying reference feature "+feature.getName() //$NON-NLS-1$
 							+" (value="+value+" newValue="+newValue+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						targetObject.eSet(feature, newValue); 
@@ -474,7 +508,7 @@ public class BPELUtil {
 			}
 		}
 		
-		result.targetRoot = (EObject)copyMap.get(source);
+		result.targetRoot = copyMap.get(source);
 		return result;
 	}
 

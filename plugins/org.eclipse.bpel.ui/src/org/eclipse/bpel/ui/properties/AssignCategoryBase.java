@@ -18,13 +18,12 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.ui.BPELTabbedPropertySheetPage;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
-import org.eclipse.bpel.ui.commands.SetCommand;
+import org.eclipse.bpel.ui.commands.util.UpdateModelCommand;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -50,12 +49,9 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	
 	protected IVirtualCopyRuleSide fCopyRuleSide;
 
-	protected EStructuralFeature fStructuralFeature;
-	
 		
-	protected AssignCategoryBase ( BPELPropertySection ownerSection , EStructuralFeature feature ) {		
-		this.fOwnerSection = ownerSection;
-		this.fStructuralFeature = feature;
+	protected AssignCategoryBase ( BPELPropertySection ownerSection  ) {		
+		fOwnerSection = ownerSection;
 	}
 
 	/**
@@ -88,6 +84,28 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	}
 
 	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
+	 */
+	public String getName() {
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
+	 */
+	public boolean isCategoryForModel(EObject model) {
+		return false;
+	}
+
+	/**
+	 * @see org.eclipse.bpel.ui.properties.BPELPropertySection#dispose()
+	 */
+	@Override
+	public void dispose() {		
+		super.dispose();
+	}
+
+	/**
 	 * Policy: wrap the command with contexts from the ownerSection (rather
 	 * than from the category itself).  On undo, the ownerSection will delegate
 	 * to the category's methods. 
@@ -98,25 +116,28 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	}
 	
 	protected boolean isToOrFromAffected (Notification n) {
-//		if (fIsFrom) {
-//			return (n.getFeatureID(Copy.class) == BPELPackage.COPY__FROM);
-//		}
-//		return (n.getFeatureID(Copy.class) == BPELPackage.COPY__TO);
 		return true;
 	}
 
 	@Override
-	protected MultiObjectAdapter[] createAdapters() {
-		return new MultiObjectAdapter[] {
-			/* model object */
-			new MultiObjectAdapter() {
+	protected MultiObjectAdapter[] createAdapters() {		
+		return new BatchedMultiObjectAdapter[] {			
+
+			new BatchedMultiObjectAdapter() {
+				boolean bUpdate = false;
 				@Override
-				public void notify(Notification n) {
-					if (isToOrFromAffected(n))  {
-						updateCategoryWidgets();
-					}
+				public void notify (Notification n) {
+					bUpdate = isToOrFromAffected(n) ;
 				}
-			},
+
+				@Override
+				public void finish() {
+					if (bUpdate) {
+						updateCategoryWidgets();
+						bUpdate = false;
+					}					
+				}
+			}
 		};
 	}
 	
@@ -153,14 +174,7 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		
 		super.createControls(parent, aTabbedPropertySheetPage);
 		
-		fParent = parent;
-		
-//		createClient(parent);
-//		parent.addDisposeListener(new DisposeListener() {
-//			public void widgetDisposed(DisposeEvent e) {
-//				removeAllAdapters();
-//			}
-//		});
+		fParent = parent;		
 	}
 
 	@SuppressWarnings("nls")
@@ -187,15 +201,13 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 */
 	
 	@SuppressWarnings("nls")
-	public Command newStoreModelCommand()  {
-		
-		IVirtualCopyRuleSide newSide = fCopyRuleSide.create();
-		store ( newSide );		
-		
-		// fCopyRuleSide represents the current copy rule (LHS or RHS). 
-		// Its container is where we want to append.
-		
-		return new SetCommand(fCopyRuleSide.getCopyRuleSide().eContainer() , newSide.getCopyRuleSide() , fStructuralFeature) ;		 
+	public Command newStoreModelCommand()  {		
+		return new UpdateModelCommand(fCopyRuleSide.getCopyRuleSide(),"Modify ..!") {
+			@Override
+			public void doExecute() {
+				store ( fCopyRuleSide );
+			}			
+		};
 	}
 	
 	protected boolean isDefaultCompositeOpaque() { 
@@ -253,7 +265,9 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 		if (isCreated) {
 			// hack!
 			ChangeHelper changeHelper = getChangeHelper();
-			if (changeHelper != null) getCommandFramework().notifyChangeDone(changeHelper);
+			if (changeHelper != null) {
+				getCommandFramework().notifyChangeDone(changeHelper);
+			}
 		}
 		super.aboutToBeHidden();
 	}
@@ -263,9 +277,13 @@ public abstract class AssignCategoryBase extends BPELPropertySection implements 
 	 * @param model the model object
 	 */
 	
-	public void setInput (EObject model) {		
+	public void setInput (EObject model) {
+		removeAllAdapters();				    
 		basicSetInput(model);
+		addAllAdapters();
 	}
+	
+	
 	
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isHidden()

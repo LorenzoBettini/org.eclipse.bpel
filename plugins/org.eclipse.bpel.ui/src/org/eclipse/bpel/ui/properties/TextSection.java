@@ -58,13 +58,12 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 			
 			@Override
 			public void notify (Notification n) {
-
+				
 				if (markersHaveChanged(n)) {
 					updateMarkers();
 					return ;
-				}
-				
-				needRefresh = isBodyAffected(n);								
+				}				
+				needRefresh = needRefresh || isBodyAffected(n);
 				refreshAdapters();
 			}
 			
@@ -211,6 +210,7 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 	
 	@Override
 	public void dispose() {
+		super.dispose();
 	    disposeEditor();
 	}
 
@@ -270,7 +270,7 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 		if (editor == null) {
 			return ;
 		}
-		editor.gotoTextMarker(marker, useType, modelObject);
+		editor.gotoTextMarker(marker, useType, fModelObject);
 	}
 	
 	public boolean isExecutingStoreCommand() {

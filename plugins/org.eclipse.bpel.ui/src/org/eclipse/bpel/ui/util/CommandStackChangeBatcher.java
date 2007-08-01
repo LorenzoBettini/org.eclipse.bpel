@@ -20,45 +20,82 @@ public class CommandStackChangeBatcher extends AbstractSharedCommandStackListene
 
 	protected static boolean batchingChanges;
 
-	// Note that when the batches are fired off to each adapter, the adapters will
-	// be finish()ed in a random order.  (This is only bad if adapters depend on their
+	// Note that when the batches are fired off to each adapter, the adapters
+	// will
+	// be finish()ed in a random order. (This is only bad if adapters depend on
+	// their
 	// behaviour being run before/after that of other adapters!).
 	
-	// TODO: is this being static, a problem now that we can share the resourceSet across
-	// multiple editors?  What if adapters in more than one editor are responding to the
+	// TODO: is this being static, a problem now that we can share the
+	// resourceSet across
+	// multiple editors? What if adapters in more than one editor are responding
+	// to the
 	// changes?
-	public static HashSet liveBatchedAdapters = new HashSet();
+	public static HashSet<IBatchedAdapter> liveBatchedAdapters = new HashSet<IBatchedAdapter>();
 
+	static final IBatchedAdapter[] EMPTY = {};
+	
 	protected void startBatch() {
 		if (batchingChanges) {
-			//System.out.println("WARNING: Re-entered CommandStackChangeBatcher.startBatch()!  Merging with existing batch!");
+			// System.out.println("WARNING: Re-entered
+			// CommandStackChangeBatcher.startBatch()! Merging with existing
+			// batch!");
 			return;
 		}
 		batchingChanges = true;
-		// TODO: this is a little unsafe?.  but it works for now.
+		// TODO: this is a little unsafe?. but it works for now.
 		liveBatchedAdapters.clear();
 	}
 	protected void finishBatch() {
-		batchingChanges = false;
-		Object[] adapters = liveBatchedAdapters.toArray();
-		for (int i = 0; i < adapters.length; i++) {
-            IBatchedAdapter adapter = (IBatchedAdapter)adapters[i];
+		batchingChanges = false;		
+		for (IBatchedAdapter adapter : liveBatchedAdapters.toArray( EMPTY  )) {
             adapter.finish();
         }
 		liveBatchedAdapters.clear();
 	}
 
-	public static boolean isBatchingChanges() { return batchingChanges; }
+	/**
+	 * @return whether we are batching changes.
+	 */
+	public static boolean isBatchingChanges() { 
+		return batchingChanges; 
+	}
 	
-	public static void registerBatchChange(IBatchedAdapter adapter) {
+	/**
+	 * @param adapter
+	 */
+	public static void registerBatchChange (IBatchedAdapter adapter) {
 		liveBatchedAdapters.add(adapter); 
 	}
 
-	protected void startExecute() { startBatch(); }
-	protected void startRedo() { startBatch(); }
-	protected void startUndo() { startBatch(); }
+	@Override
+	protected void startExecute() { 
+		startBatch(); 
+	}
+	
+	@Override
+	protected void startRedo() { 
+		startBatch(); 
+	}
+	
+	@Override
+	protected void startUndo() { 
+		startBatch(); 
+	}
 
-	protected void finishExecute() { finishBatch(); }
-	protected void finishRedo() { finishBatch(); }
-	protected void finishUndo() { finishBatch(); }
+	@Override
+	protected void finishExecute() { 
+		finishBatch(); 
+	}
+	
+	@Override
+	protected void finishRedo() { 
+		finishBatch(); 
+	}
+	
+	@Override
+	protected void finishUndo() { 
+		finishBatch(); 
+	}
+	
 }
