@@ -27,81 +27,149 @@ import org.eclipse.gef.commands.CommandStackListener;
  */
 public class EditModelCommandFramework implements ICommandFramework {
 
-	IOngoingChange currentChange;
-	CommandStack commandStack;
+	IOngoingChange fCurrentChange;
 	
-	boolean ignoreEvents = false;
+	CommandStack fCommandStack;
 	
-	public EditModelCommandFramework(EditModelCommandStack editModelCommandStack) {
-		this.commandStack = editModelCommandStack;
+	boolean fIgnoreEvents = false;
+	
+	/**
+	 * @param editModelCommandStack
+	 */
+	
+	public EditModelCommandFramework (EditModelCommandStack editModelCommandStack) {
+		
+		fCommandStack = editModelCommandStack;
+		
 		editModelCommandStack.addCommandStackListener(new CommandStackListener() {
+			
 			public void commandStackChanged(EventObject event) {
-				if (ignoreEvents) return;
-				if (event instanceof SharedCommandStackChangedEvent) {
-					SharedCommandStackChangedEvent e = (SharedCommandStackChangedEvent)event;
-					// Finish up the change in progress before we execute something else
-					if (e.getProperty() == SharedCommandStackListener.EVENT_START_EXECUTE) {
-						applyCurrentChange();
-					}
-					// FIXME: what about redo?
-					if(e.getProperty() == SharedCommandStackListener.EVENT_START_UNDO) {
-						if(commandStack.getUndoCommand() instanceof PlaceHolderCommand) {
-							// TODO: what is this for again?
-							if(currentChange != null)
-								currentChange.restoreOldState();
-						}
-					}
+				
+				if (fIgnoreEvents || event instanceof SharedCommandStackChangedEvent == false) {
+					return;
 				}
+
+				/** 
+				 * The most important thing to consider here is that we may have pending 
+				 * change through the ChangeHelper mechanism being played on the the stack.
+				 * If we are about to execute a new command or undo the last command, we 
+				 * have to apply any current change (that is execute the new command) before
+				 * either execute or undo is called.
+				 */
+				SharedCommandStackChangedEvent e = (SharedCommandStackChangedEvent) event;
+				
+				/**
+				 * The use case here is that we are about to run a command on the stack and 
+				 * have some pending changes to do. We have to finish the current change first.
+				 * 
+				 */
+				if (e.getProperty() == SharedCommandStackListener.EVENT_START_EXECUTE) {
+					applyCurrentChange();
+				} 
+				
+				
+				/** 
+				 * The use case for applying the currently pending edit is simply that a 
+				 * pending edit may not be applied but an undo is called. 
+				 * In this case, we have to apply the pending command, then undo it.
+				 * 
+				 */
+				
+				if(e.getProperty() == SharedCommandStackListener.EVENT_START_UNDO) {
+					applyCurrentChange();
+				}
+				
+				// FIXME: what about redo?
+				
 			}
 		});
+		
 	}
-	// Forward these to the implementation.
+	
+	/**
+	 * Forward these to the implementation.
+	 * 
+	 * @see org.eclipse.bpel.common.ui.command.ICommandFramework#abortCurrentChange()
+	 */
 	public void abortCurrentChange() {
 		finishCurrentChange(true);
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.command.ICommandFramework#applyCurrentChange()
+	 */
+	
 	public void applyCurrentChange() {
 		finishCurrentChange(false);
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.command.ICommandFramework#notifyChangeInProgress(org.eclipse.bpel.common.ui.details.IOngoingChange)
+	 */
 	public void notifyChangeInProgress(IOngoingChange ongoingChange) {
-		if (currentChange != ongoingChange) {
+		
+		if (fCurrentChange != ongoingChange) {
 			applyCurrentChange();
-			if (commandStack.getUndoCommand() instanceof PlaceHolderCommand) {
+			
+			if (fCommandStack.getUndoCommand() instanceof PlaceHolderCommand) {
 				throw new IllegalStateException();
 			}
+			
 			PlaceHolderCommand placeholderCommand = new PlaceHolderCommand(ongoingChange.getLabel());
-			ignoreEvents = true;
+			
+			fIgnoreEvents = true;
 			try {
-				commandStack.execute(placeholderCommand);
+				fCommandStack.execute(placeholderCommand);
 			} finally {
-				ignoreEvents = false;
+				fIgnoreEvents = false;
 			}
-			currentChange = ongoingChange;
+			
+			fCurrentChange = ongoingChange;
 		}
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.command.ICommandFramework#notifyChangeDone(org.eclipse.bpel.common.ui.details.IOngoingChange)
+	 */
+	
 	public void notifyChangeDone(IOngoingChange ongoingChange) {
-		if (currentChange == ongoingChange)
+		if (fCurrentChange == ongoingChange) {
 			applyCurrentChange();
+		}
 	}
+	
+	/**
+	 * @see org.eclipse.bpel.common.ui.command.ICommandFramework#execute(org.eclipse.gef.commands.Command)
+	 */
 	public void execute(Command command) {
-		commandStack.execute(command);
+		fCommandStack.execute(command);
 	}
+	
 	protected void finishCurrentChange(boolean changeUndone) {
-		if (currentChange == null) return;
 		
-		IOngoingChange change = currentChange;
-		currentChange = null;
+		if (fCurrentChange == null) {
+			return;
+		}
+		
+		IOngoingChange change = fCurrentChange;
+		
+		// Null out the current change. This is important !!
+		fCurrentChange = null;
+		
 		// Make sure there's a placeholder on the stack.
-		if (ignoreEvents) {
+		if (fIgnoreEvents) {
 			throw new IllegalStateException();
 		}
-		if (!(commandStack.getUndoCommand() instanceof PlaceHolderCommand)) {
+		
+		if (!(fCommandStack.getUndoCommand() instanceof PlaceHolderCommand)) {
 			throw new IllegalStateException();
 		}
-		ignoreEvents = true;
+		
+		fIgnoreEvents = true;
 		try {
-			commandStack.undo(); // Remove placeholder.
+			fCommandStack.undo(); // Remove placeholder.
 		} finally {
-			ignoreEvents = false;
+			fIgnoreEvents = false;
 		}
 		
 		Command cmd = change.createApplyCommand();
@@ -119,7 +187,7 @@ public class EditModelCommandFramework implements ICommandFramework {
 				// TODO: above comment is obsolete.  Now that no-ops are handled in
 				// a different way by EditModelCommandStack, we should consider calling
 				// restoreOldState() if canExecute() fails.
-				commandStack.execute(cmd);
+				fCommandStack.execute(cmd);
 			}
 		} else {
 			change.restoreOldState();

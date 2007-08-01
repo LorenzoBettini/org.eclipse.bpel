@@ -35,8 +35,8 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	 * unwanted notifications, but all clients should use this pattern anyway).
 	 * Currently, changes may not be nested.
 	 * 
-	 * @throws IllegalArgumentException if a programmatic change is already in progress.
 	 */
+	
 	public void startNonUserChange()  {
 		fNonUserChange += 1;
 	}
@@ -66,41 +66,55 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	 * 
 	 * @param commandFramework
 	 */
-	public ChangeHelper(ICommandFramework commandFramework) {
-		this.fCommandFramework = commandFramework;
+	public ChangeHelper (ICommandFramework commandFramework) {
+		fCommandFramework = commandFramework;
 	}
+	
 	
 	/**
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
 	public void handleEvent(Event event) {
+		if (isNonUserChange()) {
+			return ;
+		}
+		
 		switch (event.type) {
 		case SWT.KeyDown:
-			if (event.character == SWT.CR) finish();
+			if (event.character == SWT.CR) {
+				finish();
+			}
 			break;
 		case SWT.FocusOut:
-			finish(); break;
+			finish(); 
+			break;
 		case SWT.Modify:
 		case SWT.Selection:
 		case SWT.DefaultSelection:
-			modify(); break;
+			modify(); 
+			break;
+		case SWT.Dispose :
+			abort();
+			break;
 		}
 	}
 	
 	/**
 	 * 
 	 */
-	public void finish() {
+	void finish() {		
 		fCommandFramework.notifyChangeDone(this);
 	}
 	
 	/**
 	 * 
 	 */
-	public void modify() {
-		if (!isNonUserChange()) {
-			fCommandFramework.notifyChangeInProgress(this);
-		}
+	void modify() {		
+		fCommandFramework.notifyChangeInProgress(this);
+	}
+	
+	void abort () {
+		fCommandFramework.abortCurrentChange();
 	}
 	
 	protected boolean isModifyBasedControl(Control c) {
@@ -117,16 +131,23 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	/**
 	 * Registers this ChangeHelper with the given control to listen for events
 	 * which indicate that a change is in progress (or done).
-	 * @param control 
+	 * 
+	 * @param controls 
 	 */
-	public void startListeningTo(Control control) {
-		control.addListener(SWT.FocusOut, this);
-		if (isModifyBasedControl(control)) {
-			control.addListener(SWT.Modify, this);
-		}
-		if (isSelectionBasedControl(control)) {
-			control.addListener(SWT.Selection, this);
-			control.addListener(SWT.DefaultSelection, this);
+	
+	public void startListeningTo (Control ... controls ) {
+		
+		for (Control control : controls) {
+			
+			control.addListener(SWT.FocusOut, this);
+			control.addListener(SWT.Dispose, this);
+			if (isModifyBasedControl(control)) {
+				control.addListener(SWT.Modify, this);
+			}
+			if (isSelectionBasedControl(control)) {
+				control.addListener(SWT.Selection, this);
+				control.addListener(SWT.DefaultSelection, this);
+			}
 		}
 	}
 	
@@ -134,27 +155,34 @@ public abstract class ChangeHelper implements IOngoingChange, Listener {
 	 * Registers this ChangeHelper with the given control to listen for the
 	 * Enter key.  When Enter is pressed, the change is considered done (this
 	 * is appropriate for single-line Text widgets).
-	 * @param control 
+	 * @param controls 
 	 */
-	public void startListeningForEnter(Control control) {
-		// NOTE: KeyDown rather than KeyUp, because of similar usage in CCombo. 
-		control.addListener(SWT.KeyDown, this);
+	public void startListeningForEnter (Control ... controls) {
+		// NOTE: KeyDown rather than KeyUp, because of similar usage in CCombo.
+		for(Control control : controls) {
+			control.addListener(SWT.KeyDown, this);
+		}
 	}
 	
 	/**
 	 * Unregisters this ChangeHelper from a control previously passed to
 	 * startListeningTo() and/or startListeningForEnter().
-	 * @param control 
+	 * @param controls 
 	 */
-	public void stopListeningTo(Control control) {
-		control.removeListener(SWT.FocusOut, this);
-		if (isModifyBasedControl(control)) {
-			control.removeListener(SWT.Modify, this);
+	public void stopListeningTo (Control ...controls ) {
+		for(Control control : controls) {
+			
+			control.removeListener(SWT.FocusOut, this);
+			if (isModifyBasedControl(control)) {
+				control.removeListener(SWT.Modify, this);
+			}
+			if (isSelectionBasedControl(control)) {
+				control.removeListener(SWT.Selection, this);
+				control.removeListener(SWT.DefaultSelection, this);
+			}
+			control.removeListener(SWT.KeyDown, this);
+			
 		}
-		if (isSelectionBasedControl(control)) {
-			control.removeListener(SWT.Selection, this);
-			control.removeListener(SWT.DefaultSelection, this);
-		}
-		control.removeListener(SWT.KeyDown, this);
+		
 	}
 }
