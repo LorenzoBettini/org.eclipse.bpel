@@ -10,10 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Wait.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Wait.java,v 1.2 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +35,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface Wait extends Activity{
+public interface Wait extends Activity {
 	/**
 	 * Returns the value of the '<em><b>For</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

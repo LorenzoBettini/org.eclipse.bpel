@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.19 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: BPELAdapterFactory.java,v 1.20 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -131,12 +131,13 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
 		}
 		if (object instanceof EObject) {
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+			return ((EObject) object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -147,237 +148,391 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BPELSwitch modelSwitch =
-		new BPELSwitch() {
-			public Object caseProcess(org.eclipse.bpel.model.Process object) {
-				return createProcessAdapter();
-			}
-			public Object casePartnerLink(PartnerLink object) {
-				return createPartnerLinkAdapter();
-			}
-			public Object caseFaultHandler(FaultHandler object) {
-				return createFaultHandlerAdapter();
-			}
-			public Object caseActivity(Activity object) {
-				return createActivityAdapter();
-			}
-			public Object caseCorrelationSet(CorrelationSet object) {
-				return createCorrelationSetAdapter();
-			}
-			public Object caseInvoke(Invoke object) {
-				return createInvokeAdapter();
-			}
-			public Object caseLink(Link object) {
-				return createLinkAdapter();
-			}
-			public Object caseCatch(Catch object) {
-				return createCatchAdapter();
-			}
-			public Object caseReply(Reply object) {
-				return createReplyAdapter();
-			}
-			public Object casePartnerActivity(PartnerActivity object) {
-				return createPartnerActivityAdapter();
-			}
-			public Object caseReceive(Receive object) {
-				return createReceiveAdapter();
-			}
-			public Object caseExit(Exit object) {
-				return createExitAdapter();
-			}
-			public Object caseThrow(Throw object) {
-				return createThrowAdapter();
-			}
-			public Object caseWait(Wait object) {
-				return createWaitAdapter();
-			}
-			public Object caseEmpty(Empty object) {
-				return createEmptyAdapter();
-			}
-			public Object caseSequence(Sequence object) {
-				return createSequenceAdapter();
-			}
-			public Object caseWhile(While object) {
-				return createWhileAdapter();
-			}
-			public Object casePick(Pick object) {
-				return createPickAdapter();
-			}
-			public Object caseFlow(Flow object) {
-				return createFlowAdapter();
-			}
-			public Object caseOnAlarm(OnAlarm object) {
-				return createOnAlarmAdapter();
-			}
-			public Object caseAssign(Assign object) {
-				return createAssignAdapter();
-			}
-			public Object caseCopy(Copy object) {
-				return createCopyAdapter();
-			}
-			public Object caseExtension(Extension object) {
-				return createExtensionAdapter();
-			}
-			public Object caseScope(Scope object) {
-				return createScopeAdapter();
-			}
-			public Object caseCompensateScope(CompensateScope object) {
-				return createCompensateScopeAdapter();
-			}
-			public Object caseCompensationHandler(CompensationHandler object) {
-				return createCompensationHandlerAdapter();
-			}
-			public Object caseTo(To object) {
-				return createToAdapter();
-			}
-			public Object caseFrom(From object) {
-				return createFromAdapter();
-			}
-			public Object caseOnMessage(OnMessage object) {
-				return createOnMessageAdapter();
-			}
-			public Object caseExpression(Expression object) {
-				return createExpressionAdapter();
-			}
-			public Object caseBooleanExpression(BooleanExpression object) {
-				return createBooleanExpressionAdapter();
-			}
-			public Object caseCorrelation(Correlation object) {
-				return createCorrelationAdapter();
-			}
-			public Object caseEventHandler(EventHandler object) {
-				return createEventHandlerAdapter();
-			}
-			public Object caseSource(Source object) {
-				return createSourceAdapter();
-			}
-			public Object caseTarget(Target object) {
-				return createTargetAdapter();
-			}
-			public Object casePartnerLinks(PartnerLinks object) {
-				return createPartnerLinksAdapter();
-			}
-			public Object caseVariables(Variables object) {
-				return createVariablesAdapter();
-			}
-			public Object caseCorrelationSets(CorrelationSets object) {
-				return createCorrelationSetsAdapter();
-			}
-			public Object caseLinks(Links object) {
-				return createLinksAdapter();
-			}
-			public Object caseCatchAll(CatchAll object) {
-				return createCatchAllAdapter();
-			}
-			public Object caseCorrelations(Correlations object) {
-				return createCorrelationsAdapter();
-			}
-			public Object caseVariable(Variable object) {
-				return createVariableAdapter();
-			}
-			public Object caseUnknownExtensibilityAttribute(UnknownExtensibilityAttribute object) {
-				return createUnknownExtensibilityAttributeAdapter();
-			}
-			public Object caseOnEvent(OnEvent object) {
-				return createOnEventAdapter();
-			}
-			public Object caseImport(Import object) {
-				return createImportAdapter();
-			}
-			public Object caseRethrow(Rethrow object) {
-				return createRethrowAdapter();
-			}
-			public Object caseCondition(Condition object) {
-				return createConditionAdapter();
-			}
-			public Object caseTargets(Targets object) {
-				return createTargetsAdapter();
-			}
-			public Object caseSources(Sources object) {
-				return createSourcesAdapter();
-			}
-			public Object caseQuery(Query object) {
-				return createQueryAdapter();
-			}
-			public Object caseServiceRef(ServiceRef object) {
-				return createServiceRefAdapter();
-			}
-			public Object caseExtensions(Extensions object) {
-				return createExtensionsAdapter();
-			}
-			public Object caseExtensionActivity(ExtensionActivity object) {
-				return createExtensionActivityAdapter();
-			}
-			public Object caseFromPart(FromPart object) {
-				return createFromPartAdapter();
-			}
-			public Object caseToPart(ToPart object) {
-				return createToPartAdapter();
-			}
-			public Object caseOpaqueActivity(OpaqueActivity object) {
-				return createOpaqueActivityAdapter();
-			}
-			public Object caseForEach(ForEach object) {
-				return createForEachAdapter();
-			}
-			public Object caseRepeatUntil(RepeatUntil object) {
-				return createRepeatUntilAdapter();
-			}
-			public Object caseTerminationHandler(TerminationHandler object) {
-				return createTerminationHandlerAdapter();
-			}
-			public Object caseValidate(Validate object) {
-				return createValidateAdapter();
-			}
-			public Object caseIf(If object) {
-				return createIfAdapter();
-			}
-			public Object caseElseIf(ElseIf object) {
-				return createElseIfAdapter();
-			}
-			public Object caseElse(Else object) {
-				return createElseAdapter();
-			}
-			public Object caseCompletionCondition(CompletionCondition object) {
-				return createCompletionConditionAdapter();
-			}
-			public Object caseBranches(Branches object) {
-				return createBranchesAdapter();
-			}
-			public Object caseExtensibleElement(ExtensibleElement object) {
-				return createExtensibleElementAdapter();
-			}
-			public Object caseDocumentation(Documentation object) {
-				return createDocumentationAdapter();
-			}
-			public Object caseMessageExchanges(MessageExchanges object) {
-				return createMessageExchangesAdapter();
-			}
-			public Object caseMessageExchange(MessageExchange object) {
-				return createMessageExchangeAdapter();
-			}
-			public Object caseCompensate(Compensate object) {
-				return createCompensateAdapter();
-			}
-			public Object caseWSDLElement(WSDLElement object) {
-				return createWSDLElementAdapter();
-			}
-			public Object caseExtensibleElement_1(org.eclipse.wst.wsdl.ExtensibleElement object) {
-				return createExtensibleElement_1Adapter();
-			}
-			public Object caseIExtensibilityElement(ExtensibilityElement object) {
-				return createIExtensibilityElementAdapter();
-			}
-			public Object caseExtensibilityElement(org.eclipse.wst.wsdl.ExtensibilityElement object) {
-				return createExtensibilityElementAdapter();
-			}
-			public Object caseUnknownExtensibilityElement(UnknownExtensibilityElement object) {
-				return createUnknownExtensibilityElementAdapter();
-			}
-			public Object defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+	protected BPELSwitch<Adapter> modelSwitch = new BPELSwitch<Adapter>() {
+		@Override
+		public Adapter caseProcess(org.eclipse.bpel.model.Process object) {
+			return createProcessAdapter();
+		}
+
+		@Override
+		public Adapter casePartnerLink(PartnerLink object) {
+			return createPartnerLinkAdapter();
+		}
+
+		@Override
+		public Adapter caseFaultHandler(FaultHandler object) {
+			return createFaultHandlerAdapter();
+		}
+
+		@Override
+		public Adapter caseActivity(Activity object) {
+			return createActivityAdapter();
+		}
+
+		@Override
+		public Adapter caseCorrelationSet(CorrelationSet object) {
+			return createCorrelationSetAdapter();
+		}
+
+		@Override
+		public Adapter caseInvoke(Invoke object) {
+			return createInvokeAdapter();
+		}
+
+		@Override
+		public Adapter caseLink(Link object) {
+			return createLinkAdapter();
+		}
+
+		@Override
+		public Adapter caseCatch(Catch object) {
+			return createCatchAdapter();
+		}
+
+		@Override
+		public Adapter caseReply(Reply object) {
+			return createReplyAdapter();
+		}
+
+		@Override
+		public Adapter casePartnerActivity(PartnerActivity object) {
+			return createPartnerActivityAdapter();
+		}
+
+		@Override
+		public Adapter caseReceive(Receive object) {
+			return createReceiveAdapter();
+		}
+
+		@Override
+		public Adapter caseExit(Exit object) {
+			return createExitAdapter();
+		}
+
+		@Override
+		public Adapter caseThrow(Throw object) {
+			return createThrowAdapter();
+		}
+
+		@Override
+		public Adapter caseWait(Wait object) {
+			return createWaitAdapter();
+		}
+
+		@Override
+		public Adapter caseEmpty(Empty object) {
+			return createEmptyAdapter();
+		}
+
+		@Override
+		public Adapter caseSequence(Sequence object) {
+			return createSequenceAdapter();
+		}
+
+		@Override
+		public Adapter caseWhile(While object) {
+			return createWhileAdapter();
+		}
+
+		@Override
+		public Adapter casePick(Pick object) {
+			return createPickAdapter();
+		}
+
+		@Override
+		public Adapter caseFlow(Flow object) {
+			return createFlowAdapter();
+		}
+
+		@Override
+		public Adapter caseOnAlarm(OnAlarm object) {
+			return createOnAlarmAdapter();
+		}
+
+		@Override
+		public Adapter caseAssign(Assign object) {
+			return createAssignAdapter();
+		}
+
+		@Override
+		public Adapter caseCopy(Copy object) {
+			return createCopyAdapter();
+		}
+
+		@Override
+		public Adapter caseExtension(Extension object) {
+			return createExtensionAdapter();
+		}
+
+		@Override
+		public Adapter caseScope(Scope object) {
+			return createScopeAdapter();
+		}
+
+		@Override
+		public Adapter caseCompensateScope(CompensateScope object) {
+			return createCompensateScopeAdapter();
+		}
+
+		@Override
+		public Adapter caseCompensationHandler(CompensationHandler object) {
+			return createCompensationHandlerAdapter();
+		}
+
+		@Override
+		public Adapter caseTo(To object) {
+			return createToAdapter();
+		}
+
+		@Override
+		public Adapter caseFrom(From object) {
+			return createFromAdapter();
+		}
+
+		@Override
+		public Adapter caseOnMessage(OnMessage object) {
+			return createOnMessageAdapter();
+		}
+
+		@Override
+		public Adapter caseExpression(Expression object) {
+			return createExpressionAdapter();
+		}
+
+		@Override
+		public Adapter caseBooleanExpression(BooleanExpression object) {
+			return createBooleanExpressionAdapter();
+		}
+
+		@Override
+		public Adapter caseCorrelation(Correlation object) {
+			return createCorrelationAdapter();
+		}
+
+		@Override
+		public Adapter caseEventHandler(EventHandler object) {
+			return createEventHandlerAdapter();
+		}
+
+		@Override
+		public Adapter caseSource(Source object) {
+			return createSourceAdapter();
+		}
+
+		@Override
+		public Adapter caseTarget(Target object) {
+			return createTargetAdapter();
+		}
+
+		@Override
+		public Adapter casePartnerLinks(PartnerLinks object) {
+			return createPartnerLinksAdapter();
+		}
+
+		@Override
+		public Adapter caseVariables(Variables object) {
+			return createVariablesAdapter();
+		}
+
+		@Override
+		public Adapter caseCorrelationSets(CorrelationSets object) {
+			return createCorrelationSetsAdapter();
+		}
+
+		@Override
+		public Adapter caseLinks(Links object) {
+			return createLinksAdapter();
+		}
+
+		@Override
+		public Adapter caseCatchAll(CatchAll object) {
+			return createCatchAllAdapter();
+		}
+
+		@Override
+		public Adapter caseCorrelations(Correlations object) {
+			return createCorrelationsAdapter();
+		}
+
+		@Override
+		public Adapter caseVariable(Variable object) {
+			return createVariableAdapter();
+		}
+
+		@Override
+		public Adapter caseUnknownExtensibilityAttribute(
+				UnknownExtensibilityAttribute object) {
+			return createUnknownExtensibilityAttributeAdapter();
+		}
+
+		@Override
+		public Adapter caseOnEvent(OnEvent object) {
+			return createOnEventAdapter();
+		}
+
+		@Override
+		public Adapter caseImport(Import object) {
+			return createImportAdapter();
+		}
+
+		@Override
+		public Adapter caseRethrow(Rethrow object) {
+			return createRethrowAdapter();
+		}
+
+		@Override
+		public Adapter caseCondition(Condition object) {
+			return createConditionAdapter();
+		}
+
+		@Override
+		public Adapter caseTargets(Targets object) {
+			return createTargetsAdapter();
+		}
+
+		@Override
+		public Adapter caseSources(Sources object) {
+			return createSourcesAdapter();
+		}
+
+		@Override
+		public Adapter caseQuery(Query object) {
+			return createQueryAdapter();
+		}
+
+		@Override
+		public Adapter caseServiceRef(ServiceRef object) {
+			return createServiceRefAdapter();
+		}
+
+		@Override
+		public Adapter caseExtensions(Extensions object) {
+			return createExtensionsAdapter();
+		}
+
+		@Override
+		public Adapter caseExtensionActivity(ExtensionActivity object) {
+			return createExtensionActivityAdapter();
+		}
+
+		@Override
+		public Adapter caseFromPart(FromPart object) {
+			return createFromPartAdapter();
+		}
+
+		@Override
+		public Adapter caseToPart(ToPart object) {
+			return createToPartAdapter();
+		}
+
+		@Override
+		public Adapter caseOpaqueActivity(OpaqueActivity object) {
+			return createOpaqueActivityAdapter();
+		}
+
+		@Override
+		public Adapter caseForEach(ForEach object) {
+			return createForEachAdapter();
+		}
+
+		@Override
+		public Adapter caseRepeatUntil(RepeatUntil object) {
+			return createRepeatUntilAdapter();
+		}
+
+		@Override
+		public Adapter caseTerminationHandler(TerminationHandler object) {
+			return createTerminationHandlerAdapter();
+		}
+
+		@Override
+		public Adapter caseValidate(Validate object) {
+			return createValidateAdapter();
+		}
+
+		@Override
+		public Adapter caseIf(If object) {
+			return createIfAdapter();
+		}
+
+		@Override
+		public Adapter caseElseIf(ElseIf object) {
+			return createElseIfAdapter();
+		}
+
+		@Override
+		public Adapter caseElse(Else object) {
+			return createElseAdapter();
+		}
+
+		@Override
+		public Adapter caseCompletionCondition(CompletionCondition object) {
+			return createCompletionConditionAdapter();
+		}
+
+		@Override
+		public Adapter caseBranches(Branches object) {
+			return createBranchesAdapter();
+		}
+
+		@Override
+		public Adapter caseExtensibleElement(ExtensibleElement object) {
+			return createExtensibleElementAdapter();
+		}
+
+		@Override
+		public Adapter caseDocumentation(Documentation object) {
+			return createDocumentationAdapter();
+		}
+
+		@Override
+		public Adapter caseMessageExchanges(MessageExchanges object) {
+			return createMessageExchangesAdapter();
+		}
+
+		@Override
+		public Adapter caseMessageExchange(MessageExchange object) {
+			return createMessageExchangeAdapter();
+		}
+
+		@Override
+		public Adapter caseCompensate(Compensate object) {
+			return createCompensateAdapter();
+		}
+
+		@Override
+		public Adapter caseWSDLElement(WSDLElement object) {
+			return createWSDLElementAdapter();
+		}
+
+		@Override
+		public Adapter caseExtensibleElement_1(
+				org.eclipse.wst.wsdl.ExtensibleElement object) {
+			return createExtensibleElement_1Adapter();
+		}
+
+		@Override
+		public Adapter caseIExtensibilityElement(ExtensibilityElement object) {
+			return createIExtensibilityElementAdapter();
+		}
+
+		@Override
+		public Adapter caseExtensibilityElement(
+				org.eclipse.wst.wsdl.ExtensibilityElement object) {
+			return createExtensibilityElementAdapter();
+		}
+
+		@Override
+		public Adapter caseUnknownExtensibilityElement(
+				UnknownExtensibilityElement object) {
+			return createUnknownExtensibilityElementAdapter();
+		}
+
+		@Override
+		public Adapter defaultCase(EObject object) {
+			return createEObjectAdapter();
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -387,10 +542,10 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject) target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.Process <em>Process</em>}'.

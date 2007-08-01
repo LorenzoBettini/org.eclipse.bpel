@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.6 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: OnMessageImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -127,14 +127,14 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart;
+	protected EList<FromPart> fromPart;
 
-    /**
-     * The deserialized value of the operation name.
-     * @customized
-     */
-    protected String operationName;
-    
+	/**
+	 * The deserialized value of the operation name.
+	 * @customized
+	 */
+	protected String operationName;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -149,6 +149,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.ON_MESSAGE;
 	}
@@ -160,11 +161,13 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			InternalEObject oldVariable = (InternalEObject)variable;
-			variable = (Variable)eResolveProxy(oldVariable);
+			InternalEObject oldVariable = (InternalEObject) variable;
+			variable = (Variable) eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__VARIABLE, oldVariable, variable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.ON_MESSAGE__VARIABLE, oldVariable,
+							variable));
 			}
 		}
 		return variable;
@@ -188,7 +191,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		Variable oldVariable = variable;
 		variable = newVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__VARIABLE, oldVariable, variable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_MESSAGE__VARIABLE, oldVariable, variable));
 	}
 
 	/**
@@ -205,12 +209,18 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_MESSAGE__ACTIVITY,
+					oldActivity, newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -224,37 +234,42 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_MESSAGE__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_MESSAGE__ACTIVITY, null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_MESSAGE__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_MESSAGE__ACTIVITY, null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_MESSAGE__ACTIVITY, newActivity, newActivity));
 	}
 
-    /**
-     * Customizes {@link #getPortTypeGen()} to handle the case where the port type is not specified.
-     * @generated NOT
-     */
-    public PortType getPortType() {
-        if (portType != null) {
-            return getPortTypeGen();
-        } else {
-            // portType is now optional. If the user hasn't set it, then
-            // infer it from the partnerLink attribute and the 
-            // direction of this activity.
-            PartnerLink link = getPartnerLink();
-            if (link != null) {
-                Role role = link.getMyRole();
-                if (role != null) {
-                	portType = (PortType)role.getPortType();
-                }
-            }
-            return portType;
-        }
-    }
+	/**
+	 * Customizes {@link #getPortTypeGen()} to handle the case where the port type is not specified.
+	 * @generated NOT
+	 */
+	public PortType getPortType() {
+		if (portType != null) {
+			return getPortTypeGen();
+		} else {
+			// portType is now optional. If the user hasn't set it, then
+			// infer it from the partnerLink attribute and the 
+			// direction of this activity.
+			PartnerLink link = getPartnerLink();
+			if (link != null) {
+				Role role = link.getMyRole();
+				if (role != null) {
+					portType = (PortType) role.getPortType();
+				}
+			}
+			return portType;
+		}
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -263,11 +278,13 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public PortType getPortTypeGen() {
 		if (portType != null && portType.eIsProxy()) {
-			InternalEObject oldPortType = (InternalEObject)portType;
-			portType = (PortType)eResolveProxy(oldPortType);
+			InternalEObject oldPortType = (InternalEObject) portType;
+			portType = (PortType) eResolveProxy(oldPortType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__PORT_TYPE, oldPortType, portType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.ON_MESSAGE__PORT_TYPE, oldPortType,
+							portType));
 			}
 		}
 		return portType;
@@ -291,7 +308,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		PortType oldPortType = portType;
 		portType = newPortType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__PORT_TYPE, oldPortType, portType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_MESSAGE__PORT_TYPE, oldPortType, portType));
 	}
 
 	/**
@@ -301,11 +319,13 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject) partnerLink;
+			partnerLink = (PartnerLink) eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__PARTNER_LINK, oldPartnerLink, partnerLink));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.ON_MESSAGE__PARTNER_LINK,
+							oldPartnerLink, partnerLink));
 			}
 		}
 		return partnerLink;
@@ -329,7 +349,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		PartnerLink oldPartnerLink = partnerLink;
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__PARTNER_LINK, oldPartnerLink, partnerLink));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_MESSAGE__PARTNER_LINK, oldPartnerLink,
+					partnerLink));
 	}
 
 	/**
@@ -346,12 +368,18 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCorrelations(Correlations newCorrelations, NotificationChain msgs) {
+	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
+			NotificationChain msgs) {
 		Correlations oldCorrelations = correlations;
 		correlations = newCorrelations;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__CORRELATIONS, oldCorrelations, newCorrelations);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_MESSAGE__CORRELATIONS,
+					oldCorrelations, newCorrelations);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -365,31 +393,40 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		if (newCorrelations != correlations) {
 			NotificationChain msgs = null;
 			if (correlations != null)
-				msgs = ((InternalEObject)correlations).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_MESSAGE__CORRELATIONS, null, msgs);
+				msgs = ((InternalEObject) correlations).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_MESSAGE__CORRELATIONS, null,
+						msgs);
 			if (newCorrelations != null)
-				msgs = ((InternalEObject)newCorrelations).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_MESSAGE__CORRELATIONS, null, msgs);
+				msgs = ((InternalEObject) newCorrelations).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_MESSAGE__CORRELATIONS, null,
+						msgs);
 			msgs = basicSetCorrelations(newCorrelations, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__CORRELATIONS, newCorrelations, newCorrelations));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_MESSAGE__CORRELATIONS, newCorrelations,
+					newCorrelations));
 	}
 
-    /**
-     * Customizes {@link #getOperationGen()} to handle the case where the port type is not specified.
-     * @generated NOT
-     */
-    public Operation getOperation() {
-        if (operation == null && operationName != null) {
-            PortType portType = getPortType();
-            if (portType != null) {
-                // Create an operation proxy with the deserialized operation name.
-                operation = new OperationProxy(eResource().getURI(), portType, operationName);
-                operationName = null;
-            }
-        }
-        return getOperationGen();
-    }
+	/**
+	 * Customizes {@link #getOperationGen()} to handle the case where the port type is not specified.
+	 * @generated NOT
+	 */
+	public Operation getOperation() {
+		if (operation == null && operationName != null) {
+			PortType portType = getPortType();
+			if (portType != null) {
+				// Create an operation proxy with the deserialized operation name.
+				operation = new OperationProxy(eResource().getURI(), portType,
+						operationName);
+				operationName = null;
+			}
+		}
+		return getOperationGen();
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -398,11 +435,13 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public Operation getOperationGen() {
 		if (operation != null && operation.eIsProxy()) {
-			InternalEObject oldOperation = (InternalEObject)operation;
-			operation = (Operation)eResolveProxy(oldOperation);
+			InternalEObject oldOperation = (InternalEObject) operation;
+			operation = (Operation) eResolveProxy(oldOperation);
 			if (operation != oldOperation) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.ON_MESSAGE__OPERATION, oldOperation, operation));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.ON_MESSAGE__OPERATION, oldOperation,
+							operation));
 			}
 		}
 		return operation;
@@ -426,7 +465,8 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 		Operation oldOperation = operation;
 		operation = newOperation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_MESSAGE__OPERATION, oldOperation, operation));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_MESSAGE__OPERATION, oldOperation, operation));
 	}
 
 	/**
@@ -434,9 +474,10 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getFromPart() {
+	public EList<FromPart> getFromPart() {
 		if (fromPart == null) {
-			fromPart = new EObjectResolvingEList(FromPart.class, this, BPELPackage.ON_MESSAGE__FROM_PART);
+			fromPart = new EObjectResolvingEList<FromPart>(FromPart.class,
+					this, BPELPackage.ON_MESSAGE__FROM_PART);
 		}
 		return fromPart;
 	}
@@ -446,7 +487,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__ACTIVITY:
 				return basicSetActivity(null, msgs);
@@ -461,23 +504,28 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
-				if (resolve) return getVariable();
+				if (resolve)
+					return getVariable();
 				return basicGetVariable();
 			case BPELPackage.ON_MESSAGE__ACTIVITY:
 				return getActivity();
 			case BPELPackage.ON_MESSAGE__PORT_TYPE:
-				if (resolve) return getPortType();
+				if (resolve)
+					return getPortType();
 				return basicGetPortType();
 			case BPELPackage.ON_MESSAGE__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
+				if (resolve)
+					return getPartnerLink();
 				return basicGetPartnerLink();
 			case BPELPackage.ON_MESSAGE__CORRELATIONS:
 				return getCorrelations();
 			case BPELPackage.ON_MESSAGE__OPERATION:
-				if (resolve) return getOperation();
+				if (resolve)
+					return getOperation();
 				return basicGetOperation();
 			case BPELPackage.ON_MESSAGE__FROM_PART:
 				return getFromPart();
@@ -490,29 +538,31 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
-				setVariable((Variable)newValue);
+				setVariable((Variable) newValue);
 				return;
 			case BPELPackage.ON_MESSAGE__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 			case BPELPackage.ON_MESSAGE__PORT_TYPE:
-				setPortType((PortType)newValue);
+				setPortType((PortType) newValue);
 				return;
 			case BPELPackage.ON_MESSAGE__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
+				setPartnerLink((PartnerLink) newValue);
 				return;
 			case BPELPackage.ON_MESSAGE__CORRELATIONS:
-				setCorrelations((Correlations)newValue);
+				setCorrelations((Correlations) newValue);
 				return;
 			case BPELPackage.ON_MESSAGE__OPERATION:
-				setOperation((Operation)newValue);
+				setOperation((Operation) newValue);
 				return;
 			case BPELPackage.ON_MESSAGE__FROM_PART:
 				getFromPart().clear();
-				getFromPart().addAll((Collection)newValue);
+				getFromPart().addAll((Collection<? extends FromPart>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -523,25 +573,26 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
-				setVariable((Variable)null);
+				setVariable((Variable) null);
 				return;
 			case BPELPackage.ON_MESSAGE__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 			case BPELPackage.ON_MESSAGE__PORT_TYPE:
-				setPortType((PortType)null);
+				setPortType((PortType) null);
 				return;
 			case BPELPackage.ON_MESSAGE__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
+				setPartnerLink((PartnerLink) null);
 				return;
 			case BPELPackage.ON_MESSAGE__CORRELATIONS:
-				setCorrelations((Correlations)null);
+				setCorrelations((Correlations) null);
 				return;
 			case BPELPackage.ON_MESSAGE__OPERATION:
-				setOperation((Operation)null);
+				setOperation((Operation) null);
 				return;
 			case BPELPackage.ON_MESSAGE__FROM_PART:
 				getFromPart().clear();
@@ -555,6 +606,7 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.ON_MESSAGE__VARIABLE:
@@ -576,11 +628,11 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	}
 
 	/**
-     * Set the deserialized value of the operation name.
-     * @customized
-     */
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
-    }
+	 * Set the deserialized value of the operation name.
+	 * @customized
+	 */
+	public void setOperationName(String operationName) {
+		this.operationName = operationName;
+	}
 
 } //OnMessageImpl

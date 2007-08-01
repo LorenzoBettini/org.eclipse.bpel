@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RepeatUntil.java,v 1.2 2005/12/09 21:01:02 james Exp $
+ * $Id: RepeatUntil.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +23,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface RepeatUntil extends Activity{
+public interface RepeatUntil extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

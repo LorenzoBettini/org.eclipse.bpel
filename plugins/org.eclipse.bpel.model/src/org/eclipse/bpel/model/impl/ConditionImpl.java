@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ConditionImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ConditionImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -46,6 +46,7 @@ public class ConditionImpl extends ExpressionImpl implements Condition {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.CONDITION;
 	}

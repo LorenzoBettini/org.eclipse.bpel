@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: InvokeImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -108,7 +108,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList toPart;
+	protected EList<ToPart> toPart;
 
 	/**
 	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
@@ -118,7 +118,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart;
+	protected EList<FromPart> fromPart;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -134,6 +134,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.INVOKE;
 	}
@@ -145,11 +146,13 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public Variable getOutputVariable() {
 		if (outputVariable != null && outputVariable.eIsProxy()) {
-			InternalEObject oldOutputVariable = (InternalEObject)outputVariable;
-			outputVariable = (Variable)eResolveProxy(oldOutputVariable);
+			InternalEObject oldOutputVariable = (InternalEObject) outputVariable;
+			outputVariable = (Variable) eResolveProxy(oldOutputVariable);
 			if (outputVariable != oldOutputVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.INVOKE__OUTPUT_VARIABLE, oldOutputVariable, outputVariable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.INVOKE__OUTPUT_VARIABLE,
+							oldOutputVariable, outputVariable));
 			}
 		}
 		return outputVariable;
@@ -173,7 +176,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 		Variable oldOutputVariable = outputVariable;
 		outputVariable = newOutputVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.INVOKE__OUTPUT_VARIABLE, oldOutputVariable, outputVariable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.INVOKE__OUTPUT_VARIABLE, oldOutputVariable,
+					outputVariable));
 	}
 
 	/**
@@ -183,11 +188,13 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public Variable getInputVariable() {
 		if (inputVariable != null && inputVariable.eIsProxy()) {
-			InternalEObject oldInputVariable = (InternalEObject)inputVariable;
-			inputVariable = (Variable)eResolveProxy(oldInputVariable);
+			InternalEObject oldInputVariable = (InternalEObject) inputVariable;
+			inputVariable = (Variable) eResolveProxy(oldInputVariable);
 			if (inputVariable != oldInputVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.INVOKE__INPUT_VARIABLE, oldInputVariable, inputVariable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.INVOKE__INPUT_VARIABLE,
+							oldInputVariable, inputVariable));
 			}
 		}
 		return inputVariable;
@@ -211,7 +218,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 		Variable oldInputVariable = inputVariable;
 		inputVariable = newInputVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.INVOKE__INPUT_VARIABLE, oldInputVariable, inputVariable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.INVOKE__INPUT_VARIABLE, oldInputVariable,
+					inputVariable));
 	}
 
 	/**
@@ -228,12 +237,18 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCompensationHandler(CompensationHandler newCompensationHandler, NotificationChain msgs) {
+	public NotificationChain basicSetCompensationHandler(
+			CompensationHandler newCompensationHandler, NotificationChain msgs) {
 		CompensationHandler oldCompensationHandler = compensationHandler;
 		compensationHandler = newCompensationHandler;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.INVOKE__COMPENSATION_HANDLER, oldCompensationHandler, newCompensationHandler);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.INVOKE__COMPENSATION_HANDLER,
+					oldCompensationHandler, newCompensationHandler);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -243,18 +258,27 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCompensationHandler(CompensationHandler newCompensationHandler) {
+	public void setCompensationHandler(
+			CompensationHandler newCompensationHandler) {
 		if (newCompensationHandler != compensationHandler) {
 			NotificationChain msgs = null;
 			if (compensationHandler != null)
-				msgs = ((InternalEObject)compensationHandler).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.INVOKE__COMPENSATION_HANDLER, null, msgs);
+				msgs = ((InternalEObject) compensationHandler).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.INVOKE__COMPENSATION_HANDLER,
+						null, msgs);
 			if (newCompensationHandler != null)
-				msgs = ((InternalEObject)newCompensationHandler).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.INVOKE__COMPENSATION_HANDLER, null, msgs);
+				msgs = ((InternalEObject) newCompensationHandler).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.INVOKE__COMPENSATION_HANDLER,
+						null, msgs);
 			msgs = basicSetCompensationHandler(newCompensationHandler, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.INVOKE__COMPENSATION_HANDLER, newCompensationHandler, newCompensationHandler));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.INVOKE__COMPENSATION_HANDLER,
+					newCompensationHandler, newCompensationHandler));
 	}
 
 	/**
@@ -271,12 +295,18 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFaultHandler(FaultHandler newFaultHandler, NotificationChain msgs) {
+	public NotificationChain basicSetFaultHandler(FaultHandler newFaultHandler,
+			NotificationChain msgs) {
 		FaultHandler oldFaultHandler = faultHandler;
 		faultHandler = newFaultHandler;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.INVOKE__FAULT_HANDLER, oldFaultHandler, newFaultHandler);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.INVOKE__FAULT_HANDLER,
+					oldFaultHandler, newFaultHandler);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -290,14 +320,20 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 		if (newFaultHandler != faultHandler) {
 			NotificationChain msgs = null;
 			if (faultHandler != null)
-				msgs = ((InternalEObject)faultHandler).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.INVOKE__FAULT_HANDLER, null, msgs);
+				msgs = ((InternalEObject) faultHandler)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.INVOKE__FAULT_HANDLER, null, msgs);
 			if (newFaultHandler != null)
-				msgs = ((InternalEObject)newFaultHandler).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.INVOKE__FAULT_HANDLER, null, msgs);
+				msgs = ((InternalEObject) newFaultHandler)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.INVOKE__FAULT_HANDLER, null, msgs);
 			msgs = basicSetFaultHandler(newFaultHandler, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.INVOKE__FAULT_HANDLER, newFaultHandler, newFaultHandler));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.INVOKE__FAULT_HANDLER, newFaultHandler,
+					newFaultHandler));
 	}
 
 	/**
@@ -305,9 +341,10 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getToPart() {
+	public EList<ToPart> getToPart() {
 		if (toPart == null) {
-			toPart = new EObjectResolvingEList(ToPart.class, this, BPELPackage.INVOKE__TO_PART);
+			toPart = new EObjectResolvingEList<ToPart>(ToPart.class, this,
+					BPELPackage.INVOKE__TO_PART);
 		}
 		return toPart;
 	}
@@ -317,9 +354,10 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getFromPart() {
+	public EList<FromPart> getFromPart() {
 		if (fromPart == null) {
-			fromPart = new EObjectResolvingEList(FromPart.class, this, BPELPackage.INVOKE__FROM_PART);
+			fromPart = new EObjectResolvingEList<FromPart>(FromPart.class,
+					this, BPELPackage.INVOKE__FROM_PART);
 		}
 		return fromPart;
 	}
@@ -329,7 +367,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
 				return basicSetCompensationHandler(null, msgs);
@@ -344,13 +384,16 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				if (resolve) return getOutputVariable();
+				if (resolve)
+					return getOutputVariable();
 				return basicGetOutputVariable();
 			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				if (resolve) return getInputVariable();
+				if (resolve)
+					return getInputVariable();
 				return basicGetInputVariable();
 			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
 				return getCompensationHandler();
@@ -369,27 +412,29 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				setOutputVariable((Variable)newValue);
+				setOutputVariable((Variable) newValue);
 				return;
 			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				setInputVariable((Variable)newValue);
+				setInputVariable((Variable) newValue);
 				return;
 			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				setCompensationHandler((CompensationHandler)newValue);
+				setCompensationHandler((CompensationHandler) newValue);
 				return;
 			case BPELPackage.INVOKE__FAULT_HANDLER:
-				setFaultHandler((FaultHandler)newValue);
+				setFaultHandler((FaultHandler) newValue);
 				return;
 			case BPELPackage.INVOKE__TO_PART:
 				getToPart().clear();
-				getToPart().addAll((Collection)newValue);
+				getToPart().addAll((Collection<? extends ToPart>) newValue);
 				return;
 			case BPELPackage.INVOKE__FROM_PART:
 				getFromPart().clear();
-				getFromPart().addAll((Collection)newValue);
+				getFromPart().addAll((Collection<? extends FromPart>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -400,19 +445,20 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				setOutputVariable((Variable)null);
+				setOutputVariable((Variable) null);
 				return;
 			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				setInputVariable((Variable)null);
+				setInputVariable((Variable) null);
 				return;
 			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				setCompensationHandler((CompensationHandler)null);
+				setCompensationHandler((CompensationHandler) null);
 				return;
 			case BPELPackage.INVOKE__FAULT_HANDLER:
-				setFaultHandler((FaultHandler)null);
+				setFaultHandler((FaultHandler) null);
 				return;
 			case BPELPackage.INVOKE__TO_PART:
 				getToPart().clear();
@@ -429,6 +475,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.INVOKE__OUTPUT_VARIABLE:

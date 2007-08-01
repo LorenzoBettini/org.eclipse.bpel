@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionActivity.java,v 1.1 2005/12/06 00:33:48 james Exp $
+ * $Id: ExtensionActivity.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->

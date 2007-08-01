@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: TargetImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -82,6 +82,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.TARGET;
 	}
@@ -93,11 +94,12 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 */
 	public Link getLink() {
 		if (link != null && link.eIsProxy()) {
-			InternalEObject oldLink = (InternalEObject)link;
-			link = (Link)eResolveProxy(oldLink);
+			InternalEObject oldLink = (InternalEObject) link;
+			link = (Link) eResolveProxy(oldLink);
 			if (link != oldLink) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TARGET__LINK, oldLink, link));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TARGET__LINK, oldLink, link));
 			}
 		}
 		return link;
@@ -121,8 +123,13 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 		Link oldLink = link;
 		link = newLink;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.TARGET__LINK, oldLink, newLink);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.TARGET__LINK, oldLink,
+					newLink);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -136,14 +143,17 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 		if (newLink != link) {
 			NotificationChain msgs = null;
 			if (link != null)
-				msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__TARGETS, Link.class, msgs);
+				msgs = ((InternalEObject) link).eInverseRemove(this,
+						BPELPackage.LINK__TARGETS, Link.class, msgs);
 			if (newLink != null)
-				msgs = ((InternalEObject)newLink).eInverseAdd(this, BPELPackage.LINK__TARGETS, Link.class, msgs);
+				msgs = ((InternalEObject) newLink).eInverseAdd(this,
+						BPELPackage.LINK__TARGETS, Link.class, msgs);
 			msgs = basicSetLink(newLink, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TARGET__LINK, newLink, newLink));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TARGET__LINK, newLink, newLink));
 	}
 
 	/**
@@ -153,10 +163,12 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 */
 	public Activity getActivity() {
 		EObject container = eContainer();
-		if (!(container instanceof Targets)) return null;
+		if (!(container instanceof Targets))
+			return null;
 		container = container.eContainer();
-		if (!(container instanceof Activity)) return null;
-		return (Activity)container;
+		if (!(container instanceof Activity))
+			return null;
+		return (Activity) container;
 	}
 
 	/**
@@ -187,12 +199,15 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
 				if (link != null)
-					msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__TARGETS, Link.class, msgs);
-				return basicSetLink((Link)otherEnd, msgs);
+					msgs = ((InternalEObject) link).eInverseRemove(this,
+							BPELPackage.LINK__TARGETS, Link.class, msgs);
+				return basicSetLink((Link) otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -202,7 +217,9 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
 				return basicSetLink(null, msgs);
@@ -215,13 +232,16 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
-				if (resolve) return getLink();
+				if (resolve)
+					return getLink();
 				return basicGetLink();
 			case BPELPackage.TARGET__ACTIVITY:
-				if (resolve) return getActivity();
+				if (resolve)
+					return getActivity();
 				return basicGetActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -232,13 +252,14 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
-				setLink((Link)newValue);
+				setLink((Link) newValue);
 				return;
 			case BPELPackage.TARGET__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -249,13 +270,14 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TARGET__LINK:
-				setLink((Link)null);
+				setLink((Link) null);
 				return;
 			case BPELPackage.TARGET__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -266,6 +288,7 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TARGET__LINK:

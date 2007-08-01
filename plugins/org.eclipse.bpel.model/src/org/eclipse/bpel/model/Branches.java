@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Branches.java,v 1.1 2006/01/16 19:47:37 james Exp $
+ * $Id: Branches.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->

@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Exit.java,v 1.1 2005/12/09 19:02:57 james Exp $
+ * $Id: Exit.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->

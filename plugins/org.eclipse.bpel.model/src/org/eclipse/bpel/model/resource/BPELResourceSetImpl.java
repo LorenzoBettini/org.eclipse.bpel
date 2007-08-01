@@ -207,7 +207,7 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 		for(Resource r : new ArrayList<Resource>(resourceList) )  {
 			if (uri.equals(r.getURI()) || normalizedURI.equals(r.getURI() )) {
 				resources.remove(r);
-				System.out.println("Removed from List: " + r );				
+				// System.out.println("Removed from List: " + r );				
 			}
 		}		
 	}

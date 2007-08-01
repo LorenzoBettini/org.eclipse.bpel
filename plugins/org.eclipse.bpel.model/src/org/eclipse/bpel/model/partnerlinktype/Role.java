@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Role.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: Role.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -34,7 +34,7 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  * @model
  * @generated
  */
-public interface Role extends ExtensibilityElement{
+public interface Role extends ExtensibilityElement {
 	/**
 	 * Returns the value of the '<em><b>ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: RoleImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -114,25 +114,25 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return PartnerlinktypePackage.Literals.ROLE;
 	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @customized
-     */
-	public String getID()
-    {
-	    String id = ID_EDEFAULT;
-	    PartnerLinkType plt = (PartnerLinkType) eContainer();
-	    if (plt != null)
-	    {
-	        id = BPELServicesUtility.getIdForNestedNamedObject(plt.getID(), this, getName());
-	    }
-	    return id;
-    }
+	 * @customized
+	 */
+	public String getID() {
+		String id = ID_EDEFAULT;
+		PartnerLinkType plt = (PartnerLinkType) eContainer();
+		if (plt != null) {
+			id = BPELServicesUtility.getIdForNestedNamedObject(plt.getID(),
+					this, getName());
+		}
+		return id;
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,24 +152,27 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PartnerlinktypePackage.ROLE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PartnerlinktypePackage.ROLE__NAME, oldName, name));
 	}
 
 	/**
 	 * @customized
 	 */
 	public Object getPortType() {
-		if (portType instanceof PortType && ((PortType)portType).eIsProxy()) {
-			PortType oldPortType = (PortType)portType;
-			portType = (PortType)eResolveProxy((InternalEObject)portType);
+		if (portType instanceof PortType && ((PortType) portType).eIsProxy()) {
+			PortType oldPortType = (PortType) portType;
+			portType = (PortType) eResolveProxy((InternalEObject) portType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PartnerlinktypePackage.ROLE__PORT_TYPE, oldPortType, portType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							PartnerlinktypePackage.ROLE__PORT_TYPE,
+							oldPortType, portType));
 			}
 		}
-        return portType;
-    }
-	
+		return portType;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -179,7 +182,9 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 		Object oldPortType = portType;
 		portType = newPortType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PartnerlinktypePackage.ROLE__PORT_TYPE, oldPortType, portType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PartnerlinktypePackage.ROLE__PORT_TYPE, oldPortType,
+					portType));
 	}
 
 	/**
@@ -187,6 +192,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__ID:
@@ -204,10 +210,11 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
 				setPortType(newValue);
@@ -221,6 +228,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__NAME:
@@ -238,14 +246,18 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PartnerlinktypePackage.ROLE__ID:
-				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT.equals(getID());
+				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT
+						.equals(getID());
 			case PartnerlinktypePackage.ROLE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case PartnerlinktypePackage.ROLE__PORT_TYPE:
-				return PORT_TYPE_EDEFAULT == null ? portType != null : !PORT_TYPE_EDEFAULT.equals(portType);
+				return PORT_TYPE_EDEFAULT == null ? portType != null
+						: !PORT_TYPE_EDEFAULT.equals(portType);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -255,13 +267,15 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", portType: ");
+		result.append(", portType: "); //$NON-NLS-1$
 		result.append(portType);
 		result.append(')');
 		return result.toString();
@@ -270,53 +284,56 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	/**
 	 * Override the XML element token.
 	 */
-	public QName getElementType()
-	{
+	public QName getElementType() {
 		if (elementType == null)
-			elementType = new QName(PartnerlinktypeConstants.NAMESPACE, PartnerlinktypeConstants.ROLE_ELEMENT_TAG);
+			elementType = new QName(PartnerlinktypeConstants.NAMESPACE,
+					PartnerlinktypeConstants.ROLE_ELEMENT_TAG);
 		return elementType;
-    }
-	
+	}
+
 	//
 	// Reconcile methods: DOM -> Model
 	//
 
-	public void reconcileAttributes(Element changedElement)
-	{
-	    super.reconcileAttributes(changedElement);
+	public void reconcileAttributes(Element changedElement) {
+		super.reconcileAttributes(changedElement);
 
-	    setName
-    	(PartnerlinktypeConstants.getAttribute(changedElement, PartnerlinktypeConstants.NAME_ATTRIBUTE));
+		setName(PartnerlinktypeConstants.getAttribute(changedElement,
+				PartnerlinktypeConstants.NAME_ATTRIBUTE));
 
-	    reconcileReferences(false);
+		reconcileReferences(false);
 	}
 
-	public void reconcileReferences(boolean deep) {		
-		
-		if (deep == false ) {
-			return ;
+	public void reconcileReferences(boolean deep) {
+
+		if (deep == false) {
+			return;
 		}
-		
+
 		// Reconcile the PortType reference.
-		if (element != null && element.hasAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE))
-	    {
-	    	Definition definition = getEnclosingDefinition();
-	    	if (definition != null)
-	    	{
-		    	QName portTypeQName = createQName(definition, element.getAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE));
-		    	
-		    	PortType newPortType = null;
-		    	
-		    	if (portTypeQName != null) {		    				    		
-		    		newPortType = WSDLUtil.resolvePortType(definition, portTypeQName);
-		    	}
-		    	
-	    		if (newPortType != null && newPortType != getPortType() ) {
-		    		setPortType(newPortType);
-		    	}
-	    	}
-	    	
-	    }
+		if (element != null
+				&& element
+						.hasAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE)) {
+			Definition definition = getEnclosingDefinition();
+			if (definition != null) {
+				QName portTypeQName = createQName(
+						definition,
+						element
+								.getAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE));
+
+				PortType newPortType = null;
+
+				if (portTypeQName != null) {
+					newPortType = WSDLUtil.resolvePortType(definition,
+							portTypeQName);
+				}
+
+				if (newPortType != null && newPortType != getPortType()) {
+					setPortType(newPortType);
+				}
+			}
+
+		}
 		super.reconcileReferences(deep);
 	}
 
@@ -324,26 +341,31 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	// For reconciliation: Model -> DOM
 	//
 
-	protected void changeAttribute(EAttribute eAttribute)
-	{
-	    //System.out.println("RoleImpl.changeAttribute("+eAttribute+")");
-	    if (isReconciling)
-	        return;
+	protected void changeAttribute(EAttribute eAttribute) {
+		//System.out.println("RoleImpl.changeAttribute("+eAttribute+")");
+		if (isReconciling)
+			return;
 
-	    super.changeAttribute(eAttribute);
-	    Element theElement = getElement();
-	    if (theElement != null)
-	    {
-	        if (eAttribute == null || eAttribute == PartnerlinktypePackage.eINSTANCE.getRole_Name())
-	            niceSetAttribute(theElement,PartnerlinktypeConstants.NAME_ATTRIBUTE,getName());
-	        if (eAttribute == null || eAttribute == PartnerlinktypePackage.eINSTANCE.getRole_PortType())
-	        {
-	            PortType pt = (PortType)getPortType();
-	            QName qname = (pt == null) ? null : pt.getQName();
-	            if (qname != null)
-	            	niceSetAttributeURIValue(theElement, PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE, qname.getNamespaceURI() + "#" + qname.getLocalPart());
-	        }
-	        
-	    }
+		super.changeAttribute(eAttribute);
+		Element theElement = getElement();
+		if (theElement != null) {
+			if (eAttribute == null
+					|| eAttribute == PartnerlinktypePackage.eINSTANCE
+							.getRole_Name())
+				niceSetAttribute(theElement,
+						PartnerlinktypeConstants.NAME_ATTRIBUTE, getName());
+			if (eAttribute == null
+					|| eAttribute == PartnerlinktypePackage.eINSTANCE
+							.getRole_PortType()) {
+				PortType pt = (PortType) getPortType();
+				QName qname = (pt == null) ? null : pt.getQName();
+				if (qname != null)
+					niceSetAttributeURIValue(theElement,
+							PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE, qname
+									.getNamespaceURI()
+									+ "#" + qname.getLocalPart());
+			}
+
+		}
 	}
 } //RoleImpl

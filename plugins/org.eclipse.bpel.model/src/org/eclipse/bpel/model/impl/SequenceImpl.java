@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SequenceImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: SequenceImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -53,7 +53,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList activities;
+	protected EList<Activity> activities;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -69,6 +69,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.SEQUENCE;
 	}
@@ -78,9 +79,10 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getActivities() {
+	public EList<Activity> getActivities() {
 		if (activities == null) {
-			activities = new EObjectContainmentEList(Activity.class, this, BPELPackage.SEQUENCE__ACTIVITIES);
+			activities = new EObjectContainmentEList<Activity>(Activity.class,
+					this, BPELPackage.SEQUENCE__ACTIVITIES);
 		}
 		return activities;
 	}
@@ -90,10 +92,13 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
-				return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getActivities()).basicRemove(
+						otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -103,6 +108,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
@@ -116,11 +122,14 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
 				getActivities().clear();
-				getActivities().addAll((Collection)newValue);
+				getActivities().addAll(
+						(Collection<? extends Activity>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -131,6 +140,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:
@@ -145,6 +155,7 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.SEQUENCE__ACTIVITIES:

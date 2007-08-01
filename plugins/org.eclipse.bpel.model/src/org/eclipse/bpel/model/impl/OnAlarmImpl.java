@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnAlarmImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: OnAlarmImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -101,6 +101,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.ON_ALARM;
 	}
@@ -119,12 +120,18 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_ALARM__ACTIVITY,
+					oldActivity, newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -138,14 +145,19 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_ALARM__ACTIVITY, null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_ALARM__ACTIVITY, null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_ALARM__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -162,12 +174,17 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFor(Expression newFor, NotificationChain msgs) {
+	public NotificationChain basicSetFor(Expression newFor,
+			NotificationChain msgs) {
 		Expression oldFor = for_;
 		for_ = newFor;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__FOR, oldFor, newFor);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_ALARM__FOR, oldFor, newFor);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -181,14 +198,19 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 		if (newFor != for_) {
 			NotificationChain msgs = null;
 			if (for_ != null)
-				msgs = ((InternalEObject)for_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__FOR, null, msgs);
+				msgs = ((InternalEObject) for_).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__FOR,
+						null, msgs);
 			if (newFor != null)
-				msgs = ((InternalEObject)newFor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__FOR, null, msgs);
+				msgs = ((InternalEObject) newFor).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__FOR,
+						null, msgs);
 			msgs = basicSetFor(newFor, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__FOR, newFor, newFor));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_ALARM__FOR, newFor, newFor));
 	}
 
 	/**
@@ -205,12 +227,18 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetUntil(Expression newUntil, NotificationChain msgs) {
+	public NotificationChain basicSetUntil(Expression newUntil,
+			NotificationChain msgs) {
 		Expression oldUntil = until;
 		until = newUntil;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__UNTIL, oldUntil, newUntil);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_ALARM__UNTIL, oldUntil,
+					newUntil);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -224,14 +252,19 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 		if (newUntil != until) {
 			NotificationChain msgs = null;
 			if (until != null)
-				msgs = ((InternalEObject)until).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__UNTIL, null, msgs);
+				msgs = ((InternalEObject) until).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__UNTIL,
+						null, msgs);
 			if (newUntil != null)
-				msgs = ((InternalEObject)newUntil).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__UNTIL, null, msgs);
+				msgs = ((InternalEObject) newUntil).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__UNTIL,
+						null, msgs);
 			msgs = basicSetUntil(newUntil, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__UNTIL, newUntil, newUntil));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_ALARM__UNTIL, newUntil, newUntil));
 	}
 
 	/**
@@ -248,12 +281,18 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetRepeatEvery(Expression newRepeatEvery, NotificationChain msgs) {
+	public NotificationChain basicSetRepeatEvery(Expression newRepeatEvery,
+			NotificationChain msgs) {
 		Expression oldRepeatEvery = repeatEvery;
 		repeatEvery = newRepeatEvery;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__REPEAT_EVERY, oldRepeatEvery, newRepeatEvery);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_ALARM__REPEAT_EVERY,
+					oldRepeatEvery, newRepeatEvery);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -267,14 +306,22 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 		if (newRepeatEvery != repeatEvery) {
 			NotificationChain msgs = null;
 			if (repeatEvery != null)
-				msgs = ((InternalEObject)repeatEvery).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__REPEAT_EVERY, null, msgs);
+				msgs = ((InternalEObject) repeatEvery).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_ALARM__REPEAT_EVERY, null,
+						msgs);
 			if (newRepeatEvery != null)
-				msgs = ((InternalEObject)newRepeatEvery).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ON_ALARM__REPEAT_EVERY, null, msgs);
+				msgs = ((InternalEObject) newRepeatEvery).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_ALARM__REPEAT_EVERY, null,
+						msgs);
 			msgs = basicSetRepeatEvery(newRepeatEvery, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ON_ALARM__REPEAT_EVERY, newRepeatEvery, newRepeatEvery));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_ALARM__REPEAT_EVERY, newRepeatEvery,
+					newRepeatEvery));
 	}
 
 	/**
@@ -282,7 +329,9 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
 				return basicSetActivity(null, msgs);
@@ -301,6 +350,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
@@ -320,19 +370,20 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 			case BPELPackage.ON_ALARM__FOR:
-				setFor((Expression)newValue);
+				setFor((Expression) newValue);
 				return;
 			case BPELPackage.ON_ALARM__UNTIL:
-				setUntil((Expression)newValue);
+				setUntil((Expression) newValue);
 				return;
 			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				setRepeatEvery((Expression)newValue);
+				setRepeatEvery((Expression) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -343,19 +394,20 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 			case BPELPackage.ON_ALARM__FOR:
-				setFor((Expression)null);
+				setFor((Expression) null);
 				return;
 			case BPELPackage.ON_ALARM__UNTIL:
-				setUntil((Expression)null);
+				setUntil((Expression) null);
 				return;
 			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				setRepeatEvery((Expression)null);
+				setRepeatEvery((Expression) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -366,6 +418,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.ON_ALARM__ACTIVITY:

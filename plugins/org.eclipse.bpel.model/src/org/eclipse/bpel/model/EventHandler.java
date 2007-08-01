@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EventHandler.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: EventHandler.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -45,10 +45,10 @@ public interface EventHandler extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Alarm</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getEventHandler_Alarm()
-	 * @model type="org.eclipse.bpel.model.OnAlarm" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getAlarm();
+	EList<OnAlarm> getAlarm();
 
 	/**
 	 * Returns the value of the '<em><b>Events</b></em>' containment reference list.
@@ -61,9 +61,9 @@ public interface EventHandler extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Events</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getEventHandler_Events()
-	 * @model type="org.eclipse.bpel.model.OnEvent" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getEvents();
+	EList<OnEvent> getEvents();
 
 } // EventHandler

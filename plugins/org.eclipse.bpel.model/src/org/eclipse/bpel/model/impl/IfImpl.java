@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IfImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: IfImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -63,7 +63,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList elseIf;
+	protected EList<ElseIf> elseIf;
 
 	/**
 	 * The cached value of the '{@link #getElse() <em>Else</em>}' containment reference.
@@ -99,6 +99,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.IF;
 	}
@@ -117,12 +118,18 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCondition(Condition newCondition, NotificationChain msgs) {
+	public NotificationChain basicSetCondition(Condition newCondition,
+			NotificationChain msgs) {
 		Condition oldCondition = condition;
 		condition = newCondition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.IF__CONDITION, oldCondition, newCondition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.IF__CONDITION, oldCondition,
+					newCondition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -136,14 +143,19 @@ public class IfImpl extends ActivityImpl implements If {
 		if (newCondition != condition) {
 			NotificationChain msgs = null;
 			if (condition != null)
-				msgs = ((InternalEObject)condition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.IF__CONDITION, null, msgs);
+				msgs = ((InternalEObject) condition).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.IF__CONDITION,
+						null, msgs);
 			if (newCondition != null)
-				msgs = ((InternalEObject)newCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.IF__CONDITION, null, msgs);
+				msgs = ((InternalEObject) newCondition).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.IF__CONDITION,
+						null, msgs);
 			msgs = basicSetCondition(newCondition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.IF__CONDITION, newCondition, newCondition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.IF__CONDITION, newCondition, newCondition));
 	}
 
 	/**
@@ -151,9 +163,10 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getElseIf() {
+	public EList<ElseIf> getElseIf() {
 		if (elseIf == null) {
-			elseIf = new EObjectContainmentEList(ElseIf.class, this, BPELPackage.IF__ELSE_IF);
+			elseIf = new EObjectContainmentEList<ElseIf>(ElseIf.class, this,
+					BPELPackage.IF__ELSE_IF);
 		}
 		return elseIf;
 	}
@@ -176,8 +189,12 @@ public class IfImpl extends ActivityImpl implements If {
 		Else oldElse = else_;
 		else_ = newElse;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.IF__ELSE, oldElse, newElse);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.IF__ELSE, oldElse, newElse);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -191,14 +208,19 @@ public class IfImpl extends ActivityImpl implements If {
 		if (newElse != else_) {
 			NotificationChain msgs = null;
 			if (else_ != null)
-				msgs = ((InternalEObject)else_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ELSE, null, msgs);
+				msgs = ((InternalEObject) else_).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ELSE, null,
+						msgs);
 			if (newElse != null)
-				msgs = ((InternalEObject)newElse).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ELSE, null, msgs);
+				msgs = ((InternalEObject) newElse).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ELSE, null,
+						msgs);
 			msgs = basicSetElse(newElse, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.IF__ELSE, newElse, newElse));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.IF__ELSE, newElse, newElse));
 	}
 
 	/**
@@ -215,12 +237,18 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.IF__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.IF__ACTIVITY, oldActivity,
+					newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -234,14 +262,19 @@ public class IfImpl extends ActivityImpl implements If {
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ACTIVITY,
+						null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.IF__ACTIVITY,
+						null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.IF__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.IF__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -249,12 +282,15 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
 				return basicSetCondition(null, msgs);
 			case BPELPackage.IF__ELSE_IF:
-				return ((InternalEList)getElseIf()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getElseIf()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.IF__ELSE:
 				return basicSetElse(null, msgs);
 			case BPELPackage.IF__ACTIVITY:
@@ -268,6 +304,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
@@ -287,20 +324,22 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
-				setCondition((Condition)newValue);
+				setCondition((Condition) newValue);
 				return;
 			case BPELPackage.IF__ELSE_IF:
 				getElseIf().clear();
-				getElseIf().addAll((Collection)newValue);
+				getElseIf().addAll((Collection<? extends ElseIf>) newValue);
 				return;
 			case BPELPackage.IF__ELSE:
-				setElse((Else)newValue);
+				setElse((Else) newValue);
 				return;
 			case BPELPackage.IF__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -311,19 +350,20 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.IF__CONDITION:
-				setCondition((Condition)null);
+				setCondition((Condition) null);
 				return;
 			case BPELPackage.IF__ELSE_IF:
 				getElseIf().clear();
 				return;
 			case BPELPackage.IF__ELSE:
-				setElse((Else)null);
+				setElse((Else) null);
 				return;
 			case BPELPackage.IF__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -334,6 +374,7 @@ public class IfImpl extends ActivityImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.IF__CONDITION:

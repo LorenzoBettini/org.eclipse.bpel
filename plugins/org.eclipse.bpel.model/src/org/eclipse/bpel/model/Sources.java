@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Sources.java,v 1.3 2006/01/31 15:43:26 james Exp $
+ * $Id: Sources.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -44,9 +44,9 @@ public interface Sources extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getSources_Children()
-	 * @model type="org.eclipse.bpel.model.Source" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getChildren();
+	EList<Source> getChildren();
 
 } // Sources

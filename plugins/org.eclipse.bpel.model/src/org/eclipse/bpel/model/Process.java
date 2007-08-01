@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.7 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: Process.java,v 1.8 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -55,7 +55,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Process extends ExtensibleElement{
+public interface Process extends ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -568,10 +568,10 @@ public interface Process extends ExtensibleElement{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Imports</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_Imports()
-	 * @model type="org.eclipse.bpel.model.Import" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getImports();
+	EList<Import> getImports();
 
 	/**
 	 * Returns a list of objects that implement Runnable
@@ -579,6 +579,6 @@ public interface Process extends ExtensibleElement{
 	 * @return a list of tasks to do in pass 2
 	 * @customized
 	 */
-	java.util.List<Runnable> getPostLoadRunnables();		
-	
+	java.util.List<Runnable> getPostLoadRunnables();
+
 } // Process

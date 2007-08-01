@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.5 2007/07/26 01:34:12 mchmielewski Exp $
+ * $Id: ToImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -75,12 +75,12 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	protected Part part;
 
-    /**
-     * The deserialized value of the part name.
-     * @customized
-     */
-    protected String partName = null;
-    
+	/**
+	 * The deserialized value of the part name.
+	 * @customized
+	 */
+	protected String partName = null;
+
 	/**
 	 * The cached value of the '{@link #getPartnerLink() <em>Partner Link</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -135,6 +135,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.TO;
 	}
@@ -146,11 +147,12 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			InternalEObject oldVariable = (InternalEObject)variable;
-			variable = (Variable)eResolveProxy(oldVariable);
+			InternalEObject oldVariable = (InternalEObject) variable;
+			variable = (Variable) eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__VARIABLE, oldVariable, variable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO__VARIABLE, oldVariable, variable));
 			}
 		}
 		return variable;
@@ -174,27 +176,28 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		Variable oldVariable = variable;
 		variable = newVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__VARIABLE, oldVariable, variable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO__VARIABLE, oldVariable, variable));
 	}
 
-    /**
-     * Customizes {@link #getPartGen()} to lazy-resolve the part name.
-     * @customized
-     */
-    public Part getPart() {
-        if (part == null && partName != null) {
-            Variable aVar = getVariable();
-            if (variable != null) {
-                Message message = aVar.getMessageType();
-                if (message != null) {
-                    // Create an part proxy with the deserialized part name.
-                    part = new PartProxy(eResource(), message, partName);
-                    partName = null;
-                }
-            }
-        }
-        return getPartGen();
-    }
+	/**
+	 * Customizes {@link #getPartGen()} to lazy-resolve the part name.
+	 * @customized
+	 */
+	public Part getPart() {
+		if (part == null && partName != null) {
+			Variable aVar = getVariable();
+			if (variable != null) {
+				Message message = aVar.getMessageType();
+				if (message != null) {
+					// Create an part proxy with the deserialized part name.
+					part = new PartProxy(eResource(), message, partName);
+					partName = null;
+				}
+			}
+		}
+		return getPartGen();
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -203,11 +206,12 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public Part getPartGen() {
 		if (part != null && part.eIsProxy()) {
-			InternalEObject oldPart = (InternalEObject)part;
-			part = (Part)eResolveProxy(oldPart);
+			InternalEObject oldPart = (InternalEObject) part;
+			part = (Part) eResolveProxy(oldPart);
 			if (part != oldPart) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__PART, oldPart, part));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO__PART, oldPart, part));
 			}
 		}
 		return part;
@@ -222,14 +226,14 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		return part;
 	}
 
-    /**
-     * Set the deserialized value of the part name.
-     * @customized
-     */
-    public void setPartName(String newPartName) {
-        partName = newPartName;
-    }
-    
+	/**
+	 * Set the deserialized value of the part name.
+	 * @customized
+	 */
+	public void setPartName(String newPartName) {
+		partName = newPartName;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -239,7 +243,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		Part oldPart = part;
 		part = newPart;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__PART, oldPart, part));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO__PART, oldPart, part));
 	}
 
 	/**
@@ -249,11 +254,13 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject) partnerLink;
+			partnerLink = (PartnerLink) eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__PARTNER_LINK, oldPartnerLink, partnerLink));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO__PARTNER_LINK, oldPartnerLink,
+							partnerLink));
 			}
 		}
 		return partnerLink;
@@ -277,7 +284,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		PartnerLink oldPartnerLink = partnerLink;
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__PARTNER_LINK, oldPartnerLink, partnerLink));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO__PARTNER_LINK, oldPartnerLink, partnerLink));
 	}
 
 	/**
@@ -287,11 +295,12 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public Property getProperty() {
 		if (property != null && property.eIsProxy()) {
-			InternalEObject oldProperty = (InternalEObject)property;
-			property = (Property)eResolveProxy(oldProperty);
+			InternalEObject oldProperty = (InternalEObject) property;
+			property = (Property) eResolveProxy(oldProperty);
 			if (property != oldProperty) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO__PROPERTY, oldProperty, property));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO__PROPERTY, oldProperty, property));
 			}
 		}
 		return property;
@@ -315,7 +324,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		Property oldProperty = property;
 		property = newProperty;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__PROPERTY, oldProperty, property));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO__PROPERTY, oldProperty, property));
 	}
 
 	/**
@@ -332,12 +342,17 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetQuery(Query newQuery, NotificationChain msgs) {
+	public NotificationChain basicSetQuery(Query newQuery,
+			NotificationChain msgs) {
 		Query oldQuery = query;
 		query = newQuery;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.TO__QUERY, oldQuery, newQuery);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.TO__QUERY, oldQuery, newQuery);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -351,14 +366,19 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		if (newQuery != query) {
 			NotificationChain msgs = null;
 			if (query != null)
-				msgs = ((InternalEObject)query).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TO__QUERY, null, msgs);
+				msgs = ((InternalEObject) query).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.TO__QUERY, null,
+						msgs);
 			if (newQuery != null)
-				msgs = ((InternalEObject)newQuery).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TO__QUERY, null, msgs);
+				msgs = ((InternalEObject) newQuery).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.TO__QUERY, null,
+						msgs);
 			msgs = basicSetQuery(newQuery, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__QUERY, newQuery, newQuery));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO__QUERY, newQuery, newQuery));
 	}
 
 	/**
@@ -375,12 +395,18 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExpression(Expression newExpression, NotificationChain msgs) {
+	public NotificationChain basicSetExpression(Expression newExpression,
+			NotificationChain msgs) {
 		Expression oldExpression = expression;
 		expression = newExpression;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.TO__EXPRESSION, oldExpression, newExpression);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.TO__EXPRESSION,
+					oldExpression, newExpression);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -394,14 +420,19 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 		if (newExpression != expression) {
 			NotificationChain msgs = null;
 			if (expression != null)
-				msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TO__EXPRESSION, null, msgs);
+				msgs = ((InternalEObject) expression).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.TO__EXPRESSION,
+						null, msgs);
 			if (newExpression != null)
-				msgs = ((InternalEObject)newExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TO__EXPRESSION, null, msgs);
+				msgs = ((InternalEObject) newExpression).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.TO__EXPRESSION,
+						null, msgs);
 			msgs = basicSetExpression(newExpression, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO__EXPRESSION, newExpression, newExpression));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO__EXPRESSION, newExpression, newExpression));
 	}
 
 	/**
@@ -409,7 +440,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.TO__QUERY:
 				return basicSetQuery(null, msgs);
@@ -424,19 +457,24 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
-				if (resolve) return getVariable();
+				if (resolve)
+					return getVariable();
 				return basicGetVariable();
 			case BPELPackage.TO__PART:
-				if (resolve) return getPart();
+				if (resolve)
+					return getPart();
 				return basicGetPart();
 			case BPELPackage.TO__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
+				if (resolve)
+					return getPartnerLink();
 				return basicGetPartnerLink();
 			case BPELPackage.TO__PROPERTY:
-				if (resolve) return getProperty();
+				if (resolve)
+					return getProperty();
 				return basicGetProperty();
 			case BPELPackage.TO__QUERY:
 				return getQuery();
@@ -451,25 +489,26 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
-				setVariable((Variable)newValue);
+				setVariable((Variable) newValue);
 				return;
 			case BPELPackage.TO__PART:
-				setPart((Part)newValue);
+				setPart((Part) newValue);
 				return;
 			case BPELPackage.TO__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
+				setPartnerLink((PartnerLink) newValue);
 				return;
 			case BPELPackage.TO__PROPERTY:
-				setProperty((Property)newValue);
+				setProperty((Property) newValue);
 				return;
 			case BPELPackage.TO__QUERY:
-				setQuery((Query)newValue);
+				setQuery((Query) newValue);
 				return;
 			case BPELPackage.TO__EXPRESSION:
-				setExpression((Expression)newValue);
+				setExpression((Expression) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -480,25 +519,26 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:
-				setVariable((Variable)null);
+				setVariable((Variable) null);
 				return;
 			case BPELPackage.TO__PART:
-				setPart((Part)null);
+				setPart((Part) null);
 				return;
 			case BPELPackage.TO__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
+				setPartnerLink((PartnerLink) null);
 				return;
 			case BPELPackage.TO__PROPERTY:
-				setProperty((Property)null);
+				setProperty((Property) null);
 				return;
 			case BPELPackage.TO__QUERY:
-				setQuery((Query)null);
+				setQuery((Query) null);
 				return;
 			case BPELPackage.TO__EXPRESSION:
-				setExpression((Expression)null);
+				setExpression((Expression) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -509,6 +549,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TO__VARIABLE:

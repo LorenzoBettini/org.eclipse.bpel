@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.5 2007/07/09 19:16:47 mchmielewski Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.w3c.dom.Element;
 
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Extensible Element</b></em>'.
@@ -36,7 +35,9 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl implements ExtensibleElement {
+public class ExtensibleElementImpl extends
+		org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl implements
+		ExtensibleElement {
 	/**
 	 * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -70,6 +71,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EXTENSIBLE_ELEMENT;
 	}
@@ -88,14 +90,21 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetDocumentation(Documentation newDocumentation, NotificationChain msgs) {
+	public NotificationChain basicSetDocumentation(
+			Documentation newDocumentation, NotificationChain msgs) {
 		Documentation oldDocumentation = documentation;
 		documentation = newDocumentation;
 		boolean oldDocumentationESet = documentationESet;
 		documentationESet = true;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, oldDocumentation, newDocumentation, !oldDocumentationESet);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION,
+					oldDocumentation, newDocumentation, !oldDocumentationESet);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -109,17 +118,30 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 		if (newDocumentation != documentation) {
 			NotificationChain msgs = null;
 			if (documentation != null)
-				msgs = ((InternalEObject)documentation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, null, msgs);
+				msgs = ((InternalEObject) documentation)
+						.eInverseRemove(
+								this,
+								EOPPOSITE_FEATURE_BASE
+										- BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION,
+								null, msgs);
 			if (newDocumentation != null)
-				msgs = ((InternalEObject)newDocumentation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, null, msgs);
+				msgs = ((InternalEObject) newDocumentation)
+						.eInverseAdd(
+								this,
+								EOPPOSITE_FEATURE_BASE
+										- BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION,
+								null, msgs);
 			msgs = basicSetDocumentation(newDocumentation, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else {
+			if (msgs != null)
+				msgs.dispatch();
+		} else {
 			boolean oldDocumentationESet = documentationESet;
 			documentationESet = true;
 			if (eNotificationRequired())
-				eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, newDocumentation, newDocumentation, !oldDocumentationESet));
+				eNotify(new ENotificationImpl(this, Notification.SET,
+						BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION,
+						newDocumentation, newDocumentation,
+						!oldDocumentationESet));
 		}
 	}
 
@@ -134,8 +156,14 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 		boolean oldDocumentationESet = documentationESet;
 		documentationESet = false;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, oldDocumentation, null, oldDocumentationESet);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.UNSET,
+					BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION,
+					oldDocumentation, null, oldDocumentationESet);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -148,15 +176,20 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	public void unsetDocumentation() {
 		if (documentation != null) {
 			NotificationChain msgs = null;
-			msgs = ((InternalEObject)documentation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, null, msgs);
+			msgs = ((InternalEObject) documentation).eInverseRemove(this,
+					EOPPOSITE_FEATURE_BASE
+							- BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION,
+					null, msgs);
 			msgs = basicUnsetDocumentation(msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else {
+			if (msgs != null)
+				msgs.dispatch();
+		} else {
 			boolean oldDocumentationESet = documentationESet;
 			documentationESet = false;
 			if (eNotificationRequired())
-				eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, null, null, oldDocumentationESet));
+				eNotify(new ENotificationImpl(this, Notification.UNSET,
+						BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION, null,
+						null, oldDocumentationESet));
 		}
 	}
 
@@ -174,7 +207,9 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
 				return basicUnsetDocumentation(msgs);
@@ -187,6 +222,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
@@ -200,10 +236,11 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-				setDocumentation((Documentation)newValue);
+				setDocumentation((Documentation) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -214,6 +251,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
@@ -228,6 +266,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
@@ -242,42 +281,41 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 * 
 	 * @see org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl#setElement(org.w3c.dom.Element)
 	 */
-	
+
 	@Override
-	public void setElement(Element elm) {		
+	public void setElement(Element elm) {
 		super.setElement(elm);
-		
+
 		// a pointer back to the EMF model.
-		
+
 		if (elm != null) {
 			elm.setUserData("emf.model", this, null); //$NON-NLS-1$
 		}
 	}
-	
+
 	/**
 	 * @see org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl#getElement()
 	 */
-	
+
 	@Override
-	public Element getElement () {
+	public Element getElement() {
 		return super.getElement();
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	
-	Map<String,Object> fTransients = null;
-	
+
+	Map<String, Object> fTransients = null;
+
 	/**
 	 * This is not part of the EMF model.
 	 * 
 	 * @see org.eclipse.bpel.model.ExtensibleElement#getTransientProperty(java.lang.String) 
 	 * @generated NOT
 	 */
-	
-	
-	public <T extends Object> T getTransientProperty (String key) {
+
+	public <T extends Object> T getTransientProperty(String key) {
 		if (fTransients == null) {
 			return null;
 		}
@@ -285,7 +323,7 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 		if (obj == null) {
 			return null;
 		}
-		return (T) obj; 		
+		return (T) obj;
 	}
 
 	/**
@@ -294,18 +332,17 @@ public class ExtensibleElementImpl extends org.eclipse.wst.wsdl.internal.impl.Ex
 	 */
 	public <T extends Object> T setTransientProperty(String key, T value) {
 		if (fTransients == null) {
-			fTransients = new HashMap<String,Object>(7);
+			fTransients = new HashMap<String, Object>(7);
 		}
-		Object obj = fTransients.put(key,value);
+		Object obj = fTransients.put(key, value);
 		if (obj == null) {
 			return null;
 		}
-		return (T) obj;		
+		return (T) obj;
 	}
-	
-	
+
 	/**
 	 *  
-	 */	
-	
+	 */
+
 } //ExtensibleElementImpl

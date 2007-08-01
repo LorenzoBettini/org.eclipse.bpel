@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: FlowImpl.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -59,7 +59,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList activities;
+	protected EList<Activity> activities;
 
 	/**
 	 * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference.
@@ -95,6 +95,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.FLOW;
 	}
@@ -104,9 +105,10 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getActivities() {
+	public EList<Activity> getActivities() {
 		if (activities == null) {
-			activities = new EObjectContainmentEList(Activity.class, this, BPELPackage.FLOW__ACTIVITIES);
+			activities = new EObjectContainmentEList<Activity>(Activity.class,
+					this, BPELPackage.FLOW__ACTIVITIES);
 		}
 		return activities;
 	}
@@ -125,12 +127,18 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLinks(Links newLinks, NotificationChain msgs) {
+	public NotificationChain basicSetLinks(Links newLinks,
+			NotificationChain msgs) {
 		Links oldLinks = links;
 		links = newLinks;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FLOW__LINKS, oldLinks, newLinks);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FLOW__LINKS, oldLinks,
+					newLinks);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -144,14 +152,19 @@ public class FlowImpl extends ActivityImpl implements Flow {
 		if (newLinks != links) {
 			NotificationChain msgs = null;
 			if (links != null)
-				msgs = ((InternalEObject)links).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__LINKS, null, msgs);
+				msgs = ((InternalEObject) links).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__LINKS, null,
+						msgs);
 			if (newLinks != null)
-				msgs = ((InternalEObject)newLinks).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__LINKS, null, msgs);
+				msgs = ((InternalEObject) newLinks).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__LINKS, null,
+						msgs);
 			msgs = basicSetLinks(newLinks, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FLOW__LINKS, newLinks, newLinks));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FLOW__LINKS, newLinks, newLinks));
 	}
 
 	/**
@@ -168,12 +181,18 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCompletionCondition(CompletionCondition newCompletionCondition, NotificationChain msgs) {
+	public NotificationChain basicSetCompletionCondition(
+			CompletionCondition newCompletionCondition, NotificationChain msgs) {
 		CompletionCondition oldCompletionCondition = completionCondition;
 		completionCondition = newCompletionCondition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FLOW__COMPLETION_CONDITION, oldCompletionCondition, newCompletionCondition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FLOW__COMPLETION_CONDITION,
+					oldCompletionCondition, newCompletionCondition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -183,18 +202,27 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCompletionCondition(CompletionCondition newCompletionCondition) {
+	public void setCompletionCondition(
+			CompletionCondition newCompletionCondition) {
 		if (newCompletionCondition != completionCondition) {
 			NotificationChain msgs = null;
 			if (completionCondition != null)
-				msgs = ((InternalEObject)completionCondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__COMPLETION_CONDITION, null, msgs);
+				msgs = ((InternalEObject) completionCondition).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FLOW__COMPLETION_CONDITION, null,
+						msgs);
 			if (newCompletionCondition != null)
-				msgs = ((InternalEObject)newCompletionCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FLOW__COMPLETION_CONDITION, null, msgs);
+				msgs = ((InternalEObject) newCompletionCondition).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FLOW__COMPLETION_CONDITION, null,
+						msgs);
 			msgs = basicSetCompletionCondition(newCompletionCondition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FLOW__COMPLETION_CONDITION, newCompletionCondition, newCompletionCondition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FLOW__COMPLETION_CONDITION,
+					newCompletionCondition, newCompletionCondition));
 	}
 
 	/**
@@ -202,10 +230,13 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
-				return ((InternalEList)getActivities()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getActivities()).basicRemove(
+						otherEnd, msgs);
 			case BPELPackage.FLOW__LINKS:
 				return basicSetLinks(null, msgs);
 			case BPELPackage.FLOW__COMPLETION_CONDITION:
@@ -219,6 +250,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
@@ -236,17 +268,20 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
 				getActivities().clear();
-				getActivities().addAll((Collection)newValue);
+				getActivities().addAll(
+						(Collection<? extends Activity>) newValue);
 				return;
 			case BPELPackage.FLOW__LINKS:
-				setLinks((Links)newValue);
+				setLinks((Links) newValue);
 				return;
 			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition)newValue);
+				setCompletionCondition((CompletionCondition) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -257,16 +292,17 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:
 				getActivities().clear();
 				return;
 			case BPELPackage.FLOW__LINKS:
-				setLinks((Links)null);
+				setLinks((Links) null);
 				return;
 			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition)null);
+				setCompletionCondition((CompletionCondition) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -277,6 +313,7 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FLOW__ACTIVITIES:

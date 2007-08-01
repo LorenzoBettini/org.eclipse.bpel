@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.7 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ForEachImpl.java,v 1.8 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -129,6 +129,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.FOR_EACH;
 	}
@@ -147,12 +148,19 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetStartCounterValue(Expression newStartCounterValue, NotificationChain msgs) {
+	public NotificationChain basicSetStartCounterValue(
+			Expression newStartCounterValue, NotificationChain msgs) {
 		Expression oldStartCounterValue = startCounterValue;
 		startCounterValue = newStartCounterValue;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__START_COUNTER_VALUE, oldStartCounterValue, newStartCounterValue);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					BPELPackage.FOR_EACH__START_COUNTER_VALUE,
+					oldStartCounterValue, newStartCounterValue);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -166,14 +174,22 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 		if (newStartCounterValue != startCounterValue) {
 			NotificationChain msgs = null;
 			if (startCounterValue != null)
-				msgs = ((InternalEObject)startCounterValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__START_COUNTER_VALUE, null, msgs);
+				msgs = ((InternalEObject) startCounterValue).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__START_COUNTER_VALUE,
+						null, msgs);
 			if (newStartCounterValue != null)
-				msgs = ((InternalEObject)newStartCounterValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__START_COUNTER_VALUE, null, msgs);
+				msgs = ((InternalEObject) newStartCounterValue).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__START_COUNTER_VALUE,
+						null, msgs);
 			msgs = basicSetStartCounterValue(newStartCounterValue, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__START_COUNTER_VALUE, newStartCounterValue, newStartCounterValue));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FOR_EACH__START_COUNTER_VALUE,
+					newStartCounterValue, newStartCounterValue));
 	}
 
 	/**
@@ -190,12 +206,19 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFinalCounterValue(Expression newFinalCounterValue, NotificationChain msgs) {
+	public NotificationChain basicSetFinalCounterValue(
+			Expression newFinalCounterValue, NotificationChain msgs) {
 		Expression oldFinalCounterValue = finalCounterValue;
 		finalCounterValue = newFinalCounterValue;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, oldFinalCounterValue, newFinalCounterValue);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE,
+					oldFinalCounterValue, newFinalCounterValue);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -209,14 +232,22 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 		if (newFinalCounterValue != finalCounterValue) {
 			NotificationChain msgs = null;
 			if (finalCounterValue != null)
-				msgs = ((InternalEObject)finalCounterValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, null, msgs);
+				msgs = ((InternalEObject) finalCounterValue).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE,
+						null, msgs);
 			if (newFinalCounterValue != null)
-				msgs = ((InternalEObject)newFinalCounterValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, null, msgs);
+				msgs = ((InternalEObject) newFinalCounterValue).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE,
+						null, msgs);
 			msgs = basicSetFinalCounterValue(newFinalCounterValue, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE, newFinalCounterValue, newFinalCounterValue));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE,
+					newFinalCounterValue, newFinalCounterValue));
 	}
 
 	/**
@@ -237,7 +268,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 		Boolean oldParallel = parallel;
 		parallel = newParallel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__PARALLEL, oldParallel, parallel));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FOR_EACH__PARALLEL, oldParallel, parallel));
 	}
 
 	/**
@@ -254,12 +286,18 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCounterName(Variable newCounterName, NotificationChain msgs) {
+	public NotificationChain basicSetCounterName(Variable newCounterName,
+			NotificationChain msgs) {
 		Variable oldCounterName = counterName;
 		counterName = newCounterName;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__COUNTER_NAME, oldCounterName, newCounterName);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FOR_EACH__COUNTER_NAME,
+					oldCounterName, newCounterName);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -273,14 +311,22 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 		if (newCounterName != counterName) {
 			NotificationChain msgs = null;
 			if (counterName != null)
-				msgs = ((InternalEObject)counterName).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__COUNTER_NAME, null, msgs);
+				msgs = ((InternalEObject) counterName).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__COUNTER_NAME, null,
+						msgs);
 			if (newCounterName != null)
-				msgs = ((InternalEObject)newCounterName).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__COUNTER_NAME, null, msgs);
+				msgs = ((InternalEObject) newCounterName).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__COUNTER_NAME, null,
+						msgs);
 			msgs = basicSetCounterName(newCounterName, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__COUNTER_NAME, newCounterName, newCounterName));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FOR_EACH__COUNTER_NAME, newCounterName,
+					newCounterName));
 	}
 
 	/**
@@ -297,12 +343,19 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCompletionCondition(CompletionCondition newCompletionCondition, NotificationChain msgs) {
+	public NotificationChain basicSetCompletionCondition(
+			CompletionCondition newCompletionCondition, NotificationChain msgs) {
 		CompletionCondition oldCompletionCondition = completionCondition;
 		completionCondition = newCompletionCondition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__COMPLETION_CONDITION, oldCompletionCondition, newCompletionCondition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					BPELPackage.FOR_EACH__COMPLETION_CONDITION,
+					oldCompletionCondition, newCompletionCondition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -312,18 +365,27 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCompletionCondition(CompletionCondition newCompletionCondition) {
+	public void setCompletionCondition(
+			CompletionCondition newCompletionCondition) {
 		if (newCompletionCondition != completionCondition) {
 			NotificationChain msgs = null;
 			if (completionCondition != null)
-				msgs = ((InternalEObject)completionCondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__COMPLETION_CONDITION, null, msgs);
+				msgs = ((InternalEObject) completionCondition).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__COMPLETION_CONDITION,
+						null, msgs);
 			if (newCompletionCondition != null)
-				msgs = ((InternalEObject)newCompletionCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__COMPLETION_CONDITION, null, msgs);
+				msgs = ((InternalEObject) newCompletionCondition).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__COMPLETION_CONDITION,
+						null, msgs);
 			msgs = basicSetCompletionCondition(newCompletionCondition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__COMPLETION_CONDITION, newCompletionCondition, newCompletionCondition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FOR_EACH__COMPLETION_CONDITION,
+					newCompletionCondition, newCompletionCondition));
 	}
 
 	/**
@@ -340,12 +402,18 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FOR_EACH__ACTIVITY,
+					oldActivity, newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -359,14 +427,19 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__ACTIVITY, null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FOR_EACH__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FOR_EACH__ACTIVITY, null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FOR_EACH__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FOR_EACH__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -374,7 +447,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
 				return basicSetStartCounterValue(null, msgs);
@@ -395,6 +470,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
@@ -418,25 +494,26 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				setStartCounterValue((Expression)newValue);
+				setStartCounterValue((Expression) newValue);
 				return;
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				setFinalCounterValue((Expression)newValue);
+				setFinalCounterValue((Expression) newValue);
 				return;
 			case BPELPackage.FOR_EACH__PARALLEL:
-				setParallel((Boolean)newValue);
+				setParallel((Boolean) newValue);
 				return;
 			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				setCounterName((Variable)newValue);
+				setCounterName((Variable) newValue);
 				return;
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition)newValue);
+				setCompletionCondition((CompletionCondition) newValue);
 				return;
 			case BPELPackage.FOR_EACH__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -447,25 +524,26 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				setStartCounterValue((Expression)null);
+				setStartCounterValue((Expression) null);
 				return;
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				setFinalCounterValue((Expression)null);
+				setFinalCounterValue((Expression) null);
 				return;
 			case BPELPackage.FOR_EACH__PARALLEL:
 				setParallel(PARALLEL_EDEFAULT);
 				return;
 			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				setCounterName((Variable)null);
+				setCounterName((Variable) null);
 				return;
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition)null);
+				setCompletionCondition((CompletionCondition) null);
 				return;
 			case BPELPackage.FOR_EACH__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -476,6 +554,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
@@ -483,7 +562,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
 				return finalCounterValue != null;
 			case BPELPackage.FOR_EACH__PARALLEL:
-				return PARALLEL_EDEFAULT == null ? parallel != null : !PARALLEL_EDEFAULT.equals(parallel);
+				return PARALLEL_EDEFAULT == null ? parallel != null
+						: !PARALLEL_EDEFAULT.equals(parallel);
 			case BPELPackage.FOR_EACH__COUNTER_NAME:
 				return counterName != null;
 			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
@@ -499,11 +579,13 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (parallel: ");
+		result.append(" (parallel: "); //$NON-NLS-1$
 		result.append(parallel);
 		result.append(')');
 		return result.toString();

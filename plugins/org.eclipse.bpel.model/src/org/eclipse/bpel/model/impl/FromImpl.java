@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: FromImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -222,11 +222,11 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	protected Part part;
 
 	/**
-     * The deserialized value of the part name.
-     * @customized
-     */
-    protected String partName = null;
-    
+	 * The deserialized value of the part name.
+	 * @customized
+	 */
+	protected String partName = null;
+
 	/**
 	 * The cached value of the '{@link #getPartnerLink() <em>Partner Link</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -271,6 +271,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.FROM;
 	}
@@ -295,7 +296,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		boolean oldOpaqueESet = opaqueESet;
 		opaqueESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__OPAQUE, oldOpaque, opaque, !oldOpaqueESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__OPAQUE, oldOpaque, opaque, !oldOpaqueESet));
 	}
 
 	/**
@@ -309,7 +311,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		opaque = OPAQUE_EDEFAULT;
 		opaqueESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.FROM__OPAQUE, oldOpaque, OPAQUE_EDEFAULT, oldOpaqueESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.FROM__OPAQUE, oldOpaque, OPAQUE_EDEFAULT,
+					oldOpaqueESet));
 	}
 
 	/**
@@ -337,11 +341,14 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public void setEndpointReference(EndpointReferenceRole newEndpointReference) {
 		EndpointReferenceRole oldEndpointReference = endpointReference;
-		endpointReference = newEndpointReference == null ? ENDPOINT_REFERENCE_EDEFAULT : newEndpointReference;
+		endpointReference = newEndpointReference == null ? ENDPOINT_REFERENCE_EDEFAULT
+				: newEndpointReference;
 		boolean oldEndpointReferenceESet = endpointReferenceESet;
 		endpointReferenceESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__ENDPOINT_REFERENCE, oldEndpointReference, endpointReference, !oldEndpointReferenceESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__ENDPOINT_REFERENCE, oldEndpointReference,
+					endpointReference, !oldEndpointReferenceESet));
 	}
 
 	/**
@@ -355,7 +362,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		endpointReference = ENDPOINT_REFERENCE_EDEFAULT;
 		endpointReferenceESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.FROM__ENDPOINT_REFERENCE, oldEndpointReference, ENDPOINT_REFERENCE_EDEFAULT, oldEndpointReferenceESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.FROM__ENDPOINT_REFERENCE, oldEndpointReference,
+					ENDPOINT_REFERENCE_EDEFAULT, oldEndpointReferenceESet));
 	}
 
 	/**
@@ -387,7 +396,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		boolean oldLiteralESet = literalESet;
 		literalESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__LITERAL, oldLiteral, literal, !oldLiteralESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__LITERAL, oldLiteral, literal,
+					!oldLiteralESet));
 	}
 
 	/**
@@ -401,7 +412,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		literal = LITERAL_EDEFAULT;
 		literalESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.FROM__LITERAL, oldLiteral, LITERAL_EDEFAULT, oldLiteralESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.FROM__LITERAL, oldLiteral, LITERAL_EDEFAULT,
+					oldLiteralESet));
 	}
 
 	/**
@@ -431,7 +444,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		Boolean oldUnsafeLiteral = unsafeLiteral;
 		unsafeLiteral = newUnsafeLiteral;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__UNSAFE_LITERAL, oldUnsafeLiteral, unsafeLiteral));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__UNSAFE_LITERAL, oldUnsafeLiteral,
+					unsafeLiteral));
 	}
 
 	/**
@@ -448,12 +463,18 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExpression(Expression newExpression, NotificationChain msgs) {
+	public NotificationChain basicSetExpression(Expression newExpression,
+			NotificationChain msgs) {
 		Expression oldExpression = expression;
 		expression = newExpression;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__EXPRESSION, oldExpression, newExpression);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FROM__EXPRESSION,
+					oldExpression, newExpression);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -467,14 +488,19 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		if (newExpression != expression) {
 			NotificationChain msgs = null;
 			if (expression != null)
-				msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__EXPRESSION, null, msgs);
+				msgs = ((InternalEObject) expression).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__EXPRESSION,
+						null, msgs);
 			if (newExpression != null)
-				msgs = ((InternalEObject)newExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__EXPRESSION, null, msgs);
+				msgs = ((InternalEObject) newExpression).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__EXPRESSION,
+						null, msgs);
 			msgs = basicSetExpression(newExpression, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__EXPRESSION, newExpression, newExpression));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__EXPRESSION, newExpression, newExpression));
 	}
 
 	/**
@@ -491,12 +517,18 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetServiceRef(ServiceRef newServiceRef, NotificationChain msgs) {
+	public NotificationChain basicSetServiceRef(ServiceRef newServiceRef,
+			NotificationChain msgs) {
 		ServiceRef oldServiceRef = serviceRef;
 		serviceRef = newServiceRef;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__SERVICE_REF, oldServiceRef, newServiceRef);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FROM__SERVICE_REF,
+					oldServiceRef, newServiceRef);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -510,14 +542,19 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		if (newServiceRef != serviceRef) {
 			NotificationChain msgs = null;
 			if (serviceRef != null)
-				msgs = ((InternalEObject)serviceRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__SERVICE_REF, null, msgs);
+				msgs = ((InternalEObject) serviceRef).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__SERVICE_REF,
+						null, msgs);
 			if (newServiceRef != null)
-				msgs = ((InternalEObject)newServiceRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__SERVICE_REF, null, msgs);
+				msgs = ((InternalEObject) newServiceRef).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__SERVICE_REF,
+						null, msgs);
 			msgs = basicSetServiceRef(newServiceRef, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__SERVICE_REF, newServiceRef, newServiceRef));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__SERVICE_REF, newServiceRef, newServiceRef));
 	}
 
 	/**
@@ -527,11 +564,12 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public XSDTypeDefinition getType() {
 		if (type != null && type.eIsProxy()) {
-			InternalEObject oldType = (InternalEObject)type;
-			type = (XSDTypeDefinition)eResolveProxy(oldType);
+			InternalEObject oldType = (InternalEObject) type;
+			type = (XSDTypeDefinition) eResolveProxy(oldType);
 			if (type != oldType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__TYPE, oldType, type));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.FROM__TYPE, oldType, type));
 			}
 		}
 		return type;
@@ -555,7 +593,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		XSDTypeDefinition oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__TYPE, oldType, type));
 	}
 
 	/**
@@ -565,11 +604,12 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			InternalEObject oldVariable = (InternalEObject)variable;
-			variable = (Variable)eResolveProxy(oldVariable);
+			InternalEObject oldVariable = (InternalEObject) variable;
+			variable = (Variable) eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__VARIABLE, oldVariable, variable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.FROM__VARIABLE, oldVariable, variable));
 			}
 		}
 		return variable;
@@ -593,7 +633,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		Variable oldVariable = variable;
 		variable = newVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__VARIABLE, oldVariable, variable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__VARIABLE, oldVariable, variable));
 	}
 
 	/**
@@ -604,43 +645,44 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	public Part getPartGen() {
 		if (part != null && part.eIsProxy()) {
 			Part oldPart = part;
-			part = (Part)eResolveProxy((InternalEObject)part);
+			part = (Part) eResolveProxy((InternalEObject) part);
 			if (part != oldPart) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PART, oldPart, part));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.FROM__PART, oldPart, part));
 			}
 		}
 		return part;
 	}
 
-    /**
-     * Customizes {@link #getPartGen()} to lazy-resolve the part name.
-     * @customized
-     */
-	
-    public Part getPart() {
-        if (part == null && partName != null) {
-            Variable aVar = getVariable();
-            if (aVar != null) {
-                Message message = aVar.getMessageType();
-                if (message != null) {
-                    // Create an part proxy with the deserialized part name.
-                    part = new PartProxy(eResource(), message, partName);
-                    partName = null;
-                }
-            }
-        }
-        return getPartGen();
-    }
-    
 	/**
-     * Set the deserialized value of the part name.
-     * @customized
-     */
-    public void setPartName(String newPartName) {
-        partName = newPartName;
-    }
-    
+	 * Customizes {@link #getPartGen()} to lazy-resolve the part name.
+	 * @customized
+	 */
+
+	public Part getPart() {
+		if (part == null && partName != null) {
+			Variable aVar = getVariable();
+			if (aVar != null) {
+				Message message = aVar.getMessageType();
+				if (message != null) {
+					// Create an part proxy with the deserialized part name.
+					part = new PartProxy(eResource(), message, partName);
+					partName = null;
+				}
+			}
+		}
+		return getPartGen();
+	}
+
+	/**
+	 * Set the deserialized value of the part name.
+	 * @customized
+	 */
+	public void setPartName(String newPartName) {
+		partName = newPartName;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -659,7 +701,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		Part oldPart = part;
 		part = newPart;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__PART, oldPart, part));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__PART, oldPart, part));
 	}
 
 	/**
@@ -669,11 +712,13 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject) partnerLink;
+			partnerLink = (PartnerLink) eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PARTNER_LINK, oldPartnerLink, partnerLink));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.FROM__PARTNER_LINK, oldPartnerLink,
+							partnerLink));
 			}
 		}
 		return partnerLink;
@@ -697,7 +742,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		PartnerLink oldPartnerLink = partnerLink;
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__PARTNER_LINK, oldPartnerLink, partnerLink));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__PARTNER_LINK, oldPartnerLink, partnerLink));
 	}
 
 	/**
@@ -707,11 +753,12 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 */
 	public Property getProperty() {
 		if (property != null && property.eIsProxy()) {
-			InternalEObject oldProperty = (InternalEObject)property;
-			property = (Property)eResolveProxy(oldProperty);
+			InternalEObject oldProperty = (InternalEObject) property;
+			property = (Property) eResolveProxy(oldProperty);
 			if (property != oldProperty) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.FROM__PROPERTY, oldProperty, property));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.FROM__PROPERTY, oldProperty, property));
 			}
 		}
 		return property;
@@ -735,7 +782,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		Property oldProperty = property;
 		property = newProperty;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__PROPERTY, oldProperty, property));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__PROPERTY, oldProperty, property));
 	}
 
 	/**
@@ -752,12 +800,18 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetQuery(Query newQuery, NotificationChain msgs) {
+	public NotificationChain basicSetQuery(Query newQuery,
+			NotificationChain msgs) {
 		Query oldQuery = query;
 		query = newQuery;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__QUERY, oldQuery, newQuery);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FROM__QUERY, oldQuery,
+					newQuery);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -771,14 +825,19 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 		if (newQuery != query) {
 			NotificationChain msgs = null;
 			if (query != null)
-				msgs = ((InternalEObject)query).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__QUERY, null, msgs);
+				msgs = ((InternalEObject) query).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__QUERY, null,
+						msgs);
 			if (newQuery != null)
-				msgs = ((InternalEObject)newQuery).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__QUERY, null, msgs);
+				msgs = ((InternalEObject) newQuery).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.FROM__QUERY, null,
+						msgs);
 			msgs = basicSetQuery(newQuery, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM__QUERY, newQuery, newQuery));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM__QUERY, newQuery, newQuery));
 	}
 
 	/**
@@ -786,7 +845,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.FROM__EXPRESSION:
 				return basicSetExpression(null, msgs);
@@ -803,6 +864,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
@@ -818,19 +880,24 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 			case BPELPackage.FROM__SERVICE_REF:
 				return getServiceRef();
 			case BPELPackage.FROM__TYPE:
-				if (resolve) return getType();
+				if (resolve)
+					return getType();
 				return basicGetType();
 			case BPELPackage.FROM__VARIABLE:
-				if (resolve) return getVariable();
+				if (resolve)
+					return getVariable();
 				return basicGetVariable();
 			case BPELPackage.FROM__PART:
-				if (resolve) return getPart();
+				if (resolve)
+					return getPart();
 				return basicGetPart();
 			case BPELPackage.FROM__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
+				if (resolve)
+					return getPartnerLink();
 				return basicGetPartnerLink();
 			case BPELPackage.FROM__PROPERTY:
-				if (resolve) return getProperty();
+				if (resolve)
+					return getProperty();
 				return basicGetProperty();
 			case BPELPackage.FROM__QUERY:
 				return getQuery();
@@ -843,43 +910,44 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
-				setOpaque((Boolean)newValue);
+				setOpaque((Boolean) newValue);
 				return;
 			case BPELPackage.FROM__ENDPOINT_REFERENCE:
-				setEndpointReference((EndpointReferenceRole)newValue);
+				setEndpointReference((EndpointReferenceRole) newValue);
 				return;
 			case BPELPackage.FROM__LITERAL:
-				setLiteral((String)newValue);
+				setLiteral((String) newValue);
 				return;
 			case BPELPackage.FROM__UNSAFE_LITERAL:
-				setUnsafeLiteral((Boolean)newValue);
+				setUnsafeLiteral((Boolean) newValue);
 				return;
 			case BPELPackage.FROM__EXPRESSION:
-				setExpression((Expression)newValue);
+				setExpression((Expression) newValue);
 				return;
 			case BPELPackage.FROM__SERVICE_REF:
-				setServiceRef((ServiceRef)newValue);
+				setServiceRef((ServiceRef) newValue);
 				return;
 			case BPELPackage.FROM__TYPE:
-				setType((XSDTypeDefinition)newValue);
+				setType((XSDTypeDefinition) newValue);
 				return;
 			case BPELPackage.FROM__VARIABLE:
-				setVariable((Variable)newValue);
+				setVariable((Variable) newValue);
 				return;
 			case BPELPackage.FROM__PART:
-				setPart((Part)newValue);
+				setPart((Part) newValue);
 				return;
 			case BPELPackage.FROM__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
+				setPartnerLink((PartnerLink) newValue);
 				return;
 			case BPELPackage.FROM__PROPERTY:
-				setProperty((Property)newValue);
+				setProperty((Property) newValue);
 				return;
 			case BPELPackage.FROM__QUERY:
-				setQuery((Query)newValue);
+				setQuery((Query) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -890,6 +958,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
@@ -905,28 +974,28 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 				setUnsafeLiteral(UNSAFE_LITERAL_EDEFAULT);
 				return;
 			case BPELPackage.FROM__EXPRESSION:
-				setExpression((Expression)null);
+				setExpression((Expression) null);
 				return;
 			case BPELPackage.FROM__SERVICE_REF:
-				setServiceRef((ServiceRef)null);
+				setServiceRef((ServiceRef) null);
 				return;
 			case BPELPackage.FROM__TYPE:
-				setType((XSDTypeDefinition)null);
+				setType((XSDTypeDefinition) null);
 				return;
 			case BPELPackage.FROM__VARIABLE:
-				setVariable((Variable)null);
+				setVariable((Variable) null);
 				return;
 			case BPELPackage.FROM__PART:
-				setPart((Part)null);
+				setPart((Part) null);
 				return;
 			case BPELPackage.FROM__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
+				setPartnerLink((PartnerLink) null);
 				return;
 			case BPELPackage.FROM__PROPERTY:
-				setProperty((Property)null);
+				setProperty((Property) null);
 				return;
 			case BPELPackage.FROM__QUERY:
-				setQuery((Query)null);
+				setQuery((Query) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -937,6 +1006,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FROM__OPAQUE:
@@ -946,7 +1016,8 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 			case BPELPackage.FROM__LITERAL:
 				return isSetLiteral();
 			case BPELPackage.FROM__UNSAFE_LITERAL:
-				return UNSAFE_LITERAL_EDEFAULT == null ? unsafeLiteral != null : !UNSAFE_LITERAL_EDEFAULT.equals(unsafeLiteral);
+				return UNSAFE_LITERAL_EDEFAULT == null ? unsafeLiteral != null
+						: !UNSAFE_LITERAL_EDEFAULT.equals(unsafeLiteral);
 			case BPELPackage.FROM__EXPRESSION:
 				return expression != null;
 			case BPELPackage.FROM__SERVICE_REF:
@@ -972,17 +1043,28 @@ public class FromImpl extends ExtensibleElementImpl implements From {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (opaque: ");
-		if (opaqueESet) result.append(opaque); else result.append("<unset>");
-		result.append(", endpointReference: ");
-		if (endpointReferenceESet) result.append(endpointReference); else result.append("<unset>");
-		result.append(", literal: ");
-		if (literalESet) result.append(literal); else result.append("<unset>");
-		result.append(", unsafeLiteral: ");
+		result.append(" (opaque: "); //$NON-NLS-1$
+		if (opaqueESet)
+			result.append(opaque);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", endpointReference: "); //$NON-NLS-1$
+		if (endpointReferenceESet)
+			result.append(endpointReference);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", literal: "); //$NON-NLS-1$
+		if (literalESet)
+			result.append(literal);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", unsafeLiteral: "); //$NON-NLS-1$
 		result.append(unsafeLiteral);
 		result.append(')');
 		return result.toString();

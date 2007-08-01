@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Validate.java,v 1.1 2006/02/10 16:12:48 rodrigo Exp $
+ * $Id: Validate.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Validate extends Activity{
+public interface Validate extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Variables</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.Variable}.
@@ -36,9 +36,9 @@ public interface Validate extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variables</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getValidate_Variables()
-	 * @model type="org.eclipse.bpel.model.Variable"
+	 * @model
 	 * @generated
 	 */
-	EList getVariables();
+	EList<Variable> getVariables();
 
 } // Validate

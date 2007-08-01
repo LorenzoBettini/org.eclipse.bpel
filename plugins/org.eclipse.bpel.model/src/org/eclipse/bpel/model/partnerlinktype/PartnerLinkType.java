@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkType.java,v 1.2 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PartnerLinkType.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -36,7 +36,7 @@ import org.eclipse.wst.wsdl.ExtensibilityElement;
  * @model
  * @generated
  */
-public interface PartnerLinkType extends ExtensibilityElement{
+public interface PartnerLinkType extends ExtensibilityElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -89,9 +89,9 @@ public interface PartnerLinkType extends ExtensibilityElement{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Role</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage#getPartnerLinkType_Role()
-	 * @model type="org.eclipse.bpel.model.partnerlinktype.Role" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getRole();
+	EList<Role> getRole();
 
 } // PartnerLinkType

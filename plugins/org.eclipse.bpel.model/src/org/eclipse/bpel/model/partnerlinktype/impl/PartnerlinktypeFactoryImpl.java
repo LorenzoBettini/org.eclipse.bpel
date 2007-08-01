@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeFactoryImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PartnerlinktypeFactoryImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -29,7 +29,8 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * <!-- end-user-doc -->
  * @generated
  */
-public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements PartnerlinktypeFactory {
+public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements
+		PartnerlinktypeFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
@@ -38,12 +39,12 @@ public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements Partnerl
 	 */
 	public static PartnerlinktypeFactory init() {
 		try {
-			PartnerlinktypeFactory thePartnerlinktypeFactory = (PartnerlinktypeFactory)EPackage.Registry.INSTANCE.getEFactory("http://docs.oasis-open.org/wsbpel/2.0/plnktype"); 
+			PartnerlinktypeFactory thePartnerlinktypeFactory = (PartnerlinktypeFactory) EPackage.Registry.INSTANCE
+					.getEFactory("http://docs.oasis-open.org/wsbpel/2.0/plnktype"); //$NON-NLS-1$ 
 			if (thePartnerlinktypeFactory != null) {
 				return thePartnerlinktypeFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new PartnerlinktypeFactoryImpl();
@@ -64,12 +65,16 @@ public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements Partnerl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case PartnerlinktypePackage.PARTNER_LINK_TYPE: return createPartnerLinkType();
-			case PartnerlinktypePackage.ROLE: return createRole();
+			case PartnerlinktypePackage.PARTNER_LINK_TYPE:
+				return createPartnerLinkType();
+			case PartnerlinktypePackage.ROLE:
+				return createRole();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException(
+						"The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -99,7 +104,7 @@ public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements Partnerl
 	 * @generated
 	 */
 	public PartnerlinktypePackage getPartnerlinktypePackage() {
-		return (PartnerlinktypePackage)getEPackage();
+		return (PartnerlinktypePackage) getEPackage();
 	}
 
 	/**
@@ -108,6 +113,7 @@ public class PartnerlinktypeFactoryImpl extends EFactoryImpl implements Partnerl
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static PartnerlinktypePackage getPackage() {
 		return PartnerlinktypePackage.eINSTANCE;
 	}

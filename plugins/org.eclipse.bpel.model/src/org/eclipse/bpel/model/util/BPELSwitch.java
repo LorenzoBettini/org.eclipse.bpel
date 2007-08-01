@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.22 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: BPELSwitch.java,v 1.23 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -107,7 +107,7 @@ import org.eclipse.wst.wsdl.WSDLElement;
  * @see org.eclipse.bpel.model.BPELPackage
  * @generated
  */
-public class BPELSwitch {
+public class BPELSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -135,7 +135,7 @@ public class BPELSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch(EObject theEObject) {
+	public T doSwitch(EObject theEObject) {
 		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
@@ -146,16 +146,13 @@ public class BPELSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
 		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+		} else {
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
+			return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch(
+					eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -166,662 +163,966 @@ public class BPELSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
+	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case BPELPackage.PROCESS: {
-				org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process)theEObject;
-				Object result = caseProcess(process);
-				if (result == null) result = caseExtensibleElement(process);
-				if (result == null) result = caseExtensibleElement_1(process);
-				if (result == null) result = caseWSDLElement(process);
-				if (result == null) result = defaultCase(theEObject);
+				org.eclipse.bpel.model.Process process = (org.eclipse.bpel.model.Process) theEObject;
+				T result = caseProcess(process);
+				if (result == null)
+					result = caseExtensibleElement(process);
+				if (result == null)
+					result = caseExtensibleElement_1(process);
+				if (result == null)
+					result = caseWSDLElement(process);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.PARTNER_LINK: {
-				PartnerLink partnerLink = (PartnerLink)theEObject;
-				Object result = casePartnerLink(partnerLink);
-				if (result == null) result = caseExtensibleElement(partnerLink);
-				if (result == null) result = caseExtensibleElement_1(partnerLink);
-				if (result == null) result = caseWSDLElement(partnerLink);
-				if (result == null) result = defaultCase(theEObject);
+				PartnerLink partnerLink = (PartnerLink) theEObject;
+				T result = casePartnerLink(partnerLink);
+				if (result == null)
+					result = caseExtensibleElement(partnerLink);
+				if (result == null)
+					result = caseExtensibleElement_1(partnerLink);
+				if (result == null)
+					result = caseWSDLElement(partnerLink);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.FAULT_HANDLER: {
-				FaultHandler faultHandler = (FaultHandler)theEObject;
-				Object result = caseFaultHandler(faultHandler);
-				if (result == null) result = caseExtensibleElement(faultHandler);
-				if (result == null) result = caseExtensibleElement_1(faultHandler);
-				if (result == null) result = caseWSDLElement(faultHandler);
-				if (result == null) result = defaultCase(theEObject);
+				FaultHandler faultHandler = (FaultHandler) theEObject;
+				T result = caseFaultHandler(faultHandler);
+				if (result == null)
+					result = caseExtensibleElement(faultHandler);
+				if (result == null)
+					result = caseExtensibleElement_1(faultHandler);
+				if (result == null)
+					result = caseWSDLElement(faultHandler);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ACTIVITY: {
-				Activity activity = (Activity)theEObject;
-				Object result = caseActivity(activity);
-				if (result == null) result = caseExtensibleElement(activity);
-				if (result == null) result = caseExtensibleElement_1(activity);
-				if (result == null) result = caseWSDLElement(activity);
-				if (result == null) result = defaultCase(theEObject);
+				Activity activity = (Activity) theEObject;
+				T result = caseActivity(activity);
+				if (result == null)
+					result = caseExtensibleElement(activity);
+				if (result == null)
+					result = caseExtensibleElement_1(activity);
+				if (result == null)
+					result = caseWSDLElement(activity);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CORRELATION_SET: {
-				CorrelationSet correlationSet = (CorrelationSet)theEObject;
-				Object result = caseCorrelationSet(correlationSet);
-				if (result == null) result = caseExtensibleElement(correlationSet);
-				if (result == null) result = caseExtensibleElement_1(correlationSet);
-				if (result == null) result = caseWSDLElement(correlationSet);
-				if (result == null) result = defaultCase(theEObject);
+				CorrelationSet correlationSet = (CorrelationSet) theEObject;
+				T result = caseCorrelationSet(correlationSet);
+				if (result == null)
+					result = caseExtensibleElement(correlationSet);
+				if (result == null)
+					result = caseExtensibleElement_1(correlationSet);
+				if (result == null)
+					result = caseWSDLElement(correlationSet);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.INVOKE: {
-				Invoke invoke = (Invoke)theEObject;
-				Object result = caseInvoke(invoke);
-				if (result == null) result = casePartnerActivity(invoke);
-				if (result == null) result = caseActivity(invoke);
-				if (result == null) result = caseExtensibleElement(invoke);
-				if (result == null) result = caseExtensibleElement_1(invoke);
-				if (result == null) result = caseWSDLElement(invoke);
-				if (result == null) result = defaultCase(theEObject);
+				Invoke invoke = (Invoke) theEObject;
+				T result = caseInvoke(invoke);
+				if (result == null)
+					result = casePartnerActivity(invoke);
+				if (result == null)
+					result = caseActivity(invoke);
+				if (result == null)
+					result = caseExtensibleElement(invoke);
+				if (result == null)
+					result = caseExtensibleElement_1(invoke);
+				if (result == null)
+					result = caseWSDLElement(invoke);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.LINK: {
-				Link link = (Link)theEObject;
-				Object result = caseLink(link);
-				if (result == null) result = caseExtensibleElement(link);
-				if (result == null) result = caseExtensibleElement_1(link);
-				if (result == null) result = caseWSDLElement(link);
-				if (result == null) result = defaultCase(theEObject);
+				Link link = (Link) theEObject;
+				T result = caseLink(link);
+				if (result == null)
+					result = caseExtensibleElement(link);
+				if (result == null)
+					result = caseExtensibleElement_1(link);
+				if (result == null)
+					result = caseWSDLElement(link);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CATCH: {
-				Catch catch_ = (Catch)theEObject;
-				Object result = caseCatch(catch_);
-				if (result == null) result = caseExtensibleElement(catch_);
-				if (result == null) result = caseExtensibleElement_1(catch_);
-				if (result == null) result = caseWSDLElement(catch_);
-				if (result == null) result = defaultCase(theEObject);
+				Catch catch_ = (Catch) theEObject;
+				T result = caseCatch(catch_);
+				if (result == null)
+					result = caseExtensibleElement(catch_);
+				if (result == null)
+					result = caseExtensibleElement_1(catch_);
+				if (result == null)
+					result = caseWSDLElement(catch_);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.REPLY: {
-				Reply reply = (Reply)theEObject;
-				Object result = caseReply(reply);
-				if (result == null) result = casePartnerActivity(reply);
-				if (result == null) result = caseActivity(reply);
-				if (result == null) result = caseExtensibleElement(reply);
-				if (result == null) result = caseExtensibleElement_1(reply);
-				if (result == null) result = caseWSDLElement(reply);
-				if (result == null) result = defaultCase(theEObject);
+				Reply reply = (Reply) theEObject;
+				T result = caseReply(reply);
+				if (result == null)
+					result = casePartnerActivity(reply);
+				if (result == null)
+					result = caseActivity(reply);
+				if (result == null)
+					result = caseExtensibleElement(reply);
+				if (result == null)
+					result = caseExtensibleElement_1(reply);
+				if (result == null)
+					result = caseWSDLElement(reply);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.PARTNER_ACTIVITY: {
-				PartnerActivity partnerActivity = (PartnerActivity)theEObject;
-				Object result = casePartnerActivity(partnerActivity);
-				if (result == null) result = caseActivity(partnerActivity);
-				if (result == null) result = caseExtensibleElement(partnerActivity);
-				if (result == null) result = caseExtensibleElement_1(partnerActivity);
-				if (result == null) result = caseWSDLElement(partnerActivity);
-				if (result == null) result = defaultCase(theEObject);
+				PartnerActivity partnerActivity = (PartnerActivity) theEObject;
+				T result = casePartnerActivity(partnerActivity);
+				if (result == null)
+					result = caseActivity(partnerActivity);
+				if (result == null)
+					result = caseExtensibleElement(partnerActivity);
+				if (result == null)
+					result = caseExtensibleElement_1(partnerActivity);
+				if (result == null)
+					result = caseWSDLElement(partnerActivity);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.RECEIVE: {
-				Receive receive = (Receive)theEObject;
-				Object result = caseReceive(receive);
-				if (result == null) result = casePartnerActivity(receive);
-				if (result == null) result = caseActivity(receive);
-				if (result == null) result = caseExtensibleElement(receive);
-				if (result == null) result = caseExtensibleElement_1(receive);
-				if (result == null) result = caseWSDLElement(receive);
-				if (result == null) result = defaultCase(theEObject);
+				Receive receive = (Receive) theEObject;
+				T result = caseReceive(receive);
+				if (result == null)
+					result = casePartnerActivity(receive);
+				if (result == null)
+					result = caseActivity(receive);
+				if (result == null)
+					result = caseExtensibleElement(receive);
+				if (result == null)
+					result = caseExtensibleElement_1(receive);
+				if (result == null)
+					result = caseWSDLElement(receive);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EXIT: {
-				Exit exit = (Exit)theEObject;
-				Object result = caseExit(exit);
-				if (result == null) result = caseActivity(exit);
-				if (result == null) result = caseExtensibleElement(exit);
-				if (result == null) result = caseExtensibleElement_1(exit);
-				if (result == null) result = caseWSDLElement(exit);
-				if (result == null) result = defaultCase(theEObject);
+				Exit exit = (Exit) theEObject;
+				T result = caseExit(exit);
+				if (result == null)
+					result = caseActivity(exit);
+				if (result == null)
+					result = caseExtensibleElement(exit);
+				if (result == null)
+					result = caseExtensibleElement_1(exit);
+				if (result == null)
+					result = caseWSDLElement(exit);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.THROW: {
-				Throw throw_ = (Throw)theEObject;
-				Object result = caseThrow(throw_);
-				if (result == null) result = caseActivity(throw_);
-				if (result == null) result = caseExtensibleElement(throw_);
-				if (result == null) result = caseExtensibleElement_1(throw_);
-				if (result == null) result = caseWSDLElement(throw_);
-				if (result == null) result = defaultCase(theEObject);
+				Throw throw_ = (Throw) theEObject;
+				T result = caseThrow(throw_);
+				if (result == null)
+					result = caseActivity(throw_);
+				if (result == null)
+					result = caseExtensibleElement(throw_);
+				if (result == null)
+					result = caseExtensibleElement_1(throw_);
+				if (result == null)
+					result = caseWSDLElement(throw_);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.WAIT: {
-				Wait wait = (Wait)theEObject;
-				Object result = caseWait(wait);
-				if (result == null) result = caseActivity(wait);
-				if (result == null) result = caseExtensibleElement(wait);
-				if (result == null) result = caseExtensibleElement_1(wait);
-				if (result == null) result = caseWSDLElement(wait);
-				if (result == null) result = defaultCase(theEObject);
+				Wait wait = (Wait) theEObject;
+				T result = caseWait(wait);
+				if (result == null)
+					result = caseActivity(wait);
+				if (result == null)
+					result = caseExtensibleElement(wait);
+				if (result == null)
+					result = caseExtensibleElement_1(wait);
+				if (result == null)
+					result = caseWSDLElement(wait);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EMPTY: {
-				Empty empty = (Empty)theEObject;
-				Object result = caseEmpty(empty);
-				if (result == null) result = caseActivity(empty);
-				if (result == null) result = caseExtensibleElement(empty);
-				if (result == null) result = caseExtensibleElement_1(empty);
-				if (result == null) result = caseWSDLElement(empty);
-				if (result == null) result = defaultCase(theEObject);
+				Empty empty = (Empty) theEObject;
+				T result = caseEmpty(empty);
+				if (result == null)
+					result = caseActivity(empty);
+				if (result == null)
+					result = caseExtensibleElement(empty);
+				if (result == null)
+					result = caseExtensibleElement_1(empty);
+				if (result == null)
+					result = caseWSDLElement(empty);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SEQUENCE: {
-				Sequence sequence = (Sequence)theEObject;
-				Object result = caseSequence(sequence);
-				if (result == null) result = caseActivity(sequence);
-				if (result == null) result = caseExtensibleElement(sequence);
-				if (result == null) result = caseExtensibleElement_1(sequence);
-				if (result == null) result = caseWSDLElement(sequence);
-				if (result == null) result = defaultCase(theEObject);
+				Sequence sequence = (Sequence) theEObject;
+				T result = caseSequence(sequence);
+				if (result == null)
+					result = caseActivity(sequence);
+				if (result == null)
+					result = caseExtensibleElement(sequence);
+				if (result == null)
+					result = caseExtensibleElement_1(sequence);
+				if (result == null)
+					result = caseWSDLElement(sequence);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.WHILE: {
-				While while_ = (While)theEObject;
-				Object result = caseWhile(while_);
-				if (result == null) result = caseActivity(while_);
-				if (result == null) result = caseExtensibleElement(while_);
-				if (result == null) result = caseExtensibleElement_1(while_);
-				if (result == null) result = caseWSDLElement(while_);
-				if (result == null) result = defaultCase(theEObject);
+				While while_ = (While) theEObject;
+				T result = caseWhile(while_);
+				if (result == null)
+					result = caseActivity(while_);
+				if (result == null)
+					result = caseExtensibleElement(while_);
+				if (result == null)
+					result = caseExtensibleElement_1(while_);
+				if (result == null)
+					result = caseWSDLElement(while_);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.PICK: {
-				Pick pick = (Pick)theEObject;
-				Object result = casePick(pick);
-				if (result == null) result = caseActivity(pick);
-				if (result == null) result = caseExtensibleElement(pick);
-				if (result == null) result = caseExtensibleElement_1(pick);
-				if (result == null) result = caseWSDLElement(pick);
-				if (result == null) result = defaultCase(theEObject);
+				Pick pick = (Pick) theEObject;
+				T result = casePick(pick);
+				if (result == null)
+					result = caseActivity(pick);
+				if (result == null)
+					result = caseExtensibleElement(pick);
+				if (result == null)
+					result = caseExtensibleElement_1(pick);
+				if (result == null)
+					result = caseWSDLElement(pick);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.FLOW: {
-				Flow flow = (Flow)theEObject;
-				Object result = caseFlow(flow);
-				if (result == null) result = caseActivity(flow);
-				if (result == null) result = caseExtensibleElement(flow);
-				if (result == null) result = caseExtensibleElement_1(flow);
-				if (result == null) result = caseWSDLElement(flow);
-				if (result == null) result = defaultCase(theEObject);
+				Flow flow = (Flow) theEObject;
+				T result = caseFlow(flow);
+				if (result == null)
+					result = caseActivity(flow);
+				if (result == null)
+					result = caseExtensibleElement(flow);
+				if (result == null)
+					result = caseExtensibleElement_1(flow);
+				if (result == null)
+					result = caseWSDLElement(flow);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ON_ALARM: {
-				OnAlarm onAlarm = (OnAlarm)theEObject;
-				Object result = caseOnAlarm(onAlarm);
-				if (result == null) result = caseExtensibleElement(onAlarm);
-				if (result == null) result = caseExtensibleElement_1(onAlarm);
-				if (result == null) result = caseWSDLElement(onAlarm);
-				if (result == null) result = defaultCase(theEObject);
+				OnAlarm onAlarm = (OnAlarm) theEObject;
+				T result = caseOnAlarm(onAlarm);
+				if (result == null)
+					result = caseExtensibleElement(onAlarm);
+				if (result == null)
+					result = caseExtensibleElement_1(onAlarm);
+				if (result == null)
+					result = caseWSDLElement(onAlarm);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ASSIGN: {
-				Assign assign = (Assign)theEObject;
-				Object result = caseAssign(assign);
-				if (result == null) result = caseActivity(assign);
-				if (result == null) result = caseExtensibleElement(assign);
-				if (result == null) result = caseExtensibleElement_1(assign);
-				if (result == null) result = caseWSDLElement(assign);
-				if (result == null) result = defaultCase(theEObject);
+				Assign assign = (Assign) theEObject;
+				T result = caseAssign(assign);
+				if (result == null)
+					result = caseActivity(assign);
+				if (result == null)
+					result = caseExtensibleElement(assign);
+				if (result == null)
+					result = caseExtensibleElement_1(assign);
+				if (result == null)
+					result = caseWSDLElement(assign);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.COPY: {
-				Copy copy = (Copy)theEObject;
-				Object result = caseCopy(copy);
-				if (result == null) result = caseExtensibleElement(copy);
-				if (result == null) result = caseExtensibleElement_1(copy);
-				if (result == null) result = caseWSDLElement(copy);
-				if (result == null) result = defaultCase(theEObject);
+				Copy copy = (Copy) theEObject;
+				T result = caseCopy(copy);
+				if (result == null)
+					result = caseExtensibleElement(copy);
+				if (result == null)
+					result = caseExtensibleElement_1(copy);
+				if (result == null)
+					result = caseWSDLElement(copy);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EXTENSION: {
-				Extension extension = (Extension)theEObject;
-				Object result = caseExtension(extension);
-				if (result == null) result = caseExtensibleElement(extension);
-				if (result == null) result = caseExtensibleElement_1(extension);
-				if (result == null) result = caseWSDLElement(extension);
-				if (result == null) result = defaultCase(theEObject);
+				Extension extension = (Extension) theEObject;
+				T result = caseExtension(extension);
+				if (result == null)
+					result = caseExtensibleElement(extension);
+				if (result == null)
+					result = caseExtensibleElement_1(extension);
+				if (result == null)
+					result = caseWSDLElement(extension);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SCOPE: {
-				Scope scope = (Scope)theEObject;
-				Object result = caseScope(scope);
-				if (result == null) result = caseActivity(scope);
-				if (result == null) result = caseExtensibleElement(scope);
-				if (result == null) result = caseExtensibleElement_1(scope);
-				if (result == null) result = caseWSDLElement(scope);
-				if (result == null) result = defaultCase(theEObject);
+				Scope scope = (Scope) theEObject;
+				T result = caseScope(scope);
+				if (result == null)
+					result = caseActivity(scope);
+				if (result == null)
+					result = caseExtensibleElement(scope);
+				if (result == null)
+					result = caseExtensibleElement_1(scope);
+				if (result == null)
+					result = caseWSDLElement(scope);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.COMPENSATE_SCOPE: {
-				CompensateScope compensateScope = (CompensateScope)theEObject;
-				Object result = caseCompensateScope(compensateScope);
-				if (result == null) result = caseActivity(compensateScope);
-				if (result == null) result = caseExtensibleElement(compensateScope);
-				if (result == null) result = caseExtensibleElement_1(compensateScope);
-				if (result == null) result = caseWSDLElement(compensateScope);
-				if (result == null) result = defaultCase(theEObject);
+				CompensateScope compensateScope = (CompensateScope) theEObject;
+				T result = caseCompensateScope(compensateScope);
+				if (result == null)
+					result = caseActivity(compensateScope);
+				if (result == null)
+					result = caseExtensibleElement(compensateScope);
+				if (result == null)
+					result = caseExtensibleElement_1(compensateScope);
+				if (result == null)
+					result = caseWSDLElement(compensateScope);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.COMPENSATION_HANDLER: {
-				CompensationHandler compensationHandler = (CompensationHandler)theEObject;
-				Object result = caseCompensationHandler(compensationHandler);
-				if (result == null) result = caseExtensibleElement(compensationHandler);
-				if (result == null) result = caseExtensibleElement_1(compensationHandler);
-				if (result == null) result = caseWSDLElement(compensationHandler);
-				if (result == null) result = defaultCase(theEObject);
+				CompensationHandler compensationHandler = (CompensationHandler) theEObject;
+				T result = caseCompensationHandler(compensationHandler);
+				if (result == null)
+					result = caseExtensibleElement(compensationHandler);
+				if (result == null)
+					result = caseExtensibleElement_1(compensationHandler);
+				if (result == null)
+					result = caseWSDLElement(compensationHandler);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.TO: {
-				To to = (To)theEObject;
-				Object result = caseTo(to);
-				if (result == null) result = caseExtensibleElement(to);
-				if (result == null) result = caseExtensibleElement_1(to);
-				if (result == null) result = caseWSDLElement(to);
-				if (result == null) result = defaultCase(theEObject);
+				To to = (To) theEObject;
+				T result = caseTo(to);
+				if (result == null)
+					result = caseExtensibleElement(to);
+				if (result == null)
+					result = caseExtensibleElement_1(to);
+				if (result == null)
+					result = caseWSDLElement(to);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.FROM: {
-				From from = (From)theEObject;
-				Object result = caseFrom(from);
-				if (result == null) result = caseExtensibleElement(from);
-				if (result == null) result = caseExtensibleElement_1(from);
-				if (result == null) result = caseWSDLElement(from);
-				if (result == null) result = defaultCase(theEObject);
+				From from = (From) theEObject;
+				T result = caseFrom(from);
+				if (result == null)
+					result = caseExtensibleElement(from);
+				if (result == null)
+					result = caseExtensibleElement_1(from);
+				if (result == null)
+					result = caseWSDLElement(from);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ON_MESSAGE: {
-				OnMessage onMessage = (OnMessage)theEObject;
-				Object result = caseOnMessage(onMessage);
-				if (result == null) result = caseExtensibleElement(onMessage);
-				if (result == null) result = caseExtensibleElement_1(onMessage);
-				if (result == null) result = caseWSDLElement(onMessage);
-				if (result == null) result = defaultCase(theEObject);
+				OnMessage onMessage = (OnMessage) theEObject;
+				T result = caseOnMessage(onMessage);
+				if (result == null)
+					result = caseExtensibleElement(onMessage);
+				if (result == null)
+					result = caseExtensibleElement_1(onMessage);
+				if (result == null)
+					result = caseWSDLElement(onMessage);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EXPRESSION: {
-				Expression expression = (Expression)theEObject;
-				Object result = caseExpression(expression);
-				if (result == null) result = caseExtensibilityElement(expression);
-				if (result == null) result = caseWSDLElement(expression);
-				if (result == null) result = caseIExtensibilityElement(expression);
-				if (result == null) result = defaultCase(theEObject);
+				Expression expression = (Expression) theEObject;
+				T result = caseExpression(expression);
+				if (result == null)
+					result = caseExtensibilityElement(expression);
+				if (result == null)
+					result = caseWSDLElement(expression);
+				if (result == null)
+					result = caseIExtensibilityElement(expression);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.BOOLEAN_EXPRESSION: {
-				BooleanExpression booleanExpression = (BooleanExpression)theEObject;
-				Object result = caseBooleanExpression(booleanExpression);
-				if (result == null) result = caseExpression(booleanExpression);
-				if (result == null) result = caseExtensibilityElement(booleanExpression);
-				if (result == null) result = caseWSDLElement(booleanExpression);
-				if (result == null) result = caseIExtensibilityElement(booleanExpression);
-				if (result == null) result = defaultCase(theEObject);
+				BooleanExpression booleanExpression = (BooleanExpression) theEObject;
+				T result = caseBooleanExpression(booleanExpression);
+				if (result == null)
+					result = caseExpression(booleanExpression);
+				if (result == null)
+					result = caseExtensibilityElement(booleanExpression);
+				if (result == null)
+					result = caseWSDLElement(booleanExpression);
+				if (result == null)
+					result = caseIExtensibilityElement(booleanExpression);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CORRELATION: {
-				Correlation correlation = (Correlation)theEObject;
-				Object result = caseCorrelation(correlation);
-				if (result == null) result = caseExtensibleElement(correlation);
-				if (result == null) result = caseExtensibleElement_1(correlation);
-				if (result == null) result = caseWSDLElement(correlation);
-				if (result == null) result = defaultCase(theEObject);
+				Correlation correlation = (Correlation) theEObject;
+				T result = caseCorrelation(correlation);
+				if (result == null)
+					result = caseExtensibleElement(correlation);
+				if (result == null)
+					result = caseExtensibleElement_1(correlation);
+				if (result == null)
+					result = caseWSDLElement(correlation);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EVENT_HANDLER: {
-				EventHandler eventHandler = (EventHandler)theEObject;
-				Object result = caseEventHandler(eventHandler);
-				if (result == null) result = caseExtensibleElement(eventHandler);
-				if (result == null) result = caseExtensibleElement_1(eventHandler);
-				if (result == null) result = caseWSDLElement(eventHandler);
-				if (result == null) result = defaultCase(theEObject);
+				EventHandler eventHandler = (EventHandler) theEObject;
+				T result = caseEventHandler(eventHandler);
+				if (result == null)
+					result = caseExtensibleElement(eventHandler);
+				if (result == null)
+					result = caseExtensibleElement_1(eventHandler);
+				if (result == null)
+					result = caseWSDLElement(eventHandler);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SOURCE: {
-				Source source = (Source)theEObject;
-				Object result = caseSource(source);
-				if (result == null) result = caseExtensibleElement(source);
-				if (result == null) result = caseExtensibleElement_1(source);
-				if (result == null) result = caseWSDLElement(source);
-				if (result == null) result = defaultCase(theEObject);
+				Source source = (Source) theEObject;
+				T result = caseSource(source);
+				if (result == null)
+					result = caseExtensibleElement(source);
+				if (result == null)
+					result = caseExtensibleElement_1(source);
+				if (result == null)
+					result = caseWSDLElement(source);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.TARGET: {
-				Target target = (Target)theEObject;
-				Object result = caseTarget(target);
-				if (result == null) result = caseExtensibleElement(target);
-				if (result == null) result = caseExtensibleElement_1(target);
-				if (result == null) result = caseWSDLElement(target);
-				if (result == null) result = defaultCase(theEObject);
+				Target target = (Target) theEObject;
+				T result = caseTarget(target);
+				if (result == null)
+					result = caseExtensibleElement(target);
+				if (result == null)
+					result = caseExtensibleElement_1(target);
+				if (result == null)
+					result = caseWSDLElement(target);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.PARTNER_LINKS: {
-				PartnerLinks partnerLinks = (PartnerLinks)theEObject;
-				Object result = casePartnerLinks(partnerLinks);
-				if (result == null) result = caseExtensibleElement(partnerLinks);
-				if (result == null) result = caseExtensibleElement_1(partnerLinks);
-				if (result == null) result = caseWSDLElement(partnerLinks);
-				if (result == null) result = defaultCase(theEObject);
+				PartnerLinks partnerLinks = (PartnerLinks) theEObject;
+				T result = casePartnerLinks(partnerLinks);
+				if (result == null)
+					result = caseExtensibleElement(partnerLinks);
+				if (result == null)
+					result = caseExtensibleElement_1(partnerLinks);
+				if (result == null)
+					result = caseWSDLElement(partnerLinks);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.VARIABLES: {
-				Variables variables = (Variables)theEObject;
-				Object result = caseVariables(variables);
-				if (result == null) result = caseExtensibleElement(variables);
-				if (result == null) result = caseExtensibleElement_1(variables);
-				if (result == null) result = caseWSDLElement(variables);
-				if (result == null) result = defaultCase(theEObject);
+				Variables variables = (Variables) theEObject;
+				T result = caseVariables(variables);
+				if (result == null)
+					result = caseExtensibleElement(variables);
+				if (result == null)
+					result = caseExtensibleElement_1(variables);
+				if (result == null)
+					result = caseWSDLElement(variables);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CORRELATION_SETS: {
-				CorrelationSets correlationSets = (CorrelationSets)theEObject;
-				Object result = caseCorrelationSets(correlationSets);
-				if (result == null) result = caseExtensibleElement(correlationSets);
-				if (result == null) result = caseExtensibleElement_1(correlationSets);
-				if (result == null) result = caseWSDLElement(correlationSets);
-				if (result == null) result = defaultCase(theEObject);
+				CorrelationSets correlationSets = (CorrelationSets) theEObject;
+				T result = caseCorrelationSets(correlationSets);
+				if (result == null)
+					result = caseExtensibleElement(correlationSets);
+				if (result == null)
+					result = caseExtensibleElement_1(correlationSets);
+				if (result == null)
+					result = caseWSDLElement(correlationSets);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.LINKS: {
-				Links links = (Links)theEObject;
-				Object result = caseLinks(links);
-				if (result == null) result = caseExtensibleElement(links);
-				if (result == null) result = caseExtensibleElement_1(links);
-				if (result == null) result = caseWSDLElement(links);
-				if (result == null) result = defaultCase(theEObject);
+				Links links = (Links) theEObject;
+				T result = caseLinks(links);
+				if (result == null)
+					result = caseExtensibleElement(links);
+				if (result == null)
+					result = caseExtensibleElement_1(links);
+				if (result == null)
+					result = caseWSDLElement(links);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CATCH_ALL: {
-				CatchAll catchAll = (CatchAll)theEObject;
-				Object result = caseCatchAll(catchAll);
-				if (result == null) result = caseExtensibleElement(catchAll);
-				if (result == null) result = caseExtensibleElement_1(catchAll);
-				if (result == null) result = caseWSDLElement(catchAll);
-				if (result == null) result = defaultCase(theEObject);
+				CatchAll catchAll = (CatchAll) theEObject;
+				T result = caseCatchAll(catchAll);
+				if (result == null)
+					result = caseExtensibleElement(catchAll);
+				if (result == null)
+					result = caseExtensibleElement_1(catchAll);
+				if (result == null)
+					result = caseWSDLElement(catchAll);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CORRELATIONS: {
-				Correlations correlations = (Correlations)theEObject;
-				Object result = caseCorrelations(correlations);
-				if (result == null) result = caseExtensibleElement(correlations);
-				if (result == null) result = caseExtensibleElement_1(correlations);
-				if (result == null) result = caseWSDLElement(correlations);
-				if (result == null) result = defaultCase(theEObject);
+				Correlations correlations = (Correlations) theEObject;
+				T result = caseCorrelations(correlations);
+				if (result == null)
+					result = caseExtensibleElement(correlations);
+				if (result == null)
+					result = caseExtensibleElement_1(correlations);
+				if (result == null)
+					result = caseWSDLElement(correlations);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.VARIABLE: {
-				Variable variable = (Variable)theEObject;
-				Object result = caseVariable(variable);
-				if (result == null) result = caseExtensibleElement(variable);
-				if (result == null) result = caseExtensibleElement_1(variable);
-				if (result == null) result = caseWSDLElement(variable);
-				if (result == null) result = defaultCase(theEObject);
+				Variable variable = (Variable) theEObject;
+				T result = caseVariable(variable);
+				if (result == null)
+					result = caseExtensibleElement(variable);
+				if (result == null)
+					result = caseExtensibleElement_1(variable);
+				if (result == null)
+					result = caseWSDLElement(variable);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE: {
-				UnknownExtensibilityAttribute unknownExtensibilityAttribute = (UnknownExtensibilityAttribute)theEObject;
-				Object result = caseUnknownExtensibilityAttribute(unknownExtensibilityAttribute);
-				if (result == null) result = caseUnknownExtensibilityElement(unknownExtensibilityAttribute);
-				if (result == null) result = caseExtensibilityElement(unknownExtensibilityAttribute);
-				if (result == null) result = caseWSDLElement(unknownExtensibilityAttribute);
-				if (result == null) result = caseIExtensibilityElement(unknownExtensibilityAttribute);
-				if (result == null) result = defaultCase(theEObject);
+				UnknownExtensibilityAttribute unknownExtensibilityAttribute = (UnknownExtensibilityAttribute) theEObject;
+				T result = caseUnknownExtensibilityAttribute(unknownExtensibilityAttribute);
+				if (result == null)
+					result = caseUnknownExtensibilityElement(unknownExtensibilityAttribute);
+				if (result == null)
+					result = caseExtensibilityElement(unknownExtensibilityAttribute);
+				if (result == null)
+					result = caseWSDLElement(unknownExtensibilityAttribute);
+				if (result == null)
+					result = caseIExtensibilityElement(unknownExtensibilityAttribute);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ON_EVENT: {
-				OnEvent onEvent = (OnEvent)theEObject;
-				Object result = caseOnEvent(onEvent);
-				if (result == null) result = caseExtensibleElement(onEvent);
-				if (result == null) result = caseExtensibleElement_1(onEvent);
-				if (result == null) result = caseWSDLElement(onEvent);
-				if (result == null) result = defaultCase(theEObject);
+				OnEvent onEvent = (OnEvent) theEObject;
+				T result = caseOnEvent(onEvent);
+				if (result == null)
+					result = caseExtensibleElement(onEvent);
+				if (result == null)
+					result = caseExtensibleElement_1(onEvent);
+				if (result == null)
+					result = caseWSDLElement(onEvent);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.IMPORT: {
-				Import import_ = (Import)theEObject;
-				Object result = caseImport(import_);
-				if (result == null) result = caseExtensibleElement(import_);
-				if (result == null) result = caseExtensibleElement_1(import_);
-				if (result == null) result = caseWSDLElement(import_);
-				if (result == null) result = defaultCase(theEObject);
+				Import import_ = (Import) theEObject;
+				T result = caseImport(import_);
+				if (result == null)
+					result = caseExtensibleElement(import_);
+				if (result == null)
+					result = caseExtensibleElement_1(import_);
+				if (result == null)
+					result = caseWSDLElement(import_);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.RETHROW: {
-				Rethrow rethrow = (Rethrow)theEObject;
-				Object result = caseRethrow(rethrow);
-				if (result == null) result = caseActivity(rethrow);
-				if (result == null) result = caseExtensibleElement(rethrow);
-				if (result == null) result = caseExtensibleElement_1(rethrow);
-				if (result == null) result = caseWSDLElement(rethrow);
-				if (result == null) result = defaultCase(theEObject);
+				Rethrow rethrow = (Rethrow) theEObject;
+				T result = caseRethrow(rethrow);
+				if (result == null)
+					result = caseActivity(rethrow);
+				if (result == null)
+					result = caseExtensibleElement(rethrow);
+				if (result == null)
+					result = caseExtensibleElement_1(rethrow);
+				if (result == null)
+					result = caseWSDLElement(rethrow);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.CONDITION: {
-				Condition condition = (Condition)theEObject;
-				Object result = caseCondition(condition);
-				if (result == null) result = caseExpression(condition);
-				if (result == null) result = caseExtensibilityElement(condition);
-				if (result == null) result = caseWSDLElement(condition);
-				if (result == null) result = caseIExtensibilityElement(condition);
-				if (result == null) result = defaultCase(theEObject);
+				Condition condition = (Condition) theEObject;
+				T result = caseCondition(condition);
+				if (result == null)
+					result = caseExpression(condition);
+				if (result == null)
+					result = caseExtensibilityElement(condition);
+				if (result == null)
+					result = caseWSDLElement(condition);
+				if (result == null)
+					result = caseIExtensibilityElement(condition);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.TARGETS: {
-				Targets targets = (Targets)theEObject;
-				Object result = caseTargets(targets);
-				if (result == null) result = caseExtensibleElement(targets);
-				if (result == null) result = caseExtensibleElement_1(targets);
-				if (result == null) result = caseWSDLElement(targets);
-				if (result == null) result = defaultCase(theEObject);
+				Targets targets = (Targets) theEObject;
+				T result = caseTargets(targets);
+				if (result == null)
+					result = caseExtensibleElement(targets);
+				if (result == null)
+					result = caseExtensibleElement_1(targets);
+				if (result == null)
+					result = caseWSDLElement(targets);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SOURCES: {
-				Sources sources = (Sources)theEObject;
-				Object result = caseSources(sources);
-				if (result == null) result = caseExtensibleElement(sources);
-				if (result == null) result = caseExtensibleElement_1(sources);
-				if (result == null) result = caseWSDLElement(sources);
-				if (result == null) result = defaultCase(theEObject);
+				Sources sources = (Sources) theEObject;
+				T result = caseSources(sources);
+				if (result == null)
+					result = caseExtensibleElement(sources);
+				if (result == null)
+					result = caseExtensibleElement_1(sources);
+				if (result == null)
+					result = caseWSDLElement(sources);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.QUERY: {
-				Query query = (Query)theEObject;
-				Object result = caseQuery(query);
-				if (result == null) result = caseWSDLElement(query);
-				if (result == null) result = defaultCase(theEObject);
+				Query query = (Query) theEObject;
+				T result = caseQuery(query);
+				if (result == null)
+					result = caseWSDLElement(query);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.SERVICE_REF: {
-				ServiceRef serviceRef = (ServiceRef)theEObject;
-				Object result = caseServiceRef(serviceRef);
-				if (result == null) result = caseExtensibleElement_1(serviceRef);
-				if (result == null) result = caseWSDLElement(serviceRef);
-				if (result == null) result = defaultCase(theEObject);
+				ServiceRef serviceRef = (ServiceRef) theEObject;
+				T result = caseServiceRef(serviceRef);
+				if (result == null)
+					result = caseExtensibleElement_1(serviceRef);
+				if (result == null)
+					result = caseWSDLElement(serviceRef);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EXTENSIONS: {
-				Extensions extensions = (Extensions)theEObject;
-				Object result = caseExtensions(extensions);
-				if (result == null) result = caseExtensibleElement(extensions);
-				if (result == null) result = caseExtensibleElement_1(extensions);
-				if (result == null) result = caseWSDLElement(extensions);
-				if (result == null) result = defaultCase(theEObject);
+				Extensions extensions = (Extensions) theEObject;
+				T result = caseExtensions(extensions);
+				if (result == null)
+					result = caseExtensibleElement(extensions);
+				if (result == null)
+					result = caseExtensibleElement_1(extensions);
+				if (result == null)
+					result = caseWSDLElement(extensions);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EXTENSION_ACTIVITY: {
-				ExtensionActivity extensionActivity = (ExtensionActivity)theEObject;
-				Object result = caseExtensionActivity(extensionActivity);
-				if (result == null) result = caseActivity(extensionActivity);
-				if (result == null) result = caseExtensibleElement(extensionActivity);
-				if (result == null) result = caseExtensibleElement_1(extensionActivity);
-				if (result == null) result = caseWSDLElement(extensionActivity);
-				if (result == null) result = defaultCase(theEObject);
+				ExtensionActivity extensionActivity = (ExtensionActivity) theEObject;
+				T result = caseExtensionActivity(extensionActivity);
+				if (result == null)
+					result = caseActivity(extensionActivity);
+				if (result == null)
+					result = caseExtensibleElement(extensionActivity);
+				if (result == null)
+					result = caseExtensibleElement_1(extensionActivity);
+				if (result == null)
+					result = caseWSDLElement(extensionActivity);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.FROM_PART: {
-				FromPart fromPart = (FromPart)theEObject;
-				Object result = caseFromPart(fromPart);
-				if (result == null) result = caseExtensibleElement(fromPart);
-				if (result == null) result = caseExtensibleElement_1(fromPart);
-				if (result == null) result = caseWSDLElement(fromPart);
-				if (result == null) result = defaultCase(theEObject);
+				FromPart fromPart = (FromPart) theEObject;
+				T result = caseFromPart(fromPart);
+				if (result == null)
+					result = caseExtensibleElement(fromPart);
+				if (result == null)
+					result = caseExtensibleElement_1(fromPart);
+				if (result == null)
+					result = caseWSDLElement(fromPart);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.TO_PART: {
-				ToPart toPart = (ToPart)theEObject;
-				Object result = caseToPart(toPart);
-				if (result == null) result = caseExtensibleElement(toPart);
-				if (result == null) result = caseExtensibleElement_1(toPart);
-				if (result == null) result = caseWSDLElement(toPart);
-				if (result == null) result = defaultCase(theEObject);
+				ToPart toPart = (ToPart) theEObject;
+				T result = caseToPart(toPart);
+				if (result == null)
+					result = caseExtensibleElement(toPart);
+				if (result == null)
+					result = caseExtensibleElement_1(toPart);
+				if (result == null)
+					result = caseWSDLElement(toPart);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.OPAQUE_ACTIVITY: {
-				OpaqueActivity opaqueActivity = (OpaqueActivity)theEObject;
-				Object result = caseOpaqueActivity(opaqueActivity);
-				if (result == null) result = caseActivity(opaqueActivity);
-				if (result == null) result = caseExtensibleElement(opaqueActivity);
-				if (result == null) result = caseExtensibleElement_1(opaqueActivity);
-				if (result == null) result = caseWSDLElement(opaqueActivity);
-				if (result == null) result = defaultCase(theEObject);
+				OpaqueActivity opaqueActivity = (OpaqueActivity) theEObject;
+				T result = caseOpaqueActivity(opaqueActivity);
+				if (result == null)
+					result = caseActivity(opaqueActivity);
+				if (result == null)
+					result = caseExtensibleElement(opaqueActivity);
+				if (result == null)
+					result = caseExtensibleElement_1(opaqueActivity);
+				if (result == null)
+					result = caseWSDLElement(opaqueActivity);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.FOR_EACH: {
-				ForEach forEach = (ForEach)theEObject;
-				Object result = caseForEach(forEach);
-				if (result == null) result = caseActivity(forEach);
-				if (result == null) result = caseExtensibleElement(forEach);
-				if (result == null) result = caseExtensibleElement_1(forEach);
-				if (result == null) result = caseWSDLElement(forEach);
-				if (result == null) result = defaultCase(theEObject);
+				ForEach forEach = (ForEach) theEObject;
+				T result = caseForEach(forEach);
+				if (result == null)
+					result = caseActivity(forEach);
+				if (result == null)
+					result = caseExtensibleElement(forEach);
+				if (result == null)
+					result = caseExtensibleElement_1(forEach);
+				if (result == null)
+					result = caseWSDLElement(forEach);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.REPEAT_UNTIL: {
-				RepeatUntil repeatUntil = (RepeatUntil)theEObject;
-				Object result = caseRepeatUntil(repeatUntil);
-				if (result == null) result = caseActivity(repeatUntil);
-				if (result == null) result = caseExtensibleElement(repeatUntil);
-				if (result == null) result = caseExtensibleElement_1(repeatUntil);
-				if (result == null) result = caseWSDLElement(repeatUntil);
-				if (result == null) result = defaultCase(theEObject);
+				RepeatUntil repeatUntil = (RepeatUntil) theEObject;
+				T result = caseRepeatUntil(repeatUntil);
+				if (result == null)
+					result = caseActivity(repeatUntil);
+				if (result == null)
+					result = caseExtensibleElement(repeatUntil);
+				if (result == null)
+					result = caseExtensibleElement_1(repeatUntil);
+				if (result == null)
+					result = caseWSDLElement(repeatUntil);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.TERMINATION_HANDLER: {
-				TerminationHandler terminationHandler = (TerminationHandler)theEObject;
-				Object result = caseTerminationHandler(terminationHandler);
-				if (result == null) result = caseExtensibleElement(terminationHandler);
-				if (result == null) result = caseExtensibleElement_1(terminationHandler);
-				if (result == null) result = caseWSDLElement(terminationHandler);
-				if (result == null) result = defaultCase(theEObject);
+				TerminationHandler terminationHandler = (TerminationHandler) theEObject;
+				T result = caseTerminationHandler(terminationHandler);
+				if (result == null)
+					result = caseExtensibleElement(terminationHandler);
+				if (result == null)
+					result = caseExtensibleElement_1(terminationHandler);
+				if (result == null)
+					result = caseWSDLElement(terminationHandler);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.VALIDATE: {
-				Validate validate = (Validate)theEObject;
-				Object result = caseValidate(validate);
-				if (result == null) result = caseActivity(validate);
-				if (result == null) result = caseExtensibleElement(validate);
-				if (result == null) result = caseExtensibleElement_1(validate);
-				if (result == null) result = caseWSDLElement(validate);
-				if (result == null) result = defaultCase(theEObject);
+				Validate validate = (Validate) theEObject;
+				T result = caseValidate(validate);
+				if (result == null)
+					result = caseActivity(validate);
+				if (result == null)
+					result = caseExtensibleElement(validate);
+				if (result == null)
+					result = caseExtensibleElement_1(validate);
+				if (result == null)
+					result = caseWSDLElement(validate);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.IF: {
-				If if_ = (If)theEObject;
-				Object result = caseIf(if_);
-				if (result == null) result = caseActivity(if_);
-				if (result == null) result = caseExtensibleElement(if_);
-				if (result == null) result = caseExtensibleElement_1(if_);
-				if (result == null) result = caseWSDLElement(if_);
-				if (result == null) result = defaultCase(theEObject);
+				If if_ = (If) theEObject;
+				T result = caseIf(if_);
+				if (result == null)
+					result = caseActivity(if_);
+				if (result == null)
+					result = caseExtensibleElement(if_);
+				if (result == null)
+					result = caseExtensibleElement_1(if_);
+				if (result == null)
+					result = caseWSDLElement(if_);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ELSE_IF: {
-				ElseIf elseIf = (ElseIf)theEObject;
-				Object result = caseElseIf(elseIf);
-				if (result == null) result = caseExtensibleElement(elseIf);
-				if (result == null) result = caseExtensibleElement_1(elseIf);
-				if (result == null) result = caseWSDLElement(elseIf);
-				if (result == null) result = defaultCase(theEObject);
+				ElseIf elseIf = (ElseIf) theEObject;
+				T result = caseElseIf(elseIf);
+				if (result == null)
+					result = caseExtensibleElement(elseIf);
+				if (result == null)
+					result = caseExtensibleElement_1(elseIf);
+				if (result == null)
+					result = caseWSDLElement(elseIf);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.ELSE: {
-				Else else_ = (Else)theEObject;
-				Object result = caseElse(else_);
-				if (result == null) result = caseExtensibleElement(else_);
-				if (result == null) result = caseExtensibleElement_1(else_);
-				if (result == null) result = caseWSDLElement(else_);
-				if (result == null) result = defaultCase(theEObject);
+				Else else_ = (Else) theEObject;
+				T result = caseElse(else_);
+				if (result == null)
+					result = caseExtensibleElement(else_);
+				if (result == null)
+					result = caseExtensibleElement_1(else_);
+				if (result == null)
+					result = caseWSDLElement(else_);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.COMPLETION_CONDITION: {
-				CompletionCondition completionCondition = (CompletionCondition)theEObject;
-				Object result = caseCompletionCondition(completionCondition);
-				if (result == null) result = caseExtensibleElement(completionCondition);
-				if (result == null) result = caseExtensibleElement_1(completionCondition);
-				if (result == null) result = caseWSDLElement(completionCondition);
-				if (result == null) result = defaultCase(theEObject);
+				CompletionCondition completionCondition = (CompletionCondition) theEObject;
+				T result = caseCompletionCondition(completionCondition);
+				if (result == null)
+					result = caseExtensibleElement(completionCondition);
+				if (result == null)
+					result = caseExtensibleElement_1(completionCondition);
+				if (result == null)
+					result = caseWSDLElement(completionCondition);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.BRANCHES: {
-				Branches branches = (Branches)theEObject;
-				Object result = caseBranches(branches);
-				if (result == null) result = caseExpression(branches);
-				if (result == null) result = caseExtensibilityElement(branches);
-				if (result == null) result = caseWSDLElement(branches);
-				if (result == null) result = caseIExtensibilityElement(branches);
-				if (result == null) result = defaultCase(theEObject);
+				Branches branches = (Branches) theEObject;
+				T result = caseBranches(branches);
+				if (result == null)
+					result = caseExpression(branches);
+				if (result == null)
+					result = caseExtensibilityElement(branches);
+				if (result == null)
+					result = caseWSDLElement(branches);
+				if (result == null)
+					result = caseIExtensibilityElement(branches);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.EXTENSIBLE_ELEMENT: {
-				ExtensibleElement extensibleElement = (ExtensibleElement)theEObject;
-				Object result = caseExtensibleElement(extensibleElement);
-				if (result == null) result = caseExtensibleElement_1(extensibleElement);
-				if (result == null) result = caseWSDLElement(extensibleElement);
-				if (result == null) result = defaultCase(theEObject);
+				ExtensibleElement extensibleElement = (ExtensibleElement) theEObject;
+				T result = caseExtensibleElement(extensibleElement);
+				if (result == null)
+					result = caseExtensibleElement_1(extensibleElement);
+				if (result == null)
+					result = caseWSDLElement(extensibleElement);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.DOCUMENTATION: {
-				Documentation documentation = (Documentation)theEObject;
-				Object result = caseDocumentation(documentation);
-				if (result == null) result = defaultCase(theEObject);
+				Documentation documentation = (Documentation) theEObject;
+				T result = caseDocumentation(documentation);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.MESSAGE_EXCHANGES: {
-				MessageExchanges messageExchanges = (MessageExchanges)theEObject;
-				Object result = caseMessageExchanges(messageExchanges);
-				if (result == null) result = caseExtensibleElement(messageExchanges);
-				if (result == null) result = caseExtensibleElement_1(messageExchanges);
-				if (result == null) result = caseWSDLElement(messageExchanges);
-				if (result == null) result = defaultCase(theEObject);
+				MessageExchanges messageExchanges = (MessageExchanges) theEObject;
+				T result = caseMessageExchanges(messageExchanges);
+				if (result == null)
+					result = caseExtensibleElement(messageExchanges);
+				if (result == null)
+					result = caseExtensibleElement_1(messageExchanges);
+				if (result == null)
+					result = caseWSDLElement(messageExchanges);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.MESSAGE_EXCHANGE: {
-				MessageExchange messageExchange = (MessageExchange)theEObject;
-				Object result = caseMessageExchange(messageExchange);
-				if (result == null) result = caseExtensibleElement(messageExchange);
-				if (result == null) result = caseExtensibleElement_1(messageExchange);
-				if (result == null) result = caseWSDLElement(messageExchange);
-				if (result == null) result = defaultCase(theEObject);
+				MessageExchange messageExchange = (MessageExchange) theEObject;
+				T result = caseMessageExchange(messageExchange);
+				if (result == null)
+					result = caseExtensibleElement(messageExchange);
+				if (result == null)
+					result = caseExtensibleElement_1(messageExchange);
+				if (result == null)
+					result = caseWSDLElement(messageExchange);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case BPELPackage.COMPENSATE: {
-				Compensate compensate = (Compensate)theEObject;
-				Object result = caseCompensate(compensate);
-				if (result == null) result = caseActivity(compensate);
-				if (result == null) result = caseExtensibleElement(compensate);
-				if (result == null) result = caseExtensibleElement_1(compensate);
-				if (result == null) result = caseWSDLElement(compensate);
-				if (result == null) result = defaultCase(theEObject);
+				Compensate compensate = (Compensate) theEObject;
+				T result = caseCompensate(compensate);
+				if (result == null)
+					result = caseActivity(compensate);
+				if (result == null)
+					result = caseExtensibleElement(compensate);
+				if (result == null)
+					result = caseExtensibleElement_1(compensate);
+				if (result == null)
+					result = caseWSDLElement(compensate);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
-			default: return defaultCase(theEObject);
+			default:
+				return defaultCase(theEObject);
 		}
 	}
 
@@ -836,7 +1137,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseProcess(org.eclipse.bpel.model.Process object) {
+	public T caseProcess(org.eclipse.bpel.model.Process object) {
 		return null;
 	}
 
@@ -851,7 +1152,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePartnerLink(PartnerLink object) {
+	public T casePartnerLink(PartnerLink object) {
 		return null;
 	}
 
@@ -866,7 +1167,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFaultHandler(FaultHandler object) {
+	public T caseFaultHandler(FaultHandler object) {
 		return null;
 	}
 
@@ -881,7 +1182,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseActivity(Activity object) {
+	public T caseActivity(Activity object) {
 		return null;
 	}
 
@@ -896,7 +1197,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorrelationSet(CorrelationSet object) {
+	public T caseCorrelationSet(CorrelationSet object) {
 		return null;
 	}
 
@@ -911,7 +1212,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseInvoke(Invoke object) {
+	public T caseInvoke(Invoke object) {
 		return null;
 	}
 
@@ -926,7 +1227,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLink(Link object) {
+	public T caseLink(Link object) {
 		return null;
 	}
 
@@ -941,7 +1242,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCatch(Catch object) {
+	public T caseCatch(Catch object) {
 		return null;
 	}
 
@@ -956,7 +1257,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseReply(Reply object) {
+	public T caseReply(Reply object) {
 		return null;
 	}
 
@@ -971,7 +1272,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePartnerActivity(PartnerActivity object) {
+	public T casePartnerActivity(PartnerActivity object) {
 		return null;
 	}
 
@@ -986,7 +1287,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseReceive(Receive object) {
+	public T caseReceive(Receive object) {
 		return null;
 	}
 
@@ -1001,7 +1302,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseThrow(Throw object) {
+	public T caseThrow(Throw object) {
 		return null;
 	}
 
@@ -1016,7 +1317,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseWait(Wait object) {
+	public T caseWait(Wait object) {
 		return null;
 	}
 
@@ -1031,7 +1332,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseEmpty(Empty object) {
+	public T caseEmpty(Empty object) {
 		return null;
 	}
 
@@ -1046,7 +1347,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSequence(Sequence object) {
+	public T caseSequence(Sequence object) {
 		return null;
 	}
 
@@ -1061,7 +1362,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseWhile(While object) {
+	public T caseWhile(While object) {
 		return null;
 	}
 
@@ -1076,7 +1377,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePick(Pick object) {
+	public T casePick(Pick object) {
 		return null;
 	}
 
@@ -1091,7 +1392,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFlow(Flow object) {
+	public T caseFlow(Flow object) {
 		return null;
 	}
 
@@ -1106,7 +1407,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOnAlarm(OnAlarm object) {
+	public T caseOnAlarm(OnAlarm object) {
 		return null;
 	}
 
@@ -1121,7 +1422,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseAssign(Assign object) {
+	public T caseAssign(Assign object) {
 		return null;
 	}
 
@@ -1136,7 +1437,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCopy(Copy object) {
+	public T caseCopy(Copy object) {
 		return null;
 	}
 
@@ -1151,7 +1452,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExtension(Extension object) {
+	public T caseExtension(Extension object) {
 		return null;
 	}
 
@@ -1166,7 +1467,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseScope(Scope object) {
+	public T caseScope(Scope object) {
 		return null;
 	}
 
@@ -1181,7 +1482,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCompensate(Compensate object) {
+	public T caseCompensate(Compensate object) {
 		return null;
 	}
 
@@ -1196,7 +1497,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCompensationHandler(CompensationHandler object) {
+	public T caseCompensationHandler(CompensationHandler object) {
 		return null;
 	}
 
@@ -1211,7 +1512,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTo(To object) {
+	public T caseTo(To object) {
 		return null;
 	}
 
@@ -1226,7 +1527,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFrom(From object) {
+	public T caseFrom(From object) {
 		return null;
 	}
 
@@ -1241,7 +1542,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOnMessage(OnMessage object) {
+	public T caseOnMessage(OnMessage object) {
 		return null;
 	}
 
@@ -1256,7 +1557,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExpression(Expression object) {
+	public T caseExpression(Expression object) {
 		return null;
 	}
 
@@ -1271,7 +1572,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBooleanExpression(BooleanExpression object) {
+	public T caseBooleanExpression(BooleanExpression object) {
 		return null;
 	}
 
@@ -1286,7 +1587,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorrelation(Correlation object) {
+	public T caseCorrelation(Correlation object) {
 		return null;
 	}
 
@@ -1301,7 +1602,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseEventHandler(EventHandler object) {
+	public T caseEventHandler(EventHandler object) {
 		return null;
 	}
 
@@ -1316,7 +1617,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSource(Source object) {
+	public T caseSource(Source object) {
 		return null;
 	}
 
@@ -1331,7 +1632,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTarget(Target object) {
+	public T caseTarget(Target object) {
 		return null;
 	}
 
@@ -1346,7 +1647,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePartnerLinks(PartnerLinks object) {
+	public T casePartnerLinks(PartnerLinks object) {
 		return null;
 	}
 
@@ -1361,7 +1662,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseVariables(Variables object) {
+	public T caseVariables(Variables object) {
 		return null;
 	}
 
@@ -1376,7 +1677,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorrelationSets(CorrelationSets object) {
+	public T caseCorrelationSets(CorrelationSets object) {
 		return null;
 	}
 
@@ -1391,7 +1692,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLinks(Links object) {
+	public T caseLinks(Links object) {
 		return null;
 	}
 
@@ -1406,7 +1707,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCatchAll(CatchAll object) {
+	public T caseCatchAll(CatchAll object) {
 		return null;
 	}
 
@@ -1421,7 +1722,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorrelations(Correlations object) {
+	public T caseCorrelations(Correlations object) {
 		return null;
 	}
 
@@ -1436,7 +1737,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseVariable(Variable object) {
+	public T caseVariable(Variable object) {
 		return null;
 	}
 
@@ -1451,7 +1752,8 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseUnknownExtensibilityAttribute(UnknownExtensibilityAttribute object) {
+	public T caseUnknownExtensibilityAttribute(
+			UnknownExtensibilityAttribute object) {
 		return null;
 	}
 
@@ -1466,7 +1768,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOnEvent(OnEvent object) {
+	public T caseOnEvent(OnEvent object) {
 		return null;
 	}
 
@@ -1481,7 +1783,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseImport(Import object) {
+	public T caseImport(Import object) {
 		return null;
 	}
 
@@ -1496,7 +1798,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseRethrow(Rethrow object) {
+	public T caseRethrow(Rethrow object) {
 		return null;
 	}
 
@@ -1511,7 +1813,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCondition(Condition object) {
+	public T caseCondition(Condition object) {
 		return null;
 	}
 
@@ -1526,7 +1828,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTargets(Targets object) {
+	public T caseTargets(Targets object) {
 		return null;
 	}
 
@@ -1541,7 +1843,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSources(Sources object) {
+	public T caseSources(Sources object) {
 		return null;
 	}
 
@@ -1556,7 +1858,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseQuery(Query object) {
+	public T caseQuery(Query object) {
 		return null;
 	}
 
@@ -1571,7 +1873,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseServiceRef(ServiceRef object) {
+	public T caseServiceRef(ServiceRef object) {
 		return null;
 	}
 
@@ -1586,7 +1888,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExit(Exit object) {
+	public T caseExit(Exit object) {
 		return null;
 	}
 
@@ -1601,7 +1903,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExtensions(Extensions object) {
+	public T caseExtensions(Extensions object) {
 		return null;
 	}
 
@@ -1616,7 +1918,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExtensionActivity(ExtensionActivity object) {
+	public T caseExtensionActivity(ExtensionActivity object) {
 		return null;
 	}
 
@@ -1631,7 +1933,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFromPart(FromPart object) {
+	public T caseFromPart(FromPart object) {
 		return null;
 	}
 
@@ -1646,7 +1948,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseToPart(ToPart object) {
+	public T caseToPart(ToPart object) {
 		return null;
 	}
 
@@ -1661,7 +1963,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOpaqueActivity(OpaqueActivity object) {
+	public T caseOpaqueActivity(OpaqueActivity object) {
 		return null;
 	}
 
@@ -1676,7 +1978,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseForEach(ForEach object) {
+	public T caseForEach(ForEach object) {
 		return null;
 	}
 
@@ -1691,7 +1993,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseRepeatUntil(RepeatUntil object) {
+	public T caseRepeatUntil(RepeatUntil object) {
 		return null;
 	}
 
@@ -1706,7 +2008,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTerminationHandler(TerminationHandler object) {
+	public T caseTerminationHandler(TerminationHandler object) {
 		return null;
 	}
 
@@ -1721,7 +2023,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseIf(If object) {
+	public T caseIf(If object) {
 		return null;
 	}
 
@@ -1736,7 +2038,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseElseIf(ElseIf object) {
+	public T caseElseIf(ElseIf object) {
 		return null;
 	}
 
@@ -1751,7 +2053,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseElse(Else object) {
+	public T caseElse(Else object) {
 		return null;
 	}
 
@@ -1766,7 +2068,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCompletionCondition(CompletionCondition object) {
+	public T caseCompletionCondition(CompletionCondition object) {
 		return null;
 	}
 
@@ -1781,7 +2083,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseBranches(Branches object) {
+	public T caseBranches(Branches object) {
 		return null;
 	}
 
@@ -1796,7 +2098,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseWSDLElement(WSDLElement object) {
+	public T caseWSDLElement(WSDLElement object) {
 		return null;
 	}
 
@@ -1811,7 +2113,8 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExtensibleElement_1(org.eclipse.wst.wsdl.ExtensibleElement object) {
+	public T caseExtensibleElement_1(
+			org.eclipse.wst.wsdl.ExtensibleElement object) {
 		return null;
 	}
 
@@ -1826,7 +2129,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExtensibleElement(ExtensibleElement object) {
+	public T caseExtensibleElement(ExtensibleElement object) {
 		return null;
 	}
 
@@ -1841,7 +2144,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseValidate(Validate object) {
+	public T caseValidate(Validate object) {
 		return null;
 	}
 
@@ -1856,7 +2159,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDocumentation(Documentation object) {
+	public T caseDocumentation(Documentation object) {
 		return null;
 	}
 
@@ -1871,7 +2174,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseMessageExchanges(MessageExchanges object) {
+	public T caseMessageExchanges(MessageExchanges object) {
 		return null;
 	}
 
@@ -1886,7 +2189,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseMessageExchange(MessageExchange object) {
+	public T caseMessageExchange(MessageExchange object) {
 		return null;
 	}
 
@@ -1901,7 +2204,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCompensateScope(CompensateScope object) {
+	public T caseCompensateScope(CompensateScope object) {
 		return null;
 	}
 
@@ -1916,7 +2219,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseIExtensibilityElement(ExtensibilityElement object) {
+	public T caseIExtensibilityElement(ExtensibilityElement object) {
 		return null;
 	}
 
@@ -1931,7 +2234,8 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExtensibilityElement(org.eclipse.wst.wsdl.ExtensibilityElement object) {
+	public T caseExtensibilityElement(
+			org.eclipse.wst.wsdl.ExtensibilityElement object) {
 		return null;
 	}
 
@@ -1946,7 +2250,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseUnknownExtensibilityElement(UnknownExtensibilityElement object) {
+	public T caseUnknownExtensibilityElement(UnknownExtensibilityElement object) {
 		return null;
 	}
 
@@ -1961,7 +2265,7 @@ public class BPELSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase(EObject object) {
+	public T defaultCase(EObject object) {
 		return null;
 	}
 

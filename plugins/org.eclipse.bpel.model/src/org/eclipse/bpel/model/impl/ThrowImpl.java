@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ThrowImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ThrowImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -92,6 +92,7 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.THROW;
 	}
@@ -114,7 +115,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 		QName oldFaultName = faultName;
 		faultName = newFaultName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.THROW__FAULT_NAME, oldFaultName, faultName));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.THROW__FAULT_NAME, oldFaultName, faultName));
 	}
 
 	/**
@@ -124,11 +126,13 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 */
 	public Variable getFaultVariable() {
 		if (faultVariable != null && faultVariable.eIsProxy()) {
-			InternalEObject oldFaultVariable = (InternalEObject)faultVariable;
-			faultVariable = (Variable)eResolveProxy(oldFaultVariable);
+			InternalEObject oldFaultVariable = (InternalEObject) faultVariable;
+			faultVariable = (Variable) eResolveProxy(oldFaultVariable);
 			if (faultVariable != oldFaultVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.THROW__FAULT_VARIABLE, oldFaultVariable, faultVariable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.THROW__FAULT_VARIABLE,
+							oldFaultVariable, faultVariable));
 			}
 		}
 		return faultVariable;
@@ -152,7 +156,9 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 		Variable oldFaultVariable = faultVariable;
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.THROW__FAULT_VARIABLE, oldFaultVariable, faultVariable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.THROW__FAULT_VARIABLE, oldFaultVariable,
+					faultVariable));
 	}
 
 	/**
@@ -160,12 +166,14 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
 				return getFaultName();
 			case BPELPackage.THROW__FAULT_VARIABLE:
-				if (resolve) return getFaultVariable();
+				if (resolve)
+					return getFaultVariable();
 				return basicGetFaultVariable();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -176,13 +184,14 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
-				setFaultName((QName)newValue);
+				setFaultName((QName) newValue);
 				return;
 			case BPELPackage.THROW__FAULT_VARIABLE:
-				setFaultVariable((Variable)newValue);
+				setFaultVariable((Variable) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -193,13 +202,14 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
 				setFaultName(FAULT_NAME_EDEFAULT);
 				return;
 			case BPELPackage.THROW__FAULT_VARIABLE:
-				setFaultVariable((Variable)null);
+				setFaultVariable((Variable) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -210,10 +220,12 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.THROW__FAULT_NAME:
-				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
+				return FAULT_NAME_EDEFAULT == null ? faultName != null
+						: !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.THROW__FAULT_VARIABLE:
 				return faultVariable != null;
 		}
@@ -225,11 +237,13 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (faultName: ");
+		result.append(" (faultName: "); //$NON-NLS-1$
 		result.append(faultName);
 		result.append(')');
 		return result.toString();

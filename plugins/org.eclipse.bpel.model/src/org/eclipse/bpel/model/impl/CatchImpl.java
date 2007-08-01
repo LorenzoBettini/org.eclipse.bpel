@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: CatchImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -126,6 +126,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.CATCH;
 	}
@@ -148,7 +149,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		QName oldFaultName = faultName;
 		faultName = newFaultName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__FAULT_NAME, oldFaultName, faultName));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CATCH__FAULT_NAME, oldFaultName, faultName));
 	}
 
 	/**
@@ -165,12 +167,18 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFaultVariable(Variable newFaultVariable, NotificationChain msgs) {
+	public NotificationChain basicSetFaultVariable(Variable newFaultVariable,
+			NotificationChain msgs) {
 		Variable oldFaultVariable = faultVariable;
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__FAULT_VARIABLE, oldFaultVariable, newFaultVariable);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.CATCH__FAULT_VARIABLE,
+					oldFaultVariable, newFaultVariable);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -184,14 +192,20 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		if (newFaultVariable != faultVariable) {
 			NotificationChain msgs = null;
 			if (faultVariable != null)
-				msgs = ((InternalEObject)faultVariable).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH__FAULT_VARIABLE, null, msgs);
+				msgs = ((InternalEObject) faultVariable)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.CATCH__FAULT_VARIABLE, null, msgs);
 			if (newFaultVariable != null)
-				msgs = ((InternalEObject)newFaultVariable).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH__FAULT_VARIABLE, null, msgs);
+				msgs = ((InternalEObject) newFaultVariable)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.CATCH__FAULT_VARIABLE, null, msgs);
 			msgs = basicSetFaultVariable(newFaultVariable, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__FAULT_VARIABLE, newFaultVariable, newFaultVariable));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CATCH__FAULT_VARIABLE, newFaultVariable,
+					newFaultVariable));
 	}
 
 	/**
@@ -208,12 +222,18 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.CATCH__ACTIVITY, oldActivity,
+					newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -227,14 +247,19 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH__ACTIVITY,
+						null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH__ACTIVITY,
+						null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CATCH__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -244,14 +269,16 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public Message getFaultMessageType() {
 		if (faultVariable != null && faultVariable instanceof Variable) {
-			return ((Variable)faultVariable).getMessageType();
+			return ((Variable) faultVariable).getMessageType();
 		}
 		if (faultMessageType != null && faultMessageType.eIsProxy()) {
 			Message oldFaultMessageType = faultMessageType;
-			faultMessageType = (Message)eResolveProxy((InternalEObject)faultMessageType);
+			faultMessageType = (Message) eResolveProxy((InternalEObject) faultMessageType);
 			if (faultMessageType != oldFaultMessageType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.CATCH__FAULT_MESSAGE_TYPE, oldFaultMessageType, faultMessageType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.CATCH__FAULT_MESSAGE_TYPE,
+							oldFaultMessageType, faultMessageType));
 			}
 		}
 		return faultMessageType;
@@ -274,12 +301,14 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public void setFaultMessageType(Message newFaultMessageType) {
 		Variable variable = getFaultVariable();
 		if (variable != null && variable instanceof Variable) {
-			((Variable)variable).setMessageType(newFaultMessageType);
+			((Variable) variable).setMessageType(newFaultMessageType);
 		}
 		Message oldFaultMessageType = faultMessageType;
 		faultMessageType = newFaultMessageType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__FAULT_MESSAGE_TYPE, oldFaultMessageType, faultMessageType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CATCH__FAULT_MESSAGE_TYPE, oldFaultMessageType,
+					faultMessageType));
 	}
 
 	/**
@@ -289,14 +318,16 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public XSDElementDeclaration getFaultElement() {
 		if (faultVariable != null && faultVariable instanceof Variable) {
-			return ((Variable)faultVariable).getXSDElement();
+			return ((Variable) faultVariable).getXSDElement();
 		}
 		if (faultElement != null && faultElement.eIsProxy()) {
 			XSDElementDeclaration oldFaultElement = faultElement;
-			faultElement = (XSDElementDeclaration)eResolveProxy((InternalEObject)faultElement);
+			faultElement = (XSDElementDeclaration) eResolveProxy((InternalEObject) faultElement);
 			if (faultElement != oldFaultElement) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.CATCH__FAULT_ELEMENT, oldFaultElement, faultElement));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.CATCH__FAULT_ELEMENT, oldFaultElement,
+							faultElement));
 			}
 		}
 		return faultElement;
@@ -319,12 +350,14 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public void setFaultElement(XSDElementDeclaration newFaultElement) {
 		Variable variable = getFaultVariable();
 		if (variable != null && variable instanceof Variable) {
-			((Variable)variable).setXSDElement(newFaultElement);
+			((Variable) variable).setXSDElement(newFaultElement);
 		}
 		XSDElementDeclaration oldFaultElement = faultElement;
 		faultElement = newFaultElement;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH__FAULT_ELEMENT, oldFaultElement, faultElement));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CATCH__FAULT_ELEMENT, oldFaultElement,
+					faultElement));
 	}
 
 	/**
@@ -332,7 +365,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_VARIABLE:
 				return basicSetFaultVariable(null, msgs);
@@ -347,6 +382,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
@@ -356,10 +392,12 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			case BPELPackage.CATCH__ACTIVITY:
 				return getActivity();
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				if (resolve) return getFaultMessageType();
+				if (resolve)
+					return getFaultMessageType();
 				return basicGetFaultMessageType();
 			case BPELPackage.CATCH__FAULT_ELEMENT:
-				if (resolve) return getFaultElement();
+				if (resolve)
+					return getFaultElement();
 				return basicGetFaultElement();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -370,22 +408,23 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
-				setFaultName((QName)newValue);
+				setFaultName((QName) newValue);
 				return;
 			case BPELPackage.CATCH__FAULT_VARIABLE:
-				setFaultVariable((Variable)newValue);
+				setFaultVariable((Variable) newValue);
 				return;
 			case BPELPackage.CATCH__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				setFaultMessageType((Message)newValue);
+				setFaultMessageType((Message) newValue);
 				return;
 			case BPELPackage.CATCH__FAULT_ELEMENT:
-				setFaultElement((XSDElementDeclaration)newValue);
+				setFaultElement((XSDElementDeclaration) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -396,22 +435,23 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
 				setFaultName(FAULT_NAME_EDEFAULT);
 				return;
 			case BPELPackage.CATCH__FAULT_VARIABLE:
-				setFaultVariable((Variable)null);
+				setFaultVariable((Variable) null);
 				return;
 			case BPELPackage.CATCH__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				setFaultMessageType((Message)null);
+				setFaultMessageType((Message) null);
 				return;
 			case BPELPackage.CATCH__FAULT_ELEMENT:
-				setFaultElement((XSDElementDeclaration)null);
+				setFaultElement((XSDElementDeclaration) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -422,10 +462,12 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CATCH__FAULT_NAME:
-				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
+				return FAULT_NAME_EDEFAULT == null ? faultName != null
+						: !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.CATCH__FAULT_VARIABLE:
 				return faultVariable != null;
 			case BPELPackage.CATCH__ACTIVITY:
@@ -443,11 +485,13 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (faultName: ");
+		result.append(" (faultName: "); //$NON-NLS-1$
 		result.append(faultName);
 		result.append(')');
 		return result.toString();

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessage.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: OnMessage.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -212,9 +212,9 @@ public interface OnMessage extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>From Part</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getOnMessage_FromPart()
-	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @model
 	 * @generated
 	 */
-	EList getFromPart();
+	EList<FromPart> getFromPart();
 
 } // OnMessage

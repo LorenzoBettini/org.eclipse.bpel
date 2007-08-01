@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackage.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PartnerlinktypePackage.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype;
 
@@ -36,7 +36,7 @@ import org.eclipse.wst.wsdl.WSDLPackage;
  * @model kind="package"
  * @generated
  */
-public interface PartnerlinktypePackage extends EPackage{
+public interface PartnerlinktypePackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -67,7 +67,8 @@ public interface PartnerlinktypePackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	PartnerlinktypePackage eINSTANCE = org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypePackageImpl.init();
+	PartnerlinktypePackage eINSTANCE = org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypePackageImpl
+			.init();
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.partnerlinktype.impl.PartnerLinkTypeImpl <em>Partner Link Type</em>}' class.
@@ -233,7 +234,6 @@ public interface PartnerlinktypePackage extends EPackage{
 	 */
 	int ROLE_FEATURE_COUNT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 3;
 
-
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.partnerlinktype.PartnerLinkType <em>Partner Link Type</em>}'.
 	 * <!-- begin-user-doc -->
@@ -358,7 +358,8 @@ public interface PartnerlinktypePackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PARTNER_LINK_TYPE__NAME = eINSTANCE.getPartnerLinkType_Name();
+		EAttribute PARTNER_LINK_TYPE__NAME = eINSTANCE
+				.getPartnerLinkType_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
@@ -374,7 +375,8 @@ public interface PartnerlinktypePackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_LINK_TYPE__ROLE = eINSTANCE.getPartnerLinkType_Role();
+		EReference PARTNER_LINK_TYPE__ROLE = eINSTANCE
+				.getPartnerLinkType_Role();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.partnerlinktype.impl.RoleImpl <em>Role</em>}' class.

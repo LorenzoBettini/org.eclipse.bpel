@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourceImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: SourceImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -94,6 +94,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.SOURCE;
 	}
@@ -105,11 +106,12 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 */
 	public Link getLink() {
 		if (link != null && link.eIsProxy()) {
-			InternalEObject oldLink = (InternalEObject)link;
-			link = (Link)eResolveProxy(oldLink);
+			InternalEObject oldLink = (InternalEObject) link;
+			link = (Link) eResolveProxy(oldLink);
 			if (link != oldLink) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.SOURCE__LINK, oldLink, link));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.SOURCE__LINK, oldLink, link));
 			}
 		}
 		return link;
@@ -133,8 +135,13 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 		Link oldLink = link;
 		link = newLink;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.SOURCE__LINK, oldLink, newLink);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.SOURCE__LINK, oldLink,
+					newLink);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -148,14 +155,17 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 		if (newLink != link) {
 			NotificationChain msgs = null;
 			if (link != null)
-				msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__SOURCES, Link.class, msgs);
+				msgs = ((InternalEObject) link).eInverseRemove(this,
+						BPELPackage.LINK__SOURCES, Link.class, msgs);
 			if (newLink != null)
-				msgs = ((InternalEObject)newLink).eInverseAdd(this, BPELPackage.LINK__SOURCES, Link.class, msgs);
+				msgs = ((InternalEObject) newLink).eInverseAdd(this,
+						BPELPackage.LINK__SOURCES, Link.class, msgs);
 			msgs = basicSetLink(newLink, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SOURCE__LINK, newLink, newLink));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.SOURCE__LINK, newLink, newLink));
 	}
 
 	/**
@@ -165,10 +175,12 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 */
 	public Activity getActivity() {
 		EObject container = eContainer();
-		if (!(container instanceof Sources)) return null;
+		if (!(container instanceof Sources))
+			return null;
 		container = container.eContainer();
-		if (!(container instanceof Activity)) return null;
-		return (Activity)container;
+		if (!(container instanceof Activity))
+			return null;
+		return (Activity) container;
 	}
 
 	/**
@@ -208,12 +220,18 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetTransitionCondition(Condition newTransitionCondition, NotificationChain msgs) {
+	public NotificationChain basicSetTransitionCondition(
+			Condition newTransitionCondition, NotificationChain msgs) {
 		Condition oldTransitionCondition = transitionCondition;
 		transitionCondition = newTransitionCondition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.SOURCE__TRANSITION_CONDITION, oldTransitionCondition, newTransitionCondition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.SOURCE__TRANSITION_CONDITION,
+					oldTransitionCondition, newTransitionCondition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -227,14 +245,22 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 		if (newTransitionCondition != transitionCondition) {
 			NotificationChain msgs = null;
 			if (transitionCondition != null)
-				msgs = ((InternalEObject)transitionCondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.SOURCE__TRANSITION_CONDITION, null, msgs);
+				msgs = ((InternalEObject) transitionCondition).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.SOURCE__TRANSITION_CONDITION,
+						null, msgs);
 			if (newTransitionCondition != null)
-				msgs = ((InternalEObject)newTransitionCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.SOURCE__TRANSITION_CONDITION, null, msgs);
+				msgs = ((InternalEObject) newTransitionCondition).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.SOURCE__TRANSITION_CONDITION,
+						null, msgs);
 			msgs = basicSetTransitionCondition(newTransitionCondition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SOURCE__TRANSITION_CONDITION, newTransitionCondition, newTransitionCondition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.SOURCE__TRANSITION_CONDITION,
+					newTransitionCondition, newTransitionCondition));
 	}
 
 	/**
@@ -242,12 +268,15 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
 				if (link != null)
-					msgs = ((InternalEObject)link).eInverseRemove(this, BPELPackage.LINK__SOURCES, Link.class, msgs);
-				return basicSetLink((Link)otherEnd, msgs);
+					msgs = ((InternalEObject) link).eInverseRemove(this,
+							BPELPackage.LINK__SOURCES, Link.class, msgs);
+				return basicSetLink((Link) otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -257,7 +286,9 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
 				return basicSetLink(null, msgs);
@@ -272,13 +303,16 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
-				if (resolve) return getLink();
+				if (resolve)
+					return getLink();
 				return basicGetLink();
 			case BPELPackage.SOURCE__ACTIVITY:
-				if (resolve) return getActivity();
+				if (resolve)
+					return getActivity();
 				return basicGetActivity();
 			case BPELPackage.SOURCE__TRANSITION_CONDITION:
 				return getTransitionCondition();
@@ -291,16 +325,17 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
-				setLink((Link)newValue);
+				setLink((Link) newValue);
 				return;
 			case BPELPackage.SOURCE__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				setTransitionCondition((Condition)newValue);
+				setTransitionCondition((Condition) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -311,16 +346,17 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:
-				setLink((Link)null);
+				setLink((Link) null);
 				return;
 			case BPELPackage.SOURCE__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				setTransitionCondition((Condition)null);
+				setTransitionCondition((Condition) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -331,6 +367,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.SOURCE__LINK:

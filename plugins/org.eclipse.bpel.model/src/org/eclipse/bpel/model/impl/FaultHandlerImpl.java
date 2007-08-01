@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FaultHandlerImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: FaultHandlerImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -46,7 +46,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHandler {
+public class FaultHandlerImpl extends ExtensibleElementImpl implements
+		FaultHandler {
 	/**
 	 * The cached value of the '{@link #getCatch() <em>Catch</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -55,7 +56,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * @generated
 	 * @ordered
 	 */
-	protected EList catch_;
+	protected EList<Catch> catch_;
 
 	/**
 	 * The cached value of the '{@link #getCatchAll() <em>Catch All</em>}' containment reference.
@@ -90,6 +91,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.FAULT_HANDLER;
 	}
@@ -99,9 +101,10 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getCatch() {
+	public EList<Catch> getCatch() {
 		if (catch_ == null) {
-			catch_ = new EObjectContainmentEList(Catch.class, this, BPELPackage.FAULT_HANDLER__CATCH);
+			catch_ = new EObjectContainmentEList<Catch>(Catch.class, this,
+					BPELPackage.FAULT_HANDLER__CATCH);
 		}
 		return catch_;
 	}
@@ -120,14 +123,20 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCatchAll(CatchAll newCatchAll, NotificationChain msgs) {
+	public NotificationChain basicSetCatchAll(CatchAll newCatchAll,
+			NotificationChain msgs) {
 		CatchAll oldCatchAll = catchAll;
 		catchAll = newCatchAll;
 		boolean oldCatchAllESet = catchAllESet;
 		catchAllESet = true;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.FAULT_HANDLER__CATCH_ALL, oldCatchAll, newCatchAll, !oldCatchAllESet);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.FAULT_HANDLER__CATCH_ALL,
+					oldCatchAll, newCatchAll, !oldCatchAllESet);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -141,17 +150,25 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 		if (newCatchAll != catchAll) {
 			NotificationChain msgs = null;
 			if (catchAll != null)
-				msgs = ((InternalEObject)catchAll).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FAULT_HANDLER__CATCH_ALL, null, msgs);
+				msgs = ((InternalEObject) catchAll).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FAULT_HANDLER__CATCH_ALL, null,
+						msgs);
 			if (newCatchAll != null)
-				msgs = ((InternalEObject)newCatchAll).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FAULT_HANDLER__CATCH_ALL, null, msgs);
+				msgs = ((InternalEObject) newCatchAll).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.FAULT_HANDLER__CATCH_ALL, null,
+						msgs);
 			msgs = basicSetCatchAll(newCatchAll, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else {
+			if (msgs != null)
+				msgs.dispatch();
+		} else {
 			boolean oldCatchAllESet = catchAllESet;
 			catchAllESet = true;
 			if (eNotificationRequired())
-				eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FAULT_HANDLER__CATCH_ALL, newCatchAll, newCatchAll, !oldCatchAllESet));
+				eNotify(new ENotificationImpl(this, Notification.SET,
+						BPELPackage.FAULT_HANDLER__CATCH_ALL, newCatchAll,
+						newCatchAll, !oldCatchAllESet));
 		}
 	}
 
@@ -166,8 +183,13 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 		boolean oldCatchAllESet = catchAllESet;
 		catchAllESet = false;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.UNSET, BPELPackage.FAULT_HANDLER__CATCH_ALL, oldCatchAll, null, oldCatchAllESet);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.UNSET, BPELPackage.FAULT_HANDLER__CATCH_ALL,
+					oldCatchAll, null, oldCatchAllESet);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -180,15 +202,19 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	public void unsetCatchAll() {
 		if (catchAll != null) {
 			NotificationChain msgs = null;
-			msgs = ((InternalEObject)catchAll).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.FAULT_HANDLER__CATCH_ALL, null, msgs);
+			msgs = ((InternalEObject) catchAll).eInverseRemove(this,
+					EOPPOSITE_FEATURE_BASE
+							- BPELPackage.FAULT_HANDLER__CATCH_ALL, null, msgs);
 			msgs = basicUnsetCatchAll(msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else {
+			if (msgs != null)
+				msgs.dispatch();
+		} else {
 			boolean oldCatchAllESet = catchAllESet;
 			catchAllESet = false;
 			if (eNotificationRequired())
-				eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.FAULT_HANDLER__CATCH_ALL, null, null, oldCatchAllESet));
+				eNotify(new ENotificationImpl(this, Notification.UNSET,
+						BPELPackage.FAULT_HANDLER__CATCH_ALL, null, null,
+						oldCatchAllESet));
 		}
 	}
 
@@ -206,10 +232,13 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
-				return ((InternalEList)getCatch()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getCatch()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.FAULT_HANDLER__CATCH_ALL:
 				return basicUnsetCatchAll(msgs);
 		}
@@ -221,6 +250,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
@@ -236,14 +266,16 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
 				getCatch().clear();
-				getCatch().addAll((Collection)newValue);
+				getCatch().addAll((Collection<? extends Catch>) newValue);
 				return;
 			case BPELPackage.FAULT_HANDLER__CATCH_ALL:
-				setCatchAll((CatchAll)newValue);
+				setCatchAll((CatchAll) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -254,6 +286,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:
@@ -271,6 +304,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements FaultHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.FAULT_HANDLER__CATCH:

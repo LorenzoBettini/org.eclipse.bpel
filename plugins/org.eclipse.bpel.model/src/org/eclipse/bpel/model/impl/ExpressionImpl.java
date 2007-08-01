@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ExpressionImpl.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -40,7 +40,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class ExpressionImpl extends ExtensibilityElementImpl implements Expression {
+public class ExpressionImpl extends ExtensibilityElementImpl implements
+		Expression {
 	/**
 	 * The default value of the '{@link #getBody() <em>Body</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -133,6 +134,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EXPRESSION;
 	}
@@ -155,7 +157,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 		Object oldBody = body;
 		body = newBody;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXPRESSION__BODY, oldBody, body));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.EXPRESSION__BODY, oldBody, body));
 	}
 
 	/**
@@ -178,7 +181,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguageESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE, oldExpressionLanguage, expressionLanguage, !oldExpressionLanguageESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE,
+					oldExpressionLanguage, expressionLanguage,
+					!oldExpressionLanguageESet));
 	}
 
 	/**
@@ -192,7 +198,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
 		expressionLanguageESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE, oldExpressionLanguage, EXPRESSION_LANGUAGE_EDEFAULT, oldExpressionLanguageESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE,
+					oldExpressionLanguage, EXPRESSION_LANGUAGE_EDEFAULT,
+					oldExpressionLanguageESet));
 	}
 
 	/**
@@ -224,7 +233,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 		boolean oldOpaqueESet = opaqueESet;
 		opaqueESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXPRESSION__OPAQUE, oldOpaque, opaque, !oldOpaqueESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.EXPRESSION__OPAQUE, oldOpaque, opaque,
+					!oldOpaqueESet));
 	}
 
 	/**
@@ -238,7 +249,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 		opaque = OPAQUE_EDEFAULT;
 		opaqueESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXPRESSION__OPAQUE, oldOpaque, OPAQUE_EDEFAULT, oldOpaqueESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.EXPRESSION__OPAQUE, oldOpaque, OPAQUE_EDEFAULT,
+					oldOpaqueESet));
 	}
 
 	/**
@@ -255,6 +268,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
@@ -272,16 +286,17 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
 				setBody(newValue);
 				return;
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
-				setExpressionLanguage((String)newValue);
+				setExpressionLanguage((String) newValue);
 				return;
 			case BPELPackage.EXPRESSION__OPAQUE:
-				setOpaque((Boolean)newValue);
+				setOpaque((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -292,6 +307,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
@@ -312,10 +328,12 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EXPRESSION__BODY:
-				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
+				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT
+						.equals(body);
 			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
 				return isSetExpressionLanguage();
 			case BPELPackage.EXPRESSION__OPAQUE:
@@ -329,16 +347,24 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements Expressi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (body: ");
+		result.append(" (body: "); //$NON-NLS-1$
 		result.append(body);
-		result.append(", expressionLanguage: ");
-		if (expressionLanguageESet) result.append(expressionLanguage); else result.append("<unset>");
-		result.append(", opaque: ");
-		if (opaqueESet) result.append(opaque); else result.append("<unset>");
+		result.append(", expressionLanguage: "); //$NON-NLS-1$
+		if (expressionLanguageESet)
+			result.append(expressionLanguage);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", opaque: "); //$NON-NLS-1$
+		if (opaqueESet)
+			result.append(opaque);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

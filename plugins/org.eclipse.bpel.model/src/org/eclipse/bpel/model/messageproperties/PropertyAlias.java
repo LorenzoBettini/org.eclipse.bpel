@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAlias.java,v 1.2 2006/03/14 20:10:52 rodrigo Exp $
+ * $Id: PropertyAlias.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties;
 
@@ -40,7 +40,7 @@ import org.eclipse.wst.wsdl.Part;
  * @model
  * @generated
  */
-public interface PropertyAlias extends ExtensibilityElement{
+public interface PropertyAlias extends ExtensibilityElement {
 	/**
 	 * Returns the value of the '<em><b>Message Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->

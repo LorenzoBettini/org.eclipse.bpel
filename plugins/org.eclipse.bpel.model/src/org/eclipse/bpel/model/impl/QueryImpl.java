@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: QueryImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -95,6 +95,7 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.QUERY;
 	}
@@ -117,7 +118,8 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.QUERY__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.QUERY__VALUE, oldValue, value));
 	}
 
 	/**
@@ -138,7 +140,9 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 		String oldQueryLanguage = queryLanguage;
 		queryLanguage = newQueryLanguage;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.QUERY__QUERY_LANGUAGE, oldQueryLanguage, queryLanguage));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.QUERY__QUERY_LANGUAGE, oldQueryLanguage,
+					queryLanguage));
 	}
 
 	/**
@@ -146,6 +150,7 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.QUERY__VALUE:
@@ -161,13 +166,14 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.QUERY__VALUE:
-				setValue((String)newValue);
+				setValue((String) newValue);
 				return;
 			case BPELPackage.QUERY__QUERY_LANGUAGE:
-				setQueryLanguage((String)newValue);
+				setQueryLanguage((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -178,6 +184,7 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.QUERY__VALUE:
@@ -195,12 +202,15 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.QUERY__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+						.equals(value);
 			case BPELPackage.QUERY__QUERY_LANGUAGE:
-				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null : !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
+				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
+						: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -210,13 +220,15 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (value: ");
+		result.append(" (value: "); //$NON-NLS-1$
 		result.append(value);
-		result.append(", queryLanguage: ");
+		result.append(", queryLanguage: "); //$NON-NLS-1$
 		result.append(queryLanguage);
 		result.append(')');
 		return result.toString();

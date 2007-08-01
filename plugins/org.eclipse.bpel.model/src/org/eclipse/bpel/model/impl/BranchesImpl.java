@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BranchesImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: BranchesImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -73,6 +73,7 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.BRANCHES;
 	}
@@ -91,13 +92,17 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCountCompletedBranchesOnly(Boolean newCountCompletedBranchesOnly) {
+	public void setCountCompletedBranchesOnly(
+			Boolean newCountCompletedBranchesOnly) {
 		Boolean oldCountCompletedBranchesOnly = countCompletedBranchesOnly;
 		countCompletedBranchesOnly = newCountCompletedBranchesOnly;
 		boolean oldCountCompletedBranchesOnlyESet = countCompletedBranchesOnlyESet;
 		countCompletedBranchesOnlyESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY, oldCountCompletedBranchesOnly, countCompletedBranchesOnly, !oldCountCompletedBranchesOnlyESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY,
+					oldCountCompletedBranchesOnly, countCompletedBranchesOnly,
+					!oldCountCompletedBranchesOnlyESet));
 	}
 
 	/**
@@ -111,7 +116,11 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 		countCompletedBranchesOnly = COUNT_COMPLETED_BRANCHES_ONLY_EDEFAULT;
 		countCompletedBranchesOnlyESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY, oldCountCompletedBranchesOnly, COUNT_COMPLETED_BRANCHES_ONLY_EDEFAULT, oldCountCompletedBranchesOnlyESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY,
+					oldCountCompletedBranchesOnly,
+					COUNT_COMPLETED_BRANCHES_ONLY_EDEFAULT,
+					oldCountCompletedBranchesOnlyESet));
 	}
 
 	/**
@@ -128,6 +137,7 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
@@ -141,10 +151,11 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
-				setCountCompletedBranchesOnly((Boolean)newValue);
+				setCountCompletedBranchesOnly((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -155,6 +166,7 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
@@ -169,6 +181,7 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
@@ -182,12 +195,17 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (countCompletedBranchesOnly: ");
-		if (countCompletedBranchesOnlyESet) result.append(countCompletedBranchesOnly); else result.append("<unset>");
+		result.append(" (countCompletedBranchesOnly: "); //$NON-NLS-1$
+		if (countCompletedBranchesOnlyESet)
+			result.append(countCompletedBranchesOnly);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

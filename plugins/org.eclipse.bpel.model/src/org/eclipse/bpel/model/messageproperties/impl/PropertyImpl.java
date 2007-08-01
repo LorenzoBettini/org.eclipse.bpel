@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PropertyImpl.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -139,29 +139,28 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return MessagepropertiesPackage.Literals.PROPERTY;
 	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated NOT
-     */
-	public QName getQName()
-    {
-        return new QName(getEnclosingDefinition().getTargetNamespace(), name);
-    }
+	 * @generated NOT
+	 */
+	public QName getQName() {
+		return new QName(getEnclosingDefinition().getTargetNamespace(), name);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated NOT
-     */
-	public void setQName(QName newQName)
-    {
+	 * @generated NOT
+	 */
+	public void setQName(QName newQName) {
 		// Do nothing.
-    }
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -181,7 +180,8 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.PROPERTY__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MessagepropertiesPackage.PROPERTY__NAME, oldName, name));
 	}
 
 	/**
@@ -202,27 +202,31 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		Object oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.PROPERTY__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MessagepropertiesPackage.PROPERTY__TYPE, oldType, type));
 	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public String getID()
-    {
-        // TODO: NEW_WSDL review this
-        String namespace = getEnclosingDefinition() != null ? getEnclosingDefinition().getTargetNamespace() : "";
-        String id = BPELServicesUtility.getId(new QName(namespace, getName()), this);
-        return id;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getID() {
+		// TODO: NEW_WSDL review this
+		String namespace = getEnclosingDefinition() != null ? getEnclosingDefinition()
+				.getTargetNamespace()
+				: "";
+		String id = BPELServicesUtility.getId(new QName(namespace, getName()),
+				this);
+		return id;
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
@@ -237,18 +241,19 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
-				setQName((QName)newValue);
+				setQName((QName) newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case MessagepropertiesPackage.PROPERTY__TYPE:
 				setType(newValue);
@@ -257,11 +262,12 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		super.eSet(featureID, newValue);
 	}
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
@@ -277,21 +283,26 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		super.eUnset(featureID);
 	}
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case MessagepropertiesPackage.PROPERTY__QNAME:
-				return QNAME_EDEFAULT == null ? qName != null : !QNAME_EDEFAULT.equals(qName);
+				return QNAME_EDEFAULT == null ? qName != null : !QNAME_EDEFAULT
+						.equals(qName);
 			case MessagepropertiesPackage.PROPERTY__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case MessagepropertiesPackage.PROPERTY__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT
+						.equals(type);
 			case MessagepropertiesPackage.PROPERTY__ID:
-				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT.equals(getID());
+				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT
+						.equals(getID());
 		}
 		return super.eIsSet(featureID);
 	}
@@ -301,15 +312,17 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (qName: ");
+		result.append(" (qName: "); //$NON-NLS-1$
 		result.append(qName);
-		result.append(", name: ");
+		result.append(", name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", type: ");
+		result.append(", type: "); //$NON-NLS-1$
 		result.append(type);
 		result.append(')');
 		return result.toString();
@@ -318,85 +331,93 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	/**
 	 * Override the XML element token.
 	 */
-	public QName getElementType()
-	{
+	public QName getElementType() {
 		if (elementType == null)
-			elementType = new QName(MessagepropertiesConstants.NAMESPACE, MessagepropertiesConstants.PROPERTY_ELEMENT_TAG);
+			elementType = new QName(MessagepropertiesConstants.NAMESPACE,
+					MessagepropertiesConstants.PROPERTY_ELEMENT_TAG);
 		return elementType;
-    }
-	
+	}
+
 	//
 	// Reconcile methods: DOM -> Model
 	//
 
-	public void reconcileAttributes(Element changedElement)
-	{
-	    super.reconcileAttributes(changedElement);
+	public void reconcileAttributes(Element changedElement) {
+		super.reconcileAttributes(changedElement);
 
-	    setName
-    	(MessagepropertiesConstants.getAttribute(changedElement, MessagepropertiesConstants.PROPERTY_NAME_ATTRIBUTE));
+		setName(MessagepropertiesConstants.getAttribute(changedElement,
+				MessagepropertiesConstants.PROPERTY_NAME_ATTRIBUTE));
 
-	    reconcileReferences(false);
+		reconcileReferences(false);
 	}
 
 	public void reconcileReferences(boolean deep) {
-		if (element != null && element.hasAttribute(MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE))
-	    {
-	    	Definition definition = getEnclosingDefinition();
-	    	QName qname = createQName(definition, element.getAttribute(MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE));
-	    	if (qname != null) {
-	    		XSDTypeDefinition xsdType = ((DefinitionImpl) definition).resolveTypeDefinition(qname.getNamespaceURI(), qname.getLocalPart());
-	    		if (xsdType != null && getType() != xsdType) {
-	    			setType(xsdType);
-	    		}
-	    	}
-	    }
-		super.reconcileReferences(deep);		
+		if (element != null
+				&& element
+						.hasAttribute(MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE)) {
+			Definition definition = getEnclosingDefinition();
+			QName qname = createQName(
+					definition,
+					element
+							.getAttribute(MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE));
+			if (qname != null) {
+				XSDTypeDefinition xsdType = ((DefinitionImpl) definition)
+						.resolveTypeDefinition(qname.getNamespaceURI(), qname
+								.getLocalPart());
+				if (xsdType != null && getType() != xsdType) {
+					setType(xsdType);
+				}
+			}
+		}
+		super.reconcileReferences(deep);
 	}
-	
-	public void handleUnreconciledElement(Element child, Collection remainingModelObjects)
-    {
-    }
+
+	public void handleUnreconciledElement(Element child,
+			Collection remainingModelObjects) {
+	}
 
 	//
 	// For reconciliation: Model -> DOM
 	//
 
-	protected void changeAttribute(EAttribute eAttribute)
-	{
-	    if (isReconciling)
-	        return;
+	protected void changeAttribute(EAttribute eAttribute) {
+		if (isReconciling)
+			return;
 
-	    super.changeAttribute(eAttribute);
-	    Element theElement = getElement();
-	    if (theElement != null)
-	    {
-	        if (eAttribute == null || eAttribute == MessagepropertiesPackage.eINSTANCE.getProperty_Name())
-	            niceSetAttribute(theElement,MessagepropertiesConstants.PROPERTY_NAME_ATTRIBUTE,getName());
-	        if (eAttribute == null || eAttribute == MessagepropertiesPackage.eINSTANCE.getProperty_Type())
-	        {
-            	Object type = getType();
-            	if (type instanceof XSDTypeDefinition)
-            	{
-            		XSDTypeDefinition xsdType = (XSDTypeDefinition) type;
-            		String uri = xsdType.getURI();
-            		niceSetAttributeURIValue(theElement, MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE, uri);
-            	}
-	        }   
-	    }
+		super.changeAttribute(eAttribute);
+		Element theElement = getElement();
+		if (theElement != null) {
+			if (eAttribute == null
+					|| eAttribute == MessagepropertiesPackage.eINSTANCE
+							.getProperty_Name())
+				niceSetAttribute(theElement,
+						MessagepropertiesConstants.PROPERTY_NAME_ATTRIBUTE,
+						getName());
+			if (eAttribute == null
+					|| eAttribute == MessagepropertiesPackage.eINSTANCE
+							.getProperty_Type()) {
+				Object type = getType();
+				if (type instanceof XSDTypeDefinition) {
+					XSDTypeDefinition xsdType = (XSDTypeDefinition) type;
+					String uri = xsdType.getURI();
+					niceSetAttributeURIValue(theElement,
+							MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE,
+							uri);
+				}
+			}
+		}
 	}
-	
-	public Element createElement()
-    {
+
+	public Element createElement() {
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.
 		//if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null) {
 		//	getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
 		// }
-		
-	    Element newElement = super.createElement();
-	    
-	    return newElement;
-    }
-	
+
+		Element newElement = super.createElement();
+
+		return newElement;
+	}
+
 } //PropertyImpl

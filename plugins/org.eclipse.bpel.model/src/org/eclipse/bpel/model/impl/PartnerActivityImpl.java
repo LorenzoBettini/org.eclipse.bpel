@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: PartnerActivityImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -56,7 +56,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity {
+public class PartnerActivityImpl extends ActivityImpl implements
+		PartnerActivity {
 	/**
 	 * The cached value of the '{@link #getPartnerLink() <em>Partner Link</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -97,11 +98,11 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	protected Operation operation;
 
-    /**
-     * The deserialized value of the operation name.
-     * @customized
-     */
-    protected String operationName;
+	/**
+	 * The deserialized value of the operation name.
+	 * @customized
+	 */
+	protected String operationName;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -117,6 +118,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.PARTNER_ACTIVITY;
 	}
@@ -128,11 +130,13 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	public PartnerLink getPartnerLink() {
 		if (partnerLink != null && partnerLink.eIsProxy()) {
-			InternalEObject oldPartnerLink = (InternalEObject)partnerLink;
-			partnerLink = (PartnerLink)eResolveProxy(oldPartnerLink);
+			InternalEObject oldPartnerLink = (InternalEObject) partnerLink;
+			partnerLink = (PartnerLink) eResolveProxy(oldPartnerLink);
 			if (partnerLink != oldPartnerLink) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK, oldPartnerLink, partnerLink));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK,
+							oldPartnerLink, partnerLink));
 			}
 		}
 		return partnerLink;
@@ -156,7 +160,9 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 		PartnerLink oldPartnerLink = partnerLink;
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK, oldPartnerLink, partnerLink));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK, oldPartnerLink,
+					partnerLink));
 	}
 
 	/**
@@ -173,12 +179,19 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCorrelations(Correlations newCorrelations, NotificationChain msgs) {
+	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
+			NotificationChain msgs) {
 		Correlations oldCorrelations = correlations;
 		correlations = newCorrelations;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_ACTIVITY__CORRELATIONS, oldCorrelations, newCorrelations);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					BPELPackage.PARTNER_ACTIVITY__CORRELATIONS,
+					oldCorrelations, newCorrelations);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -192,42 +205,50 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 		if (newCorrelations != correlations) {
 			NotificationChain msgs = null;
 			if (correlations != null)
-				msgs = ((InternalEObject)correlations).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PARTNER_ACTIVITY__CORRELATIONS, null, msgs);
+				msgs = ((InternalEObject) correlations).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PARTNER_ACTIVITY__CORRELATIONS,
+						null, msgs);
 			if (newCorrelations != null)
-				msgs = ((InternalEObject)newCorrelations).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PARTNER_ACTIVITY__CORRELATIONS, null, msgs);
+				msgs = ((InternalEObject) newCorrelations).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PARTNER_ACTIVITY__CORRELATIONS,
+						null, msgs);
 			msgs = basicSetCorrelations(newCorrelations, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_ACTIVITY__CORRELATIONS, newCorrelations, newCorrelations));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_ACTIVITY__CORRELATIONS,
+					newCorrelations, newCorrelations));
 	}
 
-    /**
-     * Customizes {@link #getPortTypeGen()} to handle the case where the port type is not specified.
-     * @customized
-     */
-    public PortType getPortType() {
-        if (portType != null) {
-            return getPortTypeGen();
-        } else {
-            // portType is now optional. If the user hasn't set it, then
-            // infer it from the partnerLink attribute and the 
-            // direction of this activity.
-            PartnerLink link = getPartnerLink();
-            if (link != null) {
-                Role role = null;
-                if (this instanceof Invoke) {
-                    role = link.getPartnerRole();
-                } else {
-                    role = link.getMyRole();
-                }
-                if (role != null) {
-                	portType = (PortType)role.getPortType();
-                }
-            }
-            return portType;
-        }
-    }
+	/**
+	 * Customizes {@link #getPortTypeGen()} to handle the case where the port type is not specified.
+	 * @customized
+	 */
+	public PortType getPortType() {
+		if (portType != null) {
+			return getPortTypeGen();
+		} else {
+			// portType is now optional. If the user hasn't set it, then
+			// infer it from the partnerLink attribute and the 
+			// direction of this activity.
+			PartnerLink link = getPartnerLink();
+			if (link != null) {
+				Role role = null;
+				if (this instanceof Invoke) {
+					role = link.getPartnerRole();
+				} else {
+					role = link.getMyRole();
+				}
+				if (role != null) {
+					portType = (PortType) role.getPortType();
+				}
+			}
+			return portType;
+		}
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -236,11 +257,13 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	public PortType getPortTypeGen() {
 		if (portType != null && portType.eIsProxy()) {
-			InternalEObject oldPortType = (InternalEObject)portType;
-			portType = (PortType)eResolveProxy(oldPortType);
+			InternalEObject oldPortType = (InternalEObject) portType;
+			portType = (PortType) eResolveProxy(oldPortType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_ACTIVITY__PORT_TYPE, oldPortType, portType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PARTNER_ACTIVITY__PORT_TYPE,
+							oldPortType, portType));
 			}
 		}
 		return portType;
@@ -264,27 +287,32 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 		PortType oldPortType = portType;
 		portType = newPortType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_ACTIVITY__PORT_TYPE, oldPortType, portType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_ACTIVITY__PORT_TYPE, oldPortType,
+					portType));
 	}
 
-    /**
-     * Customizes {@link #getOperationGen()} to handle the case where the port type is not specified.
-     * @customized
-     */
-    public Operation getOperation() {
-        if (operation == null && operationName != null) {
-            PortType portType = getPortType();
-            if (portType != null) {
-                // Create an operation proxy with the deserialized operation name.
-                operation = new OperationProxy(eResource().getURI(), portType, operationName);
-                operationName = null;
-            } else {
-            	portType = new PortTypeProxy(eResource().getURI(), new QName("null"));
-            	operation = new OperationProxy(eResource().getURI(), portType, operationName);
-            }
-        }
-        return getOperationGen();
-    }
+	/**
+	 * Customizes {@link #getOperationGen()} to handle the case where the port type is not specified.
+	 * @customized
+	 */
+	public Operation getOperation() {
+		if (operation == null && operationName != null) {
+			PortType portType = getPortType();
+			if (portType != null) {
+				// Create an operation proxy with the deserialized operation name.
+				operation = new OperationProxy(eResource().getURI(), portType,
+						operationName);
+				operationName = null;
+			} else {
+				portType = new PortTypeProxy(eResource().getURI(), new QName(
+						"null"));
+				operation = new OperationProxy(eResource().getURI(), portType,
+						operationName);
+			}
+		}
+		return getOperationGen();
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -293,11 +321,13 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 */
 	public Operation getOperationGen() {
 		if (operation != null && operation.eIsProxy()) {
-			InternalEObject oldOperation = (InternalEObject)operation;
-			operation = (Operation)eResolveProxy(oldOperation);
+			InternalEObject oldOperation = (InternalEObject) operation;
+			operation = (Operation) eResolveProxy(oldOperation);
 			if (operation != oldOperation) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_ACTIVITY__OPERATION, oldOperation, operation));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PARTNER_ACTIVITY__OPERATION,
+							oldOperation, operation));
 			}
 		}
 		return operation;
@@ -321,7 +351,9 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 		Operation oldOperation = operation;
 		operation = newOperation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_ACTIVITY__OPERATION, oldOperation, operation));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_ACTIVITY__OPERATION, oldOperation,
+					operation));
 	}
 
 	/**
@@ -329,7 +361,9 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
 				return basicSetCorrelations(null, msgs);
@@ -342,18 +376,22 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				if (resolve) return getPartnerLink();
+				if (resolve)
+					return getPartnerLink();
 				return basicGetPartnerLink();
 			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
 				return getCorrelations();
 			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				if (resolve) return getPortType();
+				if (resolve)
+					return getPortType();
 				return basicGetPortType();
 			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				if (resolve) return getOperation();
+				if (resolve)
+					return getOperation();
 				return basicGetOperation();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -364,19 +402,20 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				setPartnerLink((PartnerLink)newValue);
+				setPartnerLink((PartnerLink) newValue);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				setCorrelations((Correlations)newValue);
+				setCorrelations((Correlations) newValue);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				setPortType((PortType)newValue);
+				setPortType((PortType) newValue);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				setOperation((Operation)newValue);
+				setOperation((Operation) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -387,19 +426,20 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				setPartnerLink((PartnerLink)null);
+				setPartnerLink((PartnerLink) null);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				setCorrelations((Correlations)null);
+				setCorrelations((Correlations) null);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				setPortType((PortType)null);
+				setPortType((PortType) null);
 				return;
 			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				setOperation((Operation)null);
+				setOperation((Operation) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -410,6 +450,7 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
@@ -425,11 +466,11 @@ public class PartnerActivityImpl extends ActivityImpl implements PartnerActivity
 	}
 
 	/**
-     * Set the deserialized value of the operation name.
-     * @customized
-     */
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
-    }
-    
+	 * Set the deserialized value of the operation name.
+	 * @customized
+	 */
+	public void setOperationName(String operationName) {
+		this.operationName = operationName;
+	}
+
 } //PartnerActivityImpl

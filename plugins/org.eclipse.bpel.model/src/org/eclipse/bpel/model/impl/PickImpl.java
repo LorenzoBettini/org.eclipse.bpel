@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PickImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: PickImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -87,7 +87,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList messages;
+	protected EList<OnMessage> messages;
 
 	/**
 	 * The cached value of the '{@link #getAlarm() <em>Alarm</em>}' containment reference list.
@@ -97,7 +97,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList alarm;
+	protected EList<OnAlarm> alarm;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,6 +113,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.PICK;
 	}
@@ -137,7 +138,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstanceESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PICK__CREATE_INSTANCE, oldCreateInstance, createInstance, !oldCreateInstanceESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PICK__CREATE_INSTANCE, oldCreateInstance,
+					createInstance, !oldCreateInstanceESet));
 	}
 
 	/**
@@ -151,7 +154,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 		createInstance = CREATE_INSTANCE_EDEFAULT;
 		createInstanceESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PICK__CREATE_INSTANCE, oldCreateInstance, CREATE_INSTANCE_EDEFAULT, oldCreateInstanceESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PICK__CREATE_INSTANCE, oldCreateInstance,
+					CREATE_INSTANCE_EDEFAULT, oldCreateInstanceESet));
 	}
 
 	/**
@@ -168,9 +173,10 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getMessages() {
+	public EList<OnMessage> getMessages() {
 		if (messages == null) {
-			messages = new EObjectContainmentEList(OnMessage.class, this, BPELPackage.PICK__MESSAGES);
+			messages = new EObjectContainmentEList<OnMessage>(OnMessage.class,
+					this, BPELPackage.PICK__MESSAGES);
 		}
 		return messages;
 	}
@@ -180,9 +186,10 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAlarm() {
+	public EList<OnAlarm> getAlarm() {
 		if (alarm == null) {
-			alarm = new EObjectContainmentEList(OnAlarm.class, this, BPELPackage.PICK__ALARM);
+			alarm = new EObjectContainmentEList<OnAlarm>(OnAlarm.class, this,
+					BPELPackage.PICK__ALARM);
 		}
 		return alarm;
 	}
@@ -192,12 +199,16 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.PICK__MESSAGES:
-				return ((InternalEList)getMessages()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getMessages()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.PICK__ALARM:
-				return ((InternalEList)getAlarm()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getAlarm()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -207,6 +218,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
@@ -224,18 +236,21 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
-				setCreateInstance((Boolean)newValue);
+				setCreateInstance((Boolean) newValue);
 				return;
 			case BPELPackage.PICK__MESSAGES:
 				getMessages().clear();
-				getMessages().addAll((Collection)newValue);
+				getMessages()
+						.addAll((Collection<? extends OnMessage>) newValue);
 				return;
 			case BPELPackage.PICK__ALARM:
 				getAlarm().clear();
-				getAlarm().addAll((Collection)newValue);
+				getAlarm().addAll((Collection<? extends OnAlarm>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -246,6 +261,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
@@ -266,6 +282,7 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PICK__CREATE_INSTANCE:
@@ -283,12 +300,17 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (createInstance: ");
-		if (createInstanceESet) result.append(createInstance); else result.append("<unset>");
+		result.append(" (createInstance: "); //$NON-NLS-1$
+		if (createInstanceESet)
+			result.append(createInstance);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

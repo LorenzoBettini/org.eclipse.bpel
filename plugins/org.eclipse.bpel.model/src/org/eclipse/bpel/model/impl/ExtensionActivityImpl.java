@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionActivityImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ExtensionActivityImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -29,7 +29,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class ExtensionActivityImpl extends ActivityImpl implements ExtensionActivity {
+public class ExtensionActivityImpl extends ActivityImpl implements
+		ExtensionActivity {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -44,6 +45,7 @@ public class ExtensionActivityImpl extends ActivityImpl implements ExtensionActi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EXTENSION_ACTIVITY;
 	}

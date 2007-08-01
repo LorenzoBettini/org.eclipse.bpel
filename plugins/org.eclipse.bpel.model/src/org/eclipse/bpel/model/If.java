@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: If.java,v 1.2 2007/02/09 09:13:43 smoser Exp $
+ * $Id: If.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface If extends Activity{
+public interface If extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -65,10 +65,10 @@ public interface If extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Else If</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getIf_ElseIf()
-	 * @model type="org.eclipse.bpel.model.ElseIf" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getElseIf();
+	EList<ElseIf> getElseIf();
 
 	/**
 	 * Returns the value of the '<em><b>Else</b></em>' containment reference.

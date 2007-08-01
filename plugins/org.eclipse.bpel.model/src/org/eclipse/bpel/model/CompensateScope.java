@@ -6,7 +6,6 @@
  */
 package org.eclipse.bpel.model;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Compensate Scope</b></em>'.
@@ -27,7 +26,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface CompensateScope extends Activity{
+public interface CompensateScope extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -65,7 +64,7 @@ public interface CompensateScope extends Activity{
 	 * @see #getScope()
 	 * @customized
 	 */
-	
-	void setTarget (String scopeName );	
+
+	void setTarget(String scopeName);
 
 } // CompensateScope

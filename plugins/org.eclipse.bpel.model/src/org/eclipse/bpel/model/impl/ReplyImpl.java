@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.6 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ReplyImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -94,7 +94,7 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList toPart;
+	protected EList<ToPart> toPart;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -110,6 +110,7 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.REPLY;
 	}
@@ -132,7 +133,8 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 		QName oldFaultName = faultName;
 		faultName = newFaultName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.REPLY__FAULT_NAME, oldFaultName, faultName));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.REPLY__FAULT_NAME, oldFaultName, faultName));
 	}
 
 	/**
@@ -142,11 +144,12 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			InternalEObject oldVariable = (InternalEObject)variable;
-			variable = (Variable)eResolveProxy(oldVariable);
+			InternalEObject oldVariable = (InternalEObject) variable;
+			variable = (Variable) eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.REPLY__VARIABLE, oldVariable, variable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.REPLY__VARIABLE, oldVariable, variable));
 			}
 		}
 		return variable;
@@ -170,7 +173,8 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 		Variable oldVariable = variable;
 		variable = newVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.REPLY__VARIABLE, oldVariable, variable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.REPLY__VARIABLE, oldVariable, variable));
 	}
 
 	/**
@@ -178,9 +182,10 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getToPart() {
+	public EList<ToPart> getToPart() {
 		if (toPart == null) {
-			toPart = new EObjectResolvingEList(ToPart.class, this, BPELPackage.REPLY__TO_PART);
+			toPart = new EObjectResolvingEList<ToPart>(ToPart.class, this,
+					BPELPackage.REPLY__TO_PART);
 		}
 		return toPart;
 	}
@@ -190,12 +195,14 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.REPLY__FAULT_NAME:
 				return getFaultName();
 			case BPELPackage.REPLY__VARIABLE:
-				if (resolve) return getVariable();
+				if (resolve)
+					return getVariable();
 				return basicGetVariable();
 			case BPELPackage.REPLY__TO_PART:
 				return getToPart();
@@ -208,17 +215,19 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.REPLY__FAULT_NAME:
-				setFaultName((QName)newValue);
+				setFaultName((QName) newValue);
 				return;
 			case BPELPackage.REPLY__VARIABLE:
-				setVariable((Variable)newValue);
+				setVariable((Variable) newValue);
 				return;
 			case BPELPackage.REPLY__TO_PART:
 				getToPart().clear();
-				getToPart().addAll((Collection)newValue);
+				getToPart().addAll((Collection<? extends ToPart>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -229,13 +238,14 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.REPLY__FAULT_NAME:
 				setFaultName(FAULT_NAME_EDEFAULT);
 				return;
 			case BPELPackage.REPLY__VARIABLE:
-				setVariable((Variable)null);
+				setVariable((Variable) null);
 				return;
 			case BPELPackage.REPLY__TO_PART:
 				getToPart().clear();
@@ -249,10 +259,12 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.REPLY__FAULT_NAME:
-				return FAULT_NAME_EDEFAULT == null ? faultName != null : !FAULT_NAME_EDEFAULT.equals(faultName);
+				return FAULT_NAME_EDEFAULT == null ? faultName != null
+						: !FAULT_NAME_EDEFAULT.equals(faultName);
 			case BPELPackage.REPLY__VARIABLE:
 				return variable != null;
 			case BPELPackage.REPLY__TO_PART:
@@ -266,11 +278,13 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (faultName: ");
+		result.append(" (faultName: "); //$NON-NLS-1$
 		result.append(faultName);
 		result.append(')');
 		return result.toString();

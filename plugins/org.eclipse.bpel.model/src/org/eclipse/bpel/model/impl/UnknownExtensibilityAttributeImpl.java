@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UnknownExtensibilityAttributeImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: UnknownExtensibilityAttributeImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -37,7 +37,9 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class UnknownExtensibilityAttributeImpl extends UnknownExtensibilityElementImpl implements UnknownExtensibilityAttribute {
+public class UnknownExtensibilityAttributeImpl extends
+		UnknownExtensibilityElementImpl implements
+		UnknownExtensibilityAttribute {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -52,6 +54,7 @@ public class UnknownExtensibilityAttributeImpl extends UnknownExtensibilityEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.UNKNOWN_EXTENSIBILITY_ATTRIBUTE;
 	}

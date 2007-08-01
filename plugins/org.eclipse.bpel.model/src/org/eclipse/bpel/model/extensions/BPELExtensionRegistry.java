@@ -25,25 +25,35 @@ import org.eclipse.emf.ecore.EPackage;
 /**
  * An extension registry for BPEL extensions instead of WSDL extensions.
  */
+
+@SuppressWarnings("nls")
+
 public class BPELExtensionRegistry extends ExtensionRegistry 
 {
-	protected Map serviceReferenceSerializers;
-	protected Map serviceReferenceDeserializers;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2780795931782427742L;
 	
-	protected Map activitySerializers;
-	protected Map activityDeserializers;
+	protected Map<String,ServiceReferenceSerializer> serviceReferenceSerializers;
+	protected Map<String,ServiceReferenceDeserializer> serviceReferenceDeserializers;
 	
+	protected Map<QName,BPELActivitySerializer> activitySerializers;
+	protected Map<QName,BPELActivityDeserializer> activityDeserializers;
+	
+	/** Extension registry instance */
 	public static BPELExtensionRegistry INSTANCE;
 
 	private BPELExtensionRegistry() {
-		serviceReferenceSerializers = new HashMap();
-		serviceReferenceDeserializers = new HashMap();
-		activitySerializers = new HashMap();
-		activityDeserializers = new HashMap();
+		serviceReferenceSerializers = new HashMap<String,ServiceReferenceSerializer> ();
+		serviceReferenceDeserializers = new HashMap<String,ServiceReferenceDeserializer>();
+		
+		activitySerializers = new HashMap<QName,BPELActivitySerializer>();		
+		activityDeserializers = new HashMap<QName,BPELActivityDeserializer>();
 	}
 	
-	/**
-	 * Returns a singleton instance.
+	/** 
+	 * @return Returns a singleton instance. 
 	 */
 	public static BPELExtensionRegistry getInstance() {
 		if (INSTANCE == null) {
@@ -57,7 +67,8 @@ public class BPELExtensionRegistry extends ExtensionRegistry
 	/**
 	 * @see javax.wsdl.extensions.ExtensionRegistry#createExtension(Class, QName)
 	 */
-	public ExtensibilityElement createExtension(Class parentType, QName qname) throws WSDLException {
+	@Override
+	public ExtensibilityElement createExtension (Class parentType, QName qname) throws WSDLException {
 		
 		// Make sure that the EMF package corresponding to the given namespace is initialized
 		EPackage.Registry.INSTANCE.getEPackage(qname.getNamespaceURI());
@@ -68,7 +79,8 @@ public class BPELExtensionRegistry extends ExtensionRegistry
 	/**
 	 * @see javax.wsdl.extensions.ExtensionRegistry#queryDeserializer(Class, QName)
 	 */
-	public ExtensionDeserializer queryDeserializer(Class parentType, QName qname) throws WSDLException {
+	@Override
+	public ExtensionDeserializer queryDeserializer (Class parentType, QName qname) throws WSDLException {
 
 		// Make sure that the EMF package corresponding to the given namespace is initialized
 		EPackage.Registry.INSTANCE.getEPackage(qname.getNamespaceURI());
@@ -79,7 +91,8 @@ public class BPELExtensionRegistry extends ExtensionRegistry
 	/**
 	 * @see javax.wsdl.extensions.ExtensionRegistry#querySerializer(Class, QName)
 	 */
-	public ExtensionSerializer querySerializer(Class parentType, QName qname) throws WSDLException {
+	@Override
+	public ExtensionSerializer querySerializer (Class parentType, QName qname) throws WSDLException {
 
 		// Make sure that the EMF package corresponding to the given namespace is initialized
 		EPackage.Registry.INSTANCE.getEPackage(qname.getNamespaceURI());
@@ -90,56 +103,102 @@ public class BPELExtensionRegistry extends ExtensionRegistry
 	/**
 	 * @param es must be a {@link BPELExtensionSerializer}
 	 */
-	public void registerSerializer(Class parentType, QName elementType, ExtensionSerializer es) {
+	
+	@Override
+	public void registerSerializer (Class parentType, QName elementType, ExtensionSerializer es) {
+		
         if (!(es instanceof BPELExtensionSerializer)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("ExtensionSerializer is not a BPELExtensionSerializer");
         }
         super.registerSerializer(parentType, elementType, es);
     }
 	
 	/**
-	 * @param deserializer must be a {@link BPELExtensionDeserializer}
+	 * @param ed deserializer must be a {@link BPELExtensionDeserializer}
 	 */
+	@Override
 	public void registerDeserializer(Class parentType, QName elementType, ExtensionDeserializer ed) {
 	    if (!(ed instanceof BPELExtensionDeserializer)) {
-	        throw new IllegalArgumentException();
+	        throw new IllegalArgumentException("ExtensionDeserializer is not a BPELExtensionDeserializer");
 	    }
         super.registerDeserializer(parentType, elementType, ed);
     }
 	
+	/**
+	 * @param referenceScheme
+	 * @param serializer
+	 */
 	public void registerServiceReferenceSerializer(String referenceScheme, ServiceReferenceSerializer serializer) {
 		serviceReferenceSerializers.put(referenceScheme, serializer);
 	}
 
+	/**
+	 * @param referenceScheme
+	 * @param deserializer
+	 */
 	public void registerServiceReferenceDeserializer(String referenceScheme, ServiceReferenceDeserializer deserializer) {
 		serviceReferenceDeserializers.put(referenceScheme, deserializer);
 	}
 	
+	/**
+	 * @param referenceScheme
+	 * @return return the ServiceReferenceSerializer for the given reference scheme.
+	 */
 	public ServiceReferenceSerializer getServiceReferenceSerializer(String referenceScheme) {
-		if (referenceScheme == null) return null;
-		return (ServiceReferenceSerializer)serviceReferenceSerializers.get(referenceScheme);
+		if (referenceScheme == null) {
+			return null;
+		}
+		return serviceReferenceSerializers.get(referenceScheme);
 	}
 
+	/**
+	 * @param referenceScheme
+	 * @return return the ServiceReferenceDeserializer for the given reference scheme.
+	 */
 	public ServiceReferenceDeserializer getServiceReferenceDeserializer(String referenceScheme) {
-		if (referenceScheme == null) return null;
-		return (ServiceReferenceDeserializer)serviceReferenceDeserializers.get(referenceScheme);
+		if (referenceScheme == null) {
+			return null;
+		}
+		return serviceReferenceDeserializers.get(referenceScheme);
 	}
 	
-	public void registerActivitySerializer(QName qname, BPELActivitySerializer serializer) {
+	/**
+	 * Register activity serializer.
+	 * 
+	 * @param qname
+	 * @param serializer
+	 */
+	public void registerActivitySerializer (QName qname, BPELActivitySerializer serializer) {
 		activitySerializers.put(qname, serializer);
 	}
 
-	public void registerActivityDeserializer(QName qname, BPELActivityDeserializer deserializer) {
+	/**
+	 * @param qname
+	 * @param deserializer
+	 */
+	public void registerActivityDeserializer (QName qname, BPELActivityDeserializer deserializer) {
 		activityDeserializers.put(qname, deserializer);
 	}
 	
+	/**
+	 * @param qname
+	 * @return return the activity serializer.
+	 */
 	public BPELActivitySerializer getActivitySerializer(QName qname) {
-		if (qname == null) return null;
-		return (BPELActivitySerializer)activitySerializers.get(qname);
+		if (qname == null) {
+			return null;
+		}
+		return activitySerializers.get(qname);
 	}
 
+	/**
+	 * @param qname
+	 * @return return the activity deserializer.
+	 */
 	public BPELActivityDeserializer getActivityDeserializer(QName qname) {
-		if (qname == null) return null;
-		return (BPELActivityDeserializer)activityDeserializers.get(qname);
+		if (qname == null) {
+			return null;
+		}
+		return activityDeserializers.get(qname);
 	}	
 }

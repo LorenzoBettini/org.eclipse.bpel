@@ -10,10 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Scope.java,v 1.4 2006/12/13 16:17:31 smoser Exp $
+ * $Id: Scope.java,v 1.5 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -45,7 +44,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface Scope extends Activity{
+public interface Scope extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Isolated</b></em>' attribute.
 	 * The default value is <code>"false"</code>.

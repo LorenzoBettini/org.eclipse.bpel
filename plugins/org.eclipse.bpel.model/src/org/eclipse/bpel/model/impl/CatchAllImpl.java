@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchAllImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: CatchAllImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -67,6 +67,7 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.CATCH_ALL;
 	}
@@ -85,12 +86,18 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH_ALL__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.CATCH_ALL__ACTIVITY,
+					oldActivity, newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -104,14 +111,19 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH_ALL__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.CATCH_ALL__ACTIVITY, null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.CATCH_ALL__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.CATCH_ALL__ACTIVITY, null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CATCH_ALL__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CATCH_ALL__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -119,7 +131,9 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.CATCH_ALL__ACTIVITY:
 				return basicSetActivity(null, msgs);
@@ -132,6 +146,7 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.CATCH_ALL__ACTIVITY:
@@ -145,10 +160,11 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.CATCH_ALL__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -159,10 +175,11 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CATCH_ALL__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -173,6 +190,7 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CATCH_ALL__ACTIVITY:

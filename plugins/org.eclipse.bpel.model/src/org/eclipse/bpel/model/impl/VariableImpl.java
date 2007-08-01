@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableImpl.java,v 1.9 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: VariableImpl.java,v 1.10 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -59,7 +59,6 @@ import org.w3c.dom.Element;
  */
 
 @SuppressWarnings("restriction")
-
 public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -127,6 +126,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.VARIABLE;
 	}
@@ -147,7 +147,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.VARIABLE__NAME, oldName, name));
 	}
 
 	/**
@@ -156,11 +157,13 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 */
 	public Message getMessageType() {
 		if (messageType != null && messageType.eIsProxy()) {
-			InternalEObject oldMessageType = (InternalEObject)messageType;
-			messageType = (Message)eResolveProxy(oldMessageType);
+			InternalEObject oldMessageType = (InternalEObject) messageType;
+			messageType = (Message) eResolveProxy(oldMessageType);
 			if (messageType != oldMessageType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__MESSAGE_TYPE, oldMessageType, messageType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.VARIABLE__MESSAGE_TYPE, oldMessageType,
+							messageType));
 			}
 		}
 		return messageType;
@@ -182,7 +185,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 		Message oldMessageType = messageType;
 		messageType = newMessageType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__MESSAGE_TYPE, oldMessageType, messageType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.VARIABLE__MESSAGE_TYPE, oldMessageType,
+					messageType));
 	}
 
 	/**
@@ -191,11 +196,13 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 */
 	public XSDElementDeclaration getXSDElement() {
 		if (xsdElement != null && xsdElement.eIsProxy()) {
-			InternalEObject oldXSDElement = (InternalEObject)xsdElement;
-			xsdElement = (XSDElementDeclaration)eResolveProxy(oldXSDElement);
+			InternalEObject oldXSDElement = (InternalEObject) xsdElement;
+			xsdElement = (XSDElementDeclaration) eResolveProxy(oldXSDElement);
 			if (xsdElement != oldXSDElement) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__XSD_ELEMENT, oldXSDElement, xsdElement));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.VARIABLE__XSD_ELEMENT, oldXSDElement,
+							xsdElement));
 			}
 		}
 		return xsdElement;
@@ -217,7 +224,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 		XSDElementDeclaration oldXSDElement = xsdElement;
 		xsdElement = newXSDElement;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__XSD_ELEMENT, oldXSDElement, xsdElement));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.VARIABLE__XSD_ELEMENT, oldXSDElement,
+					xsdElement));
 	}
 
 	/**
@@ -226,11 +235,12 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 */
 	public XSDTypeDefinition getType() {
 		if (type != null && type.eIsProxy()) {
-			InternalEObject oldType = (InternalEObject)type;
-			type = (XSDTypeDefinition)eResolveProxy(oldType);
+			InternalEObject oldType = (InternalEObject) type;
+			type = (XSDTypeDefinition) eResolveProxy(oldType);
 			if (type != oldType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.VARIABLE__TYPE, oldType, type));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.VARIABLE__TYPE, oldType, type));
 			}
 		}
 		return type;
@@ -252,7 +262,8 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 		XSDTypeDefinition oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.VARIABLE__TYPE, oldType, type));
 	}
 
 	/**
@@ -272,8 +283,13 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 		From oldFrom = from;
 		from = newFrom;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__FROM, oldFrom, newFrom);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.VARIABLE__FROM, oldFrom,
+					newFrom);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -286,14 +302,19 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 		if (newFrom != from) {
 			NotificationChain msgs = null;
 			if (from != null)
-				msgs = ((InternalEObject)from).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.VARIABLE__FROM, null, msgs);
+				msgs = ((InternalEObject) from).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.VARIABLE__FROM,
+						null, msgs);
 			if (newFrom != null)
-				msgs = ((InternalEObject)newFrom).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.VARIABLE__FROM, null, msgs);
+				msgs = ((InternalEObject) newFrom).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.VARIABLE__FROM,
+						null, msgs);
 			msgs = basicSetFrom(newFrom, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.VARIABLE__FROM, newFrom, newFrom));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.VARIABLE__FROM, newFrom, newFrom));
 	}
 
 	/**
@@ -301,7 +322,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.VARIABLE__FROM:
 				return basicSetFrom(null, msgs);
@@ -314,18 +337,22 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
 				return getName();
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
-				if (resolve) return getMessageType();
+				if (resolve)
+					return getMessageType();
 				return basicGetMessageType();
 			case BPELPackage.VARIABLE__XSD_ELEMENT:
-				if (resolve) return getXSDElement();
+				if (resolve)
+					return getXSDElement();
 				return basicGetXSDElement();
 			case BPELPackage.VARIABLE__TYPE:
-				if (resolve) return getType();
+				if (resolve)
+					return getType();
 				return basicGetType();
 			case BPELPackage.VARIABLE__FROM:
 				return getFrom();
@@ -338,22 +365,23 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
-				setMessageType((Message)newValue);
+				setMessageType((Message) newValue);
 				return;
 			case BPELPackage.VARIABLE__XSD_ELEMENT:
-				setXSDElement((XSDElementDeclaration)newValue);
+				setXSDElement((XSDElementDeclaration) newValue);
 				return;
 			case BPELPackage.VARIABLE__TYPE:
-				setType((XSDTypeDefinition)newValue);
+				setType((XSDTypeDefinition) newValue);
 				return;
 			case BPELPackage.VARIABLE__FROM:
-				setFrom((From)newValue);
+				setFrom((From) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -364,22 +392,23 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
-				setMessageType((Message)null);
+				setMessageType((Message) null);
 				return;
 			case BPELPackage.VARIABLE__XSD_ELEMENT:
-				setXSDElement((XSDElementDeclaration)null);
+				setXSDElement((XSDElementDeclaration) null);
 				return;
 			case BPELPackage.VARIABLE__TYPE:
-				setType((XSDTypeDefinition)null);
+				setType((XSDTypeDefinition) null);
 				return;
 			case BPELPackage.VARIABLE__FROM:
-				setFrom((From)null);
+				setFrom((From) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -390,10 +419,12 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.VARIABLE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case BPELPackage.VARIABLE__MESSAGE_TYPE:
 				return messageType != null;
 			case BPELPackage.VARIABLE__XSD_ELEMENT:
@@ -410,11 +441,13 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
 		return result.toString();

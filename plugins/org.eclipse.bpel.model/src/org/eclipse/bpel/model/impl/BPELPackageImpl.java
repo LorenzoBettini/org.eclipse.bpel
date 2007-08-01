@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.32 2007/07/26 01:34:12 mchmielewski Exp $
+ * $Id: BPELPackageImpl.java,v 1.33 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -664,10 +664,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public static BPELPackage initGen() {
-		if (isInited) return (BPELPackage)EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI);
+		if (isInited)
+			return (BPELPackage) EPackage.Registry.INSTANCE
+					.getEPackage(BPELPackage.eNS_URI);
 
 		// Obtain or create and register package
-		BPELPackageImpl theBPELPackage = (BPELPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof BPELPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new BPELPackageImpl());
+		BPELPackageImpl theBPELPackage = (BPELPackageImpl) (EPackage.Registry.INSTANCE
+				.getEPackage(eNS_URI) instanceof BPELPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(eNS_URI)
+				: new BPELPackageImpl());
 
 		isInited = true;
 
@@ -677,8 +682,14 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		XSDPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI) instanceof PartnerlinktypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI) : PartnerlinktypePackage.eINSTANCE);
-		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI) instanceof MessagepropertiesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI) : MessagepropertiesPackage.eINSTANCE);
+		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl) (EPackage.Registry.INSTANCE
+				.getEPackage(PartnerlinktypePackage.eNS_URI) instanceof PartnerlinktypePackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(PartnerlinktypePackage.eNS_URI)
+				: PartnerlinktypePackage.eINSTANCE);
+		MessagepropertiesPackageImpl theMessagepropertiesPackage = (MessagepropertiesPackageImpl) (EPackage.Registry.INSTANCE
+				.getEPackage(MessagepropertiesPackage.eNS_URI) instanceof MessagepropertiesPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(MessagepropertiesPackage.eNS_URI)
+				: MessagepropertiesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBPELPackage.createPackageContents();
@@ -698,14 +709,14 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 
 	public static BPELPackage init() {
 		BPELPackage thePackage = initGen();
-		
+
 		//TODO: handle the following test differently
 		if (!CorrelationPattern.OUTIN_LITERAL.getName().equals("out-in")) { //$NON-NLS-1$
-			System.err.println("BPELPackageImpl: CorrelationPattern has invalid value. Fix CorrelationPattern.OUTIN_LITERAL."); //$NON-NLS-1$
+			System.err
+					.println("BPELPackageImpl: CorrelationPattern has invalid value. Fix CorrelationPattern.OUTIN_LITERAL."); //$NON-NLS-1$
 		}
 		return thePackage;
 	}
-
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -722,7 +733,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_Name() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -731,7 +742,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_TargetNamespace() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -740,7 +751,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_QueryLanguage() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -749,7 +760,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_ExpressionLanguage() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(3);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -758,7 +769,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_SuppressJoinFailure() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(4);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -767,7 +778,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_VariableAccessSerializable() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(5);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -776,7 +787,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_PartnerLinks() {
-		return (EReference)processEClass.getEStructuralFeatures().get(6);
+		return (EReference) processEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -785,7 +796,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Variables() {
-		return (EReference)processEClass.getEStructuralFeatures().get(7);
+		return (EReference) processEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -794,7 +805,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Activity() {
-		return (EReference)processEClass.getEStructuralFeatures().get(8);
+		return (EReference) processEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -803,7 +814,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_FaultHandlers() {
-		return (EReference)processEClass.getEStructuralFeatures().get(9);
+		return (EReference) processEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -812,7 +823,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Extensions() {
-		return (EReference)processEClass.getEStructuralFeatures().get(13);
+		return (EReference) processEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -821,7 +832,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getProcess_ExitOnStandardFault() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(14);
+		return (EAttribute) processEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
@@ -830,7 +841,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_MessageExchanges() {
-		return (EReference)processEClass.getEStructuralFeatures().get(15);
+		return (EReference) processEClass.getEStructuralFeatures().get(15);
 	}
 
 	/**
@@ -839,7 +850,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_EventHandlers() {
-		return (EReference)processEClass.getEStructuralFeatures().get(10);
+		return (EReference) processEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -848,7 +859,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_CorrelationSets() {
-		return (EReference)processEClass.getEStructuralFeatures().get(11);
+		return (EReference) processEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -857,7 +868,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getProcess_Imports() {
-		return (EReference)processEClass.getEStructuralFeatures().get(12);
+		return (EReference) processEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -875,7 +886,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getPartnerLink_Name() {
-		return (EAttribute)partnerLinkEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) partnerLinkEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -884,7 +895,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerLink_MyRole() {
-		return (EReference)partnerLinkEClass.getEStructuralFeatures().get(1);
+		return (EReference) partnerLinkEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -893,7 +904,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerLink_PartnerRole() {
-		return (EReference)partnerLinkEClass.getEStructuralFeatures().get(2);
+		return (EReference) partnerLinkEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -902,7 +913,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerLink_PartnerLinkType() {
-		return (EReference)partnerLinkEClass.getEStructuralFeatures().get(3);
+		return (EReference) partnerLinkEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -911,7 +922,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getPartnerLink_InitializePartnerRole() {
-		return (EAttribute)partnerLinkEClass.getEStructuralFeatures().get(4);
+		return (EAttribute) partnerLinkEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -929,7 +940,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFaultHandler_Catch() {
-		return (EReference)faultHandlerEClass.getEStructuralFeatures().get(0);
+		return (EReference) faultHandlerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -938,7 +949,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFaultHandler_CatchAll() {
-		return (EReference)faultHandlerEClass.getEStructuralFeatures().get(1);
+		return (EReference) faultHandlerEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -956,7 +967,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getActivity_Name() {
-		return (EAttribute)activityEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) activityEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -965,7 +976,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getActivity_SuppressJoinFailure() {
-		return (EAttribute)activityEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) activityEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -974,7 +985,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getActivity_Targets() {
-		return (EReference)activityEClass.getEStructuralFeatures().get(2);
+		return (EReference) activityEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -983,7 +994,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getActivity_Sources() {
-		return (EReference)activityEClass.getEStructuralFeatures().get(3);
+		return (EReference) activityEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1001,7 +1012,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getCorrelationSet_Name() {
-		return (EAttribute)correlationSetEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) correlationSetEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -1010,7 +1022,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCorrelationSet_Properties() {
-		return (EReference)correlationSetEClass.getEStructuralFeatures().get(1);
+		return (EReference) correlationSetEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
@@ -1028,7 +1041,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getInvoke_OutputVariable() {
-		return (EReference)invokeEClass.getEStructuralFeatures().get(0);
+		return (EReference) invokeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1037,7 +1050,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getInvoke_InputVariable() {
-		return (EReference)invokeEClass.getEStructuralFeatures().get(1);
+		return (EReference) invokeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1046,7 +1059,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getInvoke_CompensationHandler() {
-		return (EReference)invokeEClass.getEStructuralFeatures().get(2);
+		return (EReference) invokeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1055,7 +1068,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getInvoke_FaultHandler() {
-		return (EReference)invokeEClass.getEStructuralFeatures().get(3);
+		return (EReference) invokeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1064,7 +1077,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getInvoke_ToPart() {
-		return (EReference)invokeEClass.getEStructuralFeatures().get(4);
+		return (EReference) invokeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1073,7 +1086,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getInvoke_FromPart() {
-		return (EReference)invokeEClass.getEStructuralFeatures().get(5);
+		return (EReference) invokeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1091,7 +1104,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getLink_Name() {
-		return (EAttribute)linkEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) linkEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1100,7 +1113,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getLink_Sources() {
-		return (EReference)linkEClass.getEStructuralFeatures().get(1);
+		return (EReference) linkEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1109,7 +1122,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getLink_Targets() {
-		return (EReference)linkEClass.getEStructuralFeatures().get(2);
+		return (EReference) linkEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1127,7 +1140,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getCatch_FaultName() {
-		return (EAttribute)catchEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) catchEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1136,7 +1149,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCatch_FaultVariable() {
-		return (EReference)catchEClass.getEStructuralFeatures().get(1);
+		return (EReference) catchEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1145,7 +1158,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCatch_Activity() {
-		return (EReference)catchEClass.getEStructuralFeatures().get(2);
+		return (EReference) catchEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1154,7 +1167,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCatch_FaultMessageType() {
-		return (EReference)catchEClass.getEStructuralFeatures().get(3);
+		return (EReference) catchEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1163,7 +1176,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCatch_FaultElement() {
-		return (EReference)catchEClass.getEStructuralFeatures().get(4);
+		return (EReference) catchEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1181,7 +1194,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getReply_FaultName() {
-		return (EAttribute)replyEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) replyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1190,7 +1203,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getReply_Variable() {
-		return (EReference)replyEClass.getEStructuralFeatures().get(1);
+		return (EReference) replyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1199,7 +1212,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getReply_ToPart() {
-		return (EReference)replyEClass.getEStructuralFeatures().get(2);
+		return (EReference) replyEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1217,7 +1230,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerActivity_PartnerLink() {
-		return (EReference)partnerActivityEClass.getEStructuralFeatures().get(0);
+		return (EReference) partnerActivityEClass.getEStructuralFeatures().get(
+				0);
 	}
 
 	/**
@@ -1226,7 +1240,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerActivity_Correlations() {
-		return (EReference)partnerActivityEClass.getEStructuralFeatures().get(1);
+		return (EReference) partnerActivityEClass.getEStructuralFeatures().get(
+				1);
 	}
 
 	/**
@@ -1235,7 +1250,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerActivity_PortType() {
-		return (EReference)partnerActivityEClass.getEStructuralFeatures().get(2);
+		return (EReference) partnerActivityEClass.getEStructuralFeatures().get(
+				2);
 	}
 
 	/**
@@ -1244,7 +1260,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerActivity_Operation() {
-		return (EReference)partnerActivityEClass.getEStructuralFeatures().get(3);
+		return (EReference) partnerActivityEClass.getEStructuralFeatures().get(
+				3);
 	}
 
 	/**
@@ -1262,7 +1279,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getReceive_CreateInstance() {
-		return (EAttribute)receiveEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) receiveEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1271,7 +1288,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getReceive_Variable() {
-		return (EReference)receiveEClass.getEStructuralFeatures().get(1);
+		return (EReference) receiveEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1280,7 +1297,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getReceive_FromPart() {
-		return (EReference)receiveEClass.getEStructuralFeatures().get(2);
+		return (EReference) receiveEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1298,7 +1315,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getThrow_FaultName() {
-		return (EAttribute)throwEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) throwEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1307,7 +1324,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getThrow_FaultVariable() {
-		return (EReference)throwEClass.getEStructuralFeatures().get(1);
+		return (EReference) throwEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1325,7 +1342,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getWait_For() {
-		return (EReference)waitEClass.getEStructuralFeatures().get(0);
+		return (EReference) waitEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1334,7 +1351,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getWait_Until() {
-		return (EReference)waitEClass.getEStructuralFeatures().get(1);
+		return (EReference) waitEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1361,7 +1378,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getSequence_Activities() {
-		return (EReference)sequenceEClass.getEStructuralFeatures().get(0);
+		return (EReference) sequenceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1379,7 +1396,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getWhile_Activity() {
-		return (EReference)whileEClass.getEStructuralFeatures().get(0);
+		return (EReference) whileEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1388,7 +1405,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getWhile_Condition() {
-		return (EReference)whileEClass.getEStructuralFeatures().get(1);
+		return (EReference) whileEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1406,7 +1423,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getPick_CreateInstance() {
-		return (EAttribute)pickEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) pickEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1415,7 +1432,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPick_Messages() {
-		return (EReference)pickEClass.getEStructuralFeatures().get(1);
+		return (EReference) pickEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1424,7 +1441,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPick_Alarm() {
-		return (EReference)pickEClass.getEStructuralFeatures().get(2);
+		return (EReference) pickEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1442,7 +1459,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFlow_Activities() {
-		return (EReference)flowEClass.getEStructuralFeatures().get(0);
+		return (EReference) flowEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1451,7 +1468,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFlow_Links() {
-		return (EReference)flowEClass.getEStructuralFeatures().get(1);
+		return (EReference) flowEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1460,7 +1477,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFlow_CompletionCondition() {
-		return (EReference)flowEClass.getEStructuralFeatures().get(2);
+		return (EReference) flowEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1478,7 +1495,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnAlarm_Activity() {
-		return (EReference)onAlarmEClass.getEStructuralFeatures().get(0);
+		return (EReference) onAlarmEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1487,7 +1504,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnAlarm_For() {
-		return (EReference)onAlarmEClass.getEStructuralFeatures().get(1);
+		return (EReference) onAlarmEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1496,7 +1513,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnAlarm_Until() {
-		return (EReference)onAlarmEClass.getEStructuralFeatures().get(2);
+		return (EReference) onAlarmEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1505,7 +1522,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnAlarm_RepeatEvery() {
-		return (EReference)onAlarmEClass.getEStructuralFeatures().get(3);
+		return (EReference) onAlarmEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1523,7 +1540,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getAssign_Copy() {
-		return (EReference)assignEClass.getEStructuralFeatures().get(0);
+		return (EReference) assignEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1532,7 +1549,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getAssign_Validate() {
-		return (EAttribute)assignEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) assignEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1550,7 +1567,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCopy_To() {
-		return (EReference)copyEClass.getEStructuralFeatures().get(0);
+		return (EReference) copyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1559,7 +1576,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCopy_From() {
-		return (EReference)copyEClass.getEStructuralFeatures().get(1);
+		return (EReference) copyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1568,7 +1585,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getCopy_KeepSrcElementName() {
-		return (EAttribute)copyEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) copyEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1577,7 +1594,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getCopy_IgnoreMissingFromData() {
-		return (EAttribute)copyEClass.getEStructuralFeatures().get(3);
+		return (EAttribute) copyEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1595,7 +1612,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getExtension_Namespace() {
-		return (EAttribute)extensionEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) extensionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1604,7 +1621,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getExtension_MustUnderstand() {
-		return (EAttribute)extensionEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) extensionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1622,7 +1639,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getScope_Isolated() {
-		return (EAttribute)scopeEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) scopeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1631,7 +1648,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_FaultHandlers() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(1);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1640,7 +1657,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_CompensationHandler() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(2);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1649,7 +1666,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_Activity() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(3);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1658,7 +1675,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_Variables() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(4);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1667,7 +1684,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_CorrelationSets() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(5);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1676,7 +1693,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_EventHandlers() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(6);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1685,7 +1702,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_PartnerLinks() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(7);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -1694,7 +1711,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_TerminationHandler() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(8);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1703,7 +1720,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getScope_MessageExchanges() {
-		return (EReference)scopeEClass.getEStructuralFeatures().get(9);
+		return (EReference) scopeEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -1712,7 +1729,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getScope_ExitOnStandardFault() {
-		return (EAttribute)scopeEClass.getEStructuralFeatures().get(10);
+		return (EAttribute) scopeEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -1739,7 +1756,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCompensationHandler_Activity() {
-		return (EReference)compensationHandlerEClass.getEStructuralFeatures().get(0);
+		return (EReference) compensationHandlerEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -1757,7 +1775,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTo_Variable() {
-		return (EReference)toEClass.getEStructuralFeatures().get(0);
+		return (EReference) toEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1766,7 +1784,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTo_Part() {
-		return (EReference)toEClass.getEStructuralFeatures().get(1);
+		return (EReference) toEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1775,7 +1793,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTo_PartnerLink() {
-		return (EReference)toEClass.getEStructuralFeatures().get(2);
+		return (EReference) toEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1784,7 +1802,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTo_Property() {
-		return (EReference)toEClass.getEStructuralFeatures().get(3);
+		return (EReference) toEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1793,7 +1811,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTo_Query() {
-		return (EReference)toEClass.getEStructuralFeatures().get(4);
+		return (EReference) toEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1802,7 +1820,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTo_Expression() {
-		return (EReference)toEClass.getEStructuralFeatures().get(5);
+		return (EReference) toEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1820,7 +1838,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getFrom_Opaque() {
-		return (EAttribute)fromEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) fromEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1829,7 +1847,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getFrom_EndpointReference() {
-		return (EAttribute)fromEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) fromEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1838,7 +1856,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getFrom_Literal() {
-		return (EAttribute)fromEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) fromEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1847,7 +1865,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getFrom_UnsafeLiteral() {
-		return (EAttribute)fromEClass.getEStructuralFeatures().get(3);
+		return (EAttribute) fromEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1856,7 +1874,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_Expression() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(4);
+		return (EReference) fromEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1865,7 +1883,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_ServiceRef() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(5);
+		return (EReference) fromEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1874,7 +1892,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_Type() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(6);
+		return (EReference) fromEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1883,7 +1901,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_Variable() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(7);
+		return (EReference) fromEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -1892,7 +1910,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_Part() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(8);
+		return (EReference) fromEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1901,7 +1919,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_PartnerLink() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(9);
+		return (EReference) fromEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -1910,7 +1928,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_Property() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(10);
+		return (EReference) fromEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -1919,7 +1937,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFrom_Query() {
-		return (EReference)fromEClass.getEStructuralFeatures().get(11);
+		return (EReference) fromEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -1937,7 +1955,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_Variable() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(0);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1946,7 +1964,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_Activity() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(1);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1955,7 +1973,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_PortType() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(2);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1964,7 +1982,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_PartnerLink() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(3);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1973,7 +1991,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_Correlations() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(4);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1982,7 +2000,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_Operation() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(5);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1991,7 +2009,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnMessage_FromPart() {
-		return (EReference)onMessageEClass.getEStructuralFeatures().get(6);
+		return (EReference) onMessageEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -2009,7 +2027,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getExpression_Body() {
-		return (EAttribute)expressionEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) expressionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2018,7 +2036,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getExpression_ExpressionLanguage() {
-		return (EAttribute)expressionEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) expressionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2027,7 +2045,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getExpression_Opaque() {
-		return (EAttribute)expressionEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) expressionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2054,7 +2072,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getCorrelation_Initiate() {
-		return (EAttribute)correlationEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) correlationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2063,7 +2081,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getCorrelation_Pattern() {
-		return (EAttribute)correlationEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) correlationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2072,7 +2090,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCorrelation_Set() {
-		return (EReference)correlationEClass.getEStructuralFeatures().get(2);
+		return (EReference) correlationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2090,7 +2108,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getEventHandler_Alarm() {
-		return (EReference)eventHandlerEClass.getEStructuralFeatures().get(0);
+		return (EReference) eventHandlerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2099,7 +2117,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getEventHandler_Events() {
-		return (EReference)eventHandlerEClass.getEStructuralFeatures().get(1);
+		return (EReference) eventHandlerEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2117,7 +2135,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getSource_Link() {
-		return (EReference)sourceEClass.getEStructuralFeatures().get(0);
+		return (EReference) sourceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2126,7 +2144,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getSource_Activity() {
-		return (EReference)sourceEClass.getEStructuralFeatures().get(1);
+		return (EReference) sourceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2135,7 +2153,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getSource_TransitionCondition() {
-		return (EReference)sourceEClass.getEStructuralFeatures().get(2);
+		return (EReference) sourceEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2153,7 +2171,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTarget_Link() {
-		return (EReference)targetEClass.getEStructuralFeatures().get(0);
+		return (EReference) targetEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2162,7 +2180,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTarget_Activity() {
-		return (EReference)targetEClass.getEStructuralFeatures().get(1);
+		return (EReference) targetEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2180,7 +2198,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getPartnerLinks_Children() {
-		return (EReference)partnerLinksEClass.getEStructuralFeatures().get(0);
+		return (EReference) partnerLinksEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2198,7 +2216,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getVariables_Children() {
-		return (EReference)variablesEClass.getEStructuralFeatures().get(0);
+		return (EReference) variablesEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2216,7 +2234,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCorrelationSets_Children() {
-		return (EReference)correlationSetsEClass.getEStructuralFeatures().get(0);
+		return (EReference) correlationSetsEClass.getEStructuralFeatures().get(
+				0);
 	}
 
 	/**
@@ -2234,7 +2253,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getLinks_Children() {
-		return (EReference)linksEClass.getEStructuralFeatures().get(0);
+		return (EReference) linksEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2252,7 +2271,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCatchAll_Activity() {
-		return (EReference)catchAllEClass.getEStructuralFeatures().get(0);
+		return (EReference) catchAllEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2270,7 +2289,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCorrelations_Children() {
-		return (EReference)correlationsEClass.getEStructuralFeatures().get(0);
+		return (EReference) correlationsEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2288,7 +2307,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getVariable_Name() {
-		return (EAttribute)variableEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) variableEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2297,7 +2316,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getVariable_MessageType() {
-		return (EReference)variableEClass.getEStructuralFeatures().get(1);
+		return (EReference) variableEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2306,7 +2325,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getVariable_XSDElement() {
-		return (EReference)variableEClass.getEStructuralFeatures().get(2);
+		return (EReference) variableEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2315,7 +2334,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getVariable_Type() {
-		return (EReference)variableEClass.getEStructuralFeatures().get(3);
+		return (EReference) variableEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2324,7 +2343,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getVariable_From() {
-		return (EReference)variableEClass.getEStructuralFeatures().get(4);
+		return (EReference) variableEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2351,7 +2370,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_Activity() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(0);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2360,7 +2379,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_Variable() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(1);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2369,7 +2388,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_PartnerLink() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(2);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2378,7 +2397,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_Correlations() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(3);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2387,7 +2406,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_Operation() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(4);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2396,7 +2415,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_PortType() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(5);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -2405,7 +2424,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_MessageType() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(6);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -2414,7 +2433,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_FromPart() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(7);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -2423,7 +2442,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getOnEvent_CorrelationSets() {
-		return (EReference)onEventEClass.getEStructuralFeatures().get(8);
+		return (EReference) onEventEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -2441,7 +2460,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getImport_Namespace() {
-		return (EAttribute)importEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) importEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2450,7 +2469,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getImport_Location() {
-		return (EAttribute)importEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) importEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2459,7 +2478,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getImport_ImportType() {
-		return (EAttribute)importEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) importEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2495,7 +2514,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTargets_Children() {
-		return (EReference)targetsEClass.getEStructuralFeatures().get(0);
+		return (EReference) targetsEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2504,7 +2523,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTargets_JoinCondition() {
-		return (EReference)targetsEClass.getEStructuralFeatures().get(1);
+		return (EReference) targetsEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2522,7 +2541,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getSources_Children() {
-		return (EReference)sourcesEClass.getEStructuralFeatures().get(0);
+		return (EReference) sourcesEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2540,7 +2559,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getQuery_Value() {
-		return (EAttribute)queryEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) queryEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2549,7 +2568,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getQuery_QueryLanguage() {
-		return (EAttribute)queryEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) queryEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2567,7 +2586,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getServiceRef_ReferenceScheme() {
-		return (EAttribute)serviceRefEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) serviceRefEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2576,7 +2595,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getServiceRef_Value() {
-		return (EAttribute)serviceRefEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) serviceRefEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2603,7 +2622,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getExtensions_Children() {
-		return (EReference)extensionsEClass.getEStructuralFeatures().get(0);
+		return (EReference) extensionsEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2630,7 +2649,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getFromPart_Part() {
-		return (EAttribute)fromPartEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) fromPartEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2639,7 +2658,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getFromPart_To() {
-		return (EReference)fromPartEClass.getEStructuralFeatures().get(1);
+		return (EReference) fromPartEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2657,7 +2676,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getToPart_Part() {
-		return (EAttribute)toPartEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) toPartEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2666,7 +2685,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getToPart_From() {
-		return (EReference)toPartEClass.getEStructuralFeatures().get(1);
+		return (EReference) toPartEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2693,7 +2712,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getForEach_StartCounterValue() {
-		return (EReference)forEachEClass.getEStructuralFeatures().get(0);
+		return (EReference) forEachEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2702,7 +2721,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getForEach_FinalCounterValue() {
-		return (EReference)forEachEClass.getEStructuralFeatures().get(1);
+		return (EReference) forEachEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2711,7 +2730,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getForEach_Parallel() {
-		return (EAttribute)forEachEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) forEachEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2720,7 +2739,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getForEach_CounterName() {
-		return (EReference)forEachEClass.getEStructuralFeatures().get(3);
+		return (EReference) forEachEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2729,7 +2748,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getForEach_CompletionCondition() {
-		return (EReference)forEachEClass.getEStructuralFeatures().get(4);
+		return (EReference) forEachEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2738,7 +2757,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getForEach_Activity() {
-		return (EReference)forEachEClass.getEStructuralFeatures().get(5);
+		return (EReference) forEachEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -2756,7 +2775,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getRepeatUntil_Activity() {
-		return (EReference)repeatUntilEClass.getEStructuralFeatures().get(0);
+		return (EReference) repeatUntilEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2765,7 +2784,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getRepeatUntil_Condition() {
-		return (EReference)repeatUntilEClass.getEStructuralFeatures().get(1);
+		return (EReference) repeatUntilEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2783,7 +2802,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getTerminationHandler_Activity() {
-		return (EReference)terminationHandlerEClass.getEStructuralFeatures().get(0);
+		return (EReference) terminationHandlerEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -2801,7 +2821,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getIf_Condition() {
-		return (EReference)ifEClass.getEStructuralFeatures().get(0);
+		return (EReference) ifEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2810,7 +2830,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getIf_ElseIf() {
-		return (EReference)ifEClass.getEStructuralFeatures().get(1);
+		return (EReference) ifEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2819,7 +2839,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getIf_Else() {
-		return (EReference)ifEClass.getEStructuralFeatures().get(2);
+		return (EReference) ifEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2828,7 +2848,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getIf_Activity() {
-		return (EReference)ifEClass.getEStructuralFeatures().get(3);
+		return (EReference) ifEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2846,7 +2866,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getElseIf_Condition() {
-		return (EReference)elseIfEClass.getEStructuralFeatures().get(0);
+		return (EReference) elseIfEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2855,7 +2875,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getElseIf_Activity() {
-		return (EReference)elseIfEClass.getEStructuralFeatures().get(1);
+		return (EReference) elseIfEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2873,7 +2893,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getElse_Activity() {
-		return (EReference)elseEClass.getEStructuralFeatures().get(0);
+		return (EReference) elseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2891,7 +2911,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCompletionCondition_Branches() {
-		return (EReference)completionConditionEClass.getEStructuralFeatures().get(0);
+		return (EReference) completionConditionEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -2909,7 +2930,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getBranches_CountCompletedBranchesOnly() {
-		return (EAttribute)branchesEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) branchesEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2927,7 +2948,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getExtensibleElement_Documentation() {
-		return (EReference)extensibleElementEClass.getEStructuralFeatures().get(0);
+		return (EReference) extensibleElementEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -2945,7 +2967,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getValidate_Variables() {
-		return (EReference)validateEClass.getEStructuralFeatures().get(0);
+		return (EReference) validateEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2963,7 +2985,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getDocumentation_Lang() {
-		return (EAttribute)documentationEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) documentationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2972,7 +2994,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getDocumentation_Source() {
-		return (EAttribute)documentationEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) documentationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2981,7 +3003,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getDocumentation_Value() {
-		return (EAttribute)documentationEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) documentationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2999,7 +3021,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getMessageExchanges_Children() {
-		return (EReference)messageExchangesEClass.getEStructuralFeatures().get(0);
+		return (EReference) messageExchangesEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -3017,7 +3040,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EAttribute getMessageExchange_Name() {
-		return (EAttribute)messageExchangeEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) messageExchangeEClass.getEStructuralFeatures().get(
+				0);
 	}
 
 	/**
@@ -3035,7 +3059,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public EReference getCompensateScope_Target() {
-		return (EReference)compensateScopeEClass.getEStructuralFeatures().get(0);
+		return (EReference) compensateScopeEClass.getEStructuralFeatures().get(
+				0);
 	}
 
 	/**
@@ -3062,7 +3087,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public BPELFactory getBPELFactory() {
-		return (BPELFactory)getEFactoryInstance();
+		return (BPELFactory) getEFactoryInstance();
 	}
 
 	/**
@@ -3080,7 +3105,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) return;
+		if (isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -3107,7 +3133,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(partnerLinkEClass, PARTNER_LINK__MY_ROLE);
 		createEReference(partnerLinkEClass, PARTNER_LINK__PARTNER_ROLE);
 		createEReference(partnerLinkEClass, PARTNER_LINK__PARTNER_LINK_TYPE);
-		createEAttribute(partnerLinkEClass, PARTNER_LINK__INITIALIZE_PARTNER_ROLE);
+		createEAttribute(partnerLinkEClass,
+				PARTNER_LINK__INITIALIZE_PARTNER_ROLE);
 
 		faultHandlerEClass = createEClass(FAULT_HANDLER);
 		createEReference(faultHandlerEClass, FAULT_HANDLER__CATCH);
@@ -3225,7 +3252,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(compensateScopeEClass, COMPENSATE_SCOPE__TARGET);
 
 		compensationHandlerEClass = createEClass(COMPENSATION_HANDLER);
-		createEReference(compensationHandlerEClass, COMPENSATION_HANDLER__ACTIVITY);
+		createEReference(compensationHandlerEClass,
+				COMPENSATION_HANDLER__ACTIVITY);
 
 		toEClass = createEClass(TO);
 		createEReference(toEClass, TO__VARIABLE);
@@ -3373,7 +3401,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(repeatUntilEClass, REPEAT_UNTIL__CONDITION);
 
 		terminationHandlerEClass = createEClass(TERMINATION_HANDLER);
-		createEReference(terminationHandlerEClass, TERMINATION_HANDLER__ACTIVITY);
+		createEReference(terminationHandlerEClass,
+				TERMINATION_HANDLER__ACTIVITY);
 
 		validateEClass = createEClass(VALIDATE);
 		createEReference(validateEClass, VALIDATE__VARIABLES);
@@ -3392,13 +3421,16 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(elseEClass, ELSE__ACTIVITY);
 
 		completionConditionEClass = createEClass(COMPLETION_CONDITION);
-		createEReference(completionConditionEClass, COMPLETION_CONDITION__BRANCHES);
+		createEReference(completionConditionEClass,
+				COMPLETION_CONDITION__BRANCHES);
 
 		branchesEClass = createEClass(BRANCHES);
-		createEAttribute(branchesEClass, BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY);
+		createEAttribute(branchesEClass,
+				BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY);
 
 		extensibleElementEClass = createEClass(EXTENSIBLE_ELEMENT);
-		createEReference(extensibleElementEClass, EXTENSIBLE_ELEMENT__DOCUMENTATION);
+		createEReference(extensibleElementEClass,
+				EXTENSIBLE_ELEMENT__DOCUMENTATION);
 
 		documentationEClass = createEClass(DOCUMENTATION);
 		createEAttribute(documentationEClass, DOCUMENTATION__LANG);
@@ -3433,7 +3465,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) return;
+		if (isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package
@@ -3442,11 +3475,20 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
-		PartnerlinktypePackage thePartnerlinktypePackage = (PartnerlinktypePackage)EPackage.Registry.INSTANCE.getEPackage(PartnerlinktypePackage.eNS_URI);
-		MessagepropertiesPackage theMessagepropertiesPackage = (MessagepropertiesPackage)EPackage.Registry.INSTANCE.getEPackage(MessagepropertiesPackage.eNS_URI);
-		WSDLPackage theWSDLPackage = (WSDLPackage)EPackage.Registry.INSTANCE.getEPackage(WSDLPackage.eNS_URI);
-		XSDPackage theXSDPackage = (XSDPackage)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE
+				.getEPackage(EcorePackage.eNS_URI);
+		PartnerlinktypePackage thePartnerlinktypePackage = (PartnerlinktypePackage) EPackage.Registry.INSTANCE
+				.getEPackage(PartnerlinktypePackage.eNS_URI);
+		MessagepropertiesPackage theMessagepropertiesPackage = (MessagepropertiesPackage) EPackage.Registry.INSTANCE
+				.getEPackage(MessagepropertiesPackage.eNS_URI);
+		WSDLPackage theWSDLPackage = (WSDLPackage) EPackage.Registry.INSTANCE
+				.getEPackage(WSDLPackage.eNS_URI);
+		XSDPackage theXSDPackage = (XSDPackage) EPackage.Registry.INSTANCE
+				.getEPackage(XSDPackage.eNS_URI);
+
+		// Create type parameters
+
+		// Set bounds for type parameters
 
 		// Add supertypes to classes
 		processEClass.getESuperTypes().add(this.getExtensibleElement());
@@ -3475,11 +3517,13 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensionEClass.getESuperTypes().add(this.getExtensibleElement());
 		scopeEClass.getESuperTypes().add(this.getActivity());
 		compensateScopeEClass.getESuperTypes().add(this.getActivity());
-		compensationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
+		compensationHandlerEClass.getESuperTypes().add(
+				this.getExtensibleElement());
 		toEClass.getESuperTypes().add(this.getExtensibleElement());
 		fromEClass.getESuperTypes().add(this.getExtensibleElement());
 		onMessageEClass.getESuperTypes().add(this.getExtensibleElement());
-		expressionEClass.getESuperTypes().add(theWSDLPackage.getExtensibilityElement());
+		expressionEClass.getESuperTypes().add(
+				theWSDLPackage.getExtensibilityElement());
 		booleanExpressionEClass.getESuperTypes().add(this.getExpression());
 		correlationEClass.getESuperTypes().add(this.getExtensibleElement());
 		eventHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
@@ -3492,7 +3536,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		catchAllEClass.getESuperTypes().add(this.getExtensibleElement());
 		correlationsEClass.getESuperTypes().add(this.getExtensibleElement());
 		variableEClass.getESuperTypes().add(this.getExtensibleElement());
-		unknownExtensibilityAttributeEClass.getESuperTypes().add(theWSDLPackage.getUnknownExtensibilityElement());
+		unknownExtensibilityAttributeEClass.getESuperTypes().add(
+				theWSDLPackage.getUnknownExtensibilityElement());
 		onEventEClass.getESuperTypes().add(this.getExtensibleElement());
 		importEClass.getESuperTypes().add(this.getExtensibleElement());
 		rethrowEClass.getESuperTypes().add(this.getActivity());
@@ -3500,7 +3545,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		targetsEClass.getESuperTypes().add(this.getExtensibleElement());
 		sourcesEClass.getESuperTypes().add(this.getExtensibleElement());
 		queryEClass.getESuperTypes().add(theWSDLPackage.getWSDLElement());
-		serviceRefEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
+		serviceRefEClass.getESuperTypes().add(
+				theWSDLPackage.getExtensibleElement());
 		extensionsEClass.getESuperTypes().add(this.getExtensibleElement());
 		extensionActivityEClass.getESuperTypes().add(this.getActivity());
 		fromPartEClass.getESuperTypes().add(this.getExtensibleElement());
@@ -3508,357 +3554,1278 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		opaqueActivityEClass.getESuperTypes().add(this.getActivity());
 		forEachEClass.getESuperTypes().add(this.getActivity());
 		repeatUntilEClass.getESuperTypes().add(this.getActivity());
-		terminationHandlerEClass.getESuperTypes().add(this.getExtensibleElement());
+		terminationHandlerEClass.getESuperTypes().add(
+				this.getExtensibleElement());
 		validateEClass.getESuperTypes().add(this.getActivity());
 		ifEClass.getESuperTypes().add(this.getActivity());
 		elseIfEClass.getESuperTypes().add(this.getExtensibleElement());
 		elseEClass.getESuperTypes().add(this.getExtensibleElement());
-		completionConditionEClass.getESuperTypes().add(this.getExtensibleElement());
+		completionConditionEClass.getESuperTypes().add(
+				this.getExtensibleElement());
 		branchesEClass.getESuperTypes().add(this.getExpression());
-		extensibleElementEClass.getESuperTypes().add(theWSDLPackage.getExtensibleElement());
-		messageExchangesEClass.getESuperTypes().add(this.getExtensibleElement());
+		extensibleElementEClass.getESuperTypes().add(
+				theWSDLPackage.getExtensibleElement());
+		messageExchangesEClass.getESuperTypes()
+				.add(this.getExtensibleElement());
 		messageExchangeEClass.getESuperTypes().add(this.getExtensibleElement());
 		compensateEClass.getESuperTypes().add(this.getActivity());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(processEClass, org.eclipse.bpel.model.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProcess_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_QueryLanguage(), ecorePackage.getEString(), "queryLanguage", "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_ExpressionLanguage(), ecorePackage.getEString(), "expressionLanguage", "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_SuppressJoinFailure(), ecorePackage.getEBooleanObject(), "suppressJoinFailure", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_VariableAccessSerializable(), ecorePackage.getEBooleanObject(), "variableAccessSerializable", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_PartnerLinks(), this.getPartnerLinks(), null, "partnerLinks", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Variables(), this.getVariables(), null, "variables", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Activity(), this.getActivity(), null, "activity", null, 1, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_FaultHandlers(), this.getFaultHandler(), null, "faultHandlers", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_EventHandlers(), this.getEventHandler(), null, "eventHandlers", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Imports(), this.getImport(), null, "imports", null, 0, -1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Extensions(), this.getExtensions(), null, "extensions", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcess_ExitOnStandardFault(), theEcorePackage.getEBooleanObject(), "exitOnStandardFault", "true", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_MessageExchanges(), this.getMessageExchanges(), null, "messageExchanges", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(partnerLinkEClass, PartnerLink.class, "PartnerLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPartnerLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPartnerLink_MyRole(), thePartnerlinktypePackage.getRole(), null, "myRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPartnerLink_PartnerRole(), thePartnerlinktypePackage.getRole(), null, "partnerRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPartnerLink_PartnerLinkType(), thePartnerlinktypePackage.getPartnerLinkType(), null, "PartnerLinkType", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPartnerLink_InitializePartnerRole(), theEcorePackage.getEBooleanObject(), "initializePartnerRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(faultHandlerEClass, FaultHandler.class, "FaultHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFaultHandler_Catch(), this.getCatch(), null, "catch", null, 0, -1, FaultHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFaultHandler_CatchAll(), this.getCatchAll(), null, "catchAll", null, 0, 1, FaultHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(activityEClass, Activity.class, "Activity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getActivity_Name(), ecorePackage.getEString(), "name", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getActivity_SuppressJoinFailure(), ecorePackage.getEBooleanObject(), "suppressJoinFailure", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getActivity_Targets(), this.getTargets(), null, "targets", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getActivity_Sources(), this.getSources(), null, "sources", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(correlationSetEClass, CorrelationSet.class, "CorrelationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCorrelationSet_Name(), ecorePackage.getEString(), "name", null, 0, 1, CorrelationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCorrelationSet_Properties(), theMessagepropertiesPackage.getProperty(), null, "properties", null, 0, -1, CorrelationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(invokeEClass, Invoke.class, "Invoke", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInvoke_OutputVariable(), this.getVariable(), null, "outputVariable", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInvoke_InputVariable(), this.getVariable(), null, "inputVariable", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInvoke_CompensationHandler(), this.getCompensationHandler(), null, "compensationHandler", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInvoke_FaultHandler(), this.getFaultHandler(), null, "faultHandler", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInvoke_ToPart(), this.getToPart(), null, "toPart", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInvoke_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLink_Sources(), this.getSource(), this.getSource_Link(), "sources", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLink_Targets(), this.getTarget(), this.getTarget_Link(), "targets", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(catchEClass, Catch.class, "Catch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCatch_FaultName(), theWSDLPackage.getQName(), "faultName", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCatch_FaultVariable(), this.getVariable(), null, "faultVariable", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCatch_Activity(), this.getActivity(), null, "activity", null, 1, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCatch_FaultMessageType(), theWSDLPackage.getMessage(), null, "faultMessageType", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCatch_FaultElement(), theXSDPackage.getXSDElementDeclaration(), null, "faultElement", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(replyEClass, Reply.class, "Reply", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getReply_FaultName(), theWSDLPackage.getQName(), "faultName", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReply_Variable(), this.getVariable(), null, "variable", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReply_ToPart(), this.getToPart(), null, "toPart", null, 0, -1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(partnerActivityEClass, PartnerActivity.class, "PartnerActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPartnerActivity_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 1, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPartnerActivity_Correlations(), this.getCorrelations(), null, "correlations", null, 0, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPartnerActivity_PortType(), theWSDLPackage.getPortType(), null, "portType", null, 1, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPartnerActivity_Operation(), theWSDLPackage.getOperation(), null, "operation", null, 1, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(receiveEClass, Receive.class, "Receive", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getReceive_CreateInstance(), ecorePackage.getEBooleanObject(), "createInstance", "false", 0, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReceive_Variable(), this.getVariable(), null, "variable", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReceive_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(exitEClass, Exit.class, "Exit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(throwEClass, Throw.class, "Throw", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getThrow_FaultName(), theWSDLPackage.getQName(), "faultName", null, 0, 1, Throw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getThrow_FaultVariable(), this.getVariable(), null, "faultVariable", null, 0, 1, Throw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getWait_For(), this.getExpression(), null, "for", null, 0, 1, Wait.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getWait_Until(), this.getExpression(), null, "until", null, 0, 1, Wait.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(emptyEClass, Empty.class, "Empty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(sequenceEClass, Sequence.class, "Sequence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSequence_Activities(), this.getActivity(), null, "activities", null, 1, -1, Sequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(whileEClass, While.class, "While", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getWhile_Activity(), this.getActivity(), null, "activity", null, 1, 1, While.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getWhile_Condition(), this.getCondition(), null, "condition", null, 1, 1, While.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(pickEClass, Pick.class, "Pick", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPick_CreateInstance(), ecorePackage.getEBooleanObject(), "createInstance", "false", 0, 1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPick_Messages(), this.getOnMessage(), null, "messages", null, 1, -1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPick_Alarm(), this.getOnAlarm(), null, "alarm", null, 0, -1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(flowEClass, Flow.class, "Flow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFlow_Activities(), this.getActivity(), null, "activities", null, 1, -1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFlow_Links(), this.getLinks(), null, "links", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFlow_CompletionCondition(), this.getCompletionCondition(), null, "completionCondition", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(onAlarmEClass, OnAlarm.class, "OnAlarm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOnAlarm_Activity(), this.getActivity(), null, "activity", null, 1, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnAlarm_For(), this.getExpression(), null, "for", null, 0, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnAlarm_Until(), this.getExpression(), null, "until", null, 0, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnAlarm_RepeatEvery(), this.getExpression(), null, "repeatEvery", null, 0, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(assignEClass, Assign.class, "Assign", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAssign_Copy(), this.getCopy(), null, "copy", null, 1, -1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAssign_Validate(), theEcorePackage.getEBooleanObject(), "validate", "false", 0, 1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(copyEClass, Copy.class, "Copy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCopy_To(), this.getTo(), null, "to", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCopy_From(), this.getFrom(), null, "from", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCopy_KeepSrcElementName(), ecorePackage.getEBooleanObject(), "keepSrcElementName", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCopy_IgnoreMissingFromData(), ecorePackage.getEBooleanObject(), "ignoreMissingFromData", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(extensionEClass, Extension.class, "Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExtension_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExtension_MustUnderstand(), ecorePackage.getEBooleanObject(), "mustUnderstand", "false", 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(scopeEClass, Scope.class, "Scope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getScope_Isolated(), ecorePackage.getEBooleanObject(), "isolated", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_FaultHandlers(), this.getFaultHandler(), null, "faultHandlers", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_CompensationHandler(), this.getCompensationHandler(), null, "compensationHandler", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_Activity(), this.getActivity(), null, "activity", null, 1, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_Variables(), this.getVariables(), null, "variables", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_EventHandlers(), this.getEventHandler(), null, "eventHandlers", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_PartnerLinks(), this.getPartnerLinks(), null, "partnerLinks", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_TerminationHandler(), this.getTerminationHandler(), null, "terminationHandler", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_MessageExchanges(), this.getMessageExchanges(), null, "messageExchanges", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getScope_ExitOnStandardFault(), ecorePackage.getEBooleanObject(), "exitOnStandardFault", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(compensateScopeEClass, CompensateScope.class, "CompensateScope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompensateScope_Target(), this.getActivity(), null, "target", null, 0, 1, CompensateScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(compensationHandlerEClass, CompensationHandler.class, "CompensationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompensationHandler_Activity(), this.getActivity(), null, "activity", null, 1, 1, CompensationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(toEClass, To.class, "To", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTo_Variable(), this.getVariable(), null, "variable", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTo_Part(), theWSDLPackage.getPart(), null, "part", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTo_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTo_Property(), theMessagepropertiesPackage.getProperty(), null, "property", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTo_Query(), this.getQuery(), null, "query", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTo_Expression(), this.getExpression(), null, "expression", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(fromEClass, From.class, "From", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFrom_Opaque(), ecorePackage.getEBooleanObject(), "opaque", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFrom_EndpointReference(), this.getEndpointReferenceRole(), "endpointReference", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFrom_Literal(), ecorePackage.getEString(), "literal", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFrom_UnsafeLiteral(), ecorePackage.getEBooleanObject(), "unsafeLiteral", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_Expression(), this.getExpression(), null, "expression", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_ServiceRef(), this.getServiceRef(), null, "serviceRef", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_Type(), theXSDPackage.getXSDTypeDefinition(), null, "type", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_Variable(), this.getVariable(), null, "variable", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_Part(), theWSDLPackage.getPart(), null, "part", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_Property(), theMessagepropertiesPackage.getProperty(), null, "property", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFrom_Query(), this.getQuery(), null, "query", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(onMessageEClass, OnMessage.class, "OnMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOnMessage_Variable(), this.getVariable(), null, "variable", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnMessage_Activity(), this.getActivity(), null, "activity", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnMessage_PortType(), theWSDLPackage.getPortType(), null, "portType", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnMessage_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnMessage_Correlations(), this.getCorrelations(), null, "correlations", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnMessage_Operation(), theWSDLPackage.getOperation(), null, "operation", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnMessage_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExpression_Body(), theEcorePackage.getEJavaObject(), "body", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpression_ExpressionLanguage(), ecorePackage.getEString(), "expressionLanguage", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpression_Opaque(), theEcorePackage.getEBooleanObject(), "opaque", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(booleanExpressionEClass, BooleanExpression.class, "BooleanExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(correlationEClass, Correlation.class, "Correlation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCorrelation_Initiate(), ecorePackage.getEString(), "initiate", "no", 0, 1, Correlation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorrelation_Pattern(), this.getCorrelationPattern(), "pattern", null, 0, 1, Correlation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCorrelation_Set(), this.getCorrelationSet(), null, "set", null, 1, 1, Correlation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(eventHandlerEClass, EventHandler.class, "EventHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEventHandler_Alarm(), this.getOnAlarm(), null, "alarm", null, 0, -1, EventHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEventHandler_Events(), this.getOnEvent(), null, "events", null, 0, -1, EventHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(sourceEClass, Source.class, "Source", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSource_Link(), this.getLink(), this.getLink_Sources(), "Link", null, 1, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSource_Activity(), this.getActivity(), null, "activity", null, 1, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSource_TransitionCondition(), this.getCondition(), null, "transitionCondition", null, 0, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(targetEClass, Target.class, "Target", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTarget_Link(), this.getLink(), this.getLink_Targets(), "Link", null, 1, 1, Target.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTarget_Activity(), this.getActivity(), null, "activity", null, 1, 1, Target.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(partnerLinksEClass, PartnerLinks.class, "PartnerLinks", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPartnerLinks_Children(), this.getPartnerLink(), null, "children", null, 0, -1, PartnerLinks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(variablesEClass, Variables.class, "Variables", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getVariables_Children(), this.getVariable(), null, "children", null, 0, -1, Variables.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(correlationSetsEClass, CorrelationSets.class, "CorrelationSets", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCorrelationSets_Children(), this.getCorrelationSet(), null, "children", null, 0, -1, CorrelationSets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(linksEClass, Links.class, "Links", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLinks_Children(), this.getLink(), null, "children", null, 0, -1, Links.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(catchAllEClass, CatchAll.class, "CatchAll", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCatchAll_Activity(), this.getActivity(), null, "activity", null, 1, 1, CatchAll.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(correlationsEClass, Correlations.class, "Correlations", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCorrelations_Children(), this.getCorrelation(), null, "children", null, 0, -1, Correlations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(variableEClass, Variable.class, "Variable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getVariable_Name(), ecorePackage.getEString(), "name", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariable_MessageType(), theWSDLPackage.getMessage(), null, "messageType", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariable_XSDElement(), theXSDPackage.getXSDElementDeclaration(), null, "XSDElement", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariable_Type(), theXSDPackage.getXSDTypeDefinition(), null, "type", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariable_From(), this.getFrom(), null, "from", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(unknownExtensibilityAttributeEClass, UnknownExtensibilityAttribute.class, "UnknownExtensibilityAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(onEventEClass, OnEvent.class, "OnEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOnEvent_Activity(), this.getActivity(), null, "activity", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_Variable(), this.getVariable(), null, "variable", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_PartnerLink(), this.getPartnerLink(), null, "partnerLink", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_Correlations(), this.getCorrelations(), null, "correlations", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_Operation(), theWSDLPackage.getOperation(), null, "operation", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_PortType(), theWSDLPackage.getPortType(), null, "portType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_MessageType(), theWSDLPackage.getMessage(), null, "messageType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_FromPart(), this.getFromPart(), null, "fromPart", null, 0, -1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOnEvent_CorrelationSets(), this.getCorrelationSets(), null, "correlationSets", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getImport_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getImport_Location(), ecorePackage.getEString(), "location", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getImport_ImportType(), ecorePackage.getEString(), "importType", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(rethrowEClass, Rethrow.class, "Rethrow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(targetsEClass, Targets.class, "Targets", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTargets_Children(), this.getTarget(), null, "children", null, 0, -1, Targets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTargets_JoinCondition(), this.getCondition(), null, "joinCondition", null, 0, 1, Targets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(sourcesEClass, Sources.class, "Sources", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSources_Children(), this.getSource(), null, "children", null, 0, -1, Sources.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(queryEClass, Query.class, "Query", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getQuery_Value(), ecorePackage.getEString(), "value", null, 0, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getQuery_QueryLanguage(), ecorePackage.getEString(), "queryLanguage", null, 0, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(serviceRefEClass, ServiceRef.class, "ServiceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getServiceRef_ReferenceScheme(), ecorePackage.getEString(), "referenceScheme", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getServiceRef_Value(), theEcorePackage.getEJavaObject(), "value", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(extensionsEClass, Extensions.class, "Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExtensions_Children(), this.getExtension(), null, "children", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(extensionActivityEClass, ExtensionActivity.class, "ExtensionActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(fromPartEClass, FromPart.class, "FromPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFromPart_Part(), theEcorePackage.getEString(), "part", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFromPart_To(), this.getTo(), null, "to", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(toPartEClass, ToPart.class, "ToPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getToPart_Part(), theEcorePackage.getEString(), "part", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getToPart_From(), this.getFrom(), null, "from", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(opaqueActivityEClass, OpaqueActivity.class, "OpaqueActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(forEachEClass, ForEach.class, "ForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getForEach_StartCounterValue(), this.getExpression(), null, "startCounterValue", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_FinalCounterValue(), this.getExpression(), null, "finalCounterValue", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getForEach_Parallel(), theEcorePackage.getEBooleanObject(), "parallel", "false", 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_CounterName(), this.getVariable(), null, "counterName", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_CompletionCondition(), this.getCompletionCondition(), null, "completionCondition", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEach_Activity(), this.getActivity(), null, "activity", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(repeatUntilEClass, RepeatUntil.class, "RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRepeatUntil_Activity(), this.getActivity(), null, "activity", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRepeatUntil_Condition(), this.getCondition(), null, "condition", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(terminationHandlerEClass, TerminationHandler.class, "TerminationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTerminationHandler_Activity(), this.getActivity(), null, "activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(validateEClass, Validate.class, "Validate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getValidate_Variables(), this.getVariable(), null, "variables", null, 0, -1, Validate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(ifEClass, If.class, "If", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIf_ElseIf(), this.getElseIf(), null, "elseIf", null, 0, -1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIf_Else(), this.getElse(), null, "else", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIf_Activity(), this.getActivity(), null, "activity", null, 1, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(elseIfEClass, ElseIf.class, "ElseIf", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getElseIf_Condition(), this.getCondition(), null, "condition", null, 0, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getElseIf_Activity(), this.getActivity(), null, "activity", null, 1, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(elseEClass, Else.class, "Else", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getElse_Activity(), this.getActivity(), null, "activity", null, 1, 1, Else.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(completionConditionEClass, CompletionCondition.class, "CompletionCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompletionCondition_Branches(), this.getBranches(), null, "branches", null, 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(branchesEClass, Branches.class, "Branches", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBranches_CountCompletedBranchesOnly(), theEcorePackage.getEBooleanObject(), "countCompletedBranchesOnly", "false", 0, 1, Branches.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(extensibleElementEClass, ExtensibleElement.class, "ExtensibleElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExtensibleElement_Documentation(), this.getDocumentation(), null, "documentation", null, 0, 1, ExtensibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(documentationEClass, Documentation.class, "Documentation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDocumentation_Lang(), theEcorePackage.getEString(), "lang", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDocumentation_Source(), theEcorePackage.getEString(), "source", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDocumentation_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(messageExchangesEClass, MessageExchanges.class, "MessageExchanges", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMessageExchanges_Children(), this.getMessageExchange(), null, "children", null, 1, -1, MessageExchanges.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(messageExchangeEClass, MessageExchange.class, "MessageExchange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMessageExchange_Name(), ecorePackage.getEString(), "name", null, 1, 1, MessageExchange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(compensateEClass, Compensate.class, "Compensate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(
+				processEClass,
+				org.eclipse.bpel.model.Process.class,
+				"Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getProcess_Name(),
+				ecorePackage.getEString(),
+				"name", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getProcess_TargetNamespace(),
+				ecorePackage.getEString(),
+				"targetNamespace", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getProcess_QueryLanguage(),
+				ecorePackage.getEString(),
+				"queryLanguage", "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(
+				getProcess_ExpressionLanguage(),
+				ecorePackage.getEString(),
+				"expressionLanguage", "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(
+				getProcess_SuppressJoinFailure(),
+				ecorePackage.getEBooleanObject(),
+				"suppressJoinFailure", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(
+				getProcess_VariableAccessSerializable(),
+				ecorePackage.getEBooleanObject(),
+				"variableAccessSerializable", "false", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(
+				getProcess_PartnerLinks(),
+				this.getPartnerLinks(),
+				null,
+				"partnerLinks", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_Variables(),
+				this.getVariables(),
+				null,
+				"variables", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_FaultHandlers(),
+				this.getFaultHandler(),
+				null,
+				"faultHandlers", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_EventHandlers(),
+				this.getEventHandler(),
+				null,
+				"eventHandlers", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_CorrelationSets(),
+				this.getCorrelationSets(),
+				null,
+				"correlationSets", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_Imports(),
+				this.getImport(),
+				null,
+				"imports", null, 0, -1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getProcess_Extensions(),
+				this.getExtensions(),
+				null,
+				"extensions", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getProcess_ExitOnStandardFault(),
+				theEcorePackage.getEBooleanObject(),
+				"exitOnStandardFault", "true", 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(
+				getProcess_MessageExchanges(),
+				this.getMessageExchanges(),
+				null,
+				"messageExchanges", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				partnerLinkEClass,
+				PartnerLink.class,
+				"PartnerLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getPartnerLink_Name(),
+				ecorePackage.getEString(),
+				"name", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPartnerLink_MyRole(),
+				thePartnerlinktypePackage.getRole(),
+				null,
+				"myRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPartnerLink_PartnerRole(),
+				thePartnerlinktypePackage.getRole(),
+				null,
+				"partnerRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPartnerLink_PartnerLinkType(),
+				thePartnerlinktypePackage.getPartnerLinkType(),
+				null,
+				"PartnerLinkType", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getPartnerLink_InitializePartnerRole(),
+				theEcorePackage.getEBooleanObject(),
+				"initializePartnerRole", null, 0, 1, PartnerLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				faultHandlerEClass,
+				FaultHandler.class,
+				"FaultHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getFaultHandler_Catch(),
+				this.getCatch(),
+				null,
+				"catch", null, 0, -1, FaultHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFaultHandler_CatchAll(),
+				this.getCatchAll(),
+				null,
+				"catchAll", null, 0, 1, FaultHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				activityEClass,
+				Activity.class,
+				"Activity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getActivity_Name(),
+				ecorePackage.getEString(),
+				"name", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getActivity_SuppressJoinFailure(),
+				ecorePackage.getEBooleanObject(),
+				"suppressJoinFailure", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getActivity_Targets(),
+				this.getTargets(),
+				null,
+				"targets", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getActivity_Sources(),
+				this.getSources(),
+				null,
+				"sources", null, 0, 1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				correlationSetEClass,
+				CorrelationSet.class,
+				"CorrelationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getCorrelationSet_Name(),
+				ecorePackage.getEString(),
+				"name", null, 0, 1, CorrelationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCorrelationSet_Properties(),
+				theMessagepropertiesPackage.getProperty(),
+				null,
+				"properties", null, 0, -1, CorrelationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				invokeEClass,
+				Invoke.class,
+				"Invoke", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getInvoke_OutputVariable(),
+				this.getVariable(),
+				null,
+				"outputVariable", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getInvoke_InputVariable(),
+				this.getVariable(),
+				null,
+				"inputVariable", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getInvoke_CompensationHandler(),
+				this.getCompensationHandler(),
+				null,
+				"compensationHandler", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getInvoke_FaultHandler(),
+				this.getFaultHandler(),
+				null,
+				"faultHandler", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getInvoke_ToPart(),
+				this.getToPart(),
+				null,
+				"toPart", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getInvoke_FromPart(),
+				this.getFromPart(),
+				null,
+				"fromPart", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				linkEClass,
+				Link.class,
+				"Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getLink_Name(),
+				ecorePackage.getEString(),
+				"name", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getLink_Sources(),
+				this.getSource(),
+				this.getSource_Link(),
+				"sources", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getLink_Targets(),
+				this.getTarget(),
+				this.getTarget_Link(),
+				"targets", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				catchEClass,
+				Catch.class,
+				"Catch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getCatch_FaultName(),
+				theWSDLPackage.getQName(),
+				"faultName", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCatch_FaultVariable(),
+				this.getVariable(),
+				null,
+				"faultVariable", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCatch_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCatch_FaultMessageType(),
+				theWSDLPackage.getMessage(),
+				null,
+				"faultMessageType", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCatch_FaultElement(),
+				theXSDPackage.getXSDElementDeclaration(),
+				null,
+				"faultElement", null, 0, 1, Catch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				replyEClass,
+				Reply.class,
+				"Reply", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getReply_FaultName(),
+				theWSDLPackage.getQName(),
+				"faultName", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getReply_Variable(),
+				this.getVariable(),
+				null,
+				"variable", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getReply_ToPart(),
+				this.getToPart(),
+				null,
+				"toPart", null, 0, -1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				partnerActivityEClass,
+				PartnerActivity.class,
+				"PartnerActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getPartnerActivity_PartnerLink(),
+				this.getPartnerLink(),
+				null,
+				"partnerLink", null, 1, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPartnerActivity_Correlations(),
+				this.getCorrelations(),
+				null,
+				"correlations", null, 0, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPartnerActivity_PortType(),
+				theWSDLPackage.getPortType(),
+				null,
+				"portType", null, 1, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPartnerActivity_Operation(),
+				theWSDLPackage.getOperation(),
+				null,
+				"operation", null, 1, 1, PartnerActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				receiveEClass,
+				Receive.class,
+				"Receive", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getReceive_CreateInstance(),
+				ecorePackage.getEBooleanObject(),
+				"createInstance", "false", 0, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(
+				getReceive_Variable(),
+				this.getVariable(),
+				null,
+				"variable", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getReceive_FromPart(),
+				this.getFromPart(),
+				null,
+				"fromPart", null, 0, -1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				exitEClass,
+				Exit.class,
+				"Exit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				throwEClass,
+				Throw.class,
+				"Throw", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getThrow_FaultName(),
+				theWSDLPackage.getQName(),
+				"faultName", null, 0, 1, Throw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getThrow_FaultVariable(),
+				this.getVariable(),
+				null,
+				"faultVariable", null, 0, 1, Throw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				waitEClass,
+				Wait.class,
+				"Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getWait_For(),
+				this.getExpression(),
+				null,
+				"for", null, 0, 1, Wait.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getWait_Until(),
+				this.getExpression(),
+				null,
+				"until", null, 0, 1, Wait.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				emptyEClass,
+				Empty.class,
+				"Empty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				sequenceEClass,
+				Sequence.class,
+				"Sequence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getSequence_Activities(),
+				this.getActivity(),
+				null,
+				"activities", null, 1, -1, Sequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				whileEClass,
+				While.class,
+				"While", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getWhile_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, While.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getWhile_Condition(),
+				this.getCondition(),
+				null,
+				"condition", null, 1, 1, While.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				pickEClass,
+				Pick.class,
+				"Pick", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getPick_CreateInstance(),
+				ecorePackage.getEBooleanObject(),
+				"createInstance", "false", 0, 1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(
+				getPick_Messages(),
+				this.getOnMessage(),
+				null,
+				"messages", null, 1, -1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getPick_Alarm(),
+				this.getOnAlarm(),
+				null,
+				"alarm", null, 0, -1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				flowEClass,
+				Flow.class,
+				"Flow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getFlow_Activities(),
+				this.getActivity(),
+				null,
+				"activities", null, 1, -1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFlow_Links(),
+				this.getLinks(),
+				null,
+				"links", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFlow_CompletionCondition(),
+				this.getCompletionCondition(),
+				null,
+				"completionCondition", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				onAlarmEClass,
+				OnAlarm.class,
+				"OnAlarm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getOnAlarm_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnAlarm_For(),
+				this.getExpression(),
+				null,
+				"for", null, 0, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnAlarm_Until(),
+				this.getExpression(),
+				null,
+				"until", null, 0, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnAlarm_RepeatEvery(),
+				this.getExpression(),
+				null,
+				"repeatEvery", null, 0, 1, OnAlarm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				assignEClass,
+				Assign.class,
+				"Assign", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getAssign_Copy(),
+				this.getCopy(),
+				null,
+				"copy", null, 1, -1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getAssign_Validate(),
+				theEcorePackage.getEBooleanObject(),
+				"validate", "false", 0, 1, Assign.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(
+				copyEClass,
+				Copy.class,
+				"Copy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCopy_To(),
+				this.getTo(),
+				null,
+				"to", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCopy_From(),
+				this.getFrom(),
+				null,
+				"from", null, 1, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getCopy_KeepSrcElementName(),
+				ecorePackage.getEBooleanObject(),
+				"keepSrcElementName", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(
+				getCopy_IgnoreMissingFromData(),
+				ecorePackage.getEBooleanObject(),
+				"ignoreMissingFromData", "false", 0, 1, Copy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(
+				extensionEClass,
+				Extension.class,
+				"Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getExtension_Namespace(),
+				ecorePackage.getEString(),
+				"namespace", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getExtension_MustUnderstand(),
+				ecorePackage.getEBooleanObject(),
+				"mustUnderstand", "false", 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(
+				scopeEClass,
+				Scope.class,
+				"Scope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getScope_Isolated(),
+				ecorePackage.getEBooleanObject(),
+				"isolated", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(
+				getScope_FaultHandlers(),
+				this.getFaultHandler(),
+				null,
+				"faultHandlers", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_CompensationHandler(),
+				this.getCompensationHandler(),
+				null,
+				"compensationHandler", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_Variables(),
+				this.getVariables(),
+				null,
+				"variables", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_CorrelationSets(),
+				this.getCorrelationSets(),
+				null,
+				"correlationSets", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_EventHandlers(),
+				this.getEventHandler(),
+				null,
+				"eventHandlers", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_PartnerLinks(),
+				this.getPartnerLinks(),
+				null,
+				"partnerLinks", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_TerminationHandler(),
+				this.getTerminationHandler(),
+				null,
+				"terminationHandler", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getScope_MessageExchanges(),
+				this.getMessageExchanges(),
+				null,
+				"messageExchanges", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getScope_ExitOnStandardFault(),
+				ecorePackage.getEBooleanObject(),
+				"exitOnStandardFault", "false", 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(
+				compensateScopeEClass,
+				CompensateScope.class,
+				"CompensateScope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCompensateScope_Target(),
+				this.getActivity(),
+				null,
+				"target", null, 0, 1, CompensateScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				compensationHandlerEClass,
+				CompensationHandler.class,
+				"CompensationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCompensationHandler_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, CompensationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(toEClass, To.class,
+				"To", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getTo_Variable(),
+				this.getVariable(),
+				null,
+				"variable", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTo_Part(),
+				theWSDLPackage.getPart(),
+				null,
+				"part", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTo_PartnerLink(),
+				this.getPartnerLink(),
+				null,
+				"partnerLink", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTo_Property(),
+				theMessagepropertiesPackage.getProperty(),
+				null,
+				"property", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTo_Query(),
+				this.getQuery(),
+				null,
+				"query", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTo_Expression(),
+				this.getExpression(),
+				null,
+				"expression", null, 0, 1, To.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				fromEClass,
+				From.class,
+				"From", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getFrom_Opaque(),
+				ecorePackage.getEBooleanObject(),
+				"opaque", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getFrom_EndpointReference(),
+				this.getEndpointReferenceRole(),
+				"endpointReference", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getFrom_Literal(),
+				ecorePackage.getEString(),
+				"literal", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getFrom_UnsafeLiteral(),
+				ecorePackage.getEBooleanObject(),
+				"unsafeLiteral", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_Expression(),
+				this.getExpression(),
+				null,
+				"expression", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_ServiceRef(),
+				this.getServiceRef(),
+				null,
+				"serviceRef", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_Type(),
+				theXSDPackage.getXSDTypeDefinition(),
+				null,
+				"type", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_Variable(),
+				this.getVariable(),
+				null,
+				"variable", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_Part(),
+				theWSDLPackage.getPart(),
+				null,
+				"part", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_PartnerLink(),
+				this.getPartnerLink(),
+				null,
+				"partnerLink", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_Property(),
+				theMessagepropertiesPackage.getProperty(),
+				null,
+				"property", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFrom_Query(),
+				this.getQuery(),
+				null,
+				"query", null, 0, 1, From.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				onMessageEClass,
+				OnMessage.class,
+				"OnMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_Variable(),
+				this.getVariable(),
+				null,
+				"variable", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_PortType(),
+				theWSDLPackage.getPortType(),
+				null,
+				"portType", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_PartnerLink(),
+				this.getPartnerLink(),
+				null,
+				"partnerLink", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_Correlations(),
+				this.getCorrelations(),
+				null,
+				"correlations", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_Operation(),
+				theWSDLPackage.getOperation(),
+				null,
+				"operation", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnMessage_FromPart(),
+				this.getFromPart(),
+				null,
+				"fromPart", null, 0, -1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				expressionEClass,
+				Expression.class,
+				"Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getExpression_Body(),
+				theEcorePackage.getEJavaObject(),
+				"body", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getExpression_ExpressionLanguage(),
+				ecorePackage.getEString(),
+				"expressionLanguage", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getExpression_Opaque(),
+				theEcorePackage.getEBooleanObject(),
+				"opaque", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				booleanExpressionEClass,
+				BooleanExpression.class,
+				"BooleanExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				correlationEClass,
+				Correlation.class,
+				"Correlation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getCorrelation_Initiate(),
+				ecorePackage.getEString(),
+				"initiate", "no", 0, 1, Correlation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(
+				getCorrelation_Pattern(),
+				this.getCorrelationPattern(),
+				"pattern", null, 0, 1, Correlation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getCorrelation_Set(),
+				this.getCorrelationSet(),
+				null,
+				"set", null, 1, 1, Correlation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				eventHandlerEClass,
+				EventHandler.class,
+				"EventHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getEventHandler_Alarm(),
+				this.getOnAlarm(),
+				null,
+				"alarm", null, 0, -1, EventHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getEventHandler_Events(),
+				this.getOnEvent(),
+				null,
+				"events", null, 0, -1, EventHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				sourceEClass,
+				Source.class,
+				"Source", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getSource_Link(),
+				this.getLink(),
+				this.getLink_Sources(),
+				"Link", null, 1, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getSource_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getSource_TransitionCondition(),
+				this.getCondition(),
+				null,
+				"transitionCondition", null, 0, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				targetEClass,
+				Target.class,
+				"Target", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getTarget_Link(),
+				this.getLink(),
+				this.getLink_Targets(),
+				"Link", null, 1, 1, Target.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTarget_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, Target.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				partnerLinksEClass,
+				PartnerLinks.class,
+				"PartnerLinks", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getPartnerLinks_Children(),
+				this.getPartnerLink(),
+				null,
+				"children", null, 0, -1, PartnerLinks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				variablesEClass,
+				Variables.class,
+				"Variables", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getVariables_Children(),
+				this.getVariable(),
+				null,
+				"children", null, 0, -1, Variables.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				correlationSetsEClass,
+				CorrelationSets.class,
+				"CorrelationSets", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCorrelationSets_Children(),
+				this.getCorrelationSet(),
+				null,
+				"children", null, 0, -1, CorrelationSets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				linksEClass,
+				Links.class,
+				"Links", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getLinks_Children(),
+				this.getLink(),
+				null,
+				"children", null, 0, -1, Links.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				catchAllEClass,
+				CatchAll.class,
+				"CatchAll", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCatchAll_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, CatchAll.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				correlationsEClass,
+				Correlations.class,
+				"Correlations", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCorrelations_Children(),
+				this.getCorrelation(),
+				null,
+				"children", null, 0, -1, Correlations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				variableEClass,
+				Variable.class,
+				"Variable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getVariable_Name(),
+				ecorePackage.getEString(),
+				"name", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getVariable_MessageType(),
+				theWSDLPackage.getMessage(),
+				null,
+				"messageType", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getVariable_XSDElement(),
+				theXSDPackage.getXSDElementDeclaration(),
+				null,
+				"XSDElement", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getVariable_Type(),
+				theXSDPackage.getXSDTypeDefinition(),
+				null,
+				"type", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getVariable_From(),
+				this.getFrom(),
+				null,
+				"from", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				unknownExtensibilityAttributeEClass,
+				UnknownExtensibilityAttribute.class,
+				"UnknownExtensibilityAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				onEventEClass,
+				OnEvent.class,
+				"OnEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_Variable(),
+				this.getVariable(),
+				null,
+				"variable", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_PartnerLink(),
+				this.getPartnerLink(),
+				null,
+				"partnerLink", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_Correlations(),
+				this.getCorrelations(),
+				null,
+				"correlations", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_Operation(),
+				theWSDLPackage.getOperation(),
+				null,
+				"operation", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_PortType(),
+				theWSDLPackage.getPortType(),
+				null,
+				"portType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_MessageType(),
+				theWSDLPackage.getMessage(),
+				null,
+				"messageType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_FromPart(),
+				this.getFromPart(),
+				null,
+				"fromPart", null, 0, -1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_CorrelationSets(),
+				this.getCorrelationSets(),
+				null,
+				"correlationSets", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				importEClass,
+				Import.class,
+				"Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getImport_Namespace(),
+				ecorePackage.getEString(),
+				"namespace", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getImport_Location(),
+				ecorePackage.getEString(),
+				"location", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getImport_ImportType(),
+				ecorePackage.getEString(),
+				"importType", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				rethrowEClass,
+				Rethrow.class,
+				"Rethrow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				conditionEClass,
+				Condition.class,
+				"Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				targetsEClass,
+				Targets.class,
+				"Targets", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getTargets_Children(),
+				this.getTarget(),
+				null,
+				"children", null, 0, -1, Targets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getTargets_JoinCondition(),
+				this.getCondition(),
+				null,
+				"joinCondition", null, 0, 1, Targets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				sourcesEClass,
+				Sources.class,
+				"Sources", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getSources_Children(),
+				this.getSource(),
+				null,
+				"children", null, 0, -1, Sources.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				queryEClass,
+				Query.class,
+				"Query", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getQuery_Value(),
+				ecorePackage.getEString(),
+				"value", null, 0, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getQuery_QueryLanguage(),
+				ecorePackage.getEString(),
+				"queryLanguage", null, 0, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				serviceRefEClass,
+				ServiceRef.class,
+				"ServiceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getServiceRef_ReferenceScheme(),
+				ecorePackage.getEString(),
+				"referenceScheme", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getServiceRef_Value(),
+				theEcorePackage.getEJavaObject(),
+				"value", null, 0, 1, ServiceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				extensionsEClass,
+				Extensions.class,
+				"Extensions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getExtensions_Children(),
+				this.getExtension(),
+				null,
+				"children", null, 0, -1, Extensions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				extensionActivityEClass,
+				ExtensionActivity.class,
+				"ExtensionActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				fromPartEClass,
+				FromPart.class,
+				"FromPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getFromPart_Part(),
+				theEcorePackage.getEString(),
+				"part", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFromPart_To(),
+				this.getTo(),
+				null,
+				"to", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				toPartEClass,
+				ToPart.class,
+				"ToPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getToPart_Part(),
+				theEcorePackage.getEString(),
+				"part", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getToPart_From(),
+				this.getFrom(),
+				null,
+				"from", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				opaqueActivityEClass,
+				OpaqueActivity.class,
+				"OpaqueActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				forEachEClass,
+				ForEach.class,
+				"ForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getForEach_StartCounterValue(),
+				this.getExpression(),
+				null,
+				"startCounterValue", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getForEach_FinalCounterValue(),
+				this.getExpression(),
+				null,
+				"finalCounterValue", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getForEach_Parallel(),
+				theEcorePackage.getEBooleanObject(),
+				"parallel", "false", 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference(
+				getForEach_CounterName(),
+				this.getVariable(),
+				null,
+				"counterName", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getForEach_CompletionCondition(),
+				this.getCompletionCondition(),
+				null,
+				"completionCondition", null, 0, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getForEach_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, ForEach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				repeatUntilEClass,
+				RepeatUntil.class,
+				"RepeatUntil", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getRepeatUntil_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getRepeatUntil_Condition(),
+				this.getCondition(),
+				null,
+				"condition", null, 1, 1, RepeatUntil.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				terminationHandlerEClass,
+				TerminationHandler.class,
+				"TerminationHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getTerminationHandler_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 0, 1, TerminationHandler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				validateEClass,
+				Validate.class,
+				"Validate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getValidate_Variables(),
+				this.getVariable(),
+				null,
+				"variables", null, 0, -1, Validate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(ifEClass, If.class,
+				"If", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getIf_Condition(),
+				this.getCondition(),
+				null,
+				"condition", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getIf_ElseIf(),
+				this.getElseIf(),
+				null,
+				"elseIf", null, 0, -1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getIf_Else(),
+				this.getElse(),
+				null,
+				"else", null, 0, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getIf_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, If.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				elseIfEClass,
+				ElseIf.class,
+				"ElseIf", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getElseIf_Condition(),
+				this.getCondition(),
+				null,
+				"condition", null, 0, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getElseIf_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, ElseIf.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				elseEClass,
+				Else.class,
+				"Else", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getElse_Activity(),
+				this.getActivity(),
+				null,
+				"activity", null, 1, 1, Else.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				completionConditionEClass,
+				CompletionCondition.class,
+				"CompletionCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getCompletionCondition_Branches(),
+				this.getBranches(),
+				null,
+				"branches", null, 0, 1, CompletionCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				branchesEClass,
+				Branches.class,
+				"Branches", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getBranches_CountCompletedBranchesOnly(),
+				theEcorePackage.getEBooleanObject(),
+				"countCompletedBranchesOnly", "false", 0, 1, Branches.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(
+				extensibleElementEClass,
+				ExtensibleElement.class,
+				"ExtensibleElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getExtensibleElement_Documentation(),
+				this.getDocumentation(),
+				null,
+				"documentation", null, 0, 1, ExtensibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				documentationEClass,
+				Documentation.class,
+				"Documentation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getDocumentation_Lang(),
+				theEcorePackage.getEString(),
+				"lang", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getDocumentation_Source(),
+				theEcorePackage.getEString(),
+				"source", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getDocumentation_Value(),
+				theEcorePackage.getEString(),
+				"value", null, 0, 1, Documentation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				messageExchangesEClass,
+				MessageExchanges.class,
+				"MessageExchanges", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getMessageExchanges_Children(),
+				this.getMessageExchange(),
+				null,
+				"children", null, 1, -1, MessageExchanges.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				messageExchangeEClass,
+				MessageExchange.class,
+				"MessageExchange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getMessageExchange_Name(),
+				ecorePackage.getEString(),
+				"name", null, 1, 1, MessageExchange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				compensateEClass,
+				Compensate.class,
+				"Compensate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
 		// Initialize enums and add enum literals
-		initEEnum(correlationPatternEEnum, CorrelationPattern.class, "CorrelationPattern");
+		initEEnum(correlationPatternEEnum, CorrelationPattern.class,
+				"CorrelationPattern"); //$NON-NLS-1$
 		addEEnumLiteral(correlationPatternEEnum, CorrelationPattern.IN_LITERAL);
 		addEEnumLiteral(correlationPatternEEnum, CorrelationPattern.OUT_LITERAL);
-		addEEnumLiteral(correlationPatternEEnum, CorrelationPattern.OUTIN_LITERAL);
+		addEEnumLiteral(correlationPatternEEnum,
+				CorrelationPattern.OUTIN_LITERAL);
 
-		initEEnum(endpointReferenceRoleEEnum, EndpointReferenceRole.class, "EndpointReferenceRole");
-		addEEnumLiteral(endpointReferenceRoleEEnum, EndpointReferenceRole.MY_ROLE_LITERAL);
-		addEEnumLiteral(endpointReferenceRoleEEnum, EndpointReferenceRole.PARTNER_ROLE_LITERAL);
+		initEEnum(endpointReferenceRoleEEnum, EndpointReferenceRole.class,
+				"EndpointReferenceRole"); //$NON-NLS-1$
+		addEEnumLiteral(endpointReferenceRoleEEnum,
+				EndpointReferenceRole.MY_ROLE_LITERAL);
+		addEEnumLiteral(endpointReferenceRoleEEnum,
+				EndpointReferenceRole.PARTNER_ROLE_LITERAL);
 
 		// Create resource
 		createResource(eNS_URI);

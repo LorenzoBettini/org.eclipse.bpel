@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetsImpl.java,v 1.4 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: TargetsImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -55,7 +55,7 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList children;
+	protected EList<Target> children;
 
 	/**
 	 * The cached value of the '{@link #getJoinCondition() <em>Join Condition</em>}' containment reference.
@@ -81,6 +81,7 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.TARGETS;
 	}
@@ -90,9 +91,10 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getChildren() {
+	public EList<Target> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList(Target.class, this, BPELPackage.TARGETS__CHILDREN);
+			children = new EObjectContainmentEList<Target>(Target.class, this,
+					BPELPackage.TARGETS__CHILDREN);
 		}
 		return children;
 	}
@@ -111,12 +113,18 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetJoinCondition(Condition newJoinCondition, NotificationChain msgs) {
+	public NotificationChain basicSetJoinCondition(Condition newJoinCondition,
+			NotificationChain msgs) {
 		Condition oldJoinCondition = joinCondition;
 		joinCondition = newJoinCondition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.TARGETS__JOIN_CONDITION, oldJoinCondition, newJoinCondition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.TARGETS__JOIN_CONDITION,
+					oldJoinCondition, newJoinCondition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -130,14 +138,22 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 		if (newJoinCondition != joinCondition) {
 			NotificationChain msgs = null;
 			if (joinCondition != null)
-				msgs = ((InternalEObject)joinCondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TARGETS__JOIN_CONDITION, null, msgs);
+				msgs = ((InternalEObject) joinCondition).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.TARGETS__JOIN_CONDITION, null,
+						msgs);
 			if (newJoinCondition != null)
-				msgs = ((InternalEObject)newJoinCondition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.TARGETS__JOIN_CONDITION, null, msgs);
+				msgs = ((InternalEObject) newJoinCondition).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.TARGETS__JOIN_CONDITION, null,
+						msgs);
 			msgs = basicSetJoinCondition(newJoinCondition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TARGETS__JOIN_CONDITION, newJoinCondition, newJoinCondition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TARGETS__JOIN_CONDITION, newJoinCondition,
+					newJoinCondition));
 	}
 
 	/**
@@ -145,10 +161,13 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.TARGETS__CHILDREN:
-				return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.TARGETS__JOIN_CONDITION:
 				return basicSetJoinCondition(null, msgs);
 		}
@@ -160,6 +179,7 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.TARGETS__CHILDREN:
@@ -175,14 +195,16 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.TARGETS__CHILDREN:
 				getChildren().clear();
-				getChildren().addAll((Collection)newValue);
+				getChildren().addAll((Collection<? extends Target>) newValue);
 				return;
 			case BPELPackage.TARGETS__JOIN_CONDITION:
-				setJoinCondition((Condition)newValue);
+				setJoinCondition((Condition) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -193,13 +215,14 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TARGETS__CHILDREN:
 				getChildren().clear();
 				return;
 			case BPELPackage.TARGETS__JOIN_CONDITION:
-				setJoinCondition((Condition)null);
+				setJoinCondition((Condition) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -210,6 +233,7 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TARGETS__CHILDREN:

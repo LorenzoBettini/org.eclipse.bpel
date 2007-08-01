@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetsImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: CorrelationSetsImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -42,7 +42,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class CorrelationSetsImpl extends ExtensibleElementImpl implements CorrelationSets {
+public class CorrelationSetsImpl extends ExtensibleElementImpl implements
+		CorrelationSets {
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -51,7 +52,7 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * @generated
 	 * @ordered
 	 */
-	protected EList children;
+	protected EList<CorrelationSet> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -67,6 +68,7 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.CORRELATION_SETS;
 	}
@@ -76,9 +78,11 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getChildren() {
+	public EList<CorrelationSet> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList(CorrelationSet.class, this, BPELPackage.CORRELATION_SETS__CHILDREN);
+			children = new EObjectContainmentEList<CorrelationSet>(
+					CorrelationSet.class, this,
+					BPELPackage.CORRELATION_SETS__CHILDREN);
 		}
 		return children;
 	}
@@ -88,10 +92,13 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SETS__CHILDREN:
-				return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -101,6 +108,7 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SETS__CHILDREN:
@@ -114,11 +122,14 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SETS__CHILDREN:
 				getChildren().clear();
-				getChildren().addAll((Collection)newValue);
+				getChildren().addAll(
+						(Collection<? extends CorrelationSet>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -129,6 +140,7 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SETS__CHILDREN:
@@ -143,6 +155,7 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements Correl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SETS__CHILDREN:

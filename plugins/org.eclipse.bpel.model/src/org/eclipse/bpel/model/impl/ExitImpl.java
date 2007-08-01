@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExitImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ExitImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -44,6 +44,7 @@ public class ExitImpl extends ActivityImpl implements Exit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EXIT;
 	}

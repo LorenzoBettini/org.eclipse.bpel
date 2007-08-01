@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExtensionImpl.java,v 1.6 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ExtensionImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -106,6 +106,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EXTENSION;
 	}
@@ -128,7 +129,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 		String oldNamespace = namespace;
 		namespace = newNamespace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXTENSION__NAMESPACE, oldNamespace, namespace));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.EXTENSION__NAMESPACE, oldNamespace, namespace));
 	}
 
 	/**
@@ -151,7 +153,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 		boolean oldMustUnderstandESet = mustUnderstandESet;
 		mustUnderstandESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.EXTENSION__MUST_UNDERSTAND, oldMustUnderstand, mustUnderstand, !oldMustUnderstandESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.EXTENSION__MUST_UNDERSTAND, oldMustUnderstand,
+					mustUnderstand, !oldMustUnderstandESet));
 	}
 
 	/**
@@ -165,7 +169,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 		mustUnderstand = MUST_UNDERSTAND_EDEFAULT;
 		mustUnderstandESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.EXTENSION__MUST_UNDERSTAND, oldMustUnderstand, MUST_UNDERSTAND_EDEFAULT, oldMustUnderstandESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.EXTENSION__MUST_UNDERSTAND, oldMustUnderstand,
+					MUST_UNDERSTAND_EDEFAULT, oldMustUnderstandESet));
 	}
 
 	/**
@@ -182,6 +188,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
@@ -197,13 +204,14 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
-				setNamespace((String)newValue);
+				setNamespace((String) newValue);
 				return;
 			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
-				setMustUnderstand((Boolean)newValue);
+				setMustUnderstand((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -214,6 +222,7 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
@@ -231,10 +240,12 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EXTENSION__NAMESPACE:
-				return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
+				return NAMESPACE_EDEFAULT == null ? namespace != null
+						: !NAMESPACE_EDEFAULT.equals(namespace);
 			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
 				return isSetMustUnderstand();
 		}
@@ -246,14 +257,19 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (namespace: ");
+		result.append(" (namespace: "); //$NON-NLS-1$
 		result.append(namespace);
-		result.append(", mustUnderstand: ");
-		if (mustUnderstandESet) result.append(mustUnderstand); else result.append("<unset>");
+		result.append(", mustUnderstand: "); //$NON-NLS-1$
+		if (mustUnderstandESet)
+			result.append(mustUnderstand);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

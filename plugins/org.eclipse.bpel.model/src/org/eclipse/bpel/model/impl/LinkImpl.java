@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinkImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: LinkImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -76,7 +76,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList sources;
+	protected EList<Source> sources;
 
 	/**
 	 * The cached value of the '{@link #getTargets() <em>Targets</em>}' reference list.
@@ -86,7 +86,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList targets;
+	protected EList<Target> targets;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -102,6 +102,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.LINK;
 	}
@@ -124,7 +125,8 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.LINK__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.LINK__NAME, oldName, name));
 	}
 
 	/**
@@ -132,9 +134,11 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getSources() {
+	public EList<Source> getSources() {
 		if (sources == null) {
-			sources = new EObjectWithInverseResolvingEList(Source.class, this, BPELPackage.LINK__SOURCES, BPELPackage.SOURCE__LINK);
+			sources = new EObjectWithInverseResolvingEList<Source>(
+					Source.class, this, BPELPackage.LINK__SOURCES,
+					BPELPackage.SOURCE__LINK);
 		}
 		return sources;
 	}
@@ -144,9 +148,11 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getTargets() {
+	public EList<Target> getTargets() {
 		if (targets == null) {
-			targets = new EObjectWithInverseResolvingEList(Target.class, this, BPELPackage.LINK__TARGETS, BPELPackage.TARGET__LINK);
+			targets = new EObjectWithInverseResolvingEList<Target>(
+					Target.class, this, BPELPackage.LINK__TARGETS,
+					BPELPackage.TARGET__LINK);
 		}
 		return targets;
 	}
@@ -156,12 +162,17 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.LINK__SOURCES:
-				return ((InternalEList)getSources()).basicAdd(otherEnd, msgs);
+				return ((InternalEList<InternalEObject>) (InternalEList<?>) getSources())
+						.basicAdd(otherEnd, msgs);
 			case BPELPackage.LINK__TARGETS:
-				return ((InternalEList)getTargets()).basicAdd(otherEnd, msgs);
+				return ((InternalEList<InternalEObject>) (InternalEList<?>) getTargets())
+						.basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -171,12 +182,16 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.LINK__SOURCES:
-				return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getSources()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.LINK__TARGETS:
-				return ((InternalEList)getTargets()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getTargets()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -186,6 +201,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.LINK__NAME:
@@ -203,18 +219,20 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.LINK__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case BPELPackage.LINK__SOURCES:
 				getSources().clear();
-				getSources().addAll((Collection)newValue);
+				getSources().addAll((Collection<? extends Source>) newValue);
 				return;
 			case BPELPackage.LINK__TARGETS:
 				getTargets().clear();
-				getTargets().addAll((Collection)newValue);
+				getTargets().addAll((Collection<? extends Target>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -225,6 +243,7 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.LINK__NAME:
@@ -245,10 +264,12 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.LINK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case BPELPackage.LINK__SOURCES:
 				return sources != null && !sources.isEmpty();
 			case BPELPackage.LINK__TARGETS:
@@ -262,11 +283,13 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
 		return result.toString();

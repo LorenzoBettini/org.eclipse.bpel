@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ImportImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -126,6 +126,7 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.IMPORT;
 	}
@@ -148,7 +149,8 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 		String oldNamespace = namespace;
 		namespace = newNamespace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.IMPORT__NAMESPACE, oldNamespace, namespace));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.IMPORT__NAMESPACE, oldNamespace, namespace));
 	}
 
 	/**
@@ -169,7 +171,8 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 		String oldLocation = location;
 		location = newLocation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.IMPORT__LOCATION, oldLocation, location));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.IMPORT__LOCATION, oldLocation, location));
 	}
 
 	/**
@@ -190,7 +193,8 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 		String oldImportType = importType;
 		importType = newImportType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.IMPORT__IMPORT_TYPE, oldImportType, importType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.IMPORT__IMPORT_TYPE, oldImportType, importType));
 	}
 
 	/**
@@ -198,6 +202,7 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.IMPORT__NAMESPACE:
@@ -215,16 +220,17 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.IMPORT__NAMESPACE:
-				setNamespace((String)newValue);
+				setNamespace((String) newValue);
 				return;
 			case BPELPackage.IMPORT__LOCATION:
-				setLocation((String)newValue);
+				setLocation((String) newValue);
 				return;
 			case BPELPackage.IMPORT__IMPORT_TYPE:
-				setImportType((String)newValue);
+				setImportType((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -235,6 +241,7 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.IMPORT__NAMESPACE:
@@ -255,14 +262,18 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.IMPORT__NAMESPACE:
-				return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
+				return NAMESPACE_EDEFAULT == null ? namespace != null
+						: !NAMESPACE_EDEFAULT.equals(namespace);
 			case BPELPackage.IMPORT__LOCATION:
-				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
+				return LOCATION_EDEFAULT == null ? location != null
+						: !LOCATION_EDEFAULT.equals(location);
 			case BPELPackage.IMPORT__IMPORT_TYPE:
-				return IMPORT_TYPE_EDEFAULT == null ? importType != null : !IMPORT_TYPE_EDEFAULT.equals(importType);
+				return IMPORT_TYPE_EDEFAULT == null ? importType != null
+						: !IMPORT_TYPE_EDEFAULT.equals(importType);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -272,15 +283,17 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (namespace: ");
+		result.append(" (namespace: "); //$NON-NLS-1$
 		result.append(namespace);
-		result.append(", location: ");
+		result.append(", location: "); //$NON-NLS-1$
 		result.append(location);
-		result.append(", importType: ");
+		result.append(", importType: "); //$NON-NLS-1$
 		result.append(importType);
 		result.append(')');
 		return result.toString();

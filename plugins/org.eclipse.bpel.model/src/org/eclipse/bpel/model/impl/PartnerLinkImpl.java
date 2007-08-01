@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.6 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PartnerLinkImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -47,7 +47,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLink {
+public class PartnerLinkImpl extends ExtensibleElementImpl implements
+		PartnerLink {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -141,6 +142,7 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.PARTNER_LINK;
 	}
@@ -163,7 +165,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_LINK__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_LINK__NAME, oldName, name));
 	}
 
 	/**
@@ -173,11 +176,13 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 */
 	public Role getMyRole() {
 		if (myRole != null && myRole.eIsProxy()) {
-			InternalEObject oldMyRole = (InternalEObject)myRole;
-			myRole = (Role)eResolveProxy(oldMyRole);
+			InternalEObject oldMyRole = (InternalEObject) myRole;
+			myRole = (Role) eResolveProxy(oldMyRole);
 			if (myRole != oldMyRole) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_LINK__MY_ROLE, oldMyRole, myRole));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PARTNER_LINK__MY_ROLE, oldMyRole,
+							myRole));
 			}
 		}
 		return myRole;
@@ -201,7 +206,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		Role oldMyRole = myRole;
 		myRole = newMyRole;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_LINK__MY_ROLE, oldMyRole, myRole));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_LINK__MY_ROLE, oldMyRole, myRole));
 	}
 
 	/**
@@ -211,11 +217,13 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 */
 	public Role getPartnerRole() {
 		if (partnerRole != null && partnerRole.eIsProxy()) {
-			InternalEObject oldPartnerRole = (InternalEObject)partnerRole;
-			partnerRole = (Role)eResolveProxy(oldPartnerRole);
+			InternalEObject oldPartnerRole = (InternalEObject) partnerRole;
+			partnerRole = (Role) eResolveProxy(oldPartnerRole);
 			if (partnerRole != oldPartnerRole) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_LINK__PARTNER_ROLE, oldPartnerRole, partnerRole));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PARTNER_LINK__PARTNER_ROLE,
+							oldPartnerRole, partnerRole));
 			}
 		}
 		return partnerRole;
@@ -239,7 +247,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		Role oldPartnerRole = partnerRole;
 		partnerRole = newPartnerRole;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_LINK__PARTNER_ROLE, oldPartnerRole, partnerRole));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_LINK__PARTNER_ROLE, oldPartnerRole,
+					partnerRole));
 	}
 
 	/**
@@ -249,11 +259,13 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 */
 	public PartnerLinkType getPartnerLinkType() {
 		if (partnerLinkType != null && partnerLinkType.eIsProxy()) {
-			InternalEObject oldPartnerLinkType = (InternalEObject)partnerLinkType;
-			partnerLinkType = (PartnerLinkType)eResolveProxy(oldPartnerLinkType);
+			InternalEObject oldPartnerLinkType = (InternalEObject) partnerLinkType;
+			partnerLinkType = (PartnerLinkType) eResolveProxy(oldPartnerLinkType);
 			if (partnerLinkType != oldPartnerLinkType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE, oldPartnerLinkType, partnerLinkType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE,
+							oldPartnerLinkType, partnerLinkType));
 			}
 		}
 		return partnerLinkType;
@@ -277,7 +289,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		PartnerLinkType oldPartnerLinkType = partnerLinkType;
 		partnerLinkType = newPartnerLinkType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE, oldPartnerLinkType, partnerLinkType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE,
+					oldPartnerLinkType, partnerLinkType));
 	}
 
 	/**
@@ -300,7 +314,10 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		boolean oldInitializePartnerRoleESet = initializePartnerRoleESet;
 		initializePartnerRoleESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE, oldInitializePartnerRole, initializePartnerRole, !oldInitializePartnerRoleESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE,
+					oldInitializePartnerRole, initializePartnerRole,
+					!oldInitializePartnerRoleESet));
 	}
 
 	/**
@@ -314,7 +331,10 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 		initializePartnerRole = INITIALIZE_PARTNER_ROLE_EDEFAULT;
 		initializePartnerRoleESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE, oldInitializePartnerRole, INITIALIZE_PARTNER_ROLE_EDEFAULT, oldInitializePartnerRoleESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE,
+					oldInitializePartnerRole, INITIALIZE_PARTNER_ROLE_EDEFAULT,
+					oldInitializePartnerRoleESet));
 	}
 
 	/**
@@ -331,18 +351,22 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_LINK__NAME:
 				return getName();
 			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				if (resolve) return getMyRole();
+				if (resolve)
+					return getMyRole();
 				return basicGetMyRole();
 			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				if (resolve) return getPartnerRole();
+				if (resolve)
+					return getPartnerRole();
 				return basicGetPartnerRole();
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				if (resolve) return getPartnerLinkType();
+				if (resolve)
+					return getPartnerLinkType();
 				return basicGetPartnerLinkType();
 			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
 				return getInitializePartnerRole();
@@ -355,22 +379,23 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_LINK__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				setMyRole((Role)newValue);
+				setMyRole((Role) newValue);
 				return;
 			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				setPartnerRole((Role)newValue);
+				setPartnerRole((Role) newValue);
 				return;
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				setPartnerLinkType((PartnerLinkType)newValue);
+				setPartnerLinkType((PartnerLinkType) newValue);
 				return;
 			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
-				setInitializePartnerRole((Boolean)newValue);
+				setInitializePartnerRole((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -381,19 +406,20 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_LINK__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				setMyRole((Role)null);
+				setMyRole((Role) null);
 				return;
 			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				setPartnerRole((Role)null);
+				setPartnerRole((Role) null);
 				return;
 			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				setPartnerLinkType((PartnerLinkType)null);
+				setPartnerLinkType((PartnerLinkType) null);
 				return;
 			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
 				unsetInitializePartnerRole();
@@ -407,10 +433,12 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PARTNER_LINK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case BPELPackage.PARTNER_LINK__MY_ROLE:
 				return myRole != null;
 			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
@@ -428,14 +456,19 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements PartnerLin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", initializePartnerRole: ");
-		if (initializePartnerRoleESet) result.append(initializePartnerRole); else result.append("<unset>");
+		result.append(", initializePartnerRole: "); //$NON-NLS-1$
+		if (initializePartnerRoleESet)
+			result.append(initializePartnerRole);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

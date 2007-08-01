@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactory.java,v 1.19 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: BPELFactory.java,v 1.20 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.bpel.model.BPELPackage
  * @generated
  */
-public interface BPELFactory extends EFactory{
+public interface BPELFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->

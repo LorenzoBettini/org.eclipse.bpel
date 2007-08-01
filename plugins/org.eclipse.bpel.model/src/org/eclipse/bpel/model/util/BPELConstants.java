@@ -17,11 +17,14 @@ package org.eclipse.bpel.model.util;
 @SuppressWarnings("nls")
 public class BPELConstants {
 	
-	/** The BPEL namespace */
-	static final String NAMESPACE_2004 = "http://schemas.xmlsoap.org/ws/2004/03/business-process/";
+	/** The BPEL namespace from 2003 */
+	public static final String NAMESPACE_2003 = "http://schemas.xmlsoap.org/ws/2003/03/business-process/";
+	
+	/** The BPEL namespace from 2004 */
+	public static final String NAMESPACE_2004 = "http://schemas.xmlsoap.org/ws/2004/03/business-process/";
 
 	/** The 2.0 BPEL Namespace */
-	static final String NAMESPACE_2007 = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
+	public static final String NAMESPACE_2007 = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
 	
 	/** The default query language */
 	static final String XMLNS_XPATH_QUERY_LANGUAGE_2007 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
@@ -33,10 +36,10 @@ public class BPELConstants {
 	public static final String XMLNS_XPATH_QUERY_LANGUAGE = XMLNS_XPATH_QUERY_LANGUAGE_2007;
 	
 	/** The default expression language */
-	static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2007 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
+	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2007 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
 
 	/** The "old" default expression language */
-	static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2004 = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2004 = "http://www.w3.org/TR/1999/REC-xpath-19991116";
 
 	/** The current expression language */
 	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE = XMLNS_XPATH_EXPRESSION_LANGUAGE_2007;

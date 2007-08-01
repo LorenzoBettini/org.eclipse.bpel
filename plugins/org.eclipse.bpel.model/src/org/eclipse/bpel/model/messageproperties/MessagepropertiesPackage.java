@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackage.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: MessagepropertiesPackage.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties;
 
@@ -36,7 +36,7 @@ import org.eclipse.wst.wsdl.WSDLPackage;
  * @model kind="package"
  * @generated
  */
-public interface MessagepropertiesPackage extends EPackage{
+public interface MessagepropertiesPackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -67,7 +67,8 @@ public interface MessagepropertiesPackage extends EPackage{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	MessagepropertiesPackage eINSTANCE = org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesPackageImpl.init();
+	MessagepropertiesPackage eINSTANCE = org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesPackageImpl
+			.init();
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.model.messageproperties.impl.PropertyImpl <em>Property</em>}' class.
@@ -360,7 +361,6 @@ public interface MessagepropertiesPackage extends EPackage{
 	 */
 	int QUERY_FEATURE_COUNT = WSDLPackage.EXTENSIBILITY_ELEMENT_FEATURE_COUNT + 2;
 
-
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.messageproperties.Property <em>Property</em>}'.
 	 * <!-- begin-user-doc -->
@@ -625,7 +625,8 @@ public interface MessagepropertiesPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROPERTY_ALIAS__MESSAGE_TYPE = eINSTANCE.getPropertyAlias_MessageType();
+		EAttribute PROPERTY_ALIAS__MESSAGE_TYPE = eINSTANCE
+				.getPropertyAlias_MessageType();
 
 		/**
 		 * The meta object literal for the '<em><b>Part</b></em>' attribute feature.
@@ -641,7 +642,8 @@ public interface MessagepropertiesPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROPERTY_ALIAS__PROPERTY_NAME = eINSTANCE.getPropertyAlias_PropertyName();
+		EAttribute PROPERTY_ALIAS__PROPERTY_NAME = eINSTANCE
+				.getPropertyAlias_PropertyName();
 
 		/**
 		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
@@ -657,7 +659,8 @@ public interface MessagepropertiesPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROPERTY_ALIAS__WSDL_PART = eINSTANCE.getPropertyAlias_WsdlPart();
+		EReference PROPERTY_ALIAS__WSDL_PART = eINSTANCE
+				.getPropertyAlias_WsdlPart();
 
 		/**
 		 * The meta object literal for the '<em><b>Query</b></em>' containment reference feature.
@@ -681,7 +684,8 @@ public interface MessagepropertiesPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROPERTY_ALIAS__XSD_ELEMENT = eINSTANCE.getPropertyAlias_XSDElement();
+		EAttribute PROPERTY_ALIAS__XSD_ELEMENT = eINSTANCE
+				.getPropertyAlias_XSDElement();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.messageproperties.impl.QueryImpl <em>Query</em>}' class.

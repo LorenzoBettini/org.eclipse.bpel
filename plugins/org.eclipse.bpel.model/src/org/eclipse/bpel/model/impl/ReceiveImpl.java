@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.6 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ReceiveImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -101,7 +101,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fromPart;
+	protected EList<FromPart> fromPart;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -117,6 +117,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.RECEIVE;
 	}
@@ -141,7 +142,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstanceESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.RECEIVE__CREATE_INSTANCE, oldCreateInstance, createInstance, !oldCreateInstanceESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.RECEIVE__CREATE_INSTANCE, oldCreateInstance,
+					createInstance, !oldCreateInstanceESet));
 	}
 
 	/**
@@ -155,7 +158,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 		createInstance = CREATE_INSTANCE_EDEFAULT;
 		createInstanceESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.RECEIVE__CREATE_INSTANCE, oldCreateInstance, CREATE_INSTANCE_EDEFAULT, oldCreateInstanceESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.RECEIVE__CREATE_INSTANCE, oldCreateInstance,
+					CREATE_INSTANCE_EDEFAULT, oldCreateInstanceESet));
 	}
 
 	/**
@@ -174,11 +179,13 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
-			InternalEObject oldVariable = (InternalEObject)variable;
-			variable = (Variable)eResolveProxy(oldVariable);
+			InternalEObject oldVariable = (InternalEObject) variable;
+			variable = (Variable) eResolveProxy(oldVariable);
 			if (variable != oldVariable) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.RECEIVE__VARIABLE, oldVariable, variable));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.RECEIVE__VARIABLE, oldVariable,
+							variable));
 			}
 		}
 		return variable;
@@ -202,7 +209,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 		Variable oldVariable = variable;
 		variable = newVariable;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.RECEIVE__VARIABLE, oldVariable, variable));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.RECEIVE__VARIABLE, oldVariable, variable));
 	}
 
 	/**
@@ -210,9 +218,10 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getFromPart() {
+	public EList<FromPart> getFromPart() {
 		if (fromPart == null) {
-			fromPart = new EObjectResolvingEList(FromPart.class, this, BPELPackage.RECEIVE__FROM_PART);
+			fromPart = new EObjectResolvingEList<FromPart>(FromPart.class,
+					this, BPELPackage.RECEIVE__FROM_PART);
 		}
 		return fromPart;
 	}
@@ -222,12 +231,14 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
 				return getCreateInstance();
 			case BPELPackage.RECEIVE__VARIABLE:
-				if (resolve) return getVariable();
+				if (resolve)
+					return getVariable();
 				return basicGetVariable();
 			case BPELPackage.RECEIVE__FROM_PART:
 				return getFromPart();
@@ -240,17 +251,19 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
-				setCreateInstance((Boolean)newValue);
+				setCreateInstance((Boolean) newValue);
 				return;
 			case BPELPackage.RECEIVE__VARIABLE:
-				setVariable((Variable)newValue);
+				setVariable((Variable) newValue);
 				return;
 			case BPELPackage.RECEIVE__FROM_PART:
 				getFromPart().clear();
-				getFromPart().addAll((Collection)newValue);
+				getFromPart().addAll((Collection<? extends FromPart>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -261,13 +274,14 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
 				unsetCreateInstance();
 				return;
 			case BPELPackage.RECEIVE__VARIABLE:
-				setVariable((Variable)null);
+				setVariable((Variable) null);
 				return;
 			case BPELPackage.RECEIVE__FROM_PART:
 				getFromPart().clear();
@@ -281,6 +295,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.RECEIVE__CREATE_INSTANCE:
@@ -298,12 +313,17 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (createInstance: ");
-		if (createInstanceESet) result.append(createInstance); else result.append("<unset>");
+		result.append(" (createInstance: "); //$NON-NLS-1$
+		if (createInstanceESet)
+			result.append(createInstance);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

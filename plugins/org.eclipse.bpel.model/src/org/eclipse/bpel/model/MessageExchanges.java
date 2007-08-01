@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchanges.java,v 1.2 2007/02/09 09:13:43 smoser Exp $
+ * $Id: MessageExchanges.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -36,9 +36,9 @@ public interface MessageExchanges extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getMessageExchanges_Children()
-	 * @model type="org.eclipse.bpel.model.MessageExchange" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
-	EList getChildren();
+	EList<MessageExchange> getChildren();
 
 } // MessageExchanges

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: OnEvent.java,v 1.6 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -237,10 +237,10 @@ public interface OnEvent extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>From Part</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getOnEvent_FromPart()
-	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @model
 	 * @generated
 	 */
-	EList getFromPart();
+	EList<FromPart> getFromPart();
 
 	/**
 	 * Returns the value of the '<em><b>Correlation Sets</b></em>' containment reference.

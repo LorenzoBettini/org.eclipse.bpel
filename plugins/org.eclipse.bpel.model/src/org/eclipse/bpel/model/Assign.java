@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Assign.java,v 1.3 2006/02/10 16:12:48 rodrigo Exp $
+ * $Id: Assign.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Assign extends Activity{
+public interface Assign extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Copy</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.Copy}.
@@ -49,10 +49,10 @@ public interface Assign extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Copy</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getAssign_Copy()
-	 * @model type="org.eclipse.bpel.model.Copy" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList getCopy();
+	EList<Copy> getCopy();
 
 	/**
 	 * Returns the value of the '<em><b>Validate</b></em>' attribute.

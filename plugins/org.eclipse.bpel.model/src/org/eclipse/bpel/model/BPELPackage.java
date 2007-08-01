@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.32 2007/07/26 01:34:12 mchmielewski Exp $
+ * $Id: BPELPackage.java,v 1.33 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -36,7 +36,7 @@ import org.eclipse.wst.wsdl.WSDLPackage;
  * @model kind="package"
  * @generated
  */
-public interface BPELPackage extends EPackage{
+public interface BPELPackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -6594,7 +6594,6 @@ public interface BPELPackage extends EPackage{
 	 */
 	int ENDPOINT_REFERENCE_ROLE = 71;
 
-
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.model.Process <em>Process</em>}'.
 	 * <!-- begin-user-doc -->
@@ -9440,7 +9439,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROCESS__TARGET_NAMESPACE = eINSTANCE.getProcess_TargetNamespace();
+		EAttribute PROCESS__TARGET_NAMESPACE = eINSTANCE
+				.getProcess_TargetNamespace();
 
 		/**
 		 * The meta object literal for the '<em><b>Query Language</b></em>' attribute feature.
@@ -9448,7 +9448,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROCESS__QUERY_LANGUAGE = eINSTANCE.getProcess_QueryLanguage();
+		EAttribute PROCESS__QUERY_LANGUAGE = eINSTANCE
+				.getProcess_QueryLanguage();
 
 		/**
 		 * The meta object literal for the '<em><b>Expression Language</b></em>' attribute feature.
@@ -9456,7 +9457,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROCESS__EXPRESSION_LANGUAGE = eINSTANCE.getProcess_ExpressionLanguage();
+		EAttribute PROCESS__EXPRESSION_LANGUAGE = eINSTANCE
+				.getProcess_ExpressionLanguage();
 
 		/**
 		 * The meta object literal for the '<em><b>Suppress Join Failure</b></em>' attribute feature.
@@ -9464,7 +9466,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROCESS__SUPPRESS_JOIN_FAILURE = eINSTANCE.getProcess_SuppressJoinFailure();
+		EAttribute PROCESS__SUPPRESS_JOIN_FAILURE = eINSTANCE
+				.getProcess_SuppressJoinFailure();
 
 		/**
 		 * The meta object literal for the '<em><b>Variable Access Serializable</b></em>' attribute feature.
@@ -9472,7 +9475,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROCESS__VARIABLE_ACCESS_SERIALIZABLE = eINSTANCE.getProcess_VariableAccessSerializable();
+		EAttribute PROCESS__VARIABLE_ACCESS_SERIALIZABLE = eINSTANCE
+				.getProcess_VariableAccessSerializable();
 
 		/**
 		 * The meta object literal for the '<em><b>Partner Links</b></em>' containment reference feature.
@@ -9504,7 +9508,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROCESS__FAULT_HANDLERS = eINSTANCE.getProcess_FaultHandlers();
+		EReference PROCESS__FAULT_HANDLERS = eINSTANCE
+				.getProcess_FaultHandlers();
 
 		/**
 		 * The meta object literal for the '<em><b>Event Handlers</b></em>' containment reference feature.
@@ -9512,7 +9517,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROCESS__EVENT_HANDLERS = eINSTANCE.getProcess_EventHandlers();
+		EReference PROCESS__EVENT_HANDLERS = eINSTANCE
+				.getProcess_EventHandlers();
 
 		/**
 		 * The meta object literal for the '<em><b>Correlation Sets</b></em>' containment reference feature.
@@ -9520,7 +9526,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROCESS__CORRELATION_SETS = eINSTANCE.getProcess_CorrelationSets();
+		EReference PROCESS__CORRELATION_SETS = eINSTANCE
+				.getProcess_CorrelationSets();
 
 		/**
 		 * The meta object literal for the '<em><b>Imports</b></em>' containment reference list feature.
@@ -9544,7 +9551,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROCESS__EXIT_ON_STANDARD_FAULT = eINSTANCE.getProcess_ExitOnStandardFault();
+		EAttribute PROCESS__EXIT_ON_STANDARD_FAULT = eINSTANCE
+				.getProcess_ExitOnStandardFault();
 
 		/**
 		 * The meta object literal for the '<em><b>Message Exchanges</b></em>' reference feature.
@@ -9552,7 +9560,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROCESS__MESSAGE_EXCHANGES = eINSTANCE.getProcess_MessageExchanges();
+		EReference PROCESS__MESSAGE_EXCHANGES = eINSTANCE
+				.getProcess_MessageExchanges();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.PartnerLinkImpl <em>Partner Link</em>}' class.
@@ -9586,7 +9595,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_LINK__PARTNER_ROLE = eINSTANCE.getPartnerLink_PartnerRole();
+		EReference PARTNER_LINK__PARTNER_ROLE = eINSTANCE
+				.getPartnerLink_PartnerRole();
 
 		/**
 		 * The meta object literal for the '<em><b>Partner Link Type</b></em>' reference feature.
@@ -9594,7 +9604,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_LINK__PARTNER_LINK_TYPE = eINSTANCE.getPartnerLink_PartnerLinkType();
+		EReference PARTNER_LINK__PARTNER_LINK_TYPE = eINSTANCE
+				.getPartnerLink_PartnerLinkType();
 
 		/**
 		 * The meta object literal for the '<em><b>Initialize Partner Role</b></em>' attribute feature.
@@ -9602,7 +9613,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PARTNER_LINK__INITIALIZE_PARTNER_ROLE = eINSTANCE.getPartnerLink_InitializePartnerRole();
+		EAttribute PARTNER_LINK__INITIALIZE_PARTNER_ROLE = eINSTANCE
+				.getPartnerLink_InitializePartnerRole();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.FaultHandlerImpl <em>Fault Handler</em>}' class.
@@ -9628,7 +9640,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FAULT_HANDLER__CATCH_ALL = eINSTANCE.getFaultHandler_CatchAll();
+		EReference FAULT_HANDLER__CATCH_ALL = eINSTANCE
+				.getFaultHandler_CatchAll();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ActivityImpl <em>Activity</em>}' class.
@@ -9654,7 +9667,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ACTIVITY__SUPPRESS_JOIN_FAILURE = eINSTANCE.getActivity_SuppressJoinFailure();
+		EAttribute ACTIVITY__SUPPRESS_JOIN_FAILURE = eINSTANCE
+				.getActivity_SuppressJoinFailure();
 
 		/**
 		 * The meta object literal for the '<em><b>Targets</b></em>' containment reference feature.
@@ -9696,7 +9710,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CORRELATION_SET__PROPERTIES = eINSTANCE.getCorrelationSet_Properties();
+		EReference CORRELATION_SET__PROPERTIES = eINSTANCE
+				.getCorrelationSet_Properties();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.InvokeImpl <em>Invoke</em>}' class.
@@ -9714,7 +9729,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INVOKE__OUTPUT_VARIABLE = eINSTANCE.getInvoke_OutputVariable();
+		EReference INVOKE__OUTPUT_VARIABLE = eINSTANCE
+				.getInvoke_OutputVariable();
 
 		/**
 		 * The meta object literal for the '<em><b>Input Variable</b></em>' reference feature.
@@ -9730,7 +9746,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INVOKE__COMPENSATION_HANDLER = eINSTANCE.getInvoke_CompensationHandler();
+		EReference INVOKE__COMPENSATION_HANDLER = eINSTANCE
+				.getInvoke_CompensationHandler();
 
 		/**
 		 * The meta object literal for the '<em><b>Fault Handler</b></em>' containment reference feature.
@@ -9830,7 +9847,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CATCH__FAULT_MESSAGE_TYPE = eINSTANCE.getCatch_FaultMessageType();
+		EReference CATCH__FAULT_MESSAGE_TYPE = eINSTANCE
+				.getCatch_FaultMessageType();
 
 		/**
 		 * The meta object literal for the '<em><b>Fault Element</b></em>' reference feature.
@@ -9890,7 +9908,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_ACTIVITY__PARTNER_LINK = eINSTANCE.getPartnerActivity_PartnerLink();
+		EReference PARTNER_ACTIVITY__PARTNER_LINK = eINSTANCE
+				.getPartnerActivity_PartnerLink();
 
 		/**
 		 * The meta object literal for the '<em><b>Correlations</b></em>' containment reference feature.
@@ -9898,7 +9917,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_ACTIVITY__CORRELATIONS = eINSTANCE.getPartnerActivity_Correlations();
+		EReference PARTNER_ACTIVITY__CORRELATIONS = eINSTANCE
+				.getPartnerActivity_Correlations();
 
 		/**
 		 * The meta object literal for the '<em><b>Port Type</b></em>' reference feature.
@@ -9906,7 +9926,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_ACTIVITY__PORT_TYPE = eINSTANCE.getPartnerActivity_PortType();
+		EReference PARTNER_ACTIVITY__PORT_TYPE = eINSTANCE
+				.getPartnerActivity_PortType();
 
 		/**
 		 * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
@@ -9914,7 +9935,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_ACTIVITY__OPERATION = eINSTANCE.getPartnerActivity_Operation();
+		EReference PARTNER_ACTIVITY__OPERATION = eINSTANCE
+				.getPartnerActivity_Operation();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ReceiveImpl <em>Receive</em>}' class.
@@ -9932,7 +9954,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RECEIVE__CREATE_INSTANCE = eINSTANCE.getReceive_CreateInstance();
+		EAttribute RECEIVE__CREATE_INSTANCE = eINSTANCE
+				.getReceive_CreateInstance();
 
 		/**
 		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
@@ -10132,7 +10155,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FLOW__COMPLETION_CONDITION = eINSTANCE.getFlow_CompletionCondition();
+		EReference FLOW__COMPLETION_CONDITION = eINSTANCE
+				.getFlow_CompletionCondition();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.OnAlarmImpl <em>On Alarm</em>}' class.
@@ -10234,7 +10258,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COPY__KEEP_SRC_ELEMENT_NAME = eINSTANCE.getCopy_KeepSrcElementName();
+		EAttribute COPY__KEEP_SRC_ELEMENT_NAME = eINSTANCE
+				.getCopy_KeepSrcElementName();
 
 		/**
 		 * The meta object literal for the '<em><b>Ignore Missing From Data</b></em>' attribute feature.
@@ -10242,7 +10267,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COPY__IGNORE_MISSING_FROM_DATA = eINSTANCE.getCopy_IgnoreMissingFromData();
+		EAttribute COPY__IGNORE_MISSING_FROM_DATA = eINSTANCE
+				.getCopy_IgnoreMissingFromData();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExtensionImpl <em>Extension</em>}' class.
@@ -10268,7 +10294,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXTENSION__MUST_UNDERSTAND = eINSTANCE.getExtension_MustUnderstand();
+		EAttribute EXTENSION__MUST_UNDERSTAND = eINSTANCE
+				.getExtension_MustUnderstand();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ScopeImpl <em>Scope</em>}' class.
@@ -10302,7 +10329,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SCOPE__COMPENSATION_HANDLER = eINSTANCE.getScope_CompensationHandler();
+		EReference SCOPE__COMPENSATION_HANDLER = eINSTANCE
+				.getScope_CompensationHandler();
 
 		/**
 		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
@@ -10326,7 +10354,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SCOPE__CORRELATION_SETS = eINSTANCE.getScope_CorrelationSets();
+		EReference SCOPE__CORRELATION_SETS = eINSTANCE
+				.getScope_CorrelationSets();
 
 		/**
 		 * The meta object literal for the '<em><b>Event Handlers</b></em>' containment reference feature.
@@ -10350,7 +10379,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SCOPE__TERMINATION_HANDLER = eINSTANCE.getScope_TerminationHandler();
+		EReference SCOPE__TERMINATION_HANDLER = eINSTANCE
+				.getScope_TerminationHandler();
 
 		/**
 		 * The meta object literal for the '<em><b>Message Exchanges</b></em>' reference feature.
@@ -10358,7 +10388,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SCOPE__MESSAGE_EXCHANGES = eINSTANCE.getScope_MessageExchanges();
+		EReference SCOPE__MESSAGE_EXCHANGES = eINSTANCE
+				.getScope_MessageExchanges();
 
 		/**
 		 * The meta object literal for the '<em><b>Exit On Standard Fault</b></em>' attribute feature.
@@ -10366,7 +10397,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SCOPE__EXIT_ON_STANDARD_FAULT = eINSTANCE.getScope_ExitOnStandardFault();
+		EAttribute SCOPE__EXIT_ON_STANDARD_FAULT = eINSTANCE
+				.getScope_ExitOnStandardFault();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CompensateScopeImpl <em>Compensate Scope</em>}' class.
@@ -10384,7 +10416,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COMPENSATE_SCOPE__TARGET = eINSTANCE.getCompensateScope_Target();
+		EReference COMPENSATE_SCOPE__TARGET = eINSTANCE
+				.getCompensateScope_Target();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.CompensationHandlerImpl <em>Compensation Handler</em>}' class.
@@ -10402,7 +10435,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COMPENSATION_HANDLER__ACTIVITY = eINSTANCE.getCompensationHandler_Activity();
+		EReference COMPENSATION_HANDLER__ACTIVITY = eINSTANCE
+				.getCompensationHandler_Activity();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ToImpl <em>To</em>}' class.
@@ -10486,7 +10520,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute FROM__ENDPOINT_REFERENCE = eINSTANCE.getFrom_EndpointReference();
+		EAttribute FROM__ENDPOINT_REFERENCE = eINSTANCE
+				.getFrom_EndpointReference();
 
 		/**
 		 * The meta object literal for the '<em><b>Literal</b></em>' attribute feature.
@@ -10608,7 +10643,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ON_MESSAGE__PARTNER_LINK = eINSTANCE.getOnMessage_PartnerLink();
+		EReference ON_MESSAGE__PARTNER_LINK = eINSTANCE
+				.getOnMessage_PartnerLink();
 
 		/**
 		 * The meta object literal for the '<em><b>Correlations</b></em>' containment reference feature.
@@ -10616,7 +10652,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ON_MESSAGE__CORRELATIONS = eINSTANCE.getOnMessage_Correlations();
+		EReference ON_MESSAGE__CORRELATIONS = eINSTANCE
+				.getOnMessage_Correlations();
 
 		/**
 		 * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
@@ -10658,7 +10695,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPRESSION__EXPRESSION_LANGUAGE = eINSTANCE.getExpression_ExpressionLanguage();
+		EAttribute EXPRESSION__EXPRESSION_LANGUAGE = eINSTANCE
+				.getExpression_ExpressionLanguage();
 
 		/**
 		 * The meta object literal for the '<em><b>Opaque</b></em>' attribute feature.
@@ -10770,7 +10808,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SOURCE__TRANSITION_CONDITION = eINSTANCE.getSource_TransitionCondition();
+		EReference SOURCE__TRANSITION_CONDITION = eINSTANCE
+				.getSource_TransitionCondition();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.TargetImpl <em>Target</em>}' class.
@@ -10814,7 +10853,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARTNER_LINKS__CHILDREN = eINSTANCE.getPartnerLinks_Children();
+		EReference PARTNER_LINKS__CHILDREN = eINSTANCE
+				.getPartnerLinks_Children();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.VariablesImpl <em>Variables</em>}' class.
@@ -10850,7 +10890,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CORRELATION_SETS__CHILDREN = eINSTANCE.getCorrelationSets_Children();
+		EReference CORRELATION_SETS__CHILDREN = eINSTANCE
+				.getCorrelationSets_Children();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.LinksImpl <em>Links</em>}' class.
@@ -10904,7 +10945,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CORRELATIONS__CHILDREN = eINSTANCE.getCorrelations_Children();
+		EReference CORRELATIONS__CHILDREN = eINSTANCE
+				.getCorrelations_Children();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.VariableImpl <em>Variable</em>}' class.
@@ -10964,7 +11006,8 @@ public interface BPELPackage extends EPackage{
 		 * @see org.eclipse.bpel.model.impl.BPELPackageImpl#getUnknownExtensibilityAttribute()
 		 * @generated
 		 */
-		EClass UNKNOWN_EXTENSIBILITY_ATTRIBUTE = eINSTANCE.getUnknownExtensibilityAttribute();
+		EClass UNKNOWN_EXTENSIBILITY_ATTRIBUTE = eINSTANCE
+				.getUnknownExtensibilityAttribute();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.OnEventImpl <em>On Event</em>}' class.
@@ -11046,7 +11089,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ON_EVENT__CORRELATION_SETS = eINSTANCE.getOnEvent_CorrelationSets();
+		EReference ON_EVENT__CORRELATION_SETS = eINSTANCE
+				.getOnEvent_CorrelationSets();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ImportImpl <em>Import</em>}' class.
@@ -11126,7 +11170,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TARGETS__JOIN_CONDITION = eINSTANCE.getTargets_JoinCondition();
+		EReference TARGETS__JOIN_CONDITION = eINSTANCE
+				.getTargets_JoinCondition();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.SourcesImpl <em>Sources</em>}' class.
@@ -11188,7 +11233,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SERVICE_REF__REFERENCE_SCHEME = eINSTANCE.getServiceRef_ReferenceScheme();
+		EAttribute SERVICE_REF__REFERENCE_SCHEME = eINSTANCE
+				.getServiceRef_ReferenceScheme();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -11304,7 +11350,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FOR_EACH__START_COUNTER_VALUE = eINSTANCE.getForEach_StartCounterValue();
+		EReference FOR_EACH__START_COUNTER_VALUE = eINSTANCE
+				.getForEach_StartCounterValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Final Counter Value</b></em>' containment reference feature.
@@ -11312,7 +11359,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FOR_EACH__FINAL_COUNTER_VALUE = eINSTANCE.getForEach_FinalCounterValue();
+		EReference FOR_EACH__FINAL_COUNTER_VALUE = eINSTANCE
+				.getForEach_FinalCounterValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Parallel</b></em>' attribute feature.
@@ -11336,7 +11384,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FOR_EACH__COMPLETION_CONDITION = eINSTANCE.getForEach_CompletionCondition();
+		EReference FOR_EACH__COMPLETION_CONDITION = eINSTANCE
+				.getForEach_CompletionCondition();
 
 		/**
 		 * The meta object literal for the '<em><b>Activity</b></em>' containment reference feature.
@@ -11370,7 +11419,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REPEAT_UNTIL__CONDITION = eINSTANCE.getRepeatUntil_Condition();
+		EReference REPEAT_UNTIL__CONDITION = eINSTANCE
+				.getRepeatUntil_Condition();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.TerminationHandlerImpl <em>Termination Handler</em>}' class.
@@ -11388,7 +11438,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TERMINATION_HANDLER__ACTIVITY = eINSTANCE.getTerminationHandler_Activity();
+		EReference TERMINATION_HANDLER__ACTIVITY = eINSTANCE
+				.getTerminationHandler_Activity();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ValidateImpl <em>Validate</em>}' class.
@@ -11510,7 +11561,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COMPLETION_CONDITION__BRANCHES = eINSTANCE.getCompletionCondition_Branches();
+		EReference COMPLETION_CONDITION__BRANCHES = eINSTANCE
+				.getCompletionCondition_Branches();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.BranchesImpl <em>Branches</em>}' class.
@@ -11528,7 +11580,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY = eINSTANCE.getBranches_CountCompletedBranchesOnly();
+		EAttribute BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY = eINSTANCE
+				.getBranches_CountCompletedBranchesOnly();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.ExtensibleElementImpl <em>Extensible Element</em>}' class.
@@ -11546,7 +11599,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXTENSIBLE_ELEMENT__DOCUMENTATION = eINSTANCE.getExtensibleElement_Documentation();
+		EReference EXTENSIBLE_ELEMENT__DOCUMENTATION = eINSTANCE
+				.getExtensibleElement_Documentation();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.DocumentationImpl <em>Documentation</em>}' class.
@@ -11598,7 +11652,8 @@ public interface BPELPackage extends EPackage{
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MESSAGE_EXCHANGES__CHILDREN = eINSTANCE.getMessageExchanges_Children();
+		EReference MESSAGE_EXCHANGES__CHILDREN = eINSTANCE
+				.getMessageExchanges_Children();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.MessageExchangeImpl <em>Message Exchange</em>}' class.

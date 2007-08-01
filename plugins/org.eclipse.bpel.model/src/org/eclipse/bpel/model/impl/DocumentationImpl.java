@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.2 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: DocumentationImpl.java,v 1.3 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -104,6 +104,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.DOCUMENTATION;
 	}
@@ -126,7 +127,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 		String oldLang = lang;
 		lang = newLang;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.DOCUMENTATION__LANG, oldLang, lang));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.DOCUMENTATION__LANG, oldLang, lang));
 	}
 
 	/**
@@ -147,7 +149,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 		String oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.DOCUMENTATION__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.DOCUMENTATION__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -168,7 +171,8 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.DOCUMENTATION__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.DOCUMENTATION__VALUE, oldValue, value));
 	}
 
 	/**
@@ -176,6 +180,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
@@ -193,16 +198,17 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
-				setLang((String)newValue);
+				setLang((String) newValue);
 				return;
 			case BPELPackage.DOCUMENTATION__SOURCE:
-				setSource((String)newValue);
+				setSource((String) newValue);
 				return;
 			case BPELPackage.DOCUMENTATION__VALUE:
-				setValue((String)newValue);
+				setValue((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -213,6 +219,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
@@ -233,14 +240,18 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.DOCUMENTATION__LANG:
-				return LANG_EDEFAULT == null ? lang != null : !LANG_EDEFAULT.equals(lang);
+				return LANG_EDEFAULT == null ? lang != null : !LANG_EDEFAULT
+						.equals(lang);
 			case BPELPackage.DOCUMENTATION__SOURCE:
-				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
+				return SOURCE_EDEFAULT == null ? source != null
+						: !SOURCE_EDEFAULT.equals(source);
 			case BPELPackage.DOCUMENTATION__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+						.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -250,15 +261,17 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (lang: ");
+		result.append(" (lang: "); //$NON-NLS-1$
 		result.append(lang);
-		result.append(", source: ");
+		result.append(", source: "); //$NON-NLS-1$
 		result.append(source);
-		result.append(", value: ");
+		result.append(", value: "); //$NON-NLS-1$
 		result.append(value);
 		result.append(')');
 		return result.toString();

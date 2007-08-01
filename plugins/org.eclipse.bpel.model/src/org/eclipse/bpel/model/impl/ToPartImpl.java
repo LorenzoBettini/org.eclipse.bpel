@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ToPartImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -86,6 +86,7 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.TO_PART;
 	}
@@ -108,7 +109,8 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 		String oldPart = part;
 		part = newPart;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO_PART__PART, oldPart, part));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO_PART__PART, oldPart, part));
 	}
 
 	/**
@@ -118,11 +120,12 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 */
 	public From getFrom() {
 		if (from != null && from.eIsProxy()) {
-			InternalEObject oldFrom = (InternalEObject)from;
-			from = (From)eResolveProxy(oldFrom);
+			InternalEObject oldFrom = (InternalEObject) from;
+			from = (From) eResolveProxy(oldFrom);
 			if (from != oldFrom) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.TO_PART__FROM, oldFrom, from));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO_PART__FROM, oldFrom, from));
 			}
 		}
 		return from;
@@ -146,7 +149,8 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 		From oldFrom = from;
 		from = newFrom;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO_PART__FROM, oldFrom, from));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO_PART__FROM, oldFrom, from));
 	}
 
 	/**
@@ -154,12 +158,14 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.TO_PART__PART:
 				return getPart();
 			case BPELPackage.TO_PART__FROM:
-				if (resolve) return getFrom();
+				if (resolve)
+					return getFrom();
 				return basicGetFrom();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -170,13 +176,14 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.TO_PART__PART:
-				setPart((String)newValue);
+				setPart((String) newValue);
 				return;
 			case BPELPackage.TO_PART__FROM:
-				setFrom((From)newValue);
+				setFrom((From) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -187,13 +194,14 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TO_PART__PART:
 				setPart(PART_EDEFAULT);
 				return;
 			case BPELPackage.TO_PART__FROM:
-				setFrom((From)null);
+				setFrom((From) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -204,10 +212,12 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.TO_PART__PART:
-				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT.equals(part);
+				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT
+						.equals(part);
 			case BPELPackage.TO_PART__FROM:
 				return from != null;
 		}
@@ -219,11 +229,13 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (part: ");
+		result.append(" (part: "); //$NON-NLS-1$
 		result.append(part);
 		result.append(')');
 		return result.toString();

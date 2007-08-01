@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EmptyImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: EmptyImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -52,6 +52,7 @@ public class EmptyImpl extends ActivityImpl implements Empty {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EMPTY;
 	}

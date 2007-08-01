@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OpaqueActivity.java,v 1.1 2005/12/07 14:58:09 james Exp $
+ * $Id: OpaqueActivity.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->

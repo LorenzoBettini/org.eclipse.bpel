@@ -10,10 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSet.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: CorrelationSet.java,v 1.3 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
+import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -77,9 +78,9 @@ public interface CorrelationSet extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Properties</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getCorrelationSet_Properties()
-	 * @model type="org.eclipse.bpel.model.messageproperties.Property"
+	 * @model
 	 * @generated
 	 */
-	EList getProperties();
+	EList<Property> getProperties();
 
 } // CorrelationSet

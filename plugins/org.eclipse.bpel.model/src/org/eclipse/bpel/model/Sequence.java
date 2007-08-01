@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Sequence.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Sequence.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Sequence extends Activity{
+public interface Sequence extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Activities</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.Activity}.
@@ -48,9 +48,9 @@ public interface Sequence extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Activities</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getSequence_Activities()
-	 * @model type="org.eclipse.bpel.model.Activity" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList getActivities();
+	EList<Activity> getActivities();
 
 } // Sequence

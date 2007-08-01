@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesFactory.java,v 1.2 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: MessagepropertiesFactory.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties;
 
@@ -31,7 +31,8 @@ public interface MessagepropertiesFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	MessagepropertiesFactory eINSTANCE = org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesFactoryImpl.init();
+	MessagepropertiesFactory eINSTANCE = org.eclipse.bpel.model.messageproperties.impl.MessagepropertiesFactoryImpl
+			.init();
 
 	/**
 	 * Returns a new object of class '<em>Property</em>'.

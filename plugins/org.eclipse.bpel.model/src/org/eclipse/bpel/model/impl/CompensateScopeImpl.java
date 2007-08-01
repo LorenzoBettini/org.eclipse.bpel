@@ -49,7 +49,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class CompensateScopeImpl extends ActivityImpl implements CompensateScope {
+public class CompensateScopeImpl extends ActivityImpl implements
+		CompensateScope {
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -74,6 +75,7 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.COMPENSATE_SCOPE;
 	}
@@ -85,11 +87,13 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 */
 	public Activity getTarget() {
 		if (target != null && target.eIsProxy()) {
-			InternalEObject oldTarget = (InternalEObject)target;
-			target = (Activity)eResolveProxy(oldTarget);
+			InternalEObject oldTarget = (InternalEObject) target;
+			target = (Activity) eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.COMPENSATE_SCOPE__TARGET, oldTarget, target));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.COMPENSATE_SCOPE__TARGET, oldTarget,
+							target));
 			}
 		}
 		return target;
@@ -113,7 +117,8 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 		Activity oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COMPENSATE_SCOPE__TARGET, oldTarget, target));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.COMPENSATE_SCOPE__TARGET, oldTarget, target));
 	}
 
 	/**
@@ -121,10 +126,12 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				if (resolve) return getTarget();
+				if (resolve)
+					return getTarget();
 				return basicGetTarget();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -135,10 +142,11 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				setTarget((Activity)newValue);
+				setTarget((Activity) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -149,10 +157,11 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				setTarget((Activity)null);
+				setTarget((Activity) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -163,6 +172,7 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.COMPENSATE_SCOPE__TARGET:
@@ -175,9 +185,9 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 	 * @see org.eclipse.bpel.model.CompensateScope#setTarget(java.lang.String)
 	 * @customized
 	 */
-	
-	public void setTarget (String scopeName) {
-		
+
+	public void setTarget(String scopeName) {
+
 		// From the spec: 
 		//
 		// <quote>
@@ -191,7 +201,7 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 		// JM: Modified this method to include a more sensible interpretation of
 		// "immediately encloses". Rather than a strict parent-child relationship,
 		// this simply means the closest enclosing Scope.
-		
+
 		EObject enclosingScopeOrProcess = null;
 		// Look for the closest enclosing Scope, or the process, ensuring that we pass a
 		// Catch, CatchAll or CompensationHandler on the way, as these are
@@ -199,9 +209,11 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 		EObject container = eContainer();
 		boolean isValidLocation = false;
 		while (container != null) {
-			if (container instanceof Catch || container instanceof CatchAll || container instanceof CompensationHandler) {
+			if (container instanceof Catch || container instanceof CatchAll
+					|| container instanceof CompensationHandler) {
 				isValidLocation = true;
-			} else if (container instanceof Scope || container instanceof Process) {
+			} else if (container instanceof Scope
+					|| container instanceof Process) {
 				enclosingScopeOrProcess = container;
 				break;
 			}
@@ -213,15 +225,16 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 		}
 		if (!isValidLocation) {
 			// Error, silently fail
-		    // CH: Allow this and let the validator mark it as an error.
+			// CH: Allow this and let the validator mark it as an error.
 			//return;
 		}
-		
+
 		// Find the enclosed scope with the specified scopeName. Since there are
 		// many places where scope activities may appear, this search
 		// intentionally starts with a broad set of candidates (the entire
 		// containment hierarchy) and prunes away the uninteresting parts.
-		for (TreeIterator i = enclosingScopeOrProcess.eAllContents(); i.hasNext();) {
+		for (TreeIterator i = enclosingScopeOrProcess.eAllContents(); i
+				.hasNext();) {
 			EObject next = (EObject) i.next();
 			if (next instanceof Scope) {
 				Scope candidate = (Scope) next;
@@ -241,11 +254,10 @@ public class CompensateScopeImpl extends ActivityImpl implements CompensateScope
 				i.prune();
 			}
 		}
-		
+
 		// In the case where a match was not found, install a proxy.
 		ScopeProxy scopeProxy = new ScopeProxy(eResource().getURI(), scopeName);
 		setTarget(scopeProxy);
 	}
-	
-	
+
 } //CompensateScopeImpl

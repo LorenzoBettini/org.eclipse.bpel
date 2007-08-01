@@ -1765,19 +1765,9 @@ public class BPELWriter {
 		
 		List<?> elseIfs = activity.getElseIf();
 		if (!elseIfs.isEmpty()) {
-			for (Iterator<?> i = elseIfs.iterator(); i.hasNext();) {
-				ElseIf elseIf = (ElseIf)i.next();
-				Element elseIfElement = createBPELElement("elseif");
-				ifElement.appendChild(elseIfElement);
-				if (elseIf.getCondition() != null) {
-					elseIfElement.appendChild(expression2XML(elseIf.getCondition(), "condition"));
-				}
-				if (elseIf.getActivity() != null) {
-					elseIfElement.appendChild(activity2XML(elseIf.getActivity()));
-				}			
-				// serialize local namespace prefixes to XML
-				bpelNamespacePrefixManager.serializePrefixes(elseIf, elseIfElement);						
-				extensibleElement2XML(elseIf, elseIfElement);
+			for( Object next : elseIfs) {
+				ElseIf elseIf = (ElseIf) next;
+				ifElement.appendChild( elseIf2XML( elseIf ) );
 			}
 		}
 		Else _else = activity.getElse(); 
@@ -1788,6 +1778,22 @@ public class BPELWriter {
 		
 		addCommonActivityItems(ifElement,activity);
 		return ifElement;
+	}
+	
+	protected Element elseIf2XML ( ElseIf elseIf ) {
+		Element elseIfElement = createBPELElement("elseif");
+		
+		if (elseIf.getCondition() != null) {
+			elseIfElement.appendChild(expression2XML(elseIf.getCondition(), "condition"));
+		}
+		if (elseIf.getActivity() != null) {
+			elseIfElement.appendChild(activity2XML(elseIf.getActivity()));
+		}			
+		// serialize local namespace prefixes to XML
+		bpelNamespacePrefixManager.serializePrefixes(elseIf, elseIfElement);						
+		extensibleElement2XML(elseIf, elseIfElement);
+		
+		return elseIfElement;		
 	}
 	
 	

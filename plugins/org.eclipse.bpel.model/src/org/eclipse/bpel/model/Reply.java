@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Reply.java,v 1.2 2005/12/06 02:05:30 james Exp $
+ * $Id: Reply.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -44,7 +44,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Reply extends PartnerActivity, Activity{
+public interface Reply extends PartnerActivity, Activity {
 	/**
 	 * Returns the value of the '<em><b>Fault Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -108,9 +108,9 @@ public interface Reply extends PartnerActivity, Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>To Part</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getReply_ToPart()
-	 * @model type="org.eclipse.bpel.model.ToPart"
+	 * @model
 	 * @generated
 	 */
-	EList getToPart();
+	EList<ToPart> getToPart();
 
 } // Reply

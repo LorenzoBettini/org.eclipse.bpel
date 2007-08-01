@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.7 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: CompletionConditionImpl.java,v 1.8 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -41,7 +41,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class CompletionConditionImpl extends ExtensibleElementImpl implements CompletionCondition {
+public class CompletionConditionImpl extends ExtensibleElementImpl implements
+		CompletionCondition {
 	/**
 	 * The cached value of the '{@link #getBranches() <em>Branches</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -66,6 +67,7 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.COMPLETION_CONDITION;
 	}
@@ -84,12 +86,19 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetBranches(Branches newBranches, NotificationChain msgs) {
+	public NotificationChain basicSetBranches(Branches newBranches,
+			NotificationChain msgs) {
 		Branches oldBranches = branches;
 		branches = newBranches;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.COMPLETION_CONDITION__BRANCHES, oldBranches, newBranches);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					BPELPackage.COMPLETION_CONDITION__BRANCHES, oldBranches,
+					newBranches);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -103,14 +112,22 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 		if (newBranches != branches) {
 			NotificationChain msgs = null;
 			if (branches != null)
-				msgs = ((InternalEObject)branches).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COMPLETION_CONDITION__BRANCHES, null, msgs);
+				msgs = ((InternalEObject) branches).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.COMPLETION_CONDITION__BRANCHES,
+						null, msgs);
 			if (newBranches != null)
-				msgs = ((InternalEObject)newBranches).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COMPLETION_CONDITION__BRANCHES, null, msgs);
+				msgs = ((InternalEObject) newBranches).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.COMPLETION_CONDITION__BRANCHES,
+						null, msgs);
 			msgs = basicSetBranches(newBranches, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COMPLETION_CONDITION__BRANCHES, newBranches, newBranches));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.COMPLETION_CONDITION__BRANCHES, newBranches,
+					newBranches));
 	}
 
 	/**
@@ -118,7 +135,9 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
 				return basicSetBranches(null, msgs);
@@ -131,6 +150,7 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
@@ -144,10 +164,11 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				setBranches((Branches)newValue);
+				setBranches((Branches) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -158,10 +179,11 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				setBranches((Branches)null);
+				setBranches((Branches) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -172,6 +194,7 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.COMPLETION_CONDITION__BRANCHES:

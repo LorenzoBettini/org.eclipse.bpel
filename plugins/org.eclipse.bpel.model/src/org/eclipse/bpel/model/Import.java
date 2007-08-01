@@ -10,11 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Import.java,v 1.3 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: Import.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
-
 
 /**
  * <!-- begin-user-doc -->

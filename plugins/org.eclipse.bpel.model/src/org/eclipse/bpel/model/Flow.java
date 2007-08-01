@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Flow.java,v 1.2 2006/01/16 19:47:37 james Exp $
+ * $Id: Flow.java,v 1.3 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Flow extends Activity{
+public interface Flow extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Activities</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.Activity}.
@@ -50,10 +50,10 @@ public interface Flow extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Activities</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getFlow_Activities()
-	 * @model type="org.eclipse.bpel.model.Activity" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList getActivities();
+	EList<Activity> getActivities();
 
 	/**
 	 * Returns the value of the '<em><b>Links</b></em>' containment reference.

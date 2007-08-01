@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypeAdapterFactory.java,v 1.2 2005/12/12 15:55:41 james Exp $
+ * $Id: PartnerlinktypeAdapterFactory.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.util;
 
@@ -64,12 +64,13 @@ public class PartnerlinktypeAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
 		}
 		if (object instanceof EObject) {
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+			return ((EObject) object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -80,27 +81,38 @@ public class PartnerlinktypeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PartnerlinktypeSwitch modelSwitch =
-		new PartnerlinktypeSwitch() {
-			public Object casePartnerLinkType(PartnerLinkType object) {
-				return createPartnerLinkTypeAdapter();
-			}
-			public Object caseRole(Role object) {
-				return createRoleAdapter();
-			}
-			public Object caseWSDLElement(WSDLElement object) {
-				return createWSDLElementAdapter();
-			}
-			public Object caseIExtensibilityElement(ExtensibilityElement object) {
-				return createIExtensibilityElementAdapter();
-			}
-			public Object caseExtensibilityElement(org.eclipse.wst.wsdl.ExtensibilityElement object) {
-				return createExtensibilityElementAdapter();
-			}
-			public Object defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+	protected PartnerlinktypeSwitch<Adapter> modelSwitch = new PartnerlinktypeSwitch<Adapter>() {
+		@Override
+		public Adapter casePartnerLinkType(PartnerLinkType object) {
+			return createPartnerLinkTypeAdapter();
+		}
+
+		@Override
+		public Adapter caseRole(Role object) {
+			return createRoleAdapter();
+		}
+
+		@Override
+		public Adapter caseWSDLElement(WSDLElement object) {
+			return createWSDLElementAdapter();
+		}
+
+		@Override
+		public Adapter caseIExtensibilityElement(ExtensibilityElement object) {
+			return createIExtensibilityElementAdapter();
+		}
+
+		@Override
+		public Adapter caseExtensibilityElement(
+				org.eclipse.wst.wsdl.ExtensibilityElement object) {
+			return createExtensibilityElementAdapter();
+		}
+
+		@Override
+		public Adapter defaultCase(EObject object) {
+			return createEObjectAdapter();
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -110,10 +122,10 @@ public class PartnerlinktypeAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject) target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.partnerlinktype.PartnerLinkType <em>Partner Link Type</em>}'.

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: ValidateImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -45,7 +45,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList variables;
+	protected EList<Variable> variables;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -61,6 +61,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.VALIDATE;
 	}
@@ -70,9 +71,10 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getVariables() {
+	public EList<Variable> getVariables() {
 		if (variables == null) {
-			variables = new EObjectResolvingEList(Variable.class, this, BPELPackage.VALIDATE__VARIABLES);
+			variables = new EObjectResolvingEList<Variable>(Variable.class,
+					this, BPELPackage.VALIDATE__VARIABLES);
 		}
 		return variables;
 	}
@@ -82,6 +84,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
@@ -95,11 +98,14 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
 				getVariables().clear();
-				getVariables().addAll((Collection)newValue);
+				getVariables()
+						.addAll((Collection<? extends Variable>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -110,6 +116,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:
@@ -124,6 +131,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.VALIDATE__VARIABLES:

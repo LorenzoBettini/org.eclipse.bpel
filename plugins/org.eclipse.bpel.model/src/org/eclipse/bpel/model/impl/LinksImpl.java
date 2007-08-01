@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinksImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: LinksImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -51,7 +51,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList children;
+	protected EList<Link> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -67,6 +67,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.LINKS;
 	}
@@ -76,9 +77,10 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getChildren() {
+	public EList<Link> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList(Link.class, this, BPELPackage.LINKS__CHILDREN);
+			children = new EObjectContainmentEList<Link>(Link.class, this,
+					BPELPackage.LINKS__CHILDREN);
 		}
 		return children;
 	}
@@ -88,10 +90,13 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.LINKS__CHILDREN:
-				return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -101,6 +106,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.LINKS__CHILDREN:
@@ -114,11 +120,13 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.LINKS__CHILDREN:
 				getChildren().clear();
-				getChildren().addAll((Collection)newValue);
+				getChildren().addAll((Collection<? extends Link>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -129,6 +137,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.LINKS__CHILDREN:
@@ -143,6 +152,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.LINKS__CHILDREN:

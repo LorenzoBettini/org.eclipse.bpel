@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangeImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: MessageExchangeImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class MessageExchangeImpl extends ExtensibleElementImpl implements MessageExchange {
+public class MessageExchangeImpl extends ExtensibleElementImpl implements
+		MessageExchange {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -68,6 +69,7 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.MESSAGE_EXCHANGE;
 	}
@@ -90,7 +92,8 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.MESSAGE_EXCHANGE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.MESSAGE_EXCHANGE__NAME, oldName, name));
 	}
 
 	/**
@@ -98,6 +101,7 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGE__NAME:
@@ -111,10 +115,11 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGE__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -125,6 +130,7 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGE__NAME:
@@ -139,10 +145,12 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -152,11 +160,13 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
 		return result.toString();

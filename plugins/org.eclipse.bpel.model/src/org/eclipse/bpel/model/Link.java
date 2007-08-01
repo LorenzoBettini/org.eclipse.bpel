@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Link.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: Link.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -78,10 +78,10 @@ public interface Link extends ExtensibleElement {
 	 * @return the value of the '<em>Sources</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getLink_Sources()
 	 * @see org.eclipse.bpel.model.Source#getLink
-	 * @model type="org.eclipse.bpel.model.Source" opposite="Link"
+	 * @model opposite="Link"
 	 * @generated
 	 */
-	EList getSources();
+	EList<Source> getSources();
 
 	/**
 	 * Returns the value of the '<em><b>Targets</b></em>' reference list.
@@ -96,9 +96,9 @@ public interface Link extends ExtensibleElement {
 	 * @return the value of the '<em>Targets</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getLink_Targets()
 	 * @see org.eclipse.bpel.model.Target#getLink
-	 * @model type="org.eclipse.bpel.model.Target" opposite="Link"
+	 * @model opposite="Link"
 	 * @generated
 	 */
-	EList getTargets();
+	EList<Target> getTargets();
 
 } // Link

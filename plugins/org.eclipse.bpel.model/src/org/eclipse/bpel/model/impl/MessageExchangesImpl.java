@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangesImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: MessageExchangesImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -34,7 +34,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class MessageExchangesImpl extends ExtensibleElementImpl implements MessageExchanges {
+public class MessageExchangesImpl extends ExtensibleElementImpl implements
+		MessageExchanges {
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -43,7 +44,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * @generated
 	 * @ordered
 	 */
-	protected EList children;
+	protected EList<MessageExchange> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -59,6 +60,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.MESSAGE_EXCHANGES;
 	}
@@ -68,9 +70,11 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getChildren() {
+	public EList<MessageExchange> getChildren() {
 		if (children == null) {
-			children = new EObjectResolvingEList(MessageExchange.class, this, BPELPackage.MESSAGE_EXCHANGES__CHILDREN);
+			children = new EObjectResolvingEList<MessageExchange>(
+					MessageExchange.class, this,
+					BPELPackage.MESSAGE_EXCHANGES__CHILDREN);
 		}
 		return children;
 	}
@@ -80,6 +84,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
@@ -93,11 +98,14 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
 				getChildren().clear();
-				getChildren().addAll((Collection)newValue);
+				getChildren().addAll(
+						(Collection<? extends MessageExchange>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -108,6 +116,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
@@ -122,6 +131,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements Messa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: CorrelationSetImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -45,7 +45,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class CorrelationSetImpl extends ExtensibleElementImpl implements CorrelationSet {
+public class CorrelationSetImpl extends ExtensibleElementImpl implements
+		CorrelationSet {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -74,7 +75,7 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * @generated
 	 * @ordered
 	 */
-	protected EList properties;
+	protected EList<Property> properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -90,6 +91,7 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.CORRELATION_SET;
 	}
@@ -112,7 +114,8 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CORRELATION_SET__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CORRELATION_SET__NAME, oldName, name));
 	}
 
 	/**
@@ -120,9 +123,10 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getProperties() {
+	public EList<Property> getProperties() {
 		if (properties == null) {
-			properties = new EObjectResolvingEList(Property.class, this, BPELPackage.CORRELATION_SET__PROPERTIES);
+			properties = new EObjectResolvingEList<Property>(Property.class,
+					this, BPELPackage.CORRELATION_SET__PROPERTIES);
 		}
 		return properties;
 	}
@@ -132,6 +136,7 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SET__NAME:
@@ -147,14 +152,17 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SET__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case BPELPackage.CORRELATION_SET__PROPERTIES:
 				getProperties().clear();
-				getProperties().addAll((Collection)newValue);
+				getProperties().addAll(
+						(Collection<? extends Property>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -165,6 +173,7 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SET__NAME:
@@ -182,10 +191,12 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION_SET__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case BPELPackage.CORRELATION_SET__PROPERTIES:
 				return properties != null && !properties.isEmpty();
 		}
@@ -197,11 +208,13 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements Correla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
 		return result.toString();

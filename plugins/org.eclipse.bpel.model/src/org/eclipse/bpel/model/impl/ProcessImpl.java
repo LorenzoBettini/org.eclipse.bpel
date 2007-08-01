@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.9 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ProcessImpl.java,v 1.10 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -68,7 +68,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bpel.model.Process {
+public class ProcessImpl extends ExtensibleElementImpl implements
+		org.eclipse.bpel.model.Process {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -293,7 +294,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @generated
 	 * @ordered
 	 */
-	protected EList imports;
+	protected EList<Import> imports;
 
 	/**
 	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference.
@@ -349,6 +350,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.PROCESS;
 	}
@@ -371,7 +373,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__NAME, oldName, name));
 	}
 
 	/**
@@ -392,7 +395,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		String oldTargetNamespace = targetNamespace;
 		targetNamespace = newTargetNamespace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__TARGET_NAMESPACE, oldTargetNamespace, targetNamespace));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__TARGET_NAMESPACE, oldTargetNamespace,
+					targetNamespace));
 	}
 
 	/**
@@ -415,7 +420,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		boolean oldQueryLanguageESet = queryLanguageESet;
 		queryLanguageESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__QUERY_LANGUAGE, oldQueryLanguage, queryLanguage, !oldQueryLanguageESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__QUERY_LANGUAGE, oldQueryLanguage,
+					queryLanguage, !oldQueryLanguageESet));
 	}
 
 	/**
@@ -429,7 +436,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		queryLanguage = QUERY_LANGUAGE_EDEFAULT;
 		queryLanguageESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PROCESS__QUERY_LANGUAGE, oldQueryLanguage, QUERY_LANGUAGE_EDEFAULT, oldQueryLanguageESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PROCESS__QUERY_LANGUAGE, oldQueryLanguage,
+					QUERY_LANGUAGE_EDEFAULT, oldQueryLanguageESet));
 	}
 
 	/**
@@ -461,7 +470,10 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguageESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXPRESSION_LANGUAGE, oldExpressionLanguage, expressionLanguage, !oldExpressionLanguageESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__EXPRESSION_LANGUAGE,
+					oldExpressionLanguage, expressionLanguage,
+					!oldExpressionLanguageESet));
 	}
 
 	/**
@@ -475,7 +487,10 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
 		expressionLanguageESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PROCESS__EXPRESSION_LANGUAGE, oldExpressionLanguage, EXPRESSION_LANGUAGE_EDEFAULT, oldExpressionLanguageESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PROCESS__EXPRESSION_LANGUAGE,
+					oldExpressionLanguage, EXPRESSION_LANGUAGE_EDEFAULT,
+					oldExpressionLanguageESet));
 	}
 
 	/**
@@ -507,7 +522,10 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailureESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE, oldSuppressJoinFailure, suppressJoinFailure, !oldSuppressJoinFailureESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE,
+					oldSuppressJoinFailure, suppressJoinFailure,
+					!oldSuppressJoinFailureESet));
 	}
 
 	/**
@@ -521,7 +539,10 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;
 		suppressJoinFailureESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE, oldSuppressJoinFailure, SUPPRESS_JOIN_FAILURE_EDEFAULT, oldSuppressJoinFailureESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE,
+					oldSuppressJoinFailure, SUPPRESS_JOIN_FAILURE_EDEFAULT,
+					oldSuppressJoinFailureESet));
 	}
 
 	/**
@@ -547,13 +568,17 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setVariableAccessSerializable(Boolean newVariableAccessSerializable) {
+	public void setVariableAccessSerializable(
+			Boolean newVariableAccessSerializable) {
 		Boolean oldVariableAccessSerializable = variableAccessSerializable;
 		variableAccessSerializable = newVariableAccessSerializable;
 		boolean oldVariableAccessSerializableESet = variableAccessSerializableESet;
 		variableAccessSerializableESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE, oldVariableAccessSerializable, variableAccessSerializable, !oldVariableAccessSerializableESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE,
+					oldVariableAccessSerializable, variableAccessSerializable,
+					!oldVariableAccessSerializableESet));
 	}
 
 	/**
@@ -567,7 +592,11 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		variableAccessSerializable = VARIABLE_ACCESS_SERIALIZABLE_EDEFAULT;
 		variableAccessSerializableESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE, oldVariableAccessSerializable, VARIABLE_ACCESS_SERIALIZABLE_EDEFAULT, oldVariableAccessSerializableESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE,
+					oldVariableAccessSerializable,
+					VARIABLE_ACCESS_SERIALIZABLE_EDEFAULT,
+					oldVariableAccessSerializableESet));
 	}
 
 	/**
@@ -593,12 +622,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPartnerLinks(PartnerLinks newPartnerLinks, NotificationChain msgs) {
+	public NotificationChain basicSetPartnerLinks(PartnerLinks newPartnerLinks,
+			NotificationChain msgs) {
 		PartnerLinks oldPartnerLinks = partnerLinks;
 		partnerLinks = newPartnerLinks;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__PARTNER_LINKS, oldPartnerLinks, newPartnerLinks);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__PARTNER_LINKS,
+					oldPartnerLinks, newPartnerLinks);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -612,14 +647,22 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newPartnerLinks != partnerLinks) {
 			NotificationChain msgs = null;
 			if (partnerLinks != null)
-				msgs = ((InternalEObject)partnerLinks).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__PARTNER_LINKS, null, msgs);
+				msgs = ((InternalEObject) partnerLinks).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__PARTNER_LINKS, null,
+						msgs);
 			if (newPartnerLinks != null)
-				msgs = ((InternalEObject)newPartnerLinks).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__PARTNER_LINKS, null, msgs);
+				msgs = ((InternalEObject) newPartnerLinks).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__PARTNER_LINKS, null,
+						msgs);
 			msgs = basicSetPartnerLinks(newPartnerLinks, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__PARTNER_LINKS, newPartnerLinks, newPartnerLinks));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__PARTNER_LINKS, newPartnerLinks,
+					newPartnerLinks));
 	}
 
 	/**
@@ -636,12 +679,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetVariables(Variables newVariables, NotificationChain msgs) {
+	public NotificationChain basicSetVariables(Variables newVariables,
+			NotificationChain msgs) {
 		Variables oldVariables = variables;
 		variables = newVariables;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__VARIABLES, oldVariables, newVariables);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__VARIABLES,
+					oldVariables, newVariables);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -655,14 +704,19 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newVariables != variables) {
 			NotificationChain msgs = null;
 			if (variables != null)
-				msgs = ((InternalEObject)variables).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__VARIABLES, null, msgs);
+				msgs = ((InternalEObject) variables)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__VARIABLES, null, msgs);
 			if (newVariables != null)
-				msgs = ((InternalEObject)newVariables).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__VARIABLES, null, msgs);
+				msgs = ((InternalEObject) newVariables)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__VARIABLES, null, msgs);
 			msgs = basicSetVariables(newVariables, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__VARIABLES, newVariables, newVariables));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__VARIABLES, newVariables, newVariables));
 	}
 
 	/**
@@ -679,12 +733,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetActivity(Activity newActivity, NotificationChain msgs) {
+	public NotificationChain basicSetActivity(Activity newActivity,
+			NotificationChain msgs) {
 		Activity oldActivity = activity;
 		activity = newActivity;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__ACTIVITY, oldActivity, newActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__ACTIVITY,
+					oldActivity, newActivity);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -698,14 +758,19 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newActivity != activity) {
 			NotificationChain msgs = null;
 			if (activity != null)
-				msgs = ((InternalEObject)activity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) activity).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__ACTIVITY,
+						null, msgs);
 			if (newActivity != null)
-				msgs = ((InternalEObject)newActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__ACTIVITY, null, msgs);
+				msgs = ((InternalEObject) newActivity).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__ACTIVITY,
+						null, msgs);
 			msgs = basicSetActivity(newActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__ACTIVITY, newActivity, newActivity));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__ACTIVITY, newActivity, newActivity));
 	}
 
 	/**
@@ -722,12 +787,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFaultHandlers(FaultHandler newFaultHandlers, NotificationChain msgs) {
+	public NotificationChain basicSetFaultHandlers(
+			FaultHandler newFaultHandlers, NotificationChain msgs) {
 		FaultHandler oldFaultHandlers = faultHandlers;
 		faultHandlers = newFaultHandlers;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__FAULT_HANDLERS, oldFaultHandlers, newFaultHandlers);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__FAULT_HANDLERS,
+					oldFaultHandlers, newFaultHandlers);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -741,14 +812,22 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newFaultHandlers != faultHandlers) {
 			NotificationChain msgs = null;
 			if (faultHandlers != null)
-				msgs = ((InternalEObject)faultHandlers).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__FAULT_HANDLERS, null, msgs);
+				msgs = ((InternalEObject) faultHandlers).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__FAULT_HANDLERS, null,
+						msgs);
 			if (newFaultHandlers != null)
-				msgs = ((InternalEObject)newFaultHandlers).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__FAULT_HANDLERS, null, msgs);
+				msgs = ((InternalEObject) newFaultHandlers).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__FAULT_HANDLERS, null,
+						msgs);
 			msgs = basicSetFaultHandlers(newFaultHandlers, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__FAULT_HANDLERS, newFaultHandlers, newFaultHandlers));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__FAULT_HANDLERS, newFaultHandlers,
+					newFaultHandlers));
 	}
 
 	/**
@@ -765,12 +844,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExtensions(Extensions newExtensions, NotificationChain msgs) {
+	public NotificationChain basicSetExtensions(Extensions newExtensions,
+			NotificationChain msgs) {
 		Extensions oldExtensions = extensions;
 		extensions = newExtensions;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXTENSIONS, oldExtensions, newExtensions);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__EXTENSIONS,
+					oldExtensions, newExtensions);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -784,14 +869,20 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newExtensions != extensions) {
 			NotificationChain msgs = null;
 			if (extensions != null)
-				msgs = ((InternalEObject)extensions).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EXTENSIONS, null, msgs);
+				msgs = ((InternalEObject) extensions).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__EXTENSIONS, null, msgs);
 			if (newExtensions != null)
-				msgs = ((InternalEObject)newExtensions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EXTENSIONS, null, msgs);
+				msgs = ((InternalEObject) newExtensions).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__EXTENSIONS, null, msgs);
 			msgs = basicSetExtensions(newExtensions, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXTENSIONS, newExtensions, newExtensions));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__EXTENSIONS, newExtensions,
+					newExtensions));
 	}
 
 	/**
@@ -812,7 +903,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
 		exitOnStandardFault = newExitOnStandardFault;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT, oldExitOnStandardFault, exitOnStandardFault));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT,
+					oldExitOnStandardFault, exitOnStandardFault));
 	}
 
 	/**
@@ -822,11 +915,13 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 */
 	public MessageExchanges getMessageExchanges() {
 		if (messageExchanges != null && messageExchanges.eIsProxy()) {
-			InternalEObject oldMessageExchanges = (InternalEObject)messageExchanges;
-			messageExchanges = (MessageExchanges)eResolveProxy(oldMessageExchanges);
+			InternalEObject oldMessageExchanges = (InternalEObject) messageExchanges;
+			messageExchanges = (MessageExchanges) eResolveProxy(oldMessageExchanges);
 			if (messageExchanges != oldMessageExchanges) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.PROCESS__MESSAGE_EXCHANGES, oldMessageExchanges, messageExchanges));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.PROCESS__MESSAGE_EXCHANGES,
+							oldMessageExchanges, messageExchanges));
 			}
 		}
 		return messageExchanges;
@@ -850,7 +945,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		MessageExchanges oldMessageExchanges = messageExchanges;
 		messageExchanges = newMessageExchanges;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__MESSAGE_EXCHANGES, oldMessageExchanges, messageExchanges));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__MESSAGE_EXCHANGES,
+					oldMessageExchanges, messageExchanges));
 	}
 
 	/**
@@ -858,7 +955,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.PROCESS__PARTNER_LINKS:
 				return basicSetPartnerLinks(null, msgs);
@@ -873,7 +972,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__CORRELATION_SETS:
 				return basicSetCorrelationSets(null, msgs);
 			case BPELPackage.PROCESS__IMPORTS:
-				return ((InternalEList)getImports()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getImports()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.PROCESS__EXTENSIONS:
 				return basicSetExtensions(null, msgs);
 		}
@@ -885,6 +985,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
@@ -918,7 +1019,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
 				return getExitOnStandardFault();
 			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				if (resolve) return getMessageExchanges();
+				if (resolve)
+					return getMessageExchanges();
 				return basicGetMessageExchanges();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -929,56 +1031,58 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case BPELPackage.PROCESS__TARGET_NAMESPACE:
-				setTargetNamespace((String)newValue);
+				setTargetNamespace((String) newValue);
 				return;
 			case BPELPackage.PROCESS__QUERY_LANGUAGE:
-				setQueryLanguage((String)newValue);
+				setQueryLanguage((String) newValue);
 				return;
 			case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
-				setExpressionLanguage((String)newValue);
+				setExpressionLanguage((String) newValue);
 				return;
 			case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
+				setSuppressJoinFailure((Boolean) newValue);
 				return;
 			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
-				setVariableAccessSerializable((Boolean)newValue);
+				setVariableAccessSerializable((Boolean) newValue);
 				return;
 			case BPELPackage.PROCESS__PARTNER_LINKS:
-				setPartnerLinks((PartnerLinks)newValue);
+				setPartnerLinks((PartnerLinks) newValue);
 				return;
 			case BPELPackage.PROCESS__VARIABLES:
-				setVariables((Variables)newValue);
+				setVariables((Variables) newValue);
 				return;
 			case BPELPackage.PROCESS__ACTIVITY:
-				setActivity((Activity)newValue);
+				setActivity((Activity) newValue);
 				return;
 			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				setFaultHandlers((FaultHandler)newValue);
+				setFaultHandlers((FaultHandler) newValue);
 				return;
 			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				setEventHandlers((EventHandler)newValue);
+				setEventHandlers((EventHandler) newValue);
 				return;
 			case BPELPackage.PROCESS__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets)newValue);
+				setCorrelationSets((CorrelationSets) newValue);
 				return;
 			case BPELPackage.PROCESS__IMPORTS:
 				getImports().clear();
-				getImports().addAll((Collection)newValue);
+				getImports().addAll((Collection<? extends Import>) newValue);
 				return;
 			case BPELPackage.PROCESS__EXTENSIONS:
-				setExtensions((Extensions)newValue);
+				setExtensions((Extensions) newValue);
 				return;
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
-				setExitOnStandardFault((Boolean)newValue);
+				setExitOnStandardFault((Boolean) newValue);
 				return;
 			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				setMessageExchanges((MessageExchanges)newValue);
+				setMessageExchanges((MessageExchanges) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -989,6 +1093,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
@@ -1010,34 +1115,34 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 				unsetVariableAccessSerializable();
 				return;
 			case BPELPackage.PROCESS__PARTNER_LINKS:
-				setPartnerLinks((PartnerLinks)null);
+				setPartnerLinks((PartnerLinks) null);
 				return;
 			case BPELPackage.PROCESS__VARIABLES:
-				setVariables((Variables)null);
+				setVariables((Variables) null);
 				return;
 			case BPELPackage.PROCESS__ACTIVITY:
-				setActivity((Activity)null);
+				setActivity((Activity) null);
 				return;
 			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				setFaultHandlers((FaultHandler)null);
+				setFaultHandlers((FaultHandler) null);
 				return;
 			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				setEventHandlers((EventHandler)null);
+				setEventHandlers((EventHandler) null);
 				return;
 			case BPELPackage.PROCESS__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets)null);
+				setCorrelationSets((CorrelationSets) null);
 				return;
 			case BPELPackage.PROCESS__IMPORTS:
 				getImports().clear();
 				return;
 			case BPELPackage.PROCESS__EXTENSIONS:
-				setExtensions((Extensions)null);
+				setExtensions((Extensions) null);
 				return;
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
 				setExitOnStandardFault(EXIT_ON_STANDARD_FAULT_EDEFAULT);
 				return;
 			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				setMessageExchanges((MessageExchanges)null);
+				setMessageExchanges((MessageExchanges) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -1048,12 +1153,15 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.PROCESS__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case BPELPackage.PROCESS__TARGET_NAMESPACE:
-				return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
+				return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null
+						: !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
 			case BPELPackage.PROCESS__QUERY_LANGUAGE:
 				return isSetQueryLanguage();
 			case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
@@ -1079,7 +1187,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 			case BPELPackage.PROCESS__EXTENSIONS:
 				return extensions != null;
 			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
-				return EXIT_ON_STANDARD_FAULT_EDEFAULT == null ? exitOnStandardFault != null : !EXIT_ON_STANDARD_FAULT_EDEFAULT.equals(exitOnStandardFault);
+				return EXIT_ON_STANDARD_FAULT_EDEFAULT == null ? exitOnStandardFault != null
+						: !EXIT_ON_STANDARD_FAULT_EDEFAULT
+								.equals(exitOnStandardFault);
 			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
 				return messageExchanges != null;
 		}
@@ -1100,12 +1210,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetEventHandlers(EventHandler newEventHandlers, NotificationChain msgs) {
+	public NotificationChain basicSetEventHandlers(
+			EventHandler newEventHandlers, NotificationChain msgs) {
 		EventHandler oldEventHandlers = eventHandlers;
 		eventHandlers = newEventHandlers;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS, oldEventHandlers, newEventHandlers);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS,
+					oldEventHandlers, newEventHandlers);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -1119,14 +1235,22 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newEventHandlers != eventHandlers) {
 			NotificationChain msgs = null;
 			if (eventHandlers != null)
-				msgs = ((InternalEObject)eventHandlers).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EVENT_HANDLERS, null, msgs);
+				msgs = ((InternalEObject) eventHandlers).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__EVENT_HANDLERS, null,
+						msgs);
 			if (newEventHandlers != null)
-				msgs = ((InternalEObject)newEventHandlers).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__EVENT_HANDLERS, null, msgs);
+				msgs = ((InternalEObject) newEventHandlers).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__EVENT_HANDLERS, null,
+						msgs);
 			msgs = basicSetEventHandlers(newEventHandlers, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__EVENT_HANDLERS, newEventHandlers, newEventHandlers));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__EVENT_HANDLERS, newEventHandlers,
+					newEventHandlers));
 	}
 
 	/**
@@ -1143,12 +1267,18 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCorrelationSets(CorrelationSets newCorrelationSets, NotificationChain msgs) {
+	public NotificationChain basicSetCorrelationSets(
+			CorrelationSets newCorrelationSets, NotificationChain msgs) {
 		CorrelationSets oldCorrelationSets = correlationSets;
 		correlationSets = newCorrelationSets;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS, oldCorrelationSets, newCorrelationSets);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS,
+					oldCorrelationSets, newCorrelationSets);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -1162,14 +1292,22 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 		if (newCorrelationSets != correlationSets) {
 			NotificationChain msgs = null;
 			if (correlationSets != null)
-				msgs = ((InternalEObject)correlationSets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__CORRELATION_SETS, null, msgs);
+				msgs = ((InternalEObject) correlationSets).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__CORRELATION_SETS, null,
+						msgs);
 			if (newCorrelationSets != null)
-				msgs = ((InternalEObject)newCorrelationSets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.PROCESS__CORRELATION_SETS, null, msgs);
+				msgs = ((InternalEObject) newCorrelationSets).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__CORRELATION_SETS, null,
+						msgs);
 			msgs = basicSetCorrelationSets(newCorrelationSets, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.PROCESS__CORRELATION_SETS, newCorrelationSets, newCorrelationSets));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__CORRELATION_SETS, newCorrelationSets,
+					newCorrelationSets));
 	}
 
 	/**
@@ -1177,9 +1315,10 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getImports() {
+	public EList<Import> getImports() {
 		if (imports == null) {
-			imports = new EObjectContainmentEList(Import.class, this, BPELPackage.PROCESS__IMPORTS);
+			imports = new EObjectContainmentEList<Import>(Import.class, this,
+					BPELPackage.PROCESS__IMPORTS);
 		}
 		return imports;
 	}
@@ -1189,23 +1328,37 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", targetNamespace: ");
+		result.append(", targetNamespace: "); //$NON-NLS-1$
 		result.append(targetNamespace);
-		result.append(", queryLanguage: ");
-		if (queryLanguageESet) result.append(queryLanguage); else result.append("<unset>");
-		result.append(", expressionLanguage: ");
-		if (expressionLanguageESet) result.append(expressionLanguage); else result.append("<unset>");
-		result.append(", suppressJoinFailure: ");
-		if (suppressJoinFailureESet) result.append(suppressJoinFailure); else result.append("<unset>");
-		result.append(", variableAccessSerializable: ");
-		if (variableAccessSerializableESet) result.append(variableAccessSerializable); else result.append("<unset>");
-		result.append(", exitOnStandardFault: ");
+		result.append(", queryLanguage: "); //$NON-NLS-1$
+		if (queryLanguageESet)
+			result.append(queryLanguage);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", expressionLanguage: "); //$NON-NLS-1$
+		if (expressionLanguageESet)
+			result.append(expressionLanguage);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", suppressJoinFailure: "); //$NON-NLS-1$
+		if (suppressJoinFailureESet)
+			result.append(suppressJoinFailure);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", variableAccessSerializable: "); //$NON-NLS-1$
+		if (variableAccessSerializableESet)
+			result.append(variableAccessSerializable);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", exitOnStandardFault: "); //$NON-NLS-1$
 		result.append(exitOnStandardFault);
 		result.append(')');
 		return result.toString();
@@ -1215,7 +1368,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements org.eclipse.bp
 	 * @customized
 	 */
 	private List fieldPostLoadRunnables;
-	
+
 	/**
 	 * @see org.eclipse.bpel.model.Process#getPostLoadRunnables()
 	 * @customized

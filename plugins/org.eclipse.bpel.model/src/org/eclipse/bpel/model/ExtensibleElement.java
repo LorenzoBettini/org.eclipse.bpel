@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElement.java,v 1.2 2007/07/09 19:16:47 mchmielewski Exp $
+ * $Id: ExtensibleElement.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +22,8 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface ExtensibleElement extends org.eclipse.wst.wsdl.ExtensibleElement{
+public interface ExtensibleElement extends
+		org.eclipse.wst.wsdl.ExtensibleElement {
 	/**
 	 * Returns the value of the '<em><b>Documentation</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -76,8 +76,7 @@ public interface ExtensibleElement extends org.eclipse.wst.wsdl.ExtensibleElemen
 	 * @generated
 	 */
 	boolean isSetDocumentation();
-	
-	
+
 	/**
 	 * Get transient property of the model object. 
 	 * These properties are never saved as part of the model. 
@@ -87,9 +86,9 @@ public interface ExtensibleElement extends org.eclipse.wst.wsdl.ExtensibleElemen
 	 * @return the value of the property
 	 * @generated NOT
 	 */
-	
-	<T extends Object> T getTransientProperty ( String key ) ;
-	
+
+	<T extends Object> T getTransientProperty(String key);
+
 	/** 
 	 * Set transient property of this model object. 
 	 * These properties are never saved as part of the model object.
@@ -99,7 +98,7 @@ public interface ExtensibleElement extends org.eclipse.wst.wsdl.ExtensibleElemen
 	 * @return  the previous value or null
 	 * @generated NOT
 	 */
-	
-	<T extends Object> T  setTransientProperty ( String key , T value) ;
+
+	<T extends Object> T setTransientProperty(String key, T value);
 
 } // ExtensibleElement

@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchange.java,v 1.2 2007/02/09 09:13:43 smoser Exp $
+ * $Id: MessageExchange.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->

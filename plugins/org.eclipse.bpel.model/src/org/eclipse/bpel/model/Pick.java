@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Pick.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: Pick.java,v 1.2 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Pick extends Activity{
+public interface Pick extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Create Instance</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
@@ -104,10 +104,10 @@ public interface Pick extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Messages</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getPick_Messages()
-	 * @model type="org.eclipse.bpel.model.OnMessage" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList getMessages();
+	EList<OnMessage> getMessages();
 
 	/**
 	 * Returns the value of the '<em><b>Alarm</b></em>' containment reference list.
@@ -120,9 +120,9 @@ public interface Pick extends Activity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Alarm</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getPick_Alarm()
-	 * @model type="org.eclipse.bpel.model.OnAlarm" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getAlarm();
+	EList<OnAlarm> getAlarm();
 
 } // Pick

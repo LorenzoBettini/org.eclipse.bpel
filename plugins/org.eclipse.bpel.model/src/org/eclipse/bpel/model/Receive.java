@@ -10,10 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Receive.java,v 1.2 2005/12/06 02:05:30 james Exp $
+ * $Id: Receive.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 import org.eclipse.emf.common.util.EList;
 
@@ -43,7 +42,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Receive extends PartnerActivity{
+public interface Receive extends PartnerActivity {
 	/**
 	 * Returns the value of the '<em><b>Create Instance</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
@@ -135,9 +134,9 @@ public interface Receive extends PartnerActivity{
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>From Part</em>' reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getReceive_FromPart()
-	 * @model type="org.eclipse.bpel.model.FromPart"
+	 * @model
 	 * @generated
 	 */
-	EList getFromPart();
+	EList<FromPart> getFromPart();
 
 } // Receive

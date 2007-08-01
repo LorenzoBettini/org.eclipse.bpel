@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BooleanExpressionImpl.java,v 1.4 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: BooleanExpressionImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -31,7 +31,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class BooleanExpressionImpl extends ExpressionImpl implements BooleanExpression {
+public class BooleanExpressionImpl extends ExpressionImpl implements
+		BooleanExpression {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -46,6 +47,7 @@ public class BooleanExpressionImpl extends ExpressionImpl implements BooleanExpr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.BOOLEAN_EXPRESSION;
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.3 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: WaitImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -80,6 +80,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.WAIT;
 	}
@@ -98,12 +99,17 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFor(Expression newFor, NotificationChain msgs) {
+	public NotificationChain basicSetFor(Expression newFor,
+			NotificationChain msgs) {
 		Expression oldFor = for_;
 		for_ = newFor;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.WAIT__FOR, oldFor, newFor);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.WAIT__FOR, oldFor, newFor);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -117,14 +123,19 @@ public class WaitImpl extends ActivityImpl implements Wait {
 		if (newFor != for_) {
 			NotificationChain msgs = null;
 			if (for_ != null)
-				msgs = ((InternalEObject)for_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__FOR, null, msgs);
+				msgs = ((InternalEObject) for_).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__FOR, null,
+						msgs);
 			if (newFor != null)
-				msgs = ((InternalEObject)newFor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__FOR, null, msgs);
+				msgs = ((InternalEObject) newFor).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__FOR, null,
+						msgs);
 			msgs = basicSetFor(newFor, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.WAIT__FOR, newFor, newFor));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.WAIT__FOR, newFor, newFor));
 	}
 
 	/**
@@ -141,12 +152,18 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetUntil(Expression newUntil, NotificationChain msgs) {
+	public NotificationChain basicSetUntil(Expression newUntil,
+			NotificationChain msgs) {
 		Expression oldUntil = until;
 		until = newUntil;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.WAIT__UNTIL, oldUntil, newUntil);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.WAIT__UNTIL, oldUntil,
+					newUntil);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -160,14 +177,19 @@ public class WaitImpl extends ActivityImpl implements Wait {
 		if (newUntil != until) {
 			NotificationChain msgs = null;
 			if (until != null)
-				msgs = ((InternalEObject)until).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__UNTIL, null, msgs);
+				msgs = ((InternalEObject) until).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__UNTIL, null,
+						msgs);
 			if (newUntil != null)
-				msgs = ((InternalEObject)newUntil).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__UNTIL, null, msgs);
+				msgs = ((InternalEObject) newUntil).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.WAIT__UNTIL, null,
+						msgs);
 			msgs = basicSetUntil(newUntil, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.WAIT__UNTIL, newUntil, newUntil));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.WAIT__UNTIL, newUntil, newUntil));
 	}
 
 	/**
@@ -175,7 +197,9 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
 				return basicSetFor(null, msgs);
@@ -190,6 +214,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
@@ -205,13 +230,14 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
-				setFor((Expression)newValue);
+				setFor((Expression) newValue);
 				return;
 			case BPELPackage.WAIT__UNTIL:
-				setUntil((Expression)newValue);
+				setUntil((Expression) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -222,13 +248,14 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.WAIT__FOR:
-				setFor((Expression)null);
+				setFor((Expression) null);
 				return;
 			case BPELPackage.WAIT__UNTIL:
-				setUntil((Expression)null);
+				setUntil((Expression) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -239,6 +266,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.WAIT__FOR:

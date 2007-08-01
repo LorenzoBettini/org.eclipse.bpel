@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.2 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: QueryImpl.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -107,6 +107,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return MessagepropertiesPackage.Literals.QUERY;
 	}
@@ -129,7 +130,9 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		String oldQueryLanguage = queryLanguage;
 		queryLanguage = newQueryLanguage;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.QUERY__QUERY_LANGUAGE, oldQueryLanguage, queryLanguage));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MessagepropertiesPackage.QUERY__QUERY_LANGUAGE,
+					oldQueryLanguage, queryLanguage));
 	}
 
 	/**
@@ -150,7 +153,8 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.QUERY__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MessagepropertiesPackage.QUERY__VALUE, oldValue, value));
 	}
 
 	/**
@@ -158,6 +162,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
@@ -173,13 +178,14 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-				setQueryLanguage((String)newValue);
+				setQueryLanguage((String) newValue);
 				return;
 			case MessagepropertiesPackage.QUERY__VALUE:
-				setValue((String)newValue);
+				setValue((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -190,6 +196,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
@@ -207,12 +214,15 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null : !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
+				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
+						: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
 			case MessagepropertiesPackage.QUERY__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+						.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -222,13 +232,15 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (queryLanguage: ");
+		result.append(" (queryLanguage: "); //$NON-NLS-1$
 		result.append(queryLanguage);
-		result.append(", value: ");
+		result.append(", value: "); //$NON-NLS-1$
 		result.append(value);
 		result.append(')');
 		return result.toString();
@@ -238,12 +250,13 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	// Reconcile methods: DOM -> Model
 	//
 
-	public void reconcileAttributes(Element changedElement)
-	{
-	    //System.out.println("RoleImpl.reconcileAttributes("+changedElement+")");
-	    super.reconcileAttributes(changedElement);
+	public void reconcileAttributes(Element changedElement) {
+		//System.out.println("RoleImpl.reconcileAttributes("+changedElement+")");
+		super.reconcileAttributes(changedElement);
 
-	    setQueryLanguage(MessagepropertiesConstants.getAttribute(changedElement, MessagepropertiesConstants.QUERY_QUERYLANGUAGE_ATTRIBUTE));
+		setQueryLanguage(MessagepropertiesConstants.getAttribute(
+				changedElement,
+				MessagepropertiesConstants.QUERY_QUERYLANGUAGE_ATTRIBUTE));
 
 		// Determine whether or not there is an element in the child list.
 		Node candidateChild = null;
@@ -266,48 +279,51 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		reconcileReferences(true); // TODO true?
 	}
 
-	public void handleUnreconciledElement(Element child, Collection remainingModelObjects)
-    {
-	    //System.out.println("QueryImpl.handleUnreconciledElement()");
-//		String value = getText(child);
-//		if (value != null) {
-//			setValue(value);
-//		}
-    }
+	public void handleUnreconciledElement(Element child,
+			Collection remainingModelObjects) {
+		//System.out.println("QueryImpl.handleUnreconciledElement()");
+		//		String value = getText(child);
+		//		if (value != null) {
+		//			setValue(value);
+		//		}
+	}
 
 	//
 	// For reconciliation: Model -> DOM
 	//
 
-	protected void changeAttribute(EAttribute eAttribute)
-	{
-	    //System.out.println("RoleImpl.changeAttribute("+eAttribute+")");
-	    if (isReconciling)
-	        return;
+	protected void changeAttribute(EAttribute eAttribute) {
+		//System.out.println("RoleImpl.changeAttribute("+eAttribute+")");
+		if (isReconciling)
+			return;
 
-	    super.changeAttribute(eAttribute);
-	    Element theElement = getElement();
-	    if (theElement != null)
-	    {
-	        if (eAttribute == null || eAttribute == MessagepropertiesPackage.eINSTANCE.getQuery_QueryLanguage())
-	            niceSetAttribute(theElement,MessagepropertiesConstants.QUERY_QUERYLANGUAGE_ATTRIBUTE,getQueryLanguage());
-	    }
+		super.changeAttribute(eAttribute);
+		Element theElement = getElement();
+		if (theElement != null) {
+			if (eAttribute == null
+					|| eAttribute == MessagepropertiesPackage.eINSTANCE
+							.getQuery_QueryLanguage())
+				niceSetAttribute(
+						theElement,
+						MessagepropertiesConstants.QUERY_QUERYLANGUAGE_ATTRIBUTE,
+						getQueryLanguage());
+		}
 	}
 
-	public Element createElement()
-    {
-	    //System.out.println("QueryImpl.createElement()");
-	    Element newElement = super.createElement();
-	    
-	    String value = getValue();
-	    if (value != null) {
-			CDATASection cdata = getEnclosingDefinition().getDocument().createCDATASection(value);
+	public Element createElement() {
+		//System.out.println("QueryImpl.createElement()");
+		Element newElement = super.createElement();
+
+		String value = getValue();
+		if (value != null) {
+			CDATASection cdata = getEnclosingDefinition().getDocument()
+					.createCDATASection(value);
 			newElement.appendChild(cdata);
-	    }
-	    
-	    return newElement;
-    }
-	
+		}
+
+		return newElement;
+	}
+
 	/**
 	 * Helper method to get a string from the given text node or CDATA text node.
 	 */
@@ -316,16 +332,17 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		boolean containsValidData = false;
 		while (node != null) {
 			if (node.getNodeType() == Node.TEXT_NODE) {
-				Text text = (Text)node;
+				Text text = (Text) node;
 				data += text.getData();
 			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-				data="";
+				data = "";
 				do {
 					CDATASection cdata = (CDATASection) node;
 					data += cdata.getData();
 					node = node.getNextSibling();
 					containsValidData = true;
-				} while (node != null && node.getNodeType() == Node.CDATA_SECTION_NODE);
+				} while (node != null
+						&& node.getNodeType() == Node.CDATA_SECTION_NODE);
 				break;
 			}
 			node = node.getNextSibling();
@@ -333,7 +350,8 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		if (!containsValidData) {
 			for (int i = 0; i < data.length(); i++) {
 				char charData = data.charAt(i);
-				if (charData == '\n' || Character.isWhitespace(charData)){}//ignore
+				if (charData == '\n' || Character.isWhitespace(charData)) {
+				}//ignore
 				else { //valid data
 					containsValidData = true;
 					break;
@@ -346,17 +364,15 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 			return null;
 		}
 	}
-	
-	
+
 	/**
 	 * Override the XML element token.
 	 */
-	public QName getElementType()
-	{
-		if (elementType == null) 
-			elementType = new QName(MessagepropertiesConstants.NAMESPACE, MessagepropertiesConstants.QUERY_ELEMENT_TAG);
+	public QName getElementType() {
+		if (elementType == null)
+			elementType = new QName(MessagepropertiesConstants.NAMESPACE,
+					MessagepropertiesConstants.QUERY_ELEMENT_TAG);
 		return elementType;
-    }
-	
-	
+	}
+
 } //QueryImpl

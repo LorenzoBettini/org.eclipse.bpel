@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EventHandlerImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: EventHandlerImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -44,7 +44,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class EventHandlerImpl extends ExtensibleElementImpl implements EventHandler {
+public class EventHandlerImpl extends ExtensibleElementImpl implements
+		EventHandler {
 	/**
 	 * The cached value of the '{@link #getAlarm() <em>Alarm</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -53,7 +54,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * @generated
 	 * @ordered
 	 */
-	protected EList alarm;
+	protected EList<OnAlarm> alarm;
 
 	/**
 	 * The cached value of the '{@link #getEvents() <em>Events</em>}' containment reference list.
@@ -63,7 +64,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * @generated
 	 * @ordered
 	 */
-	protected EList events;
+	protected EList<OnEvent> events;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -79,6 +80,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.EVENT_HANDLER;
 	}
@@ -88,9 +90,10 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAlarm() {
+	public EList<OnAlarm> getAlarm() {
 		if (alarm == null) {
-			alarm = new EObjectContainmentEList(OnAlarm.class, this, BPELPackage.EVENT_HANDLER__ALARM);
+			alarm = new EObjectContainmentEList<OnAlarm>(OnAlarm.class, this,
+					BPELPackage.EVENT_HANDLER__ALARM);
 		}
 		return alarm;
 	}
@@ -100,9 +103,10 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getEvents() {
+	public EList<OnEvent> getEvents() {
 		if (events == null) {
-			events = new EObjectContainmentEList(OnEvent.class, this, BPELPackage.EVENT_HANDLER__EVENTS);
+			events = new EObjectContainmentEList<OnEvent>(OnEvent.class, this,
+					BPELPackage.EVENT_HANDLER__EVENTS);
 		}
 		return events;
 	}
@@ -112,12 +116,16 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
-				return ((InternalEList)getAlarm()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getAlarm()).basicRemove(otherEnd,
+						msgs);
 			case BPELPackage.EVENT_HANDLER__EVENTS:
-				return ((InternalEList)getEvents()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getEvents()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -127,6 +135,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
@@ -142,15 +151,17 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
 				getAlarm().clear();
-				getAlarm().addAll((Collection)newValue);
+				getAlarm().addAll((Collection<? extends OnAlarm>) newValue);
 				return;
 			case BPELPackage.EVENT_HANDLER__EVENTS:
 				getEvents().clear();
-				getEvents().addAll((Collection)newValue);
+				getEvents().addAll((Collection<? extends OnEvent>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -161,6 +172,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:
@@ -178,6 +190,7 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements EventHand
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.EVENT_HANDLER__ALARM:

@@ -10,10 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: While.java,v 1.1 2005/11/29 18:50:26 james Exp $
+ * $Id: While.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +35,7 @@ package org.eclipse.bpel.model;
  * @model
  * @generated
  */
-public interface While extends Activity{
+public interface While extends Activity {
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

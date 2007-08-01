@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkTypeImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: PartnerLinkTypeImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -61,7 +61,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements PartnerLinkType {
+public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
+		PartnerLinkType {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -100,7 +101,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * @generated
 	 * @ordered
 	 */
-	protected EList role;
+	protected EList<Role> role;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -116,6 +117,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return PartnerlinktypePackage.Literals.PARTNER_LINK_TYPE;
 	}
@@ -138,7 +140,9 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME, oldName,
+					name));
 	}
 
 	/**
@@ -147,8 +151,9 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * @generated NOT
 	 */
 	public String getID() {
-        String id = BPELServicesUtility.getIdForExtensibilityElement(this, getName());
-        return id;
+		String id = BPELServicesUtility.getIdForExtensibilityElement(this,
+				getName());
+		return id;
 	}
 
 	/**
@@ -156,9 +161,10 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getRole() {
+	public EList<Role> getRole() {
 		if (role == null) {
-			role = new EObjectContainmentEList(Role.class, this, PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE);
+			role = new EObjectContainmentEList<Role>(Role.class, this,
+					PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE);
 		}
 		return role;
 	}
@@ -168,10 +174,13 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
-				return ((InternalEList)getRole()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getRole()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -181,6 +190,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
@@ -198,14 +208,16 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
 				getRole().clear();
-				getRole().addAll((Collection)newValue);
+				getRole().addAll((Collection<? extends Role>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -216,6 +228,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
@@ -233,12 +246,15 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ID:
-				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT.equals(getID());
+				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT
+						.equals(getID());
 			case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
 				return role != null && !role.isEmpty();
 		}
@@ -250,11 +266,13 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
 		return result.toString();
@@ -263,135 +281,125 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements Par
 	/**
 	 * Override the XML element token.
 	 */
-	public QName getElementType()
-	{
+	public QName getElementType() {
 		if (elementType == null)
-			elementType = new QName(PartnerlinktypeConstants.NAMESPACE, PartnerlinktypeConstants.PARTNER_LINK_TYPE_ELEMENT_TAG);
+			elementType = new QName(PartnerlinktypeConstants.NAMESPACE,
+					PartnerlinktypeConstants.PARTNER_LINK_TYPE_ELEMENT_TAG);
 		return elementType;
-    }
-	
+	}
+
 	//
 	// Reconcile methods: DOM -> Model
 	//
 
-	public void reconcileAttributes(Element changedElement)
-	{
-	    //System.out.println("PartnerLinkTypeImpl.reconcileAttributes()");
-	    super.reconcileAttributes(changedElement);
-	    
-	    setName
-    	(PartnerlinktypeConstants.getAttribute(changedElement, PartnerlinktypeConstants.NAME_ATTRIBUTE));
+	public void reconcileAttributes(Element changedElement) {
+		//System.out.println("PartnerLinkTypeImpl.reconcileAttributes()");
+		super.reconcileAttributes(changedElement);
 
-	    reconcileReferences(false); // TODO true?
+		setName(PartnerlinktypeConstants.getAttribute(changedElement,
+				PartnerlinktypeConstants.NAME_ATTRIBUTE));
+
+		reconcileReferences(false); // TODO true?
 	}
 
-	public void reconcileReferences(boolean deep)
-    {
-	    //System.out.println("PartnerLinkTypeImpl.reconcileReferences("+deep+")");
-        super.reconcileReferences(deep);
-    }
-	
-	public void handleUnreconciledElement(Element child, Collection remainingModelObjects)
-    {
-	    //System.out.println("PartnerLinkTypeImpl.handleUnreconciledElement()");
-	    if (PartnerlinktypeConstants.ROLE_ELEMENT_TAG.equals(child.getLocalName()))
-	    {
-	        Role role = PartnerlinktypeFactory.eINSTANCE.createRole();
-	        role.setEnclosingDefinition(getEnclosingDefinition());
-	        role.setElement(child);
-	        getRole().add(role);
-	    }
-    }
+	public void reconcileReferences(boolean deep) {
+		//System.out.println("PartnerLinkTypeImpl.reconcileReferences("+deep+")");
+		super.reconcileReferences(deep);
+	}
 
-	protected void handleReconciliation(Collection remainingModelObjects)
-    {
-	    //System.out.println("PartnerLinkTypeImpl.handleReconciliation("+remainingModelObjects+")");
-	    for (Iterator i = remainingModelObjects.iterator(); i.hasNext();)
-	    {
-	      remove(this, i.next());
-	    }
-    }
-	
-	protected void remove(Object component, Object modelObject)
-    {
-	    //System.out.println("PartnerLinkTypeImpl.remove("+component+","+modelObject+")");
-        PartnerLinkType plt = (PartnerLinkType) component;
-        if (modelObject instanceof Role)
-        {
-            plt.getRole().remove(modelObject);
-        }
-    }
-	
+	public void handleUnreconciledElement(Element child,
+			Collection remainingModelObjects) {
+		//System.out.println("PartnerLinkTypeImpl.handleUnreconciledElement()");
+		if (PartnerlinktypeConstants.ROLE_ELEMENT_TAG.equals(child
+				.getLocalName())) {
+			Role role = PartnerlinktypeFactory.eINSTANCE.createRole();
+			role.setEnclosingDefinition(getEnclosingDefinition());
+			role.setElement(child);
+			getRole().add(role);
+		}
+	}
+
+	protected void handleReconciliation(Collection remainingModelObjects) {
+		//System.out.println("PartnerLinkTypeImpl.handleReconciliation("+remainingModelObjects+")");
+		for (Iterator i = remainingModelObjects.iterator(); i.hasNext();) {
+			remove(this, i.next());
+		}
+	}
+
+	protected void remove(Object component, Object modelObject) {
+		//System.out.println("PartnerLinkTypeImpl.remove("+component+","+modelObject+")");
+		PartnerLinkType plt = (PartnerLinkType) component;
+		if (modelObject instanceof Role) {
+			plt.getRole().remove(modelObject);
+		}
+	}
+
 	//
 	// For reconciliation: Model -> DOM
 	//
 
-	protected void changeAttribute(EAttribute eAttribute)
-	{
-	    //System.out.println("PartnerLinkTypeImpl.changeAttribute("+eAttribute+")");
+	protected void changeAttribute(EAttribute eAttribute) {
+		//System.out.println("PartnerLinkTypeImpl.changeAttribute("+eAttribute+")");
 
-	    if (isReconciling)
-	        return;
+		if (isReconciling)
+			return;
 
-	    super.changeAttribute(eAttribute);
-	    Element theElement = getElement();
-	    if (theElement != null)
-	    {
-	        if (eAttribute == null || eAttribute == PartnerlinktypePackage.eINSTANCE.getPartnerLinkType_Name())
-	            niceSetAttribute(theElement,PartnerlinktypeConstants.NAME_ATTRIBUTE,getName());
-	    }
+		super.changeAttribute(eAttribute);
+		Element theElement = getElement();
+		if (theElement != null) {
+			if (eAttribute == null
+					|| eAttribute == PartnerlinktypePackage.eINSTANCE
+							.getPartnerLinkType_Name())
+				niceSetAttribute(theElement,
+						PartnerlinktypeConstants.NAME_ATTRIBUTE, getName());
+		}
 	}
 
-	protected void changeReference(EReference eReference)
-    {
-	    //System.out.println("PartnerLinkTypeImpl.changeReference("+eReference+")");
-	    
-	    if (isReconciling)
-            return;
+	protected void changeReference(EReference eReference) {
+		//System.out.println("PartnerLinkTypeImpl.changeReference("+eReference+")");
 
-        super.changeReference(eReference);
-        Element theElement = getElement();
-        if (theElement != null)
-        {
-            if (eReference == null || eReference == PartnerlinktypePackage.eINSTANCE.getPartnerLinkType_Role())
-            {
-                // TODO: Should I do something here?
-//                List roles = getRole();
-//                for (Iterator i = roles.iterator(); i.hasNext();)
-//                {
-//                    Role role = (Role) i.next();
-//                }
-            }
-        }
-    }
-	
-	public Element createElement()
-    {
-	    //System.out.println("PartnerLinkTypeImpl.createElement()");
+		if (isReconciling)
+			return;
+
+		super.changeReference(eReference);
+		Element theElement = getElement();
+		if (theElement != null) {
+			if (eReference == null
+					|| eReference == PartnerlinktypePackage.eINSTANCE
+							.getPartnerLinkType_Role()) {
+				// TODO: Should I do something here?
+				//                List roles = getRole();
+				//                for (Iterator i = roles.iterator(); i.hasNext();)
+				//                {
+				//                    Role role = (Role) i.next();
+				//                }
+			}
+		}
+	}
+
+	public Element createElement() {
+		//System.out.println("PartnerLinkTypeImpl.createElement()");
 
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.
-		
+
 		//if (getEnclosingDefinition().getPrefix(PartnerlinktypeConstants.NAMESPACE) == null) {
 		//	getEnclosingDefinition().addNamespace(PartnerlinktypePackage.eNS_PREFIX, PartnerlinktypeConstants.NAMESPACE);
 		//}		
 		// System.out.println("Namespace: " + getEnclosingDefinition().getNamespaces());
-		
-	    Element newElement = super.createElement();
-	    
-	    for (Iterator i = getRole().iterator(); i.hasNext();)
-        {
-            Object obj = i.next();
-            if (obj instanceof Role)
-            {
-                Role role = (Role) obj;
-                Element child = ((RoleImpl) role).createElement();
-                newElement.appendChild(child);
-            }
-        }
-	    
-	    return newElement;
-    }
-	
-	
+
+		Element newElement = super.createElement();
+
+		for (Iterator i = getRole().iterator(); i.hasNext();) {
+			Object obj = i.next();
+			if (obj instanceof Role) {
+				Role role = (Role) obj;
+				Element child = ((RoleImpl) role).createElement();
+				newElement.appendChild(child);
+			}
+		}
+
+		return newElement;
+	}
+
 } //PartnerLinkTypeImpl

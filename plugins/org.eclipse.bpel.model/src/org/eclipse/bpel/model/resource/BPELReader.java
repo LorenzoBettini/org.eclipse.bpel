@@ -17,7 +17,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -174,15 +173,20 @@ public class BPELReader implements ErrorHandler {
 	ErrorHandler fErrorHandler = null;
 	
 	
-	// The WS-BPEL Specification says how to resolve variables, taking into
-	// account scopes, etc. Technically, no one should override this behavior,
-	// but replacing this field with another implementation could allow
-	// you to optimize the search or provide different behavior.
+	/** The WS-BPEL Specification says how to resolve variables, taking into
+	 * account scopes, etc. Technically, no one should override this behavior,
+	 * but replacing this field with another implementation could allow
+	 * you to optimize the search or provide different behavior. 
+	 */
 	public static VariableResolver VARIABLE_RESOLVER = new BPELVariableResolver();
-	// The WS-BPEL Specification says how to resolve links, taking into
-	// account scopes, etc. Technically, no one should override this behavior,
-	// but replacing this field with another implementation could allow
-	// you to optimize the search or provide different behavior.
+	
+	/**
+	 * The WS-BPEL Specification says how to resolve links, taking into
+	 * account scopes, etc. Technically, no one should override this behavior,
+	 * but replacing this field with another implementation could allow
+	 * you to optimize the search or provide different behavior.
+	 */
+	
 	public static LinkResolver LINK_RESOLVER = new BPELLinkResolver();
 	
 	
@@ -249,7 +253,7 @@ public class BPELReader implements ErrorHandler {
 
 	
 	Document read ( InputSource inputSource ) throws IOException, SAXException {	
-		assert (docBuilder  != null || fDOMParser != null);
+		assert (docBuilder  != null || fDOMParser != null) : "No document builder/parser set";
 
 		if (docBuilder != null) {
 			return docBuilder.parse(inputSource);
@@ -266,7 +270,7 @@ public class BPELReader implements ErrorHandler {
 	 * @param inputStream  the input stream to read the BPEL from
 	 */
 	
-	public void read(BPELResource resource, InputStream inputStream)  {
+	public void read (BPELResource resource, InputStream inputStream)  {
 		
 		armErrorHandler ();
 		
@@ -442,8 +446,8 @@ public class BPELReader implements ErrorHandler {
 	 * @param element  the element to get the xmlns definitions for
 	 * @return a map of visible xmlns definitions
 	 */
-	protected Map getAllNamespacesForElement(Element element) {
-		Map nsMap = new HashMap();		
+	protected Map<String,String> getAllNamespacesForElement (Element element) {
+		Map<String,String> nsMap = new HashMap<String,String>();		
 		Node tempNode = element;        
 		while (tempNode != null && tempNode.getNodeType() == Node.ELEMENT_NODE) {
 			NamedNodeMap attrs = ((Element)tempNode).getAttributes();
@@ -1011,17 +1015,16 @@ public class BPELReader implements ErrorHandler {
 		
 		// Move variables that are extensibility elements to the list of children
 		// JM: What is this supposed to accomplish?
-		List toBeMoved = new BasicEList();
-		for (Iterator iter = variables.getExtensibilityElements().iterator(); iter.hasNext();) {
-			ExtensibilityElement element = (ExtensibilityElement) iter.next();
-			if(element instanceof Variable)
-				toBeMoved.add(element);
+		List<Variable> toBeMoved = new BasicEList<Variable>();
+		for (Object next : variables.getExtensibilityElements() ) {
+			if (next instanceof Variable) {
+				toBeMoved.add((Variable) next);
+			}
 		}
 		
-		List children = variables.getChildren();
-		List extensibility = variables.getExtensibilityElements();
-		for (Iterator iter = toBeMoved.iterator(); iter.hasNext();) {
-			Variable element = (Variable) iter.next();
+		List<?> extensibility = variables.getExtensibilityElements();
+		List<Variable> children = variables.getChildren();
+		for(Variable element : toBeMoved) {
 			extensibility.remove(element);
 			children.add(element);
 		}
@@ -1806,13 +1809,13 @@ public class BPELReader implements ErrorHandler {
                pickInstanceElement = (Element)pickElements.item(i);
                
 				if (pickInstanceElement.getLocalName().equals("onAlarm")) {
-     				OnAlarm onAlarm = xml2OnAlarm((Element)pickInstanceElement);
+     				OnAlarm onAlarm = xml2OnAlarm( pickInstanceElement );
      				
      				pick.getAlarm().add(onAlarm);
      			}     	
 				else
 					if (pickInstanceElement.getLocalName().equals("onMessage")) {
-     					OnMessage onMessage = xml2OnMessage((Element)pickInstanceElement);
+     					OnMessage onMessage = xml2OnMessage(pickInstanceElement);
 	     				
     	 				pick.getMessages().add(onMessage);
      				}     
@@ -1844,11 +1847,11 @@ public class BPELReader implements ErrorHandler {
 			   	eventHandlerInstanceElement = (Element)eventHandlerElements.item(i);
                
 				if (eventHandlerInstanceElement.getLocalName().equals("onAlarm")) {
-					OnAlarm onAlarm = xml2OnAlarm((Element)eventHandlerInstanceElement);     				
+					OnAlarm onAlarm = xml2OnAlarm(eventHandlerInstanceElement);     				
 					eventHandler.getAlarm().add(onAlarm);
 				}   
 				else if (eventHandlerInstanceElement.getLocalName().equals("onEvent")) {
-					OnEvent onEvent = xml2OnEvent((Element)eventHandlerInstanceElement);	     				
+					OnEvent onEvent = xml2OnEvent(eventHandlerInstanceElement);	     				
 					eventHandler.getEvents().add(onEvent);
 				}  
 			}
@@ -2271,11 +2274,11 @@ public class BPELReader implements ErrorHandler {
 			BPELActivityDeserializer deserializer = extensionRegistry.getActivityDeserializer(qname);
 			if (deserializer != null) {
 				// Deserialize the DOM element and return the new Activity
-				Map nsMap = getAllNamespacesForElement((Element)child);
+				Map<String,String> nsMap = getAllNamespacesForElement(child);
 				Activity activity = deserializer.unmarshall(qname,child,process,nsMap,extensionRegistry,getResource().getURI(), this);
 				// Now let's do the standard attributes and elements
-				setStandardAttributes((Element)child, activity);
-				setStandardElements((Element)child, activity);
+				setStandardAttributes(child, activity);
+				setStandardElements(child, activity);
 				
 				// Don't do extensibility because extensionActivity is not extensible.
 				// If individual extensionActivity subclasses are actually extensible, they
@@ -2367,13 +2370,12 @@ public class BPELReader implements ErrorHandler {
 		Assign assign = BPELFactory.eINSTANCE.createAssign();
 		assign.setElement(assignElement);			
         
-		if (assignElement.hasAttribute("validate"))
+		if (assignElement.hasAttribute("validate")) {
 			assign.setValidate(new Boolean(assignElement.getAttribute("validate").equals("yes")));
-
-		List copies = getBPELChildElementsByLocalName(assignElement, "copy");
-        for (int i = 0; i < copies.size(); i++) {
-            Copy copy = xml2Copy((Element) copies.get(i));
-            assign.getCopy().add(copy);
+		}
+		
+		for (Element copyElement : getBPELChildElementsByLocalName(assignElement, "copy") ) {                    
+            assign.getCopy().add( xml2Copy ( copyElement ));
         }
         
         setStandardAttributes(assignElement, assign);
@@ -2674,7 +2676,7 @@ public class BPELReader implements ErrorHandler {
 						// Deserialize the DOM element and add the new Extensibility element to the parent
 						// ExtensibleElement
 						try {
-							Map nsMap = getAllNamespacesForElement(serviceRefElement);
+							Map<String,String> nsMap = getAllNamespacesForElement(serviceRefElement);
 							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,getResource().getURI());
 							serviceRef.setValue(extensibilityElement);
 						} catch (WSDLException e) {
@@ -3132,9 +3134,11 @@ public class BPELReader implements ErrorHandler {
 	 * Converts an XML extensible element to a BPEL extensible element
 	 */
 	
-	protected void xml2ExtensibleElement(ExtensibleElement extensibleElement, Element element) {
-		if (extensionRegistry==null)
+	protected void xml2ExtensibleElement (ExtensibleElement extensibleElement, Element element) {
+		
+		if (extensionRegistry == null) {
 			return;
+		}
 			
 		// Handle the documentation element first
 		Element documentationElement = getBPELChildElementByLocalName(element, "documentation");
@@ -3144,8 +3148,9 @@ public class BPELReader implements ErrorHandler {
 		}
 		
 		// Get the child nodes, elements and attributes
-		List nodes=new ArrayList();
-		NodeList nodeList=element.getChildNodes();
+		List<Node> nodes=new ArrayList<Node>();
+		
+		NodeList nodeList = element.getChildNodes();
 		for (int i=0, n=nodeList.getLength(); i<n; i++) {
 			if (nodeList.item(i) instanceof Element) {
 				final String namespaceURI = ((Element)nodeList.item(i)).getNamespaceURI();
@@ -3162,78 +3167,87 @@ public class BPELReader implements ErrorHandler {
 			}
 		}
 		
-		for (int i=0, n=nodes.size(); i<n; i++) {
-			Node node=(Node)nodes.get(i);
+		for (Node node : nodes ) {
 			
 			// TODO What is this check for? If we're actually checking for
 			// the BPEL namespace, use BPELConstants instead.
-			if (MessagepropertiesConstants.isMessagePropertiesNamespace(node.getNamespaceURI()))
+			if (MessagepropertiesConstants.isMessagePropertiesNamespace(node.getNamespaceURI())) {
 				continue;
-				
-			// Handle extensibility element
-			if (node.getNodeType()==Node.ELEMENT_NODE) {
-					
-				// Look if there's an ExtensibilityElement deserializer for this element
-				Element childElement=(Element)node;
-				QName qname=new QName(childElement.getNamespaceURI(),childElement.getLocalName());
-				BPELExtensionDeserializer deserializer=null;
-				try {
-					deserializer=(BPELExtensionDeserializer)extensionRegistry.queryDeserializer(ExtensibleElement.class,qname);
-				} catch (WSDLException e) {}
-				if (deserializer!=null) {
-					
-					// Deserialize the DOM element and add the new Extensibility element to the parent
-					// ExtensibleElement
-					try {
-						Map nsMap = getAllNamespacesForElement(element);
-						//ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,resource.getURI());
-						ExtensibilityElement extensibilityElement=deserializer.unmarshall(extensibleElement.getClass(),qname,childElement,process,nsMap,extensionRegistry,getResource().getURI());
-						extensibleElement.addExtensibilityElement(extensibilityElement);
-					} catch (WSDLException e) {
-						throw new WrappedException(e);
-					}
-				}
-			} else if (node.getNodeType()==Node.ATTRIBUTE_NODE) {
-				// If the attribute is not actually in the file, ignore it.
-				// (default attributes added by the schema parser, cause some problems for us)
-				if ((node instanceof Attr) && ((Attr)node).getSpecified()) {
-					// Handle extensibility attribute
-					QName qname=new QName(node.getNamespaceURI(),"extensibilityAttributes");
-					BPELExtensionDeserializer deserializer=null;
-					try {
-						deserializer=(BPELExtensionDeserializer)extensionRegistry.queryDeserializer(ExtensibleElement.class,qname);
-					} catch (WSDLException e) {}
-					if (deserializer!=null) {
-						
-						// Create a temp element to host the extensibility attribute
-	                    // 
-	                    // This turns something that looks like this:
-	                    //   <bpws:X someNS:Y="Z"/>
-	                    // into something that looks like this:
-	                    //   <someNS:extensibilityAttributes xmlns:someNS="http://the.namespace" Y="Z"/>
-	                    
-						Element tempElement=element.getOwnerDocument().createElementNS(node.getNamespaceURI(), node.getPrefix() + ":extensibilityAttributes");
-	                    tempElement.setAttribute(BPELUtils.ATTR_XMLNS + ":" + node.getPrefix(), node.getNamespaceURI());
-						tempElement.setAttribute(node.getLocalName(), node.getNodeValue());
-						
-						// Deserialize the temp DOM element and add the new Extensibility element to the parent
-						// ExtensibleElement
-						try {
-							Map nsMap = getAllNamespacesForElement(element);
-							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,tempElement,process,nsMap,extensionRegistry,getResource().getURI());
-							if (extensibilityElement!=null)
-								extensibleElement.addExtensibilityElement(extensibilityElement);
-						} catch (WSDLException e) {
-							throw new WrappedException(e);
-						}
-					}
-				}
+			}
+			
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				deserialize ( extensibleElement, (Element) node);
+			} else if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
+				deserialize ( extensibleElement, (Attr) node);
 			}
 		}
 	}
 	
 
+	protected void deserialize ( ExtensibleElement ee, Element elm ) {
+		
+		QName qname = new QName(elm.getNamespaceURI(),elm.getLocalName());
+		BPELExtensionDeserializer deserializer = null;
+		try {
+			deserializer = (BPELExtensionDeserializer)extensionRegistry.queryDeserializer (ExtensibleElement.class,qname);
+		} catch (WSDLException e) {
+			// we don't have one.
+		}
+		if (deserializer == null) {
+			return ;
+		}
+		// Deserialize the DOM element and add the new Extensibility element to the parent
+		// ExtensibleElement
+		Map<String,String> nsMap = getAllNamespacesForElement (elm);
+		try {			
+			ExtensibilityElement extensibilityElement = deserializer.unmarshall(ee.getClass(),qname,elm,process,nsMap,extensionRegistry,getResource().getURI());
+			ee.addExtensibilityElement(extensibilityElement);
+		} catch (WSDLException e) {
+			throw new WrappedException(e);
+		}
+	}
+	
+	
+	protected void deserialize ( ExtensibleElement ee, Attr attr) {
+		 
+		if (attr.getSpecified() == false) {
+			 return ;
+		 }
 
+		QName qname = new QName (attr.getNamespaceURI(),"extensibilityAttributes");
+		BPELExtensionDeserializer deserializer = null;
+		try {
+			deserializer = (BPELExtensionDeserializer) extensionRegistry.queryDeserializer(ExtensibleElement.class,qname);
+		} catch (WSDLException e) {
+			// ignore
+		}
+		if (deserializer == null) {
+			return ;
+		}
+		
+		// Create a temp element to host the extensibility attribute
+        // 
+        // This turns something that looks like this:
+        //   <bpws:X someNS:Y="Z"/>
+        // into something that looks like this:
+        //   <someNS:extensibilityAttributes xmlns:someNS="http://the.namespace" Y="Z"/>
+        
+		Element tempElement = attr.getOwnerDocument().createElementNS(attr.getNamespaceURI(), attr.getPrefix() + ":extensibilityAttributes");
+        tempElement.setAttribute(BPELUtils.ATTR_XMLNS + ":" + attr.getPrefix(), attr.getNamespaceURI());
+		tempElement.setAttribute(attr.getLocalName(), attr.getNodeValue());
+		
+		// Deserialize the temp DOM element and add the new Extensibility element to the parent
+		// ExtensibleElement
+		Map<String,String> nsMap = getAllNamespacesForElement( (Element) attr.getParentNode() );
+		try {			
+			ExtensibilityElement extensibilityElement = deserializer.unmarshall(ExtensibleElement.class,qname,tempElement,process,nsMap,extensionRegistry,getResource().getURI());
+			if (extensibilityElement!=null) {
+				ee.addExtensibilityElement (extensibilityElement);
+			}
+		} catch (WSDLException e) {
+			throw new WrappedException(e);
+		}
+	}
 	/**
      * Returns true if the string is either null or contains just whitespace.
 	 * @param value 
@@ -3303,7 +3317,7 @@ public class BPELReader implements ErrorHandler {
 	/**
 	 * @param eObject
 	 * @param variableName
-	 * @return
+	 * @return the resolved variable
 	 */
 	public static Variable getVariable(EObject eObject, String variableName) {
 		return VARIABLE_RESOLVER.getVariable(eObject, variableName);
@@ -3312,7 +3326,7 @@ public class BPELReader implements ErrorHandler {
 	/**
 	 * @param activity
 	 * @param linkName
-	 * @return
+	 * @return the resolved link
 	 */
 	public static Link getLink(Activity activity, String linkName) {
 		return LINK_RESOLVER.getLink(activity, linkName);

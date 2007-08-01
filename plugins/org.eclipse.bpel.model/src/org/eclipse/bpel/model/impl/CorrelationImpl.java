@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: CorrelationImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -45,7 +45,8 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class CorrelationImpl extends ExtensibleElementImpl implements Correlation {
+public class CorrelationImpl extends ExtensibleElementImpl implements
+		Correlation {
 	/**
 	 * The default value of the '{@link #getInitiate() <em>Initiate</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -128,6 +129,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.CORRELATION;
 	}
@@ -152,7 +154,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 		boolean oldInitiateESet = initiateESet;
 		initiateESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CORRELATION__INITIATE, oldInitiate, initiate, !oldInitiateESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CORRELATION__INITIATE, oldInitiate, initiate,
+					!oldInitiateESet));
 	}
 
 	/**
@@ -166,7 +170,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 		initiate = INITIATE_EDEFAULT;
 		initiateESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.CORRELATION__INITIATE, oldInitiate, INITIATE_EDEFAULT, oldInitiateESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.CORRELATION__INITIATE, oldInitiate,
+					INITIATE_EDEFAULT, oldInitiateESet));
 	}
 
 	/**
@@ -198,7 +204,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 		boolean oldPatternESet = patternESet;
 		patternESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CORRELATION__PATTERN, oldPattern, pattern, !oldPatternESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CORRELATION__PATTERN, oldPattern, pattern,
+					!oldPatternESet));
 	}
 
 	/**
@@ -212,7 +220,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 		pattern = PATTERN_EDEFAULT;
 		patternESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.CORRELATION__PATTERN, oldPattern, PATTERN_EDEFAULT, oldPatternESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.CORRELATION__PATTERN, oldPattern,
+					PATTERN_EDEFAULT, oldPatternESet));
 	}
 
 	/**
@@ -231,11 +241,12 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 */
 	public CorrelationSet getSet() {
 		if (set != null && set.eIsProxy()) {
-			InternalEObject oldSet = (InternalEObject)set;
-			set = (CorrelationSet)eResolveProxy(oldSet);
+			InternalEObject oldSet = (InternalEObject) set;
+			set = (CorrelationSet) eResolveProxy(oldSet);
 			if (set != oldSet) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BPELPackage.CORRELATION__SET, oldSet, set));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.CORRELATION__SET, oldSet, set));
 			}
 		}
 		return set;
@@ -259,7 +270,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 		CorrelationSet oldSet = set;
 		set = newSet;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.CORRELATION__SET, oldSet, set));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.CORRELATION__SET, oldSet, set));
 	}
 
 	/**
@@ -267,6 +279,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
@@ -274,7 +287,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 			case BPELPackage.CORRELATION__PATTERN:
 				return getPattern();
 			case BPELPackage.CORRELATION__SET:
-				if (resolve) return getSet();
+				if (resolve)
+					return getSet();
 				return basicGetSet();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -285,16 +299,17 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
-				setInitiate((String)newValue);
+				setInitiate((String) newValue);
 				return;
 			case BPELPackage.CORRELATION__PATTERN:
-				setPattern((CorrelationPattern)newValue);
+				setPattern((CorrelationPattern) newValue);
 				return;
 			case BPELPackage.CORRELATION__SET:
-				setSet((CorrelationSet)newValue);
+				setSet((CorrelationSet) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -305,6 +320,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
@@ -314,7 +330,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 				unsetPattern();
 				return;
 			case BPELPackage.CORRELATION__SET:
-				setSet((CorrelationSet)null);
+				setSet((CorrelationSet) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -325,6 +341,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.CORRELATION__INITIATE:
@@ -342,14 +359,22 @@ public class CorrelationImpl extends ExtensibleElementImpl implements Correlatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (initiate: ");
-		if (initiateESet) result.append(initiate); else result.append("<unset>");
-		result.append(", pattern: ");
-		if (patternESet) result.append(pattern); else result.append("<unset>");
+		result.append(" (initiate: "); //$NON-NLS-1$
+		if (initiateESet)
+			result.append(initiate);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", pattern: "); //$NON-NLS-1$
+		if (patternESet)
+			result.append(pattern);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

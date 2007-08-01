@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Targets.java,v 1.3 2006/01/31 15:43:26 james Exp $
+ * $Id: Targets.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -45,10 +45,10 @@ public interface Targets extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getTargets_Children()
-	 * @model type="org.eclipse.bpel.model.Target" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getChildren();
+	EList<Target> getChildren();
 
 	/**
 	 * Returns the value of the '<em><b>Join Condition</b></em>' containment reference.

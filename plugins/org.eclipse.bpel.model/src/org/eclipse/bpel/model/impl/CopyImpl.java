@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.5 2007/06/22 21:56:20 mchmielewski Exp $
+ * $Id: CopyImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -139,6 +139,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.COPY;
 	}
@@ -161,8 +162,12 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		To oldTo = to;
 		to = newTo;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__TO, oldTo, newTo);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.COPY__TO, oldTo, newTo);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -176,14 +181,19 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		if (newTo != to) {
 			NotificationChain msgs = null;
 			if (to != null)
-				msgs = ((InternalEObject)to).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__TO, null, msgs);
+				msgs = ((InternalEObject) to).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__TO, null,
+						msgs);
 			if (newTo != null)
-				msgs = ((InternalEObject)newTo).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__TO, null, msgs);
+				msgs = ((InternalEObject) newTo).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__TO, null,
+						msgs);
 			msgs = basicSetTo(newTo, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__TO, newTo, newTo));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.COPY__TO, newTo, newTo));
 	}
 
 	/**
@@ -204,8 +214,12 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		From oldFrom = from;
 		from = newFrom;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__FROM, oldFrom, newFrom);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.COPY__FROM, oldFrom, newFrom);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -219,14 +233,19 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		if (newFrom != from) {
 			NotificationChain msgs = null;
 			if (from != null)
-				msgs = ((InternalEObject)from).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__FROM, null, msgs);
+				msgs = ((InternalEObject) from).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__FROM, null,
+						msgs);
 			if (newFrom != null)
-				msgs = ((InternalEObject)newFrom).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__FROM, null, msgs);
+				msgs = ((InternalEObject) newFrom).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.COPY__FROM, null,
+						msgs);
 			msgs = basicSetFrom(newFrom, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__FROM, newFrom, newFrom));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.COPY__FROM, newFrom, newFrom));
 	}
 
 	/**
@@ -249,7 +268,10 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
 		keepSrcElementNameESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME, oldKeepSrcElementName, keepSrcElementName, !oldKeepSrcElementNameESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME,
+					oldKeepSrcElementName, keepSrcElementName,
+					!oldKeepSrcElementNameESet));
 	}
 
 	/**
@@ -263,7 +285,10 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		keepSrcElementName = KEEP_SRC_ELEMENT_NAME_EDEFAULT;
 		keepSrcElementNameESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME, oldKeepSrcElementName, KEEP_SRC_ELEMENT_NAME_EDEFAULT, oldKeepSrcElementNameESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME,
+					oldKeepSrcElementName, KEEP_SRC_ELEMENT_NAME_EDEFAULT,
+					oldKeepSrcElementNameESet));
 	}
 
 	/**
@@ -295,7 +320,10 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
 		ignoreMissingFromDataESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.COPY__IGNORE_MISSING_FROM_DATA, oldIgnoreMissingFromData, ignoreMissingFromData, !oldIgnoreMissingFromDataESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.COPY__IGNORE_MISSING_FROM_DATA,
+					oldIgnoreMissingFromData, ignoreMissingFromData,
+					!oldIgnoreMissingFromDataESet));
 	}
 
 	/**
@@ -309,7 +337,11 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 		ignoreMissingFromData = IGNORE_MISSING_FROM_DATA_EDEFAULT;
 		ignoreMissingFromDataESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.COPY__IGNORE_MISSING_FROM_DATA, oldIgnoreMissingFromData, IGNORE_MISSING_FROM_DATA_EDEFAULT, oldIgnoreMissingFromDataESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.COPY__IGNORE_MISSING_FROM_DATA,
+					oldIgnoreMissingFromData,
+					IGNORE_MISSING_FROM_DATA_EDEFAULT,
+					oldIgnoreMissingFromDataESet));
 	}
 
 	/**
@@ -326,7 +358,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.COPY__TO:
 				return basicSetTo(null, msgs);
@@ -341,6 +375,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.COPY__TO:
@@ -360,19 +395,20 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.COPY__TO:
-				setTo((To)newValue);
+				setTo((To) newValue);
 				return;
 			case BPELPackage.COPY__FROM:
-				setFrom((From)newValue);
+				setFrom((From) newValue);
 				return;
 			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
-				setKeepSrcElementName((Boolean)newValue);
+				setKeepSrcElementName((Boolean) newValue);
 				return;
 			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
-				setIgnoreMissingFromData((Boolean)newValue);
+				setIgnoreMissingFromData((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -383,13 +419,14 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.COPY__TO:
-				setTo((To)null);
+				setTo((To) null);
 				return;
 			case BPELPackage.COPY__FROM:
-				setFrom((From)null);
+				setFrom((From) null);
 				return;
 			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
 				unsetKeepSrcElementName();
@@ -406,6 +443,7 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.COPY__TO:
@@ -425,14 +463,22 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (keepSrcElementName: ");
-		if (keepSrcElementNameESet) result.append(keepSrcElementName); else result.append("<unset>");
-		result.append(", ignoreMissingFromData: ");
-		if (ignoreMissingFromDataESet) result.append(ignoreMissingFromData); else result.append("<unset>");
+		result.append(" (keepSrcElementName: "); //$NON-NLS-1$
+		if (keepSrcElementNameESet)
+			result.append(keepSrcElementName);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", ignoreMissingFromData: "); //$NON-NLS-1$
+		if (ignoreMissingFromDataESet)
+			result.append(ignoreMissingFromData);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ServiceRefImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -105,6 +105,7 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.SERVICE_REF;
 	}
@@ -127,7 +128,9 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 		String oldReferenceScheme = referenceScheme;
 		referenceScheme = newReferenceScheme;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SERVICE_REF__REFERENCE_SCHEME, oldReferenceScheme, referenceScheme));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.SERVICE_REF__REFERENCE_SCHEME,
+					oldReferenceScheme, referenceScheme));
 	}
 
 	/**
@@ -148,7 +151,8 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 		Object oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.SERVICE_REF__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.SERVICE_REF__VALUE, oldValue, value));
 	}
 
 	/**
@@ -156,6 +160,7 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
@@ -171,10 +176,11 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
-				setReferenceScheme((String)newValue);
+				setReferenceScheme((String) newValue);
 				return;
 			case BPELPackage.SERVICE_REF__VALUE:
 				setValue(newValue);
@@ -188,6 +194,7 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
@@ -205,12 +212,15 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
-				return REFERENCE_SCHEME_EDEFAULT == null ? referenceScheme != null : !REFERENCE_SCHEME_EDEFAULT.equals(referenceScheme);
+				return REFERENCE_SCHEME_EDEFAULT == null ? referenceScheme != null
+						: !REFERENCE_SCHEME_EDEFAULT.equals(referenceScheme);
 			case BPELPackage.SERVICE_REF__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+						.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -220,13 +230,15 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (referenceScheme: ");
+		result.append(" (referenceScheme: "); //$NON-NLS-1$
 		result.append(referenceScheme);
-		result.append(", value: ");
+		result.append(", value: "); //$NON-NLS-1$
 		result.append(value);
 		result.append(')');
 		return result.toString();

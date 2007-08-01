@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.3 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: ActivityImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -130,6 +130,7 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return BPELPackage.Literals.ACTIVITY;
 	}
@@ -152,7 +153,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ACTIVITY__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ACTIVITY__NAME, oldName, name));
 	}
 
 	/**
@@ -175,7 +177,10 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailureESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE, oldSuppressJoinFailure, suppressJoinFailure, !oldSuppressJoinFailureESet));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE,
+					oldSuppressJoinFailure, suppressJoinFailure,
+					!oldSuppressJoinFailureESet));
 	}
 
 	/**
@@ -189,7 +194,10 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;
 		suppressJoinFailureESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE, oldSuppressJoinFailure, SUPPRESS_JOIN_FAILURE_EDEFAULT, oldSuppressJoinFailureESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE,
+					oldSuppressJoinFailure, SUPPRESS_JOIN_FAILURE_EDEFAULT,
+					oldSuppressJoinFailureESet));
 	}
 
 	/**
@@ -215,12 +223,18 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetTargets(Targets newTargets, NotificationChain msgs) {
+	public NotificationChain basicSetTargets(Targets newTargets,
+			NotificationChain msgs) {
 		Targets oldTargets = targets;
 		targets = newTargets;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ACTIVITY__TARGETS, oldTargets, newTargets);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ACTIVITY__TARGETS,
+					oldTargets, newTargets);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -234,14 +248,19 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		if (newTargets != targets) {
 			NotificationChain msgs = null;
 			if (targets != null)
-				msgs = ((InternalEObject)targets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__TARGETS, null, msgs);
+				msgs = ((InternalEObject) targets).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__TARGETS,
+						null, msgs);
 			if (newTargets != null)
-				msgs = ((InternalEObject)newTargets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__TARGETS, null, msgs);
+				msgs = ((InternalEObject) newTargets).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__TARGETS,
+						null, msgs);
 			msgs = basicSetTargets(newTargets, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ACTIVITY__TARGETS, newTargets, newTargets));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ACTIVITY__TARGETS, newTargets, newTargets));
 	}
 
 	/**
@@ -258,12 +277,18 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSources(Sources newSources, NotificationChain msgs) {
+	public NotificationChain basicSetSources(Sources newSources,
+			NotificationChain msgs) {
 		Sources oldSources = sources;
 		sources = newSources;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BPELPackage.ACTIVITY__SOURCES, oldSources, newSources);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ACTIVITY__SOURCES,
+					oldSources, newSources);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -277,14 +302,19 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		if (newSources != sources) {
 			NotificationChain msgs = null;
 			if (sources != null)
-				msgs = ((InternalEObject)sources).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__SOURCES, null, msgs);
+				msgs = ((InternalEObject) sources).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__SOURCES,
+						null, msgs);
 			if (newSources != null)
-				msgs = ((InternalEObject)newSources).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__SOURCES, null, msgs);
+				msgs = ((InternalEObject) newSources).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.ACTIVITY__SOURCES,
+						null, msgs);
 			msgs = basicSetSources(newSources, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.ACTIVITY__SOURCES, newSources, newSources));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ACTIVITY__SOURCES, newSources, newSources));
 	}
 
 	/**
@@ -292,7 +322,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BPELPackage.ACTIVITY__TARGETS:
 				return basicSetTargets(null, msgs);
@@ -307,6 +339,7 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case BPELPackage.ACTIVITY__NAME:
@@ -326,19 +359,20 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BPELPackage.ACTIVITY__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean)newValue);
+				setSuppressJoinFailure((Boolean) newValue);
 				return;
 			case BPELPackage.ACTIVITY__TARGETS:
-				setTargets((Targets)newValue);
+				setTargets((Targets) newValue);
 				return;
 			case BPELPackage.ACTIVITY__SOURCES:
-				setSources((Sources)newValue);
+				setSources((Sources) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -349,6 +383,7 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BPELPackage.ACTIVITY__NAME:
@@ -358,10 +393,10 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 				unsetSuppressJoinFailure();
 				return;
 			case BPELPackage.ACTIVITY__TARGETS:
-				setTargets((Targets)null);
+				setTargets((Targets) null);
 				return;
 			case BPELPackage.ACTIVITY__SOURCES:
-				setSources((Sources)null);
+				setSources((Sources) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -372,10 +407,12 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BPELPackage.ACTIVITY__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+						.equals(name);
 			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
 				return isSetSuppressJoinFailure();
 			case BPELPackage.ACTIVITY__TARGETS:
@@ -391,14 +428,19 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", suppressJoinFailure: ");
-		if (suppressJoinFailureESet) result.append(suppressJoinFailure); else result.append("<unset>");
+		result.append(", suppressJoinFailure: "); //$NON-NLS-1$
+		if (suppressJoinFailureESet)
+			result.append(suppressJoinFailure);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

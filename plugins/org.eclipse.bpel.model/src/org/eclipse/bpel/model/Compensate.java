@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Compensate.java,v 1.2 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: Compensate.java,v 1.3 2007/08/01 21:02:31 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -27,5 +27,5 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Compensate extends Activity {
-	
+
 } // Compensate

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesFactoryImpl.java,v 1.2 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: MessagepropertiesFactoryImpl.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -29,7 +29,8 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * <!-- end-user-doc -->
  * @generated
  */
-public class MessagepropertiesFactoryImpl extends EFactoryImpl implements MessagepropertiesFactory {
+public class MessagepropertiesFactoryImpl extends EFactoryImpl implements
+		MessagepropertiesFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
@@ -38,12 +39,12 @@ public class MessagepropertiesFactoryImpl extends EFactoryImpl implements Messag
 	 */
 	public static MessagepropertiesFactory init() {
 		try {
-			MessagepropertiesFactory theMessagepropertiesFactory = (MessagepropertiesFactory)EPackage.Registry.INSTANCE.getEFactory("http://docs.oasis-open.org/wsbpel/2.0/varprop"); 
+			MessagepropertiesFactory theMessagepropertiesFactory = (MessagepropertiesFactory) EPackage.Registry.INSTANCE
+					.getEFactory("http://docs.oasis-open.org/wsbpel/2.0/varprop"); //$NON-NLS-1$ 
 			if (theMessagepropertiesFactory != null) {
 				return theMessagepropertiesFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new MessagepropertiesFactoryImpl();
@@ -64,13 +65,18 @@ public class MessagepropertiesFactoryImpl extends EFactoryImpl implements Messag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case MessagepropertiesPackage.PROPERTY: return createProperty();
-			case MessagepropertiesPackage.PROPERTY_ALIAS: return createPropertyAlias();
-			case MessagepropertiesPackage.QUERY: return createQuery();
+			case MessagepropertiesPackage.PROPERTY:
+				return createProperty();
+			case MessagepropertiesPackage.PROPERTY_ALIAS:
+				return createPropertyAlias();
+			case MessagepropertiesPackage.QUERY:
+				return createQuery();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException(
+						"The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -110,7 +116,7 @@ public class MessagepropertiesFactoryImpl extends EFactoryImpl implements Messag
 	 * @generated
 	 */
 	public MessagepropertiesPackage getMessagepropertiesPackage() {
-		return (MessagepropertiesPackage)getEPackage();
+		return (MessagepropertiesPackage) getEPackage();
 	}
 
 	/**
@@ -119,6 +125,7 @@ public class MessagepropertiesFactoryImpl extends EFactoryImpl implements Messag
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static MessagepropertiesPackage getPackage() {
 		return MessagepropertiesPackage.eINSTANCE;
 	}

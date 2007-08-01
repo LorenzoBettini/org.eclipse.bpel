@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Correlations.java,v 1.2 2006/01/19 21:08:47 james Exp $
+ * $Id: Correlations.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -44,9 +44,9 @@ public interface Correlations extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getCorrelations_Children()
-	 * @model type="org.eclipse.bpel.model.Correlation" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getChildren();
+	EList<Correlation> getChildren();
 
 } // Correlations

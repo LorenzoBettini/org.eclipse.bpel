@@ -2,10 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TerminationHandler.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: TerminationHandler.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
  */
 package org.eclipse.bpel.model;
-
 
 /**
  * <!-- begin-user-doc -->
