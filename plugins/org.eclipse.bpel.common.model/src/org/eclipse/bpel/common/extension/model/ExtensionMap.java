@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model 
  * @customized
  */
-public interface ExtensionMap extends EObject,Map{
+public interface ExtensionMap extends EObject,Map<EObject,EObject> {
 	/**
 	 * Returns the value of the '<em><b>Namespace</b></em>' attribute.
 	 * <!-- begin-user-doc -->

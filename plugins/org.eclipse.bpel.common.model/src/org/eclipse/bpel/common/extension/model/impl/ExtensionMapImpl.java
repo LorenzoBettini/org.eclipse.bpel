@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.eclipse.bpel.common.extension.model.Extension;
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
-
 import org.eclipse.bpel.common.extension.model.ExtensionmodelFactory;
 import org.eclipse.bpel.common.extension.model.ExtensionmodelPackage;
 import org.eclipse.bpel.common.extension.model.adapters.ExtendedObjectAdapter;
@@ -61,7 +60,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
+public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	/**
 	 * The default value of the '{@link #getNamespace() <em>Namespace</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -90,7 +89,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList extensions = null;
+	protected EList<Extension> extensions = null;
 	
 	/**
 	 * The value of the user adapter if one has been instantiated via the initializeAdapter()
@@ -144,9 +143,9 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getExtensions() {
+	public EList<Extension> getExtensions() {
 		if (extensions == null) {
-			extensions = new EObjectContainmentEList(Extension.class, this, ExtensionmodelPackage.EXTENSION_MAP__EXTENSIONS);
+			extensions = new EObjectContainmentEList<Extension>(Extension.class, this, ExtensionmodelPackage.EXTENSION_MAP__EXTENSIONS);
 		}
 		return extensions;
 	}
@@ -268,10 +267,15 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 		return result.toString();
 	}
 
+	
+	
 	/**
-	 * This is the Map entrySet.
+	 * This is the Map entrySet. 
+	 * @param <K> 
+	 * @param <V> 
 	 */
-	public class EntrySet extends java.util.AbstractSet {
+	
+	public class EntrySet<K,V> extends java.util.AbstractSet<Map.Entry<K,V>> {
 		/**
 		 * ESet constructor comment.
 		 */
@@ -279,80 +283,38 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 			super();
 		}
 
-		public java.util.Iterator iterator() {
-			return new EIterator();
+		/**
+		 * @see java.util.AbstractCollection#iterator()
+		 */
+		@Override
+		public java.util.Iterator<Map.Entry<K,V>> iterator () {
+			return new EIterator<Map.Entry<K,V>> () {
+
+				@Override
+				protected Map.Entry<K,V> next(Extension extension) {
+					return new Entry (extension.getExtendedObject(), extension.getExtensionObject());
+				}				
+			};			
 		}
 
+		/**
+		 * @see java.util.AbstractCollection#size()
+		 */
+		@Override
 		public int size() {
 			int n=0;
-			for (Iterator i=iterator(); i.hasNext(); ) {
+			for (Iterator<?> i=iterator(); i.hasNext(); ) {
 				i.next();
 				n++;
 			}
 			return n;
-		}
-
-		/**
-		 * This is the map entry iterator.
-		 */
-		public class EIterator implements java.util.Iterator {
-			private Iterator fieldListIterator;
-			/**
-			 * EIterator constructor comment.
-			 */
-			public EIterator() {
-				super();
-				fieldListIterator = getExtensions().iterator();
-			}
-			/**
-			 * Returns <tt>true</tt> if the iteration has more elements. (In other
-			 * words, returns <tt>true</tt> if <tt>next</tt> would return an element
-			 * rather than throwing an exception.)
-			 *
-			 * @return <tt>true</tt> if the iterator has more elements.
-			 */
-			public boolean hasNext() {
-				return fieldListIterator.hasNext();
-			}
-			/**
-			 * Returns the next element in the iteration.
-			 *
-			 * @returns the next element in the iteration.
-			 * @exception NoSuchElementException iteration has no more elements.
-			 */
-			public Object next() {
-				Extension object = (Extension)fieldListIterator.next();
-				if (object == null)
-					return new Entry(null, null);
-				return new Entry(object.getExtendedObject(),object.getExtensionObject());
-			}
-			/**
-			 * 
-			 * Removes from the underlying collection the last element returned by the
-			 * iterator (optional operation).  This method can be called only once per
-			 * call to <tt>next</tt>.  The behavior of an iterator is unspecified if
-			 * the underlying collection is modified while the iteration is in
-			 * progress in any way other than by calling this method.
-			 *
-			 * @exception UnsupportedOperationException if the <tt>remove</tt>
-			 *        operation is not supported by this Iterator.
-			 
-			 * @exception IllegalStateException if the <tt>next</tt> method has not
-			 *        yet been called, or the <tt>remove</tt> method has already
-			 *        been called after the last call to the <tt>next</tt>
-			 *        method.
-			 */
-			public void remove() {
-				fieldListIterator.remove();
-			}
-
 		}
 	}
 
 	/**
 	 * This is the Map entrySet.
 	 */
-	public class KeySet extends java.util.AbstractSet {
+	public class KeySet extends java.util.AbstractSet<EObject> {
 
 		/**
 		 * ESet constructor comment.
@@ -361,81 +323,40 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 			super();
 		}
 
-		public java.util.Iterator iterator() {
-			return new EIterator();
+		
+		/**
+		 * @see java.util.AbstractCollection#iterator()
+		 */
+		@Override
+		public java.util.Iterator<EObject> iterator() {
+			return new EIterator<EObject>() {
+				@Override
+				protected EObject next (Extension extension) {
+					return extension.getExtendedObject();
+				}				
+			};
 		}
 
+		/**
+		 * @see java.util.AbstractCollection#size()
+		 */
+		@Override
 		public int size() {
 			int n=0;
-			for (Iterator i=iterator(); i.hasNext(); ) {
+			for (Iterator<?> i=iterator(); i.hasNext(); ) {
 				i.next();
 				n++;
 			}
 			return n;
 		}
-
-		/**
-		 * This is the map entry iterator.
-		 */
-		public class EIterator implements java.util.Iterator {
-			private Iterator fieldListIterator;
-			/**
-			 * EIterator constructor comment.
-			 */
-			public EIterator() {
-				super();
-				fieldListIterator = getExtensions().iterator();
-					
-			}
-			/**
-			 * Returns <tt>true</tt> if the iteration has more elements. (In other
-			 * words, returns <tt>true</tt> if <tt>next</tt> would return an element
-			 * rather than throwing an exception.)
-			 *
-			 * @return <tt>true</tt> if the iterator has more elements.
-			 */
-			public boolean hasNext() {
-				return fieldListIterator.hasNext();
-			}
-			/**
-			 * Returns the next element in the iteration.
-			 *
-			 * @returns the next element in the iteration.
-			 * @exception NoSuchElementException iteration has no more elements.
-			 */
-			public Object next() {
-				Extension object = (Extension)fieldListIterator.next();
-				if (object == null)
-					return null;
-				return object.getExtendedObject();
-			}
-			/**
-			 * 
-			 * Removes from the underlying collection the last element returned by the
-			 * iterator (optional operation).  This method can be called only once per
-			 * call to <tt>next</tt>.  The behavior of an iterator is unspecified if
-			 * the underlying collection is modified while the iteration is in
-			 * progress in any way other than by calling this method.
-			 *
-			 * @exception UnsupportedOperationException if the <tt>remove</tt>
-			 *        operation is not supported by this Iterator.
-			 
-			 * @exception IllegalStateException if the <tt>next</tt> method has not
-			 *        yet been called, or the <tt>remove</tt> method has already
-			 *        been called after the last call to the <tt>next</tt>
-			 *        method.
-			 */
-			public void remove() {
-				fieldListIterator.remove();
-			}
-
-		}
 	}
 	
+	
 	/**
-	 * This is the Map entrySet.
+	 * This is the Map entrySet.  
 	 */
-	public class Values extends AbstractCollection {
+	
+	public class Values extends AbstractCollection<EObject> {
 		/**
 		 * ESet constructor comment.
 		 */
@@ -443,187 +364,240 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 			super();
 		}
 
-		public java.util.Iterator iterator() {
-			return new EIterator();
+		/**
+		 * @see java.util.AbstractCollection#iterator()
+		 */
+		@Override
+		public java.util.Iterator<EObject> iterator() {
+			
+			return new EIterator<EObject>() {
+				@Override
+				protected EObject next (Extension extension) {
+					return extension.getExtensionObject() ;
+				}				
+			};
+			
 		}
 
+		/**
+		 * @see java.util.AbstractCollection#size()
+		 */
+		@Override
 		public int size() {
 			int n=0;
-			for (Iterator i=iterator(); i.hasNext(); ) {
+			for (Iterator<?> i=iterator(); i.hasNext(); ) {
 				i.next();
 				n++;
 			}
 			return n;
 		}
-
-		/**
-		 * This is the map entry iterator.
-		 */
-		public class EIterator implements java.util.Iterator {
-			private Iterator fieldListIterator;
-			/**
-			 * EIterator constructor comment.
-			 */
-			public EIterator() {
-				super();
-				fieldListIterator = getExtensions().iterator();
-			}
-			/**
-			 * Returns <tt>true</tt> if the iteration has more elements. (In other
-			 * words, returns <tt>true</tt> if <tt>next</tt> would return an element
-			 * rather than throwing an exception.)
-			 *
-			 * @return <tt>true</tt> if the iterator has more elements.
-			 */
-			public boolean hasNext() {
-				return fieldListIterator.hasNext();
-			}
-			/**
-			 * Returns the next element in the iteration.
-			 *
-			 * @returns the next element in the iteration.
-			 * @exception NoSuchElementException iteration has no more elements.
-			 */
-			public Object next() {
-				Extension object = (Extension)fieldListIterator.next();
-				if (object == null)
-					return null;
-				return object.getExtensionObject();
-			}
-			/**
-			 * 
-			 * Removes from the underlying collection the last element returned by the
-			 * iterator (optional operation).  This method can be called only once per
-			 * call to <tt>next</tt>.  The behavior of an iterator is unspecified if
-			 * the underlying collection is modified while the iteration is in
-			 * progress in any way other than by calling this method.
-			 *
-			 * @exception UnsupportedOperationException if the <tt>remove</tt>
-			 *        operation is not supported by this Iterator.
-			 
-			 * @exception IllegalStateException if the <tt>next</tt> method has not
-			 *        yet been called, or the <tt>remove</tt> method has already
-			 *        been called after the last call to the <tt>next</tt>
-			 *        method.
-			 */
-			public void remove() {
-				fieldListIterator.remove();
-			}
-
-		}
 	}
+	
+	/**
+	 * This is the map entry iterator.
+	 * @param <T> 
+	 */
+	public abstract class EIterator<T> implements java.util.Iterator<T> {
+		Iterator<Extension> fieldListIterator;
+		/**
+		 * EIterator constructor comment.
+		 */
+		public EIterator() {
+			super();
+			fieldListIterator = getExtensions().iterator();
+		}
+		/**
+		 * Returns <tt>true</tt> if the iteration has more elements. (In other
+		 * words, returns <tt>true</tt> if <tt>next</tt> would return an element
+		 * rather than throwing an exception.)
+		 *
+		 * @return <tt>true</tt> if the iterator has more elements.
+		 */
+		public boolean hasNext() {
+			return fieldListIterator.hasNext();
+		}
+		/**
+		 * Returns the next element in the iteration.
+		 * @return the next element in the iteration.
+		 * @exception NoSuchElementException iteration has no more elements.
+		 */
+		public T next() {
+			Extension object = fieldListIterator.next();
+			if (object == null) {
+				return null;
+			}
+			return next (object);
+		}
+		
+		protected abstract T next (Extension extension) ;
+		
+		/**
+		 * 
+		 * Removes from the underlying collection the last element returned by the
+		 * iterator (optional operation).  This method can be called only once per
+		 * call to <tt>next</tt>.  The behavior of an iterator is unspecified if
+		 * the underlying collection is modified while the iteration is in
+		 * progress in any way other than by calling this method.
+		 *
+		 * @exception UnsupportedOperationException if the <tt>remove</tt>
+		 *        operation is not supported by this Iterator.
+		 
+		 * @exception IllegalStateException if the <tt>next</tt> method has not
+		 *        yet been called, or the <tt>remove</tt> method has already
+		 *        been called after the last call to the <tt>next</tt>
+		 *        method.
+		 */
+		public void remove() {
+			fieldListIterator.remove();
+		}
+
+	}
+	
+	
 	/**
 	 * Map entry.
+	 * @param <K> 
+	 * @param <V> 
 	 */
-	public class Entry implements Map.Entry {
-		Object key;
-		Object value;
+	public class Entry<K,V> implements Map.Entry<K,V> {
+		K key;
+		V value;
 
-		public Entry(Object key, Object value) {
-			this.key = key;
-			this.value = value;
+		/**
+		 * @param aKey
+		 * @param aValue
+		 */
+		public Entry (K aKey, V aValue) {
+			this.key = aKey;
+			this.value = aValue;
 		}
 
-		public Object getKey() {
+		/**
+		 * @see java.util.Map.Entry#getKey()
+		 */
+		public K getKey() {
 			return key;
 		}
 
-		public Object getValue() {
+		/**
+		 * @see java.util.Map.Entry#getValue()
+		 */
+		public V getValue() {
 			return value;
 		}
 
-		public Object setValue(Object value) {
-			Object oldValue = this.value;
-			this.value = value;
+		/**
+		 * @see java.util.Map.Entry#setValue(java.lang.Object)
+		 */
+		public V setValue(V aValue) {
+			V oldValue = this.value;
+			this.value = aValue;
 			return oldValue;
 		}
 
+		/**
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
 		public boolean equals(Object o) {
-			if (!(o instanceof Map.Entry))
+			if (!(o instanceof Map.Entry)) {
 				return false;
-			Map.Entry e = (Map.Entry) o;
+			}
+			
+			Map.Entry<?,?> e = (Map.Entry<?,?>) o;
 			return (key == null ? e.getKey() == null : key.equals(e.getKey())) && (value == null ? e.getValue() == null : value.equals(e.getValue()));
 		}
 
+		/**
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
 		public int hashCode() {
 			return key == null ? 0 : key.hashCode();
 		}
 
+		/**
+		 * @see java.lang.Object#toString()
+		 */
+		@SuppressWarnings("nls")
+		@Override		
 		public String toString() {
 			return key + "=" + value;
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#size()
 	 */
 	public int size() {
 		return getExtensions().size();
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see java.util.Map#isEmpty()
 	 */
 	public boolean isEmpty() {
 		return getExtensions().isEmpty();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#containsKey(java.lang.Object)
 	 */
 	public boolean containsKey(Object extendedObject) {
-		boolean containsKey = false;
-		if(extendedObject != null){
-			
-			for (Iterator iter = getExtensions().iterator(); iter.hasNext();) {
-				if(((Extension)iter.next()).getExtendedObject().equals(extendedObject)){
-					containsKey = true;
-					break;	
+		
+		if ( extendedObject != null ) {
+			for (Extension extension : getExtensions()) {
+				if(extension.getExtendedObject().equals(extendedObject)){
+					return true;					
 				}
 			}
 		}
-		return containsKey;
+		return false;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#containsValue(java.lang.Object)
 	 */
-	public boolean containsValue(Object extensionObject) {
-		boolean containsValue = false;
-		if(extensionObject != null){
-			for (Iterator iter = getExtensions().iterator(); iter.hasNext();) {
-				if(((Extension)iter.next()).getExtensionObject().equals(extensionObject)){
-					containsValue = true;
-					break;	
+	public boolean containsValue (Object extensionObject) {
+		
+		if (extensionObject != null) {
+			for (Extension extension : getExtensions()) {
+				if (extension.getExtensionObject().equals(extensionObject)){
+					return true;					
 				}
 			}
 		}
-		return containsValue;
+		return false;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#get(java.lang.Object)
+	 * @generated NOT
 	 */
-	public Object get(Object extendedObject) {
-		Object extension = null;
+	public EObject get(Object extendedObject) {
+		EObject extension = null;
 		
 		extension = getExtensionObject((EObject)extendedObject);
-		if(extension!=null)
+		if (extension!=null) {
 			return ((Extension)extension).getExtensionObject();
-		else
-			return null;
+		}
+		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * @param extendedObject 
+	 * @param extensionObject 
+	 * @return the previous object
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
+	 * @generated NOT
 	 */
-	public Object put(Object extendedObject, Object extensionObject) {
+	public EObject put(EObject extendedObject, EObject extensionObject) {
 		
 		EObject originalObject = null;
 		
 		if(extendedObject != null && extensionObject!= null){
 						
-			Extension extension = getExtensionObject((EObject)extendedObject);
+			Extension extension = getExtensionObject( extendedObject );
 			
 			if(extension!= null)
 				originalObject = extension.getExtensionObject();	
@@ -632,8 +606,8 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 				getExtensions().add(extension);
 			}
 
-			extension.setExtendedObject((EObject)extendedObject);
-			extension.setExtensionObject((EObject)extensionObject);
+			extension.setExtendedObject(extendedObject);
+			extension.setExtensionObject(extensionObject);
 						
 			ExtensionmodelAdapterFactory adapterFactory = new ExtensionmodelAdapterFactory();
 			
@@ -642,62 +616,62 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 			extAdptr.setExtension(extension);
 			extAdptr.setNamespace(getNamespace());
 			
-			adaptEObject((EObject)extendedObject,extAdptr);
+			adaptEObject(extendedObject,extAdptr);
 
 			adapterFactory.adapt(extension,ExtensionAdapterImpl.class);
 			
 			if(userAdapter == null)
 				initializeAdapter();
 			else 				
-				adaptEObject((EObject)extendedObject,userAdapter);
+				adaptEObject(extendedObject,userAdapter);
 			
 			if (eNotificationRequired())
 				eNotify(new ExtensionModelNotificationImpl(this, Notification.ADD, ExtensionModelNotification.EXTENSION_MAP_PUT, extendedObject, originalObject));
 
 			return originalObject;
 							
-		}else
-			return null;
+		}
+		
+		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
-	public Object remove(Object extendedObject) {
-		if(extendedObject == null)
+	public EObject remove (Object extendedObject) {
+		if (extendedObject == null) {
 			return null;
-		else{
-			Extension extensionObject = getExtensionObject((EObject)extendedObject);
-			if(getExtensions().contains(extensionObject)){
-				Object oldExtension = extensionObject.getExtensionObject();
-				getExtensions().remove(extensionObject);
-				if (eNotificationRequired())
-					eNotify(new ExtensionModelNotificationImpl(this, Notification.REMOVE, ExtensionModelNotification.EXTENSION_MAP_REMOVE, extendedObject, oldExtension));
-			}
-			
-			// Remove adapter if one exists
-			removeAdapters((EObject) extendedObject);
-				
-			if(extensionObject != null)
-				return extensionObject.getExtensionObject();
-			else
-				return null;
 		}
+		Extension extensionObject = getExtensionObject((EObject)extendedObject);
+		if(getExtensions().contains(extensionObject)){
+			Object oldExtension = extensionObject.getExtensionObject();
+			getExtensions().remove(extensionObject);
+			if (eNotificationRequired())
+				eNotify(new ExtensionModelNotificationImpl(this, Notification.REMOVE, ExtensionModelNotification.EXTENSION_MAP_REMOVE, extendedObject, oldExtension));
+		}
+		
+		// Remove adapter if one exists
+		removeAdapters((EObject) extendedObject);
+			
+		if(extensionObject != null) {
+			return extensionObject.getExtensionObject();
+		}
+		
+		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#putAll(java.util.Map)
 	 */
-	public void putAll(Map extendedObjectMap) {
+	public void putAll(Map<? extends EObject, ? extends EObject> extendedObjectMap) {
 
-		Map originalMap = null;
+		Map<EObject,EObject> originalMap = null;
 		if (eNotificationRequired()){
 			originalMap = buildMap();
 		}
 		
-		if(extendedObjectMap != null && !extendedObjectMap.isEmpty()){
-			for (Iterator iter = extendedObjectMap.entrySet().iterator(); iter.hasNext();) {
-				Map.Entry entry = (Map.Entry) iter.next();
+		if(extendedObjectMap != null && !extendedObjectMap.isEmpty()) {
+			for (Map.Entry<? extends EObject, ? extends EObject> entry : extendedObjectMap.entrySet()) {
 				put(entry.getKey(),entry.getValue());			
 			}
 		}
@@ -707,11 +681,11 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 		
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#clear()
 	 */
 	public void clear() {
-		Map originalMap = null;
+		Map<EObject,EObject> originalMap = null;
 		if (eNotificationRequired() && !getExtensions().isEmpty()){
 			originalMap = buildMap();
 		}
@@ -727,44 +701,45 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.util.Map#keySet()
 	 */
-	public Set keySet() {
-		return new KeySet();
+	public Set<EObject> keySet() {
+		return new KeySet ();
 	}
 
-	/* (non-Javadoc)
+	
+	/**
 	 * @see java.util.Map#values()
 	 */
-	public Collection values() {
-		return new Values();
+	public Collection<EObject> values() {
+		return new Values ();
 	}
 
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.util.Map#entrySet()
 	 */
-	public Set entrySet() {
-		return new EntrySet();
+	public Set<java.util.Map.Entry<EObject, EObject>> entrySet() {
+		return new EntrySet<EObject,EObject>();
 	}
+
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @customized
 	 */
-	private Extension getExtensionObject(EObject extendedObject) {
+	private Extension getExtensionObject (EObject extendedObject) {
+		
 		Extension extension = null;
 
-		if(extendedObject!=null){
+		if (extendedObject!=null) {
 		
 			// First check if the is an adapted associated with this object.
 			// If there is, the adapter points to the Extension object.  Return this
 			// object.
-			EList adapterList = extendedObject.eAdapters();
-					
-			for (Iterator iter = adapterList.iterator(); iter.hasNext();) {
-				Adapter element = (Adapter) iter.next();
+			for(Adapter element : extendedObject.eAdapters()) {
 				if(element instanceof ExtendedObjectAdapter && ((ExtendedObjectAdapter)element).getNamespace().equals(getNamespace())){
 					extension = ((ExtendedObjectAdapter)element).getExtension();
 					break;
@@ -775,13 +750,9 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 			// There is no adapter associated with this bject so we must search the
 			// Extension list.  Once the Extension is found, associate an adapter with this
 			// object to improve performance in future queries.
-			if(extension == null){
-					
-				EList extensionList = getExtensions();
-						
-				for (Iterator iter = extensionList.iterator(); iter.hasNext();) {
-					Extension ext = (Extension) iter.next();
-					
+			if( extension == null){
+									
+				for( Extension ext : getExtensions()) {					
 					if (ext.getExtendedObject() != null && ext.getExtendedObject().equals(extendedObject)){
 						extension = ext;
 						
@@ -824,11 +795,9 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 	 private void adaptEObject(EObject target, Adapter adapter) {
 		
 		if(target != null  && adapter != null){
-			 for (Iterator adapters = target.eAdapters().iterator(); adapters.hasNext(); )
-			 {
-			   Adapter currAdapter = (Adapter)adapters.next();
-			   if ((adapter instanceof ExtendedObjectUserAdapter && currAdapter instanceof ExtendedObjectUserAdapter && ((ExtendedObjectUserAdapter)currAdapter).getNamespace().equals(getNamespace()))||
-			       (adapter instanceof ExtendedObjectAdapter && currAdapter instanceof ExtendedObjectAdapter && ((ExtendedObjectAdapter)currAdapter).getNamespace().equals(getNamespace())))
+			for (Adapter next : target.eAdapters()) {			   
+			   if ((adapter instanceof ExtendedObjectUserAdapter && next instanceof ExtendedObjectUserAdapter && ((ExtendedObjectUserAdapter)next).getNamespace().equals(getNamespace()))||
+			       (adapter instanceof ExtendedObjectAdapter && next instanceof ExtendedObjectAdapter && ((ExtendedObjectAdapter)next).getNamespace().equals(getNamespace())))
 				 return;
 			 }
 			   
@@ -843,26 +812,22 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 	 private void removeAdapters(EObject target) {
 		
 		if(target != null){
-			EList removeAdapterList = new BasicEList();
-			for (Iterator adapters = target.eAdapters().iterator(); adapters.hasNext(); ){
-				Adapter currAdapter = (Adapter)adapters.next();
-				if ((currAdapter instanceof ExtendedObjectUserAdapter && ((ExtendedObjectUserAdapter)currAdapter).getNamespace().equals(getNamespace()))||
-					(currAdapter instanceof ExtendedObjectAdapter && ((ExtendedObjectAdapter)currAdapter).getNamespace().equals(getNamespace())))
-					removeAdapterList.add(currAdapter);	
+			EList<Adapter> removeAdapterList = new BasicEList<Adapter>();
+			for (Adapter adapter : target.eAdapters()) {				
+				if ((adapter instanceof ExtendedObjectUserAdapter && ((ExtendedObjectUserAdapter)adapter).getNamespace().equals(getNamespace()))||
+					(adapter instanceof ExtendedObjectAdapter && ((ExtendedObjectAdapter)adapter).getNamespace().equals(getNamespace())))
+					removeAdapterList.add(adapter);	
 			}
-		   	
-		   	for (Iterator iter = removeAdapterList.iterator(); iter.hasNext();) {
-				target.eAdapters().remove(iter.next()); 
+		   	for(Adapter next : removeAdapterList) {		   	
+				target.eAdapters().remove(next); 
 			}
 		}
 	 }
 
-	 private Map buildMap(){
+	 private Map<EObject,EObject> buildMap(){
 	 	
 	 	boolean buildMap = false;
-	 	
-	 	for (Iterator iter = eAdapters().iterator(); iter.hasNext(); ) {
-	 		Adapter element = (Adapter) iter.next();
+	 	for (Adapter element : eAdapters()) {
 	 		if(!(element instanceof ExtendedObjectAdapterImpl) && 
 	 				!(element instanceof ExtendedObjectUserAdapterImpl) && 
 					!(element instanceof ExtensionAdapterImpl) && 
@@ -875,12 +840,15 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap {
 	 	if(!buildMap)
 	 		return null;
 	 	
-		Map map = new HashMap();
-		for (Iterator iter = getExtensions().iterator(); iter.hasNext();) {
-			Extension element = (Extension) iter.next();
+		Map<EObject,EObject> map = new HashMap<EObject,EObject>();
+		for (Extension element : getExtensions()) {
 			map.put(element.getExtendedObject(), element.getExtensionObject());				
 		}		
 		return map;
 	 }
+
+	
+
+	
 
 } //ExtensionMapImpl
