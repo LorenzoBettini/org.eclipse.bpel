@@ -51,9 +51,8 @@ public class ImplicitSequenceContainer extends ReferenceContainer {
 	public List<Object> getChildList (Object object) {
 		Object child = getSingleChild(object);
 		if (child != null && isImplicitSequence(child)) {
-			ArrayList<Object> activities = new ArrayList<Object>();
-			Collections.copy(activities, ((Sequence)child).getActivities() );
-			return activities;
+			Sequence seq = (Sequence) child;
+			return (List) seq.getActivities();			
 		}
 		return null;
 	}
