@@ -183,7 +183,7 @@ public class CorrSetImplSection extends BPELPropertySection  {
 		
 		addButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				PropertySelectorDialog dialog = new PropertySelectorDialog(getPart().getSite().getShell(), (CorrelationSet)getInput());
+				PropertySelectorDialog dialog = new PropertySelectorDialog(getPart().getSite().getShell(), (CorrelationSet)getInput(), fWidgetFactory);
 				if (dialog.open() == Window.OK) {
 					Property property = dialog.getProperty();
 					if (property != null) {
@@ -203,7 +203,7 @@ public class CorrSetImplSection extends BPELPropertySection  {
 				if (property != null)  {
 					BPELEditor bpelEditor = getBPELEditor();
 					Shell shell = bpelEditor.getEditorSite().getShell();
-					EditMessagePropertyDialog dialog = new EditMessagePropertyDialog(shell, property, null, bpelEditor);
+					EditMessagePropertyDialog dialog = new EditMessagePropertyDialog(shell, property, null, bpelEditor, fWidgetFactory);
 					if (dialog.open() == Dialog.OK) {
 						if (property != null) {
 							Command cmd = new AddPropertyCommand((CorrelationSet)getInput(), property);

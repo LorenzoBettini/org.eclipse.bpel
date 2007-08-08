@@ -54,6 +54,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
@@ -89,6 +90,7 @@ public class EditMessagePropertyDialog extends Dialog {
 	protected TableViewer aliasesTableViewer;
 	protected PropertyAliasFilter aliasesFilter;
 	protected Set existingPropertyNames;
+	protected TabbedPropertySheetWidgetFactory wf;
 
 	/** inner classes **/
 
@@ -123,11 +125,12 @@ public class EditMessagePropertyDialog extends Dialog {
 	}
 
 	
-	public EditMessagePropertyDialog(Shell parentShell, Property property, String newPropertyName, BPELEditor bpelEditor) {
+	public EditMessagePropertyDialog(Shell parentShell, Property property, String newPropertyName, BPELEditor bpelEditor, TabbedPropertySheetWidgetFactory wf) {
 		super(parentShell);
 		setShellStyle(getShellStyle() | SWT.RESIZE);
 		this.bpelEditor = bpelEditor;
 		this.property = property;
+		this.wf = wf;
 		isNew = (property == null);
 		if (isNew) {
 			targetFile = bpelEditor.getEditModelClient().getArtifactsResourceInfo().getFile();
@@ -405,7 +408,7 @@ public class EditMessagePropertyDialog extends Dialog {
 	 * Updates the property type according to the user choice.
 	 */
 	protected void browsePropertyType() {
-		Object xsdType = BrowseUtil.browseForXSDSimpleType(bpelEditor.getResourceSet(), getShell());
+		Object xsdType = BrowseUtil.browseForXSDTypeOrElement(bpelEditor.getProcess(), getShell());
 		if (xsdType != null) {
 			propertyType = xsdType;
 			updateTypeFileText();
@@ -464,7 +467,7 @@ public class EditMessagePropertyDialog extends Dialog {
 	 * Opens a dialog and let the user create a new property alias.
 	 */
 	protected void createAlias() {
-		EditPropertyAliasDialog dialog = new EditPropertyAliasDialog(getShell(), property, null, bpelEditor);
+		EditPropertyAliasDialog dialog = new EditPropertyAliasDialog(getShell(), property, null, bpelEditor, wf);
 		if (dialog.open() == Dialog.OK) {
 			final PropertyAlias alias = dialog.getPropertyAlias();
 			if (alias != null) {
@@ -503,7 +506,7 @@ public class EditMessagePropertyDialog extends Dialog {
 	 */
 	protected void editAlias(PropertyAlias alias) {
 		if (alias != null) {
-			EditPropertyAliasDialog dialog = new EditPropertyAliasDialog(getShell(), property, alias, bpelEditor);
+			EditPropertyAliasDialog dialog = new EditPropertyAliasDialog(getShell(), property, alias, bpelEditor, wf);
 			if (dialog.open() == Dialog.OK) {
 				updatePropertyAliasTable();
 			}

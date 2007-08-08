@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
 
@@ -57,15 +58,17 @@ public class PropertySelectorDialog extends SelectionAndCreationDialog {
 	protected CorrelationSet correlationSet;
 	protected Text filterText;
 	protected Table lowerList;
+	protected TabbedPropertySheetWidgetFactory wf;
 	
 	/**
 	 * The modelObject is the model element that indicates the scope in which the
 	 * variable should be visible.
 	 */
-	public PropertySelectorDialog(Shell parent, CorrelationSet correlationSet) {
+	public PropertySelectorDialog(Shell parent, CorrelationSet correlationSet, TabbedPropertySheetWidgetFactory wf) {
 		super(parent, new PropertiesLabelProvider(), new TypeLabelProvider());
 		setTitle(Messages.PropertySelectorDialog_Select_a_Property_2); 
 		this.correlationSet = correlationSet;
+		this.wf = wf;
 		setMessage(Messages.PropertySelectorDialog_Property_Name_wildcards_3); 
 		setUpperListLabel(Messages.PropertySelectorDialog_Matches_4); 
 		setLowerListLabel(Messages.PropertySelectorDialog_Property_Type_5); 
@@ -101,7 +104,7 @@ public class PropertySelectorDialog extends SelectionAndCreationDialog {
 		Process process = ModelHelper.getProcess(correlationSet);
 		BPELEditor bpelEditor = ModelHelper.getBPELEditor(process);
 		String newName = filterText.getText();
-		EditMessagePropertyDialog dialog = new EditMessagePropertyDialog(getShell(), null, newName, bpelEditor);
+		EditMessagePropertyDialog dialog = new EditMessagePropertyDialog(getShell(), null, newName, bpelEditor, wf);
 		if (dialog.open() == Dialog.OK) {
 			Property property = dialog.getProperty();
 			if (property != null) {

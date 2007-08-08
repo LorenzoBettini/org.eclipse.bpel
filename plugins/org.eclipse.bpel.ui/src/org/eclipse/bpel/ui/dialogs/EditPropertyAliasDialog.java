@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;import org.eclipse.xsd.XSDElementDeclaration;
@@ -66,6 +67,8 @@ public class EditPropertyAliasDialog extends Dialog {
 	protected TreeViewer messagePartViewer;
 	protected boolean createAlias;
 	
+	protected TabbedPropertySheetWidgetFactory wf;
+	
 	protected class PropertyAliasDialogCallback implements VariableTypeSelector.Callback {
 		public void selectRadioButton(int index) {}
 		public void selectXSDType(XSDTypeDefinition xsdType) {}
@@ -77,13 +80,14 @@ public class EditPropertyAliasDialog extends Dialog {
 		}
 	}
 
-	public EditPropertyAliasDialog(Shell parentShell, Property property, PropertyAlias alias, BPELEditor bpelEditor) {
+	public EditPropertyAliasDialog(Shell parentShell, Property property, PropertyAlias alias, BPELEditor bpelEditor, TabbedPropertySheetWidgetFactory wf) {
 		super(parentShell);
 		setShellStyle(getShellStyle() | SWT.RESIZE);
 		this.createAlias = (alias == null);
 		this.alias = alias;
 		this.property = property;
 		this.bpelEditor = bpelEditor;
+		this.wf = wf;
 		if (alias != null && alias.getMessageType() != null) {
 			Resource resource = ((EObject)alias.getMessageType()).eResource();
 			wsdlDefinition = (Definition) resource.getContents().get(0);
@@ -103,7 +107,7 @@ public class EditPropertyAliasDialog extends Dialog {
 		} else {
 			topLabel.setText(Messages.EditPropertyAliasDialog_4); 
 		}
-		variableTypeSelector = new DialogVariableTypeSelector(composite, SWT.NONE, bpelEditor, getShell(), new PropertyAliasDialogCallback());
+		variableTypeSelector = new DialogVariableTypeSelector(composite, SWT.NONE, bpelEditor, getShell(), new PropertyAliasDialogCallback(), wf);
 		variableTypeSelector.setVariableType(null);
 		Label partLabel = new Label(composite, SWT.NONE);
 		partLabel.setText(Messages.EditPropertyAliasDialog_8); 

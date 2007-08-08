@@ -23,12 +23,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 
 public class DialogVariableTypeSelector extends VariableTypeSelector {
 	public DialogVariableTypeSelector(Composite parent, int style, BPELEditor bpelEditor,
-			Shell shell, Callback callback) {
-		super(parent, style, bpelEditor, null, callback, false);
+			Shell shell, Callback callback, TabbedPropertySheetWidgetFactory wf) {
+		super(parent, style, bpelEditor, wf, callback, false);
 		this.shell = shell;
 	}
 	

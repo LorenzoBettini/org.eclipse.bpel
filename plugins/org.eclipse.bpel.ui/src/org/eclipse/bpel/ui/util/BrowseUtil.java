@@ -39,11 +39,6 @@ public class BrowseUtil {
 		return null;
 
 	}
-	public static XSDTypeDefinition browseForXSDSimpleType(ResourceSet resourceSet, Shell parent) {
-		// TODO!
-		return null;
-	}
-	
 
 	/**
 	 * @param input
