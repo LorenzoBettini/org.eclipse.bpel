@@ -62,7 +62,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	public NewFileWizard() {
 		
 		setNeedsProgressMonitor(true);
-		setDialogSettings(BPELUIPlugin.getPlugin().getDialogSettingsFor(this));		
+		setDialogSettings(BPELUIPlugin.INSTANCE.getDialogSettingsFor(this));		
 		setHelpAvailable(false);
 		
 	}

@@ -108,14 +108,14 @@ public class PartnerLinkAdapter extends AbstractStatefulAdapter implements IName
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
 	 */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PARTNER_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PARTNER_16);
 	}
 	
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLargeImage(java.lang.Object)
 	 */
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PARTNER_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PARTNER_32);
 	}
 	
 	/**

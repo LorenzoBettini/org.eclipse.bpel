@@ -34,7 +34,7 @@ public class XPathEditorTemplateAccess {
 		if (fStore == null) {
 			fStore= new ContributionTemplateStore(//null,
 					getContextTypeRegistry(),
-					BPELUIPlugin.getDefault().getPreferenceStore(), "xpath.editor");
+					BPELUIPlugin.INSTANCE.getPreferenceStore(), "xpath.editor");
 			try {
 				fStore.load();
 			} catch (IOException e) {

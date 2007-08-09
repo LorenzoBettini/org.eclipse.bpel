@@ -31,7 +31,7 @@ public class XPathTemplatePreferencePage extends TemplatePreferencePage	implemen
 	private ColorManager colorManager;
 	
 	public XPathTemplatePreferencePage() {
-        setPreferenceStore(BPELUIPlugin.getDefault().getPreferenceStore());
+        setPreferenceStore(BPELUIPlugin.INSTANCE.getPreferenceStore());
         setContextTypeRegistry(XPathEditorTemplateAccess.getDefault().getContextTypeRegistry());
         //XPathEditorTemplateAccess.getDefault().getContextTypeRegistry().addContextType("xpath");
         //XPathEditorTemplateAccess.getDefault().getContextTypeRegistry().addContextType("jscript");
@@ -58,7 +58,7 @@ public class XPathTemplatePreferencePage extends TemplatePreferencePage	implemen
      */
     public boolean performOk() {
 	  boolean ok = super.performOk();
-	  BPELUIPlugin.getDefault().savePluginPreferences();
+	  BPELUIPlugin.INSTANCE.savePluginPreferences();
 	  if (colorManager != null)
 		  colorManager.dispose();
 	  return ok;

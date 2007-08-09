@@ -53,7 +53,7 @@ public class FlowBorder extends GradientBorder {
 			Rectangle oldClip = new Rectangle();
 			oldClip = graphics.getClip(oldClip);
 
-			ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+			ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 			graphics.setForegroundColor(registry.get(IBPELUIConstants.COLOR_ACTIVITY_BORDER));
 			Rectangle clippingRect;
 			if (bottomMarker == null) {
@@ -82,7 +82,7 @@ public class FlowBorder extends GradientBorder {
 			graphics.drawImage(bottomImage, bottomDrawerX, bottomDrawerY);
 		}
 		
-		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 		graphics.setForegroundColor(registry.get(IBPELUIConstants.COLOR_COMPOSITE_ACTIVITY_BORDER));
 		Rectangle roundBounds = bounds.getCopy();
 		roundBounds.crop(new Insets(0, DRAWER_WIDTH, 1, DRAWER_WIDTH));

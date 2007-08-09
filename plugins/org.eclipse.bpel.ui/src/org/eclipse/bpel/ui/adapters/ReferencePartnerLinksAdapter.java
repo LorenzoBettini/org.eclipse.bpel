@@ -69,12 +69,12 @@ public class ReferencePartnerLinksAdapter extends ContainerAdapter implements Ed
 
 	public Image getSmallImage(Object object) {
 		String imageName = IBPELUIConstants.ICON_PARTNER_OUT_16;
-		return BPELUIPlugin.getPlugin().getImage(imageName);
+		return BPELUIPlugin.INSTANCE.getImage(imageName);
 	}
 	
 	public Image getLargeImage(Object object) {
 		String imageName = IBPELUIConstants.ICON_PARTNER_OUT_16;
-		return BPELUIPlugin.getPlugin().getImage(imageName);
+		return BPELUIPlugin.INSTANCE.getImage(imageName);
 	}
 	
 	public String getTypeLabel(Object object) {

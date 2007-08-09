@@ -33,11 +33,11 @@ public class CreateOnMessageAction extends AbstractAction {
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_ONMESSAGE);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_ONMESSAGE);
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_ONMESSAGE);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ACTION_ONMESSAGE);
 	}
 
 	public boolean onButtonPressed() {

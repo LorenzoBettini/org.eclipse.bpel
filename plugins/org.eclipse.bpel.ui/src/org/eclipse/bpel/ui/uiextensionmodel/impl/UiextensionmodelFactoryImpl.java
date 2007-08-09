@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelFactoryImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: UiextensionmodelFactoryImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -19,7 +19,9 @@ import org.eclipse.bpel.ui.uiextensionmodel.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +30,25 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  * @generated
  */
 public class UiextensionmodelFactoryImpl extends EFactoryImpl implements UiextensionmodelFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static UiextensionmodelFactory init() {
+		try {
+			UiextensionmodelFactory theUiextensionmodelFactory = (UiextensionmodelFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/bpel/ui/uiextensionmodel.ecore"); 
+			if (theUiextensionmodelFactory != null) {
+				return theUiextensionmodelFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new UiextensionmodelFactoryImpl();
+	}
+
 	/**
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -43,6 +64,7 @@ public class UiextensionmodelFactoryImpl extends EFactoryImpl implements Uiexten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION: return createActivityExtension();
@@ -208,6 +230,7 @@ public class UiextensionmodelFactoryImpl extends EFactoryImpl implements Uiexten
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static UiextensionmodelPackage getPackage() {
 		return UiextensionmodelPackage.eINSTANCE;
 	}

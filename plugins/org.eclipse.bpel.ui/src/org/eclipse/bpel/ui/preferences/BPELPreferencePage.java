@@ -149,14 +149,14 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 	 * Initializes states of the controls using default values in the preference store.
 	 */
 	private void initializeDefaults() {
-		fUseAnimation.setSelection(BPELUIPlugin.getPlugin().getPreferenceStore().getDefaultBoolean(IBPELUIConstants.PREF_USE_ANIMATION));
+		fUseAnimation.setSelection(BPELUIPlugin.INSTANCE.getPreferenceStore().getDefaultBoolean(IBPELUIConstants.PREF_USE_ANIMATION));
 	}
 
 	/**
 	 * Initializes states of the controls from the preference store.
 	 */
 	private void initializeValues() {
-		IPreferenceStore store = BPELUIPlugin.getPlugin().getPreferenceStore();
+		IPreferenceStore store = BPELUIPlugin.INSTANCE.getPreferenceStore();
 		
 		for(Button b : fButtons) {
 			String pref = (String) b.getData(PREFERENCE);
@@ -170,7 +170,7 @@ public class BPELPreferencePage extends PreferencePage implements IWorkbenchPref
 	 * Stores the values of the controls back to the preference store.
 	 */
 	private void storeValues() {
-		IPreferenceStore store = BPELUIPlugin.getPlugin().getPreferenceStore();
+		IPreferenceStore store = BPELUIPlugin.INSTANCE.getPreferenceStore();
 
 		for(Button b : fButtons) {
 			String pref = (String) b.getData(PREFERENCE);

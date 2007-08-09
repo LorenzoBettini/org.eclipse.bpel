@@ -69,22 +69,22 @@ public class ScopeBorder extends CollapsableBorder {
 		super(true, IBPELUIConstants.ARC_WIDTH, parentFigure, labelText, image);
 		
 		// Initialize images for fault, compensation and event handler decorations
-		this.faultImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
+		this.faultImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
 		org.eclipse.swt.graphics.Rectangle r = faultImage.getBounds();
 		this.faultImageWidth = r.width;
 		this.faultImageHeight = r.height;
 
-		this.compensationImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMPENSATION_INDICATOR);
+		this.compensationImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_COMPENSATION_INDICATOR);
 		r = compensationImage.getBounds();
 		this.compensationImageWidth = r.width;
 		this.compensationImageHeight = r.height;
 
-		this.terminationImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_TERMINATION_INDICATOR);
+		this.terminationImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_TERMINATION_INDICATOR);
 		r = terminationImage.getBounds();
 		this.terminationImageWidth = r.width;
 		this.terminationImageHeight = r.height;
 
-		this.eventImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
+		this.eventImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
 		r = eventImage.getBounds();
 		this.eventImageWidth = r.width;
 		this.eventImageHeight = r.height;
@@ -103,7 +103,7 @@ public class ScopeBorder extends CollapsableBorder {
 	protected void doPaint(IFigure figure, Graphics graphics, Insets insets) {
 		super.doPaint(figure, graphics, insets);
 		
-		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 
 		Color old = graphics.getForegroundColor();
 		graphics.setForegroundColor(registry.get(IBPELUIConstants.COLOR_SCOPE_BORDER));

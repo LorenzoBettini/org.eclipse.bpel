@@ -89,12 +89,12 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 	 */
 	public StartNodeEditPart() {
 		// Initialize images for fault and event handler decorations
-		this.faultImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
+		this.faultImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
 		org.eclipse.swt.graphics.Rectangle r = faultImage.getBounds();
 		this.faultImageWidth = r.width;
 		this.faultImageHeight = r.height;
 
-		this.eventImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
+		this.eventImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
 		r = eventImage.getBounds();
 		this.eventImageWidth = r.width;
 		this.eventImageHeight = r.height;

@@ -365,7 +365,7 @@ public class PreferenceConstants {
 	 * @return the preference store
 	 */
 	public static IPreferenceStore getPreferenceStore() {
-		return BPELUIPlugin.getPlugin().getPreferenceStore();
+		return BPELUIPlugin.INSTANCE.getPreferenceStore();
 	}	
 	
 }

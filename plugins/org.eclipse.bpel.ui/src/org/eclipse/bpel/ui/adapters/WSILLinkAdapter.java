@@ -29,7 +29,7 @@ public class WSILLinkAdapter extends AbstractAdapter
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
 	 */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getDefault().getImage(IBPELUIConstants.ICON_WSIL_LINK );	
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_WSIL_LINK );	
 	}	
 
 

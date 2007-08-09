@@ -76,7 +76,7 @@ public abstract class GradientBorder extends DrawerBorder {
 		Color oldBack = graphics.getBackgroundColor();
 		Color oldFore = graphics.getForegroundColor();
 
-		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 		Color from = registry.get(IBPELUIConstants.COLOR_GRADIENT_FROM);
 		Color to = registry.get(IBPELUIConstants.COLOR_GRADIENT_TO);
 		if (arcWidth == -1) {

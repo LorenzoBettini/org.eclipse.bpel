@@ -30,11 +30,11 @@ public class CreateFlowLinkAction extends AbstractAction {
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_LINK_16);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_LINK_16);
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_LINK_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_LINK_16);
 	}
 
 	public boolean onButtonPressed() {

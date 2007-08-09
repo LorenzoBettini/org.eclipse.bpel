@@ -50,7 +50,7 @@ public class ContainerHighlightEditPolicy extends BPELSelectionEditPolicy {
 	public void activate() {
 		super.activate();
 		if (highlightColor == null) {
-			BPELUIPlugin plugin = BPELUIPlugin.getPlugin();
+			BPELUIPlugin plugin = BPELUIPlugin.INSTANCE;
 			ColorRegistry colorRegistry = plugin.getColorRegistry();
 			highlightColor = colorRegistry.get(IBPELUIConstants.COLOR_GRADIENT_TO);
 		}

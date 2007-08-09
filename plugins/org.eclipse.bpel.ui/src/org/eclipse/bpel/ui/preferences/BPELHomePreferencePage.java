@@ -25,7 +25,7 @@ public class BPELHomePreferencePage
 
 	public BPELHomePreferencePage() {
 		super(GRID);
-		setPreferenceStore(BPELUIPlugin.getDefault().getPreferenceStore());
+		setPreferenceStore(BPELUIPlugin.INSTANCE.getPreferenceStore());
 		//setDescription("A demonstration of a preference page implementation");
 	}
 	

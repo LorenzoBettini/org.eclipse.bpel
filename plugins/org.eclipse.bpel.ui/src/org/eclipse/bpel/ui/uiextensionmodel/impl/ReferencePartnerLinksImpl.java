@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReferencePartnerLinksImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: ReferencePartnerLinksImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -48,8 +48,9 @@ public class ReferencePartnerLinksImpl extends EObjectImpl implements ReferenceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
-		return UiextensionmodelPackage.eINSTANCE.getReferencePartnerLinks();
+		return UiextensionmodelPackage.Literals.REFERENCE_PARTNER_LINKS;
 	}
 
 	public PartnerLinks getPartnerLinks() {

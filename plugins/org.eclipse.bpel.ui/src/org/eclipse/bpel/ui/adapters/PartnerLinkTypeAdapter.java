@@ -49,11 +49,11 @@ public class PartnerLinkTypeAdapter extends AbstractAdapter implements INamedEle
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PARTNERLINKTYPE_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PARTNERLINKTYPE_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PARTNERLINKTYPE_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PARTNERLINKTYPE_32);
 	}	
 	
 	public String getTypeLabel(Object object) {

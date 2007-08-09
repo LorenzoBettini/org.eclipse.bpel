@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkExtensionImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: PartnerLinkExtensionImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -73,8 +73,9 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
-		return UiextensionmodelPackage.eINSTANCE.getPartnerLinkExtension();
+		return UiextensionmodelPackage.Literals.PARTNER_LINK_EXTENSION;
 	}
 
 	/**
@@ -103,12 +104,13 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PARTNER_LINK_EXTENSION__PARTNER_KIND:
 				return new Integer(getPartnerKind());
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -116,13 +118,14 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PARTNER_LINK_EXTENSION__PARTNER_KIND:
 				setPartnerKind(((Integer)newValue).intValue());
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -130,13 +133,14 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PARTNER_LINK_EXTENSION__PARTNER_KIND:
 				setPartnerKind(PARTNER_KIND_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -144,12 +148,13 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PARTNER_LINK_EXTENSION__PARTNER_KIND:
 				return partnerKind != PARTNER_KIND_EDEFAULT;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**
@@ -157,6 +162,7 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

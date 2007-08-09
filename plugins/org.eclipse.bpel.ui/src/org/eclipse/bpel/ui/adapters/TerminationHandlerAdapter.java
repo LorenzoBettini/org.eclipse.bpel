@@ -29,11 +29,11 @@ public class TerminationHandlerAdapter extends ContainerAdapter implements ILabe
 	/* ILabeledElement */
 
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_TERMINATIONHANDLER_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_TERMINATIONHANDLER_16);
 	}
 
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_TERMINATIONHANDLER_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_TERMINATIONHANDLER_32);
 	}
 
 

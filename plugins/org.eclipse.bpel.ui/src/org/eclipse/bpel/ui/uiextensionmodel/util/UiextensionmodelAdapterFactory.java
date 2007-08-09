@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelAdapterFactory.java,v 1.1 2005/11/29 18:51:10 james Exp $
+ * $Id: UiextensionmodelAdapterFactory.java,v 1.2 2007/08/09 02:02:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.util;
 
@@ -60,6 +60,7 @@ public class UiextensionmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
@@ -76,48 +77,62 @@ public class UiextensionmodelAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UiextensionmodelSwitch modelSwitch =
-		new UiextensionmodelSwitch() {
-			public Object caseActivityExtension(ActivityExtension object) {
+	protected UiextensionmodelSwitch<Adapter> modelSwitch =
+		new UiextensionmodelSwitch<Adapter>() {
+			@Override
+			public Adapter caseActivityExtension(ActivityExtension object) {
 				return createActivityExtensionAdapter();
 			}
-			public Object caseCaseExtension(CaseExtension object) {
+			@Override
+			public Adapter caseCaseExtension(CaseExtension object) {
 				return createCaseExtensionAdapter();
 			}
-			public Object caseCopyExtension(CopyExtension object) {
+			@Override
+			public Adapter caseCopyExtension(CopyExtension object) {
 				return createCopyExtensionAdapter();
 			}
-			public Object caseEndNode(EndNode object) {
+			@Override
+			public Adapter caseEndNode(EndNode object) {
 				return createEndNodeAdapter();
 			}
-			public Object caseLinkExtension(LinkExtension object) {
+			@Override
+			public Adapter caseLinkExtension(LinkExtension object) {
 				return createLinkExtensionAdapter();
 			}
-			public Object caseOnAlarmExtension(OnAlarmExtension object) {
+			@Override
+			public Adapter caseOnAlarmExtension(OnAlarmExtension object) {
 				return createOnAlarmExtensionAdapter();
 			}
-			public Object caseOnEventExtension(OnEventExtension object) {
+			@Override
+			public Adapter caseOnEventExtension(OnEventExtension object) {
 				return createOnEventExtensionAdapter();
 			}
-			public Object caseOnMessageExtension(OnMessageExtension object) {
+			@Override
+			public Adapter caseOnMessageExtension(OnMessageExtension object) {
 				return createOnMessageExtensionAdapter();
 			}
-			public Object casePartnerLinkExtension(PartnerLinkExtension object) {
+			@Override
+			public Adapter casePartnerLinkExtension(PartnerLinkExtension object) {
 				return createPartnerLinkExtensionAdapter();
 			}
-			public Object caseProcessExtension(ProcessExtension object) {
+			@Override
+			public Adapter caseProcessExtension(ProcessExtension object) {
 				return createProcessExtensionAdapter();
 			}
-			public Object caseReferencePartnerLinks(ReferencePartnerLinks object) {
+			@Override
+			public Adapter caseReferencePartnerLinks(ReferencePartnerLinks object) {
 				return createReferencePartnerLinksAdapter();
 			}
-			public Object caseStartNode(StartNode object) {
+			@Override
+			public Adapter caseStartNode(StartNode object) {
 				return createStartNodeAdapter();
 			}
-			public Object caseVariableExtension(VariableExtension object) {
+			@Override
+			public Adapter caseVariableExtension(VariableExtension object) {
 				return createVariableExtensionAdapter();
 			}
-			public Object defaultCase(EObject object) {
+			@Override
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -130,8 +145,9 @@ public class UiextensionmodelAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 

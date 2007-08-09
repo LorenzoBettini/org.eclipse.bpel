@@ -23,11 +23,11 @@ public class PartAdapter extends AbstractAdapter implements ILabeledElement {
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PART_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PART_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PART_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PART_32);
 	}
 	
 	public String getTypeLabel(Object object) {

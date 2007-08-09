@@ -47,16 +47,16 @@ public class SetVariableAction extends AbstractAction {
 
 	public Image getIconImg() {
 		if (type == RESPONSE) {
-			return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_OUTGOING);
+			return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ACTION_OUTGOING);
 		}
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_INCOMING);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ACTION_INCOMING);
 	}
 
 	public ImageDescriptor getIcon() {
 		if (type == RESPONSE) {
-			return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_OUTGOING);
+			return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_OUTGOING);
 		}
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_INCOMING);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_INCOMING);
 	}
 
 	public boolean onButtonPressed() {

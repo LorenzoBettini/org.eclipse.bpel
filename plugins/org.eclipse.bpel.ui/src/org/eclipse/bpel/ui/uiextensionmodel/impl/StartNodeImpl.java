@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: StartNodeImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: StartNodeImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -47,8 +47,9 @@ public class StartNodeImpl extends EObjectImpl implements StartNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
-		return UiextensionmodelPackage.eINSTANCE.getStartNode();
+		return UiextensionmodelPackage.Literals.START_NODE;
 	}
 
 	public void setProcess(Process process) {

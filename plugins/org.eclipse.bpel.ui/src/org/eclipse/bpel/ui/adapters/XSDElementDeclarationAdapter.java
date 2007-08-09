@@ -22,7 +22,7 @@ public class XSDElementDeclarationAdapter extends XSDAbstractAdapter
 	/* ILabeledElement overrides */
 	
 	public Image getSmallImage(Object object) {		
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_XSD_ELEMENT_DECLARATION_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_XSD_ELEMENT_DECLARATION_16);
 	}
 		
 	public String getTypeLabel(Object object) {

@@ -44,12 +44,12 @@ public class EventHandlerAdapter extends ContainerAdapter implements ILabeledEle
 	/* ILabeledElement */
 
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				IBPELUIConstants.ICON_EVENTHANDLER_16);
 	}
 
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				IBPELUIConstants.ICON_EVENTHANDLER_32);
 	}	
 	

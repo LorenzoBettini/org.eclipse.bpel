@@ -31,11 +31,11 @@ public class SetPartnerLinkAction extends AbstractAction {
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_PARTNERLINK);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_PARTNERLINK);
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_PARTNERLINK);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ACTION_PARTNERLINK);
 	}
 
 	public boolean onButtonPressed() {

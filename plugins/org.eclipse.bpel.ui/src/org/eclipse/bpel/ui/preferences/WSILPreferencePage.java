@@ -435,7 +435,7 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 	 * Initializes states of the controls from the preference store.
 	 */
 	private void initializeValues() {
-		IPreferenceStore store = BPELUIPlugin.getDefault().getPreferenceStore();
+		IPreferenceStore store = BPELUIPlugin.INSTANCE.getPreferenceStore();
 		
 		wsilURL.setText(store.getString(IBPELUIConstants.PREF_WSIL_URL));
 		
@@ -448,7 +448,7 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 	 * Stores the values of the controls back to the preference store.
 	 */
 	private void storeValues() {
-		IPreferenceStore store = BPELUIPlugin.getDefault().getPreferenceStore();
+		IPreferenceStore store = BPELUIPlugin.INSTANCE.getPreferenceStore();
 		
 		store.setValue(IBPELUIConstants.PREF_WSIL_URL, wsilURL.getText());	
 

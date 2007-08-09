@@ -76,8 +76,8 @@ public class BPELDuplicateAction extends BPELCopyAction implements IEditorAction
 		
 		setId(ACTION_ID);
 		
-		setImageDescriptor( BPELUIPlugin.getDefault().getImageDescriptor( IBPELUIConstants.ICON_DUPLICATE_16_E ));
-		setDisabledImageDescriptor ( BPELUIPlugin.getDefault().getImageDescriptor(IBPELUIConstants.ICON_DUPLICATE_16_D  ) );
+		setImageDescriptor( BPELUIPlugin.INSTANCE.getImageDescriptor( IBPELUIConstants.ICON_DUPLICATE_16_E ));
+		setDisabledImageDescriptor ( BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_DUPLICATE_16_D  ) );
 		setEnabled(false);
 	}
 

@@ -125,7 +125,7 @@ public class LinkAdapter extends AbstractStatefulAdapter implements INamedElemen
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLargeImage(java.lang.Object)
 	 */
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				IBPELUIConstants.ICON_LINK_32);
 	}
 
@@ -133,7 +133,7 @@ public class LinkAdapter extends AbstractStatefulAdapter implements INamedElemen
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
 	 */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				IBPELUIConstants.ICON_LINK_16);
 	}
 

@@ -66,11 +66,13 @@ public class ExpressionContentAssistProcessor
 	private String theLastBeginsWith = EMPTY_STRING; 
 	private String theExpressionContext = EMPTY_STRING; 
 	private IContentAssistantExtension2 theContentAssistant;
+	
 	/**
 	 * The function templates content assist processor.
 	 */
-    FunctionTemplatesContentAssistProcessor functionTemplates = new FunctionTemplatesContentAssistProcessor();
-    XPathTemplateCompletionProcessor xpathTemplates = new XPathTemplateCompletionProcessor();
+	
+    FunctionTemplatesContentAssistProcessor fFunctionTemplates = new FunctionTemplatesContentAssistProcessor();
+    XPathTemplateCompletionProcessor fXpathTemplates = new XPathTemplateCompletionProcessor();
     	
 	// public constants
     static final String MINUS = "-"; //$NON-NLS-1$
@@ -711,7 +713,7 @@ public class ExpressionContentAssistProcessor
 	 */
 	public void setModelObject(Object model) {
 		theModel = model;
-		functionTemplates.setModel(model);
+		fFunctionTemplates.setModel(model);
 	}
 	
 	/**
@@ -898,54 +900,17 @@ public class ExpressionContentAssistProcessor
 			else
 				theContentAssistant.setStatusMessage(Messages.getString("ExpressionContentAssistProcessor.49")); //$NON-NLS-1$
 			//return generateTemplateProposals(tempStart, offset);
-			return (xpathTemplates.computeCompletionProposals(viewer, offset));
+			return (fXpathTemplates.computeCompletionProposals(viewer, offset));
 		}
 
 		return null;
 	}
 	
-	/*
+	/**
 	 * From model, determine list of functions the user may want to choose from.
 	 */
-	private ICompletionProposal[] generateFunctionProposals(ITextViewer viewer, String context, int offset) {
-	
-		return functionTemplates.computeCompletionProposals(viewer, offset);		
-		
-		/**
-		Functions list = XPathExpressionUtil.functions;
-		TreeMap numList = list.getFunctions();
-		Iterator iter = numList.values().iterator();
-		
-		ArrayList results = new ArrayList();
-		CompletionProposal prop = null;
-		
-		Image img = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EXPR_FUNCTION);
-		while (iter.hasNext()) {
-			Function func = (Function)iter.next();
-			String replace = func.getReplacementString();
-
-			if (func.getName().startsWith(context)) {
-				prop = new CompletionProposal(replace, offset-context.length(), context.length(), 
-						replace.indexOf('(')+1, 
-						img, func.getDisplayString(), null, func.getHelp()+func.getComments());
-				results.add(prop);
-			}
-		}
-		ICompletionProposal[] proposals = null;
-		if (results.size() < 1) {
-			proposals = new ICompletionProposal[1];
-			proposals[0] = new CompletionProposal(EMPTY_STRING, offset, 0,
-					0, null, "No proposals",
-					null, null);
-		}
-		else {
-			proposals = new ICompletionProposal[results.size()];
-			for (int i=0; i<results.size(); i++) {
-				proposals[i] = (CompletionProposal)results.get(i);
-			}
-		}
-		return proposals;
-		*/
+	ICompletionProposal[] generateFunctionProposals(ITextViewer viewer, String context, int offset) {	
+		return fFunctionTemplates.computeCompletionProposals(viewer, offset);
 	}
 	
 	/*
@@ -957,7 +922,7 @@ public class ExpressionContentAssistProcessor
 
 	ICompletionProposal[] generateOperatorProposals(String context, int offset) {
 
-		Image img = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OPERATION_16);
+		Image img = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_OPERATION_16);
 		
 		ICompletionProposal[] proposals = new ICompletionProposal[OPERATOR_LIST.length];
 		for (int i=0; i<OPERATOR_LIST.length; i++) {
@@ -971,7 +936,7 @@ public class ExpressionContentAssistProcessor
 		
 		ArrayList<ICompletionProposal> results = new ArrayList<ICompletionProposal>();
 				
-		Image linkImg = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_LINK_16);
+		Image linkImg = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_LINK_16);
 		
 		for( Object next : new LinkContentProvider( LinkContentProvider.INCOMING ).getElements(theModel) ) {
 			Link link = (Link) next;
@@ -1023,10 +988,10 @@ public class ExpressionContentAssistProcessor
 		Message currMsg = null;
 		XSDElementDeclaration currXsdElem = null;
 
-		Image varImg = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_VARIABLE_16);
-		Image partImg = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PART_16);
-		Image elementImg = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_XSD_ELEMENT_DECLARATION_16);
-		Image attrImg = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_XSD_ATTRIBUTE_DECLARATION_16);
+		Image varImg = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_VARIABLE_16);
+		Image partImg = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PART_16);
+		Image elementImg = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_XSD_ELEMENT_DECLARATION_16);
+		Image attrImg = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_XSD_ATTRIBUTE_DECLARATION_16);
 		if (seekChildren) {
 			// walk down path
 			int index = 0;

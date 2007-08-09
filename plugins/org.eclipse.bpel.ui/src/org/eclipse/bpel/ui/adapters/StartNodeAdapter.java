@@ -33,7 +33,7 @@ public class StartNodeAdapter extends AbstractAdapter implements EditPartFactory
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 			IBPELUIConstants.ICON_STARTNODE_16_GIF);
 	}
 

@@ -36,11 +36,11 @@ public final class CreateEventHandlerAction extends AbstractAction {
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_EVENTHANDLER);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_EVENTHANDLER);
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_EVENTHANDLER);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ACTION_EVENTHANDLER);
 	}
 
 	public boolean onButtonPressed() {

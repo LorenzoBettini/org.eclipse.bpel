@@ -36,11 +36,11 @@ public class ElseAdapter extends ContainerAdapter implements ILabeledElement,
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OTHERWISE_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_OTHERWISE_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OTHERWISE_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_OTHERWISE_32);
 	}
 		
 	public String getTypeLabel(Object object) {

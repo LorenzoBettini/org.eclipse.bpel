@@ -146,7 +146,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 
 	protected IFigure createFigure() {
 		if (getLink() == null) return null;
-		BPELUIPlugin plugin = BPELUIPlugin.getPlugin();
+		BPELUIPlugin plugin = BPELUIPlugin.INSTANCE;
 
 		topLeft = plugin.getImage(IBPELUIConstants.ICON_LINK_TOPLEFT);
 		topRight = plugin.getImage(IBPELUIConstants.ICON_LINK_TOPRIGHT);
@@ -276,7 +276,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 			getFigure().add(this.decoration, new ConnectionLocator(getConnectionFigure(), ConnectionLocator.MIDDLE));
 		} else {
 			if (hasCondition()) {
-				Image image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_LINK_CONDITIONAL);
+				Image image = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_LINK_CONDITIONAL);
 				this.decorationImage = null;
 				this.decoration = new Label(image);
 				getFigure().add(this.decoration, new ConnectionLocator(getConnectionFigure(), ConnectionLocator.MIDDLE));

@@ -395,7 +395,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
                 }
 			};
 			
-			showOutlineAction.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_OUTLINE_16)); 
+			showOutlineAction.setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_OUTLINE_16)); 
 			tbm.add(showOutlineAction);
 			
 			showOverviewAction = new Action() {
@@ -410,7 +410,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
                 }
 			};
 			
-			showOverviewAction.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_OVERVIEW_16)); 	
+			showOverviewAction.setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_OVERVIEW_16)); 	
 			tbm.add(showOverviewAction);
 			showPage(ID_OUTLINE);
 		}
@@ -562,7 +562,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		super.dispose();
 		
 		if (fileChangeListener != null) {
-			BPELUIPlugin.getPlugin().getResourceChangeListener().removeListener(fileChangeListener);
+			BPELUIPlugin.INSTANCE.getResourceChangeListener().removeListener(fileChangeListener);
 		}
 		if (dropTarget != null) {
 			dropTarget.dispose();
@@ -1009,7 +1009,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		initializeRefactoringListeners();
 		getGraphicalViewer().setEditPartFactory(new BPELEditPartFactory());
 		
-		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_SHOW_FREEFORM_FLOW, true);
+		BPELUIPlugin.INSTANCE.getPreferenceStore().setValue(IBPELUIConstants.PREF_SHOW_FREEFORM_FLOW, true);
 		
 		getGraphicalViewer().setContents(process);
 		
@@ -1149,7 +1149,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 //				}
 			}
 		};
-		BPELUIPlugin.getPlugin().getResourceChangeListener().addListener(fileChangeListener);
+		BPELUIPlugin.INSTANCE.getResourceChangeListener().addListener(fileChangeListener);
 	}
 
 	public void commandStackChanged(EventObject event) {
@@ -1321,35 +1321,35 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		action = new BPELAddChildInTrayAction(this, 
 				PartnerLinksEditPart.class, 
 				"Add Partner Link",  
-				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
+				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 	
 //		action = new BPELAddChildInTrayAction(this, 
 //				PartnerLinksEditPart.class, 
 //				Messages.BPELEditor_addInterfacePartner,  
-//				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
+//				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
 //		registry.registerAction(action);
 //		getSelectionActions().add(action.getId());
 //		
 //		action = new BPELAddChildInTrayAction(this, 
 //				ReferencePartnerLinksEditPart.class, 
 //				Messages.BPELEditor_addReferencePartner,  
-//				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_PARTNER_OUT_16));
+//				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_PARTNER_OUT_16));
 //		registry.registerAction(action);
 //		getSelectionActions().add(action.getId());
 		
 		action = new BPELAddChildInTrayAction(this, 
 				VariablesEditPart.class, 
 				Messages.BPELEditor_addVariable,  
-				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_VARIABLE_16));
+				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_VARIABLE_16));
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 		
 		action = new BPELAddChildInTrayAction(this, 
 				CorrelationSetsEditPart.class, 
 				Messages.BPELEditor_addCorrelationSet,  
-				BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_CORRELATIONSET_16));
+				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_CORRELATIONSET_16));
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
@@ -1435,12 +1435,12 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	 * @param autoLayout
 	 */
 	public void setAutoFlowLayout(boolean autoLayout) {
-		BPELUIPlugin.getPlugin().getPreferenceStore().setValue(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT, autoLayout);
+		BPELUIPlugin.INSTANCE.getPreferenceStore().setValue(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT, autoLayout);
 	}
 	
 	
 	public boolean getAutoFlowLayout() {
-		return BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
+		return BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
 	}
 
 

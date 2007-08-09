@@ -52,13 +52,13 @@ public class FaultHandlerEditPart extends BPELEditPart {
 		if (image == null) {
 			// Get Image from registry
 			if (getModel() instanceof EventHandler) {
-				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
+				image = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EVENT_INDICATOR);
 			} else if (getModel() instanceof CompensationHandler) {
-				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMPENSATION_INDICATOR);
+				image = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_COMPENSATION_INDICATOR);
 			} else if (getModel() instanceof TerminationHandler) {
-				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_TERMINATION_INDICATOR);
+				image = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_TERMINATION_INDICATOR);
 			} else {
-				image = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
+				image = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_FAULT_INDICATOR);
 			}		
 		}
 		figure.setBorder(new RoundRectangleBorderWithDecoration(new Insets(20, 10, 20, 10), image));

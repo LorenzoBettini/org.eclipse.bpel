@@ -31,7 +31,7 @@ public class RoundRectangleBorder extends AbstractBorder {
 		this.insets = insets;
 	}
 	public void paint(IFigure figure, Graphics graphics, Insets insets) {
-		graphics.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_GRAY));
+		graphics.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_GRAY));
 		Rectangle r = figure.getBounds().getCopy();
 		r.height -= 1;
 		r.width -= 1;

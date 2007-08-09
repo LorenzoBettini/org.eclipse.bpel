@@ -37,11 +37,11 @@ public class CatchAdapter extends ContainerAdapter implements ILabeledElement,
 
 	/* ILabeledElement */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_CATCH_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_CATCH_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_CATCH_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_CATCH_32);
 	}
 	
 	public String getLabel(Object object) {

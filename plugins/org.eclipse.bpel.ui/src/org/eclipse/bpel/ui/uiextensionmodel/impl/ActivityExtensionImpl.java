@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityExtensionImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: ActivityExtensionImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -157,8 +157,9 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
-		return UiextensionmodelPackage.eINSTANCE.getActivityExtension();
+		return UiextensionmodelPackage.Literals.ACTIVITY_EXTENSION;
 	}
 
 	/**
@@ -271,8 +272,9 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__X:
 				return new Integer(getX());
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__Y:
@@ -284,7 +286,7 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__IMPLICIT:
 				return isImplicit() ? Boolean.TRUE : Boolean.FALSE;
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -292,8 +294,9 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__X:
 				setX(((Integer)newValue).intValue());
 				return;
@@ -310,7 +313,7 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 				setImplicit(((Boolean)newValue).booleanValue());
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -318,8 +321,9 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__X:
 				setX(X_EDEFAULT);
 				return;
@@ -336,7 +340,7 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 				setImplicit(IMPLICIT_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -344,8 +348,9 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__X:
 				return x != X_EDEFAULT;
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__Y:
@@ -357,7 +362,7 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__IMPLICIT:
 				return implicit != IMPLICIT_EDEFAULT;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**
@@ -365,6 +370,7 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

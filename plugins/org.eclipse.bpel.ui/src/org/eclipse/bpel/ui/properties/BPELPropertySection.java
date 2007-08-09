@@ -34,6 +34,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -365,6 +366,20 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 		
 	}
 
+	protected CompoundCommand makeCompound ( Command command ) {
+		
+		if (command == null) {
+			return null;
+		}
+		if (command instanceof CompoundCommand) {
+			return (CompoundCommand) command;
+		}
+		CompoundCommand cc = new CompoundCommand ();
+		cc.add(command);
+		return cc;
+	}
+	
+	
 	protected void runCommand ( Command command ) {
 		getCommandFramework().execute( wrapInShowContextCommand(command) );
 	}

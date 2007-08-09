@@ -127,11 +127,11 @@ public class ProcessAdapter extends ContainerAdapter implements INamedElement,
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PROCESS_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PROCESS_32);
 	}
 
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PROCESS_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PROCESS_16);
 	}
 
 	public String getTypeLabel(Object object) {

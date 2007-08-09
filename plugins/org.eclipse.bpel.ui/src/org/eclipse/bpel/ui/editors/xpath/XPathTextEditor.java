@@ -16,7 +16,6 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.contentassist.ExpressionContentAssistProcessor;
 import org.eclipse.bpel.ui.editors.TextEditor;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
-import org.eclipse.bpel.ui.expressions.IExpressionEditor;
 import org.eclipse.bpel.ui.preferences.PreferenceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
@@ -61,7 +60,7 @@ public class XPathTextEditor extends TextEditor {
 	/** Matchable character pairs */
 	protected final static char[] BRACKETS= { '(', ')', '[', ']' };
 	
-	/** The editor's bracket matcher */
+	/** The editor's bracket maTtcher */
 	protected XPathCharPairMatcher fBracketMatcher= new XPathCharPairMatcher(BRACKETS);
 	
 	/** The bracket inserter. */
@@ -255,7 +254,7 @@ public class XPathTextEditor extends TextEditor {
 	
 	/*** Private Classes */
 	
-	private class BracketInserter implements VerifyKeyListener  {
+	class BracketInserter implements VerifyKeyListener  {
 		
 		private boolean fCloseBrackets = true;
 		private boolean fCloseStrings  = true;		

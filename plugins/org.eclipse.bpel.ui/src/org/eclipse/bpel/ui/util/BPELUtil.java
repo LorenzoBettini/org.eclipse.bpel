@@ -54,6 +54,7 @@ import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.names.NCNameWordDetector;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -1315,20 +1316,16 @@ public class BPELUtil {
 		return new ResourceSetImpl();
 	}
 	
+	static final NCNameWordDetector NCNAME_DETECTOR = new NCNameWordDetector ();
+	
 	/**
 	 * Returns a validator that checks that the new value is a valid NCName.
 	 */
 	public static IInputValidator getNCNameValidator() {
 		return new IInputValidator() {
-			public String isValid(String newText) {
-				if (newText.length() == 0) { 
-					return Messages.BPELUtil_NCName_1;
-				}
-				if (newText.indexOf(":") >= 0) { //$NON-NLS-1$
-					return Messages.BPELUtil_NCName_2;
-				}
-				if (newText.indexOf(" ") >= 0) { //$NON-NLS-1$
-					return Messages.BPELUtil_NCName_3;
+			public String isValid (String newText) {
+				if ( NCNAME_DETECTOR.isValid( newText ) == false ) {
+					return Messages.BPELUtil_NCName;
 				}
 				// TODO ! temporary hack
 				return null;
@@ -1740,7 +1737,7 @@ public class BPELUtil {
 
 	
 	
-	public static String lookupOrCreateNamespacePrefix ( EObject context, String namespace, Shell shell ) {
+	public static String lookupOrCreateNamespacePrefix ( EObject context, String namespace, String prefix, Shell shell ) {
 		
 		String nsPrefix = BPELUtils.getNamespacePrefix(context, namespace);
 		if (nsPrefix != null && nsPrefix.length() > 0) {
@@ -1748,7 +1745,11 @@ public class BPELUtil {
 		}
 		
 		NamespaceMappingDialog dialog = new NamespaceMappingDialog (shell, context);
-		dialog.setNamespace(namespace);
+		dialog.setNamespace(namespace);		
+		if (prefix != null) {
+			dialog.setPrefix(prefix);
+		}
+		
 		if (dialog.open() == Dialog.CANCEL) {
 			return nsPrefix;
 		}

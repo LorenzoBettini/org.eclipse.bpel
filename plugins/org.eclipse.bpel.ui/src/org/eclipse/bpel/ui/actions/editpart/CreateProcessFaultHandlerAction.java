@@ -51,11 +51,11 @@ public class CreateProcessFaultHandlerAction implements IEditPartAction {
 	}
 
 	public Image getIconImg() {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ACTION_FAULTHANDLER);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ACTION_FAULTHANDLER);
 	}
 
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_FAULTHANDLER);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_FAULTHANDLER);
 	}
 
 	public boolean onButtonPressed() {

@@ -57,7 +57,7 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	        setSize(75, 15);
 	        setAllowDuplicates(true);
 	        
-	        fSettings = BPELUIPlugin.getPlugin().getDialogSettingsFor(this);	        
+	        fSettings = BPELUIPlugin.INSTANCE.getDialogSettingsFor(this);	        
 	        setDialogBoundsSettings ( fSettings, getDialogBoundsStrategy()  );
 	    }
 

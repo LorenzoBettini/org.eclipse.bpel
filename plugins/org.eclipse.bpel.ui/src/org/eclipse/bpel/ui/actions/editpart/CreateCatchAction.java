@@ -48,7 +48,7 @@ public class CreateCatchAction extends AbstractAction {
 	 * @see org.eclipse.bpel.ui.actions.editpart.IEditPartAction#getIcon()
 	 */
 	public ImageDescriptor getIcon() {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.ICON_ACTION_CATCH);
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_ACTION_CATCH);
 	}
 
 

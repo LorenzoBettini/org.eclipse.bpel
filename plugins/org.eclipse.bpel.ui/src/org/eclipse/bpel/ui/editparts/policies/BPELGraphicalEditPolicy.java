@@ -150,13 +150,13 @@ public class BPELGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 			connection.setSourceAnchor(sourceAnchor);
 		if (targetAnchor != null)
 			connection.setTargetAnchor(targetAnchor);
-		connection.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLUE));
-		connection.setBackgroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLUE));
+		connection.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLUE));
+		connection.setBackgroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLUE));
 		connection.setConnectionRouter(new ManhattanConnectionRouter());
 		PolygonDecoration arrow = new PolygonDecoration();
 		arrow.setTemplate(PolygonDecoration.TRIANGLE_TIP);
 		arrow.setScale(5,2.5);
-		arrow.setBackgroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLUE));
+		arrow.setBackgroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLUE));
 		if (targetArrow) {
 			connection.setTargetDecoration(arrow);
 		}

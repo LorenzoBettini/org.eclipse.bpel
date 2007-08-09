@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinkExtensionImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: LinkExtensionImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -45,8 +45,9 @@ public class LinkExtensionImpl extends EObjectImpl implements LinkExtension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
-		return UiextensionmodelPackage.eINSTANCE.getLinkExtension();
+		return UiextensionmodelPackage.Literals.LINK_EXTENSION;
 	}
 
 } //LinkExtensionImpl

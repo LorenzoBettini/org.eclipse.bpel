@@ -25,7 +25,7 @@ public class EndNodeAdapter extends AbstractAdapter implements EditPartFactory, 
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 			IBPELUIConstants.ICON_ENDNODE_16_GIF);
 	}
 

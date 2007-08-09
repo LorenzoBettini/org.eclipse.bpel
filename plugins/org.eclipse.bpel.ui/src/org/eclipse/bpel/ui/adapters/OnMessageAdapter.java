@@ -43,11 +43,11 @@ public class OnMessageAdapter extends ContainerAdapter implements ILabeledElemen
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ONMESSAGE_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ONMESSAGE_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ONMESSAGE_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ONMESSAGE_32);
 	}	
 	
 	public String getTypeLabel(Object object) {

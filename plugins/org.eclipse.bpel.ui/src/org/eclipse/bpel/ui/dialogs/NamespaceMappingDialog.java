@@ -130,6 +130,7 @@ public class NamespaceMappingDialog extends StatusDialog {
 		
 		if (fPrefixName != null && fPrefixValue != null) {
 			fPrefixName.setText(fPrefixValue);
+			validatePrefix();
 		}		
 	}
 
@@ -227,29 +228,11 @@ public class NamespaceMappingDialog extends StatusDialog {
         fPrefixName.addModifyListener( new ModifyListener () {
 
 			public void modifyText(ModifyEvent e) {
-				
-				fPrefixValue = fPrefixName.getText().trim();
-				
-				if (fPrefixValue.length() == 0 || fPrefixValue.startsWith("xml") ) { //$NON-NLS-1$
-					// TODO: Prefix validation ?
-					updateStatus( new Status(IStatus.ERROR,
-							BPELUIPlugin.getPlugin().getID(),
-							0, 
-							Messages.NamespaceMappingDialog_8,
-							null));					
-				} else if (fNamespaceMappings.containsKey(fPrefixValue)) {
-
-					updateStatus( new Status(IStatus.ERROR,
-							BPELUIPlugin.getPlugin().getID(),
-							0, 
-							Messages.NamespaceMappingDialog_9,
-							null));					
-				} else {
-					updateStatus(Status.OK_STATUS);					
-				}												
+				validatePrefix();
 			}
         	
         });
+        
 		data = new GridData();        
         data.grabExcessVerticalSpace = false;
         data.grabExcessHorizontalSpace = true;
@@ -260,6 +243,43 @@ public class NamespaceMappingDialog extends StatusDialog {
         // End of target namespace variant.                       
 	}
 
+	void validatePrefix ( ) {
+		fPrefixValue = fPrefixName.getText();
+		
+		if (fPrefixValue.length() == 0 || fPrefixValue.startsWith("xml") ) { //$NON-NLS-1$
+			// TODO: Prefix validation ?
+			updateStatus( new Status(IStatus.ERROR,
+					BPELUIPlugin.INSTANCE.getID(),
+					0, 
+					Messages.NamespaceMappingDialog_8,
+					null));		
+			return;
+		} 
+		
+		if (fNamespaceMappings.containsKey(fPrefixValue)) {
+
+			updateStatus( new Status(IStatus.ERROR,
+					BPELUIPlugin.INSTANCE.getID(),
+					0, 
+					Messages.NamespaceMappingDialog_9,
+					null));					
+			return ;
+			
+		}
+		
+		for(char ch : fPrefixValue.toCharArray()) {
+			if (Character.isWhitespace(ch)) {
+				updateStatus( new Status(IStatus.ERROR,
+						BPELUIPlugin.INSTANCE.getID(),
+						0, 
+						Messages.NamespaceMappingDialog_8,
+						null));
+				return ;
+			}
+		}
+		
+		updateStatus(Status.OK_STATUS);					
+	}
 	
 	@Override
 	protected void updateStatus (IStatus status) {

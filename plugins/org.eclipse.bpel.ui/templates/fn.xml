@@ -22,7 +22,7 @@
 
     <arg default="" name="dateFormat" optional="true" type="string">
         <comment>Contains a string formatted according to java.text.SimpleDateFormat format.</comment>
-        <assistant xpath="//assistant[@name='SimpleDateFormat']"/>
+        <assistant ref="SimpleDateFormat"/>
     </arg>
 
     <arg default="" name="ldapfilter" type="string">
@@ -31,18 +31,18 @@
 
     <arg default="'subtree'" name="ldapscope" optional="true" type="string">
         <comment>An LDAP search scope. Values are object,onelevel,subtree.</comment>
-        <assistant xpath="//assistant[@name='LDAPScope']"/>
+        <assistant ref="LDAPScope"/>
     </arg>
 
     <arg default="" name="password" type="string">
         <comment>The user password.</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
 
     </arg>
 
     <arg default="" name="fileName" type="string">
         <comment>File name from the file system. Note that this file name is in the context of the Oracle BPEL Process Manager.</comment>
-        <assistant name="filePicker"/>
+        <assistant ref="filePicker"/>
     </arg>
 
     <arg default="" name="xpath" optional="true" type="string">
@@ -51,51 +51,51 @@
 
     <arg default="" name="templateURI" type="string">
         <comment>A URI to the template. </comment>
-        <assistant name="uriPicker"/>
+        <assistant ref="uriPicker"/>
     </arg>
 
     <arg default="" name="xsltInput" type="node">
         <comment>A W3C XML DOM element. </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
 
     <arg default="" name="xqueryContext" optional="true" type="node">
         <comment>A W3C XML DOM element. </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
 
     <arg default="'1'" name="item" type="number">
         <comment>Item in array</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
 
     <arg default="" name="properties" optional="true" type="node">
         <comment>A W3C XML DOM element. </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
 
     <arg default="" name="element1" type="node">
         <comment>A W3C XML DOM element.  </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
 
     </arg>
 
     <arg default="" name="element2" type="node">
         <comment>A W3C XML DOM element.  </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
 
     </arg>
 
 
     <arg default="" name="variableName" type="string">
         <comment>The source variable for the data</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
 
     </arg>
 
     <arg default="" name="partName" optional="true" type="string">
         <comment>The part to select from the variable</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
 
     </arg>
     <arg default="" name="locationPath" optional="true" type="string">
@@ -104,41 +104,42 @@
 
     <arg default="" name="index" optional="true" type="number">
         <comment>Dynamic index value</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
 
     </arg>
 
     <arg default="" name="aNode" type="node">
         <comment>An XML DOM node. </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
 
     <arg default="" name="xmlContentString" type="string">
         <comment>XML Content formatted as a string. </comment>
-        <assistant name="functions"/>
+        <assistant ref="functions"/>
     </arg>
 
     <arg default="" name="nodeSet" type="node-set">
         <comment>An XML DOM Node-Set </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
 
     <arg default="" name="aNodeSet" optional="true" type="node-set">
         <comment>An XML DOM Node-Set </comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
     <arg default="" name="object" type="object">
         <comment>Any W3C XML DOM object or node-set.</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
     <arg default="" name="aBoolean" type="boolean">
         <comment>A boolean value expression or constant</comment>
-        <assistant name="xpathPicker"/>
+        <assistant ref="xpathPicker"/>
     </arg>
     
     <!-- Now the functions -->
 
     <function id="getVariableProperty" returns="string">
+        <namespace prefix="bpws">http://schemas.xmlsoap.org/ws/2004/03/business-process/</namespace>
         <help>This function extracts global property values from variables.</help>
         <comment>
             <![CDATA[ This function extracts global property values from variables.]]>
@@ -183,7 +184,7 @@
             <![CDATA[ This XPath 1.0 defined function returns the count of nodes
          present in the supplied node-set ]]>
         </comment>
-        <arg xpath="//arg[@name='aNodeSet']"/>
+        <arg ref="aNodeSet"/>
     </function>
 
 
@@ -204,7 +205,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="object" type="object">
             <comment>The object or objects to apply the id function to.</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -217,7 +218,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
     ]]>
         </comment>
-        <arg xpath="//arg[@name='nodeSet']"/>
+        <arg ref="nodeSet"/>
     </function>
 
 
@@ -231,7 +232,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
      ]]>
         </comment>
-        <arg xpath="//arg[@name='nodeSet']"/>
+        <arg ref="nodeSet"/>
     </function>
 
 
@@ -246,7 +247,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
         that is first in document order.
      ]]>
         </comment>
-        <arg xpath="//arg[@name='nodeSet']"/>
+        <arg ref="nodeSet"/>
     </function>
 
 
@@ -255,7 +256,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
         <comment>
             <![CDATA[Converts an object to a string. ]]>
         </comment>
-        <arg xpath="//arg[@name='object']"/>
+        <arg ref="object"/>
     </function>
 
     <function id="concat" returns="string">
@@ -266,15 +267,15 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="firstString" type="string">
             <comment>First string to concatenate with</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="nextString" type="string">
             <comment>Next string to concatenate with</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="oneMoreString" optional="*" type="string">
             <comment>One more string. You can concatenate several strings at once.</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -288,11 +289,11 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to inspect</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="searchString" type="string">
             <comment>The search string </comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -322,11 +323,11 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to search in</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="searchString" type="string">
             <comment>The search string </comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -357,11 +358,11 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to search in</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="searchString" type="string">
             <comment>The search string </comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -382,11 +383,11 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to search in</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="searchString" type="string">
             <comment>The search string </comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -435,15 +436,15 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to compute substring on</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="startPosition" type="number">
             <comment>Start Position (first position is index == 1)</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
         <arg default="" name="length" optional="true" type="number">
             <comment>Length of characters to extract</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>
@@ -468,7 +469,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to compute the length on</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>
@@ -496,7 +497,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to normalize</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>
@@ -534,17 +535,17 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="aString" type="string">
             <comment>The string to translate</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
         <arg default="" name="strOccur" type="string">
             <comment>The string to translate from</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
         <arg default="" name="strRepl" type="string">
             <comment>The string to translate to</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>
@@ -575,7 +576,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
   </div>
         ]]>
         </comment>
-        <arg xpath="//arg[@name='object']"/>
+        <arg ref="object"/>
     </function>
 
 
@@ -589,7 +590,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
   </div>
         ]]>
         </comment>
-        <arg xpath="//arg[@name='aBoolean']"/>
+        <arg ref="aBoolean"/>
     </function>
 
 
@@ -650,7 +651,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
         ]]>
         </comment>
 
-        <arg xpath="//arg[@name='aString']"/>
+        <arg ref="aString"/>
     </function>
 
 
@@ -693,7 +694,7 @@ node that have a unique ID equal to any of the tokens in the list. ]]>
 
         <arg default="" name="object" optional="true" type="object">
             <comment>Any W3C XML DOM object or node-set.</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
     </function>
 
@@ -707,7 +708,7 @@ a number value before summing.</P><PRE class=syntax><I>number</I> sum(<I>node-se
             ]]>
         </comment>
 
-        <arg xpath="//arg[@name='nodeSet']"/>&gt;
+        <arg ref="nodeSet"/>&gt;
 
     </function>
 
@@ -725,7 +726,7 @@ greater than the argument.</P>
 
         <arg default="" name="aNumber" type="number">
             <comment>Number to compute the floor of</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>
@@ -745,7 +746,7 @@ greater than the argument.</P>
 
         <arg default="" name="aNumber" type="number">
             <comment>Number to compute the ceiling of</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>
@@ -777,7 +778,7 @@ greater than the argument.</P>
 
         <arg default="" name="aNumber" type="number">
             <comment>Number to round up</comment>
-            <assistant name="xpathPicker"/>
+            <assistant ref="xpathPicker"/>
         </arg>
 
     </function>

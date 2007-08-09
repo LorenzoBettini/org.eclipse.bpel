@@ -38,7 +38,7 @@ public class XPathTemplateCompletionProcessor extends TemplateCompletionProcesso
 
 	@Override
 	protected Image getImage(Template template) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PROPERTY_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PROPERTY_16);
 	}
 
 	@Override

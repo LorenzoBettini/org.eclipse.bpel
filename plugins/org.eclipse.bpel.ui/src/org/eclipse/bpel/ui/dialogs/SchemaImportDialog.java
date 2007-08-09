@@ -152,7 +152,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 	URI fRunnableLoadURI;
 	Job fLoaderJob;
 	
-	IPreferenceStore fPrefStore = BPELUIPlugin.getPlugin().getPreferenceStore();	
+	IPreferenceStore fPrefStore = BPELUIPlugin.INSTANCE.getPreferenceStore();	
 	String fBasePath = fPrefStore.getString(IBPELUIConstants.PREF_WSIL_URL);
 
 	// The WSIL radio box is turned off if the WSIL document is not set in the preferences.	
@@ -171,7 +171,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		int shellStyle = getShellStyle();		
         setShellStyle(shellStyle | SWT.MAX | SWT.RESIZE);
         
-        fSettings = BPELUIPlugin.getPlugin().getDialogSettingsFor( this );
+        fSettings = BPELUIPlugin.INSTANCE.getDialogSettingsFor( this );
 
         try {
         	KIND = fSettings.getInt(IMPORT_KIND);
@@ -665,7 +665,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		 fRunnableStart = System.currentTimeMillis();
 
 		 
-		 updateStatus ( new Status(IStatus.INFO, BPELUIPlugin.getPlugin().getID(),0,msg,null));
+		 updateStatus ( new Status(IStatus.INFO, BPELUIPlugin.INSTANCE.getID(),0,msg,null));
 	}
 
 	
@@ -678,13 +678,13 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		if (fInput == null || fInput instanceof Throwable) {
 			markEmptySelection();
 			
-			updateStatus( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,
+			updateStatus( new Status(IStatus.ERROR,BPELUIPlugin.INSTANCE.getID(),0,
 					MessageFormat.format(Messages.SchemaImportDialog_19,fRunnableLoadURI,elapsed),(Throwable) fInput) );
 			fInput = null;
 			
 		} else {
 			
-			updateStatus ( new Status(IStatus.INFO, BPELUIPlugin.getPlugin().getID(),0,
+			updateStatus ( new Status(IStatus.INFO, BPELUIPlugin.INSTANCE.getID(),0,
 					MessageFormat.format(Messages.SchemaImportDialog_18,fRunnableLoadURI,elapsed),null)) ;
 				
 			fTreeViewer.setInput(fInput);				
@@ -723,7 +723,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			}
 			
 		} catch (Exception ex) {
-			updateStatus ( new Status(IStatus.ERROR,BPELUIPlugin.getPlugin().getID(),0,Messages.SchemaImportDialog_13,ex) );			
+			updateStatus ( new Status(IStatus.ERROR,BPELUIPlugin.INSTANCE.getID(),0,Messages.SchemaImportDialog_13,ex) );			
 			return null;
 		}
 	}

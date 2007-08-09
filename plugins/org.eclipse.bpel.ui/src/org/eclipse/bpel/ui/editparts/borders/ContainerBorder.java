@@ -86,7 +86,7 @@ public class ContainerBorder extends CollapsableBorder {
 	
 	protected void doPaint(IFigure figure, Graphics graphics, Insets insets) {
 		super.doPaint(figure, graphics, insets);
-		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 		graphics.setForegroundColor(registry.get(IBPELUIConstants.COLOR_COMPOSITE_ACTIVITY_BORDER));
 		if (!isCollapsed()) {
 			// Paint the round rectangle around the lower part of the figure (surrounding the
@@ -113,7 +113,7 @@ public class ContainerBorder extends CollapsableBorder {
 			graphics.setClip(oldClip);
 		} else {
 			roundRect.setBounds(rectLabelBorder);
-			roundRect.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_ACTIVITY_BORDER));
+			roundRect.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_ACTIVITY_BORDER));
 			roundRect.paint(graphics);
 		}
 		

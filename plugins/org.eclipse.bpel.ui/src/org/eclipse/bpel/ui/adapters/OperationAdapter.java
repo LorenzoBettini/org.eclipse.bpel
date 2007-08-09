@@ -31,7 +31,7 @@ public class OperationAdapter extends AbstractAdapter
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OPERATION_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_OPERATION_16);
 	}
 	
 	public Image getLargeImage(Object object) {

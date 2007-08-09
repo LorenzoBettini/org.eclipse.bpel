@@ -43,7 +43,7 @@ public class ActionUIObjectFactory extends AbstractUIObjectFactory {
 
     // helper method
     protected Image getImage(String key, ImageDescriptor descriptor) {
-        ImageRegistry registry = BPELUIPlugin.getPlugin().getImageRegistry();
+        ImageRegistry registry = BPELUIPlugin.INSTANCE.getImageRegistry();
         Image result = registry.get(key);
         if (result == null) {
             result = descriptor.createImage();

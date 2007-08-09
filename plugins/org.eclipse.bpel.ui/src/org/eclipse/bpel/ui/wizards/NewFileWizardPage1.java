@@ -91,7 +91,7 @@ public class NewFileWizardPage1 extends WizardPage
 		setTitle(Messages.NewFileWizardPage1_2);
 		setDescription(Messages.NewFileWizardPage1_3);
 		
-        setImageDescriptor( BPELUIPlugin.getPlugin().getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
+        setImageDescriptor( BPELUIPlugin.INSTANCE.getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
     }
     
     /** 
@@ -174,7 +174,7 @@ public class NewFileWizardPage1 extends WizardPage
         }
         	
         // add the namespace values
-        processNamespaceField.setItems( BPELUIPlugin.getPlugin().getTemplates().getNamespaceNames() );
+        processNamespaceField.setItems( BPELUIPlugin.INSTANCE.getTemplates().getNamespaceNames() );
         processNamespaceField.addListener(SWT.Modify, validateListner);
         
 
@@ -193,7 +193,7 @@ public class NewFileWizardPage1 extends WizardPage
 
 			public void handleEvent(Event event) {
 				String val = processTemplateField.getText().trim();
-				ProcessTemplate template = BPELUIPlugin.getPlugin().getTemplates().getTemplateByName( val );
+				ProcessTemplate template = BPELUIPlugin.INSTANCE.getTemplates().getTemplateByName( val );
 				if (template != null) {
 					String txt = template.getDescription();
 					templateDescription.setText ( txt == null ? EMPTY : txt);
@@ -214,7 +214,7 @@ public class NewFileWizardPage1 extends WizardPage
         // Scan directories in the "templates" folder
         // and built up a list
         
-        String templates[] = BPELUIPlugin.getPlugin().getTemplates().getTemplateNames();
+        String templates[] = BPELUIPlugin.INSTANCE.getTemplates().getTemplateNames();
         processTemplateField.setItems(templates);
      	
      	// Select the top one.
@@ -355,7 +355,7 @@ public class NewFileWizardPage1 extends WizardPage
     
 	public ProcessTemplate getSelectedTemplate() {
 		String txt = processTemplateField.getText().trim();
-		return BPELUIPlugin.getPlugin().getTemplates().getTemplateByName( txt );
+		return BPELUIPlugin.INSTANCE.getTemplates().getTemplateByName( txt );
 	}
 
 	/**

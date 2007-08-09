@@ -54,7 +54,7 @@ public class CreatePartnerLinkTypeWizardNamePage extends WizardPage {
 
 		setTitle(Messages.CreatePartnerLinkTypeWizardNamePage_0);
 		setDescription(Messages.CreatePartnerLinkTypeWizardNamePage_1);
-		setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(
+		setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(
 				IBPELUIConstants.ICON_WIZARD_BANNER));
 	}
 

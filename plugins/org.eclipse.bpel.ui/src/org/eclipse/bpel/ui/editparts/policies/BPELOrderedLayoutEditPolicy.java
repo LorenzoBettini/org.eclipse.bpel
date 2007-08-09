@@ -56,7 +56,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	protected ArrayList polyLineConnectionList = new ArrayList();	
 	
 	// colour of the connection lines
-	Color arrowColor = BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
+	Color arrowColor = BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
 	
 	protected Command createAddCommand(EditPart child, EditPart before) {
 		return new InsertInContainerCommand((EObject)getHost().getModel(), (EObject)child.getModel(), 

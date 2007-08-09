@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import org.eclipse.bpel.common.ui.ColorUtils;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.expressions.Functions;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.ISaveContext;
@@ -28,6 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ColorRegistry;
@@ -41,9 +43,11 @@ import org.osgi.framework.BundleContext;
 
 
 public class BPELUIPlugin extends AbstractUIPlugin {
+	
 	public static final String PLUGIN_ID = "org.eclipse.bpel.ui"; //$NON-NLS-1$
 
-	static BPELUIPlugin plugin;
+	/**  */
+	static public BPELUIPlugin INSTANCE;
 
 	private ColorRegistry colorRegistry;
 	protected boolean imagesAndColorsInitialized;
@@ -55,23 +59,23 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	// The templates that are provided for new file creation
 	private Templates mTemplates;
 	
-
 	
 	public BPELUIPlugin() {
 		super();
-		plugin = this;
+		INSTANCE = this;
 	}
 	
-	/**
-	 * Returns this plug-in instance.
-	 *
-	 * @return the single instance of this plug-in runtime class
-	 */
-	public static BPELUIPlugin getDefault() {
-		return getPlugin();
-	}
 
 	/**
+	 * @param path
+	 * @return return the plugin URI
+	 */
+	
+	public URI getURI ( String path ) {
+		return URI.createPlatformPluginURI(getID() + path, false);
+	}
+	
+	/**2
 	 * Creates an image descriptor and places it in the image registry.
 	 */
 	private void createImageDescriptor(String id, URL baseURL) {
@@ -95,15 +99,12 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	public Image getImage(String id) {
 		return getImageRegistry().get(id);
 	}
-
-	public static BPELUIPlugin getPlugin() {
-		return plugin;
-	}
 	
 	
 	public String getID () {
-		return plugin.getBundle().getSymbolicName();
+		return getBundle().getSymbolicName();
 	}
+	
 	
 	private void initializeColors() {
 		colorRegistry = new ColorRegistry();
@@ -268,6 +269,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	}
 	
 	
+	@SuppressWarnings("nls")
 	void initFunctions () {
 		
 		Job job = new Job ("Initializing XPath tooling ...") {
@@ -277,7 +279,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 				long start = System.currentTimeMillis();
 				IStatus status;
 				try {
-					Functions.getInstance();										
+					Functions.getInstance( BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE );										
 					status = new Status(IStatus.OK, PLUGIN_ID, 0, "Done",null); //$NON-NLS-1$
 				} catch (Throwable t ) {					
 					log(t);
@@ -360,7 +362,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	        name = (String) object;
 	    }
 	    
-	    IDialogSettings main = getPlugin().getDialogSettings();	    
+	    IDialogSettings main = getDialogSettings();	    
 	    IDialogSettings settings = main.getSection( name );
 	    if (settings == null) {
 	        settings = main.addNewSection(name);
@@ -381,7 +383,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 			status = new Status(severity, PLUGIN_ID, 0, m==null? "<no message>" : m, e); //$NON-NLS-1$
 		}
 		System.out.println(e.getClass().getName()+": "+status); //$NON-NLS-1$
-		BPELUIPlugin.getPlugin().getLog().log(status);
+		INSTANCE.getLog().log(status);
 	}
 	
 	public static void log(Throwable throwable) { 

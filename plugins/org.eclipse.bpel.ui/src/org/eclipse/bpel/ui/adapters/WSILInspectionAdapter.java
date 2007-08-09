@@ -32,7 +32,7 @@ public class WSILInspectionAdapter extends AbstractAdapter
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
 	 */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_WSIL);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_WSIL);
 	}	
 
 

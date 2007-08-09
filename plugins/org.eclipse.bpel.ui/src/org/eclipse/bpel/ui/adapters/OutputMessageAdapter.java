@@ -19,11 +19,11 @@ import org.eclipse.wst.wsdl.Output;
 public class OutputMessageAdapter extends MessageAdapter  {
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OUTPUT_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_OUTPUT_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_OUTPUT_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_OUTPUT_32);
 	}	
 	
 	public String getTypeLabel(Object object) {

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelPackageImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: UiextensionmodelPackageImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -34,7 +34,10 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 
 import org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl;
@@ -196,9 +199,9 @@ public class UiextensionmodelPackageImpl extends EPackageImpl implements Uiexten
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackageImpl.init();
-		XMLNamespacePackageImpl.init();
-		XMLTypePackageImpl.init();
+		EcorePackage.eINSTANCE.eClass();
+		XMLNamespacePackage.eINSTANCE.eClass();
+		XMLTypePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theUiextensionmodelPackage.createPackageContents();
@@ -566,6 +569,10 @@ public class UiextensionmodelPackageImpl extends EPackageImpl implements Uiexten
 		setName(eNAME);
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
+
+		// Create type parameters
+
+		// Set bounds for type parameters
 
 		// Add supertypes to classes
 

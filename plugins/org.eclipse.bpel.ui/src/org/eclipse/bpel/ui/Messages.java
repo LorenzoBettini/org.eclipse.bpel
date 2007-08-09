@@ -35,9 +35,7 @@ public final class Messages extends NLS {
 	public static String AssignImplDetails_To__2;
 	public static String AssignImplDetails_KeepSrcElementName;
 	public static String AssignImplDetails_IgnoreMissingSourceData;
-	public static String BPELUtil_NCName_1;
-	public static String BPELUtil_NCName_2;
-	public static String BPELUtil_NCName_3;
+	public static String BPELUtil_NCName;
 	public static String BrowseSelectorDialog_0;
 	public static String BrowseSelectorDialog_1;
 	public static String BrowseSelectorDialog_2;

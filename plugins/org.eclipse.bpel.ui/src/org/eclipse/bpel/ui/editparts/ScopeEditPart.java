@@ -178,7 +178,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		this.contentFigure = new CollapsableScopeContainerFigure(getModel(), getImage(), getLabel());
 		contentFigure.addMouseMotionListener(getMouseMotionListener());
 		contentFigure.setEditPart(this);
-		contentFigure.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));
+		contentFigure.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));
 		parentFigure.add(contentFigure);
 		
 		// Configure the border and contents based on collapsed state

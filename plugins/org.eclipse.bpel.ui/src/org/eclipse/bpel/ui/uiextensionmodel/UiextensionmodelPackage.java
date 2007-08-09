@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelPackage.java,v 1.1 2005/11/29 18:51:10 james Exp $
+ * $Id: UiextensionmodelPackage.java,v 1.2 2007/08/09 02:02:14 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel;
 
@@ -772,5 +772,278 @@ public interface UiextensionmodelPackage extends EPackage {
 	 * @generated
 	 */
 	UiextensionmodelFactory getUiextensionmodelFactory();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.ActivityExtensionImpl <em>Activity Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.ActivityExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getActivityExtension()
+		 * @generated
+		 */
+		EClass ACTIVITY_EXTENSION = eINSTANCE.getActivityExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY_EXTENSION__X = eINSTANCE.getActivityExtension_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY_EXTENSION__Y = eINSTANCE.getActivityExtension_Y();
+
+		/**
+		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY_EXTENSION__WIDTH = eINSTANCE.getActivityExtension_Width();
+
+		/**
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY_EXTENSION__HEIGHT = eINSTANCE.getActivityExtension_Height();
+
+		/**
+		 * The meta object literal for the '<em><b>Implicit</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVITY_EXTENSION__IMPLICIT = eINSTANCE.getActivityExtension_Implicit();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.CaseExtensionImpl <em>Case Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.CaseExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getCaseExtension()
+		 * @generated
+		 */
+		EClass CASE_EXTENSION = eINSTANCE.getCaseExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Display Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CASE_EXTENSION__DISPLAY_NAME = eINSTANCE.getCaseExtension_DisplayName();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.CopyExtensionImpl <em>Copy Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.CopyExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getCopyExtension()
+		 * @generated
+		 */
+		EClass COPY_EXTENSION = eINSTANCE.getCopyExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>From Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COPY_EXTENSION__FROM_TYPE = eINSTANCE.getCopyExtension_FromType();
+
+		/**
+		 * The meta object literal for the '<em><b>To Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COPY_EXTENSION__TO_TYPE = eINSTANCE.getCopyExtension_ToType();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.EndNodeImpl <em>End Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.EndNodeImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getEndNode()
+		 * @generated
+		 */
+		EClass END_NODE = eINSTANCE.getEndNode();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.LinkExtensionImpl <em>Link Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.LinkExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getLinkExtension()
+		 * @generated
+		 */
+		EClass LINK_EXTENSION = eINSTANCE.getLinkExtension();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.OnAlarmExtensionImpl <em>On Alarm Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.OnAlarmExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getOnAlarmExtension()
+		 * @generated
+		 */
+		EClass ON_ALARM_EXTENSION = eINSTANCE.getOnAlarmExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Display Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ON_ALARM_EXTENSION__DISPLAY_NAME = eINSTANCE.getOnAlarmExtension_DisplayName();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.OnEventExtensionImpl <em>On Event Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.OnEventExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getOnEventExtension()
+		 * @generated
+		 */
+		EClass ON_EVENT_EXTENSION = eINSTANCE.getOnEventExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Display Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ON_EVENT_EXTENSION__DISPLAY_NAME = eINSTANCE.getOnEventExtension_DisplayName();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.OnMessageExtensionImpl <em>On Message Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.OnMessageExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getOnMessageExtension()
+		 * @generated
+		 */
+		EClass ON_MESSAGE_EXTENSION = eINSTANCE.getOnMessageExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Display Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ON_MESSAGE_EXTENSION__DISPLAY_NAME = eINSTANCE.getOnMessageExtension_DisplayName();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.PartnerLinkExtensionImpl <em>Partner Link Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.PartnerLinkExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getPartnerLinkExtension()
+		 * @generated
+		 */
+		EClass PARTNER_LINK_EXTENSION = eINSTANCE.getPartnerLinkExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Partner Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARTNER_LINK_EXTENSION__PARTNER_KIND = eINSTANCE.getPartnerLinkExtension_PartnerKind();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.ProcessExtensionImpl <em>Process Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.ProcessExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getProcessExtension()
+		 * @generated
+		 */
+		EClass PROCESS_EXTENSION = eINSTANCE.getProcessExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Spec Compliant</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS_EXTENSION__SPEC_COMPLIANT = eINSTANCE.getProcessExtension_SpecCompliant();
+
+		/**
+		 * The meta object literal for the '<em><b>Modification Stamp</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS_EXTENSION__MODIFICATION_STAMP = eINSTANCE.getProcessExtension_ModificationStamp();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.ReferencePartnerLinksImpl <em>Reference Partner Links</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.ReferencePartnerLinksImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getReferencePartnerLinks()
+		 * @generated
+		 */
+		EClass REFERENCE_PARTNER_LINKS = eINSTANCE.getReferencePartnerLinks();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.StartNodeImpl <em>Start Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.StartNodeImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getStartNode()
+		 * @generated
+		 */
+		EClass START_NODE = eINSTANCE.getStartNode();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.bpel.ui.uiextensionmodel.impl.VariableExtensionImpl <em>Variable Extension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.VariableExtensionImpl
+		 * @see org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelPackageImpl#getVariableExtension()
+		 * @generated
+		 */
+		EClass VARIABLE_EXTENSION = eINSTANCE.getVariableExtension();
+
+		/**
+		 * The meta object literal for the '<em><b>Advanced Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIABLE_EXTENSION__ADVANCED_KIND = eINSTANCE.getVariableExtension_AdvancedKind();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIABLE_EXTENSION__VARIABLE_KIND = eINSTANCE.getVariableExtension_VariableKind();
+
+	}
 
 } //UiextensionmodelPackage

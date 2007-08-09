@@ -57,7 +57,7 @@ public class CommandProposal extends AbstractContentProposal
 	 */
 	@Override
 	public Image getImage(Object element) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMMAND_16);		
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_COMMAND_16);		
 	}
 
 	/**

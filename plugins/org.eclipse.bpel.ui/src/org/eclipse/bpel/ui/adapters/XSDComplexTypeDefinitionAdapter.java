@@ -16,7 +16,7 @@ public class XSDComplexTypeDefinitionAdapter extends XSDAbstractAdapter implemen
 		ILabeledElement {
 	
 	public Image getSmallImage(Object object) {		
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_XSD_COMPLEX_TYPE_DEFINITION_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_XSD_COMPLEX_TYPE_DEFINITION_16);
 	}
 		
 	public String getTypeLabel(Object object) {

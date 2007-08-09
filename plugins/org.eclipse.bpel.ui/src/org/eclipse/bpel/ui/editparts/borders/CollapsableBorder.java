@@ -70,8 +70,8 @@ public abstract class CollapsableBorder extends GradientBorder {
 		this.image = image;
 		this.imageLabel = new ImageFigure(image);
 
-		this.collapsedImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FIGURE_COLLAPSED);
-		this.expandedImage = BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_FIGURE_EXPANDED);
+		this.collapsedImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_FIGURE_COLLAPSED);
+		this.expandedImage = BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_FIGURE_EXPANDED);
 		this.expandedHeight = expandedImage.getBounds().height;
 		this.expandedWidth = expandedImage.getBounds().width;
 		
@@ -157,7 +157,7 @@ public abstract class CollapsableBorder extends GradientBorder {
 		IMarker topMarker = getTopMarker();
 		IMarker bottomMarker = getBottomMarker();
 		if (topMarker != null || bottomMarker != null) {
-			ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+			ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 			graphics.setForegroundColor(registry.get(IBPELUIConstants.COLOR_ACTIVITY_BORDER));
 			Rectangle clippingRect;
 			if (bottomMarker == null) {

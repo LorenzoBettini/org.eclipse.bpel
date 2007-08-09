@@ -66,7 +66,7 @@ public class AbstractContentProposal
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
 	public Image getImage (Object element) {			
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_SEPARATOR_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_SEPARATOR_16);
 	}
 
 	/**

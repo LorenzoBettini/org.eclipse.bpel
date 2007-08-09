@@ -159,7 +159,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 	 */
 	
 	public static ImageDescriptor getSmallImageDescriptor (EClass modelObject) {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(
 				OBJ16 + baseImageName(modelObject) + GIF);
 	}
 
@@ -170,7 +170,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 	 */
 
 	public static ImageDescriptor getLargeImageDescriptor(EClass modelObject) {
-		return BPELUIPlugin.getPlugin().getImageDescriptor(
+		return BPELUIPlugin.INSTANCE.getImageDescriptor(
 				OBJ20 + baseImageName(modelObject) + PNG);
 	}
 
@@ -179,7 +179,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 	 */
 	@Override
 	public Image getSmallImage() {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				OBJ16 + baseImageName(getModelType()) + GIF);
 	}
 
@@ -188,7 +188,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 	 */
 	@Override
 	public Image getLargeImage() {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				OBJ20 + baseImageName(getModelType()) + PNG);
 	}
 

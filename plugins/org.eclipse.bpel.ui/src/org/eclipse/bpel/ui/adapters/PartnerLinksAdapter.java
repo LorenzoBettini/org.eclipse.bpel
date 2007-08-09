@@ -59,12 +59,12 @@ public class PartnerLinksAdapter extends ContainerAdapter implements EditPartFac
 
 	public Image getSmallImage(Object object) {
 		String imageName = IBPELUIConstants.ICON_PARTNER_IN_16;
-		return BPELUIPlugin.getPlugin().getImage(imageName);
+		return BPELUIPlugin.INSTANCE.getImage(imageName);
 	}
 	
 	public Image getLargeImage(Object object) {
 		String imageName = IBPELUIConstants.ICON_PARTNER_IN_16;
-		return BPELUIPlugin.getPlugin().getImage(imageName);
+		return BPELUIPlugin.INSTANCE.getImage(imageName);
 	}
 	
 	public String getTypeLabel(Object object) {

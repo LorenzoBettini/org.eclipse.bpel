@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelSwitch.java,v 1.1 2005/11/29 18:51:10 james Exp $
+ * $Id: UiextensionmodelSwitch.java,v 1.2 2007/08/09 02:02:15 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.util;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage
  * @generated
  */
-public class UiextensionmodelSwitch {
+public class UiextensionmodelSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public class UiextensionmodelSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch(EObject theEObject) {
+	public T doSwitch(EObject theEObject) {
 		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
@@ -73,16 +73,16 @@ public class UiextensionmodelSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
 		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
 		else {
-			List eSuperTypes = theEClass.getESuperTypes();
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+					doSwitch(eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -93,83 +93,83 @@ public class UiextensionmodelSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
+	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION: {
 				ActivityExtension activityExtension = (ActivityExtension)theEObject;
-				Object result = caseActivityExtension(activityExtension);
+				T result = caseActivityExtension(activityExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.CASE_EXTENSION: {
 				CaseExtension caseExtension = (CaseExtension)theEObject;
-				Object result = caseCaseExtension(caseExtension);
+				T result = caseCaseExtension(caseExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.COPY_EXTENSION: {
 				CopyExtension copyExtension = (CopyExtension)theEObject;
-				Object result = caseCopyExtension(copyExtension);
+				T result = caseCopyExtension(copyExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.END_NODE: {
 				EndNode endNode = (EndNode)theEObject;
-				Object result = caseEndNode(endNode);
+				T result = caseEndNode(endNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.LINK_EXTENSION: {
 				LinkExtension linkExtension = (LinkExtension)theEObject;
-				Object result = caseLinkExtension(linkExtension);
+				T result = caseLinkExtension(linkExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.ON_ALARM_EXTENSION: {
 				OnAlarmExtension onAlarmExtension = (OnAlarmExtension)theEObject;
-				Object result = caseOnAlarmExtension(onAlarmExtension);
+				T result = caseOnAlarmExtension(onAlarmExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.ON_EVENT_EXTENSION: {
 				OnEventExtension onEventExtension = (OnEventExtension)theEObject;
-				Object result = caseOnEventExtension(onEventExtension);
+				T result = caseOnEventExtension(onEventExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.ON_MESSAGE_EXTENSION: {
 				OnMessageExtension onMessageExtension = (OnMessageExtension)theEObject;
-				Object result = caseOnMessageExtension(onMessageExtension);
+				T result = caseOnMessageExtension(onMessageExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.PARTNER_LINK_EXTENSION: {
 				PartnerLinkExtension partnerLinkExtension = (PartnerLinkExtension)theEObject;
-				Object result = casePartnerLinkExtension(partnerLinkExtension);
+				T result = casePartnerLinkExtension(partnerLinkExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.PROCESS_EXTENSION: {
 				ProcessExtension processExtension = (ProcessExtension)theEObject;
-				Object result = caseProcessExtension(processExtension);
+				T result = caseProcessExtension(processExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.REFERENCE_PARTNER_LINKS: {
 				ReferencePartnerLinks referencePartnerLinks = (ReferencePartnerLinks)theEObject;
-				Object result = caseReferencePartnerLinks(referencePartnerLinks);
+				T result = caseReferencePartnerLinks(referencePartnerLinks);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.START_NODE: {
 				StartNode startNode = (StartNode)theEObject;
-				Object result = caseStartNode(startNode);
+				T result = caseStartNode(startNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UiextensionmodelPackage.VARIABLE_EXTENSION: {
 				VariableExtension variableExtension = (VariableExtension)theEObject;
-				Object result = caseVariableExtension(variableExtension);
+				T result = caseVariableExtension(variableExtension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -178,212 +178,212 @@ public class UiextensionmodelSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Activity Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Activity Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Activity Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Activity Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseActivityExtension(ActivityExtension object) {
+	public T caseActivityExtension(ActivityExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Case Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Case Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Case Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Case Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCaseExtension(CaseExtension object) {
+	public T caseCaseExtension(CaseExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Copy Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Copy Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Copy Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Copy Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCopyExtension(CopyExtension object) {
+	public T caseCopyExtension(CopyExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>End Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>End Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>End Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>End Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseEndNode(EndNode object) {
+	public T caseEndNode(EndNode object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Link Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Link Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Link Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Link Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLinkExtension(LinkExtension object) {
+	public T caseLinkExtension(LinkExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>On Alarm Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>On Alarm Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>On Alarm Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>On Alarm Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOnAlarmExtension(OnAlarmExtension object) {
+	public T caseOnAlarmExtension(OnAlarmExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>On Event Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>On Event Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>On Event Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>On Event Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOnEventExtension(OnEventExtension object) {
+	public T caseOnEventExtension(OnEventExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>On Message Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>On Message Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>On Message Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>On Message Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOnMessageExtension(OnMessageExtension object) {
+	public T caseOnMessageExtension(OnMessageExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Partner Link Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Partner Link Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Partner Link Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Partner Link Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePartnerLinkExtension(PartnerLinkExtension object) {
+	public T casePartnerLinkExtension(PartnerLinkExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Process Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Process Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Process Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Process Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseProcessExtension(ProcessExtension object) {
+	public T caseProcessExtension(ProcessExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Reference Partner Links</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Partner Links</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Reference Partner Links</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Partner Links</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseReferencePartnerLinks(ReferencePartnerLinks object) {
+	public T caseReferencePartnerLinks(ReferencePartnerLinks object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Start Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Start Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Start Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Start Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseStartNode(StartNode object) {
+	public T caseStartNode(StartNode object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Variable Extension</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Variable Extension</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Variable Extension</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Variable Extension</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseVariableExtension(VariableExtension object) {
+	public T caseVariableExtension(VariableExtension object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase(EObject object) {
+	public T defaultCase(EObject object) {
 		return null;
 	}
 

@@ -25,11 +25,11 @@ public class FaultAdapter extends AbstractAdapter implements ILabeledElement {
 	// TODO: need a unique icon for WSDL faults
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_THROW_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_THROW_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_THROW_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_THROW_32);
 	}	
 	
 	public String getTypeLabel(Object object) {

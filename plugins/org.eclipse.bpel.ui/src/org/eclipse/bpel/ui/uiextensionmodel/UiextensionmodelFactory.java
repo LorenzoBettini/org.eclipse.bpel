@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelFactory.java,v 1.1 2005/11/29 18:51:10 james Exp $
+ * $Id: UiextensionmodelFactory.java,v 1.2 2007/08/09 02:02:14 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel;
 
@@ -31,7 +31,7 @@ public interface UiextensionmodelFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	UiextensionmodelFactory eINSTANCE = new org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelFactoryImpl();
+	UiextensionmodelFactory eINSTANCE = org.eclipse.bpel.ui.uiextensionmodel.impl.UiextensionmodelFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Activity Extension</em>'.

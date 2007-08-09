@@ -39,11 +39,11 @@ public class RoleAdapter extends AbstractAdapter implements INamedElement, ILabe
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ROLE_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ROLE_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ROLE_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ROLE_32);
 	}	
 	
 	public String getTypeLabel(Object object) {

@@ -103,7 +103,7 @@ public class CorrelationSetAdapter extends AbstractStatefulAdapter implements IN
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
 	 */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				IBPELUIConstants.ICON_CORRELATIONSET_16);
 	}
 
@@ -111,7 +111,7 @@ public class CorrelationSetAdapter extends AbstractStatefulAdapter implements IN
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLargeImage(java.lang.Object)
 	 */
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(
+		return BPELUIPlugin.INSTANCE.getImage(
 				IBPELUIConstants.ICON_CORRELATIONSET_32);
 	}
 	

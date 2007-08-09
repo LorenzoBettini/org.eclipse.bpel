@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessExtensionImpl.java,v 1.1 2005/11/29 18:51:09 james Exp $
+ * $Id: ProcessExtensionImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -94,8 +94,9 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
-		return UiextensionmodelPackage.eINSTANCE.getProcessExtension();
+		return UiextensionmodelPackage.Literals.PROCESS_EXTENSION;
 	}
 
 	/**
@@ -145,14 +146,15 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PROCESS_EXTENSION__SPEC_COMPLIANT:
 				return isSpecCompliant() ? Boolean.TRUE : Boolean.FALSE;
 			case UiextensionmodelPackage.PROCESS_EXTENSION__MODIFICATION_STAMP:
 				return new Long(getModificationStamp());
 		}
-		return eDynamicGet(eFeature, resolve);
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -160,8 +162,9 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PROCESS_EXTENSION__SPEC_COMPLIANT:
 				setSpecCompliant(((Boolean)newValue).booleanValue());
 				return;
@@ -169,7 +172,7 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 				setModificationStamp(((Long)newValue).longValue());
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -177,8 +180,9 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PROCESS_EXTENSION__SPEC_COMPLIANT:
 				setSpecCompliant(SPEC_COMPLIANT_EDEFAULT);
 				return;
@@ -186,7 +190,7 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 				setModificationStamp(MODIFICATION_STAMP_EDEFAULT);
 				return;
 		}
-		eDynamicUnset(eFeature);
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -194,14 +198,15 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
 			case UiextensionmodelPackage.PROCESS_EXTENSION__SPEC_COMPLIANT:
 				return specCompliant != SPEC_COMPLIANT_EDEFAULT;
 			case UiextensionmodelPackage.PROCESS_EXTENSION__MODIFICATION_STAMP:
 				return modificationStamp != MODIFICATION_STAMP_EDEFAULT;
 		}
-		return eDynamicIsSet(eFeature);
+		return super.eIsSet(featureID);
 	}
 
 	/**
@@ -209,6 +214,7 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

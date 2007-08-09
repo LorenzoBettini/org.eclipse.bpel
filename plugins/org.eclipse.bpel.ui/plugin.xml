@@ -581,5 +581,16 @@
          point="org.eclipse.bpel.ui.hoverHelpers">
       <hoverHelper class="org.eclipse.bpel.ui.hovers.SimpleHoverHelper"/>
    </extension>
+   <extension
+         point="org.eclipse.bpel.common.model.functionRegistry">
+      <registry
+            namespace="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"
+            uri="platform:/plugin/org.eclipse.bpel.ui/templates/fn.xml">
+      </registry>
+      <registry
+            namespace="http://www.w3.org/TR/1999/REC-xpath-19991116"
+            uri="platform:/plugin/org.eclipse.bpel.ui/templates/fn.xml">
+      </registry>
+   </extension>
    
 </plugin>

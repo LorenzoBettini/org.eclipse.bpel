@@ -75,7 +75,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 		if (element == null) return null;
 		
 		IFigure figure = new Figure();
-		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 		figure.setForegroundColor(registry.get(IBPELUIConstants.COLOR_BLACK));	
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);

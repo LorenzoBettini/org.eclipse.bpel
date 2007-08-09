@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.expressions;
 
 public class XPathExpressionUtil {
-	public static Functions functions = Functions.getInstance() ;
 	
 	public static String MSG_NS_PREFIX_NULL = "Namespace prefix cannot be null here";
 	public static String LBL_VAR_PICKER_TEXT = "Variable Picker";

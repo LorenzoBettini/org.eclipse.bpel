@@ -11,10 +11,14 @@
 package org.eclipse.bpel.ui.expressions;
 
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
+import org.eclipse.bpel.fnmeta.model.Function;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.SetNamespaceMappingCommand;
 import org.eclipse.bpel.ui.editors.TextEditorInput;
 import org.eclipse.bpel.ui.editors.xpath.XPathTextEditor;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
@@ -24,6 +28,8 @@ import org.eclipse.bpel.ui.properties.TextSection;
 import org.eclipse.bpel.ui.util.BPELDateTimeHelpers;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -117,7 +123,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		FormLayout layout = new FormLayout();
 		layout.marginWidth = layout.marginHeight = 0;
 		mainComposite.setLayout(layout);
-		mainComposite.setBackground(BPELUIPlugin.getPlugin().getColorRegistry()
+		mainComposite.setBackground(BPELUIPlugin.INSTANCE.getColorRegistry()
 				.get(IBPELUIConstants.COLOR_WHITE));
 		comboLabel = wf.createLabel(mainComposite,
 				Messages.XPathExpressionEditor_Expression_Type_2);
@@ -611,4 +617,32 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 			textEditor.markAsClean();
 		}
 	}
+
+	
+	/**
+	 * This is probably not the best place to do this, but we do need to do this someplace ...
+	 * 
+	 * @see org.eclipse.bpel.ui.expressions.AbstractExpressionEditor#addExtraStoreCommands(org.eclipse.gef.commands.CompoundCommand)
+	 */	
+	@Override
+	public void addExtraStoreCommands (CompoundCommand compoundCommand) {
+		
+		EObject eObj = (EObject) getModelObject();
+		
+		for(Function fn : Functions.getInstance(BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE_2007).getFunctions().values()) {
+			
+			if (BPELUtils.isEmptyOrWhitespace(fn.getNamespace()) || BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE.equals(fn.getNamespace())) {
+				continue;
+			}
+			
+			String pfx = BPELUtils.getNamespacePrefix( eObj, fn.getNamespace());
+			
+			if (pfx == null) {
+				compoundCommand.add(new SetNamespaceMappingCommand(eObj, fn.getNamespace(), fn.getPrefix() )) ;
+			}
+		}
+		
+	}
+	
+	
 }

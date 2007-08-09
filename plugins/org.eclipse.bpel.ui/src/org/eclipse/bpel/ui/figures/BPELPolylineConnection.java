@@ -29,7 +29,7 @@ public class BPELPolylineConnection extends PolylineConnection {
 	Image topLeft, topRight, bottomLeft, bottomRight, arrow;
 	
 	public BPELPolylineConnection(Image topLeft, Image topRight, Image bottomLeft, Image bottomRight, Image arrow) {
-		BPELUIPlugin plugin = BPELUIPlugin.getPlugin();
+		BPELUIPlugin plugin = BPELUIPlugin.INSTANCE;
 		ColorRegistry colorRegistry = plugin.getColorRegistry();
 		color1 = colorRegistry.get(IBPELUIConstants.COLOR_LINK_ONE);
 		color2 = colorRegistry.get(IBPELUIConstants.COLOR_LINK_TWO);

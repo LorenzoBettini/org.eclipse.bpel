@@ -213,7 +213,7 @@ public class BPELSelectionEditPolicy extends NonResizableEditPolicy {
 	@Override
 	protected IFigure createDragSourceFeedbackFigure() {
 		// Use a ghost rectangle for feedback
-		ColorRegistry registry = BPELUIPlugin.getPlugin().getColorRegistry();
+		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 		RectangleFigure r = new RectangleFigure();
 		FigureUtilities.makeGhostShape(r);
 		r.setLineStyle(Graphics.LINE_DASHDOT);

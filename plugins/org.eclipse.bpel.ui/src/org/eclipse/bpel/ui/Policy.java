@@ -11,6 +11,6 @@
 package org.eclipse.bpel.ui;
 
 public class Policy {
-	public static boolean DEBUG = BPELUIPlugin.getPlugin().isDebugging();
-	public static boolean ZOOMSUPPORT = BPELUIPlugin.getPlugin().activateZoomSupport();
+	public static boolean DEBUG = BPELUIPlugin.INSTANCE.isDebugging();
+	public static boolean ZOOMSUPPORT = BPELUIPlugin.INSTANCE.activateZoomSupport();
 }

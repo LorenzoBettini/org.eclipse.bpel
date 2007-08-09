@@ -46,7 +46,7 @@ public NewFileWizardPage2(String pageName)
 		setTitle(Messages.NewFileWizardPage1_2);
 		setDescription(Messages.NewFileWizardPage2_0);
 		
-        setImageDescriptor( BPELUIPlugin.getPlugin().getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
+        setImageDescriptor( BPELUIPlugin.INSTANCE.getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
     }
   
 	/** (non-Javadoc)

@@ -108,7 +108,7 @@ public class InvokeEditPart extends LeafEditPart {
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
 		gradient.setLayoutManager(flowLayout);
-		gradient.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));
+		gradient.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));
 		gradient.add(imageLabel);
 		gradient.add(nameLabel);
 		gradient.addMouseMotionListener(getMouseMotionListener());

@@ -200,7 +200,7 @@ public abstract class CollapsableEditPart extends CompositeActivityEditPart {
 		IFigure figure = getNewContentPane(editPartMarkerDecorator.getDecorationLayer());
 		this.contentFigure = figure;
 		
-		figure.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));		
+		figure.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));		
 		if (isCollapsed()) {
 			addCollapsedContents(figure);
 		} else {

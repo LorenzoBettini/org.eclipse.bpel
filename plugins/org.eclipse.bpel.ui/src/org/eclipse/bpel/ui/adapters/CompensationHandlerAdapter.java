@@ -29,11 +29,11 @@ public class CompensationHandlerAdapter extends ContainerAdapter implements ILab
 	/* ILabeledElement */
 
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMPENSATIONHANDLER_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_COMPENSATIONHANDLER_16);
 	}
 
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_COMPENSATIONHANDLER_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_COMPENSATIONHANDLER_32);
 	}
 	
 	

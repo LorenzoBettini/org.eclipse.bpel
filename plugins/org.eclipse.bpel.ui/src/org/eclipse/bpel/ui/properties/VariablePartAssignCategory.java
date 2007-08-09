@@ -123,7 +123,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				
 				if (targetNamespace != null) {
 					
-					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( fModelObject , targetNamespace , shell);
+					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( fModelObject , targetNamespace , "xsd", shell);
 					if (namespacePrefix == null) {						
 						break ;
 					}
@@ -140,7 +140,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 				
 				builder.append("/");
 				if (targetNamespace != null) {
-					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( fModelObject , targetNamespace , shell);
+					namespacePrefix = BPELUtil.lookupOrCreateNamespacePrefix( fModelObject , targetNamespace , "xsd", shell);
 					if (namespacePrefix == null) {
 						break;
 					}
@@ -436,8 +436,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			}
 		}
 		
-		
-		if (displayQuery() && query.trim().length() >= 0) {
+		query = query.trim();
+		if (displayQuery() && query.length() > 0) {
 			Query queryObject = BPELFactory.eINSTANCE.createQuery();
 			queryObject.setQueryLanguage (BPELConstants.XMLNS_XPATH_QUERY_LANGUAGE);
 			queryObject.setValue(query);

@@ -41,7 +41,7 @@ public class CreatePartnerLinkWizard extends Wizard {
 	
 	public CreatePartnerLinkWizard () {
 		setNeedsProgressMonitor(true);
-		setDialogSettings(BPELUIPlugin.getPlugin().getDialogSettingsFor(this));		
+		setDialogSettings(BPELUIPlugin.INSTANCE.getDialogSettingsFor(this));		
 		setHelpAvailable(false);
 		setWindowTitle(Messages.CreatePartnerLinkWizard_0);
 	}
@@ -62,14 +62,14 @@ public class CreatePartnerLinkWizard extends Wizard {
 		fFirstPage = new CreatePartnerLinkTypeWizardNamePage("name.page"); //$NON-NLS-1$
 		fFirstPage.setTitle(Messages.CreatePartnerLinkWizard_2);
 		fFirstPage.setDescription(Messages.CreatePartnerLinkWizard_3);
-		fFirstPage.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(
+		fFirstPage.setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(
 				IBPELUIConstants.ICON_WIZARD_BANNER));
 		fFirstPage.setDefinitions ( fEditor.getArtifactsDefinition() );
 		
 		fRolePage1 = new CreatePartnerLinkTypeWizardRolePage ("role.1"); //$NON-NLS-1$
 		fRolePage1.setTitle(Messages.CreatePartnerLinkWizard_5);
 		fRolePage1.setDescription(Messages.CreatePartnerLinkWizard_6);
-		fRolePage1.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(
+		fRolePage1.setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(
 				IBPELUIConstants.ICON_WIZARD_BANNER));		
 		fRolePage1.setDefinition( fPortType.getEnclosingDefinition() );
 		
@@ -77,7 +77,7 @@ public class CreatePartnerLinkWizard extends Wizard {
 		fRolePage2 = new CreatePartnerLinkTypeWizardRolePage ("role.2"); //$NON-NLS-1$
 		fRolePage2.setTitle(Messages.CreatePartnerLinkWizard_8);
 		fRolePage2.setDescription(Messages.CreatePartnerLinkWizard_9);
-		fRolePage2.setImageDescriptor(BPELUIPlugin.getPlugin().getImageDescriptor(
+		fRolePage2.setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(
 				IBPELUIConstants.ICON_WIZARD_BANNER));
 		fRolePage2.setDefinition( fPortType.getEnclosingDefinition() );
 		fRolePage2.setOptional(true);

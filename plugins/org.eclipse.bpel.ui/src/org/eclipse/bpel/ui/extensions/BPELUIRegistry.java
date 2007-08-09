@@ -135,9 +135,9 @@ public class BPELUIRegistry {
 				String language = editor.getAttribute(ATT_EXPRESSION_LANGUAGE);
 				String clazz = editor.getAttribute(ATT_CLASS);
 				if (language == null || clazz == null) {
-					String pluginId = BPELUIPlugin.getPlugin().getBundle().getSymbolicName(); 
+					String pluginId = BPELUIPlugin.INSTANCE.getBundle().getSymbolicName(); 
 					IStatus status = new Status(IStatus.ERROR, pluginId, IBPELUIConstants.MISSING_ATTRIBUTE, Messages.BPELUIRegistry_Expression_language_editors_must_provide_expressionLanguage_and_class__8, null); 
-					BPELUIPlugin.getPlugin().getLog().log(status);
+					BPELUIPlugin.INSTANCE.getLog().log(status);
 				} else {
 					ExpressionEditorDescriptor descriptor = new ExpressionEditorDescriptor();
 					descriptor.setExpressionLanguage(language);

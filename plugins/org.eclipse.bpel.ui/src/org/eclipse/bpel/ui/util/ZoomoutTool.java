@@ -40,8 +40,8 @@ public class ZoomoutTool extends AbstractTool {
 	
 	protected Cursor createCursor() {
 		Display display = Display.getDefault();
-		ImageData source = BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_OUT).getImageData();
-		ImageData mask = BPELUIPlugin.getPlugin().getImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_MASK).getImageData();
+		ImageData source = BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_OUT).getImageData();
+		ImageData mask = BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.CURSOR_ZOOM_MASK).getImageData();
 		this.cursor = new Cursor(display, source, mask, 0, 0);
 		return cursor;
 	}

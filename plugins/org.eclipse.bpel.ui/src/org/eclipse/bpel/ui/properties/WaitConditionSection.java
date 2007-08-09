@@ -81,8 +81,7 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 		/** Mark the current radio button selection */		
 		fCurrentButtonIndex = index;	
 		
-		Command cmd = newStoreToModelCommand( getDefaultBody(editorLanguage,getButtonExprType(index) ) );
-		getCommandFramework().execute(wrapInShowContextCommand(	cmd ));
+		runCommand(newStoreToModelCommand( getDefaultBody(editorLanguage,getButtonExprType(index) ) ) ) ;		
 	}
 
 

@@ -94,22 +94,12 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 				if (fEditor == null) {
 					return null;
 				}
-				
-				Command command = newStoreToModelCommand( fEditor.getEditorContent() );
-				if (command == null) {
+							
+				CompoundCommand result = makeCompound ( newStoreToModelCommand( fEditor.getEditorContent()  )) ;
+				if (result == null) {
 					return null;
 				}
-				CompoundCommand result = new CompoundCommand() {
-				    @Override
-					public void execute() {
-				        //isExecutingStoreCommand = true;
-				        try {
-				            super.execute();
-				        } finally {
-				            //isExecutingStoreCommand = false;
-				        }
-                    }
-				};
+				
 				// refresh the editor
 				result.add(new AbstractEditModelCommand() {
 					@Override
@@ -129,9 +119,9 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 					}
 				});
 				
-				result.add(wrapInShowContextCommand(command));
-				return result;
+				return wrapInShowContextCommand(result);				
 			}
+			
 			public void restoreOldState() {
 				updateWidgets();
 			}

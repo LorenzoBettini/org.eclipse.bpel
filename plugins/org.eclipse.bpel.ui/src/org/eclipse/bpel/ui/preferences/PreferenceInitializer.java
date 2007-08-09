@@ -17,7 +17,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	public void initializeDefaultPreferences() {
 		/*
-		IPreferenceStore store = BPELUIPlugin.getDefault()
+		IPreferenceStore store = BPELUIPlugin.INSTANCE
 				.getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_BOOLEAN, true);
 		store.setDefault(PreferenceConstants.P_CHOICE, "choice2");

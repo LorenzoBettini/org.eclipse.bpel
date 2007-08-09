@@ -49,11 +49,11 @@ public class PortTypeAdapter extends AbstractAdapter implements INamedElement,
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PORTTYPE_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PORTTYPE_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_PORTTYPE_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_PORTTYPE_32);
 	}
 
 	public String getTypeLabel(Object object) {

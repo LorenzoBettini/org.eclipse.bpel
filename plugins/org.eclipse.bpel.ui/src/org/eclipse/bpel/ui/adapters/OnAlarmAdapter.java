@@ -39,11 +39,11 @@ public class OnAlarmAdapter extends ContainerAdapter implements ILabeledElement,
 
 	/* ILabeledElement */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ONALARM_16);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ONALARM_16);
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.getPlugin().getImage(IBPELUIConstants.ICON_ONALARM_32);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_ONALARM_32);
 	}	
 	
 	public String getTypeLabel(Object object) {

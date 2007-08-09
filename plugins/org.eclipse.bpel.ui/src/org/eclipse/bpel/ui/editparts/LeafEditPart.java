@@ -119,7 +119,7 @@ public class LeafEditPart extends ActivityEditPart {
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
 		gradient.setLayoutManager(layout);
 		
-		gradient.setForegroundColor(BPELUIPlugin.getPlugin().getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));
+		gradient.setForegroundColor(BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_BLACK));
 
 		this.imageLabel = new Label(image);
 		gradient.add(imageLabel);

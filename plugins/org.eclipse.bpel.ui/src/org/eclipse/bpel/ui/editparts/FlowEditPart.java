@@ -349,12 +349,12 @@ public class FlowEditPart extends CollapsableEditPart {
 	}
 
 	private boolean getShowFreeformFlow() {
-		return BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(
+		return BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(
 				IBPELUIConstants.PREF_SHOW_FREEFORM_FLOW);
 	}
 
 	private boolean getAutoLayout() {
-		return BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(
+		return BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(
 				IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
 	}
 
@@ -439,7 +439,7 @@ public class FlowEditPart extends CollapsableEditPart {
 
 	public void doImmediateAutoLayout() {
 		Map partsToNodes = new HashMap();
-		if (BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(
+		if (BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(
 				IBPELUIConstants.PREF_USE_ANIMATION)) {
 			setSmoothLayout(true);
 		}
@@ -467,7 +467,7 @@ public class FlowEditPart extends CollapsableEditPart {
 	public void doAutoLayout(boolean withCommand) {
 		Map partsToNodes = new HashMap();
 		this.getFigure().invalidateTree();
-		if (BPELUIPlugin.getPlugin().getPreferenceStore().getBoolean(
+		if (BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(
 				IBPELUIConstants.PREF_USE_ANIMATION)) {
 			setSmoothLayout(true);
 		}
