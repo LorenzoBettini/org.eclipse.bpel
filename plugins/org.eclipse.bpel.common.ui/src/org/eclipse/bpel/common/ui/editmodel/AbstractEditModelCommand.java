@@ -14,26 +14,41 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Default implementation of IEditModelCommand.
- * Clients of EditModel framework can either subclass AbstractEditModelCommand
- * or implement IEditModelCommand
+ * Default implementation of IEditModelCommand. Clients of EditModel framework
+ * can either subclass AbstractEditModelCommand or implement IEditModelCommand
  */
-public abstract class AbstractEditModelCommand extends Command implements IEditModelCommand {
+public abstract class AbstractEditModelCommand extends Command implements
+		IEditModelCommand {
 
 	protected static Resource[] EMPTY_RESOURCE_ARRAY = new Resource[0];
+
+	/**
+	 * 
+	 */
 	
-public AbstractEditModelCommand() {
-	super();
-}
-public AbstractEditModelCommand(String label) {
-	super(label);
-}
+	public AbstractEditModelCommand() {
+		super();
+	}
 
-public abstract Resource[] getResources();
+	/**
+	 * @param label
+	 */
+	public AbstractEditModelCommand (String label) {
+		super(label);
+	}
 
+	/**
+	 * @see org.eclipse.bpel.common.ui.editmodel.IEditModelCommand#getResources()
+	 */
+	public Resource[] getResources() {
+		return EMPTY_RESOURCE_ARRAY;
+	}
 
-public Resource[] getModifiedResources() {
-	return getResources();
-}
+	/**
+	 * @see org.eclipse.bpel.common.ui.editmodel.IEditModelCommand#getModifiedResources()
+	 */
+	public Resource[] getModifiedResources() {
+		return getResources();
+	}
 
 }
