@@ -6,6 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.eclipse.bpel.fnmeta.model.FMPackage;
+import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
+import org.eclipse.bpel.validator.factory.FunctionMetaValidatorAdapterFactory;
+import org.eclipse.bpel.validator.factory.BPELValidatorAdapterFactory;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IFactory;
 import org.eclipse.bpel.validator.model.IModelQuery;
@@ -83,6 +88,12 @@ public class Activator extends Plugin {
 			}
 		}
 		
+		// Register our adapter providers
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+			    FMPackage.eINSTANCE,  FunctionMetaValidatorAdapterFactory.INSTANCE );
+	
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+				BPELPackage.eINSTANCE,  BPELValidatorAdapterFactory.INSTANCE );			
 	}
 
 	/**
@@ -93,6 +104,15 @@ public class Activator extends Plugin {
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		
+		
+		AdapterRegistry.INSTANCE.unregisterAdapterFactory(
+			    FMPackage.eINSTANCE,  FunctionMetaValidatorAdapterFactory.INSTANCE );
+
+		AdapterRegistry.INSTANCE.registerAdapterFactory(
+				BPELPackage.eINSTANCE,  BPELValidatorAdapterFactory.INSTANCE );			
+		
+		
 		super.stop(context);
 	}
 

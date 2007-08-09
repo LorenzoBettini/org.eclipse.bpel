@@ -12,6 +12,8 @@ package org.eclipse.bpel.validator.model;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * A simple facade interface that can be used to describe 
  * tree like structures. We use it to map the BPEL EMF API. 
@@ -61,6 +63,17 @@ public interface INode {
 	 */
 	
 	public String getAttribute( String name );
+	
+	
+	/**
+	 * Same as above except that the value of attribute is returned as the most
+	 * correct QName (taking namespace mappings into account).
+	 * 
+	 * @param name attribute name
+	 * @return the QName value of the attribute.
+	 */
+	
+	public QName getAttributeAsQName ( String name );
 	
 	/** 
 	 * Return an INode facade to the attribute node. Note that 

@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.factory;
 
+import org.eclipse.bpel.fnmeta.model.util.FMAdapterFactory;
 import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.bpel.model.util.BPELAdapterFactory;
 import org.eclipse.bpel.validator.adapters.BasicAdapter;
+import org.eclipse.bpel.validator.adapters.FunctionAdapter;
 import org.eclipse.bpel.validator.adapters.PartnerActivityAdapter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -27,53 +29,28 @@ import org.eclipse.emf.common.notify.Notifier;
 
 @SuppressWarnings("nls")
 
-public class ValidatorFactory extends BPELAdapterFactory {
+public class FunctionMetaValidatorAdapterFactory extends FMAdapterFactory {
 
-	static ValidatorFactory instance;
+	/**  */
+	static public final FunctionMetaValidatorAdapterFactory INSTANCE = new FunctionMetaValidatorAdapterFactory();
 		
 	AdapterProvider provider;
 	
 
-	private ValidatorFactory () {
+	private FunctionMetaValidatorAdapterFactory () {
 		provider = new AdapterProvider( "org.eclipse.bpel.validator.adapters" );
 	}
+		
+	
 	
 	/**
-	 * Get the instance of this factory
-	 * 
-	 * @return the only instance of the Validator Factory.
+	 * @see org.eclipse.bpel.fnmeta.model.util.FMAdapterFactory#createFunctionAdapter()
 	 */
-	
-	public static ValidatorFactory getInstance() {
-		if (instance == null) {
-			instance = new ValidatorFactory();
-		}
-		return instance;
+	@Override
+	public Adapter createFunctionAdapter() {
+		return provider.getAdapter(FunctionAdapter.class);
 	}
-	
 
-	/** 
-	 * Return the generic EObjectAdapter ...
-	 * @return the generic EObject adapter.
-	 *   
-	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createEObjectAdapter()
-	 */
-	
-	@Override
-	public Adapter createEObjectAdapter() {
-		return provider.getAdapter(BasicAdapter.class);
-	}
-	
-	
-	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createPartnerActivityAdapter()
-	 */
-	
-	@Override
-	public Adapter createPartnerActivityAdapter() {
-		return provider.getAdapter ( PartnerActivityAdapter.class );
-	}
-	
 
 	/**
 	 * Adapt a new object to the type given.
@@ -99,19 +76,5 @@ public class ValidatorFactory extends BPELAdapterFactory {
 	protected Object resolve(Object object, Object type) {
 		return null;
 	}
-
-	
-    @Override
-	protected Adapter createAdapter (Notifier target, Object type) {
-    	    	
-//    	if (BPELUtil.isCustomActivity(target)) {
-//            // If we have a custom activity that did not provide a
-//            // custom adapter we create a default adapter. 
-//            return createCustomActivityAdapter();
-//    	}
-    	
-        return super.createAdapter(target, type);
-    }
-
 	
 }

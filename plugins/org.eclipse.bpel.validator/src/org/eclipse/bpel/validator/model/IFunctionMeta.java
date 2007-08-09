@@ -22,7 +22,9 @@ import javax.xml.namespace.QName;
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Sep 29, 2006
  */
+
 public interface IFunctionMeta {
+	
 	/**
 	 * Return the name of the function.
 	 * 
@@ -61,8 +63,8 @@ public interface IFunctionMeta {
 	    public String getNamespacePrefix( );
 	    
 	    /**
-	     * Answer if the function is depracated.
-	     * @return true if depracated, false if not.
+	     * Answer if the function is deprecated.
+	     * @return true if deprecated, false if not.
 	     */
 	    
 	    public boolean isDeprecated( );
@@ -78,15 +80,26 @@ public interface IFunctionMeta {
 	     * Return the deprecation comment of this function.
 	     * Why it should not be used anymore.
 	     * 
-	     * @return the depracated comment 
+	     * @return the deprecated comment 
 	     */
 	    public  String getDeprecateComment( );
 
-	    /**
-	     * Return the arity of this function.
-	     * 
-	     * @return the arity of this function.
+	    
+	    /** 
+	     * Min arity, the minimum number of arguments this function will take 
+	     * @return the min arity
 	     */
 	    
-	    public int getArity();
+	    public int getMinArity () ;
+	    
+	    /** 
+	     * @return Return the max arity, the maximum number of arguments this function will take. 
+	     */
+	    public int getMaxArity () ;
+	    
+	    /**  
+	     * @return the return type of this function, in java speak.
+	     */
+	    
+	    public Class<?> getReturnType ();
 }

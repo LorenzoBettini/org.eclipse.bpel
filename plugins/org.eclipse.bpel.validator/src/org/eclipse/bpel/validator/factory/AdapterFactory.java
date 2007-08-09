@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.validator.Activator;
 import org.eclipse.bpel.validator.IBPELMarker;
 import org.eclipse.bpel.validator.helpers.DOMNodeAdapter;
@@ -60,6 +61,13 @@ public class AdapterFactory implements IAdapterFactory {
 	@SuppressWarnings("unchecked")
 	public Object getAdapter (Object adaptableObject, Class adapterType) {
 		
+		if (adaptableObject instanceof EObject) {
+			Object adapter = AdapterRegistry.INSTANCE.adapt(adaptableObject, adapterType,false);
+			if (adapter != null) {
+				return adapter;
+			}
+		}
+		
 		if (adapterType == IMarker.class) {
 			
 			if (adaptableObject instanceof IProblem) {				
@@ -76,11 +84,7 @@ public class AdapterFactory implements IAdapterFactory {
 			}
 			
 		} else if (adapterType == INode.class ) {
-			
-			if (adaptableObject instanceof EObject) {
-				return ValidatorFactory.getInstance().adapt(adaptableObject, adapterType);
-			}
-			
+						
 			if (adaptableObject instanceof Element) {
 				Element elm = (Element) adaptableObject;
 				

@@ -14,6 +14,9 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.fnmeta.FunctionRegistry;
+import org.eclipse.bpel.fnmeta.model.Function;
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IFunctionMeta;
 import org.eclipse.bpel.validator.model.INode;
@@ -150,13 +153,22 @@ public class ModelQuery extends ModelQueryImpl {
 	/**
 	 * Lookup the function meta which is identified by this QName.
 	 * @return the function name 
-	 * @see org.eclipse.bpel.validator.model.IModelQuery#lookupFunction(String ns, String name)
+	 * @see org.eclipse.bpel.validator.model.IModelQuery#lookupFunction(String language, String ns, String name)
 	 */
 	
 	@Override
-	public IFunctionMeta lookupFunction (String ns, String name) {
-		// TODO Fill in function meta
-		return null;
+	public IFunctionMeta lookupFunction (String language, String ns, String name) {
+		
+		FunctionRegistry registry = FunctionRegistry.getRegistryForLanguage(language);
+		if (registry == null) {
+			return null;
+		}
+		
+		Function function = registry.lookupFunction ( ns, name );
+		if (function == null) {
+			return null;
+		}
+		return AdapterRegistry.INSTANCE.adapt(function, IFunctionMeta.class);		
 	}
 
 

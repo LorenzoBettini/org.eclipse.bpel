@@ -91,7 +91,7 @@ public class JoinCondition extends XPathValidator {
 		final String name = expr.getVariableName();
 		IProblem problem;
 
-		if (duplicateThing( "duplicate.joinCondition.link.check." + name)) {
+		if (duplicateThing( "duplicate.joinCondition.link.check.", name)) {
 			return ;
 		}
 

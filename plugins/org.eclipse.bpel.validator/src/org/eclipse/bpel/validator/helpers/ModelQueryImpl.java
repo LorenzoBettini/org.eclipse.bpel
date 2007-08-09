@@ -57,8 +57,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 	
 	/**
 	 * The handle to the EMF root of the BPEL process that we will
-	 * validate.
-	 * 
+	 * validate. 
 	 */
 	
 	protected Selector mSelector;
@@ -175,10 +174,10 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 	/**
 	 * Lookup the function meta which is identified by this QName.
 	 * @return the function name 
-	 * @see org.eclipse.bpel.validator.model.IModelQuery#lookupFunction(String ns, String name)
+	 * @see org.eclipse.bpel.validator.model.IModelQuery#lookupFunction(String language, String ns, String name)
 	 */
 	
-	public IFunctionMeta lookupFunction (String ns, String name) {
+	public IFunctionMeta lookupFunction (String language, String ns, String name) {
 		// TODO Fill in function meta
 		return null;
 	}
@@ -484,7 +483,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 			
 		case LOOKUP_NODE_TYPE_OF_PART : 
 			if (context.isResolved()) {
-				modelObject = null;
+				modelObject = null;				
 			}
 			if (modelObject == null) {
 				result = new UndefinedNode(AT_ELEMENT,AT_NAME,"Unknown");
@@ -642,18 +641,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 		return def;
 	}
 	
-	
-	/**
-	 * Lookup an object in the model. 
-	 * @param context the context node 
-	 * @param clazz the class of the object
-	 * @return return the object instance if found in the mode, null otherwise.
-	 */
-	
-	public Object lookup (INode context, Class<?> clazz) {
-		return null;
-	}
-	
+
 	
 	/**
 	 * Create the QName from the name indicated. The context node is used to resolve 

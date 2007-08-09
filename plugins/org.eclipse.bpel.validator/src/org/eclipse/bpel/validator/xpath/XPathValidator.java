@@ -21,6 +21,8 @@ import java.util.List;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.validator.model.IConstants;
+import org.eclipse.bpel.validator.model.IFunctionMeta;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
@@ -466,7 +468,7 @@ public class XPathValidator extends Validator {
 		} else if (expr instanceof FunctionCallExpr) {
 			FunctionCallExpr fce = (FunctionCallExpr) expr;
 			
-			if ( mVisitor.isBooleanFunction(fce) == false) {
+			if ( isBooleanFunction(fce) == false) {
 				
 				problem = createWarning();
 				problem.fill("XPATH_EXPRESSION_TYPE",
@@ -547,18 +549,18 @@ public class XPathValidator extends Validator {
 	public void CheckFunctions ( FunctionCallExpr expr ) {
 		
 		String functionPrefix = expr.getPrefix();	
-		String nsURI = mModelQuery.lookup(mNode, 
-				IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS, functionPrefix, null);
-		
-		if (isEmptyOrWhitespace(nsURI)) {
-			return ;
-		}
-		
+		String nsURI = lookupNamespace(functionPrefix);
+				
 		if (XPathVisitor.isBPELNS(nsURI)) {
 			runRules("bpel.functions",expr);
-		}		
+		}
+		
+		IFunctionMeta meta = lookup ( expr );
+		
+		checkFunctionMeta( expr , meta );
+		checkFunctionCall( expr , meta );
+		
 	}
-	
 	
 	/**
 	 * Check the GetVariableProperty function.
@@ -623,7 +625,7 @@ public class XPathValidator extends Validator {
 			LiteralExpr p1l = (LiteralExpr) p1;
 			
 			// check to make sure we don't print the same message twice.
-			if (duplicateThing( "duplicate.variable.check." + p1l.getLiteral() ) == false) {
+			if (duplicateThing( "duplicate.variable.check.", p1l.getLiteral() ) == false) {
 	
 				INode variableNode = mModelQuery.lookup(mNode, 
 						IModelQueryLookups.LOOKUP_NODE_VARIABLE,
@@ -902,7 +904,7 @@ public class XPathValidator extends Validator {
 		IProblem problem;
 		
 		// check to make sure we don't print the same message twice.
-		if (duplicateThing( "duplicate.variable.check." + name)) {
+		if (duplicateThing( "duplicate.variable.check.",name)) {
 			return ;
 		}
 		
@@ -1082,10 +1084,147 @@ public class XPathValidator extends Validator {
 	 * @see org.eclipse.bpel.validator.model.Validator#duplicateThing(java.lang.String)
 	 */
 	@Override
-	protected boolean duplicateThing(String key) {
+	protected boolean duplicateThing (String ... key) {
 		// this exists here for visibility to XPathVisitor.
 		return super.duplicateThing(key);
 	}
 
+	
+	protected boolean checkPrefix ( String prefix, String name ) {
+		
+		if (isEmptyOrWhitespace(prefix)) {
+			return true;
+		}
+		
+		String nsURI = lookupNamespace ( prefix );
+		
+		if (isEmpty(nsURI)) {
+			IProblem problem = createError();
+			problem.fill("XPATH_UNRESOLVED_NAMESPACE_PREFIX",   //$NON-NLS-1$
+					prefix,
+					name 
+				);
+		
+			return false;
+		}
+		
+		return true;
+	}
+
+	
+	protected String lookupNamespace ( String prefix ) {
+		return mModelQuery.lookup( mNode , 
+				IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS,  
+				prefix,
+				null );	
+	}
     
+
+	/**
+	 * Check if the function is a boolean function.
+	 * @param functionExpr
+	 * @return true if a function is boolean, false otherwise.
+	 */
+	boolean isBooleanFunction (FunctionCallExpr functionExpr) {
+		
+		IFunctionMeta meta = lookup ( functionExpr );
+		if (meta == null) {
+			return false;
+		}
+		return meta.getReturnType() == Boolean.class;		
+	}
+
+	
+	/**
+	 * Empty prefix in functionExpr implies an XPath function.
+	 * 
+	 * @param functionExpr
+	 */
+	protected void checkFunctionMeta (FunctionCallExpr functionExpr , IFunctionMeta meta ) {
+				
+		String fnCall = functionExpr.getFunctionName();
+		if (isEmptyOrWhitespace(functionExpr.getPrefix()) == false) {
+			fnCall = functionExpr.getPrefix() + ":" + fnCall;
+		} 
+		
+		if (duplicateThing("function.meta.",fnCall)) {
+			return ;
+		}
+					
+		IProblem problem;
+		
+		if (meta == null) {
+			problem = createWarning();
+			problem.fill("XPATH_FUNCTION_UNKNOWN", //$NON-NLS-1$
+					mNode.nodeName(),
+					fnCall				
+			);
+			repointOffsets(problem, functionExpr);
+			
+			return ;
+		} 
+		
+		
+		if (meta.isDeprecated()) {
+			problem = createWarning();
+			problem.fill("XPATH_FUNCTION_DEPRECATED", //$NON-NLS-1$
+					mNode.nodeName(),
+					fnCall,
+					meta.getDeprecateComment()
+			);
+			repointOffsets(problem, functionExpr);
+		}		
+	}
+	
+	
+	protected void checkFunctionCall ( FunctionCallExpr functionExpr, IFunctionMeta meta ) {
+
+		if (meta == null || functionExpr == null) {
+			return ;
+		}
+		
+		String fnCall = functionExpr.getFunctionName();
+		if (isEmptyOrWhitespace(functionExpr.getPrefix()) == false) {
+			fnCall = functionExpr.getPrefix() + ":" + fnCall;
+		} 
+		
+		IProblem problem;
+		
+		List<?> params = functionExpr.getParameters();
+		if (params.size() < meta.getMinArity()) {
+			problem = createError();
+			problem.fill("XPATH_FUNCTION_MIN_ARGS", //$NON-NLS-1$
+					mNode.nodeName(),
+					fnCall,
+					meta.getMinArity(),
+					params.size()
+			);
+			repointOffsets(problem, functionExpr);
+		}
+		
+		if (params.size() > meta.getMaxArity()) {
+			problem = createError();
+			problem.fill("XPATH_FUNCTION_MAX_ARGS", //$NON-NLS-1$
+					mNode.nodeName(),
+					fnCall,
+					meta.getMaxArity(),
+					params.size()
+			);
+		}
+	
+	}
+
+	
+	protected IFunctionMeta lookup ( FunctionCallExpr functionExpr ) {
+		
+		String ns = null;
+		if (isEmptyOrWhitespace ( functionExpr.getPrefix()) ) {
+			ns = IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE;
+		} else {
+			ns  = lookupNamespace( functionExpr.getPrefix() );
+		}		
+		return  mModelQuery.lookupFunction(IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, ns, functionExpr.getFunctionName() );	
+	}
+
+	
 }

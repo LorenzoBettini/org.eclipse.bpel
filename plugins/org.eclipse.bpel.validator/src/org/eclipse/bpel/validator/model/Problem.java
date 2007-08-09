@@ -40,6 +40,29 @@ public class Problem implements IProblem {
 	/** Our ID */	
 	final long mId = ID++ ;
 
+	/**
+	 * The context object's class is used as a starting location 
+	 * for search of the appropriate message.properties file.
+	 * 
+	 */
+	Object fContext = null;
+	
+	
+	/**
+	 * 
+	 */
+	public Problem () {
+		
+	}
+	
+	/** 
+	 * @param context
+	 */
+	
+	public Problem ( Object context ) {
+		fContext = context;		
+	}
+	
 	/** 
 	 * @see org.eclipse.bpel.validator.model.IProblem#getAttribute(java.lang.String)
 	 */
@@ -169,8 +192,15 @@ public class Problem implements IProblem {
 	}
 	
 	/**
-	 * Return the message to push into the IProblem. We consult the 
-	 * messages.properties located in current package.
+	 * Return the message to push into the IProblem.
+	 * We consult the messages.properties located in current package.
+	 * 
+	 * If that message is not found, we continue walking the superclass path
+	 * and we don't examine Object for obvious reasons.
+	 * 
+	 * The search path for the message id key (as specified by the key
+	 * parameter) follows therefore the derivation structure of the class of the 
+	 * the context object.
 	 * 
 	 * @param key
 	 * @return the message
@@ -179,11 +209,21 @@ public class Problem implements IProblem {
 	@SuppressWarnings("nls")
 	String getMessage ( String key , String def ) {
 		
-		Class<?> clazz = getAttribute( BUNDLE_CLAZZ );
+		if (fContext == null) {
+			return def;
+		}
+		Class<?> clazz = fContext.getClass();
 		
-		while (clazz != null && clazz != Object.class) {		 
-			Messages msg = Messages.getMessages( clazz.getPackage().getName() + ".messages" );
+		while (clazz != null && clazz != Object.class) {
+			String bundleName = clazz.getPackage().getName() + ".messages";
+			Messages msg = Messages.getMessages( bundleName );
 			if (msg.containsKey(key)) {
+				// Remember where the message came from, if not already set
+				if (mMap.containsKey(IProblem.BUNDLE_CLAZZ) == false) {
+					mMap.put(IProblem.BUNDLE_CLAZZ, clazz);
+					mMap.put(IProblem.BUNDLE_NAME, bundleName );					
+				}								
+				// return the message
 				return msg.get(key);
 			}
 			clazz = clazz.getSuperclass();			

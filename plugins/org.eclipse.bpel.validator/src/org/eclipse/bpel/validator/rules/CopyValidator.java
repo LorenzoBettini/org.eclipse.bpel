@@ -63,7 +63,7 @@ public class CopyValidator extends CValidator {
 	
 	/** 
 	 * Start validation process on this node.
-	 * @see org.eclipse.bpel.validator.model.Validator#start()
+	 * 
 	 */
 	
 	@Override

@@ -95,7 +95,6 @@ public class FromValidator extends CValidator {
 	
 	/**
 	 * 
-	 * @see org.eclipse.bpel.validator.model.Validator#start()
 	 */
 	 
 	@Override
@@ -226,7 +225,7 @@ public class FromValidator extends CValidator {
 			return ;
 		}
 	
-		// The variable has a certain type. Get it from the variable validator.
+		// The variable has a certain type. Get it from the variable validator.		
 		INode varTypeNode = getValue(fVariableNode,"type",null);					
 		
 		if (isUndefined(varTypeNode)) {
@@ -238,6 +237,7 @@ public class FromValidator extends CValidator {
 		
 		// Not a WSDL message
 		if (WSDL_ND_MESSAGE.equals(varTypeNode.nodeName()) == false) {
+			
 			// not a WSDL message type
 			if (isEmpty(fPartName) == false) {
 				problem = createError();

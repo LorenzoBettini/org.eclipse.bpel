@@ -196,6 +196,17 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	}
 
 
+	/**
+	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(java.lang.String)
+	 */
+	
+	public QName getAttributeAsQName ( String name ) {
+		String value = getAttribute(name);
+		if (value == null) {
+			return null;
+		}
+		return ModelQueryImpl.getModelQuery().createQName(this, value);
+	}
 	
 	
 	/**

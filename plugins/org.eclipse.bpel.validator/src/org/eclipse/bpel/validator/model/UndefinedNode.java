@@ -14,6 +14,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
+
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -50,6 +54,18 @@ public class UndefinedNode implements INode {
 		return mMap.get(name);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(java.lang.String)
+	 */
+	
+	public QName getAttributeAsQName ( String name ) {
+		String value = getAttribute(name);
+		if (value == null) {
+			return null;
+		}
+		return ModelQueryImpl.getModelQuery().createQName(this, value);
+	}
+	
 	/** (non-Javadoc)
 	 * @see org.eclipse.bpel.validator.model.INode#getNode(java.lang.String)
 	 */

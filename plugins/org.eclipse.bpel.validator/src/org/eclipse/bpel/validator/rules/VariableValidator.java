@@ -11,6 +11,8 @@
 package org.eclipse.bpel.validator.rules;
 
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
@@ -120,7 +122,7 @@ public class VariableValidator extends CValidator {
 		IProblem problem;
 		
 		// Check messageType 
-		String messageType = mNode.getAttribute(AT_MESSAGE_TYPE);		 
+		QName messageType = mNode.getAttributeAsQName(AT_MESSAGE_TYPE);		 
 		if (messageType != null) {
 			typeCount += 1;
 			fMessageTypeNode = mModelQuery.lookup(mNode, 
@@ -130,7 +132,7 @@ public class VariableValidator extends CValidator {
 		
 		
 		// Check element
-		String element = mNode.getAttribute(AT_ELEMENT);		
+		QName element = mNode.getAttributeAsQName(AT_ELEMENT);		
 		if (element != null) {
 			typeCount += 1;
 			fElementNode = mModelQuery.lookup(mNode, 
@@ -139,7 +141,7 @@ public class VariableValidator extends CValidator {
 		}
 		
 		// Check Type (XMLType)
-		String type = mNode.getAttribute ( AT_TYPE );			
+		QName type = mNode.getAttributeAsQName( AT_TYPE );			
 		if (type != null) {
 			typeCount += 1;
 			fTypeNode = mModelQuery.lookup(mNode, 

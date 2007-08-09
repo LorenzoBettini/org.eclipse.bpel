@@ -76,7 +76,7 @@ public class PartnerLinkValidator extends CValidator {
 		fPartnerLink = mNode;
 		fPartnerLinkType = mModelQuery.lookup (mNode,
 							IModelQueryLookups.LOOKUP_NODE_PARTNER_LINK_TYPE,
-							mNode.getAttribute( AT_PARTNER_LINK_TYPE ) ) ;
+							mNode.getAttributeAsQName( AT_PARTNER_LINK_TYPE ) ) ;
 		
 		if (fPartnerLinkType != null) {
 			fRoles = fPartnerLinkType.children();
@@ -312,7 +312,7 @@ public class PartnerLinkValidator extends CValidator {
 					problem.fill("BPELC_PL__NOTIFICATION",
 							mNode.nodeName(),
 							mNode.getAttribute(AT_NAME),
-							mNode.getAttribute(AT_PARTNER_LINK_TYPE),
+							mNode.getAttributeAsQName(AT_PARTNER_LINK_TYPE),
 							
 							portType.getAttribute(AT_NAME),
 							op.getAttribute(AT_NAME) );
@@ -328,7 +328,7 @@ public class PartnerLinkValidator extends CValidator {
 					problem.fill("BPELC_PL__SOLICIT_RESPONSE",
 							mNode.nodeName(),
 							mNode.getAttribute(AT_NAME),
-							mNode.getAttribute(AT_PARTNER_LINK_TYPE),
+							mNode.getAttributeAsQName(AT_PARTNER_LINK_TYPE),
 							
 							portType.getAttribute(AT_NAME),
 							op.getAttribute(AT_NAME) );
@@ -370,7 +370,7 @@ public class PartnerLinkValidator extends CValidator {
 				problem.fill("BPELC_PL__OVERLOADED",
 						mNode.nodeName(),
 						mNode.getAttribute(AT_NAME),
-						mNode.getAttribute(AT_PARTNER_LINK_TYPE),
+						mNode.getAttributeAsQName(AT_PARTNER_LINK_TYPE),
 						portType.getAttribute(AT_NAME),
 						name );
 			}

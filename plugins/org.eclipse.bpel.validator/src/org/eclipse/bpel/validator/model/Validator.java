@@ -484,22 +484,18 @@ public class Validator implements IConstants {
 		}		
 	}
 	
-	
 	/**
-	 * Create a problem based on the context node passed.
+	 * Adopt this problem as one of ours. In this case, we simply fill in the location information
+	 * in the problem and add it to a list of problems that we keep.
 	 * 
-	 * @param node the context node from which the problem will be 
-	 * created.
-	 * @return the IProblem marker for the node indicated. 
+	 * @param problem
+	 * @param node 
 	 */
 	
+	public void adopt ( IProblem problem , INode node ) {
 
-	protected IProblem createProblem ( INode node ) {
-		
-		IProblem problem = new Problem();
-		
 		// remember it 
-		mProblems.add(problem);
+		mProblems.add (problem);
 		
 		problem.setAttribute(IProblem.NODE, node );
 		
@@ -523,10 +519,23 @@ public class Validator implements IConstants {
 		
 		problem.setAttribute(IProblem.ADDRESS_XPATH,        
 				mModelQuery.lookup(node, IModelQueryLookups.LOOKUP_TEXT_HREF_XPATH,null,null));		
+									
+	}
+	
+	
+	/**
+	 * Create a problem based on the context node passed.
+	 * 
+	 * @param node the context node from which the problem will be 
+	 * created.
+	 * @return the IProblem marker for the node indicated. 
+	 */
+	
+
+	protected IProblem createProblem ( INode node ) {
 		
-		
-		problem.setAttribute(IProblem.BUNDLE_CLAZZ, getClass());
-		
+		IProblem problem = new Problem ( this );			
+		adopt (problem, node);				
 		
 		if (mCurrentRule != null) {
 			
@@ -656,11 +665,25 @@ public class Validator implements IConstants {
 	 */
 	
 	
-	protected boolean duplicateThing ( String key ) {
+	protected boolean duplicateThing ( String ... args  ) {
+		
+		String key = null;
+		if (args.length == 1) {
+			key = args[0];
+		} else {
+			StringBuilder sb = new StringBuilder ();
+			for(String a : args) {
+				sb.append(a);
+			}
+			key = sb.toString();
+		}
+		
 		if (mData.containsKey(key)) {
 			return true;
 		}
+		
 		mData.put(key,Boolean.TRUE);
+		
 		return false;
 	}
 	

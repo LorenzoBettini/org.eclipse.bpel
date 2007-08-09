@@ -62,11 +62,12 @@ public interface IModelQuery extends IModelQueryLookups {
 	 * Return the meta information about the function passed. 
 	 * Typically, this information is provided by the model.
 	 * 
+	 * @param language the query/expression language namespace
 	 * @param ns the namespace of the function
 	 * @param name the name of the function
 	 * @return the function meta 
 	 */
-	public IFunctionMeta lookupFunction ( String ns, String name ) ;
+	public IFunctionMeta lookupFunction ( String language, String ns, String name ) ;
 	
 	
 	

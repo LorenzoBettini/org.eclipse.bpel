@@ -23,7 +23,6 @@ import javax.xml.namespace.QName;
  * Dependency on the validation model 
  */
 import org.eclipse.bpel.validator.model.IConstants;
-import org.eclipse.bpel.validator.model.IFunctionMeta;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
@@ -35,10 +34,6 @@ import org.eclipse.bpel.validator.model.IProblem;
  * Dependency on JAXEN 
  */
 
-import org.jaxen.NamespaceContext;
-import org.jaxen.SimpleFunctionContext;
-import org.jaxen.UnresolvableException;
-import org.jaxen.XPathFunctionContext;
 import org.jaxen.expr.AllNodeStep;
 import org.jaxen.expr.BinaryExpr;
 import org.jaxen.expr.CommentNodeStep;
@@ -92,9 +87,7 @@ import org.jaxen.saxpath.Axis;
 public class XPathVisitor  
     implements IConstants {
 	
-	private SimpleFunctionContext mFunctionContext;
-
-	private NamespaceContext mNamespaceContext;
+	// NamespaceContext mNamespaceContext;
 
 	/** The XPathExpression Validator that is running this */
 	XPathValidator mValidator ;
@@ -140,52 +133,8 @@ public class XPathVisitor
 		
 		/** The context INode node name */
 		mNodeName = mContextNode.nodeName();
-		
-		/** 
-		 * Attempt to retrieve this from the model. 
-		 * If it fails then we create our own function context
-		 */		
-		Object context = null; 
-		// mModelQuery.lookup(mContextNode, SimpleFunctionContext.class);		
-		
-		if (context != null && context instanceof SimpleFunctionContext) {
-			mFunctionContext = (SimpleFunctionContext) context;
-		} else {
-			mFunctionContext = (SimpleFunctionContext) XPathFunctionContext.getInstance();
-		}
-
-		// we set the initial namespace context for JAXEN to use the namespace
-		// look ups behind the Node facade.
-		
-		setNamespaceContext ( new NamespaceContext () {
-			
-				public String translateNamespacePrefixToUri(String arg0) {
-					
-					return mModelQuery.lookup( mContextNode, 
-							IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS,  
-							arg0,
-							null );					
-				}			
-			} 
-		);
-		
-		
 	
    	}
-
-	
-	
-	/**
-	 * Sets the namespace context of the current node.
-	 * 
-	 * @param nsCtx
-	 */
-	
-	public void setNamespaceContext (NamespaceContext nsCtx) {
-		mNamespaceContext = nsCtx;
-	}		
-	
-	
 
 
 	
@@ -286,42 +235,9 @@ public class XPathVisitor
 
 	
 	protected void visit (FunctionCallExpr expr) {
-		
-		IProblem problem;
-					
-		String functionName = expr.getFunctionName();
-		String functionPrefix = expr.getPrefix();	
-		
-		String namespaceUri = null;
-		
+				
 		mValidator.runRules("functions",expr);	
 		
-		
-		// Standard XPath functions
-		if ( isEmpty( functionPrefix ) == false) {
-					
-			namespaceUri = mNamespaceContext.translateNamespacePrefixToUri(functionPrefix);
-			checkPrefix(functionPrefix,functionName);
-			
-			if (namespaceUri != null) {				
-				checkDeprecatedFunction(functionName,namespaceUri);
-			}
-		}
-					
-		// Try and get the function from the context.
-		
-		try {
-			mFunctionContext.getFunction(namespaceUri, functionPrefix, functionName );
-		} catch (UnresolvableException ure) {
-			
-			if (mValidator.duplicateThing("unresolved.function." + namespaceUri + ":" + functionName) == false ) {				
-				problem = mValidator.createError();
-				problem.fill("XPATH_UNRESOLVED_FUNCTION",  //$NON-NLS-1$
-						functionName,
-						ure.getMessage()
-				);
-			}
-		}
 
 		// TODO: Try to figure out what functions return. Most likely these would be
 		// node-sets, but the meta data could be more specific in telling us what type
@@ -355,7 +271,7 @@ public class XPathVisitor
 		// and we are being asked to do a name step on an axis that we don't support
 		// in static checking.
 		
-		if ( checkPrefix ( prefix , step.getLocalName() ) == false) {
+		if ( mValidator.checkPrefix ( prefix , step.getLocalName() ) == false) {
 			mContext.push(Collections.EMPTY_LIST);
 			return ;
 		}
@@ -368,39 +284,68 @@ public class XPathVisitor
 			// walk the step
 			INode context = (INode) last;
 			int axis = step.getAxis();
+
+			String nsURI = mValidator.lookupNamespace(prefix);
+			QName qname = new QName(nsURI,step.getLocalName(),prefix);
+			boolean notChecked = false;
 			
-			if (axis == Axis.CHILD || axis == Axis.ATTRIBUTE ) {
-			
-				String nsURI = mNamespaceContext.translateNamespacePrefixToUri(prefix);
-				QName qname = new QName(nsURI,step.getLocalName(),prefix);
-	
-				// attempt to "step" using the model's meta data.
-				INode result = null;
-				if (axis == Axis.ATTRIBUTE) {
-					result = mModelQuery.lookup (context,IModelQueryLookups.LOOKUP_NODE_NAME_STEP_ATTRIBUTE, qname);
-				} else {
+			INode result = null;
+			switch (axis) {
+				case Axis.CHILD :
 					result = mModelQuery.lookup (context,IModelQueryLookups.LOOKUP_NODE_NAME_STEP , qname );
-				}
+					break;
+				case Axis.ATTRIBUTE :
+					result = mModelQuery.lookup (context,IModelQueryLookups.LOOKUP_NODE_NAME_STEP_ATTRIBUTE, qname);
+					break;				
+				case Axis.PARENT :
+					result = mModelQuery.lookup(context, IModelQueryLookups.LOOKUP_NODE_NAME_STEP_PARENT, qname);
+					break;
+				case Axis.DESCENDANT :
+					result = mModelQuery.lookup(context, IModelQueryLookups.LOOKUP_NODE_NAME_STEP_DESCENDANT, qname);
+					break;
+				case Axis.DESCENDANT_OR_SELF :
+					result = mModelQuery.lookup(context, IModelQueryLookups.LOOKUP_NODE_NAME_STEP_DESCENDANT_OR_SELF, qname);
+					break;
+					
+				/** These are un-implemented */
+					
+				case Axis.ANCESTOR :
+				case Axis.ANCESTOR_OR_SELF :
+				case Axis.FOLLOWING :
+				case Axis.FOLLOWING_SIBLING :
+				case Axis.PRECEDING :
+				case Axis.PRECEDING_SIBLING :
+				case Axis.SELF :
+				case Axis.NAMESPACE :
+				case Axis.INVALID_AXIS :
+					notChecked = true;
+					break;				
+			}
+			
 				
-				if (result != null && result.isResolved()) {
-					mContext.push(result);
+			if (result != null && result.isResolved()) {
+				
+				mContext.push(result);
+				
+			} else {
+				
+				mContext.push(Collections.EMPTY_LIST);
+				if (notChecked) {
+					// information and ignore
+					problem = mValidator.createWarning();
+					problem.fill("XPATH_AXIS_NOT_CHECKED", //$NON-NLS-1$
+							step.getText()						
+					);
 				} else {
 					mContext.push(Collections.EMPTY_LIST);
 					// information and ignore
 					problem = mValidator.createError();
 					problem.fill("XPATH_NAME_STEP", //$NON-NLS-1$							
 							step.getText()
-					);
+						);
 				}
-			} else {
-				// information and ignore
-				problem = mValidator.createWarning();
-				problem.fill("XPATH_AXIS_NOT_CHECKED", //$NON-NLS-1$
-						step.getText()						
-				);
-				mContext.push(Collections.EMPTY_LIST);				
 			}
-
+			
 		} else {
 			
 			problem = mValidator.createError();
@@ -494,7 +439,7 @@ public class XPathVisitor
 		} else if (obj instanceof FunctionCallExpr) {
 			visit((FunctionCallExpr) obj);			
 		} else if (obj instanceof List) { 
-			visitList((List) obj);
+			visitList((List<?>) obj);
 		} else if (obj instanceof NameStep) {
 			visit((NameStep)obj);
 		} else if (obj instanceof ProcessingInstructionNodeStep) {
@@ -515,89 +460,7 @@ public class XPathVisitor
 	 * Private methods follow
 	 */
 	
-	
-	
-	/**
-	 * Check if the function is a boolean function.
-	 * @param functionExpr
-	 * @return true if a function is boolean, false otherwise.
-	 */
-	boolean isBooleanFunction(FunctionCallExpr functionExpr) {
-		
-		boolean isBoolean = false;
-		String functionName = functionExpr.getFunctionName();
-		String prefix = functionExpr.getPrefix();
-		
-		if ( isEmptyOrWhitespace(prefix) ) {
 			
-			// these are the function that always returns boolean value in XPath
-			// 1.0
-			// not(), true(), false(), boolean(), starts-with(), contains()
-			// 
-			
-			isBoolean = "not".equals(functionName)  //$NON-NLS-1$
-				|| "true".equals(functionName) //$NON-NLS-1$
-				|| "false".equals(functionName) //$NON-NLS-1$
-				|| "boolean".equals(functionName) //$NON-NLS-1$
-				|| "starts-with".equals(functionName) //$NON-NLS-1$
-				|| "getLinkStatus".equals(functionName) //$NON-NLS-1$
-				|| "contains".equals(functionName); //$NON-NLS-1$
-		} else {
-			
-			// TODO: The function meta ought to return a return type
-			String nsURI = mNamespaceContext.translateNamespacePrefixToUri( prefix );
-			IFunctionMeta meta = mModelQuery.lookupFunction( 
-												nsURI,
-												functionExpr.getFunctionName() );				
-			IProblem problem;
-			if (meta != null) {
-				//
-			}
-		}
-		return isBoolean;
-	}
-
-	
-	
-	void checkDeprecatedFunction(String functionName, String namespaceUri) {
-		
-		QName qname = new QName(namespaceUri, functionName);
-				
-		IFunctionMeta meta = mModelQuery.lookupFunction( qname.getNamespaceURI(),
-														qname.getLocalPart() );				
-		IProblem problem;
-		
-		if (meta != null && meta.isDeprecated()) {
-			problem = mValidator.createWarning();
-			problem.fill("XPATH_DEPRECATED_FUNCTION", //$NON-NLS-1$
-					qname,
-					meta.getDeprecateComment()
-			);
-		}
-	}
-	
-	
-	boolean checkPrefix ( String prefix, String name ) {
-		if (isEmptyOrWhitespace(prefix)) {
-			return true;
-		}
-		
-		// check to make sure it is resolved to something.
-		String nsURI = mNamespaceContext.translateNamespacePrefixToUri(prefix);
-		
-		if (isEmpty(nsURI)) {
-			IProblem problem = mValidator.createError();
-			problem.fill("XPATH_UNRESOLVED_NAMESPACE_PREFIX",   //$NON-NLS-1$
-					prefix,
-					name 
-				);
-		
-			return false;
-		}
-		
-		return true;
-	}
-		
 	protected Object contextPush ( Object obj ) {
 		return mContext.push( obj );
 	}

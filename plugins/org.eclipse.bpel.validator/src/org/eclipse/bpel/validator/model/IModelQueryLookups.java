@@ -67,11 +67,20 @@ public interface IModelQueryLookups {
 	/** type of part lookup */
 	final int LOOKUP_NODE_TYPE_OF_PART = 16;
 
-	/** Name steps are lookups in the location paths of an XML type */
+	/** Name steps in attribute axis lookup */
 	final int LOOKUP_NODE_NAME_STEP_ATTRIBUTE = 17;
 
+	/** Name steps in descendant axis lookup */
+	final int LOOKUP_NODE_NAME_STEP_DESCENDANT = 18;
 	
+	/** Name steps in descendant-or-self axis lookup */
+	final int LOOKUP_NODE_NAME_STEP_DESCENDANT_OR_SELF = 19;
 
+	/** Name steps in parent axis lookup */
+	final int LOOKUP_NODE_NAME_STEP_PARENT = 20;
+
+
+	
 	/** hasSupport() function call points */
 	
 	/** Ask about query language support */
