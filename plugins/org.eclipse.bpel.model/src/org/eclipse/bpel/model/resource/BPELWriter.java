@@ -106,6 +106,7 @@ import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.IBPELServicesProxy;
+import org.eclipse.bpel.model.reordering.IExtensibilityElementListHandler;
 import org.eclipse.bpel.model.reordering.extensions.ExtensionFactory;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELServicesUtility;
@@ -151,7 +152,7 @@ public class BPELWriter {
 	BPELResource fBPELResource = null;
 	private WsdlImportsManager wsdlNamespacePrefixManager;
 	private NamespacePrefixManager bpelNamespacePrefixManager;
-	private List extensibilityElementListHandlers = null;
+	private List<IExtensibilityElementListHandler> extensibilityElementListHandlers = null;
 	protected BPELPackage bpelPackage = null;
 	
 	private BPELExtensionRegistry extensionRegistry = BPELExtensionRegistry.getInstance();
@@ -409,7 +410,7 @@ public class BPELWriter {
 	 * 
 	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#doSave(OutputStream, Map)
 	 */
-	public void write(BPELResource resource, OutputStream out, Map args) throws IOException
+	public void write(BPELResource resource, OutputStream out, Map<?, ?> args) throws IOException
 	{
 		
 		try 
@@ -660,9 +661,9 @@ public class BPELWriter {
 	}
 	
 	protected void walkExternalReferences() {        
-		Map crossReferences = EcoreUtil.ExternalCrossReferencer.find( getResource() );
+		Map<?, ?> crossReferences = EcoreUtil.ExternalCrossReferencer.find( getResource() );
 
-        for (Iterator externalRefIt = crossReferences.keySet().iterator(); externalRefIt.hasNext(); ) {
+        for (Iterator<?> externalRefIt = crossReferences.keySet().iterator(); externalRefIt.hasNext(); ) {
 			EObject externalObject = (EObject)externalRefIt.next();
 			String namespace = getNamespace(externalObject);
 			if (XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(namespace)) {
@@ -699,7 +700,7 @@ public class BPELWriter {
 		} else if (object instanceof XSDNamedComponent) {
 			return ((XSDNamedComponent)object).getTargetNamespace();			
 		} else {
-			for(Iterator featureIt = object.eClass().getEAllAttributes().iterator(); featureIt.hasNext() && namespace == null; ) {
+			for(Iterator<?> featureIt = object.eClass().getEAllAttributes().iterator(); featureIt.hasNext() && namespace == null; ) {
 				EAttribute attr = (EAttribute)featureIt.next();
 				if (attr.getName().equals("qName")) {
 					QName qName = (QName) object.eGet(attr);
@@ -879,7 +880,7 @@ public class BPELWriter {
 	protected Element extensions2XML(Extensions extensions) {
 		Element extensionsElement = createBPELElement("extensions");
 
-		Iterator it = extensions.getChildren().iterator();
+		Iterator<?> it = extensions.getChildren().iterator();
 		while (it.hasNext()) {
 			Extension extension = (Extension)it.next();
 			extensionsElement.appendChild(extension2XML(extension));			
@@ -910,7 +911,7 @@ public class BPELWriter {
 	protected Element correlationSets2XML(CorrelationSets correlationSets) {
 		Element correlationSetsElement = createBPELElement("correlationSets");
 
-		Iterator it = correlationSets.getChildren().iterator();
+		Iterator<?> it = correlationSets.getChildren().iterator();
 		while (it.hasNext()) {
 			CorrelationSet correlationSet = (CorrelationSet)it.next();
 			correlationSetsElement.appendChild(correlationSet2XML(correlationSet));			
@@ -929,7 +930,7 @@ public class BPELWriter {
 			correlationSetElement.setAttribute("name", correlationSet.getName());
 		}
 		StringBuffer propertiesList = new StringBuffer();
-		Iterator properties = correlationSet.getProperties().iterator();
+		Iterator<?> properties = correlationSet.getProperties().iterator();
 		while (properties.hasNext()) {
 			Property property = (Property)properties.next();
 			String qnameStr = bpelNamespacePrefixManager.qNameToString(correlationSet, getQName(property));
@@ -949,7 +950,7 @@ public class BPELWriter {
 	protected Element messageExchanges2XML(MessageExchanges messageExchanges) {
 		Element messageExchangesElement = createBPELElement("messageExchanges");
 		
-		Iterator it = messageExchanges.getChildren().iterator();
+		Iterator<?> it = messageExchanges.getChildren().iterator();
 		while (it.hasNext()) {
 			MessageExchange messageExchange = (MessageExchange) it.next();
 			messageExchangesElement.appendChild(messageExchange2XML(messageExchange));
@@ -978,7 +979,7 @@ public class BPELWriter {
 	protected Element correlations2XML(Correlations correlations) {
 		Element correlationsElement = createBPELElement("correlations");
 		
-		Iterator it = correlations.getChildren().iterator();
+		Iterator<?> it = correlations.getChildren().iterator();
 		while (it.hasNext()) {		
 			Correlation correlation = (Correlation)it.next();
 			correlationsElement.appendChild(correlation2XML(correlation));
@@ -1021,7 +1022,7 @@ public class BPELWriter {
 	}
 
 	protected void faultHandler2XML(Element parentElement, FaultHandler faultHandler) {
-		Iterator catches = faultHandler.getCatch().iterator();
+		Iterator<?> catches = faultHandler.getCatch().iterator();
 		while (catches.hasNext()) {
 			Catch _catch = (Catch)catches.next();
 			parentElement.appendChild(catch2XML(_catch));
@@ -1065,11 +1066,11 @@ public class BPELWriter {
 		
 		// TODO: For backwards compatibility with 1.1 we should serialize
 		// OnMessages here.
-		for (Iterator it = eventHandler.getEvents().iterator(); it.hasNext(); ) {
+		for (Iterator<?> it = eventHandler.getEvents().iterator(); it.hasNext(); ) {
 			OnEvent onEvent = (OnEvent)it.next();			
 			eventHandlerElement.appendChild(onEvent2XML(onEvent));			
 		}
-		for (Iterator it = eventHandler.getAlarm().iterator(); it.hasNext(); ) {
+		for (Iterator<?> it = eventHandler.getAlarm().iterator(); it.hasNext(); ) {
 			OnAlarm onAlarm = (OnAlarm)it.next();			
 			eventHandlerElement.appendChild(onAlarm2XML(onAlarm));			
 		}
@@ -1351,7 +1352,7 @@ public class BPELWriter {
 		if (activity.getCompensationHandler() != null)
 			activityElement.appendChild(compensationHandler2XML(activity.getCompensationHandler()));
 		
-		Iterator it = activity.getFromPart().iterator();
+		Iterator<?> it = activity.getFromPart().iterator();
 		while (it.hasNext()) {
 			FromPart fromPart = (FromPart)it.next();
 			activityElement.appendChild(fromPart2XML(fromPart));
@@ -2125,10 +2126,10 @@ public class BPELWriter {
 		
 		// Get the extensibility elements and if the platform is running try to order them.
 		// If the platform is not running just serialize the elements in the order they appear.
-		List extensibilityElements;
+		List<org.eclipse.wst.wsdl.ExtensibleElement> extensibilityElements;
 		if (Platform.isRunning()) {
 			if (extensibilityElementListHandlers == null) {
-				extensibilityElementListHandlers = ExtensionFactory.instance().createHandlers(ExtensionFactory.ID_EXTENSION_REORDERING); 
+				extensibilityElementListHandlers = ExtensionFactory.INSTANCE.createHandlers(ExtensionFactory.ID_EXTENSION_REORDERING); 
 			}
 			extensibilityElements = BPELUtils.reorderExtensibilityList(extensibilityElementListHandlers,extensibleElement);			
 		} else {
@@ -2136,7 +2137,7 @@ public class BPELWriter {
 		}
 		
 		// Loop through the extensibility elements
-		for (Iterator i=extensibilityElements.iterator(); i.hasNext(); ) {
+		for (Iterator<?> i=extensibilityElements.iterator(); i.hasNext(); ) {
 			ExtensibilityElement extensibilityElement=(ExtensibilityElement)i.next();
 			
 			// Lookup a serializer for the extensibility element

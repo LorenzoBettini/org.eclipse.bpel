@@ -12,6 +12,7 @@ package org.eclipse.bpel.model.util;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +42,7 @@ import org.eclipse.bpel.model.proxy.PortTypeProxy;
 import org.eclipse.bpel.model.reordering.IExtensibilityElementListHandler;
 import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.bpel.names.NCNameWordDetector;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -307,10 +308,10 @@ public class BPELUtils {
 	 * @param parent
 	 * @return the reordered list.
 	 */
-	@SuppressWarnings("unchecked")
-	public static List reorderExtensibilityList(List extensibilityElementListHandlers, ExtensibleElement parent){
+	
+	public static List<ExtensibleElement> reorderExtensibilityList(List<IExtensibilityElementListHandler> extensibilityElementListHandlers, ExtensibleElement parent){
 		
-		List tempExtensibilityElementList = new BasicEList();
+		List<ExtensibleElement> tempExtensibilityElementList = new ArrayList<ExtensibleElement>();
 		tempExtensibilityElementList.addAll(parent.getExtensibilityElements());
 		
 		if(extensibilityElementListHandlers.isEmpty() ||
@@ -318,13 +319,11 @@ public class BPELUtils {
 			parent.getExtensibilityElements().size() <= 1) 
 			return tempExtensibilityElementList;
 		
-		for (Iterator iter = extensibilityElementListHandlers.iterator(); iter.hasNext();) {
-			IExtensibilityElementListHandler element = (IExtensibilityElementListHandler) iter.next();
+		for (IExtensibilityElementListHandler element : extensibilityElementListHandlers) {
 			element.orderList(parent, tempExtensibilityElementList);			
 		}
 		
-		return tempExtensibilityElementList;
-		
+		return tempExtensibilityElementList;		
 	}		
 		
 	
@@ -434,11 +433,10 @@ public class BPELUtils {
 				
 			
 			if (partnerLinks != null) {
-				Iterator<?> it = partnerLinks.getChildren().iterator();
-				while (it.hasNext()) {
-					PartnerLink pl = (PartnerLink)it.next();
-					if (pl.getName().equals(partnerLinkName))
+				for(PartnerLink pl : partnerLinks.getChildren()) {
+					if (pl.getName().equals(partnerLinkName)) {
 						return pl;
+					}
 				}
 			}
 			
@@ -461,18 +459,19 @@ public class BPELUtils {
 		
 		while (container != null) {
 			CorrelationSets correlationSets = null;
-			if (container instanceof Process) 
+			if (container instanceof Process) { 
 				correlationSets = ((Process)container).getCorrelationSets();
-			else if (container instanceof Scope)
+			} else if (container instanceof Scope) {
 				correlationSets = ((Scope)container).getCorrelationSets();
-			else if (container instanceof OnEvent)
+			} else if (container instanceof OnEvent) {
 				correlationSets = ((OnEvent)container).getCorrelationSets();
+			}
 			
 			if (correlationSets != null) {
-				for (Iterator<?> it = correlationSets.getChildren().iterator(); it.hasNext(); ) {
-					CorrelationSet correlationSet = (CorrelationSet)it.next();
-					if (correlationSet.getName().equals(correlationSetName))
+				for(CorrelationSet correlationSet : correlationSets.getChildren()) {
+					if (correlationSet.getName().equals(correlationSetName)) {
 						return correlationSet;
+					}
 				}
 			}
 			container = container.eContainer();
@@ -719,7 +718,8 @@ public class BPELUtils {
    {
        if( value == null || value.length() == 0) {
            return true;
-       }               
+       }
+     
        for( int i = 0, j = value.length(); i < j; i++ )
        {
            if( ! Character.isWhitespace( value.charAt(i) ) ) {
@@ -728,6 +728,31 @@ public class BPELUtils {
        }
        return true;
    }
+
+   
+
+   static NCNameWordDetector NCNAME_DETECTOR = new NCNameWordDetector();
+   
+	/**
+	 * Checks for a valid prefix name.
+	 * @param pfx
+	 * @return true if valid, false if not.
+	 */
+   
+	public static boolean isValidPrefixName (String pfx) {
+		
+		if (pfx == null) {
+			return false;
+		}
+		
+		if (NCNAME_DETECTOR.isValid(pfx) == false) {
+			return false;
+		}
+		
+		/** Must not start with (x|X)(m|M)(l|L) */
+		
+		return true;
+	}
    
 	
 }

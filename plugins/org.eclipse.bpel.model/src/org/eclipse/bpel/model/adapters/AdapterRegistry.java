@@ -64,16 +64,38 @@ public class AdapterRegistry {
 	public void registerAdapterFactory (EClass key, AdapterFactory factory) {
 		registerFactory (key,factory);
 	}
-	
+
 	/**
 	 * Register adapter factory for the given EPackage.
 	 * 
-	 * @param _package
+	 * @param key
 	 * @param factory
 	 */
 	
-	public void registerAdapterFactory (EPackage _package , AdapterFactory factory) {
-		registerFactory (_package,factory);
+	public void registerAdapterFactory (EPackage key, AdapterFactory factory) {
+		registerFactory (key,factory);
+	}
+
+	
+	
+	/**
+	 * Unregister adapter factory for the given object (EClass)
+	 * @param key
+	 * @param factory
+	 */
+	
+	public void unregisterAdapterFactory (EClass key, AdapterFactory factory) {
+		unregisterFactory (key,factory);
+	}
+
+	/**
+	 * Unregister adapter factory for the given object (EPackage)
+	 * @param key
+	 * @param factory
+	 */
+	
+	public void unregisterAdapterFactory (EPackage key, AdapterFactory factory) {
+		unregisterFactory (key,factory);
 	}
 
 	
@@ -88,8 +110,21 @@ public class AdapterRegistry {
 		if (list == null) {
 			list = new ArrayList<AdapterFactory>( );
 			fKeyToAdapterFactory.put( key, list );
+			list.add (factory);
+		} else {
+			if (list.contains(factory) == false) {
+				list.add (factory);
+			}
 		}
-		list.add (factory);
+	}
+	
+	synchronized void unregisterFactory (Object key, AdapterFactory factory) {
+		List<AdapterFactory> list = fKeyToAdapterFactory.get(key);
+		
+		if (list == null) {
+			return ;
+		}
+		list.remove(factory);		
 	}
 	
 	
@@ -119,8 +154,22 @@ public class AdapterRegistry {
 		
 	
 	public <T extends Object> T adapt ( Object target,  Class<T> clazz) {
-		
-		
+		return adapt (target,clazz,true);
+	}
+	
+
+	/**
+	 * 
+	 * @param <T>
+	 * @param target
+	 * @param clazz
+	 * @param checkWSAdapters Check the Workspace adapters as well.
+	 * 
+	 * @return the adapted interface or object
+	 */
+
+	public <T extends Object> T adapt ( Object target,  Class<T> clazz, boolean checkWSAdapters ) {
+	
 		if (target == null) {
 			return null;
 		}
@@ -156,12 +205,15 @@ public class AdapterRegistry {
 				}					   
 			}
 		}
-		
-		// otherwise, the object we are adapting is not an EObject, try any other adapters.		
-		adapter = Platform.getAdapterManager().getAdapter(target, clazz);
-		if (adapter != null && clazz.isInstance(adapter)) {
-			return clazz.cast(adapter);
+				
+		if (checkWSAdapters) {
+			// otherwise, the object we are adapting is not an EObject, try any other adapters.		
+			adapter = Platform.getAdapterManager().getAdapter(target, clazz);
+			if (adapter != null && clazz.isInstance(adapter)) {
+				return clazz.cast(adapter);
+			}
 		}
+		
 	    return null;
 	}
 	
