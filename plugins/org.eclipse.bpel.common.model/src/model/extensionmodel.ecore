@@ -11,9 +11,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Extension">
     <eStructuralFeatures xsi:type="ecore:EReference" name="extendedObject" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EObject"/>
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extensionObject" lowerBound="1"
-        eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EObject"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
         containment="true"/>
   </eClassifiers>
 </ecore:EPackage>
