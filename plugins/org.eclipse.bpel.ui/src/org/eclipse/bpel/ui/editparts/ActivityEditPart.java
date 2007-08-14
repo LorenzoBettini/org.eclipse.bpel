@@ -71,24 +71,10 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 		if (sources != null) {
 			adapter.addToObject(sources);
 			for (Iterator it = sources.getChildren().iterator(); it.hasNext(); ) {
-				Source source = (Source)it.next();
-				// also include the link, if there is one (since we indirectly
-				// control the activation of the LinkEditPart)
-				if (source.getLink() != null) adapter.addToObject(source.getLink());
-
-				// Okay--the real problem here, is that the Activity might be
-				// referred to by a Source object, but the Activity is not going
-				// to find out about the creation of a new Sources that references
-				// it.  Therefore, our model listeners don't know what to do!
-				
-				// TODO: temporarily hacked around in FlowEditPart.FlowContentAdapter.
-				
-				// TODO: also include any parent flows, and the Links object of
-				// any parent flows that have one.  !
-				// TODO: in future, use a global listener to handle refreshing the
-				// correct source editpart.
+				adapter.addToObject((Source)it.next());
 			}
 		}
+
 		Targets targets = getActivity().getTargets();
 		if (targets != null) {
 			adapter.addToObject(targets);
