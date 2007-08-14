@@ -18,6 +18,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -36,7 +37,7 @@ public class PickValidator extends CActivityValidator {
 	protected int fOnAlarms = 0;
 	
 	
-	static IFilter<INode> CHILDREN = new Filters.NodeNameFilter(
+	static IFilter<INode> CHILDREN = new NodeNameFilter(
 			ND_ON_ALARM, ND_ON_MESSAGE 
 	);
 	
@@ -67,7 +68,7 @@ public class PickValidator extends CActivityValidator {
 	
 	public void rule_CheckCreateInstanceSet_1 () {
 		
-		fCreateInstance = mChecks.getAttribute(mNode, 
+		fCreateInstance = getAttribute(mNode, 
 				AT_CREATE_INSTANCE, 
 				KIND_ACTIVITY, 
 				Filters.BOOLEAN_FILTER, 
@@ -100,7 +101,7 @@ public class PickValidator extends CActivityValidator {
 		if (count == 0) {
 			problem = createError();
 			problem.fill("BPELC__AT_LEAST_ONE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					KIND_ACTIVITY,
 					CHILDREN,
 					KIND_NODE );
@@ -125,7 +126,7 @@ public class PickValidator extends CActivityValidator {
 		if (YES.equals(fCreateInstance) && fOnAlarms > 0) {
 			problem = createError();
 			problem.fill("BPELC_PICK__ON_ALARM",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				AT_CREATE_INSTANCE,
 				fCreateInstance );
 		}

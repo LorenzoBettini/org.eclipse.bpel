@@ -12,6 +12,8 @@ package org.eclipse.bpel.validator.rules;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 
 import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
@@ -19,6 +21,8 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
+import org.eclipse.bpel.validator.model.ValueFilter;
 
 /**
  * Dependency on the BPEL validation model only in here.
@@ -71,7 +75,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	private INode fVariableType;
 		
 	/** The parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_EVENT_HANDLERS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_EVENT_HANDLERS );
 		
 	
 	/** (non-Javadoc)
@@ -91,7 +95,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	 */
 	
 	@Override
-	public void start () {		
+	protected void start () {		
 		super.start();
 		
 		fAssociatedScope = mSelector.selectNode(mNode, ND_SCOPE);
@@ -148,7 +152,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	
 	
 
-	static IFilter<String> TYPE_DEFS = new Filters.ValueFilter( AT_MESSAGE_TYPE, AT_ELEMENT);
+	static IFilter<QName> TYPE_DEFS = new ValueFilter<QName>( AT_MESSAGE_TYPE, AT_ELEMENT);
 	
 	
 	/**
@@ -165,7 +169,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	
 	public void rule_LookupVariable_5 () {
 		
-		fVariableName = mChecks.getAttribute(mNode, AT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, false);
+		fVariableName = getAttribute(mNode, AT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, false);
 			
 		IProblem problem;
 		
@@ -185,7 +189,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 				
 				problem = createError();
 				problem.fill("BPELC__AT_LEAST_ONE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_ACTIVITY,
 						TYPE_DEFS,
 						KIND_ATTRIBUTE
@@ -200,7 +204,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 				
 				problem = createError();
 				problem.fill("BPELC__AT_MOST_ONE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_ACTIVITY,
 						TYPE_DEFS,
 						KIND_ATTRIBUTE
@@ -212,7 +216,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 				// element is specified
 				fVariableType = mModelQuery.lookup(mNode, 
 						IModelQueryLookups.LOOKUP_NODE_XSD_ELEMENT,elmDecl);
-				mChecks.checkAttributeNode(mNode, fVariableType, AT_ELEMENT, KIND_ACTIVITY);
+				checkAttributeNode(mNode, fVariableType, AT_ELEMENT, KIND_ACTIVITY);
 				
 			} 
 			
@@ -220,7 +224,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 				// message type is specified
 				fVariableType = mModelQuery.lookup(mNode, 
 						IModelQueryLookups.LOOKUP_NODE_MESSAGE_TYPE,msgType);
-				mChecks.checkAttributeNode(mNode, fVariableType, AT_MESSAGE_TYPE, KIND_ACTIVITY);
+				checkAttributeNode(mNode, fVariableType, AT_MESSAGE_TYPE, KIND_ACTIVITY);
 			}
 
 		
@@ -230,7 +234,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 			if (!bMsgTypeEmpty || !bElmDeclEmpty) {
 				problem = createError();
 				problem.fill("BPELC__SPECIFY_NONE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_NODE,
 						TYPE_DEFS,
 						KIND_ATTRIBUTE);
@@ -307,7 +311,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 				
 			problem = createError( );
 			problem.fill( "BPELC_PA__MESSAGE_TYPE_MISMATCH",  //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_VARIABLE,
 					fVariableName,
 					fInputMessage,
@@ -344,7 +348,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		if (fFromParts.size() > 0 && !bNoVariable)  {			
 			problem = createError();
 			problem.fill("BPELC__PA_PARTS",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ND_FROM_PART,
 					AT_VARIABLE,
 					KIND_ACTIVITY);			
@@ -354,7 +358,7 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		if (fFromParts.size() == 0 && bNoVariable) {
 			problem = createError();
 			problem.fill("BPELC__PA_PARTS",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ND_FROM_PART,
 					AT_VARIABLE,
 					KIND_ACTIVITY);

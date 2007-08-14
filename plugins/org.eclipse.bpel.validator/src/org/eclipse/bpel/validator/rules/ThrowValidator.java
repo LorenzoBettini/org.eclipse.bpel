@@ -41,7 +41,7 @@ public class ThrowValidator extends CActivityValidator {
 	 * 
 	 */
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 			
 		fFaultVariable = mModelQuery.lookup(mNode, 
@@ -92,7 +92,7 @@ public class ThrowValidator extends CActivityValidator {
 			
 			problem = createWarning();
 			problem.fill("BPELC_REF_NODE_PROBLEMS", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ND_VARIABLE,
 					AT_FAULT_VARIABLE,
 					KIND_ACTIVITY );

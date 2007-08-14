@@ -62,7 +62,7 @@ public interface INode {
 	 * @return the string value of the attribute node.
 	 */
 	
-	public String getAttribute( String name );
+	public String getAttribute( QName name );
 	
 	
 	/**
@@ -73,7 +73,7 @@ public interface INode {
 	 * @return the QName value of the attribute.
 	 */
 	
-	public QName getAttributeAsQName ( String name );
+	public QName getAttributeAsQName ( QName name );
 	
 	/** 
 	 * Return an INode facade to the attribute node. Note that 
@@ -96,7 +96,7 @@ public interface INode {
 	 * @return the INode facade to the given node or null if not set.
 	 */
 	
-	public INode getNode ( String name ) ;
+	public INode getNode ( QName name ) ;
 	
 	
 	/**
@@ -110,7 +110,7 @@ public interface INode {
 	 * @return a list of such nodes.
 	 */
 	
-	public List<INode> getNodeList ( String name ) ;
+	public List<INode> getNodeList ( QName name ) ;
 	
 	/**
 	 * Return the node name of this node. This is used to understand and
@@ -119,7 +119,8 @@ public interface INode {
 	 * 
 	 * @return the mode node name
 	 */
-	public String nodeName ();
+	
+	public QName nodeName ();
 	
 	
 	/**

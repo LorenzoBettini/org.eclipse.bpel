@@ -17,7 +17,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
-import org.eclipse.bpel.validator.model.Filters.NodeNameFilter;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * Event handlers.
@@ -70,7 +70,7 @@ public class EventHandlersValidator extends CValidator {
 		if (count < 1) {
 			problem = createError();
 			problem.fill("BPELC__AT_LEAST_ONE",
-					mNode.nodeName() ,
+					toString(mNode.nodeName()) ,
 					KIND_NODE,
 					EVENTS,
 					KIND_NODE);					

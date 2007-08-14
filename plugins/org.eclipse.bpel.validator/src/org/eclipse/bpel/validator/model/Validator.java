@@ -18,9 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.namespace.QName;
 
 /**
  * BPEL Validation model dependency 
@@ -103,9 +104,9 @@ import org.eclipse.bpel.validator.model.Rules.Rule;
 public class Validator implements IConstants {
 	
 	Logger mLogger = Logger.getLogger( getClass().getName() );
-		
-	/** The rules which this class exposes to be run */
-	Rules mRules;
+	
+	/** The runner which will run our rules */
+	RuleRunner mRuleRunner;
 	
 	/** Problems produced by these rules */	
 	List<IProblem> mProblems = new ArrayList<IProblem>(4);
@@ -118,24 +119,13 @@ public class Validator implements IConstants {
 	
 	/** Answer interesting things about the model */
 	protected IModelQuery mModelQuery;
-	
-	/** Currently executing rules ... */
-	Stack<Rule> mRuleStack = new Stack<Rule>();	
-	
-	Rule mCurrentRule = null;
-	
-	/** Tells us which rules to skip */
-	List<IFilter> mRuleFilter = new ArrayList<IFilter>(4) ;
 		
-	/** The delegated and common checks are placed in this helper class */
-	protected CoreChecks mChecks = null;
-
 	/** a list of state information that any validator can keep */
-	final Map<String,Object> mData = new HashMap<String,Object>(11);	
+	final Map<Object,Object> mData = new HashMap<Object,Object>(5);	
 	
 	/** The selector that can be used to query the INode facade */
-	static protected Selector mSelector = Selector.getInstance();
-	
+	static protected Selector mSelector = new Selector();
+		
 	/** Pass 1 tag for rules */
 	static public final String PASS1 = "pass1";
 	
@@ -148,6 +138,8 @@ public class Validator implements IConstants {
 	
 	/** A set denoting the list of Static Analysis checks actually done */
 	Set<ARule> mSAChecks = null;
+
+	
 	
 	
 	/**
@@ -158,8 +150,7 @@ public class Validator implements IConstants {
 	 */
 	
 	protected Validator () {
-		mRules = Rules.getRules ( getClass() );		
-		mChecks = new CoreChecks(this);
+		mRuleRunner = new RuleRunner ( this );
 	}
 	
 
@@ -325,45 +316,6 @@ public class Validator implements IConstants {
 	}
 		
 	
-	/**
-	 * Called just before rules are run on this class.
-	 * 
-	 * @param nextRule the next rule which will be run
-	 * @return true if the nextRule can be run, false otherwise.
-	 */
-		
-	boolean startRule ( Rule nextRule ) {
-						
-		if (mRuleFilter.size() > 0) {
-			for(IFilter f: mRuleFilter) {
-				if (f.select(nextRule)) {
-					return false;
-				}
-			}			
-		}
-		mRuleStack.push(nextRule);
-		mCurrentRule = nextRule;
-		return true;
-	}
-	
-	
-	/**
-	 * 
-	 * @param nextRule
-	 */
-	void endRule ( Rule nextRule ) {
-		mCurrentRule = null;
-		
-		if (mRuleStack.empty() == false) {
-			mRuleStack.pop();						
-		}
-		
-		if (mRuleStack.empty() == false) {
-			mCurrentRule = mRuleStack.peek();
-		}		
-	}
-	
-	
 	
 	/**
 	 * Disable all rules.
@@ -379,7 +331,7 @@ public class Validator implements IConstants {
 	 */
 	
 	protected void disableRules (int startIdx, int endIdx ) {
-		mRuleFilter.add( new Rules.IndexFilter ( startIdx,endIdx) );
+		mRuleRunner.addFilter ( new Rules.IndexFilter ( startIdx,endIdx)  );		
 	}
 	
 	
@@ -389,7 +341,7 @@ public class Validator implements IConstants {
 	
 	protected void start () {				
 		
-		mRuleFilter.clear();
+		mRuleRunner.start();		
 		mProblems.clear();
 		mData.clear();
 		
@@ -423,7 +375,7 @@ public class Validator implements IConstants {
 	 */
 	
 	protected void runRules ( String tag, Object ... args ) {
-		mRules.runRules(this, tag, args);
+		mRuleRunner.runRules (tag,args);		
 	}
 	
 	
@@ -450,7 +402,7 @@ public class Validator implements IConstants {
 		}
 						
 		problem.fill("BPELC__INTERNAL",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				rule.getFullName(),
 				rule.getIndex(),
 				rule.getTag(),
@@ -477,7 +429,7 @@ public class Validator implements IConstants {
 			return ;
 		}
 		if (arule == null) {
-			arule = mCurrentRule.method.getAnnotation( ARule.class );
+			arule = mRuleRunner.getExecutingRule().method.getAnnotation( ARule.class );
 		}
 		if (arule != null) {
 			mSAChecks.add(arule);	
@@ -537,11 +489,13 @@ public class Validator implements IConstants {
 		IProblem problem = new Problem ( this );			
 		adopt (problem, node);				
 		
-		if (mCurrentRule != null) {
+		Rule r = mRuleRunner.getExecutingRule();
+		
+		if (r != null) {
 			
-			problem.setAttribute(IProblem.RULE, mCurrentRule.getFullName() );
+			problem.setAttribute(IProblem.RULE, r.getFullName() );
 			
-			ARule a = mCurrentRule.method.getAnnotation( ARule.class );
+			ARule a = r.method.getAnnotation( ARule.class );
 			
 			if (a != null) {
 				
@@ -699,7 +653,7 @@ public class Validator implements IConstants {
 	 * @return the value
 	 */
 	
-	public <T extends Object> T getValue ( String key ) {
+	public <T extends Object> T getValue ( Object key ) {
 		return getValue( mData, key , null );
 	}
 
@@ -711,7 +665,7 @@ public class Validator implements IConstants {
 	 * @return the value
 	 */
 	
-	public <T extends Object> T getValue ( String key, T def ) {
+	public <T extends Object> T getValue ( Object key, T def ) {
 		return getValue( mData, key , def );
 	}
 	
@@ -722,25 +676,25 @@ public class Validator implements IConstants {
 	 * 
 	 * @param <T>  
 	 * @param node the reference node
-	 * @param keyName the key name
+	 * @param key the key name
 	 * @param def the default value
 	 * @return the object stored or the default value passed
 	 */
 	
-	public <T extends Object> T getValue ( INode node, String keyName, T def ) {		
+	public <T extends Object> T getValue ( INode node, Object key, T def ) {		
 		Validator validator = validatorForNode(node);
 		if (validator != null) {
-			return getValue(validator.mData,keyName,def);
+			return getValue(validator.mData,key,def);
 		}
 		return def;		
 	}
 
 	
 	
-	<T extends Object> T getValue ( Map<String,Object> data, String keyName, T def ) {
+	<T extends Object> T getValue ( Map<Object,Object> data, Object key, T def ) {
 		
-		if (data.containsKey(keyName)) {			
-			Object obj = data.get(keyName);			
+		if (data.containsKey(key)) {			
+			Object obj = data.get(key);			
 			if (obj instanceof IValue) {
 				return (T) ((IValue)obj).get();
 			}
@@ -748,7 +702,7 @@ public class Validator implements IConstants {
 		}
 		
 		if (fPrev != null) {
-			return fPrev.getValue (fPrev.mData, keyName,def);
+			return fPrev.getValue (fPrev.mData, key,def);
 		}
 		return def;
 	}
@@ -760,7 +714,7 @@ public class Validator implements IConstants {
 	 * @return the previous value under the key
 	 */
 	
-	public <T extends Object> T  setValue ( String keyName, T value) {
+	public <T extends Object> T  setValue ( Object keyName, T value) {
 		return (T) mData.put(keyName, value);
 	}
 	
@@ -772,7 +726,7 @@ public class Validator implements IConstants {
 	 * @return the previous value held under that key or null
 	 */
 	
-	public <T extends Object> T setValue ( INode node, String keyName, T value) {
+	public <T extends Object> T setValue ( INode node, Object keyName, T value) {
 		
 		Validator validator = validatorForNode(node);
 		if (validator != null) {
@@ -820,6 +774,29 @@ public class Validator implements IConstants {
 	}
 	
 	
+	protected String toString (QName qname) {
+		
+		/** No namespace, just return the local part, sans the {} */
+		if (isEmptyOrWhitespace(qname.getNamespaceURI())) {
+			return qname.getLocalPart();
+		}
+		
+		/** Lookup the prefix in the model query for the context node */
+		StringBuilder sb = new StringBuilder(32);
+		String prefix = qname.getPrefix();
+		
+		if (isEmptyOrWhitespace(prefix)) {
+			prefix = mModelQuery.lookup(mNode, IModelQueryLookups.LOOKUP_TEXT_NS2PREFIX, qname.getNamespaceURI(), null );					
+		}
+		/** No prefix, then exit with the default QName */
+		if (prefix == null) {
+			return qname.toString();
+		}
+		return sb.append(prefix).append(":").append(qname.getLocalPart()).toString();		
+	}
+	
+	
+
 	/**
      * Returns true if the string is either null or contains just whitespace.
 	 * @param value 

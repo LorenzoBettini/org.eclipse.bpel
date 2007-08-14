@@ -47,7 +47,7 @@ public class ImportValidator extends CValidator {
 	 * Start the validation of this node.
 	 */
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 		fLocation = mNode.getAttribute( AT_LOCATION );
@@ -68,7 +68,7 @@ public class ImportValidator extends CValidator {
 		if (isEmptyOrWhitespace(fImportType)) {
 			problem = createError();	
 			problem.fill("BPELC__UNSET_ATTRIBUTE", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_IMPORT_TYPE,					
 					KIND_NODE);
 			
@@ -126,7 +126,7 @@ public class ImportValidator extends CValidator {
 			problem.fill( "BPELC_IMPORT__IMPORT_TYPE", //$NON-NLS-1$
 				fImportType,
 				AT_IMPORT_TYPE,
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				KIND_NODE );
 			
 		}
@@ -170,7 +170,7 @@ public class ImportValidator extends CValidator {
 			if (fNamespace.equals( targetNS ) == false) {
 				problem = createError();
 				problem.fill("BPELC_IMPORT__NS1",  //$NON-NLS-1$
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fNamespace,
 						targetNS);			
 			}
@@ -196,7 +196,7 @@ public class ImportValidator extends CValidator {
 			
 			problem = createWarning();
 			problem.fill("BPELC_IMPORT__UNRESOVED",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fImportType,
 					fLocation );
 	}		
@@ -229,7 +229,7 @@ public class ImportValidator extends CValidator {
 			if (isEmpty(targetNS) == false) {
 				problem = createError();
 				problem.fill("BPELC_IMPORT__NS2",  //$NON-NLS-1$
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fNamespace,
 						targetNS);
 			}

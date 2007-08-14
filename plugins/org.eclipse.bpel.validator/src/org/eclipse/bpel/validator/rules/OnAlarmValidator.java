@@ -18,6 +18,7 @@ import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -38,7 +39,7 @@ public class OnAlarmValidator extends CValidator {
 	protected boolean fIsEventHandler = false;
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter(
+	static public IFilter<INode> PARENTS = new NodeNameFilter(
 			ND_PICK, ND_EVENT_HANDLERS
 	);
 	
@@ -47,10 +48,10 @@ public class OnAlarmValidator extends CValidator {
 	 * Start the validation of this node.
 	 */
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
-		forExpr = mNode.getNode( AT_FOR );
-		untilExpr = mNode.getNode( AT_UNTIL );	
+		forExpr = mNode.getNode( ND_FOR );
+		untilExpr = mNode.getNode( ND_UNTIL );	
 		
 		fIsEventHandler = fParentNode.nodeName().equals(ND_EVENT_HANDLERS);						
 	}
@@ -85,7 +86,7 @@ public class OnAlarmValidator extends CValidator {
 			problem = createError();
 			problem.fill( 
 					"BPELC_EMPTY_EXPIRATION_SETTING", //$NON-NLS-1$
-					mNode.nodeName() );
+					toString(mNode.nodeName()) );
 		} 
 		
 		
@@ -94,7 +95,7 @@ public class OnAlarmValidator extends CValidator {
 			problem = createError();
 			problem.fill( 
 					"BPELC_MULTIPLE_EXPIRATION_SETTING", //$NON-NLS-1$
-					mNode.nodeName() );
+					toString(mNode.nodeName()) );
 		}		
 	}
 	

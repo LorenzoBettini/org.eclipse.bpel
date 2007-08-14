@@ -13,6 +13,8 @@ package org.eclipse.bpel.validator.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
@@ -59,7 +61,7 @@ public class CActivityValidator extends CValidator {
 	 * Start the validation of this node.
 	 */
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 		ncName = mNode.getAttribute( AT_NAME );	
@@ -82,7 +84,7 @@ public class CActivityValidator extends CValidator {
 	)	
 	
 	public void rule_CheckName_1 () {					
-		mChecks.checkNCName(mNode, ncName, AT_NAME );
+		checkNCName(mNode, ncName, AT_NAME );
 	}
 	
 	/**
@@ -101,7 +103,7 @@ public class CActivityValidator extends CValidator {
 	
 	public void rule_CheckSuppressJoinFailure_1 () {
 		
-		fSuppressJoinFailre = mChecks.getAttribute(mNode, 
+		fSuppressJoinFailre = getAttribute(mNode, 
 				AT_SUPPRESS_JOIN_FAILURE, 
 				KIND_ACTIVITY, 
 				Filters.BOOLEAN_FILTER, 
@@ -145,7 +147,7 @@ public class CActivityValidator extends CValidator {
 		
 		while (parent != null) {
 		
-			String pnn = parent.nodeName();
+			QName pnn = parent.nodeName();
 			
 			if (ND_FLOW.equals( pnn )) {
 				// OK
@@ -165,7 +167,7 @@ public class CActivityValidator extends CValidator {
 					if (index != 1) {
 						problem = createError();
 						problem.fill("BPELC__START_ACTIVITY", 
-								mNode.nodeName(),
+								toString(mNode.nodeName()),
 								index
 						);									
 					}
@@ -176,7 +178,7 @@ public class CActivityValidator extends CValidator {
 			} else {
 				problem = createError();
 				problem.fill("BPELC__START_ACTIVITY", 
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						-1
 				);							
 						

@@ -13,6 +13,7 @@ package org.eclipse.bpel.validator.rules;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -23,7 +24,7 @@ public class BranchesValidator extends ConditionValidator {
 	
 	/** Parent node names */	
 	@SuppressWarnings("hiding")
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter ( ND_COMPLETION_CONDITION );
+	static public IFilter<INode> PARENTS = new NodeNameFilter ( ND_COMPLETION_CONDITION );
 	
 	protected String fSuccessfulBranchesOnly;
 
@@ -33,7 +34,7 @@ public class BranchesValidator extends ConditionValidator {
 	 */
 	
 	@Override
-	public void start() {		
+	protected void start() {		
 		super.start();
 	}	
 	
@@ -43,7 +44,7 @@ public class BranchesValidator extends ConditionValidator {
 	
 	public void rule_CheckSuccessfulBranchesOnly () {
 		
-		fSuccessfulBranchesOnly = mChecks.getAttribute(mNode, 
+		fSuccessfulBranchesOnly = getAttribute(mNode, 
 				AT_SUCCESSFUL_BRANCHES_ONLY,				
 				KIND_NODE, 
 				Filters.BOOLEAN_FILTER,

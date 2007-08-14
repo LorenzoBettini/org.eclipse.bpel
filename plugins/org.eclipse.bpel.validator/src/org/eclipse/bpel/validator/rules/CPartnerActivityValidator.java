@@ -12,10 +12,13 @@ package org.eclipse.bpel.validator.rules;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -56,7 +59,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 */
 	
 	@Override
-	public void start () {		
+	protected void start () {		
 		super.start();			
 	}
 	
@@ -90,7 +93,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 */
 	
 	public void rule_CheckOperationSet_0 () {		
-		fOperation = mChecks.getAttribute(mNode, AT_OPERATION, KIND_ACTIVITY, 
+		fOperation = getAttribute(mNode, AT_OPERATION, KIND_ACTIVITY, 
 				Filters.NC_NAME, true);
 	}
 	
@@ -102,13 +105,13 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	
 	public void rule_CheckPartnerLink_2 () {
 		
-		if (mChecks.checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_ACTIVITY ) == false) {
+		if (checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_ACTIVITY ) == false) {
 			// partnerLink is not accessible.
 			fPartnerLinkNode = null;
 			return ;
 		}
 		
-		if (mChecks.checkValidator(mNode,fPartnerLinkNode,AT_PARTNER_LINK,KIND_ACTIVITY) == false) {			
+		if (checkValidator(mNode,fPartnerLinkNode,AT_PARTNER_LINK,KIND_ACTIVITY) == false) {			
 			fPartnerLinkNode = null;
 			return ;
 		}
@@ -131,13 +134,13 @@ public class CPartnerActivityValidator extends CActivityValidator {
 			return ;
 		}
 		
-		if (mChecks.checkAttributeNode(mNode, fPortType, AT_PORT_TYPE , KIND_ACTIVITY) == false) {
+		if (checkAttributeNode(mNode, fPortType, AT_PORT_TYPE , KIND_ACTIVITY) == false) {
 			// portType is not accessible.
 			fPortType = null;
 			return;
 		}
 		
-		if (mChecks.checkValidator(mNode,fPortType,AT_PORT_TYPE,KIND_ACTIVITY) == false) {
+		if (checkValidator(mNode,fPortType,AT_PORT_TYPE,KIND_ACTIVITY) == false) {
 			fPortType = null;
 			return ;
 		}
@@ -169,7 +172,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 		} else {
 			
 			// unresolved. error, this partner link type cannot be resolved.
-			if (mChecks.checkValidator(fPartnerLinkNode,fPartnerLinkType,AT_PARTNER_LINK_TYPE,KIND_NODE) == false) {
+			if (checkValidator(fPartnerLinkNode,fPartnerLinkType,AT_PARTNER_LINK_TYPE,KIND_NODE) == false) {
 				fPartnerLinkType = null;		
 				resolvedPartnerLinkType = false;
 			}		
@@ -185,19 +188,19 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 */
 	
 	
-	protected INode verifyVariable ( INode varNode, String atName) {
+	protected INode verifyVariable ( INode varNode, QName atName) {
 
 		// variable is optional, if not specified the there better be fromParts		
 		if (varNode == null) {
 			return varNode ;
 		}
 		
-		if (mChecks.checkAttributeNode (mNode, varNode, atName, KIND_ACTIVITY ) == false) {
+		if (checkAttributeNode (mNode, varNode, atName, KIND_ACTIVITY ) == false) {
 			// variable is not accessible (either undefined or whatever).
 			return null;
 		}
 		
-		if (mChecks.checkValidator(mNode,varNode,atName,KIND_ACTIVITY) == false) {
+		if (checkValidator(mNode,varNode,atName,KIND_ACTIVITY) == false) {
 			return null;
 		}
 		
@@ -207,7 +210,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	
 	
 	
-	protected INode lookupRoleNode ( INode partnerLink, String atName ) {
+	protected INode lookupRoleNode ( INode partnerLink, QName atName ) {
 		
 		if (partnerLink == null) {
 			return null;
@@ -228,7 +231,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 			problem = createError();
 			problem.setAttribute(IProblem.CONTEXT, atName);
 			problem.fill( "BPELC_MISSING_ROLE",  //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName,  
 					mNode.getAttribute(AT_PARTNER_LINK) ,
 					atName);				
@@ -240,7 +243,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	
 	
 	
-	protected INode verifyPortTypeFromRole ( INode role, String atRole, INode portType ) {
+	protected INode verifyPortTypeFromRole ( INode role, QName atRole, INode portType ) {
 		 
 		if (isUndefined(role)) {
 			return null;
@@ -258,7 +261,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 				
 				problem = createError();
 				problem.fill( "BPELC_MISMATCH_ROLE_PORT_TYPE",  //$NON-NLS-1$
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						ncName,
 						mNode.getAttribute(AT_PORT_TYPE),					
 						fPartnerLinkNode.getAttribute(AT_NAME),
@@ -273,7 +276,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	
 	
 	
-	protected INode findMessageType (INode portType, String operationName, String messageKind , boolean bError ) {
+	protected INode findMessageType (INode portType, String operationName, QName messageKind , boolean bError ) {
 
 		//	preconditions for this to run ...
 		if ( isUndefined(portType) || operationName == null ) {
@@ -291,7 +294,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 			if (bError) {
 				problem = createError();
 				problem.fill("BPELC_PA__NO_MESSAGE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					portType,
 					operationName,
 					messageKind
@@ -312,7 +315,7 @@ public class CPartnerActivityValidator extends CActivityValidator {
 						
 			problem = createError();
 			problem.fill("BPELC_PA__MSG_TYPE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					operationName,
 					messageKind,
 					message.getAttribute( WSDL_AT_MESSAGE )
@@ -323,16 +326,12 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	}
 	
 	
-	protected List<INode> lookupMessages ( INode portType, String operationName , String messageKind ) {
+	protected List<INode> lookupMessages ( INode portType, String operationName , QName messageKind ) {
 		
 		return mSelector.selectNodes(
 				portType, 
 				WSDL_ND_OPERATION, 
-				new Filters.NodeAttributeValueFilter( AT_NAME , operationName ),
-				messageKind );
-		
-	}
-
-	
-	
+				new NodeAttributeValueFilter( AT_NAME , operationName ),
+				messageKind );		
+	}	
 }

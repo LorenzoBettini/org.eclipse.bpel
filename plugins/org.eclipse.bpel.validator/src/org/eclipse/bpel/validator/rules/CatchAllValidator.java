@@ -14,6 +14,7 @@ package org.eclipse.bpel.validator.rules;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -28,7 +29,7 @@ public class CatchAllValidator extends CValidator {
 	/**
 	 * The parent nodes in which catchAll can live
 	 */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_FAULT_HANDLERS , ND_INVOKE );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_FAULT_HANDLERS , ND_INVOKE );
 	
 	
 	/** (non-Javadoc)

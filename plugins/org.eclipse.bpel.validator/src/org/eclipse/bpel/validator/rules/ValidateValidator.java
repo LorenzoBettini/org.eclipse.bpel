@@ -38,7 +38,7 @@ public class ValidateValidator extends CActivityValidator {
 	 */
 	
 	@Override
-	public void start() {
+	protected void start() {
 		super.start();
 		
 		variables = mNode.getAttribute(AT_VARIABLES);
@@ -57,7 +57,7 @@ public class ValidateValidator extends CActivityValidator {
 			problem = createError();
 			problem.setAttribute(IProblem.CONTEXT, AT_VARIABLES);
 			problem.fill("BPELC_VALIDATE__NO_VARIABLES_SPECIFIED", //$NON-NLS-1$
-					mNode.nodeName());
+					toString(mNode.nodeName()));
 			return ;
 		}
 		
@@ -76,7 +76,7 @@ public class ValidateValidator extends CActivityValidator {
 				problem.setAttribute(IProblem.CONTEXT, AT_VARIABLES);
 				problem.fill("BPELC_VALIDATE__NO_SUCH_VARIABLE", //$NON-NLS-1$
 						nextVarName,
-						mNode.nodeName());
+						toString(mNode.nodeName()));
 				
 			}
 		}		

@@ -32,7 +32,7 @@ public abstract class  CContainerValidator extends CValidator {
 	 * @see org.eclipse.bpel.validator.model.Validator#start()
 	 */
 	@Override
-	public void start() {
+	protected void start() {
 		super.start();		
 	}
 
@@ -69,8 +69,8 @@ public abstract class  CContainerValidator extends CValidator {
 				IProblem problem = createError( next );
 				problem.setAttribute(IProblem.CONTEXT, AT_NAME);
 				problem.fill( "BPELC_DUPLICATE_NAME",
-						mNode.nodeName(), 
-						next.nodeName(),  
+						toString(mNode.nodeName()), 
+						toString(next.nodeName()),  
 						name); 
 			}			
 		}

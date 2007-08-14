@@ -64,7 +64,7 @@ public class ReceiveValidator extends CPartnerActivityValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();
 	}
@@ -75,7 +75,7 @@ public class ReceiveValidator extends CPartnerActivityValidator {
 	 */
 	public void rule_LookupVariable_1 () {
 		
-		fVariableName = mChecks.getAttribute(mNode, AT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, false);
+		fVariableName = getAttribute(mNode, AT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, false);
 		
 		if (isEmpty(fVariableName) == false) {
 			fVariable = mModelQuery.lookup(mNode,
@@ -96,7 +96,7 @@ public class ReceiveValidator extends CPartnerActivityValidator {
 	 */
 	public void rule_CheckCreateInstanceSetting_2 () {
 		
-		fCreateInstance = mChecks.getAttribute(mNode, 
+		fCreateInstance = getAttribute(mNode, 
 				AT_CREATE_INSTANCE, 
 				KIND_ACTIVITY, 
 				Filters.BOOLEAN_FILTER, 
@@ -226,7 +226,7 @@ public class ReceiveValidator extends CPartnerActivityValidator {
 				
 			problem = createError( );
 			problem.fill( "BPELC_PA__MESSAGE_TYPE_MISMATCH",  //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_VARIABLE,
 					fVariable.getAttribute( AT_NAME ),
 					fInputMessage,
@@ -261,7 +261,7 @@ public class ReceiveValidator extends CPartnerActivityValidator {
 		if (fFromParts.size() > 0 && isEmptyOrWhitespace(mNode.getAttribute(AT_VARIABLE)) == false)  {			
 			problem = createError();
 			problem.fill("BPELC__PA_PARTS",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ND_FROM_PART,
 					AT_VARIABLE,
 					KIND_ACTIVITY);			

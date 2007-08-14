@@ -19,6 +19,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -36,7 +37,7 @@ import org.eclipse.bpel.validator.model.IProblem;
 public class SourceValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_SOURCES );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_SOURCES );
 	
 	
 	String ncName ;	
@@ -69,7 +70,7 @@ public class SourceValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 		ncName = mNode.getAttribute( AT_LINK_NAME );
 		
@@ -84,7 +85,7 @@ public class SourceValidator extends CValidator {
 	
 	public void rule_CheckName_1 () {					
 		// Must be a valid NCName ...
-		mChecks.checkNCName(mNode, ncName, AT_LINK_NAME );			
+		checkNCName(mNode, ncName, AT_LINK_NAME );			
 	}
 	
 	
@@ -130,7 +131,7 @@ public class SourceValidator extends CValidator {
 		if (fSet.contains(ncName) == false) {
 			problem = createError();
 			problem.fill("BPELC_LINK__UNDEFINED", 
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName
 			);
 		}				
@@ -155,7 +156,7 @@ public class SourceValidator extends CValidator {
 		if (fSourceMap.containsKey(ncName)) {
 			problem = createError();
 			problem.fill("BPELC_LINK__NAME_USED",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				ncName
 			);
 			
@@ -208,7 +209,7 @@ public class SourceValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_LINK__CROSS_REPEATABLE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName,
 					fRepeatableConstructNode.nodeName(),
 					fRepeatableConstructNode.getAttribute(AT_NAME)
@@ -281,7 +282,7 @@ public class SourceValidator extends CValidator {
 				
 				IProblem problem = createError();
 				problem.fill("BPELC_LINK__OUTBOUND_ONLY",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						ncName,
 						fFaultHandlerNode.nodeName()
 					);

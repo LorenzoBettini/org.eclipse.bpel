@@ -43,7 +43,7 @@ import javax.xml.namespace.QName;
 @SuppressWarnings("nls")
 
 public class Rules  {	
-	
+	 
 	/**
 	 * Rules are methods whose name follows the pattern
 	 * <pre>
@@ -110,8 +110,8 @@ public class Rules  {
 	 */
 	
 	
-	public Rules ( Class<? extends Validator> clazz ) {			
-						
+	public Rules ( Class<? extends Validator> clazz ) {					
+		
 		for(Method m : clazz.getMethods()) {							
 			if (isRule(m)) {
 				mRules.add( new Rule(m));
@@ -123,63 +123,7 @@ public class Rules  {
 		}		
 	}
 	
-	
-	/**
-	 * Run the rules in the order intended. This is simply an iteration over
-	 * the rules discovered for the given class. 
-	 * <p>
-	 * Each of the validator classes can dynamically disabled a rule from being
-	 * run. 
-	 * <p>
-	 * 
-	 * @param context the validator on which the rule will be called.
-	 * @param tag the tag used on the rules.
-	 * @param args to pass to the rules (if any).
-	 */
-		
-	public void runRules ( Validator context, String tag, Object ... args ) {	
-		
-		for (Rule rule: mRules) {
-			// wrong tag ?
-			if (tag.equals(rule.getTag()) == false) {
-				continue ;
-			}
 
-			if (context.startRule (rule) == false) {
-				continue;
-			}
-			
-	        // Now run the rule
-			try {
-				rule.invoke (context, args);
-			} catch (Throwable t) {
-				context.internalProblem ( rule ,t );	
-				log (context, rule, t);
-			}
-			
-			context.endRule ( rule );
-		}
-		
-		
-	}
-
-	
-	
-	/**
-	 * Log any errors during rule execution.
-	 * 
-	 * @param context
-	 * @param rule
-	 * @param t
-	 */
-	
-	void log ( Object context, Rule rule , Throwable t) {
-		
-		p("Problem executing rule {0}, stack trace shown below",rule.getFullName()); //$NON-NLS-1$
-		t.printStackTrace( System.out );
-		return ;		
-	}
-	
 	
 	
 	/**
@@ -484,56 +428,42 @@ public class Rules  {
 		// Fish out the nodes.
 		for (Field f : fields) {
 			
-			String n = f.getName();
-			if (n.startsWith("ND_") == false) { //$NON-NLS-1$
+			String n = f.getName();			
+			if (n.startsWith("ND_") == false && n.contains("_ND_") == false) { //$NON-NLS-1$
 				continue;
 			}			
 			
-			String bpelName ;
+			System.out.println("Field: " + n);
+			QName qtype ;
 			try {
 				Object o = f.get(null);
-				if ((o instanceof String) == false) {
+				if ((o instanceof QName) == false) {
 					continue;
 				}
-				bpelName =  (String) o;
+				qtype =  (QName) o;
 			} catch (Exception ex) {
 				continue;
 			}
 			
-			QName qtype =  new QName( IConstants.XMLNS_BPEL, bpelName );
 			nodes.add(qtype);
 		}
 		
 		// For evaluating conditions
 		
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_CONDITION) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_BRANCHES) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_FINAL_COUNTER_VALUE) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_START_COUNTER_VALUE) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_FOR) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_FROM) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_JOIN_CONDITION) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_REPEAT_EVERY) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_TO) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_TRANSITION_CONDITION) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_UNTIL) );
-		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_QUERY) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_CONDITION.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_BRANCHES.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_FINAL_COUNTER_VALUE.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_START_COUNTER_VALUE.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_FOR.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_FROM.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_JOIN_CONDITION.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_REPEAT_EVERY.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_TO.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_TRANSITION_CONDITION.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_UNTIL.getLocalPart() ) );
+		nodes.add ( new QName ( IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, IConstants.ND_QUERY.getLocalPart() ) );
 		
-		
-		
-		
-		// TODO: this needs to somehow be automated ...
-		nodes.add ( new QName ( IConstants.XMLNS_PLNK,  IConstants.WSDL_ND_PARTNER_LINK_TYPE));
-		nodes.add ( new QName ( IConstants.XMLNS_PLNK,  IConstants.WSDL_ND_ROLE));
-		
-		// Property aliases
-		nodes.add ( new QName ( IConstants.XMLNS_VPROP, IConstants.WSDL_ND_PROPERTY));
-		nodes.add ( new QName ( IConstants.XMLNS_VPROP, IConstants.WSDL_ND_PROPERTY_ALIAS));
-		nodes.add ( new QName ( IConstants.XMLNS_VPROP, IConstants.WSDL_ND_QUERY));
-		
-		// Definitions node
-		nodes.add ( new QName ( IConstants.XMLNS_WSDL,  IConstants.WSDL_ND_DEFINITIONS));
-		
+
 		// 
 		// Sort on QName
 

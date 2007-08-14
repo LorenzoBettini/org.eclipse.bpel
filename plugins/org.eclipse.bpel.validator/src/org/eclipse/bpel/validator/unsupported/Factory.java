@@ -30,7 +30,7 @@ import org.eclipse.bpel.validator.model.Validator;
  * @date Jun 12, 2007
  */
 
-public class Factory implements IFactory<Validator>, IConstants {
+public class Factory implements IFactory<Validator>  {
 
 	static final String PACKAGE_NAME = Factory.class.getPackage().getName();
 	
@@ -44,7 +44,7 @@ public class Factory implements IFactory<Validator>, IConstants {
 		
 		String nsURI = qname.getNamespaceURI();
 		
-		if (nsURI.equals(XMLNS_BPEL) || nsURI.equals(XMLNS_BPEL20_OLD)) {
+		if (nsURI.equals(IConstants.XMLNS_BPEL) || nsURI.equals(IConstants.XMLNS_BPEL20_OLD)) {
 			return null;
 						
 		}		

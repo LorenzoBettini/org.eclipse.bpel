@@ -12,9 +12,9 @@ package org.eclipse.bpel.validator.rules;
 
 
 import org.eclipse.bpel.validator.model.ARule;
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -27,7 +27,7 @@ public class LinksValidator extends CContainerValidator {
 	
 	
 	/** Nodes which can be our parents */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_FLOW );		
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_FLOW );		
 	
 	
 	/**

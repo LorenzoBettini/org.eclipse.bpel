@@ -12,13 +12,13 @@ package org.eclipse.bpel.validator.rules;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IValue;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
 
@@ -35,11 +35,11 @@ import org.eclipse.bpel.validator.model.Validator;
 @SuppressWarnings("nls")
 
 public class QueryValidator extends CValidator {
-	
+
 	/**
 	 * The valid parent nodes (this is read via reflection in CValidator)
 	 */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_FROM, ND_TO );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_FROM, ND_TO );
 			
 	/** 	
 	 * Note that this field is stateful with the life of the object.
@@ -56,7 +56,7 @@ public class QueryValidator extends CValidator {
 	 */
 	 
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();			
 	}	
 			
@@ -73,7 +73,7 @@ public class QueryValidator extends CValidator {
 	)
 	public void rule_CheckQueryLanguageSupport_20 () {
 		
-		fQueryLanguage = mChecks.getLanguage(mNode,AT_QUERYLANGUAGE);
+		fQueryLanguage = getLanguage(mNode,AT_QUERYLANGUAGE);
 		
 		IProblem problem;
 		
@@ -110,7 +110,7 @@ public class QueryValidator extends CValidator {
 	
 	public void rule_CheckQuery_30 () {
 		
-		QName qname = new QName( fQueryLanguage, mNode.nodeName() );
+		QName qname = new QName( fQueryLanguage, mNode.nodeName().getLocalPart() );
 
 		if (fQueryValidator == null) {
 				
@@ -122,7 +122,7 @@ public class QueryValidator extends CValidator {
 				
 				problem = createWarning();
 				problem.fill("BPELC__NO_EXPRESSION_VALIDATOR",  //$NON-NLS-1$					
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fQueryValidator
 				);		
 				

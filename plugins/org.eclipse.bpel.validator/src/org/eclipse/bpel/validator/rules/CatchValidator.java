@@ -19,6 +19,7 @@ import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.ValueFilter;
 
 
 
@@ -51,7 +52,7 @@ public class CatchValidator extends CatchAllValidator {
 	 * @see org.eclipse.bpel.validator.model.Validator#start()
 	 */
 	@Override
-	public void start() {
+	protected void start() {
 		
 		super.start();			
 		
@@ -93,13 +94,13 @@ public class CatchValidator extends CatchAllValidator {
 		// otherwise, we have a standard fault when exit standard faults is set to yes.
 		IProblem problem = createError();
 		problem.fill ("BPELC_CATCH__STANDARD_FAULT",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fFaultQName );				
 	}
 	
 	
 	
-	static IFilter<String> TYPE_DEFS = new Filters.ValueFilter ( 
+	static IFilter<QName> TYPE_DEFS = new ValueFilter<QName> ( 
 			AT_FAULT_MESSAGE_TYPE, AT_FAULT_ELEMENT 
 	);
 	
@@ -134,7 +135,7 @@ public class CatchValidator extends CatchAllValidator {
 				
 				problem = createError();
 				problem.fill("BPELC__AT_LEAST_ONE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_NODE,
 						TYPE_DEFS,
 						KIND_ATTRIBUTE
@@ -148,7 +149,7 @@ public class CatchValidator extends CatchAllValidator {
 				
 				problem = createError();
 				problem.fill("BPELC__AT_MOST_ONE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_NODE,
 						TYPE_DEFS,
 						KIND_ATTRIBUTE
@@ -162,7 +163,7 @@ public class CatchValidator extends CatchAllValidator {
 				fFaultVariableType = mModelQuery.lookup(mNode, 
 						IModelQueryLookups.LOOKUP_NODE_XSD_ELEMENT,elmDecl);
 			
-				mChecks.checkAttributeNode(mNode, fFaultVariableType, AT_FAULT_ELEMENT, KIND_NODE);
+				checkAttributeNode(mNode, fFaultVariableType, AT_FAULT_ELEMENT, KIND_NODE);
 				
 			} 
 
@@ -171,7 +172,7 @@ public class CatchValidator extends CatchAllValidator {
 				fFaultVariableType = mModelQuery.lookup(mNode, 
 						IModelQueryLookups.LOOKUP_NODE_MESSAGE_TYPE,msgType);
 				
-				mChecks.checkAttributeNode(mNode, fFaultVariableType, AT_FAULT_MESSAGE_TYPE, KIND_NODE);
+				checkAttributeNode(mNode, fFaultVariableType, AT_FAULT_MESSAGE_TYPE, KIND_NODE);
 			}					
 		
 			
@@ -181,7 +182,7 @@ public class CatchValidator extends CatchAllValidator {
 			if (!bElmDeclEmpty || !bMsgTypeEmpty) {
 				problem = createError();
 				problem.fill("BPELC__SPECIFY_NONE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_NODE,
 						TYPE_DEFS,
 						KIND_ATTRIBUTE);
@@ -224,7 +225,7 @@ public class CatchValidator extends CatchAllValidator {
 			
 			IProblem problem = createError();
 			problem.fill("BPELC_CATCH__EXIST", 
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fFaultQName,
 					(fFaultMessageType == null ? fFaultElement : fFaultMessageType)					
 			);

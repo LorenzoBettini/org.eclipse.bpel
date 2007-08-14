@@ -54,11 +54,10 @@ public class ScopeValidator extends CActivityValidator {
 	/**
 	 * Start validation for this node
 	 * 
-	 * @see org.eclipse.bpel.validator.model.Validator#start()
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start ();				
 	}
 	
@@ -103,7 +102,7 @@ public class ScopeValidator extends CActivityValidator {
 	
 	public void rule_CheckIsolatedAttribute_10 () {
 		
-		fIsolated = mChecks.getAttribute(mNode, 
+		fIsolated = getAttribute(mNode, 
 				AT_ISOLATED, 
 				KIND_ACTIVITY, 
 				Filters.BOOLEAN_FILTER, 
@@ -129,7 +128,7 @@ public class ScopeValidator extends CActivityValidator {
 	
 	public void rule_CheckExitOnStandardFault_10 () {
 		
-		fExitStandardFault = mChecks.getAttribute(mNode, 
+		fExitStandardFault = getAttribute(mNode, 
 				AT_EXIT_ON_STANDARD_FAULT, 
 				KIND_NODE, 
 				Filters.BOOLEAN_FILTER, 
@@ -175,7 +174,7 @@ public class ScopeValidator extends CActivityValidator {
 			if (YES.equals(isolated)) {				
 				problem = createError(mNode);
 				problem.fill("BPELC_SCOPE__ISOLATED",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						ncName,
 						node.nodeName(),
 						node.getAttribute(AT_NAME)
@@ -218,7 +217,7 @@ public class ScopeValidator extends CActivityValidator {
 		} else {
 			problem = createError(mNode);
 			problem.fill("BPELC_SCOPE__UNIQUE_NAME",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName,
 					scope.nodeName(),
 					scope.getAttribute(AT_NAME)
@@ -254,7 +253,7 @@ public class ScopeValidator extends CActivityValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_SCOPE__COMPENSATION_HANDLER",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName,
 					node.nodeName()
 			);

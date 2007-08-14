@@ -11,9 +11,9 @@
 package org.eclipse.bpel.validator.rules;
 
 import org.eclipse.bpel.validator.model.ARule;
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * Dependency on the BPEL validation model only in here ...
@@ -35,7 +35,7 @@ public class OnMessageValidator extends ReceiveValidator {
 		
 
 	/** The parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_PICK );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_PICK );
 	
 	/**
 	 * 
@@ -43,7 +43,7 @@ public class OnMessageValidator extends ReceiveValidator {
 	 */
 	
 	@Override
-	public void start () {		
+	protected void start () {		
 		super.start();		
 	}
 	

@@ -13,6 +13,8 @@ package org.eclipse.bpel.validator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 
 /**
  * 
@@ -29,23 +31,13 @@ public class Selector {
 	/** Selection of all nodes at a given level */
 	
 	public static final String ALL = "*";  //$NON-NLS-1$
-
-	static final Selector INSTANCE = new Selector();
 	
-	/**
-	 * The singleton selector instance.
-	 * @return the singleton selector instance
-	 */
-	
-	static final public Selector getInstance () {
-		return INSTANCE;
-	}
 	
 	/**
 	 * Brand new shiny selector.
 	 */
 	
-	private  Selector () {
+	public  Selector () {
 	}
 	
 	/**
@@ -131,14 +123,13 @@ public class Selector {
 				context = list.size() > 0 ? (INode) list.get(0) : null;
 				
 			} else 	if (obj instanceof String) {
-
-				// string implies "nodeName" query ...
 				
-				s = (String) obj;				
-				
-				list = selectNodesByName ( context, s );				
+				list = selectNodesByName ( context, (String) obj );				
 				context = list.size() > 0 ? (INode) list.get(0) : null;
 				
+			} else if (obj instanceof QName) { 
+				list = selectNodesByName ( context, (QName) obj );
+				context = list.size() > 0 ? (INode) list.get(0) : null;
 			} else if (obj instanceof Number) {
 				
 				// selection of new context			
@@ -176,6 +167,42 @@ public class Selector {
 	 */
 	
 
+	List<INode> selectNodesByName ( INode context, QName s ) {
+	
+		List<INode> list = new ArrayList<INode>();
+		
+		if (s.getLocalPart().equals("..")) {
+			
+			INode parent = context.parentNode();
+			if (parent != null) {
+				list.add(parent);
+			}
+			
+		} else {
+			
+			List<INode> children = context.children();
+			if (s.equals(ALL) ) {
+				list.addAll( children );
+			} else {
+				for(INode n : children) {
+					if (s.equals(n.nodeName())) {
+						list.add(n);
+					}
+				}
+			}			
+		}
+		return list;
+	}		
+	
+	/**
+	 * Select nodes by Name.
+	 * 
+	 * @param context
+	 * @param s
+	 * @return a list of nodes matching the name
+	 */
+	
+
 	List<INode> selectNodesByName ( INode context, String s ) {
 	
 		List<INode> list = new ArrayList<INode>();
@@ -192,7 +219,7 @@ public class Selector {
 				list.addAll( children );
 			} else {
 				for(INode n : children) {
-					if (s.equals(n.nodeName())) {
+					if (s.equals(n.nodeName().getLocalPart())) {
 						list.add(n);
 					}
 				}
@@ -200,4 +227,5 @@ public class Selector {
 		}
 		return list;
 	}		
+	
 }

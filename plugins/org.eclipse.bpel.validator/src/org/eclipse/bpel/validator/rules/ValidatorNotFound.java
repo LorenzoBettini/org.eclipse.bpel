@@ -30,6 +30,6 @@ public class ValidatorNotFound extends Validator {
 	
 	public void rule_NoValidatorDefined_1 () {
 		IProblem problem = createInfo();
-		problem.fill( "BPELC__VALIDATOR_NOT_FOUND",  mNode.nodeName());
+		problem.fill( "BPELC__VALIDATOR_NOT_FOUND",  toString(mNode.nodeName()));
 	}
 }

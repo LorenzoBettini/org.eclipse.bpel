@@ -15,7 +15,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
-import org.eclipse.bpel.validator.model.Filters.NodeNameFilter;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -53,7 +53,7 @@ public class FaultHandlersValidator extends CValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 
 	}		
@@ -79,7 +79,7 @@ public class FaultHandlersValidator extends CValidator {
 		if (count < 1) {
 			problem = createError();
 			problem.fill("BPELC__AT_LEAST_ONE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					KIND_NODE,
 					CATCHES,
 					KIND_NODE

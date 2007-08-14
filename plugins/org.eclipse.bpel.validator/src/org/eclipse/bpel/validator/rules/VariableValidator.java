@@ -13,12 +13,12 @@ package org.eclipse.bpel.validator.rules;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 /**
@@ -35,7 +35,7 @@ import org.eclipse.bpel.validator.model.ARule;
 public class VariableValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_VARIABLES );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_VARIABLES );
 		
 	String ncName ;
 
@@ -52,7 +52,7 @@ public class VariableValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 		ncName = mNode.getAttribute( AT_NAME );
 		
@@ -82,7 +82,7 @@ public class VariableValidator extends CValidator {
 	public void rule_CheckName_1 () {			
 		
 		// Must be a valid NCName ...
-		if (mChecks.checkNCName(mNode, ncName, AT_NAME ) == false) {
+		if (checkNCName(mNode, ncName, AT_NAME ) == false) {
 			return ;
 		}
 		
@@ -181,7 +181,7 @@ public class VariableValidator extends CValidator {
 			return ;
 		}
 		
-		mChecks.checkAttributeNode (mNode, fMessageTypeNode, AT_MESSAGE_TYPE, KIND_NODE );
+		checkAttributeNode (mNode, fMessageTypeNode, AT_MESSAGE_TYPE, KIND_NODE );
 		setValue("type",fMessageTypeNode);
 	}
 	
@@ -198,7 +198,7 @@ public class VariableValidator extends CValidator {
 		if (fElementNode == null) {
 			return ;
 		}
-		mChecks.checkAttributeNode (mNode, fElementNode, AT_ELEMENT , KIND_NODE) ;
+		checkAttributeNode (mNode, fElementNode, AT_ELEMENT , KIND_NODE) ;
 		setValue("type",fElementNode);
 	}
 
@@ -215,7 +215,7 @@ public class VariableValidator extends CValidator {
 		if (fTypeNode == null) {
 			return ;
 		}
-		mChecks.checkAttributeNode (mNode, fTypeNode, AT_TYPE, KIND_NODE );
+		checkAttributeNode (mNode, fTypeNode, AT_TYPE, KIND_NODE );
 		setValue("type",fTypeNode);
 	}
 
@@ -329,7 +329,7 @@ public class VariableValidator extends CValidator {
 		if (counterName.equals(ncName)) {
 			problem = createError();
 			problem.fill("BPELC_VARIABLE__COUNTER",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				ncName,
 				forEachNode.nodeName(),
 				forEachNode.getAttribute(AT_NAME));

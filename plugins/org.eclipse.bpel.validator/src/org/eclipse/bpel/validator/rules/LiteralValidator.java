@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
-
-
-
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 /**
@@ -31,7 +28,7 @@ import org.eclipse.bpel.validator.model.INode;
 public class LiteralValidator extends CValidator {
 			
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_FROM ) ;
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_FROM ) ;
 	
 	/** End of public rule methods.
 	 * 

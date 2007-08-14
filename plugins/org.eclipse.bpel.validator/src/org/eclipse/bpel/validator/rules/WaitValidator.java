@@ -39,7 +39,7 @@ public class WaitValidator extends CActivityValidator {
 	 * Start the validation of this node.
 	 */
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();		
 		forExpr = mNode.getNode( AT_FOR );
@@ -67,7 +67,7 @@ public class WaitValidator extends CActivityValidator {
 			problem.setAttribute(IProblem.CONTEXT, AT_FOR);
 			problem.fill( 
 					"BPELC_EMPTY_EXPIRATION_SETTING", //$NON-NLS-1$
-					mNode.nodeName() );
+					toString(mNode.nodeName()) );
 		} 
 		
 		
@@ -77,7 +77,7 @@ public class WaitValidator extends CActivityValidator {
 			problem.setAttribute(IProblem.CONTEXT, AT_FOR);
 			problem.fill( 
 					"BPELC_MULTIPLE_EXPIRATION_SETTING", //$NON-NLS-1$
-					mNode.nodeName() );
+					toString(mNode.nodeName()) );
 		}		
 	}
 			

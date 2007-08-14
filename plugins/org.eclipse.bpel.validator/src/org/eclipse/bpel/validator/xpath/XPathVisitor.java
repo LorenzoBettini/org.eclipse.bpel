@@ -84,8 +84,7 @@ import org.jaxen.saxpath.Axis;
 
 @SuppressWarnings({"nls","boxing"})
 
-public class XPathVisitor  
-    implements IConstants {
+public class XPathVisitor  {
 	
 	// NamespaceContext mNamespaceContext;
 
@@ -98,8 +97,6 @@ public class XPathVisitor
 	/** The context node on which the expression is attached to */
 	INode mContextNode ;
 	
-	/** The node name on which the expression is attached. */	
-	String mNodeName;
 	
 	// The four types that XPath evaluates into.
 	/** An object representing an XPath boolean */ 
@@ -130,10 +127,7 @@ public class XPathVisitor
 	
 		/** The context INode */
 		mContextNode = mValidator.getNode();
-		
-		/** The context INode node name */
-		mNodeName = mContextNode.nodeName();
-	
+			
    	}
 
 
@@ -484,8 +478,8 @@ public class XPathVisitor
 	
 	static boolean isBPELNS ( String namespaceUri ) {
 		
-		return XMLNS_BPEL.equals(namespaceUri) || 
-				XMLNS_BPEL20_OLD.equals(namespaceUri);
+		return IConstants.XMLNS_BPEL.equals(namespaceUri) || 
+		IConstants.XMLNS_BPEL20_OLD.equals(namespaceUri);
 	}
 	
 	

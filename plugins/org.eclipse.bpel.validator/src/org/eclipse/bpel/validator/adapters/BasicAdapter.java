@@ -47,11 +47,13 @@ import org.w3c.dom.Element;
  */
 
 public class BasicAdapter extends AbstractStatefulAdapter 
-	implements INode, IConstants {
+	implements INode {
 		
 	/** The validator that we want */
 	Validator mValidator = null;
 
+	QName mNodeName = null;
+	
 	
 	/** 
 	 * Since we are "adapting" the EMF BPEL model, the convention here is to use
@@ -154,24 +156,24 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	 * <p>
 	 * 
 	 * (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.model.INode#getAttribute(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getAttribute(javax.xml.namespace.QName)
 	 */
 	
-	public String getAttribute (String name) {
+	public String getAttribute (QName name) {
 
 		ExtensibleElement obj =	getTarget(getTarget(), ExtensibleElement.class);
 		
 		// Turn to the DOM for that information
 		Element element = obj.getElement();
 		if (element != null) {
-			if (element.hasAttribute(name)) {
-				return element.getAttribute(name);
+			if (element.hasAttributeNS(name.getNamespaceURI(),name.getLocalPart())) {
+				return element.getAttributeNS(name.getNamespaceURI(),name.getLocalPart());
 			}
 		}
 		
 
 		
-		Method method = methodFor (name) ;
+		Method method = methodFor ( name.getLocalPart() ) ;
 		
 		if (method == null) {
 			return null;
@@ -197,10 +199,10 @@ public class BasicAdapter extends AbstractStatefulAdapter
 
 
 	/**
-	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(javax.xml.namespace.QName)
 	 */
 	
-	public QName getAttributeAsQName ( String name ) {
+	public QName getAttributeAsQName ( QName name ) {
 		String value = getAttribute(name);
 		if (value == null) {
 			return null;
@@ -215,9 +217,9 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	 * @return the INode facade for that node.
 	 */
 	
-	public INode getNode (String name ) {
+	public INode getNode (QName name ) {
 		
-		Method method = methodFor(name);
+		Method method = methodFor(name.getLocalPart());
 		if (method == null) {
 			return null;
 		}
@@ -242,9 +244,9 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	 * @return a list of relevant nodes, INode facaded.
 	 */
 		
-	public List<INode> getNodeList ( String name ) {
+	public List<INode> getNodeList ( QName name ) {
 		
-		Method method = methodFor(name);
+		Method method = methodFor( name.getLocalPart() );
 		if (method == null) {
 			return null;
 		}
@@ -293,11 +295,15 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	 * @see org.eclipse.bpel.validator.model.INode#nodeName()
 	 */
 	
-	public String nodeName() {
+	public QName nodeName() {
+		if (mNodeName != null) {
+			return mNodeName;
+		}
 		EObject obj = (EObject) getTarget();
-		String name = obj.eClass().getName();
+		String name = obj.eClass().getName();		
 		// by convention, this is how the EMF model is naming its BPEL activities.
-		return Character.toLowerCase(name.charAt(0)) + name.substring(1);
+		mNodeName = new QName(IConstants.XMLNS_BPEL,Character.toLowerCase(name.charAt(0)) + name.substring(1));
+		return mNodeName;
 	}
 
 	/**

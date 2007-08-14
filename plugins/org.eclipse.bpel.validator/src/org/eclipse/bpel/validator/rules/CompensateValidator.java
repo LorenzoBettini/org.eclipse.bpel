@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
@@ -45,7 +47,7 @@ public class CompensateValidator extends CActivityValidator {
 		
 		INode parent = mNode.parentNode();
 		while (parent != null) {
-			String nodeName = parent.nodeName();
+			QName nodeName = parent.nodeName();
 			
 			if (ND_COMPENSATION_HANDLER.equals ( nodeName ) ||
 				ND_TERMINATION_HANDLER.equals ( nodeName ) ||
@@ -60,7 +62,7 @@ public class CompensateValidator extends CActivityValidator {
 		// at this point we have a problem.
 		IProblem problem = createError();
 		problem.fill("BPELC_COMPENSATE__NOT_IN_HANDLER", //$NON-NLS-1$
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				ncName
 				 );		
 	}

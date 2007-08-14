@@ -13,10 +13,10 @@ package org.eclipse.bpel.validator.rules;
 import java.util.List;
 
 import org.eclipse.bpel.validator.model.ARule;
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 /**
@@ -30,7 +30,7 @@ import org.eclipse.bpel.validator.model.IProblem;
 public class ToPartsValidator extends CContainerValidator {
 
 	/** Nodes which can be our parents */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_REPLY, ND_INVOKE );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_REPLY, ND_INVOKE );
 	
 	
 	/** (non-Javadoc)
@@ -78,7 +78,7 @@ public class ToPartsValidator extends CContainerValidator {
 			if (containsValueKey("part." + name) == false) {
 				problem = createError();
 				problem.fill("BPELC_PART__MISSING_PART",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fParentNode.nodeName(),
 						ND_TO_PARTS,
 						name

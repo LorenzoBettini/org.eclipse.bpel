@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
 
 @SuppressWarnings("nls")
 
-public class DOMNodeAdapter implements INode, IConstants {
+public class DOMNodeAdapter implements INode {
 	
 	/**  */
 	public static final String KEY = DOMNodeAdapter.class.getName();
@@ -49,7 +49,7 @@ public class DOMNodeAdapter implements INode, IConstants {
 	/** The target element for the facade */
 	Element targetElement;
 
-	String fNodeName;
+	QName fNodeName;
 	
 	/**
 	 * Create hew DOMNodeAdapter wrapper for this dom node.
@@ -57,12 +57,12 @@ public class DOMNodeAdapter implements INode, IConstants {
 	 */
 	
 	public DOMNodeAdapter ( Node node ) {
-		targetNode = node;
-		fNodeName = targetNode.getNodeName();
-
+		targetNode = node;		
 		if (node.getNodeType() == Node.ELEMENT_NODE) {
 			targetElement = (Element) node;
-			fNodeName = targetElement.getLocalName();
+			fNodeName = new QName(targetElement.getNamespaceURI(),targetElement.getLocalName()) ;
+		} else {
+			fNodeName = new QName(targetNode.getNodeName());
 		}
 	}
 	
@@ -89,26 +89,33 @@ public class DOMNodeAdapter implements INode, IConstants {
 	}
 
 	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.model.INode#getAttribute(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getAttribute(javax.xml.namespace.QName)
 	 * 
 	 */
-	public String getAttribute (String name) {
+	public String getAttribute (QName name) {
 		if (targetElement == null) {
 			return null;
 		}
-		if (targetElement.hasAttribute(name)) {
-			return targetElement.getAttribute(name);
+		/** 
+		 * QName with the default namespace use "" as the default URI, while the DOM specifically states
+		 *  that NULL ought to be passed as the first argument to the *NS methods for non-namespace attribute specification.  
+		 */
+		
+		String ns = name.getNamespaceURI().length() == 0 ? null : name.getNamespaceURI();
+		
+		if (targetElement.hasAttributeNS(ns, name.getLocalPart() )) {
+			return targetElement.getAttributeNS(ns, name.getLocalPart() );
 		}
 		return null;
 	}	
 		
 	
 	/**
-	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(javax.xml.namespace.QName)
 	 */
 	
-	public QName getAttributeAsQName ( String name ) {
-		String value = getAttribute(name);
+	public QName getAttributeAsQName ( QName name ) {
+		String value = getAttribute (name);
 		if (value == null) {
 			return null;
 		}
@@ -118,9 +125,9 @@ public class DOMNodeAdapter implements INode, IConstants {
 	
 	/**
 	 * 
-	 * @see org.eclipse.bpel.validator.model.INode#getNode(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getNode(javax.xml.namespace.QName)
 	 */
-	public INode getNode (String name) {
+	public INode getNode (QName name) {
 		List<INode> list = getNodeList(name);
 		if (list.size() > 0) {
 			return list.get(0);
@@ -130,10 +137,10 @@ public class DOMNodeAdapter implements INode, IConstants {
 
 	/**
 	 * Get node which match this local name
-	 * @see org.eclipse.bpel.validator.model.INode#getNodeList(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getNodeList(javax.xml.namespace.QName)
 	 * @return a list of nodes that match this name
 	 */
-	public List<INode> getNodeList (String name) {
+	public List<INode> getNodeList (QName name) {
 				
 		if (targetElement == null) {
 			return Collections.emptyList();
@@ -145,7 +152,10 @@ public class DOMNodeAdapter implements INode, IConstants {
 		while (node != null) {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element e = (Element) node;
-				if (name.equals( e.getLocalName() )) {
+				
+				if (name.getNamespaceURI().equals( e.getNamespaceURI() ) && 
+					name.getLocalPart().equals( e.getLocalName() )) {
+					
 					list.addLast( adapt ( node, INode.class ) );
 				}
 			}
@@ -171,7 +181,7 @@ public class DOMNodeAdapter implements INode, IConstants {
 	 * @return the node name of this node
 	 */
 	
-	public String nodeName() {
+	public QName nodeName() {
 		return fNodeName;				
 	}
 
@@ -284,7 +294,7 @@ public class DOMNodeAdapter implements INode, IConstants {
 		}
 		
 		sb.append( targetElement.getLocalName() );
-		String vName = getAttribute(AT_NAME);
+		String vName = getAttribute(IConstants.AT_NAME);
 		if (vName != null) {
 			sb.append(" \"").append(vName).append("\"");
 		}

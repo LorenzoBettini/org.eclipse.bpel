@@ -18,6 +18,7 @@ import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -34,7 +35,7 @@ import org.eclipse.bpel.validator.model.IProblem;
 public class TargetValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_TARGETS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_TARGETS );
 	
 	
 	String ncName ;
@@ -61,7 +62,7 @@ public class TargetValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 		ncName = mNode.getAttribute( AT_LINK_NAME );
 
@@ -73,7 +74,7 @@ public class TargetValidator extends CValidator {
 	
 	public void rule_CheckName_1 () {					
 		// Must be a valid NCName ...
-		mChecks.checkNCName(mNode, ncName, AT_LINK_NAME );			
+		checkNCName(mNode, ncName, AT_LINK_NAME );			
 	}
 	
 	
@@ -122,7 +123,7 @@ public class TargetValidator extends CValidator {
 		if (fSet.contains(ncName) == false) {
 			problem = createError();
 			problem.fill("BPELC_LINK__UNDEFINED", 
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName
 			);
 		}				
@@ -148,7 +149,7 @@ public class TargetValidator extends CValidator {
 		if (fTargetMap.containsKey(ncName)) {
 			problem = createError();
 			problem.fill("BPELC_LINK__NAME_USED",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				ncName
 			);			
 			return ;

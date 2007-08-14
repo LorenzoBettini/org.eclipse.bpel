@@ -158,5 +158,5 @@ public interface IModelQuery extends IModelQueryLookups {
      */
     
     public QName createQName ( INode context, String name ) ;
-    
+           
 }

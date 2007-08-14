@@ -62,7 +62,7 @@ public class JoinCondition extends XPathValidator {
 				
 		IProblem problem = createError();
 		problem.fill("XPATH_BPEL_FUNCTION", 
-				mNode.nodeName(),				
+				toString(mNode.nodeName()),				
 				expr.getFunctionName(),
 				fExprByNode
 			);		

@@ -16,6 +16,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.Validator;
 
 
@@ -35,7 +36,7 @@ import org.eclipse.bpel.validator.model.Validator;
 public class CopyValidator extends CValidator {
 			
 	/** My parents */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_ASSIGN );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_ASSIGN );
 
 	protected INode fToNode;
 	protected INode fFromNode;
@@ -67,7 +68,7 @@ public class CopyValidator extends CValidator {
 	 */
 	
 	@Override
-	public void start() {		
+	protected void start() {		
 		super.start();
 		
 		fToNode = mNode.getNode(ND_TO);
@@ -89,7 +90,7 @@ public class CopyValidator extends CValidator {
 	)
 	public void rule_VerifyKeepSrcElement_5 () {
 		
-		fKeepSrcElement = mChecks.getAttribute(mNode, 
+		fKeepSrcElement = getAttribute(mNode, 
 				AT_KEEP_SRC_ELEMENT_NAME, 
 				KIND_NODE, 
 				Filters.BOOLEAN_FILTER, 
@@ -156,7 +157,7 @@ public class CopyValidator extends CValidator {
 		
 			problem = createError();
 			problem.fill("BPELC_COPY__KEEP_ELEMENT_NAME",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_KEEP_SRC_ELEMENT_NAME,
 					"text.term.from",					
 					fFromTypeNode					
@@ -167,7 +168,7 @@ public class CopyValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_COPY__KEEP_ELEMENT_NAME",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_KEEP_SRC_ELEMENT_NAME,
 					"text.term.to",					
 					fToTypeNode

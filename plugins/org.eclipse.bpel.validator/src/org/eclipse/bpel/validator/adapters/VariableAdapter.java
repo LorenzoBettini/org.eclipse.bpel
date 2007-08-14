@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.adapters;
 
+import org.eclipse.bpel.validator.model.IConstants;
+
 
 /**
  * Adapts the variable EMF model to the validator's facade.
@@ -31,7 +33,7 @@ public class VariableAdapter extends BasicAdapter {
 	@Override
 	public String getAccessorMethodName ( String attributeName ) {
 		
-		if (AT_ELEMENT.equals (attributeName)) {
+		if (IConstants.AT_ELEMENT.getLocalPart().equals (attributeName)) {
 			return "XSDElement"; //$NON-NLS-1$
 		} 
 		return super.getAccessorMethodName( attributeName );

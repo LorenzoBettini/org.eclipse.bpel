@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -26,7 +26,7 @@ public class UntilValidator extends ConditionValidator {
 	 */
 	
 	@SuppressWarnings("hiding")
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter(
+	static public IFilter<INode> PARENTS = new NodeNameFilter(
 			ND_WAIT , ND_ON_ALARM 
 	);
 
@@ -36,7 +36,7 @@ public class UntilValidator extends ConditionValidator {
 	 */
 	
 	@Override
-	public void start() {		
+	protected void start() {		
 		super.start();
 	}
 

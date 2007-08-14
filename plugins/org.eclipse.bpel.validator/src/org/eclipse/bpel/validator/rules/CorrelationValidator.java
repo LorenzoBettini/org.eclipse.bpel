@@ -19,6 +19,7 @@ import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -36,7 +37,7 @@ import org.eclipse.bpel.validator.model.ARule;
 public class CorrelationValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter(  ND_CORRELATIONS  );
+	static public IFilter<INode> PARENTS = new NodeNameFilter(  ND_CORRELATIONS  );
 	
 	
 	protected String fSetName ;
@@ -58,7 +59,7 @@ public class CorrelationValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();				
 		fActivityNode = fParentNode.parentNode();
 		
@@ -74,7 +75,7 @@ public class CorrelationValidator extends CValidator {
 		date = "01/20/2007"
 	)
 	public void rule_CheckName_1 () {
-		fSetName = mChecks.getAttribute(mNode, AT_SET, KIND_NODE, Filters.NC_NAME, true);				
+		fSetName = getAttribute(mNode, AT_SET, KIND_NODE, Filters.NC_NAME, true);				
 	}
 	
 	/**
@@ -90,7 +91,7 @@ public class CorrelationValidator extends CValidator {
 	
 	public void rule_CheckInitiate_2 () {
 		
-		fInitiate = mChecks.getAttribute(mNode, 
+		fInitiate = getAttribute(mNode, 
 				AT_INITIATE, 
 				KIND_NODE, 
 				Filters.INITIATE_FILTER, 
@@ -114,7 +115,7 @@ public class CorrelationValidator extends CValidator {
 	
 	public void rule_CheckPatternValues_5 () {
 		
-		fPattern = mChecks.getAttribute(mNode, 
+		fPattern = getAttribute(mNode, 
 				AT_PATTERN, 
 				KIND_NODE, 
 				Filters.PATTERN_FILTER, 
@@ -136,7 +137,7 @@ public class CorrelationValidator extends CValidator {
 			if (is2Way && isEmpty(fPattern)) {
 				problem = createError();
 				problem.fill("BPELC__UNSET_ATTRIBUTE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_PATTERN,						
 						KIND_NODE );
 			}
@@ -145,7 +146,7 @@ public class CorrelationValidator extends CValidator {
 				problem = createError();
 				problem.fill("BPELC__SET_ATTRIBUTE",
 						AT_PATTERN,
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_NODE );					
 			}			
 			
@@ -155,7 +156,7 @@ public class CorrelationValidator extends CValidator {
 				problem = createError();
 				problem.fill("BPELC__SET_ATTRIBUTE",
 						AT_PATTERN,
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						KIND_NODE );
 			}
 		}
@@ -182,7 +183,7 @@ public class CorrelationValidator extends CValidator {
 		if (containsValueKey(fParentNode,key)) {
 			IProblem problem = createError();
 			problem.fill("BPELC_CORRELATION__EXIST", 
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fSetName);
 			return ;
 		}
@@ -201,7 +202,7 @@ public class CorrelationValidator extends CValidator {
 		
 		fCorrelationSet = mModelQuery.lookup(mNode, IModelQueryLookups.LOOKUP_NODE_CORRELLETION_SET, fSetName);
 				
-		if (mChecks.checkAttributeNode(mNode, fCorrelationSet, AT_SET, KIND_NODE) == false) {
+		if (checkAttributeNode(mNode, fCorrelationSet, AT_SET, KIND_NODE) == false) {
 			return ;
 		}
 		
@@ -238,7 +239,7 @@ public class CorrelationValidator extends CValidator {
 		
 		markSAExecution(null);
 		
-		if (mChecks.checkAttributeNode(mNode, fCorrelationSet, AT_SET, KIND_NODE) == false) {
+		if (checkAttributeNode(mNode, fCorrelationSet, AT_SET, KIND_NODE) == false) {
 			return ;
 		}
 		

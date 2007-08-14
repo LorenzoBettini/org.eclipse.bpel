@@ -74,11 +74,11 @@ public class InvokeValidator extends CPartnerActivityValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();		
 				
-		fInputVariableName = mChecks.getAttribute(mNode, AT_INPUT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME,false);
+		fInputVariableName = getAttribute(mNode, AT_INPUT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME,false);
 		
 		if (isEmpty(fInputVariableName) == false) {
 			
@@ -88,7 +88,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			
 		}
 		
-		fOutputVariableName = mChecks.getAttribute(mNode, AT_OUTPUT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, false);
+		fOutputVariableName = getAttribute(mNode, AT_OUTPUT_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, false);
 		
 		if (isEmpty(fOutputVariableName) == false) {					
 			fOutputVariableNode = mModelQuery.lookup(mNode,					
@@ -154,7 +154,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		if (fToPartsParts.size() > 0 && isEmpty(fInputVariableName) == false )  {			
 			problem = createError();
 			problem.fill("BPELC__PA_PARTS",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ND_TO_PART,
 					AT_INPUT_VARIABLE,
 					KIND_ACTIVITY);
@@ -186,7 +186,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		if (fFromParts.size() > 0 && isEmpty(fOutputVariableName) == false)  {			
 			problem = createError();
 			problem.fill("BPELC__PA_PARTS",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ND_FROM_PART,
 					AT_OUTPUT_VARIABLE,
 					KIND_ACTIVITY);
@@ -294,7 +294,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			if (fToPartsParts.size() > 0) {
 				problem = createError();
 				problem.fill("BPELC_PA__OMIT",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartnerLinkNode.getAttribute(AT_NAME),
 					WSDL_ND_INPUT,
 					KIND_NODE,
@@ -307,7 +307,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			if (isEmpty(fInputVariableName) && fToPartsParts.size() == 0) {
 				problem = createError();
 				problem.fill("BPELC__UNSET_ATTRIBUTE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_INPUT_VARIABLE,
 						KIND_ACTIVITY
 				 );
@@ -321,7 +321,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			if (isDefined(fOutputVariableNode)) {
 				problem = createError();
 				problem.fill("BPELC_PA__OMIT",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartnerLinkNode.getAttribute(AT_NAME),
 					WSDL_ND_OUTPUT,
 					KIND_ATTRIBUTE,
@@ -332,7 +332,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			if (fFromParts.size() > 0) {
 				problem = createError();
 				problem.fill("BPELC_PA__OMIT",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartnerLinkNode.getAttribute(AT_NAME),
 					WSDL_ND_OUTPUT,
 					KIND_NODE,
@@ -345,7 +345,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			if (isEmpty(fOutputVariableName) && fFromParts.size() == 0) {
 				problem = createError();
 				problem.fill("BPELC__UNSET_ATTRIBUTE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_OUTPUT_VARIABLE,
 						KIND_ACTIVITY
 				 );
@@ -381,7 +381,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 						
 					problem = createError( );
 					problem.fill( "BPELC_PA__MESSAGE_TYPE_MISMATCH",  //$NON-NLS-1$
-							mNode.nodeName(),
+							toString(mNode.nodeName()),
 							AT_INPUT_VARIABLE,
 							fInputVariableNode.getAttribute( AT_NAME ),
 							fInputMessageType,
@@ -403,7 +403,7 @@ public class InvokeValidator extends CPartnerActivityValidator {
 						
 					problem = createError( );
 					problem.fill( "BPELC_PA__MESSAGE_TYPE_MISMATCH",  //$NON-NLS-1$
-							mNode.nodeName(),
+							toString(mNode.nodeName()),
 							AT_OUTPUT_VARIABLE,
 							fOutputVariableNode.getAttribute( AT_NAME ),
 							fOutputMessageType,

@@ -34,11 +34,8 @@ public class Process extends CValidator {
 	protected String fTypeName;
 	
 		
-	/**
-	 * @see org.eclipse.bpel.validator.rules.CValidator#start()
-	 */
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 		ncName = mNode.getAttribute( AT_NAME );		
 	}
@@ -55,7 +52,7 @@ public class Process extends CValidator {
 	
 	public void rule_CheckName_1 () {		
 		// Must be a valid NCName ...		
-		if (mChecks.checkNCName(mNode, ncName, AT_NAME ) == false) {
+		if (checkNCName(mNode, ncName, AT_NAME ) == false) {
 			disableRules();
 		}			
 	}
@@ -69,7 +66,7 @@ public class Process extends CValidator {
 		
 		IProblem problem = createError();
 		problem.fill("BPELC__UNSUPPORTED_VALIDATION", 
-				mNode.nodeName(), ncName );
+				toString(mNode.nodeName()), ncName );
 		
 	}
 

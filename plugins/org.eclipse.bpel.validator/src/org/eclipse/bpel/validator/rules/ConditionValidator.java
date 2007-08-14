@@ -12,12 +12,12 @@ package org.eclipse.bpel.validator.rules;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.Validator;
 
 
@@ -34,7 +34,7 @@ import org.eclipse.bpel.validator.model.Validator;
 public class ConditionValidator extends CValidator {
 			
 	/** list of my parents */	
-	static public final IFilter<INode> PARENTS = new Filters.NodeNameFilter ( 	
+	static public final IFilter<INode> PARENTS = new NodeNameFilter ( 	
 		ND_WHILE,
 		ND_IF,
 		ND_ELSEIF,
@@ -53,7 +53,7 @@ public class ConditionValidator extends CValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 	}
@@ -71,7 +71,7 @@ public class ConditionValidator extends CValidator {
 	)
 	public void rule_CheckExpressionLanguageSupport_20 () {
 		
-		fExpressionLanguage = mChecks.getLanguage(mNode,AT_EXPRESSIONLANGUAGE);
+		fExpressionLanguage = getLanguage(mNode,AT_EXPRESSIONLANGUAGE);
 		
 		IProblem problem;
 		
@@ -108,7 +108,7 @@ public class ConditionValidator extends CValidator {
 		
 		if (fExprValidator == null) {
 			
-			fExprValidator = createExpressionValidator ( new QName( fExpressionLanguage, mNode.nodeName() ) );
+			fExprValidator = createExpressionValidator ( new QName( fExpressionLanguage, mNode.nodeName().getLocalPart() ) );
 			if (fExprValidator == null) {
 				return ;
 			}

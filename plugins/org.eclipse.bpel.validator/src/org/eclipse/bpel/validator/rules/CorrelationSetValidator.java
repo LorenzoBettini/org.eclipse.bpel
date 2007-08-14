@@ -11,12 +11,12 @@
 package org.eclipse.bpel.validator.rules;
 
 
-import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -33,7 +33,7 @@ import org.eclipse.bpel.validator.model.ARule;
 public class CorrelationSetValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_CORRELATION_SETS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_CORRELATION_SETS );
 	
 	
 	protected String ncName ;
@@ -49,7 +49,7 @@ public class CorrelationSetValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 		ncName = mNode.getAttribute( AT_NAME );
 		fProperties = mNode.getAttribute(AT_PROPERTIES);
@@ -67,7 +67,7 @@ public class CorrelationSetValidator extends CValidator {
 	)
 	public void rule_CheckName_1 () {					
 		// Must be a valid NCName ...
-		mChecks.checkNCName(mNode, ncName, AT_NAME );
+		checkNCName(mNode, ncName, AT_NAME );
 				
 	}
 	
@@ -92,8 +92,8 @@ public class CorrelationSetValidator extends CValidator {
 		if (containsValueKey(fParentNode,key)) {
 			IProblem problem = createError();
 			problem.fill("BPELC_DUPLICATE_NAME",
-					mNode.parentNode().nodeName(),
-					mNode.nodeName(),
+					toString(mNode.parentNode().nodeName()),
+					toString(mNode.nodeName()),
 					ncName);
 			return ;
 		}

@@ -18,6 +18,7 @@ import org.eclipse.bpel.fnmeta.FunctionRegistry;
 import org.eclipse.bpel.fnmeta.model.Function;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
+import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IFunctionMeta;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.UndefinedNode;
@@ -64,17 +65,17 @@ public class ModelQuery extends ModelQueryImpl {
 		switch (item) {
 		case SUPPORT_QUERY_LANGUAGE :		
 			return 
-			XMLNS_XPATH_QUERY_LANGUAGE.equals ( value ) ||
-			XMLNS_XPATH_QUERY_LANGUAGE_2.equals( value );
+			IConstants.XMLNS_XPATH_QUERY_LANGUAGE.equals ( value ) ||
+			IConstants.XMLNS_XPATH_QUERY_LANGUAGE_2.equals( value );
 		
 		case SUPPORT_EXPRESSION_LANGUAGE :
 			return 
-			XMLNS_XPATH_EXPRESSION_LANGUAGE.equals ( value ) ||
-			XMLNS_XPATH_EXPRESSION_LANGUAGE_2.equals( value );			
+			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE.equals ( value ) ||
+			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE_2.equals( value );			
 
 		case SUPPORT_IMPORT_TYPE :
-			return AT_VAL_IMPORT_XSD.equals ( value ) || 
-					AT_VAL_IMPORT_WSDL.equals ( value ) ;
+			return IConstants.AT_VAL_IMPORT_XSD.equals ( value ) || 
+			IConstants.AT_VAL_IMPORT_WSDL.equals ( value ) ;
 		
 		case SUPPORT_EXTENSION :
 			// by default we have no extensions that we support
@@ -245,7 +246,7 @@ public class ModelQuery extends ModelQueryImpl {
 				result = lookupVariable(context,name);
 			}			
 			if (result == null) {
-				result =  new UndefinedNode(ND_VARIABLE, AT_NAME, name);
+				result =  new UndefinedNode(IConstants.ND_VARIABLE, IConstants.AT_NAME, name);
 			}
 			break;
 			
@@ -254,7 +255,7 @@ public class ModelQuery extends ModelQueryImpl {
 				result = lookupLink(context, name);	
 			}			
 			if (result == null) {
-				result = new UndefinedNode(ND_LINK,AT_NAME,name);
+				result = new UndefinedNode(IConstants.ND_LINK,IConstants.AT_NAME,name);
 			}
 			break;
 			
@@ -266,7 +267,7 @@ public class ModelQuery extends ModelQueryImpl {
 			}
 			
 			if (eObj == null) {
-				result = new UndefinedNode(ND_IMPORT);
+				result = new UndefinedNode(IConstants.ND_IMPORT);
 			}
 			break;
 			
@@ -275,7 +276,7 @@ public class ModelQuery extends ModelQueryImpl {
 				result = lookupPartnerLink (context, name);				
 			}						
 			if (result == null) {
-				result = new UndefinedNode(ND_PARTNER_LINK,AT_NAME,name);
+				result = new UndefinedNode(IConstants.ND_PARTNER_LINK,IConstants.AT_NAME,name);
 			}
 			break;
 					
@@ -285,7 +286,7 @@ public class ModelQuery extends ModelQueryImpl {
 				result = lookupCorrelationSet (context,name);
 			}
 			if (result == null) {
-				result = new UndefinedNode(ND_CORRELATION_SET,AT_NAME,name);
+				result = new UndefinedNode(IConstants.ND_CORRELATION_SET,IConstants.AT_NAME,name);
 			}
 			break;	
 			
@@ -301,7 +302,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupPartnerLinkType ( adapt(context,EObject.class), qname ); 				
 			}			
 			if (eObj == null) {
-				result = new UndefinedNode(WSDL_ND_PARTNER_LINK_TYPE, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;
 			
@@ -310,7 +311,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj =  EmfModelQuery.lookupRole ( adapt(context,EObject.class), name ) ;
 			}			
 			if (eObj == null) {
-				result = new UndefinedNode(WSDL_ND_PARTNER_LINK_TYPE, AT_NAME, name );				
+				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, name );				
 			}
 			break;				
 			
@@ -319,7 +320,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupOperation ( adapt(context,EObject.class), name );
 			}			
 			if (eObj == null) {
-				result = new UndefinedNode ( WSDL_ND_OPERATION, AT_NAME, name );
+				result = new UndefinedNode ( IConstants.WSDL_ND_OPERATION, IConstants.AT_NAME, name );
 			}
 			break;			
 			
@@ -328,7 +329,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupPortType ( adapt(context,EObject.class), qname) ;					
 			}				
 			if (eObj == null) {
-				result = new UndefinedNode ( WSDL_ND_PORT_TYPE, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode ( IConstants.WSDL_ND_PORT_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;
 			
@@ -337,7 +338,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupMessage ( adapt(context,EObject.class), qname) ;				
 			}					
 			if (eObj == null) {
-				result = new UndefinedNode(WSDL_ND_MESSAGE, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode(IConstants.WSDL_ND_MESSAGE, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;			
 
@@ -349,7 +350,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupXSDElement ( adapt(context,EObject.class), qname);
 			}
 			if (eObj == null) {				
-				result = new UndefinedNode(AT_ELEMENT,AT_NAME, qname.getLocalPart());
+				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME, qname.getLocalPart());
 			}
 			break;
 			
@@ -358,7 +359,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupXSDType ( adapt(context,EObject.class), qname);				
 			}
 			if (eObj == null) {
-				result = new UndefinedNode(AT_TYPE,AT_NAME, qname.getLocalPart());	
+				result = new UndefinedNode(IConstants.AT_TYPE,IConstants.AT_NAME, qname.getLocalPart());	
 			}
 			break;
 			
@@ -367,7 +368,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupProperty ( adapt(context,EObject.class), qname);				
 			}
 			if (eObj == null) {
-				result = new UndefinedNode(EXT_ND_PROPERTY, AT_NAME, qname.getLocalPart());	
+				result = new UndefinedNode(IConstants.VPROP_ND_PROPERTY, IConstants.AT_NAME, qname.getLocalPart());	
 			}
 			break;
 			
@@ -376,7 +377,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname, 0 );
 			}
 			if (eObj == null) {
-				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
+				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
 			}
 			break;
 		
@@ -385,7 +386,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname, 1 );
 			}
 			if (eObj == null) {
-				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
+				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
 			}
 			break;
 			
@@ -394,7 +395,7 @@ public class ModelQuery extends ModelQueryImpl {
 				eObj = EmfModelQuery.lookupTypeOfPart ( adapt(context,EObject.class), qname );
 			}
 			if (eObj == null) {
-				result = new UndefinedNode(AT_ELEMENT,AT_NAME,"Unknown");
+				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,"Unknown");
 			}
 			break ;
 		
@@ -431,10 +432,10 @@ public class ModelQuery extends ModelQueryImpl {
 		
 		case LOOKUP_TEXT_LOCATION :
 			// Should this be anything else ?
-			return context.nodeName();
+			return context.nodeName().getLocalPart();
 			
 		case LOOKUP_TEXT_NS2PREFIX : 
-			return def;
+			return super.lookup(context,what,key,def);
 			
 		case LOOKUP_TEXT_PREFIX2NS :
 			return super.lookup(context, what,key,def);

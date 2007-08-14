@@ -46,7 +46,7 @@ public class AssignValidator extends CActivityValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 	}
@@ -57,7 +57,7 @@ public class AssignValidator extends CActivityValidator {
 	 */
 	
 	public void rule_CheckValidate_10 () {
-		fValidate = mChecks.getAttribute(mNode, 
+		fValidate = getAttribute(mNode, 
 				AT_VALIDATE,  
 				KIND_NODE, 
 				Filters.BOOLEAN_FILTER, 

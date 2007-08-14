@@ -30,6 +30,7 @@ import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.Selector;
 
 /**
@@ -49,7 +50,7 @@ public class PartnerLinkValidator extends CValidator {
 	/**
 	 * What are my parent nodes ?
 	 */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_PARTNER_LINKS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_PARTNER_LINKS );
 	
 	INode fPartnerLinkType;
 	INode fPartnerLink;
@@ -69,7 +70,7 @@ public class PartnerLinkValidator extends CValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();	
 		
@@ -93,7 +94,7 @@ public class PartnerLinkValidator extends CValidator {
 	
 	public void rule_CheckName_1 () {
 				
-		mChecks.checkNCName(mNode, ncName, AT_NAME );		
+		checkNCName(mNode, ncName, AT_NAME );		
 	}
 	
 	
@@ -103,7 +104,7 @@ public class PartnerLinkValidator extends CValidator {
 	
 	public void rule_CheckPartnerLinkType_2 () {
 		
-		if (mChecks.checkAttributeNode(mNode, fPartnerLinkType, AT_PARTNER_LINK_TYPE, KIND_NODE) == false) {
+		if (checkAttributeNode(mNode, fPartnerLinkType, AT_PARTNER_LINK_TYPE, KIND_NODE) == false) {
 			fPartnerLinkType = null;
 		}		
 	}
@@ -156,7 +157,7 @@ public class PartnerLinkValidator extends CValidator {
 	
 	public void rule_CheckInitializePartnerRole_8 () {
 		
-		fInitializePartnerRole = mChecks.getAttribute(fPartnerLink, 
+		fInitializePartnerRole = getAttribute(fPartnerLink, 
 				AT_INITIALIZE_PARTNER_ROLE, 
 				KIND_ACTIVITY, 
 				Filters.BOOLEAN_FILTER, 
@@ -179,7 +180,7 @@ public class PartnerLinkValidator extends CValidator {
 		
 			problem = createError();
 			problem.fill("BPELC_PARTNER_LINK__INIT_PARTNER_ROLE", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_INITIALIZE_PARTNER_ROLE,
 					AT_PARTNER_ROLE);
 		}
@@ -310,7 +311,7 @@ public class PartnerLinkValidator extends CValidator {
 					// notification
 					problem = createError();
 					problem.fill("BPELC_PL__NOTIFICATION",
-							mNode.nodeName(),
+							toString(mNode.nodeName()),
 							mNode.getAttribute(AT_NAME),
 							mNode.getAttributeAsQName(AT_PARTNER_LINK_TYPE),
 							
@@ -326,7 +327,7 @@ public class PartnerLinkValidator extends CValidator {
 					// solicit-response
 					problem = createError();
 					problem.fill("BPELC_PL__SOLICIT_RESPONSE",
-							mNode.nodeName(),
+							toString(mNode.nodeName()),
 							mNode.getAttribute(AT_NAME),
 							mNode.getAttributeAsQName(AT_PARTNER_LINK_TYPE),
 							
@@ -368,7 +369,7 @@ public class PartnerLinkValidator extends CValidator {
 			if (names.contains(name)) {
 				problem = createError();
 				problem.fill("BPELC_PL__OVERLOADED",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						mNode.getAttribute(AT_NAME),
 						mNode.getAttributeAsQName(AT_PARTNER_LINK_TYPE),
 						portType.getAttribute(AT_NAME),

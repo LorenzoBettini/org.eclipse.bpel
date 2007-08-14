@@ -17,10 +17,12 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
 
@@ -44,11 +46,8 @@ public class CValidator extends Validator {
 	List<INode> fTypeToCheckList;
 	
 	
-	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.model.Validator#start()
-	 */
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();
 		
@@ -94,9 +93,9 @@ public class CValidator extends Validator {
 		IProblem problem;
 		problem = createError();
 		problem.fill("BPELC__WRONG_PARENT", //$NON-NLS-1$
-				mNode.nodeName(),
-				fParentNode.nodeName(),
-				filter);
+				toString(mNode.nodeName()),
+				toString(fParentNode.nodeName()),
+				filter.toString() );
 		
 		// Disable all the rules from being run, if we get here.
 		disableRules();	
@@ -133,22 +132,22 @@ public class CValidator extends Validator {
 	/**
 	 * Check to make sure that the node nodeName appears in the 
 	 * children as specified by  he min/max parameters.
-	 * @param nodeName
+	 * @param node
 	 * @param min
 	 * @param max
-	 * @return the number of occurances of this child.
+	 * @return the number of occurrences of this child.
 	 */
 	@SuppressWarnings("nls")
 	
-	public int checkChild (String nodeName, int min, int max) {
-		return checkChild ( new Filters.NodeNameFilter(nodeName),min,max) ;
+	public int checkChild (QName node, int min, int max) {
+		return checkChild ( new NodeNameFilter(node),min,max) ;
 	}
 	
 	/**
 	 * @param filter
 	 * @param min
 	 * @param max
-	 * @return the # of occurances of this child
+	 * @return the # of occurrences of this child
 	 */
 	
 	
@@ -166,8 +165,8 @@ public class CValidator extends Validator {
 		if (count < min) {
 			problem = createError();
 			problem.fill("BPELC__MIN_IN_PARENT",
-					filter,
-					mNode.nodeName(),
+					filter.toString(),
+					toString(mNode.nodeName()),
 					count,
 					min
 			);			
@@ -175,8 +174,8 @@ public class CValidator extends Validator {
 		} else if (count > max) {
 			problem = createError();
 			problem.fill("BPELC__MAX_IN_PARENT",
-					filter,					
-					mNode.nodeName(),
+					filter.toString(),					
+					toString(mNode.nodeName()),
 					count,
 					max
 			);
@@ -221,7 +220,7 @@ public class CValidator extends Validator {
 		INode nn = mSelector.selectParent(node, new IFilter<INode>() {
 
 			public boolean select(INode n) {
-				String name = n.nodeName();
+				QName name = n.nodeName();
 				if (name.equals(ND_SCOPE) == false && name.equals(ND_PROCESS) == false) {
 					return false;
 				}
@@ -294,7 +293,7 @@ public class CValidator extends Validator {
 			
 			problem = createInfo();
 			problem.fill("BPELC_COPY__NOT_CHECKED",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					"text.term.from",					
 					fromTypeNode == null ? "text.term.unspecified" : fromTypeNode ,
 					"text.term.to",
@@ -316,7 +315,7 @@ public class CValidator extends Validator {
 				
 				problem = createWarning();
 				problem.fill("BPELC_COPY__INCOMPATIBLE_SIMPLE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						"text.term.from",					
 						fromTypeNode,
 						"text.term.to",
@@ -330,7 +329,7 @@ public class CValidator extends Validator {
 			
 			problem = createError();
 			problem.fill("BPELC_COPY__INCOMPATIBLE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					"text.term.from",					
 					fromTypeNode,
 					"text.term.to",
@@ -340,6 +339,204 @@ public class CValidator extends Validator {
 		}		
 		
 	}
+	
+
+	/**
+	 * A generic check against attributes
+	 * 
+	 * @param node the context node.
+	 * @param name name of the attribute
+	 * @param kind 1 for activity node, 0 for generic node
+	 * @param filter the filter that checks the allowed values 
+	 * @param bMandatory true for mandatory, false otherwise. 
+	 * @return the attribute value or null if the value does not exist or is not allowed.
+	 */
+	
+	@SuppressWarnings("boxing")
+	public String  getAttribute ( INode node, QName name, int kind, IFilter<String> filter, boolean bMandatory  ) {
+		
+		IProblem problem;
+		
+		String value = node.getAttribute(name);
+		
+		if (bMandatory) {
+			if (isEmpty(value)) {
+				problem = createError(node);
+				problem.setAttribute(IProblem.CONTEXT, name.getLocalPart() );
+				problem.fill("BPELC__UNSET_ATTRIBUTE", //$NON-NLS-1$
+						toString(node.nodeName()) , 
+						toString(name), kind );
+				return null;				
+			}
+		}
+		
+		
+		if (filter == null || isEmpty(value) ) {
+			return value;
+		}
+		
+		if (filter.select(value)) {
+			return value;
+		}
+		
+		problem = createError(node);
+		problem.setAttribute(IProblem.CONTEXT, name.getLocalPart());
+		problem.fill("BPELC__INVALID_ATTRIBUTE_VALUE", //$NON-NLS-1$
+				toString(node.nodeName()),
+				toString(name), 
+				value,
+				filter.toString() ,
+				kind);
+		
+		return null ;		
+	}
+
+
+	/**
+	 * A generic check against all attributes that are pointers to other
+	 * objects. For example, portType on invoke, partnerLink, etc. are 
+	 * represented as attributes but in fact refer to larger objects in the
+	 * models. 
+	 * 
+	 * @param node
+	 * @param ref the referenced node 
+	 * @param name the name of the attribute that references the node
+	 * @param kind 1 for activity node, 0 for generic node
+	 * @return true if the attribute pointer can be resolved, false otherwise
+	 */
+	
+	@SuppressWarnings("boxing")
+	public boolean checkAttributeNode ( INode node, INode ref, QName name, int kind ) {
+		
+		IProblem problem;
+		
+		if (ref == null) {
+			problem = createError(node);
+			problem.setAttribute(IProblem.CONTEXT, name);
+			problem.fill("BPELC__UNSET_ATTRIBUTE", //$NON-NLS-1$
+					node.nodeName(), name, kind );
+			return false;				
+		}
+		
+		if (ref.isResolved() == false) {		
+			String atValue = node.getAttribute( name );
+			
+			problem = createError(node);
+			problem.setAttribute(IProblem.CONTEXT, name);
+			problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", //$NON-NLS-1$
+					node.nodeName(), name, kind , atValue );
+			return false;
+		}
+		
+		return true;				
+	}
+
+
+	/**
+	 * Check if NCName is valid.
+	 * 
+	 * @param node the node on which we are checking.
+	 * @param ncName the ncName
+	 * @param atName the attribute name from where the ncName came from.
+	 * @return return true if checkName succeeds, false otherwise.
+	 */
+	
+	
+	public boolean checkNCName ( INode node, String ncName, QName atName ) {
+		
+		if (ncName == null || ncName.length() == 0) {
+			
+			IProblem problem = createError( node );
+			problem.setAttribute(IProblem.CONTEXT, atName);
+			problem.fill("BPELC__UNSET_ATTRIBUTE", 
+					node.nodeName() ,
+					atName,
+					IConstants.KIND_NODE);
+			return false ;
+		}
+		
+		// check if valid NCName
+		// TODO: More NCName checks
+		if (ncName.indexOf(' ') >= 0) {
+			
+			IProblem problem = createError( node );
+			problem.setAttribute(IProblem.CONTEXT, atName);
+			problem.fill("General.NCName_Bad", //$NON-NLS-1$
+					atName, node.nodeName() , ncName );
+			return false;
+		}
+		
+		// Check for uniqueness of name within a scope or process ?
+		return true;
+	}
+
+
+	/** 
+	 * Check the node's validator to see if there are any problems reported on the
+	 * node. 
+	 * 
+	 * @param node the context node
+	 * @param ref  the referenced node that comes from the node via an attribute
+	 * @param name the name of the attribute reference
+	 * @param kind 0 for node, 1 for activity
+	 * @return true if there are any problems, false otherwise.
+	 */
+	
+	@SuppressWarnings("boxing")
+	public boolean checkValidator ( INode node, INode ref, QName name, int kind ) {
+		
+		if (ref == null) {		
+			return false;
+		}
+		
+		Validator validator = ref.nodeValidator();
+		if (validator == null) {
+			return true;
+		}
+		
+		IProblem problem;
+		if (validator.hasProblems()) {
+			problem = createWarning(node);
+			problem.setAttribute(IProblem.CONTEXT, name);
+			problem.fill("BPELC_REF_NODE_PROBLEMS", //$NON-NLS-1$					
+					node.nodeName(),
+					ref.nodeName(),
+					name,
+					kind);
+			
+			return false;
+		}
+		
+		return true;		
+	}
+
+	
+	/**
+	 * 
+	 * Return the language (expression or query) from the node.
+	 * 
+	 * @param node
+	 * @param atName the attribute name 
+	 * @return the default language.
+	 */
+	
+	public String getLanguage (INode node, QName atName) {
+
+		// get the expression language
+		String lang = node.getAttribute (atName);		
+		if (lang == null) {
+			INode process = node.rootNode ();
+			lang = process.getAttribute(atName);			
+		}
+		
+		// the default language
+		
+		if (lang == null) {
+			return IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE;
+		}
+		return lang;
+	}
+		
 	
 	
 	protected Validator createExpressionValidator ( QName qname ) {
@@ -352,7 +549,7 @@ public class CValidator extends Validator {
 		
 			problem = createWarning();
 			problem.fill("BPELC__NO_EXPRESSION_VALIDATOR",  //$NON-NLS-1$					
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					qname.getNamespaceURI()
 			);			
 			return null;

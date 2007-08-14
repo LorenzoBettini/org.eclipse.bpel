@@ -47,20 +47,30 @@ public class Query extends XPathValidator {
 	 */
 	
 	@ARule(
-		sa = 0,
+		sa = 27,
 		desc = "Check the query location path",
 		author = "michal.chmielewski@oracle.com",
 		date = "01/20/2007",
-		order = 15
+		order = 16
 	)
 	
-	public void CheckQuery () {
+	public void CheckQuery () {			
 		
 		IProblem problem;
 		Expr expr = xpathExpr.getRootExpr();
 		
 		if (expr instanceof LocationPath) {
-			mVisitor.visit( expr );
+			
+			Object obj = mVisitor.contextPeek();
+			if (obj instanceof INode) {
+				mVisitor.visit( expr );
+			} else {
+				problem = createError();
+				problem.fill("XPATH_NO_LOCATION_PATH", 
+						expr.getText(),
+						fNodeName );			
+				repointOffsets(problem, expr);
+			}
 		} else {
 			problem = createError();
 			problem.fill("XPATH_NOT_A_LOCATION", //$NON-NLS-1$
@@ -70,8 +80,10 @@ public class Query extends XPathValidator {
 			repointOffsets(problem, expr);
 		}			
 		
+		// Don't run anything else.
 		disableRules();
 	}
+	
 	
 	
 	
@@ -87,8 +99,7 @@ public class Query extends XPathValidator {
 		desc = "There is no implicit context node in XPath expressions used in BPEL",
 		author = "michal.chmielewski@oracle.com",
 		date = "0/20/2007",
-		tag = "location",
-		order = 16
+		tag = "location"		
 	)
 	
 	public void CheckLocationPath ( LocationPath expr ) {			
@@ -146,7 +157,7 @@ public class Query extends XPathValidator {
 		
 		IProblem problem = createError();
 		problem.fill("XPATH_BPEL_FUNCTION", 
-				mNode.nodeName(),				
+				toString(mNode.nodeName()),				
 				expr.getFunctionName(),
 				fExprByNode
 			);		

@@ -19,6 +19,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -37,7 +38,7 @@ import org.eclipse.bpel.validator.model.IProblem;
 public class LinkValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_LINKS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_LINKS );
 	
 	
 	String ncName ;
@@ -64,7 +65,7 @@ public class LinkValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 		ncName = mNode.getAttribute( AT_NAME );
 		
@@ -85,7 +86,7 @@ public class LinkValidator extends CValidator {
 	public void rule_CheckName_1 () {
 		
 		// Must be a valid NCName ...		
-		if (mChecks.checkNCName(mNode, ncName, AT_NAME ) == false) {
+		if (checkNCName(mNode, ncName, AT_NAME ) == false) {
 			disableRules();
 		}
 			
@@ -123,7 +124,7 @@ public class LinkValidator extends CValidator {
 			if (fSourceMap.containsKey(ncName) == false) {
 				problem = createError();
 				problem.fill("BPELC_LINK__NO_SOURCE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						ncName);
 			}
 			fSourceNode = fSourceMap.get(ncName);
@@ -135,7 +136,7 @@ public class LinkValidator extends CValidator {
 			if (fTargetMap.containsKey(ncName) == false) {
 				problem = createError();
 				problem.fill("BPELC_LINK__NO_TARGET",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						ncName);
 			}
 			
@@ -183,7 +184,7 @@ public class LinkValidator extends CValidator {
 			
 				problem = createError();
 				problem.fill("BPELC_LINK__NOT_UNIQUE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						ncName,
 						linkName);				
 			}			
@@ -226,7 +227,7 @@ public class LinkValidator extends CValidator {
 		
 			problem = createError();
 			problem.fill("BPELC_LINK__CYCLE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName,
 					fSourceNode.nodeName(),
 					fTargetNode.nodeName()

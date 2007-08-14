@@ -17,6 +17,8 @@ import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -29,7 +31,7 @@ import org.eclipse.bpel.validator.model.ARule;
 public class ToPartValidator extends CValidator {
 
 	/** Nodes which can be our parents */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_TO_PARTS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_TO_PARTS );
 	
 	/** Part name */
 	protected String fPartName;
@@ -52,7 +54,7 @@ public class ToPartValidator extends CValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();
 		
@@ -66,8 +68,8 @@ public class ToPartValidator extends CValidator {
 	 */
 	
 	public void rule_CheckVariable_1 () {
-		fPartName = mChecks.getAttribute(mNode, AT_PART, KIND_NODE, Filters.NC_NAME, true);
-		fVariableName = mChecks.getAttribute(mNode, AT_FROM_VARIABLE, KIND_NODE, Filters.NC_NAME, true);
+		fPartName = getAttribute(mNode, AT_PART, KIND_NODE, Filters.NC_NAME, true);
+		fVariableName = getAttribute(mNode, AT_FROM_VARIABLE, KIND_NODE, Filters.NC_NAME, true);
 	}
 	
 	
@@ -95,7 +97,7 @@ public class ToPartValidator extends CValidator {
 		if (containsValueKey(fParentNode,key)) {		
 			IProblem problem = createError();
 			problem.fill("BPELC_PART__DUPLICATE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartName,
 					fVariableName );
 			return ;
@@ -124,12 +126,12 @@ public class ToPartValidator extends CValidator {
 		fVariableNode = mModelQuery.lookup(mNode, 
 				IModelQueryLookups.LOOKUP_NODE_VARIABLE, fVariableName);
 		
-		if (mChecks.checkAttributeNode (mNode, fVariableNode, AT_FROM_VARIABLE, KIND_NODE ) == false) {
+		if (checkAttributeNode (mNode, fVariableNode, AT_FROM_VARIABLE, KIND_NODE ) == false) {
 			// variable is not accessible (either undefined or whatever).
 			fVariableNode = null;
 		}
 		
-		if (mChecks.checkValidator(mNode,fVariableNode,AT_FROM_VARIABLE,KIND_NODE) == false) {
+		if (checkValidator(mNode,fVariableNode,AT_FROM_VARIABLE,KIND_NODE) == false) {
 			fVariableNode = null;
 			return ;
 		}				
@@ -162,14 +164,14 @@ public class ToPartValidator extends CValidator {
 		IProblem problem;
 		
 		fPartNode = mSelector.selectNode(inputMessageType,WSDL_ND_PART,
-								new Filters.NodeAttributeValueFilter(AT_NAME,fPartName) );
+								new NodeAttributeValueFilter(AT_NAME,fPartName) );
 		
 		if (isUndefined(fPartNode)) {
 			
 			// no such part
 			problem = createError();	
 			problem.fill("BPELC__PA_NO_PART",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartName,
 					inputMessageType					
 			);
@@ -220,7 +222,7 @@ public class ToPartValidator extends CValidator {
 		if (mModelQuery.check(IModelQueryLookups.TEST_COMPATIBLE_TYPE, partTypeNode, varTypeNode) == false) {
 			problem = createError();
 			problem.fill("BPELC_XSD__INCOMPATIBLE_TYPE",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				"text.term.variable",
 				fVariableName,
 				varTypeNode,

@@ -47,7 +47,7 @@ public class SequenceValidator extends CActivityValidator {
 	 */
 	
 	@Override
-	public void start () {		
+	protected void start () {		
 		super.start();
 							
 	}

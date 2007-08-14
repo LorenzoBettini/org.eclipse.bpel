@@ -14,6 +14,7 @@ import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -30,7 +31,7 @@ import org.eclipse.bpel.validator.model.INode;
 public class MessageExchangeValidator extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_MESSAGE_EXCHANGES );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_MESSAGE_EXCHANGES );
 	
 	
 	String ncName ;
@@ -41,7 +42,7 @@ public class MessageExchangeValidator extends CValidator {
 	 */	
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();		
 	
 	}
@@ -58,7 +59,7 @@ public class MessageExchangeValidator extends CValidator {
 	
 	public void rule_CheckName_1 () {
 		
-		ncName = mChecks.getAttribute(mNode, AT_NAME, KIND_NODE, Filters.NC_NAME, true);							
+		ncName = getAttribute(mNode, AT_NAME, KIND_NODE, Filters.NC_NAME, true);							
 	}
 	
 	

@@ -21,6 +21,7 @@ import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IValue;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
 
@@ -63,10 +64,10 @@ import org.eclipse.bpel.validator.model.Validator;
 
 public class FromValidator extends CValidator {
 	
-	static String [] ENDPOINT_REFRENCE = { AT_MY_ROLE , AT_PARTNER_ROLE };
+	static QName [] ENDPOINT_REFRENCE = { AT_MY_ROLE , AT_PARTNER_ROLE };
 	
 	/** Can be part of variable too */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter(  
+	static public IFilter<INode> PARENTS = new NodeNameFilter(  
 			ND_VARIABLE, ND_COPY 
 	) ;	
 	
@@ -98,12 +99,12 @@ public class FromValidator extends CValidator {
 	 */
 	 
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 		fVariableNode = mModelQuery.lookup(mNode,
 							IModelQueryLookups.LOOKUP_NODE_VARIABLE,
-							mNode.getAttribute(ND_VARIABLE));
+							mNode.getAttribute(AT_VARIABLE));
 		
 		fPartName = mNode.getAttribute(AT_PART);
 		
@@ -117,7 +118,7 @@ public class FromValidator extends CValidator {
 		
 		fPropertyName = mNode.getAttribute(AT_PROPERTY);
 		
-		fExpressionLanguage = mChecks.getLanguage(mNode,AT_EXPRESSIONLANGUAGE);
+		fExpressionLanguage = getLanguage(mNode,AT_EXPRESSIONLANGUAGE);
 
 		fLiteralNode = mNode.getNode(ND_LITERAL);
 	}
@@ -149,8 +150,8 @@ public class FromValidator extends CValidator {
 			variant += 1;
 
 			// if this is bad, disable all rules
-			if (mChecks.checkValidator(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false ||
-				mChecks.checkAttributeNode(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false) {
+			if (checkValidator(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false ||
+				checkAttributeNode(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false) {
 				disableRules();
 			}
 			
@@ -160,12 +161,12 @@ public class FromValidator extends CValidator {
 			variant += 1;
 			
 			// if this is bad, disable all rules
-			if (mChecks.checkValidator(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false || 
-				mChecks.checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false) {
+			if (checkValidator(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false || 
+				checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false) {
 				disableRules();
 			}
 			
-			fEndpointReference = mChecks.getAttribute(mNode, 
+			fEndpointReference = getAttribute(mNode, 
 					AT_ENDPOINT_REFERENCE, 
 					KIND_NODE, 
 					Filters.ENDPOINT_FILTER,
@@ -187,7 +188,7 @@ public class FromValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_FROM__VARIANT", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					variant);
 					
 			disableRules();
@@ -196,7 +197,7 @@ public class FromValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_FROM__VARIANT", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					variant);
 			
 			disableRules();
@@ -242,7 +243,7 @@ public class FromValidator extends CValidator {
 			if (isEmpty(fPartName) == false) {
 				problem = createError();
 				problem.fill("BPELC_FROM__VARIABLE_PART", //$NON-NLS-1$
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_VARIABLE,
 						fVariableNode.getAttribute(AT_NAME)
 				);				
@@ -257,7 +258,7 @@ public class FromValidator extends CValidator {
 			if (isUndefined(partNode)) {
 				problem = createError();
 				problem.fill("BPELC__PA_NO_PART",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fPartName,
 						varTypeNode);	
 				return ;
@@ -304,7 +305,7 @@ public class FromValidator extends CValidator {
 				
 				problem = createError();
 				problem.fill("BPELC_FROM__PARTNER_LINK", //$NON-NLS-1$
-							mNode.nodeName(),
+							toString(mNode.nodeName()),
 							fPartnerLinkNode.getAttribute(AT_NAME),
 							fEndpointReference							
 					);
@@ -350,7 +351,7 @@ public class FromValidator extends CValidator {
 				
 				problem = createError();
 				problem.fill("BPELC_FROM__PARTNER_LINK", //$NON-NLS-1$
-							mNode.nodeName(),
+							toString(mNode.nodeName()),
 							fPartnerLinkNode.getAttribute(AT_NAME),
 							fEndpointReference							
 							);				
@@ -391,7 +392,7 @@ public class FromValidator extends CValidator {
 		if (children.size() > 1) {
 			problem = createError();
 			problem.fill("BPELC_FROM__LITERAL",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fLiteralNode.nodeName(),
 					children.size()
 				);
@@ -426,7 +427,8 @@ public class FromValidator extends CValidator {
 		    fPropertyNode != null || 
 		    fPartnerLinkNode != null || 
 		    fPartName != null ||
-		    fLiteralNode != null ) {
+		    fLiteralNode != null ||
+		    fQueryNode != null ) {
 			
 			return ;
 		}		
@@ -441,7 +443,7 @@ public class FromValidator extends CValidator {
 		if (fExprValidator == null) {		
 			
 			/** 2. If no, then create the validator. We use the normal factory mechanism for */ 
-			QName qname = new QName( fExpressionLanguage, mNode.nodeName() );
+			QName qname = new QName( fExpressionLanguage, mNode.nodeName().getLocalPart() );
 		
 			fExprValidator = RuleFactory.createValidator ( qname ); 
 		
@@ -451,7 +453,7 @@ public class FromValidator extends CValidator {
 			
 				problem = createWarning();
 				problem.fill("BPELC__NO_EXPRESSION_VALIDATOR",  //$NON-NLS-1$					
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fExpressionLanguage
 				);			
 				return ;
@@ -482,6 +484,25 @@ public class FromValidator extends CValidator {
 	}
 	
 		
+	
+
+	/**
+	 * Check the expression variant.
+	 *
+	 */
+	
+	@ARule(
+		author = "michal.chmielewski@oracle.com",
+		desc = "Query variant checking.",		
+		date = "07/07/2007",
+		sa = 1000
+	)	
+	public void rule_CheckQueryVariant_55 () {
+		
+		if (fQueryNode == null) {
+			return ;
+		}
+	}
 	
 	/** End of public rule methods.
 	 * 

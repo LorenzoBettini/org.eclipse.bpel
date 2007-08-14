@@ -11,12 +11,16 @@
 package org.eclipse.bpel.validator.rules;
 
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 /**
@@ -30,7 +34,7 @@ import org.eclipse.bpel.validator.model.ARule;
 public class FromPartValidator extends CValidator {
 
 	/** Nodes which can be our parents */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter(  ND_FROM_PARTS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter(  ND_FROM_PARTS );
 	
 	/** Part name */
 	protected String fPartName;
@@ -50,13 +54,9 @@ public class FromPartValidator extends CValidator {
 	/** Message type used by the PLT */
 	private INode fMessageType;
 	
-
-	/**
-	 * @see org.eclipse.bpel.validator.rules.CValidator#start()
-	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		
 		super.start();
 		
@@ -66,7 +66,7 @@ public class FromPartValidator extends CValidator {
 		fActivityNode = fParentNode.parentNode();
 		
 		
-		String activityName = fActivityNode.nodeName();
+		QName activityName = fActivityNode.nodeName();
 		
 		if (ND_INVOKE.equals(activityName) ) {
 			fMessageType = getValue(fActivityNode,"output.message.type",null);
@@ -81,8 +81,8 @@ public class FromPartValidator extends CValidator {
 	 */
 	
 	public void rule_CheckVariable_1 () {
-		fPartName = mChecks.getAttribute(mNode, AT_PART, KIND_NODE, Filters.NC_NAME, true);
-		fVariableName = mChecks.getAttribute(mNode, AT_TO_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, true);				
+		fPartName = getAttribute(mNode, AT_PART, KIND_NODE, Filters.NC_NAME, true);
+		fVariableName = getAttribute(mNode, AT_TO_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, true);				
 	}
 	
 	
@@ -109,7 +109,7 @@ public class FromPartValidator extends CValidator {
 		if (containsValueKey(fParentNode,key)) {		
 			IProblem problem = createError();
 			problem.fill("BPELC_PART__DUPLICATE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartName,
 					fVariableName );
 			return ;
@@ -140,12 +140,12 @@ public class FromPartValidator extends CValidator {
 		
 		fVariableNode = mModelQuery.lookup(mNode, IModelQueryLookups.LOOKUP_NODE_VARIABLE, fVariableName);
 		
-		if (mChecks.checkAttributeNode (mNode, fVariableNode, AT_TO_VARIABLE, KIND_NODE ) == false) {
+		if (checkAttributeNode (mNode, fVariableNode, AT_TO_VARIABLE, KIND_NODE ) == false) {
 			// variable is not accessible (either undefined or whatever).
 			fVariableNode = null;
 		}
 		
-		if (mChecks.checkValidator(mNode,fVariableNode,AT_TO_VARIABLE,KIND_NODE) == false) {
+		if (checkValidator(mNode,fVariableNode,AT_TO_VARIABLE,KIND_NODE) == false) {
 			fVariableNode = null;
 			return ;
 		}				
@@ -173,14 +173,14 @@ public class FromPartValidator extends CValidator {
 		IProblem problem;
 		
 		fPartNode = mSelector.selectNode(fMessageType,WSDL_ND_PART,
-								new Filters.NodeAttributeValueFilter(AT_NAME,fPartName) );
+								new NodeAttributeValueFilter(AT_NAME,fPartName) );
 		
 		if (isUndefined(fPartNode)) {
 			
 			// no such part
 			problem = createError();	
 			problem.fill("BPELC__PA_NO_PART",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPartName,
 					fMessageType.getAttribute(AT_NAME)					
 			);

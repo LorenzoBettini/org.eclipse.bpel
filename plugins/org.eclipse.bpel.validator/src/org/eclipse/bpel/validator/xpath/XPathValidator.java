@@ -95,7 +95,7 @@ import org.jaxen.saxpath.helpers.XPathReaderFactory;
 public class XPathValidator extends Validator {
 	
 	/** The string format of the XPath expression */
-	String exprString;	
+	String exprString;
 	
 	String exprStringTrimmed;
 	
@@ -127,10 +127,12 @@ public class XPathValidator extends Validator {
 		
 		exprStringTrimmed = exprString.trim();
 		
-		fNodeName = mNode.nodeName();
+		fNodeName = toString(mNode.nodeName());
+		
 		fParentNode = mNode.parentNode();
 		
-		fExprByNode = "text.node." + fNodeName;
+		/** fExprByNode is a key to a localization map */
+		fExprByNode = "text.node." + mNode.nodeName().getLocalPart();
 	}
 	
 	
@@ -764,7 +766,7 @@ public class XPathValidator extends Validator {
 		} catch (URISyntaxException e) {
 			problem = createWarning ();
 			problem.fill("XPATH_URI_SYNTAX",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				lexpr.getLiteral(),
 				expr.getText(),
 				e.getMessage() 
@@ -862,7 +864,7 @@ public class XPathValidator extends Validator {
 			} else {
 				problem = createError();					
 				problem.fill("XPATH_FN_LITERAL_ARGS",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fn,
 						expr.getText(),
 						i+1,
@@ -1156,7 +1158,7 @@ public class XPathValidator extends Validator {
 		if (meta == null) {
 			problem = createWarning();
 			problem.fill("XPATH_FUNCTION_UNKNOWN", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fnCall				
 			);
 			repointOffsets(problem, functionExpr);
@@ -1168,7 +1170,7 @@ public class XPathValidator extends Validator {
 		if (meta.isDeprecated()) {
 			problem = createWarning();
 			problem.fill("XPATH_FUNCTION_DEPRECATED", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fnCall,
 					meta.getDeprecateComment()
 			);
@@ -1194,7 +1196,7 @@ public class XPathValidator extends Validator {
 		if (params.size() < meta.getMinArity()) {
 			problem = createError();
 			problem.fill("XPATH_FUNCTION_MIN_ARGS", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fnCall,
 					meta.getMinArity(),
 					params.size()
@@ -1205,7 +1207,7 @@ public class XPathValidator extends Validator {
 		if (params.size() > meta.getMaxArity()) {
 			problem = createError();
 			problem.fill("XPATH_FUNCTION_MAX_ARGS", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fnCall,
 					meta.getMaxArity(),
 					params.size()

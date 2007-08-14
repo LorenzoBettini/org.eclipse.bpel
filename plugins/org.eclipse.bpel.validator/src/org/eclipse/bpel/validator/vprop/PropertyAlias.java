@@ -10,13 +10,15 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.vprop;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.ARule;
 
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.rules.CValidator;
 
 
@@ -42,7 +44,7 @@ import org.eclipse.bpel.validator.rules.CValidator;
 public class PropertyAlias extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( WSDL_ND_DEFINITIONS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( WSDL_ND_DEFINITIONS );
 	
 	
 	String ncName ;
@@ -119,7 +121,7 @@ public class PropertyAlias extends CValidator {
 		fElementName = mNode.getAttribute(AT_ELEMENT);
 		
 		IProblem problem;
-		String nn = mNode.nodeName();
+		QName nn = mNode.nodeName();
 		
 		if (isNonEmpty(fMessageTypeName) && isNonEmpty(fMessagePartName)) {			
 			// good
@@ -139,7 +141,7 @@ public class PropertyAlias extends CValidator {
 				
 				problem = createError();
 				problem.fill("BPELC_PROPERTY__UNSET",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_TYPE,
 						AT_ELEMENT,
 						0);
@@ -149,7 +151,7 @@ public class PropertyAlias extends CValidator {
 			
 			problem  = createError();
 			problem.fill("BPELC_PROPERTY__UNSET",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_MESSAGE_TYPE,
 					AT_PART,
 					1);						
@@ -188,7 +190,7 @@ public class PropertyAlias extends CValidator {
 			if (isUndefined(msgType)) {
 				problem = createError();
 				problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", 
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_MESSAGE_TYPE,
 						KIND_NODE,
 						fMessageTypeName
@@ -201,7 +203,7 @@ public class PropertyAlias extends CValidator {
 				if (isUndefined(typeNode)) {
 					problem = createError();
 					problem.fill("BPELC_MSG__PART",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fMessagePartName,
 						msgType
 					);
@@ -218,7 +220,7 @@ public class PropertyAlias extends CValidator {
 			if (isUndefined(typeNode)) {
 				problem = createError();
 				problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", 
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_TYPE,
 						KIND_NODE,
 						fTypeName
@@ -234,7 +236,7 @@ public class PropertyAlias extends CValidator {
 			if (isUndefined(typeNode)) {				
 				problem = createError();				
 				problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", 
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_ELEMENT,
 						KIND_NODE,
 						fElementName
@@ -274,7 +276,7 @@ public class PropertyAlias extends CValidator {
 		if (containsValueKey(fParentNode,fDuplicateKey)) {
 			problem = createError();
 			problem.fill("BPELC__DUPLICATE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					fPropertyName);
 			return ;
 		}

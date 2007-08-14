@@ -26,6 +26,7 @@ import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
 
 
 
@@ -59,7 +60,7 @@ public class ProcessValidator extends CValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 		ncName = mNode.getAttribute( AT_NAME );
@@ -79,10 +80,8 @@ public class ProcessValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com"
 	)	
 		
-	public void rule_CheckName_1 () {			
-		
-		mChecks.checkNCName(mNode, ncName, AT_NAME );		
-		
+	public void rule_CheckName_1 () {					
+		checkNCName(mNode, ncName, AT_NAME );
 	}
 		
 	
@@ -166,7 +165,7 @@ public class ProcessValidator extends CValidator {
 	
 	public void rule_CheckExitOnStandardFault_10 () {
 		
-		fExitStandardFault = mChecks.getAttribute(mNode, 
+		fExitStandardFault = getAttribute(mNode, 
 				AT_EXIT_ON_STANDARD_FAULT, 
 				KIND_NODE, 
 				Filters.BOOLEAN_FILTER, 
@@ -189,7 +188,7 @@ public class ProcessValidator extends CValidator {
 		date = "01/10/2007"
 	)			
 	public void rule_CheckSuppressJoinFailre_11 () {
-		fSupressJoinFailure = mChecks.getAttribute(mNode, 
+		fSupressJoinFailure = getAttribute(mNode, 
 				AT_SUPPRESS_JOIN_FAILURE, 
 				KIND_NODE, 
 				Filters.BOOLEAN_FILTER, 
@@ -226,7 +225,7 @@ public class ProcessValidator extends CValidator {
 		
 		IProblem problem = createError();
 		problem.fill("BPELC_PROCESS__NO_START",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				mNode.getAttribute(AT_NAME)
 		);
 	}
@@ -315,7 +314,7 @@ public class ProcessValidator extends CValidator {
 					
 					INode correlationNode = mSelector.selectNode(correlationsNode, 
 							ND_CORRELATION,
-							new Filters.NodeAttributeValueFilter(AT_SET,name) );
+							new NodeAttributeValueFilter(AT_SET,name) );
 					
 					if ( isUndefined( correlationNode ) )  {
 						continue;

@@ -37,7 +37,7 @@ public class ForEachValidator extends CActivityValidator {
 	 */
 	
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 	}
 	
@@ -47,7 +47,7 @@ public class ForEachValidator extends CActivityValidator {
 	 */
 	
 	public void rule_CheckParallel_1 () {
-		fParallel = mChecks.getAttribute(mNode, 
+		fParallel = getAttribute(mNode, 
 				AT_PARALLEL, 
 				KIND_ACTIVITY, 
 				Filters.BOOLEAN_FILTER, 
@@ -66,7 +66,7 @@ public class ForEachValidator extends CActivityValidator {
 		
 		fCounterName = mNode.getAttribute(AT_COUNTER_NAME);
 		
-		mChecks.checkNCName(mNode, fCounterName, AT_COUNTER_NAME);
+		checkNCName(mNode, fCounterName, AT_COUNTER_NAME);
 		
 	}
 	

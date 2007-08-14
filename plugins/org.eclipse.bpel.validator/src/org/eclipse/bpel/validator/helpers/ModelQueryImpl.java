@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Stack;
 
+import javax.management.AttributeNotFoundException;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.validator.model.Filters;
@@ -25,13 +27,16 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IFunctionMeta;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.INode;
+import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
 import org.eclipse.bpel.validator.model.Selector;
 import org.eclipse.bpel.validator.model.UndefinedNode;
 import org.eclipse.bpel.validator.model.XNotImplemented;
 
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -53,14 +58,14 @@ import org.w3c.dom.NodeList;
 
 @SuppressWarnings("nls")
 
-public class ModelQueryImpl implements IModelQuery, IConstants {	
+public class ModelQueryImpl  implements IModelQuery {	
 	
 	/**
 	 * The handle to the EMF root of the BPEL process that we will
 	 * validate. 
 	 */
 	
-	protected Selector mSelector;
+	static final protected Selector mSelector = new Selector();
 		
 	
 	/**
@@ -69,7 +74,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 	 */
 	
 	public ModelQueryImpl () {
-		mSelector = Selector.getInstance();
+		
 	}
 			
 	/**
@@ -87,17 +92,17 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 		switch (item) {
 		case SUPPORT_QUERY_LANGUAGE :		
 			return 
-				XMLNS_XPATH_QUERY_LANGUAGE.equals ( value ) ||
-				XMLNS_XPATH_QUERY_LANGUAGE_2.equals( value );
+			IConstants.XMLNS_XPATH_QUERY_LANGUAGE.equals ( value ) ||
+			IConstants.XMLNS_XPATH_QUERY_LANGUAGE_2.equals( value );
 		
 		case SUPPORT_EXPRESSION_LANGUAGE :
 			return 
-				XMLNS_XPATH_EXPRESSION_LANGUAGE.equals ( value ) ||
-				XMLNS_XPATH_EXPRESSION_LANGUAGE_2.equals( value );			
+			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE.equals ( value ) ||
+			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE_2.equals( value );			
 
 		case SUPPORT_IMPORT_TYPE :
-			return AT_VAL_IMPORT_XSD.equals ( value ) || 
-					AT_VAL_IMPORT_WSDL.equals ( value ) ;
+			return IConstants.AT_VAL_IMPORT_XSD.equals ( value ) || 
+			IConstants.AT_VAL_IMPORT_WSDL.equals ( value ) ;
 		
 		case SUPPORT_EXTENSION :
 			// by default we have no extensions that we support
@@ -192,11 +197,11 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 		
 	protected INode lookupVariable (INode context, final String name) {
 		
-		IFilter<INode> aFilter = new Filters.NodeAttributeValueFilter(AT_NAME, name );
+		IFilter<INode> aFilter = new NodeAttributeValueFilter(IConstants.AT_NAME, name );
 		
 		while (context != null) {				
 			if (Filters.SCOPE_OR_PROCESS.select (context) ) {				
-				INode var = mSelector.selectNode(context,ND_VARIABLES,ND_VARIABLE,aFilter);								
+				INode var = mSelector.selectNode(context,IConstants.ND_VARIABLES,IConstants.ND_VARIABLE,aFilter);								
 				if (var != null) {
 					return var;
 				}
@@ -218,10 +223,10 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 	 */
 	
 	protected INode lookupPartnerLink (INode context, String name) {
-		IFilter<INode> aFilter = new Filters.NodeAttributeValueFilter(AT_NAME,name );
+		IFilter<INode> aFilter = new NodeAttributeValueFilter(IConstants.AT_NAME,name );
 		while (context != null) {								
 			if (Filters.SCOPE_OR_PROCESS.select(context) ) {
-				INode obj = mSelector.selectNode(context, ND_PARTNER_LINKS, ND_PARTNER_LINK, aFilter);
+				INode obj = mSelector.selectNode(context, IConstants.ND_PARTNER_LINKS, IConstants.ND_PARTNER_LINK, aFilter);
 				if (obj != null) {
 					return obj; 					
 				}
@@ -242,10 +247,10 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 	 */
 	
 	protected INode lookupCorrelationSet (INode context, String name) {
-		IFilter<INode> aFilter = new Filters.NodeAttributeValueFilter(AT_NAME,name );
+		IFilter<INode> aFilter = new NodeAttributeValueFilter(IConstants.AT_NAME,name );
 		while (context != null) {								
 			if (Filters.SCOPE_OR_PROCESS.select(context) ) {
-				INode obj = mSelector.selectNode(context, ND_CORRELATION_SETS, ND_CORRELATION_SET, aFilter);
+				INode obj = mSelector.selectNode(context, IConstants.ND_CORRELATION_SETS, IConstants.ND_CORRELATION_SET, aFilter);
 				if (obj != null) {
 					return obj; 					
 				}
@@ -265,11 +270,11 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 	 */
 	
 	public INode lookupLink ( INode context, String name ) {
-		IFilter<INode> aFilter = new Filters.NodeAttributeValueFilter(AT_NAME, name );
+		IFilter<INode> aFilter = new NodeAttributeValueFilter(IConstants.AT_NAME, name );
 		while (context != null) {
-			String contextNodeName = context.nodeName();
-			if (contextNodeName.equals(ND_FLOW)) {
-				INode link = mSelector.selectNode(context,ND_LINKS,ND_LINK, aFilter);
+			QName contextNodeName = context.nodeName();
+			if (contextNodeName.equals(IConstants.ND_FLOW)) {
+				INode link = mSelector.selectNode(context,IConstants.ND_LINKS,IConstants.ND_LINK, aFilter);
 				if (link != null) {
 					return link;
 				}
@@ -325,7 +330,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				result = lookupVariable(context,name);
 			}			
 			if (result == null) {
-				result =  new UndefinedNode(ND_VARIABLE, AT_NAME, name);
+				result =  new UndefinedNode(IConstants.ND_VARIABLE, IConstants.AT_NAME, name);
 			}
 			break;
 			
@@ -334,7 +339,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				result = lookupLink(context, name);	
 			}			
 			if (result == null) {
-				result = new UndefinedNode(ND_LINK,AT_NAME,name);
+				result = new UndefinedNode(IConstants.ND_LINK,IConstants.AT_NAME,name);
 			}
 			break;
 			
@@ -347,7 +352,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 			}
 			
 			if (modelObject == null) {
-				result = new UndefinedNode(ND_IMPORT);
+				result = new UndefinedNode(IConstants.ND_IMPORT);
 			}
 			break;
 			
@@ -356,7 +361,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				result = lookupPartnerLink (context, name);				
 			}						
 			if (result == null) {
-				result = new UndefinedNode(ND_PARTNER_LINK,AT_NAME,name);
+				result = new UndefinedNode(IConstants.ND_PARTNER_LINK,IConstants.AT_NAME,name);
 			}
 			break;
 					
@@ -366,7 +371,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				result = lookupCorrelationSet (context,name);
 			}
 			if (result == null) {
-				result = new UndefinedNode(ND_CORRELATION_SET,AT_NAME,name);
+				result = new UndefinedNode(IConstants.ND_CORRELATION_SET,IConstants.AT_NAME,name);
 			}
 			break;	
 			
@@ -383,7 +388,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null; 				
 			}			
 			if (modelObject == null) {
-				result = new UndefinedNode(WSDL_ND_PARTNER_LINK_TYPE, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;
 			
@@ -393,7 +398,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;
 			}			
 			if (modelObject == null) {
-				result = new UndefinedNode(WSDL_ND_PARTNER_LINK_TYPE, AT_NAME, name );				
+				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, name );				
 			}
 			break;				
 			
@@ -403,7 +408,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;
 			}			
 			if (modelObject == null) {
-				result = new UndefinedNode ( WSDL_ND_OPERATION, AT_NAME, name );
+				result = new UndefinedNode ( IConstants.WSDL_ND_OPERATION, IConstants.AT_NAME, name );
 			}
 			break;			
 			
@@ -413,7 +418,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;				
 			}				
 			if (modelObject == null) {
-				result = new UndefinedNode ( WSDL_ND_PORT_TYPE, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode ( IConstants.WSDL_ND_PORT_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;
 			
@@ -423,14 +428,14 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;
 			}					
 			if (modelObject == null) {
-				result = new UndefinedNode(WSDL_ND_MESSAGE, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode(IConstants.WSDL_ND_MESSAGE, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;			
 
 		case LOOKUP_NODE_MESSAGE_PART :
 			
 			if (modelObject == null) {
-				result = new UndefinedNode(WSDL_ND_PART, AT_NAME, qname.getLocalPart() );
+				result = new UndefinedNode(IConstants.WSDL_ND_PART, IConstants.AT_NAME, qname.getLocalPart() );
 			}
 			break;
 			
@@ -440,7 +445,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;
 			}
 			if (modelObject == null) {				
-				result = new UndefinedNode(AT_ELEMENT,AT_NAME, qname.getLocalPart());
+				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME, qname.getLocalPart());
 			}
 			break;
 			
@@ -449,7 +454,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;				
 			}
 			if (modelObject == null) {
-				result = new UndefinedNode(AT_TYPE,AT_NAME, qname.getLocalPart());	
+				result = new UndefinedNode(IConstants.AT_TYPE,IConstants.AT_NAME, qname.getLocalPart());	
 			}
 			break;
 			
@@ -458,7 +463,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;				
 			}
 			if (modelObject == null) {
-				result = new UndefinedNode(EXT_ND_PROPERTY, AT_NAME, qname.getLocalPart());	
+				result = new UndefinedNode(IConstants.VPROP_ND_PROPERTY, IConstants.AT_NAME, qname.getLocalPart());	
 			}
 			break;
 			
@@ -467,7 +472,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;
 			}
 			if (modelObject == null) {
-				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
+				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
 			}
 			break;
 		
@@ -477,7 +482,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;
 			}
 			if (modelObject == null) {
-				result =  new UndefinedNode(AT_ELEMENT,AT_NAME,qname.getLocalPart() );	
+				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
 			}
 			break;
 			
@@ -486,7 +491,7 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 				modelObject = null;				
 			}
 			if (modelObject == null) {
-				result = new UndefinedNode(AT_ELEMENT,AT_NAME,"Unknown");
+				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,"Unknown");
 			}
 			break ;
 		
@@ -524,29 +529,34 @@ public class ModelQueryImpl implements IModelQuery, IConstants {
 		
 		case LOOKUP_TEXT_LOCATION :
 			// Should this be anything else ?
-			return context.nodeName();
+			return context.nodeName().getLocalPart();
 			
 		case LOOKUP_TEXT_NS2PREFIX : 
-			return def;
+			if (key == null) {
+				break;
+			}
+			elm = adapt(context,Element.class);
+			if (elm != null) {
+				String result = elm.lookupPrefix(key);
+				return result != null ? result : def;
+			}				
+			break;
 			
 		case LOOKUP_TEXT_PREFIX2NS :
 			if (key == null) {
-				return def;
-			}			
-			String nsKey = "xmlns:" + key;
-			while (context != null) {								
-				String result = context.getAttribute( nsKey );
-				if (result != null) {
-					return result;
-				}
-				context = context.parentNode();
+				break;
+			}		
+			elm = adapt(context,Element.class);
+			if (elm != null) {
+				String result = elm.lookupNamespaceURI(key);
+				return result != null ? result : def;
 			}
 			break;
 			
 		case LOOKUP_TEXT_TEXT :
 			elm = adapt(context,Element.class);
 			if (elm == null) {
-				return def;
+				break;
 			}			
 			StringBuilder text = new StringBuilder();
 			Node n = elm.getFirstChild();

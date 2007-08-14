@@ -12,13 +12,13 @@ package org.eclipse.bpel.validator.vprop;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IValue;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.Validator;
 import org.eclipse.bpel.validator.rules.CValidator;
 
@@ -39,7 +39,7 @@ public class Query extends CValidator {
 	/**
 	 * The valid parent nodes (this is read via reflection in CValidator)
 	 */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( WSDL_ND_PROPERTY_ALIAS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( VPROP_ND_PROPERTY_ALIAS );
 			
 		
 	protected Validator fQueryValidator = null;
@@ -47,13 +47,8 @@ public class Query extends CValidator {
 
 	protected String fQueryLanguage;
 		
-	/**
-	 * 
-	 * @see org.eclipse.bpel.validator.model.Validator#start()
-	 */
-	 
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();			
 	}	
 			
@@ -70,7 +65,7 @@ public class Query extends CValidator {
 	)
 	public void rule_CheckQueryLanguageSupport_20 () {
 		
-		fQueryLanguage = mChecks.getLanguage(mNode,AT_QUERYLANGUAGE);
+		fQueryLanguage = getLanguage(mNode,AT_QUERYLANGUAGE);
 		
 		IProblem problem;
 		
@@ -112,7 +107,7 @@ public class Query extends CValidator {
 					
 		if (fQueryValidator == null) {
 
-			fQueryValidator = createExpressionValidator( new QName( fQueryLanguage, mNode.nodeName() ) );
+			fQueryValidator = createExpressionValidator( new QName( fQueryLanguage, mNode.nodeName().getLocalPart() ) );
 			if (fQueryValidator == null) {
 				return ;
 			}

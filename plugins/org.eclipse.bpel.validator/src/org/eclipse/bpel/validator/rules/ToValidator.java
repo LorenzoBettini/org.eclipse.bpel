@@ -12,13 +12,13 @@ package org.eclipse.bpel.validator.rules;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.validator.model.Filters;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IValue;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.model.Validator;
 
 
@@ -36,16 +36,16 @@ import org.eclipse.bpel.validator.model.Validator;
 
 public class ToValidator extends CValidator {
 	
-	static String [] ENDPOINT_REFRENCE = { AT_MY_ROLE , AT_PARTNER_ROLE };
+	static QName [] ENDPOINT_REFRENCE = { AT_MY_ROLE , AT_PARTNER_ROLE };
 	
 	/** My parents */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_COPY );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_COPY );
 	
 	
 	
 	protected INode fVariableNode ;
 
-	protected INode queryNode;
+	protected INode fQueryNode;
 
 	protected INode fPartnerLinkNode;
 	
@@ -70,16 +70,16 @@ public class ToValidator extends CValidator {
 	 */
 	 
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 		fVariableNode = mModelQuery.lookup(mNode,
 							IModelQueryLookups.LOOKUP_NODE_VARIABLE,
-							mNode.getAttribute(ND_VARIABLE));
+							mNode.getAttribute(AT_VARIABLE));
 		
 		fPartName = mNode.getAttribute(AT_PART);
 				
-		queryNode = mNode.getNode(ND_QUERY);
+		fQueryNode = mNode.getNode(ND_QUERY);
 				
 		fPartnerLinkNode = mModelQuery.lookup(mNode,
 							IModelQueryLookups.LOOKUP_NODE_PARTNER_LINK,
@@ -87,7 +87,7 @@ public class ToValidator extends CValidator {
 		
 		fPropertyName = mNode.getAttribute(AT_PROPERTY);
 		
-		fExpressionLanguage = mChecks.getLanguage(mNode,AT_EXPRESSIONLANGUAGE);
+		fExpressionLanguage = getLanguage(mNode,AT_EXPRESSIONLANGUAGE);
 
 	}
 	
@@ -115,8 +115,8 @@ public class ToValidator extends CValidator {
 			variant += 1;
 
 			// if this is bad, disable all rules
-			if (mChecks.checkValidator(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false ||
-				mChecks.checkAttributeNode(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false) {
+			if (checkValidator(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false ||
+				checkAttributeNode(mNode, fVariableNode, AT_VARIABLE, KIND_NODE) == false) {
 				disableRules();
 			}
 		}
@@ -125,8 +125,8 @@ public class ToValidator extends CValidator {
 			variant += 1;
 			
 			// if this is bad, disable all rules
-			if (mChecks.checkValidator(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false ||
-				mChecks.checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false) {
+			if (checkValidator(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false ||
+				checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_NODE) == false) {
 				disableRules();
 			}
 		
@@ -141,7 +141,7 @@ public class ToValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_TO__VARIANT", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					variant);
 					
 			disableRules();
@@ -150,7 +150,7 @@ public class ToValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_TO__VARIANT", //$NON-NLS-1$
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					variant);
 			
 			disableRules();
@@ -197,7 +197,7 @@ public class ToValidator extends CValidator {
 			if (isEmpty(fPartName) == false) {
 				problem = createError();
 				problem.fill ("BPELC_TO__VARIABLE_PART", //$NON-NLS-1$
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_VARIABLE,
 						fVariableNode.getAttribute(AT_NAME)
 				);				
@@ -212,7 +212,7 @@ public class ToValidator extends CValidator {
 			if (isUndefined(partNode)) {
 				problem = createError();
 				problem.fill("BPELC__PA_NO_PART",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						fPartName,
 						varTypeNode);	
 				
@@ -260,7 +260,7 @@ public class ToValidator extends CValidator {
 		if (isEmptyOrWhitespace(partnerRole)) {
 			problem = createError();
 			problem.fill ("BPELC_TO__PARTNER_LINK", 
-					mNode.nodeName(),					
+					toString(mNode.nodeName()),					
 					fPartnerLinkNode.getAttribute(AT_NAME),
 					AT_PARTNER_ROLE);
 		} else {
@@ -292,13 +292,18 @@ public class ToValidator extends CValidator {
 	public void rule_CheckExpressionVariant_50 () {
 		
 		// not this variant.
-		if (fVariableNode != null || fPropertyNode != null || fPartnerLinkNode != null || fPartName != null ) {
+		if (fVariableNode != null || 
+			fPropertyNode != null || 
+			fPartnerLinkNode != null || 
+			fPartName != null ||
+			fQueryNode != null ) {
+			
 			return ;
 		}
 		
 		if (fExprValidator == null) {
 			
-			fExprValidator = createExpressionValidator (new QName( fExpressionLanguage, mNode.nodeName() ) );
+			fExprValidator = createExpressionValidator (new QName( fExpressionLanguage, mNode.nodeName().getLocalPart() ) );
 			
 			if (fExprValidator == null) {
 				return ;

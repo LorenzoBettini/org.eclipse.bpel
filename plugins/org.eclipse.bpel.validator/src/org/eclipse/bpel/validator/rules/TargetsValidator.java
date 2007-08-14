@@ -77,7 +77,7 @@ public class TargetsValidator extends CContainerValidator {
 				IProblem problem = createError( next );
 				problem.setAttribute(IProblem.CONTEXT, AT_LINK_NAME);
 				problem.fill( "BPELC_DUPLICATE_NAME",
-						mNode.nodeName(), 
+						toString(mNode.nodeName()), 
 						next.nodeName(),  
 						name); 
 			}			

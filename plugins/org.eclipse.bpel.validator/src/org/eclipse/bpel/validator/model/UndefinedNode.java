@@ -26,15 +26,16 @@ import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
  */
 public class UndefinedNode implements INode {
 	
-	HashMap<String,String> mMap = new HashMap<String,String>(5);
-	String fNodeName ;
+	HashMap<Object,Object> mMap = new HashMap<Object,Object>(5);
+	QName fNode ;
 	
 	/**
 	 * @param name
 	 * @param args
 	 */
-	public UndefinedNode ( String name, String ... args ) {
-		fNodeName = name;
+	public UndefinedNode ( QName name, Object ... args ) {
+		fNode = name;
+		
 		for(int i=0; i < args.length; i += 2) {
 			mMap.put(args[i], args[i+1]);			
 		}
@@ -47,19 +48,26 @@ public class UndefinedNode implements INode {
 		return Collections.emptyList();
 	}
 
-	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.model.INode#getAttribute(java.lang.String)
+	/**
+	 * @see org.eclipse.bpel.validator.model.INode#getAttribute(javax.xml.namespace.QName)
 	 */
-	public String getAttribute(String name) {
-		return mMap.get(name);
+	public String getAttribute (QName name) {
+		Object value = mMap.get(name);
+		if (value == null) {
+			return null;
+		}
+		if (value instanceof String) {
+			return (String) value;
+		}
+		return null;		
 	}
 
 	/**
-	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getAttributeAsQName(javax.xml.namespace.QName)
 	 */
 	
-	public QName getAttributeAsQName ( String name ) {
-		String value = getAttribute(name);
+	public QName getAttributeAsQName ( QName name ) {
+		String value = getAttribute (name);
 		if (value == null) {
 			return null;
 		}
@@ -67,17 +75,17 @@ public class UndefinedNode implements INode {
 	}
 	
 	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.model.INode#getNode(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getNode(javax.xml.namespace.QName)
 	 */
 	
-	public INode getNode (String name) {		
+	public INode getNode (QName name) {		
 		return null;
 	}
 
 	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.model.INode#getNodeList(java.lang.String)
+	 * @see org.eclipse.bpel.validator.model.INode#getNodeList(javax.xml.namespace.QName)
 	 */	
-	public List<INode> getNodeList(String name) {
+	public List<INode> getNodeList(QName name) {
 		return Collections.emptyList();
 	}
 
@@ -92,8 +100,8 @@ public class UndefinedNode implements INode {
 	 * @see org.eclipse.bpel.validator.model.INode#nodeName()
 	 */
 	
-	public String nodeName() {
-		return fNodeName;
+	public QName nodeName() {
+		return fNode;
 	}
 
 	/** (non-Javadoc)

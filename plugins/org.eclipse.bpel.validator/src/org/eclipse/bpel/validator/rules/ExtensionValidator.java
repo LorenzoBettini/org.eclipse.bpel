@@ -16,6 +16,7 @@ import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 
 
 
@@ -34,7 +35,7 @@ import org.eclipse.bpel.validator.model.IProblem;
 public class ExtensionValidator extends CValidator {
 			
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( ND_EXTENSIONS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_EXTENSIONS );
 	
 	
 	protected String fMustUnderstand;
@@ -44,7 +45,7 @@ public class ExtensionValidator extends CValidator {
 	 * @see org.eclipse.bpel.validator.rules.CValidator#start()
 	 */
 	@Override
-	public void start() {
+	protected void start() {
 		super.start();
 	}
 	
@@ -54,7 +55,7 @@ public class ExtensionValidator extends CValidator {
 	 */
 	
 	public void rule_CheckMustUnderstand_1 () {
-		fMustUnderstand = mChecks.getAttribute(mNode, AT_MUST_UNDERSTAND, KIND_NODE, Filters.BOOLEAN_FILTER	,true);
+		fMustUnderstand = getAttribute(mNode, AT_MUST_UNDERSTAND, KIND_NODE, Filters.BOOLEAN_FILTER	,true);
 		
 		if (fMustUnderstand == null) {
 			fMustUnderstand = NO;
@@ -67,7 +68,7 @@ public class ExtensionValidator extends CValidator {
 	
 	public void rule_CheckNamespaceURI_2 () {
 		
-		fNamespaceURI = mChecks.getAttribute(mNode, AT_NAMESPACE, KIND_NODE, null, true);
+		fNamespaceURI = getAttribute(mNode, AT_NAMESPACE, KIND_NODE, null, true);
 		
 	}
 	
@@ -100,7 +101,7 @@ public class ExtensionValidator extends CValidator {
 			problem = createError();
 			
 			problem.fill("BPELC_EXTENSION__NOT_SUPPORTED",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				fNamespaceURI,
 				fMustUnderstand);
 		}

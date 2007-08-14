@@ -43,7 +43,7 @@ public class FlowValidator extends CActivityValidator {
 	 * @see org.eclipse.bpel.validator.rules.CContainerValidator#start()
 	 */
 	@Override
-	public void start() {
+	protected void start() {
 		super.start();		
 		setValue(LINKS_SET, new HashSet<String>());
 		setValue(SOURCE_MAP, new HashMap<String,INode>());

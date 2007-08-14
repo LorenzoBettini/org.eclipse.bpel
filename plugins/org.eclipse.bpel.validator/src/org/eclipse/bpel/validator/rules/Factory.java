@@ -28,7 +28,7 @@ import org.eclipse.bpel.validator.model.Validator;
  * @date Jan 12, 2007
  */
 
-public class Factory implements IFactory<Validator>, IConstants {
+public class Factory implements IFactory<Validator> {
 
 	static final String PACKAGE_NAME = Factory.class.getPackage().getName();
 	
@@ -42,7 +42,7 @@ public class Factory implements IFactory<Validator>, IConstants {
 			
 		String nsURI = qname.getNamespaceURI();
 		
-		if (nsURI.equals(XMLNS_BPEL) || nsURI.equals(XMLNS_BPEL20_OLD)) {
+		if (nsURI.equals(IConstants.XMLNS_BPEL) || nsURI.equals(IConstants.XMLNS_BPEL20_OLD)) {
 			return createValidator ( qname.getLocalPart() );			
 		}
 		
@@ -62,15 +62,15 @@ public class Factory implements IFactory<Validator>, IConstants {
 		Class<?> clazz;
 		try {
 			clazz = Class.forName ( validatorClass );
-		} catch (ClassNotFoundException e) {
-			mLogger.log(Level.FINE, "Validator not found in this factory {0}",e.getMessage());			
+		} catch (Throwable t) {
+			mLogger.log(Level.FINE, "Validator not found in this factory {0}",t.getMessage());			
 			return null;			
 		}
 		
 		try {
 			obj = clazz.newInstance();
-		} catch (Exception ex) {
-			mLogger.log(Level.WARNING, "Validator class cannot be created.",ex);
+		} catch (Throwable t) {
+			mLogger.log(Level.WARNING, "Validator class cannot be created.",t);
 			return null;
 		}
 		

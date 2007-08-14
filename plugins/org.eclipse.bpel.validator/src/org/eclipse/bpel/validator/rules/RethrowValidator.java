@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.ARule;
@@ -44,7 +46,7 @@ public class RethrowValidator extends CActivityValidator {
 		
 		INode parent = mNode.parentNode();
 		while (parent != null) {
-			String nodeName = parent.nodeName();
+			QName nodeName = parent.nodeName();
 			if (ND_CATCH.equals ( nodeName ) || ND_CATCH_ALL.equals (nodeName )) {
 				return ;
 			}			
@@ -55,7 +57,7 @@ public class RethrowValidator extends CActivityValidator {
 		IProblem problem = createError();
 		problem.fill("BPELC_RETHROW__NOT_IN_FAULT_HANDLER", //$NON-NLS-1$
 				ncName,
-				mNode.nodeName() );		
+				toString(mNode.nodeName()) );		
 	}
 	
 	

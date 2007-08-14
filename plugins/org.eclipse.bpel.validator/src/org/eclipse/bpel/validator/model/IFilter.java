@@ -28,5 +28,5 @@ public interface IFilter<T> {
 	 * @return true to keep the node, false to throw it away
 	 */
 	
-	boolean select ( T node );
+	boolean select ( T node );	
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
@@ -52,7 +54,7 @@ public class CompensateScopeValidator extends CActivityValidator {
 		
 		INode parent = mNode.parentNode();
 		while (parent != null) {
-			String nodeName = parent.nodeName();
+			QName nodeName = parent.nodeName();
 			
 			if (ND_COMPENSATION_HANDLER.equals ( nodeName ) ||
 				ND_TERMINATION_HANDLER.equals ( nodeName ) ||
@@ -70,7 +72,7 @@ public class CompensateScopeValidator extends CActivityValidator {
 		// at this point we have a problem.
 		IProblem problem = createError();
 		problem.fill("BPELC_COMPENSATE__NOT_IN_HANDLER", //$NON-NLS-1$
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				ncName );		
 	}
 	
@@ -89,7 +91,7 @@ public class CompensateScopeValidator extends CActivityValidator {
 		
 	public void rule_CheckTargetScopeNCName_15 () {
 		fTargetScopeNCName = mNode.getAttribute( AT_TARGET );
-		if (mChecks.checkNCName(mNode, fTargetScopeNCName, AT_TARGET) == false) {
+		if (checkNCName(mNode, fTargetScopeNCName, AT_TARGET) == false) {
 			disableRules();
 		}		
 	}
@@ -123,7 +125,7 @@ public class CompensateScopeValidator extends CActivityValidator {
 		if (isUndefined(fTargetScope)) {		
 			problem = createError();
 			problem.fill("BPELC_COMPENSATE_SCOPE__NO_TARGET",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					mNode.getAttribute(AT_NAME),
 					fTargetScopeNCName
 			);
@@ -131,12 +133,12 @@ public class CompensateScopeValidator extends CActivityValidator {
 			return ;			
 		}
 		
-		String targetNodeName = fTargetScope.nodeName();
+		QName targetNodeName = fTargetScope.nodeName();
 		
 		if (targetNodeName.equals(ND_SCOPE) == false && targetNodeName.equals(ND_INVOKE) == false ) {
 			problem = createError();
 			problem.fill("BPELC_COMPENSATE_SCOPE__NO_TARGET",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					mNode.getAttribute(AT_NAME),
 					fTargetScopeNCName
 			);
@@ -176,10 +178,10 @@ public class CompensateScopeValidator extends CActivityValidator {
 		if (faultHandlers < 1 && compensationHandlers < 1) {
 			problem = createError();
 			problem.fill("BPELC_COMPENSATE_SCOPE__TARGET_NO_HANDLERS",
-				mNode.nodeName(),
+				toString(mNode.nodeName()),
 				mNode.getAttribute(AT_NAME),
 				fTargetScopeNCName,
-				fTargetScope.nodeName()
+				toString(fTargetScope.nodeName())
 			);
 		}
 	}

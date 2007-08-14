@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 
 /** 
  * BPEL EMF Model dependency 
@@ -24,6 +26,7 @@ import java.util.List;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.PartnerActivity;
+import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.INode;
 
 
@@ -37,14 +40,14 @@ public class PartnerActivityAdapter extends BasicAdapter {
 
 	
 	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.validator.adapters.BasicAdapter#getNodeList(java.lang.String)
+	 * @see org.eclipse.bpel.validator.adapters.BasicAdapter#getNodeList(javax.xml.namespace.QName)
 	 */
 	
 	@Override
-	public List<INode> getNodeList ( String name ) {
+	public List<INode> getNodeList ( QName name ) {
 		PartnerActivity pa = (PartnerActivity) getTarget();
 		
-		if (ND_CORRELATION.equals ( name )) {
+		if (IConstants.ND_CORRELATION.getLocalPart().equals ( name )) {
 			Correlations c = pa.getCorrelations();
 			if (c != null) {
 				ArrayList<INode> children = new ArrayList<INode> ( c.getChildren().size() );

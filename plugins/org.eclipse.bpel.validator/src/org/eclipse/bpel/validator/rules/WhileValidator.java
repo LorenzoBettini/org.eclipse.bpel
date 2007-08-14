@@ -42,7 +42,7 @@ public class WhileValidator extends CActivityValidator {
 	 * Start the validation of this node.
 	 */
 	@Override
-	public void start () {
+	protected void start () {
 		super.start();
 		
 		conditionExpr = mNode.getNode(ND_CONDITION);				
@@ -83,7 +83,7 @@ public class WhileValidator extends CActivityValidator {
 			problem.fill( 
 					"BPELC_NO_EXPRESSION", //$NON-NLS-1$
 					AT_CONDITION,
-					mNode.nodeName() );
+					toString(mNode.nodeName()) );
 		} 				
 	}	
 	
@@ -112,7 +112,7 @@ public class WhileValidator extends CActivityValidator {
 			
 			problem = createWarning();
 			problem.fill("BPELC_GENERAL__NO_ACTIVITY", //$NON-NLS-1$
-					mNode.nodeName() );			
+					toString(mNode.nodeName()) );			
 		}
 	}
 	

@@ -11,11 +11,11 @@
 package org.eclipse.bpel.validator.vprop;
 
 import org.eclipse.bpel.validator.model.ARule;
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.NodeNameFilter;
 import org.eclipse.bpel.validator.rules.CValidator;
 
 
@@ -34,7 +34,7 @@ import org.eclipse.bpel.validator.rules.CValidator;
 public class Property extends CValidator {
 	
 	/** Parent nodes */
-	static public IFilter<INode> PARENTS = new Filters.NodeNameFilter( WSDL_ND_DEFINITIONS );
+	static public IFilter<INode> PARENTS = new NodeNameFilter( WSDL_ND_DEFINITIONS );
 	
 	
 	String ncName ;
@@ -68,7 +68,7 @@ public class Property extends CValidator {
 	
 	public void rule_CheckName_1 () {		
 		// Must be a valid NCName ...		
-		if (mChecks.checkNCName(mNode, ncName, AT_NAME ) == false) {
+		if (checkNCName(mNode, ncName, AT_NAME ) == false) {
 			disableRules();
 		}			
 	}
@@ -89,7 +89,7 @@ public class Property extends CValidator {
 		if (containsValueKey(fParentNode,key)) {
 			problem = createError();
 			problem.fill("BPELC__DUPLICATE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					ncName);
 			return ;
 		}
@@ -122,7 +122,7 @@ public class Property extends CValidator {
 			
 			problem = createError();
 			problem.fill("BPELC_PROPERTY__UNSET",
-					mNode.nodeName(),
+					toString(mNode.nodeName()),
 					AT_TYPE,
 					AT_ELEMENT,
 					0);
@@ -154,7 +154,7 @@ public class Property extends CValidator {
 				problem = createError();
 				
 				problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", 
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_TYPE,
 						KIND_NODE,
 						fTypeName
@@ -167,7 +167,7 @@ public class Property extends CValidator {
 			if (isUndefined(typeNode)) {
 				problem = createError();
 				problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", 
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						AT_ELEMENT,
 						KIND_NODE,
 						fElementName
