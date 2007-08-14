@@ -1023,7 +1023,8 @@ public class XPathValidator extends Validator {
 	
 		
 	protected boolean isJoinCondition () {
-		return fNodeName.equals(ND_JOIN_CONDITION);
+		/** ND_ are QNames, so make sure you compare apples to apples ... */
+		return ND_JOIN_CONDITION.equals(mNode.nodeName()); 
 	}
 	
 	
