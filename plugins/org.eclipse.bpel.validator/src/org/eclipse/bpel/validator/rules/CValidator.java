@@ -164,9 +164,11 @@ public class CValidator extends Validator {
 		
 		if (count < min) {
 			problem = createError();
-			problem.fill("BPELC__MIN_IN_PARENT",
-					filter.toString(),
+			problem.fill("BPELC__MIN_IN_PARENT",										
 					toString(mNode.nodeName()),
+					getNodeKind ( mNode ),
+					IConstants.KIND_NODE,
+					filter.toString(),					
 					count,
 					min
 			);			
@@ -174,8 +176,10 @@ public class CValidator extends Validator {
 		} else if (count > max) {
 			problem = createError();
 			problem.fill("BPELC__MAX_IN_PARENT",
-					filter.toString(),					
 					toString(mNode.nodeName()),
+					getNodeKind ( mNode ),
+					IConstants.KIND_NODE,
+					filter.toString(),
 					count,
 					max
 			);
@@ -449,7 +453,7 @@ public class CValidator extends Validator {
 			IProblem problem = createError( node );
 			problem.setAttribute(IProblem.CONTEXT, atName);
 			problem.fill("BPELC__UNSET_ATTRIBUTE", 
-					node.nodeName() ,
+					toString(node.nodeName()) ,
 					atName,
 					IConstants.KIND_NODE);
 			return false ;
@@ -499,8 +503,8 @@ public class CValidator extends Validator {
 			problem = createWarning(node);
 			problem.setAttribute(IProblem.CONTEXT, name);
 			problem.fill("BPELC_REF_NODE_PROBLEMS", //$NON-NLS-1$					
-					node.nodeName(),
-					ref.nodeName(),
+					toString(node.nodeName()),
+					toString(ref.nodeName()),
 					name,
 					kind);
 			
@@ -537,6 +541,13 @@ public class CValidator extends Validator {
 		return lang;
 	}
 		
+	
+	protected int getNodeKind ( INode node ) {
+		if (Filters.ACTIVITIES.select(node)) {
+			return IConstants.KIND_ACTIVITY;
+		}
+		return IConstants.KIND_NODE;
+	}
 	
 	
 	protected Validator createExpressionValidator ( QName qname ) {
