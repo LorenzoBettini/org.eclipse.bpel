@@ -91,30 +91,6 @@ public class WhileValidator extends CActivityValidator {
 	
 
 	
-	/**
-	 * Check to make sure that the activity is present. If not,
-	 * then the loop or structure makes no sense and is not needed.
-	 *
-	 */
-	
-	@ARule(
-		author = "michal.chmielewski@oracle.com",
-		desc = "Check to see if there is any activity in the while loop.",		
-		date = "10/2/2006",
-		sa = 1000
-	)
-	
-	public void rule_CheckNoActivity_25 () {
-		
-		IProblem problem ;
-		
-		if (activity == null) {
-			
-			problem = createWarning();
-			problem.fill("BPELC_GENERAL__NO_ACTIVITY", //$NON-NLS-1$
-					toString(mNode.nodeName()) );			
-		}
-	}
 	
 	
 	/** End of public rule methods.

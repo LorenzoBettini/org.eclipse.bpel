@@ -446,12 +446,13 @@ public class CValidator extends Validator {
 	 */
 	
 	
+	@SuppressWarnings("boxing")
 	public boolean checkNCName ( INode node, String ncName, QName atName ) {
 		
 		if (ncName == null || ncName.length() == 0) {
 			
 			IProblem problem = createError( node );
-			problem.setAttribute(IProblem.CONTEXT, atName);
+			problem.setAttribute(IProblem.CONTEXT, atName.getLocalPart() );
 			problem.fill("BPELC__UNSET_ATTRIBUTE", 
 					toString(node.nodeName()) ,
 					atName,
@@ -459,14 +460,13 @@ public class CValidator extends Validator {
 			return false ;
 		}
 		
-		// check if valid NCName
-		// TODO: More NCName checks
-		if (ncName.indexOf(' ') >= 0) {
+		if (Filters.NC_NAME.select(ncName) == false) {
 			
 			IProblem problem = createError( node );
-			problem.setAttribute(IProblem.CONTEXT, atName);
+			problem.setAttribute(IProblem.CONTEXT, atName.getLocalPart() );
 			problem.fill("General.NCName_Bad", //$NON-NLS-1$
-					atName, node.nodeName() , ncName );
+					toString(atName), 
+					toString(node.nodeName()) , ncName );
 			return false;
 		}
 		
@@ -501,7 +501,7 @@ public class CValidator extends Validator {
 		IProblem problem;
 		if (validator.hasProblems()) {
 			problem = createWarning(node);
-			problem.setAttribute(IProblem.CONTEXT, name);
+			problem.setAttribute(IProblem.CONTEXT, name.getLocalPart() );
 			problem.fill("BPELC_REF_NODE_PROBLEMS", //$NON-NLS-1$					
 					toString(node.nodeName()),
 					toString(ref.nodeName()),
@@ -567,5 +567,7 @@ public class CValidator extends Validator {
 		}
 		return object;
 	}
+	
+	
 	
 }

@@ -12,6 +12,8 @@ package org.eclipse.bpel.validator.model;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.validator.helpers.NCNameWordDetector;
+
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -82,10 +84,11 @@ public class Filters implements IConstants {
 	
 	/** An NC_NAME Filter */
 	public static final IFilter<String> NC_NAME = new IFilter<String> () {
-
+		
+		NCNameWordDetector fWordDetector = new NCNameWordDetector();
+		
 		public boolean select (String name) {
-			// TODO: incomplete
-			return name.indexOf(' ') < 0 && name.indexOf(':') < 0;
+			return fWordDetector.isValid(name);
 		}
 		
 		@Override

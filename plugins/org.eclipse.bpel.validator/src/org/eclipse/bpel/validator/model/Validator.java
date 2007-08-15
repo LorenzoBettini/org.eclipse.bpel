@@ -228,7 +228,7 @@ public class Validator implements IConstants {
 			if (tag.equals(PASS1)) {
 				start();
 			}			
-			runRules ( tag );			
+			mRuleRunner.runRules ( tag );			
 			if (tag.equals(PASS2)) {				
 				end();
 			}
@@ -612,41 +612,6 @@ public class Validator implements IConstants {
 	
 	
 	/**
-	 * Is this a duplicate thing ? 
-	 * 
-	 * @param key
-	 * @return true/false 
-	 */
-	
-	
-	protected boolean duplicateThing ( String ... args  ) {
-		
-		String key = null;
-		if (args.length == 1) {
-			key = args[0];
-		} else {
-			StringBuilder sb = new StringBuilder ();
-			for(String a : args) {
-				sb.append(a);
-			}
-			key = sb.toString();
-		}
-		
-		if (mData.containsKey(key)) {
-			return true;
-		}
-		
-		mData.put(key,Boolean.TRUE);
-		
-		return false;
-	}
-	
-	
-	
-	
-	
-	
-	/**
 	 * 
 	 * @param <T>
 	 * @param key
@@ -654,7 +619,7 @@ public class Validator implements IConstants {
 	 */
 	
 	public <T extends Object> T getValue ( Object key ) {
-		return getValue( mData, key , null );
+		return getValue( key , null );
 	}
 
 	
@@ -666,7 +631,19 @@ public class Validator implements IConstants {
 	 */
 	
 	public <T extends Object> T getValue ( Object key, T def ) {
-		return getValue( mData, key , def );
+		Validator next = getFirst();		
+		while ( next != null ) {
+			if (next.mData.containsKey(key)) {
+				Object obj = next.mData.get(key);			
+				if (obj instanceof IValue) {
+					return (T) ((IValue)obj).get();
+				}
+				return (T) obj;				
+			}
+			next = next.fNext;
+		}
+		
+		return def;
 	}
 	
 	
@@ -684,28 +661,11 @@ public class Validator implements IConstants {
 	public <T extends Object> T getValue ( INode node, Object key, T def ) {		
 		Validator validator = validatorForNode(node);
 		if (validator != null) {
-			return getValue(validator.mData,key,def);
+			return validator.getValue(key,def);
 		}
 		return def;		
 	}
 
-	
-	
-	<T extends Object> T getValue ( Map<Object,Object> data, Object key, T def ) {
-		
-		if (data.containsKey(key)) {			
-			Object obj = data.get(key);			
-			if (obj instanceof IValue) {
-				return (T) ((IValue)obj).get();
-			}
-			return (T) obj;
-		}
-		
-		if (fPrev != null) {
-			return fPrev.getValue (fPrev.mData, key,def);
-		}
-		return def;
-	}
 
 	/**
 	 * @param <T>  the type of the object
@@ -742,13 +702,15 @@ public class Validator implements IConstants {
 	 * @return true if present, false if not
 	 */
 	
-	public boolean containsValueKey ( String key ) {
-		if (mData.containsKey(key)) {
-			return true;
-		}
-		if (fPrev != null) {
-			return fPrev.containsValueKey(key);
-		}
+	public boolean containsValueKey ( String key ) {		
+		/** Search in the chain */
+		Validator next = getFirst();
+		while (next != null) {
+			if (next.mData.containsKey(key)) {
+				return true;
+			}
+			next = next.fNext;
+		}		
 		return false;
 	}
 	
@@ -773,6 +735,18 @@ public class Validator implements IConstants {
 		return null;
 	}
 	
+	
+	/** 
+	 * @return  Return the first validator in the chain.
+	 */
+	
+	private Validator getFirst() {
+		Validator first = this;
+		while (first.fPrev != null) {
+			first = first.fPrev;
+		}
+		return first;
+	}
 	
 	protected String toString (QName qname) {
 		

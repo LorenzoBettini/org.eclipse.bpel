@@ -285,13 +285,15 @@ public class EmfModelQuery {
 		if (eObj instanceof XSDComplexTypeDefinition) {
 			
 			XSDComplexTypeDefinition type = (XSDComplexTypeDefinition) eObj;
-			System.out.println("_______ Looking for: " + qname );
-			System.out.println("Type: " + type.getName() + "{" + type.getTargetNamespace() + "}");
+			
+			// System.out.println("_______ Looking for: " + qname );
+			// System.out.println("Type: " + type.getName() + "{" + type.getTargetNamespace() + "}");
+			
 			if (axis == 0) {
 				// Look in the child elements
 				for(Object item : XSDUtils.getChildElements(type)) {
 					XSDElementDeclaration next = (XSDElementDeclaration) item;				
-					System.out.println("Element Declaration: " + next.getName() + "{" + next.getTargetNamespace() + "}");
+					// System.out.println("Element Declaration: " + next.getName() + "{" + next.getTargetNamespace() + "}");
 					if (localName.equals( next.getName()) && sameNamespace(nsURI,next.getTargetNamespace())) {
 						return next.getType();
 					}
