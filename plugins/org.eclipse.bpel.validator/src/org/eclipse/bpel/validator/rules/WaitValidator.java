@@ -42,8 +42,8 @@ public class WaitValidator extends CActivityValidator {
 	protected void start () {
 		
 		super.start();		
-		forExpr = mNode.getNode( AT_FOR );
-		untilExpr = mNode.getNode( AT_UNTIL );
+		forExpr = mNode.getNode( ND_FOR );
+		untilExpr = mNode.getNode( ND_UNTIL );
 		
 	}
 		
