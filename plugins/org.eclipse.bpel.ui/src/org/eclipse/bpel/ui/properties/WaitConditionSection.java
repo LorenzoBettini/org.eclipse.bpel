@@ -99,17 +99,23 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 			Messages.WaitConditionSection_Duration_2 
 		};
 	
+	/** 
+	 * Button 0 is for "until" (date time)
+	 * Button 1 is for "for"   (duration)
+	 */
+	
 	static Map<EClass, EStructuralFeature[]> CLASS2FEATURES  = new HashMap<EClass, EStructuralFeature[]>();
 	static {
 		CLASS2FEATURES.put( BPELPackage.eINSTANCE.getWait() , 
-				new EStructuralFeature [] { 
-			 		BPELPackage.eINSTANCE.getWait_For(),
-			 		BPELPackage.eINSTANCE.getWait_Until()
+				new EStructuralFeature [] {
+					BPELPackage.eINSTANCE.getWait_Until(),
+			 		BPELPackage.eINSTANCE.getWait_For()
+			 		
 				});
 		CLASS2FEATURES.put( BPELPackage.eINSTANCE.getOnAlarm() , 
-				new EStructuralFeature [] { 
-			 		BPELPackage.eINSTANCE.getOnAlarm_For(),
-			 		BPELPackage.eINSTANCE.getOnAlarm_Until()
+				new EStructuralFeature [] {
+					BPELPackage.eINSTANCE.getOnAlarm_Until(),
+			 		BPELPackage.eINSTANCE.getOnAlarm_For()			 		
 				});		
 	}
 	
@@ -131,6 +137,7 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 		return null; 
 	}
 	
+	@SuppressWarnings("nls")
 	@Override
 	protected int getButtonIndexFromModel() {
 		EObject input = getInput();
@@ -139,9 +146,9 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 			return 1;
 		}				
 		if (feature.getName().indexOf("until") >= 0) {
-			return 1;
+			return 0;
 		}		
-		return 0;
+		return 1;
 	}
 
 	
@@ -183,7 +190,7 @@ public class WaitConditionSection extends RadioChoiceExpressionSection {
 	
 	protected EStructuralFeature getStructuralFeature ( int index ) {
 		EStructuralFeature features []  = CLASS2FEATURES.get( getInput().eClass() );		
-		assert (features != null);
+		assert (features != null) : "Features cannot be null";
 		return features[ index ];
 	}
 	
