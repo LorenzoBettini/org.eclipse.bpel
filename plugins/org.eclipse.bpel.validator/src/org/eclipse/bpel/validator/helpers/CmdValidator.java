@@ -71,7 +71,10 @@ public class CmdValidator {
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.vprop.Factory());
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.plt.Factory());
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.wsdl.Factory());
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory());
+		
+		// RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory());
+		
+		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath0.Factory());
 		
 		// This just prints an error message for the "process" elements in an unrecognized 
 		// namespace		

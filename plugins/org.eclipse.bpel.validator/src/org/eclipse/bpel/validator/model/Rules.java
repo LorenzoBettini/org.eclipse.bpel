@@ -364,11 +364,12 @@ public class Rules  {
 		
 		
 		// Hmm this should be somehow done in a different way ...
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.rules.Factory () );
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory () );
+		RuleFactory.registerFactory( new org.eclipse.bpel.validator.rules.Factory () );		
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.wsdl.Factory () );
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.plt.Factory () );
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.vprop.Factory () );
+		// RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory () );
+		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath0.Factory () );
 		
 		
 		// 

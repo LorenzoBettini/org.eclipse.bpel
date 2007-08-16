@@ -71,9 +71,6 @@
             class="org.eclipse.bpel.validator.rules.Factory"
             name="BPEL Factory"/>
       <factory
-            class="org.eclipse.bpel.validator.xpath.Factory"
-            name="XPath Validator Factory"/>
-      <factory
             class="org.eclipse.bpel.validator.wsdl.Factory"
             name="WSDL Factory"/>
       <factory
@@ -86,6 +83,9 @@
             class="org.eclipse.bpel.validator.unsupported.Factory"
             name="Unsupported Factory">
       </factory>
+      <factory
+            class="org.eclipse.bpel.validator.xpath0.Factory"
+            name="XPath Validator Factory"/>
    </extension>
    <extension
          point="org.eclipse.bpel.validator.modelQuery">

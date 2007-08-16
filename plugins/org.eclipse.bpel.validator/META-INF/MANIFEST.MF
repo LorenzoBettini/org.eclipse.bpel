@@ -29,6 +29,7 @@ Export-Package: org.eclipse.bpel.validator,
  org.eclipse.bpel.validator.rules,
  org.eclipse.bpel.validator.test,
  org.eclipse.bpel.validator.tools,
+ org.eclipse.bpel.validator.unsupported,
  org.eclipse.bpel.validator.vprop,
  org.eclipse.bpel.validator.wsdl,
- org.eclipse.bpel.validator.xpath
+ org.eclipse.bpel.validator.xpath0
