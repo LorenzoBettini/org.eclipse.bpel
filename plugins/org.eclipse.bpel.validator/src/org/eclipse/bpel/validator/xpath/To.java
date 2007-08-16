@@ -54,7 +54,7 @@ public class To extends XPathValidator {
 			} else {
 				problem = createError();
 				problem.fill("XPATH_EXPRESSION_TYPE",
-						fNodeName,
+						toString(mNode.nodeName()),
 						exprStringTrimmed,
 						fExprByNode
 					);
@@ -63,7 +63,7 @@ public class To extends XPathValidator {
 		} else {
 			problem = createError();
 			problem.fill("XPATH_EXPRESSION_TYPE",
-					fNodeName,
+					toString(mNode.nodeName()),
 					exprStringTrimmed,
 					fExprByNode
 				);

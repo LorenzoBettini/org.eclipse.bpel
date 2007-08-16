@@ -99,7 +99,7 @@ public class JoinCondition extends XPathValidator {
 			
 			problem = createError();
 			problem.fill("XPATH_PREFIX_NOT_ALLOWED",  
-					fNodeName,
+					toString(mNode.nodeName()),
 					expr.getText(),
 					prefix);
 			repointOffsets(problem, expr);

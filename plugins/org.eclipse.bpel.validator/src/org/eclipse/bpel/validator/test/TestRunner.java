@@ -12,18 +12,13 @@ package org.eclipse.bpel.validator.test;
 
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Assert;
 
 import org.eclipse.bpel.validator.Main;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

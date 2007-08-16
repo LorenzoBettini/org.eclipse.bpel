@@ -68,14 +68,14 @@ public class Query extends XPathValidator {
 				problem = createError();
 				problem.fill("XPATH_NO_LOCATION_PATH", 
 						expr.getText(),
-						fNodeName );			
+						toString(mNode.nodeName())  );			
 				repointOffsets(problem, expr);
 			}
 		} else {
 			problem = createError();
 			problem.fill("XPATH_NOT_A_LOCATION", //$NON-NLS-1$
 					exprStringTrimmed,
-					fNodeName
+					toString(mNode.nodeName())
 				);	
 			repointOffsets(problem, expr);
 		}			
@@ -112,7 +112,7 @@ public class Query extends XPathValidator {
 		IProblem problem = createError();
 		problem.fill("XPATH_NO_LOCATION_PATH", 
 				expr.getText(),
-				fNodeName );			
+				toString(mNode.nodeName()) );			
 		repointOffsets(problem, expr);
 	
 		disableRules();

@@ -106,10 +106,10 @@ public class Validator implements IConstants {
 	Logger mLogger = Logger.getLogger( getClass().getName() );
 	
 	/** The runner which will run our rules */
-	RuleRunner mRuleRunner;
+	RuleRunner fRuleRunner;
 	
 	/** Problems produced by these rules */	
-	List<IProblem> mProblems = new ArrayList<IProblem>(4);
+	private List<IProblem> fProblems = new ArrayList<IProblem>(4);
 	
 	/** An empty problem array */
 	final static IProblem EMPTY_ARRAY[] = {};
@@ -121,7 +121,7 @@ public class Validator implements IConstants {
 	protected IModelQuery mModelQuery;
 		
 	/** a list of state information that any validator can keep */
-	final Map<Object,Object> mData = new HashMap<Object,Object>(5);	
+	private Map<Object,Object> mData = new HashMap<Object,Object>(5);	
 	
 	/** The selector that can be used to query the INode facade */
 	static protected Selector mSelector = new Selector();
@@ -133,11 +133,11 @@ public class Validator implements IConstants {
 	static public final String PASS2 = "pass2";
 	
 	/** Support chains of validators for the same element */
-	Validator fNext = null;	
-	Validator fPrev = null;
+	private Validator fNext = null;	
+	private Validator fPrev = null;
 	
 	/** A set denoting the list of Static Analysis checks actually done */
-	Set<ARule> mSAChecks = null;
+	private Set<ARule> mSAChecks = null;
 
 	
 	
@@ -150,7 +150,7 @@ public class Validator implements IConstants {
 	 */
 	
 	protected Validator () {
-		mRuleRunner = new RuleRunner ( this );
+		fRuleRunner = new RuleRunner ( this );
 	}
 	
 
@@ -192,6 +192,15 @@ public class Validator implements IConstants {
 	 * 
 	 * When the main dispatcher code runs the validator for the given node, it starts running it at 1 
 	 * and continues to N.
+	 * <p>
+	 * A validator can be attached in 2 ways
+	 * <ul>
+	 * <li>During the initial factory create calls where all validators for the node
+	 * are created and the initial chain is built, and
+	 * <li>During execution of a rule.
+	 * </ul>
+	 * For that reason it is important to realize that the validator mNode, mModelQuery
+	 * references may not be yet set. 
 	 * 
 	 * @param next
 	 */
@@ -207,8 +216,7 @@ public class Validator implements IConstants {
 			
 			next.fNext = null;
 			next.fPrev = this;
-			
-			next.mSAChecks = mSAChecks;
+					
 		} else {
 			fNext.attach ( next );
 		}		
@@ -228,7 +236,7 @@ public class Validator implements IConstants {
 			if (tag.equals(PASS1)) {
 				start();
 			}			
-			mRuleRunner.runRules ( tag );			
+			fRuleRunner.runRules ( tag );			
 			if (tag.equals(PASS2)) {				
 				end();
 			}
@@ -256,22 +264,11 @@ public class Validator implements IConstants {
 	@SuppressWarnings("unchecked")
 	final public IProblem[] getProblems () {
 		
-		if (fNext == null) {
-			// Next is empty, just return what we have.
-			if (mProblems.size() == 0) {
-				return EMPTY_ARRAY;
-			}
-			return mProblems.toArray( EMPTY_ARRAY );
+		// Next is empty, just return what we have.
+		if (fProblems.size() == 0) {
+			return EMPTY_ARRAY;
 		}
-
-		// Collect all.
-		ArrayList<IProblem> list = new ArrayList<IProblem>();
-		Validator p = this;
-		while ( p != null ) {
-			list.addAll( p.mProblems );
-			p = p.fNext;
-		}
-		return list.toArray( EMPTY_ARRAY );		
+		return fProblems.toArray( EMPTY_ARRAY );
 	}
 	
 	
@@ -287,13 +284,7 @@ public class Validator implements IConstants {
 	 */
 	
 	public boolean hasProblems () {
-		if (mProblems.size() > 0) {
-			return true;
-		}
-		if (fNext != null) {
-			return fNext.hasProblems();
-		}
-		return false;
+		return fProblems.isEmpty() == false;
 	}
 	
 	
@@ -331,29 +322,50 @@ public class Validator implements IConstants {
 	 */
 	
 	protected void disableRules (int startIdx, int endIdx ) {
-		mRuleRunner.addFilter ( new Rules.IndexFilter ( startIdx,endIdx)  );		
+		fRuleRunner.addFilter ( new Rules.IndexFilter ( startIdx,endIdx)  );		
 	}
 	
 	
 	/**
-	 * Start the validation pass. This is run before all the rules are run
+	 * Start the validation pass. This is run before all the rules are run.
+	 * 
 	 */
 	
 	protected void start () {				
 		
-		mRuleRunner.start();		
-		mProblems.clear();
-		mData.clear();
+		/** reset any disabled rules */		
+		fRuleRunner.start();
 		
-		// Attempt to set mModelQuery and mNode from another validator in the
-		// chain, if not already set
-		
-		Validator p = fPrev;
-		while (p != null && (mModelQuery == null || mNode == null)) {
-			mNode = p.mNode;
-			mModelQuery = p.mModelQuery;
-			p = p.fPrev;
-		}			
+		/**
+		 * If we are the first validator in the chain
+		 * Then we reset any problems list and clear any data that we 
+		 * have.
+		 */
+		if (fPrev == null) {
+			
+			fProblems.clear();
+			mData.clear();
+			
+		} else {
+			
+			/** 
+			 * We point ourselves at the first validator in the chain. 
+			 *  
+			 */
+			Validator first = getFirst();
+			
+			/** 
+			 * These are in fact shared between the validators
+			 * in the chain.
+			 */
+			
+			fProblems = first.fProblems;
+			mData = first.mData;
+			mNode = first.mNode;
+			mModelQuery = first.mModelQuery;
+			mSAChecks = first.mSAChecks;
+			
+		}		
 	}
 	
 	
@@ -375,7 +387,7 @@ public class Validator implements IConstants {
 	 */
 	
 	protected void runRules ( String tag, Object ... args ) {
-		mRuleRunner.runRules (tag,args);		
+		fRuleRunner.runRules (tag,args);		
 	}
 	
 	
@@ -388,7 +400,7 @@ public class Validator implements IConstants {
 		
 	protected void addProblems ( IProblem[] problems ) {
 		for(IProblem p : problems) {
-			mProblems.add(p);
+			fProblems.add(p);
 		}
 	}
 	
@@ -429,7 +441,7 @@ public class Validator implements IConstants {
 			return ;
 		}
 		if (arule == null) {
-			arule = mRuleRunner.getExecutingRule().method.getAnnotation( ARule.class );
+			arule = fRuleRunner.getExecutingRule().method.getAnnotation( ARule.class );
 		}
 		if (arule != null) {
 			mSAChecks.add(arule);	
@@ -447,7 +459,7 @@ public class Validator implements IConstants {
 	public void adopt ( IProblem problem , INode node ) {
 
 		// remember it 
-		mProblems.add (problem);
+		fProblems.add (problem);
 		
 		problem.setAttribute(IProblem.NODE, node );
 		
@@ -489,7 +501,7 @@ public class Validator implements IConstants {
 		IProblem problem = new Problem ( this );			
 		adopt (problem, node);				
 		
-		Rule r = mRuleRunner.getExecutingRule();
+		Rule r = fRuleRunner.getExecutingRule();
 		
 		if (r != null) {
 			
@@ -631,18 +643,13 @@ public class Validator implements IConstants {
 	 */
 	
 	public <T extends Object> T getValue ( Object key, T def ) {
-		Validator next = getFirst();		
-		while ( next != null ) {
-			if (next.mData.containsKey(key)) {
-				Object obj = next.mData.get(key);			
-				if (obj instanceof IValue) {
-					return (T) ((IValue)obj).get();
-				}
-				return (T) obj;				
+		if (mData.containsKey(key)) {
+			Object obj = mData.get(key);			
+			if (obj instanceof IValue) {
+				return (T) ((IValue)obj).get();
 			}
-			next = next.fNext;
-		}
-		
+			return (T) obj;				
+		}		
 		return def;
 	}
 	
@@ -690,7 +697,7 @@ public class Validator implements IConstants {
 		
 		Validator validator = validatorForNode(node);
 		if (validator != null) {
-			return (T) validator.mData.put(keyName,value);
+			return validator.setValue(keyName,value);
 		}
 		return null;
 	}
@@ -702,16 +709,8 @@ public class Validator implements IConstants {
 	 * @return true if present, false if not
 	 */
 	
-	public boolean containsValueKey ( String key ) {		
-		/** Search in the chain */
-		Validator next = getFirst();
-		while (next != null) {
-			if (next.mData.containsKey(key)) {
-				return true;
-			}
-			next = next.fNext;
-		}		
-		return false;
+	public boolean containsValueKey ( String key ) {
+		return mData.containsKey(key);
 	}
 	
 	/**
