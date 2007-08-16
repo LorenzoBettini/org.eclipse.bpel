@@ -608,9 +608,8 @@ public class VariableTypeSelector extends Composite {
 		dataTypeBrowseButton = createButton(composite, Messages.VariableTypeSelector_Browse_2, SWT.PUSH);
 		DecoratedLabel label = new DecoratedLabel(composite,SWT.LEFT);
 		label.setText(Messages.VariableTypeSelector_Data_Type_2);
-//		wf.adapt(label);
+		wf.adapt(label);
 		dataTypeLabel = new StatusLabel2( label );		 
-		
 		dataTypeNameText = createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
 		dataTypeNameText.setToolTipText(Messages.VariableTypeSelector_3);
 		dataTypeNameText.addHyperlinkListener(new HyperlinkAdapter() {
