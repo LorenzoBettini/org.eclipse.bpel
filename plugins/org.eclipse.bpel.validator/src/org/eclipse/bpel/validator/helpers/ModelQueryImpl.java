@@ -504,7 +504,7 @@ public class ModelQueryImpl  implements IModelQuery {
 		}
 		
 		
-		return adapt ( modelObject, INode.class );
+		return adapt ( modelObject, INode.class, ADAPT_HINT_NONE );
 				
 	}	
 	
@@ -535,7 +535,7 @@ public class ModelQueryImpl  implements IModelQuery {
 			if (key == null) {
 				break;
 			}
-			elm = adapt(context,Element.class);
+			elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 			if (elm != null) {
 				String result = elm.lookupPrefix(key);
 				return result != null ? result : def;
@@ -546,7 +546,7 @@ public class ModelQueryImpl  implements IModelQuery {
 			if (key == null) {
 				break;
 			}		
-			elm = adapt(context,Element.class);
+			elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 			if (elm != null) {
 				String result = elm.lookupNamespaceURI(key);
 				return result != null ? result : def;
@@ -554,7 +554,7 @@ public class ModelQueryImpl  implements IModelQuery {
 			break;
 			
 		case LOOKUP_TEXT_TEXT :
-			elm = adapt(context,Element.class);
+			elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 			if (elm == null) {
 				break;
 			}			
@@ -571,7 +571,7 @@ public class ModelQueryImpl  implements IModelQuery {
 			break;
 			
 		case LOOKUP_TEXT_RESOURCE_PATH :
-			elm = adapt(context,Element.class);
+			elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 			if (elm == null) {
 				return def;
 			}
@@ -580,7 +580,7 @@ public class ModelQueryImpl  implements IModelQuery {
 												
 			
 		case LOOKUP_TEXT_HREF_XPATH :
-			elm = adapt(context,Element.class);
+			elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 			if (elm == null) {
 				return def;
 			}			
@@ -606,7 +606,7 @@ public class ModelQueryImpl  implements IModelQuery {
 	
 	public int lookup ( INode context, int what, int def ) {
 		
-		Element elm = adapt(context,Element.class);
+		Element elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 		if (elm == null) {
 			return def;
 		}
@@ -683,10 +683,11 @@ public class ModelQueryImpl  implements IModelQuery {
 	 * @param <T>  
 	 * @param target
 	 * @param type
+	 * @param hint hint for the adapter
 	 * @return an object that is the adapter the target with the given class.
 	 */
 		
-	public <T extends Object> T adapt (Object target, Class<T> type) {
+	public <T extends Object> T adapt (Object target, Class<T> type, int hint) {
 		
 		if (type.isInstance(target) || target == null) {
 			return type.cast(target);

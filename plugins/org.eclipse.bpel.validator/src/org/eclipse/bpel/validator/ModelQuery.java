@@ -127,19 +127,19 @@ public class ModelQuery extends ModelQueryImpl {
 			// n1 is source 
 			// n2 is destination
 			return EmfModelQuery.compatiblePartnerActivityMessages ( 
-					adapt(n1,EObject.class), 
-					adapt(n2,EObject.class) );
+					adapt(n1,EObject.class,ADAPT_HINT_NONE), 
+					adapt(n2,EObject.class,ADAPT_HINT_NONE) );
 			
 		case TEST_COMPATIBLE_TYPE :
 			// n1 is the source
 			// n2 is the destination
-			return EmfModelQuery.compatibleType ( adapt(n1,EObject.class), adapt(n2,EObject.class)); 
+			return EmfModelQuery.compatibleType ( adapt(n1,EObject.class,ADAPT_HINT_NONE), adapt(n2,EObject.class,ADAPT_HINT_NONE)); 
 			
 		case TEST_IS_SIMPLE_TYPE : 
 			if (n1 == null || n1.isResolved() == false) {
 				return false;
 			}
-			return EmfModelQuery.isSimpleType ( adapt(n1,EObject.class) ) ;
+			return EmfModelQuery.isSimpleType ( adapt(n1,EObject.class,ADAPT_HINT_NONE) ) ;
 			
 		case TEST_RESOVLED :
 			if (n1 == null) {
@@ -263,7 +263,7 @@ public class ModelQuery extends ModelQueryImpl {
 		case LOOKUP_NODE_IMPORT :
 			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupImport(adapt(context,EObject.class), name );				
+				eObj = EmfModelQuery.lookupImport(adapt(context,EObject.class,ADAPT_HINT_NONE), name );				
 			}
 			
 			if (eObj == null) {
@@ -299,7 +299,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_PARTNER_LINK_TYPE :	
 			if ( context.isResolved() ) {
-				eObj = EmfModelQuery.lookupPartnerLinkType ( adapt(context,EObject.class), qname ); 				
+				eObj = EmfModelQuery.lookupPartnerLinkType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname ); 				
 			}			
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
@@ -308,7 +308,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_ROLE :
 			if ( context.isResolved() ) {
-				eObj =  EmfModelQuery.lookupRole ( adapt(context,EObject.class), name ) ;
+				eObj =  EmfModelQuery.lookupRole ( adapt(context,EObject.class,ADAPT_HINT_NONE), name ) ;
 			}			
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, name );				
@@ -317,7 +317,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_OPERATION :
 			if ( context.isResolved()) {				
-				eObj = EmfModelQuery.lookupOperation ( adapt(context,EObject.class), name );
+				eObj = EmfModelQuery.lookupOperation ( adapt(context,EObject.class,ADAPT_HINT_NONE), name );
 			}			
 			if (eObj == null) {
 				result = new UndefinedNode ( IConstants.WSDL_ND_OPERATION, IConstants.AT_NAME, name );
@@ -326,7 +326,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_PORT_TYPE :	
 			if ( context.isResolved() ) {
-				eObj = EmfModelQuery.lookupPortType ( adapt(context,EObject.class), qname) ;					
+				eObj = EmfModelQuery.lookupPortType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname) ;					
 			}				
 			if (eObj == null) {
 				result = new UndefinedNode ( IConstants.WSDL_ND_PORT_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
@@ -335,7 +335,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_MESSAGE_TYPE :	
 			if ( context.isResolved() ) {
-				eObj = EmfModelQuery.lookupMessage ( adapt(context,EObject.class), qname) ;				
+				eObj = EmfModelQuery.lookupMessage ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname) ;				
 			}					
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.WSDL_ND_MESSAGE, IConstants.AT_NAME, qname.getLocalPart() );
@@ -343,11 +343,11 @@ public class ModelQuery extends ModelQueryImpl {
 			break;			
 
 		case LOOKUP_NODE_MESSAGE_PART :
-			return adapt(EmfModelQuery.lookupMessagePart ( adapt(context,EObject.class), name),INode.class );
+			return adapt(EmfModelQuery.lookupMessagePart ( adapt(context,EObject.class,ADAPT_HINT_NONE), name),INode.class,ADAPT_HINT_NONE );
 			
 		case LOOKUP_NODE_XSD_ELEMENT :
 			if ( context.isResolved() )  {
-				eObj = EmfModelQuery.lookupXSDElement ( adapt(context,EObject.class), qname);
+				eObj = EmfModelQuery.lookupXSDElement ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname);
 			}
 			if (eObj == null) {				
 				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME, qname.getLocalPart());
@@ -356,7 +356,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_XSD_TYPE :			
 			if (context.isResolved()) {				
-				eObj = EmfModelQuery.lookupXSDType ( adapt(context,EObject.class), qname);				
+				eObj = EmfModelQuery.lookupXSDType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname);				
 			}
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.AT_TYPE,IConstants.AT_NAME, qname.getLocalPart());	
@@ -365,7 +365,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_PROPERTY :
 			if (context.isResolved()) {				
-				eObj = EmfModelQuery.lookupProperty ( adapt(context,EObject.class), qname);				
+				eObj = EmfModelQuery.lookupProperty ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname  );				
 			}
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.VPROP_ND_PROPERTY, IConstants.AT_NAME, qname.getLocalPart());	
@@ -374,7 +374,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_NAME_STEP :			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname, 0 );
+				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class,ADAPT_HINT_NONE), qname, 0 );
 			}
 			if (eObj == null) {
 				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
@@ -383,7 +383,7 @@ public class ModelQuery extends ModelQueryImpl {
 		
 		case LOOKUP_NODE_NAME_STEP_ATTRIBUTE :			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class), qname, 1 );
+				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class,ADAPT_HINT_NONE), qname, 1 );
 			}
 			if (eObj == null) {
 				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
@@ -392,7 +392,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_TYPE_OF_PART : 
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupTypeOfPart ( adapt(context,EObject.class), qname );
+				eObj = EmfModelQuery.lookupTypeOfPart ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname );
 			}
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,"Unknown");
@@ -406,7 +406,7 @@ public class ModelQuery extends ModelQueryImpl {
 		if (eObj == null) {
 			return result ;
 		}
-		return adapt ( eObj , INode.class );
+		return adapt ( eObj , INode.class,ADAPT_HINT_NONE );
 				
 	}	
 	
@@ -444,14 +444,14 @@ public class ModelQuery extends ModelQueryImpl {
 			return super.lookup(context, what,key,def);
  
 		case LOOKUP_TEXT_HREF :
-			eObj = adapt(context,EObject.class);
+			eObj = adapt(context,EObject.class,ADAPT_HINT_NONE);
 			if (eObj == null || eObj.eResource() == null) {
 				break;
 			}			
 			return eObj.eResource().getURIFragment(eObj);
 			
 		case LOOKUP_TEXT_RESOURCE_PATH :
-			eObj = adapt(context,EObject.class);
+			eObj = adapt(context,EObject.class,ADAPT_HINT_NONE);
 			if (eObj == null || eObj.eResource() == null ) {
 				break;
 			}
@@ -485,7 +485,7 @@ public class ModelQuery extends ModelQueryImpl {
 	
 	public int lookup ( INode context, int what, int def ) {
 		
-		Element elm = adapt(context,Element.class);
+		Element elm = adapt(context,Element.class,ADAPT_HINT_NONE);
 		if (elm == null) {
 			return def;
 		}
@@ -538,18 +538,19 @@ public class ModelQuery extends ModelQueryImpl {
 	 * 
 	 * @param target
 	 * @param type
+	 * @param hint the hint 
 	 * @return an object that is the adapter the target with the given class.
 	 */
 		
 	@Override
-	public <T extends Object> T adapt (Object target, Class<T> type) {
+	public <T extends Object> T adapt (Object target, Class<T> type, int hint ) {
 		
 		// short cut
 		if (type.isInstance( target ) ||  target == null) {
 			return type.cast(target);
 		}
 		
-		T result = super.adapt(target,type);
+		T result = super.adapt(target,type,hint);
 		if (result != null) {
 			return result;
 		}
@@ -619,7 +620,7 @@ public class ModelQuery extends ModelQueryImpl {
 		
 		if (domElement != null) {
 			ensureEMFReference( target,domElement );
-			return adapt (domElement, INode.class);			
+			return adapt (domElement, INode.class,ADAPT_HINT_NONE);			
 		}		
 		return null;
 	}

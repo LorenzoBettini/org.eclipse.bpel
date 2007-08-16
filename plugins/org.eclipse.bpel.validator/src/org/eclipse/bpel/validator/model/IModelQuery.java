@@ -142,10 +142,11 @@ public interface IModelQuery extends IModelQueryLookups {
      * @param <T> the target type
      * @param target the target object
      * @param clazz the target class
+     * @param hint how the target should be adapted.
      * @return the adapted object or null
      */
     
-    public <T extends Object> T adapt (Object target, Class<T> clazz) ;
+    public <T extends Object> T adapt (Object target, Class<T> clazz, int hint) ;
     
     
     /**

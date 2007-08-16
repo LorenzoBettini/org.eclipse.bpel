@@ -25,6 +25,7 @@ import org.eclipse.bpel.validator.Activator;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IModelQuery;
+import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
@@ -372,6 +373,6 @@ public class BasicAdapter extends AbstractStatefulAdapter
 	
 	protected <T extends Object> T adapt ( Object target, Class<T> type) {
 		IModelQuery mq = ModelQueryImpl.getModelQuery();
-		return mq.adapt(target,type);				
+		return mq.adapt(target,type,IModelQueryLookups.ADAPT_HINT_NONE);				
 	}
 }

@@ -19,6 +19,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IModelQuery;
+import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.RuleFactory;
 import org.eclipse.bpel.validator.model.Validator;
@@ -248,7 +249,7 @@ public class DOMNodeAdapter implements INode {
 		
 	protected <T extends Object> T adapt ( Object target, Class<T> type) {
 		IModelQuery mq = ModelQueryImpl.getModelQuery();
-		return mq.adapt(target,type);
+		return mq.adapt(target,type,IModelQueryLookups.ADAPT_HINT_NONE);
 	}
 	
 	

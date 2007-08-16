@@ -179,4 +179,7 @@ public interface IModelQueryLookups {
 	final int TEST_RESOVLED = 4;
 	
 	
+	/** Not hints for the adapter */
+	final int ADAPT_HINT_NONE  = 0;
+	
 }

@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.Problem;
@@ -113,7 +114,7 @@ public class CmdValidator {
 		// Step 2. Preparation for the validator.
 				
 		// Process as INode 		
-		INode node = ModelQueryImpl.getModelQuery().adapt(elm, INode.class);
+		INode node = ModelQueryImpl.getModelQuery().adapt(elm, INode.class,IModelQueryLookups.ADAPT_HINT_NONE);
 		
 		// Step 3. Run it
 		fRunner = new Runner ( ModelQueryImpl.getModelQuery(), node);
