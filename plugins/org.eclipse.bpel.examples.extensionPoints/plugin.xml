@@ -47,5 +47,12 @@
             label="Ruby (Simple Text Editor)">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.bpel.common.model.functionRegistry">
+      <registry
+            namespace="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"
+            uri="platform:/plugin/org.eclipse.bpel.examples.extensionPoints/functions/functions.xml">
+      </registry>
+   </extension>
 
 </plugin>
