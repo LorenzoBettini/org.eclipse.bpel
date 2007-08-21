@@ -22,7 +22,7 @@ import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.BPELEditDomain;
 import org.eclipse.bpel.ui.adapters.IContainer;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.policies.BPELContainerEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
 import org.eclipse.bpel.ui.editparts.util.GraphAnimation;
@@ -188,7 +188,7 @@ public class ProcessEditPart extends BPELEditPart {
 		// TODO: this is way too magic.  can we get rid of this?
 		
 		list.add(domain.getStartNode());
-		IContainer container = new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getProcess_Activity());
+		IContainer container = new ActivityContainer(BPELPackage.eINSTANCE.getProcess_Activity());
 		list.addAll(container.getChildren(process));
 		list.add(domain.getEndNode());
 		

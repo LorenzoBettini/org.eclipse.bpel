@@ -12,11 +12,15 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.List;
 
+
 /**
  * An IContainer is an element that has one or more children in an ordered
  * list.
+ * 
+ * @param <T> 
  */
-public interface IContainer {
+
+public interface IContainer<T> {
 	
 	/**
 	 * Return an ordered list of all children of the container.
@@ -27,7 +31,7 @@ public interface IContainer {
 	 * @return the list of children	
 	 */
 	
-	public List<?> getChildren(Object object);
+	public List<T> getChildren(T object);
 	
 	/** 
 	 * returns the next sibling in the list of children of this parent
@@ -40,7 +44,7 @@ public interface IContainer {
 	
 	 */
 	
-	public Object getNextSiblingChild(Object object, Object child);
+	public T getNextSiblingChild(T object, T child);
 	
 	/**
 	 * Adds the given child to the container before the object insertBefore.  If insertBefore
@@ -61,7 +65,7 @@ public interface IContainer {
 	 * @return true if added, false otherwise.
 	 * 
 	 */
-	public boolean addChild(Object object, Object child, Object insertBefore);
+	public boolean addChild(T object, T child, T insertBefore);
 	
 	/** 
 	 * this method allows us to test if we can actually add the object to the container
@@ -76,7 +80,7 @@ public interface IContainer {
 	 * @return true if can be added, false otherwise.
 	 */
 	
-	public boolean canAddObject(Object object, Object child, Object insertBefore);
+	public boolean canAddObject(T object, T child, T insertBefore);
 
 	/**
 	 * Answer if the child can be removed from the parent container.
@@ -86,7 +90,7 @@ public interface IContainer {
 	 * @return true if can be removed, false otherwise.
 	 */
 	
-	public boolean canRemoveChild (Object object, Object child);
+	public boolean canRemoveChild (T object, T child);
 	
 	/**
 	 * Removes the given child from the container.
@@ -97,7 +101,7 @@ public interface IContainer {
 	 * @return true if removed, false otherwise.
 	 */
 	
-	public boolean removeChild(Object object, Object child); 
+	public boolean removeChild(T object, T child); 
 
 	/**
 	 * Replace the old child with the new child. In the case of ordered
@@ -111,6 +115,6 @@ public interface IContainer {
 	 * @param newChild the new child object
 	 * @return true if removed, false otherwise.
 	 */
-	public boolean replaceChild(Object object, Object oldChild, Object newChild);
+	public boolean replaceChild(T object, T oldChild, T newChild);
 	
 }

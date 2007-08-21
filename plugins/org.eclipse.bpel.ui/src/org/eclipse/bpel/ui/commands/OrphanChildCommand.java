@@ -16,26 +16,49 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
 
 
+/**
+ * @author IBM Original Contribution.
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 16, 2007
+ */
+
 public class OrphanChildCommand extends AutoUndoCommand {
 
-	private EObject child;
-	private EObject parent;
+	private EObject fChild;
+	private EObject fParent;
+	private IContainer<EObject> fContainer;
 	
-	public OrphanChildCommand(Object child) {
-		super(BPELUtil.getIContainerParent((EObject)child));
-		this.child = (EObject)child;
-		this.parent = BPELUtil.getIContainerParent(this.child);
+	/**
+	 * Brand new shiny OrphanChildCommand.
+	 * @param child
+	 */
+	
+	public OrphanChildCommand (EObject child) {
+		super(child.eContainer());		
+		fChild = child;
+		fParent = child.eContainer();
+		fContainer = BPELUtil.adapt(fParent, IContainer.class);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#canDoExecute()
+	 */
+	@Override
 	public boolean canDoExecute() {
-		if ((child==null) || (parent==null))  return false;
-		if (BPELUtil.adapt(parent, IContainer.class) == null) return false;
+		if (fChild == null || fParent == null || fContainer == null)  {
+			return false;
+		}
 		return true;
 	}
 
+	/**
+	 * @see org.eclipse.bpel.ui.commands.util.AutoUndoCommand#doExecute()
+	 */
+	@Override
 	public void doExecute() {
-		if (!canExecute())  throw new IllegalStateException();
-		IContainer container = (IContainer)BPELUtil.adapt(parent, IContainer.class);
-		container.removeChild(parent, child);
+		if (!canExecute())  {
+			throw new IllegalStateException();
+		}		
+		fContainer.removeChild(fParent, fChild);
 	}
 }

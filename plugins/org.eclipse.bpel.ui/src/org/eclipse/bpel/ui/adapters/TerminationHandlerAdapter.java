@@ -14,7 +14,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.FaultHandlerEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.gef.EditPart;
@@ -48,7 +48,7 @@ public class TerminationHandlerAdapter extends ContainerAdapter implements ILabe
 	/* IContainer delegate */
 
 	public IContainer createContainerDelegate() {
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getTerminationHandler_Activity());
+		return new ActivityContainer(BPELPackage.eINSTANCE.getTerminationHandler_Activity());
 	}
 
 	/* EditPartFactory */

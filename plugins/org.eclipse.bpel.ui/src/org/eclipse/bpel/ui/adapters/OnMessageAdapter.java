@@ -15,7 +15,7 @@ import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
@@ -37,7 +37,7 @@ public class OnMessageAdapter extends ContainerAdapter implements ILabeledElemen
 	/* IContainer delegate */
 	
 	public IContainer createContainerDelegate() {
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getOnMessage_Activity());
+		return new ActivityContainer(BPELPackage.eINSTANCE.getOnMessage_Activity());
 	}
 
 	/* ILabeledElement */

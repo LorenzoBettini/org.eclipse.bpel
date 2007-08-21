@@ -47,7 +47,7 @@ public class MultiContainer extends AbstractContainer {
 	 * 
 	 */
 
-	public final AbstractContainer getSubContainer(Object object, Object child) {
+	public final AbstractContainer getSubContainer(EObject object, Object child) {
 		
 		if (child instanceof EObject == false) {
 			return null;
@@ -61,14 +61,14 @@ public class MultiContainer extends AbstractContainer {
 	}
 	
 	@Override
-	protected final boolean isValidChild(Object object, EObject child) {
+	protected final boolean isValidChild(EObject object, EObject child) {
 		return getSubContainer(object, child) != null;
 	}
 
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */	
-	public boolean addChild(Object object, Object child, Object insertBefore) {
+	public boolean addChild(EObject object, EObject child, EObject insertBefore) {
 		
 		AbstractContainer childContainer = getSubContainer(object, child);
 		if (insertBefore == null) {
@@ -95,7 +95,7 @@ public class MultiContainer extends AbstractContainer {
 		}
 		if (childRange > insertBeforeRange) {
 			// child should go at beginning of sub-container.
-			List<?> children = childContainer.getChildren(object);
+			List<EObject> children = childContainer.getChildren(object);
 			if (children.size() > 0) {
 				return childContainer.addChild(object, child, children.get(0));
 			}
@@ -105,17 +105,19 @@ public class MultiContainer extends AbstractContainer {
 	}
 
 	/**
+	 * @param object 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#getChildren(java.lang.Object)
 	 */
 	
-	public List<?> getChildren(Object object) {
+	public List<EObject> getChildren(EObject object) {
 		
-		List<Object> result = new ArrayList<Object>();
+		List<EObject> result = new ArrayList<EObject>();
 		for (AbstractContainer container : fContainers) {
 			result.addAll( container.getChildren( object ) ) ;
 		}
 		if (result.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		return Collections.unmodifiableList(result);
 	}
@@ -125,14 +127,14 @@ public class MultiContainer extends AbstractContainer {
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#removeChild(java.lang.Object, java.lang.Object)
 	 */
 	
-	public boolean removeChild(Object object, Object child) {
+	public boolean removeChild(EObject object, EObject child) {
 		return getSubContainer(object, child).removeChild(object, child);
 	}
 
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
-	public boolean replaceChild(Object object, Object oldChild,	Object newChild) 
+	public boolean replaceChild(EObject object, EObject oldChild,	EObject newChild) 
 	{
 		AbstractContainer oldSubContainer = getSubContainer(object, oldChild);
 		AbstractContainer newSubContainer = getSubContainer(object, newChild);
@@ -147,8 +149,8 @@ public class MultiContainer extends AbstractContainer {
 	}
 
 	// subclasses might want to override this to check types (e.g. to return null instead)
-	protected boolean replaceMixedTypeChild(Object object, Object oldChild,
-		Object newChild)
+	protected boolean replaceMixedTypeChild(EObject object, EObject oldChild,
+		EObject newChild)
 	{
 		AbstractContainer oldSubContainer = getSubContainer(object, oldChild);
 		AbstractContainer newSubContainer = getSubContainer(object, newChild);
@@ -164,16 +166,19 @@ public class MultiContainer extends AbstractContainer {
 	 */
 	
 	@Override
-	public boolean canAddObject (Object object, Object child, Object insertBefore) {
+	public boolean canAddObject (EObject object, EObject child, EObject insertBefore) {
 		AbstractContainer ac = getSubContainer(object, child);
 		return (ac == null)? false : ac.canAddObject(object, child, insertBefore);
 	}
 
 	/**
+	 * @param object 
+	 * @param child 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#canRemoveChild(java.lang.Object, java.lang.Object)
 	 */
 	
-	public boolean canRemoveChild(Object object, Object child) {
+	public boolean canRemoveChild(EObject object, EObject child) {
 		AbstractContainer ac = getSubContainer(object, child);
 		return (ac == null)? false : ac.canRemoveChild( object, child );
 	}	

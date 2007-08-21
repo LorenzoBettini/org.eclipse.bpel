@@ -31,7 +31,7 @@ public class ReferenceContainer extends AbstractContainer {
 	 * @param aFeature
 	 */
 	
-	public ReferenceContainer(EReference aFeature) {
+	public ReferenceContainer (EReference aFeature) {
 		super();
 		this.fFeature = aFeature;
 	}
@@ -40,7 +40,7 @@ public class ReferenceContainer extends AbstractContainer {
 		return fFeature.isMany();
 	}
 
-	protected List<Object> getChildList(Object object) {
+	protected List<EObject> getChildList(Object object) {
 		return (List)((EObject)object).eGet(fFeature);
 	}
 	
@@ -51,7 +51,7 @@ public class ReferenceContainer extends AbstractContainer {
 	 * @return the single child, or null
 	 */
 	
-	public EObject getSingleChild(Object object) {
+	public EObject getSingleChild (Object object) {
 		return (EObject)((EObject)object).eGet(fFeature);
 	}
 	
@@ -67,19 +67,27 @@ public class ReferenceContainer extends AbstractContainer {
 	}
 	
 	@Override
-	protected final boolean isValidChild (Object object, EObject child) {
+	protected final boolean isValidChild (EObject object, EObject child) {
+		if (child == null) {
+			return false;
+		}
+		
 		return fFeature.getEReferenceType().isSuperTypeOf(child.eClass());
 	}
 
 	/**
+	 * @param object 
+	 * @param child 
+	 * @param insertBefore 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
-	public boolean addChild(Object object, Object child, Object insertBefore) {
-		if (!isValidChild(object, (EObject)child)) {
+	public boolean addChild(EObject object, EObject child, EObject insertBefore) {
+		if (!isValidChild(object, child)) {
 			return false;
 		}
 		if (isMany()) {
-			List<Object> list = getChildList(object);
+			List<EObject> list = getChildList(object);
 			if (insertBefore == null) {
 				// insert at the end.
 				list.add(child);
@@ -102,33 +110,39 @@ public class ReferenceContainer extends AbstractContainer {
 	}
 
 	/**
+	 * @param object 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#getChildren(java.lang.Object)
 	 */
-	public List<?> getChildren(Object object) {
+	
+	public List<EObject> getChildren(EObject object) {
 		if (isMany()) {
-			List<?> list = getChildList(object);
+			List<EObject> list = getChildList(object);
 			if (list.isEmpty()) {
-				return Collections.EMPTY_LIST;
+				return Collections.emptyList();
 			}
 			return Collections.unmodifiableList(list);
 		}
 		EObject value = getSingleChild(object);
 		if (value == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		return Collections.singletonList(value);
 	}
 	
 	/**
+	 * @param object 
+	 * @param child 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#removeChild(java.lang.Object, java.lang.Object)
 	 */
-	public boolean removeChild(Object object, Object child) {
+	public boolean removeChild(EObject object, EObject child) {
 		
-		if (!isValidChild(object, (EObject)child)) {
+		if (!isValidChild(object,child)) {
 			return false;
 		}
 		if (isMany()) {
-			List<?> list = getChildList(object);
+			List<EObject> list = getChildList(object);
 			return list.remove(child);
 		}
 		EObject value = getSingleChild(object);
@@ -140,21 +154,29 @@ public class ReferenceContainer extends AbstractContainer {
 	}
 
 	/**
+	 * @param object 
+	 * @param oldChild 
+	 * @param newChild 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
-	public boolean replaceChild(Object object, Object oldChild, Object newChild) {
+	public boolean replaceChild(EObject object, EObject oldChild, EObject newChild) {
 		
-		if (!isValidChild(object, (EObject)oldChild)) return false;
-		if (!isValidChild(object, (EObject)newChild)) return false;
+		if (!isValidChild(object, oldChild)) return false;
+		if (!isValidChild(object, newChild)) return false;
 		if (isMany()) {
-			List list = getChildList(object);
+			List<EObject> list = getChildList(object);
 			int index = list.indexOf(oldChild);
-			if (index < 0) return false;
+			if (index < 0) {
+				return false;
+			}
 			list.set(index, newChild);
 			return true;
 		}
 		EObject value = getSingleChild(object);
-		if (value != oldChild) return false;
+		if (value != oldChild) {
+			return false;
+		}
 		setSingleChild(object, newChild);
 		return true;
 	}
@@ -163,7 +185,7 @@ public class ReferenceContainer extends AbstractContainer {
 	 * @see org.eclipse.bpel.ui.adapters.delegates.AbstractContainer#canAddObject(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public boolean canAddObject(Object object, Object child, Object insertBefore) {
+	public boolean canAddObject(EObject object, EObject child, EObject insertBefore) {
 		if (!super.canAddObject(object, child, insertBefore)) {
 			return false;
 		}
@@ -174,12 +196,15 @@ public class ReferenceContainer extends AbstractContainer {
 	}
 	
 	/**
+	 * @param object 
+	 * @param child 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#canRemoveChild(java.lang.Object, java.lang.Object)
 	 */
 	
-	public boolean canRemoveChild (Object object, Object child) {
+	public boolean canRemoveChild (EObject object, EObject child) {
 		
-		if (!isValidChild(object, (EObject)child)) {
+		if (!isValidChild(object, child)) {
 			return false;
 		}
 		

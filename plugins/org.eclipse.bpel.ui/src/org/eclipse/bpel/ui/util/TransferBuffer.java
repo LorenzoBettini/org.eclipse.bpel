@@ -587,7 +587,7 @@ public class TransferBuffer {
 	 * @return the adjust source.
 	 */
 	
-	String adjustXMLSource ( String buffer ) {
+	static public String adjustXMLSource ( String buffer ) {
 		 
 		/** Check if no Namespaces at all. Then there are no prefixes that are namespace bound */
 		Matcher matcher = anyNamespace.matcher(buffer);

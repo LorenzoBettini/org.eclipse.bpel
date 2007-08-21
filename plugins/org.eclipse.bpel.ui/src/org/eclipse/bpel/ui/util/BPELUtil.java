@@ -514,19 +514,6 @@ public class BPELUtil {
 	}
 
 	
-	public static EObject getIContainerParent(EObject modelObject) {
-		if (modelObject instanceof Process) return null;
-		EObject parent = modelObject.eContainer();
-		if (parent instanceof Sequence) {
-			ActivityExtension extension = (ActivityExtension)ModelHelper.getExtension(parent);
-			if (extension != null && extension.isImplicit()) {
-				// the "real" parent is the container of the implicit sequence.
-				parent = parent.eContainer();
-			}
-		}
-		return parent;
-	}
-
 	/**
 	 * Convenience formatting methods.
 	 */
@@ -743,7 +730,7 @@ public class BPELUtil {
 	// Creates an implicit sequence with a name that is unique in the editor's process.
 	// Note that an ActivityExtension is created and inserted in the extension map,
 	// but the implicit sequence itself should be inserted in the model by the caller.
-	public static Sequence createImplicitSequence(Process process, ExtensionMap extensionMap) {
+	public static Sequence createImplicitSequence (Process process, ExtensionMap extensionMap) {
 		Sequence impSeq = BPELFactory.eINSTANCE.createSequence();
 		ModelHelper.createExtensionIfNecessary(extensionMap, impSeq);
 		Collection ignoreObjects = Collections.singletonList(impSeq);

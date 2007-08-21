@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.editparts;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bpel.common.ui.markers.IModelMarkerConstants;
@@ -61,26 +60,52 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 
 	private MouseMotionListener mouseMotionListener;
 	
+	/**
+	 * Brand new shiny ActivityEditPart.
+	 */
 	public ActivityEditPart() {
 		super();
 	}
 
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
+		
 		Sources sources = getActivity().getSources();
+		
+		
 		if (sources != null) {
 			adapter.addToObject(sources);
-			for (Iterator it = sources.getChildren().iterator(); it.hasNext(); ) {
-				adapter.addToObject((Source)it.next());
+			for(Source source : sources.getChildren()) {
+				adapter.addToObject(source);
 			}
+//			
+//			for (Iterator it = sources.getChildren().iterator(); it.hasNext(); ) {
+//				Source source = (Source)it.next();
+//				// also include the link, if there is one (since we indirectly
+//				// control the activation of the LinkEditPart)
+//				if (source.getLink() != null) adapter.addToObject(source.getLink());
+//
+//				// Okay--the real problem here, is that the Activity might be
+//				// referred to by a Source object, but the Activity is not going
+//				// to find out about the creation of a new Sources that references
+//				// it.  Therefore, our model listeners don't know what to do!
+//				
+//				// TODO: temporarily hacked around in FlowEditPart.FlowContentAdapter.
+//				
+//				// TODO: also include any parent flows, and the Links object of
+//				// any parent flows that have one.  !
+//				// TODO: in future, use a global listener to handle refreshing the
+//				// correct source editpart.
+//			}			
 		}
 
 		Targets targets = getActivity().getTargets();
 		if (targets != null) {
 			adapter.addToObject(targets);
-			for (Iterator it = targets.getChildren().iterator(); it.hasNext(); ) {
-				adapter.addToObject((Target)it.next());
-			}
+			for( Target target : targets.getChildren()) {
+				adapter.addToObject(target);
+			}						
 		}
 	}
 	
@@ -88,6 +113,7 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	 * Install the BPELGraphicalEditPolicy as GRAPHICAL_NODE_ROLE. This policy allows
 	 * the graphical creation of flow links between activities.
 	 */
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new BPELGraphicalEditPolicy());
@@ -98,13 +124,17 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	 * - Any flow links that the model is the source of
 	 * - Any other connections that the model's parent determines the model is the source of
 	 */	
-	protected List getModelSourceConnections() {
+	@Override
+	protected List<Link> getModelSourceConnections() {
 		Sources sources = getActivity().getSources();
-		if (sources == null) return Collections.EMPTY_LIST;
-		List result = new ArrayList();
-		for (Iterator it = sources.getChildren().iterator(); it.hasNext(); ) {
-			Link link = ((Source)it.next()).getLink();
-			if (link != null) result.add(link);
+		if (sources == null) {
+			return Collections.emptyList();
+		}
+		List<Link> result = new ArrayList<Link>();
+		for(Source source : sources.getChildren()) {
+			if (source.getLink() != null) {
+				result.add(source.getLink());
+			}
 		}
 		return result;
 	}
@@ -114,13 +144,17 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	 * - Any flow links that the model is the target of
 	 * - Any other connections that the model's parent determines the model is the target of
 	 */
-	protected List getModelTargetConnections() {
+	@Override
+	protected List<Link> getModelTargetConnections() {
 		Targets targets = getActivity().getTargets();
-		if (targets == null) return Collections.EMPTY_LIST;
-		List result = new ArrayList();
-		for (Iterator it = targets.getChildren().iterator(); it.hasNext(); ) {
-			Link link = ((Target)it.next()).getLink();
-			if (link != null) result.add(link);
+		if (targets == null) {
+			return Collections.emptyList();
+		}
+		List<Link> result = new ArrayList<Link>();
+		for(Target target : targets.getChildren()) {
+			if (target.getLink() != null) {
+				result.add(target.getLink());
+			}				
 		}
 		return result;
 	}
@@ -155,6 +189,7 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	 * If the model change involves the addition of an ActivityExtension, add an adapter
 	 * to that extension.
 	 */
+	@Override
 	protected void handleModelChanged() {
 		super.handleModelChanged();
 		refreshSourceConnections();
@@ -163,12 +198,17 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	
 	/**
 	 * Convenience method to get the model as a BPEL Activity
+	 * @return the model as a BPEL activity
 	 */
 	public Activity getActivity() {
-		return (Activity)getModel();
+		return (Activity) getModel();
 	}
 	
-	// Override so we can set the constraint for every XY placed object
+	/** 
+	 * Override so we can set the constraint for every XY placed object
+	 */
+	
+	@Override
 	public void refreshVisuals() {
 		Rectangle r = null;
 		

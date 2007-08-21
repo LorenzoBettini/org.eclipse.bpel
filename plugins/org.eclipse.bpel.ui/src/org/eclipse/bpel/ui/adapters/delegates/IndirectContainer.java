@@ -45,50 +45,79 @@ public class IndirectContainer extends AbstractContainer {
 	// TODO: this is kind of a hack.  We shouldn't need to know it's an AbstractContainer :(
 	
 	@Override
-	protected boolean isValidChild(Object object, EObject child) {
+	protected boolean isValidChild(EObject object, EObject child) {
 		return fInnerContainer.isValidChild(object, child);
 	}
-
-	/**
-	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
-	 */	
 	
-	public boolean addChild(Object object, Object child, Object insertBefore) {
+	/**
+	 * @param object 
+	 * @param child 
+	 * @param insertBefore 
+	 * @return 
+	 * @see org.eclipse.bpel.ui.adapters.IContainer#addChild(java.lang.Object, java.lang.Object, java.lang.Object)
+	 */
+	
+	public boolean addChild(EObject object, EObject child, EObject insertBefore) {
 		EObject target = getTarget(object);
 		return (target == null)? false : fInnerContainer.addChild(target, child, insertBefore);
 	}
 	
 	/**
+	 * @param object 
+	 * @return the list of children.
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#getChildren(java.lang.Object)
 	 */
 	
-	public List<?> getChildren(Object object) {
+	public List<EObject> getChildren (EObject object) {
 		EObject target = getTarget(object);
-		return (target == null)? Collections.EMPTY_LIST : fInnerContainer.getChildren(target);
+		if (target == null) {
+			return Collections.emptyList();
+		}
+		return fInnerContainer.getChildren(target);
 	}
 	
 	/**
+	 * @param object 
+	 * @param child 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#removeChild(java.lang.Object, java.lang.Object)
 	 */
-	public boolean removeChild(Object object, Object child) {
+	
+	public boolean removeChild(EObject object, EObject child) {
 		EObject target = getTarget(object);
-		return (target == null)? false : fInnerContainer.removeChild(target, child);
+		if (target == null) {
+			return false;
+		}
+		return fInnerContainer.removeChild(target, child);
 	}
 	
 	/**
+	 * @param object 
+	 * @param oldChild 
+	 * @param newChild 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#replaceChild(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
-	public boolean replaceChild(Object object, Object oldChild, Object newChild) {		
+	public boolean replaceChild(EObject object, EObject oldChild, EObject newChild) {		
 		EObject target = getTarget(object);
-		return (target == null)? false : fInnerContainer.replaceChild(target, oldChild, newChild);
+		if (target == null) {
+			return false;			
+		}
+		return fInnerContainer.replaceChild(target, oldChild, newChild);
 	}
 
 	/**
+	 * @param object 
+	 * @param child 
+	 * @return 
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#canRemoveChild(java.lang.Object, java.lang.Object)
 	 */
-	public boolean canRemoveChild (Object object, Object child) {
+	public boolean canRemoveChild (EObject object, EObject child) {
 		EObject target = getTarget(object);
-		return (target == null)? false : fInnerContainer.canRemoveChild(target, child);
+		if (target == null) {
+			return false;
+		}		
+		return fInnerContainer.canRemoveChild(target, child);
 	}
 	
 	

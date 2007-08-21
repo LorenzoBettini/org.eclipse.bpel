@@ -37,7 +37,7 @@ public class OptionalIndirectContainer extends IndirectContainer {
 	
 	/* IContainer */
 	
-	public boolean addChild(Object object, Object child, Object insertBefore) {
+	public boolean addChild(EObject object, EObject child, EObject insertBefore) {
 		if (getTarget(object) == null) {
 			createTarget(object);
 			boolean result = super.addChild(object, child, insertBefore);
@@ -47,14 +47,14 @@ public class OptionalIndirectContainer extends IndirectContainer {
 		return super.addChild(object, child, insertBefore);
 	}
 	
-	public boolean removeChild(Object object, Object child) {
+	public boolean removeChild(EObject object, EObject child) {
 		if (getTarget(object) == null) return false;
 		boolean result = super.removeChild(object, child);
 		if (getChildren(object).isEmpty()) discardTarget(object);
 		return result;
 	}
 	
-	public boolean replaceChild(Object object, Object oldChild, Object newChild) {
+	public boolean replaceChild(EObject object, EObject oldChild, EObject newChild) {
 		if (getTarget(object) == null) return false;
 		return super.replaceChild(object, oldChild, newChild);
 	}

@@ -11,7 +11,7 @@
 package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.SequenceEditPart;
 import org.eclipse.gef.EditPart;
@@ -22,7 +22,7 @@ public class ForEachAdapter extends ContainerActivityAdapter {
 	/* IContainer delegate */
 	
 	public IContainer createContainerDelegate() {
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getForEach_Activity());
+		return new ActivityContainer(BPELPackage.eINSTANCE.getForEach_Activity());
 	}
 
 	/* EditPartFactory */

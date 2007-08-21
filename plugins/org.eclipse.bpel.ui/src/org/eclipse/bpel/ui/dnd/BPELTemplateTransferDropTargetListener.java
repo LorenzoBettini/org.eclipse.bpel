@@ -26,7 +26,5 @@ public class BPELTemplateTransferDropTargetListener extends TemplateTransferDrop
 	public BPELTemplateTransferDropTargetListener(EditPartViewer arg0) {
 		super(arg0);
 	}		
-
 	
-
 }

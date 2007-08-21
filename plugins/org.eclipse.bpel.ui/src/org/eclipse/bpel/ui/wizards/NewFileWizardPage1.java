@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.Templates.ProcessTemplate;
+import org.eclipse.bpel.ui.Templates.Template;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.IStatus;
@@ -193,7 +193,7 @@ public class NewFileWizardPage1 extends WizardPage
 
 			public void handleEvent(Event event) {
 				String val = processTemplateField.getText().trim();
-				ProcessTemplate template = BPELUIPlugin.INSTANCE.getTemplates().getTemplateByName( val );
+				Template template = BPELUIPlugin.INSTANCE.getTemplates().getTemplateByName( val );
 				if (template != null) {
 					String txt = template.getDescription();
 					templateDescription.setText ( txt == null ? EMPTY : txt);
@@ -353,7 +353,7 @@ public class NewFileWizardPage1 extends WizardPage
 	 * @return the actual selected template.
 	 */
     
-	public ProcessTemplate getSelectedTemplate() {
+	public Template getSelectedTemplate() {
 		String txt = processTemplateField.getText().trim();
 		return BPELUIPlugin.INSTANCE.getTemplates().getTemplateByName( txt );
 	}

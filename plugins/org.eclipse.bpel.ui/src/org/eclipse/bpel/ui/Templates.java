@@ -18,8 +18,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -48,35 +49,43 @@ public class Templates {
 	static final String TEMPLATE_PROPERTIES = "template.properties";  //$NON-NLS-1$
 	
 	/** location within the bundle where we look for templates */	
-	static final String TEMPLATE_LOCATION   = "/templates/";		//$NON-NLS-2$
+	static final String TEMPLATE_LOCATION   = "/templates/";		//$NON-NLS-1$
 	
 	/** default template file encoding, for a given set of template resources */
-	static final String DEFAULT_ENCODING    = "UTF-8";		//$NON-NLS-3$
+	static final String DEFAULT_ENCODING    = "UTF-8";		//$NON-NLS-1$
 	
 	/** the main bpel file has this extension */
-	static final String BPEL_FILE_EXTENSION = ".bpel";	//$NON-NLS-4$
+	static final String BPEL_FILE_EXTENSION = ".bpel";	//$NON-NLS-1$
 	
 	/** Entries which are directories of the bundle */
-	static final String BUNDLE_DIRECTORY = "/"; //$NON-NLS-5$
+	static final String BUNDLE_DIRECTORY = "/"; //$NON-NLS-1$
 		
 	/** Key or property under which the name of the template is present */
-	static final String PROPERTY_NAME = "name";	//$NON-NLS-5$
+	static final String PROPERTY_NAME = "name";	//$NON-NLS-1$
+	
+	/** The key name of the template */
+	static final String PROPERTY_KEY = "key"; //$NON-NLS-1$
 	
 	/** Key or property under which the encoding information for the template resources is present */
-	static final String PROPERTY_ENCODING = "encoding"; //$NON-NLS-6$
+	static final String PROPERTY_ENCODING = "encoding"; //$NON-NLS-1$
 
-	/** Key or property under whic the description of the template is present */
-	static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-7$
+	/** Key or property under which the description of the template is present */
+	static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
 		
 	/** avoid empty string */
-	static final String EMPTY = ""; //$NON-NLS-8$
+	static final String EMPTY = ""; //$NON-NLS-1$
+	
+	static final String[] EMPTY_NAMES = {};
 	
 	/** Templates contribute namespaces to the new file wizard */
-	Set mNamespaceNames = new TreeSet();
+	Set<String> mNamespaceNames = new TreeSet<String>();
 		
 	/** Templates indexed by name, sorted by name, according to the natural ordering */
-	Map mTemplateByName = new TreeMap();
-	
+	Map<String,Template> mTemplateByName = new TreeMap<String,Template>();
+
+	/** Templates indexed by id, sorted by name */
+	Map<String,Template> mTemplateByKey = new HashMap<String,Template>();
+
 	
 	/**
 	 * Initialize the template information from the bundle passed.
@@ -86,9 +95,29 @@ public class Templates {
 	 * @param bundle the bundle where the template information ought to be looked for
 	 */
 	
+	@SuppressWarnings("nls")
 	public void initializeFrom  ( Bundle bundle )
 	{
-		Enumeration list = bundle.getEntryPaths( TEMPLATE_LOCATION );
+		initializeFrom(bundle, TEMPLATE_LOCATION);
+	}
+	
+	/**
+	 * @param templateLocation
+	 */
+	
+	public void initializeFrom ( String templateLocation ) {
+		initializeFrom(BPELUIPlugin.INSTANCE.getBundle(), templateLocation);
+	}
+	
+	/**
+	 * @param bundle
+	 * @param templateLocation
+	 */
+	
+	@SuppressWarnings({ "nls", "boxing" })
+	public void initializeFrom  (Bundle bundle, String templateLocation ) {
+		
+		Enumeration<String> list = bundle.getEntryPaths( templateLocation );
 		if (list == null) {
 			return ;
 		}
@@ -97,7 +126,7 @@ public class Templates {
 		int count = 0;
 		
 		while (list.hasMoreElements()) {
-			String nextRoot = (String) list.nextElement();
+			String nextRoot = list.nextElement();
 			if ( nextRoot.endsWith(BUNDLE_DIRECTORY) == false ) {
 				continue;
 			}
@@ -134,10 +163,11 @@ public class Templates {
 			
 			String name = props.getProperty(PROPERTY_NAME);
 			
-			// No name, na game.
+			// No name, no game.
 			if (name == null) {
 				continue ;
 			}
+			
 			
 			String enc  = props.getProperty(PROPERTY_ENCODING,DEFAULT_ENCODING);
 			String desc = props.getProperty(PROPERTY_DESCRIPTION,EMPTY);
@@ -146,19 +176,21 @@ public class Templates {
 			// add any namespaces we are supplying ...
 			mNamespaceNames.addAll( findProperties (props,"namespace.{0}") );
 			
+			Template template = new Template();
+			template.mName = name;
+			template.mDescription = desc;
+			template.mProperties = (Map) props;
 			
-			ProcessTemplate template = new ProcessTemplate();
-			template.setName ( name );
-			template.setDescription ( desc );			
 			mTemplateByName.put ( name, template );
-			
-			
+			String id   = props.getProperty(PROPERTY_KEY);
+			if (id != null) {
+				mTemplateByKey.put ( id, template );
+			}
+						
 			
 			int hole = 3;
-			for(int i=0; hole >= 0; i++) {
-				
-				Object args[] = new Object[] { new Integer(i) } ;			
-				String key = MessageFormat.format("resource.{0}",args);  //$NON-NLS-10$
+			for(int i=0; hole >= 0; i++) {									
+				String key = MessageFormat.format("resource.{0}",i); 
 				String resourceName = props.getProperty(key);
 				if (resourceName == null) {
 					hole--;
@@ -166,19 +198,18 @@ public class Templates {
 				}
 				hole = 3;
 				
-				key = MessageFormat.format("resource.{0}.name", args);
+				key = MessageFormat.format("resource.{0}.name", i);
 				String nameTemplate = props.getProperty(key);
 				
 				String entryLoc = nextRoot + resourceName;
 				
 				TemplateResource resource = new TemplateResource() ;
-				resource.setName ( resourceName );						
-				resource.setLocation ( entryLoc );
-				resource.setNameTemplate( nameTemplate );
-				resource.setContent ( slurpContent ( bundle.getEntry(entryLoc), enc ) ) ;
+				resource.mName = resourceName;
+				resource.mContent = slurpContent ( bundle.getEntry(entryLoc), enc );
+				resource.mNameTemplate = nameTemplate ;				
 				
 				// add the resource which makes up this "template" 
-				template.getResources().add ( resource );
+				template.add ( resource );
 				
 			}
 			
@@ -202,7 +233,7 @@ public class Templates {
 			return null;
 		}
 		
-		StringBuffer sb = new StringBuffer ( 2 * 1048 );
+		StringBuilder sb = new StringBuilder ( 2 * 1048 );
 		char[] buf = new char[ 256 ];				
 		InputStreamReader isr = null;
 		
@@ -230,9 +261,9 @@ public class Templates {
 	
 	
 	
-	List findProperties ( Properties props, String pattern ) {
+	List<String> findProperties ( Properties props, String pattern ) {
 		
-		LinkedList list = new LinkedList();
+		List<String> list = new ArrayList<String>();
 		int hole = 3;
 		
 		for(int i=0; hole >= 0; i++) {
@@ -240,7 +271,7 @@ public class Templates {
 			String key = MessageFormat.format(pattern, new Object[] { new Integer(i) } );
 			String val = props.getProperty(key,null);
 			if (val != null) {
-				list.addLast ( val );
+				list.add ( val );
 				hole = 3;
 			} else {
 				hole--;
@@ -248,6 +279,15 @@ public class Templates {
 		}
 		
 		return list;
+	}
+	
+	/**
+	 * @param key
+	 * @return the template whose key is key
+	 */
+	
+	public Template getTemplateByKey ( String key ) {
+		return mTemplateByKey.get(key);
 	}
 	
 	
@@ -259,22 +299,20 @@ public class Templates {
 	 * @return the template definition, including template resources
 	 */
 	
-	public ProcessTemplate getTemplateByName ( String name )
+	public Template getTemplateByName ( String name )
 	{
-		return (ProcessTemplate) mTemplateByName.get(name);
+		return mTemplateByName.get(name);
 	}
 	
 	
 	/** 
-	 * Return the namespaces contributed by the templates.	
-	 * @return
+	 *
+	 * @return  Return the namespaces contributed by the templates.	
 	 */
 	
 	public String[] getNamespaceNames ()
-	{
-		String[] names = new String[ mNamespaceNames.size() ];
-		mNamespaceNames.toArray( names );
-		return names;
+	{	
+		return mNamespaceNames.toArray( EMPTY_NAMES );	
 	}
 	
 	
@@ -286,24 +324,22 @@ public class Templates {
 	 */
 	
 	public String [] getTemplateNames ()
-	{
-		String[] names = new String[ mTemplateByName.size() ];		
-		mTemplateByName.keySet().toArray( names );
-		return names;
+	{			
+		return mTemplateByName.keySet().toArray( EMPTY_NAMES );	
 	}
 	
 	
 	
 	/**
 	 * A given "BPEL Process" Template has a name, description, and
-	 * a list of resources (file templates) that will be used to create the inital
+	 * a list of resources (file templates) that will be used to create the initial
 	 * process source file.
 	 * 
 	 * @author Michal Chmielewski (michal.chmielewski@oracle.com)	
 	 *
 	 */
 	
-	static public class ProcessTemplate {
+	public class Template {
 		
 		/** Name of the process template */
 		String mName;
@@ -311,36 +347,62 @@ public class Templates {
 		/** Description of this process template */
 		String mDescription ;
 		
+		Map<String,String> mProperties ;
+		
 		/** list of resources that this template has (1-N) */		
-		List mResources = new LinkedList();
+		List<TemplateResource> mResources = new ArrayList<TemplateResource>();
+
 
 		/**
-		 * @param desc
+		 * @return the name
 		 */
-		public void setDescription(String desc) {
-			mDescription = desc;		
-		}
-
-
 		public String getName() {
 			return mName;
 		}
 
-		public void setName(String name) {
-			mName = name;
-		}
 
-		public List getResources() {
+		void add ( TemplateResource resource ) {
+			mResources.add(resource);
+			resource.mTemplate = this;
+		}
+		
+		/**
+		 * @return the template resources
+		 */
+		public List<TemplateResource> getResources() {
 			return mResources;
 		}
 
 		/**
-		 * @return
+		 * @return the description
 		 */
 		public String getDescription() {
 			return mDescription;
 		}	
 		
+		/**
+		 * Return the property under the key or null if not found.
+		 * @param key
+		 * @return the property under the key, or null.
+		 */
+		
+		public String getProperty ( String key ) {
+			return mProperties.get(key);
+		}
+
+		
+		TemplateResource lookupResource ( String name ) {
+			String name2 = mProperties.get(name);
+			for (TemplateResource resource : mResources) {
+				if (name.equals(resource.mName)) {
+					return resource;
+				}
+				if (name2 != null && name2.equals(resource.mName)) {
+					return resource;
+				}
+			}
+			return null;
+		}
 		
 	}
 	
@@ -352,49 +414,34 @@ public class Templates {
 	 * 
 	 */
 	
-	static public class TemplateResource {
+	public class TemplateResource {
+		
+		/** The template I belong to */
+		Template mTemplate = null;
 		
 		/** Name of the resource (from the bundle) */
 		String mName ;
-		
-		/** Location of the resource (from the bundle) */
-		String mLocation;
 		
 		/** The content of the resource (slurped from the bundle) */
 		String mContent;
 
 		/** The name template, that is, the file name template if depended on process name */
 		String mNameTemplate;
-				
-		
+						
+		/**
+		 * @return the content
+		 */
 		public String getContent() {
 			return mContent;
 		}
-		
-		public void setContent(String content) {
-			mContent = content;
-		}
-		
-		public String getLocation() {
-			return mLocation;
-		}
-		
-		public void setLocation(String location) {
-			mLocation = location;
-		}
-		
+				
+		/**
+		 * @return the name
+		 */
 		public String getName() {
 			return mName;
 		}
 		
-		public void setName(String name) {
-			mName = name;
-		}
-		
-		public void setNameTemplate ( String name) {
-			mNameTemplate = name;
-		}
-
 		
 		/**
 		 * Process the content of the template and replace anything within
@@ -404,7 +451,7 @@ public class Templates {
 		 * @return the replaced content
 		 */
 		
-		public String process ( Map args ) {
+		public String process ( Map<String,Object> args ) {
 			
 			return process ( mContent, args );
 		}
@@ -412,15 +459,16 @@ public class Templates {
 		
 		/**
 		 * Process the content of the template and replace anything within
-		 * ${...} by the corresponding key prent in the map passed.
+		 * ${...} by the corresponding key present in the map passed.
 		 * 
 		 * @param args the keys that will be replaced in the content 
 		 * @return the replaced content
 		 */
 		
-		String process (String src, Map args )
+		@SuppressWarnings("nls")
+		String process (String src, Map<String,Object> args )
 		{
-			StringBuffer sb = new StringBuffer ( src.length() );
+			StringBuilder sb = new StringBuilder ( src.length() );
 			// empty content, empty result
 			if (src == null) {
 				return sb.toString();
@@ -439,7 +487,8 @@ public class Templates {
 				}
 				
 				String expr = src.substring(cursor, closeReplace).trim() ;
-				sb.append( args.get(expr) );				
+				sb.append( lookup(expr,args) );
+				
 				cursor = closeReplace + 1;
 			} while (true);
 			
@@ -447,7 +496,35 @@ public class Templates {
 			sb.append( src.substring(cursor) );			
 			return sb.toString();
 		}
+
 		
+		@SuppressWarnings("nls")
+		
+		Object lookup ( String key, Map<String,Object> args) {
+			Object value = null;
+			TemplateResource r = null;
+			if (key.startsWith(":include:")) {
+				key = key.substring(9);
+				r = mTemplate.lookupResource(key);
+				if (r != null) {
+					value = r.mContent;
+				}
+			} else if (key.startsWith(":parse:")) {
+				key = key.substring(7);
+				r = mTemplate.lookupResource (key);
+				/** Avoid recursion at this point */
+				if (r != null && r != this) {
+					value = r.process( args );
+				}
+			} else {							
+				value = args.get(key);
+				if (value == null) {
+					value = mTemplate.mProperties.get(key);
+				}								
+			}
+			return value;
+		}
+				
 		/**
 		 * Return the name of the resource 
 		 * 
@@ -455,7 +532,7 @@ public class Templates {
 		 * @return the name of the resource, after token replacement.
 		 */
 		
-		public String getName (Map args) {
+		public String getName (Map<String,Object> args) {
 			
 			if (mNameTemplate == null) {
 				return mName;

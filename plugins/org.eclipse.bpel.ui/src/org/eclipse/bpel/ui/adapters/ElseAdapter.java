@@ -14,7 +14,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.gef.EditPart;
@@ -30,7 +30,7 @@ public class ElseAdapter extends ContainerAdapter implements ILabeledElement,
 	/* IContainer delegate */
 	
 	public IContainer createContainerDelegate() {
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getElse_Activity());
+		return new ActivityContainer(BPELPackage.eINSTANCE.getElse_Activity());
 	}
 
 	/* ILabeledElement */

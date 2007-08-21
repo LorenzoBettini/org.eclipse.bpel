@@ -16,7 +16,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.ui.actions.editpart.CreateElseAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateElseIfAction;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
 import org.eclipse.bpel.ui.editparts.IfEditPart;
@@ -30,7 +30,7 @@ public class IfAdapter extends ContainerActivityAdapter {
 		
 	public IContainer createContainerDelegate() {
 		MultiContainer omc = new MultiContainer();
-		omc.add(new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getIf_Activity()));
+		omc.add(new ActivityContainer(BPELPackage.eINSTANCE.getIf_Activity()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getIf_ElseIf()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getIf_Else()));
 		return omc;

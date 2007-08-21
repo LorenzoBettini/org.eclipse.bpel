@@ -18,7 +18,7 @@ import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
@@ -42,34 +42,7 @@ public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
 		// by creating an ImplicitSequence if the ElseIf was empty.  We then make
 		// sure we don't delete the last activity from the ElseIf.
 		// See also IfAdapter. Rethink this in the future.
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getElseIf_Activity()) {
-			public boolean removeChild(Object object, Object child) {
-				Object currentChild = getSingleChild(object);
-				if (currentChild == null)  return false;
-				if (!isImplicitSequence(currentChild)) {
-					// TODO: should we check that child is actually the correct object??
-					if (ModelHelper.isSpecCompliant((EObject)object)) {
-						// spec-compliant mode: just remove it.
-						setSingleChild(object, null);
-						return true;
-					} else {
-						// we have a child, but not an implicit sequence.  just replace it
-						// with a new (empty) implicit sequence.
-						BPELEditor bpelEditor = ModelHelper.getBPELEditor(object);
-						Sequence impSeq = BPELUtil.createImplicitSequence(
-							bpelEditor.getProcess(), bpelEditor.getExtensionMap());
-						setSingleChild(object, impSeq);
-						return true;
-					}
-				}
-				// We have an implicit sequence.  Remove the child from it.
-				// Since ElseIf must have an activity inside it (for runtime marker
-				// purposes), we won't remove the implicit sequence even if there is
-				// less than two children in it.
-				List list = getChildList(object);
-				return list.remove(child);
-			}
-		};
+		return new ActivityContainer(BPELPackage.eINSTANCE.getElseIf_Activity());
 	}
 
 	/* ILabeledElement */

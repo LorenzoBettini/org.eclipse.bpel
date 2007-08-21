@@ -11,7 +11,7 @@
 package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.SequenceEditPart;
 import org.eclipse.gef.EditPart;
@@ -21,7 +21,7 @@ public class RepeatUntilAdapter extends ContainerActivityAdapter {
 
 
 	public IContainer createContainerDelegate() {
-		return new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getRepeatUntil_Activity());
+		return new ActivityContainer(BPELPackage.eINSTANCE.getRepeatUntil_Activity());
 	}
 
 	/* EditPartFactory */

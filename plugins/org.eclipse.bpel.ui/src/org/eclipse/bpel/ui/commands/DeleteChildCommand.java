@@ -75,17 +75,17 @@ public class DeleteChildCommand extends AutoUndoCommand {
 	public DeleteChildCommand(EObject child) {
 		super(new ArrayList(2));
 
-		fParent = BPELUtil.getIContainerParent(child);
+		fParent = child.eContainer();
 		
 		if (fParent instanceof FaultHandler || fParent instanceof EventHandler) {
 			// If the child of the FH/EH is the *only* child, then we want to delete the
 			// entire FH/EH, since it has no meaningful attributes of its own.
-			IContainer container = BPELUtil.adapt(fParent, IContainer.class);
-			List<?> children = container.getChildren(fParent);
+			IContainer<EObject> container = BPELUtil.adapt(fParent, IContainer.class);
+			List<EObject> children = container.getChildren(fParent);
 			if (children.size() == 1 && children.contains(child)) {
 				// delete the FH instead
 				child = fParent;
-				fParent = BPELUtil.getIContainerParent(child);
+				fParent = child.eContainer();			
 			}
 		}
 		this.fChild = child;

@@ -63,7 +63,10 @@ import org.eclipse.bpel.ui.actions.ToggleShowFaultHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowTerminationHandler;
 import org.eclipse.bpel.ui.adapters.AdapterNotification;
 import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
+import org.eclipse.bpel.ui.dnd.BPELTextTransferDropTargetListener;
+import org.eclipse.bpel.ui.dnd.FileDropTargetListener;
 import org.eclipse.bpel.ui.dnd.BPELTemplateTransferDropTargetListener;
+import org.eclipse.bpel.ui.dnd.TextDropTargetListener;
 import org.eclipse.bpel.ui.editparts.CorrelationSetsEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
 import org.eclipse.bpel.ui.editparts.PartnerLinksEditPart;
@@ -212,11 +215,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	
 	private ISelectionProvider filteredEditPartSelectionProvider;
 	
-	// Drag and drop support
-	private DropTarget dropTarget;
-	// JM
-	private BPELDropTargetListener dropTargetListener;
-
+	
 	// refactoring listeners;
 	protected IResourceChangeListener postBuildRefactoringListener;
 		
@@ -365,11 +364,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		}
 		
 		private void configureOutlineViewer() {
-			getViewer().setEditDomain(getEditDomain());
-			getViewer().setEditPartFactory(new OutlineTreePartFactory());
+			
+			EditPartViewer viewer = getViewer();
+			viewer.setEditDomain(getEditDomain());
+			viewer.setEditPartFactory(new OutlineTreePartFactory());
 			registerViewer(getViewer());
-			ContextMenuProvider provider = new ProcessContextMenuProvider(getViewer(), getActionRegistry());
-			getViewer().setContextMenu(provider);
+			ContextMenuProvider provider = new ProcessContextMenuProvider(viewer, getActionRegistry());
+			viewer.setContextMenu(provider);
 			
 			getSite().setSelectionProvider( adaptingSelectionProvider );
 			
@@ -378,8 +379,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 				getSite().getSelectionProvider());
 			getViewer().setKeyHandler(getKeyHandler());
 						
-			getViewer().addDropTargetListener(
-					new BPELTemplateTransferDropTargetListener(getViewer()));			
+			viewer.addDropTargetListener( new BPELTemplateTransferDropTargetListener(viewer) );			
 			
 			
 			IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
@@ -564,11 +564,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		if (fileChangeListener != null) {
 			BPELUIPlugin.INSTANCE.getResourceChangeListener().removeListener(fileChangeListener);
 		}
-		if (dropTarget != null) {
-			dropTarget.dispose();
-			dropTarget = null;
-		}
-
+	
 //		ResourceSet resourceSet = getResourceSet();
 		
 		if (adaptingSelectionProvider != null) {
@@ -1010,11 +1006,15 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		getGraphicalViewer().setEditPartFactory(new BPELEditPartFactory());
 		
 		BPELUIPlugin.INSTANCE.getPreferenceStore().setValue(IBPELUIConstants.PREF_SHOW_FREEFORM_FLOW, true);
+		GraphicalViewer viewer = getGraphicalViewer();
+		viewer.setContents(process);
 		
-		getGraphicalViewer().setContents(process);
+		viewer.addDropTargetListener(   new FileDropTargetListener(viewer,this) );
+		viewer.addDropTargetListener(   new TextDropTargetListener(viewer,this) );
+		viewer.addDropTargetListener(	new BPELTextTransferDropTargetListener(viewer));		
+		viewer.addDropTargetListener(	new BPELTemplateTransferDropTargetListener(viewer));		
 		
-		getGraphicalViewer().addDropTargetListener(	new BPELTemplateTransferDropTargetListener(getGraphicalViewer()));
-				
+		
 		this.selectionChangeListener = new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				StructuredSelection selection = (StructuredSelection)event.getSelection();
@@ -1766,35 +1766,24 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 	
 	@Override
 	protected void initializeTrayViewer() {
-		getTrayViewer().setEditPartFactory(new BPELTrayEditPartFactory());
-		getTrayViewer().setEditDomain(getEditDomain());
-		getEditDomain().addViewer(getTrayViewer());
-		getTrayViewer().addSelectionChangedListener(this.traySelectionChangeListener);
-		registerViewer(getTrayViewer());
-		ContextMenuProvider provider = new ProcessContextMenuProvider(getTrayViewer(), getActionRegistry());
-		getTrayViewer().setContextMenu(provider);
+		GraphicalViewer viewer = getTrayViewer();
+		
+		viewer.setEditPartFactory(new BPELTrayEditPartFactory());
+		viewer.setEditDomain(getEditDomain());
+		getEditDomain().addViewer(viewer);
+		viewer.addSelectionChangedListener(this.traySelectionChangeListener);
+		registerViewer(viewer);
+		ContextMenuProvider provider = new ProcessContextMenuProvider(viewer, getActionRegistry());
+		viewer.setContextMenu(provider);
 		getSite().registerContextMenu("org.eclipse.bpel.editor.tray.contextmenu", //$NON-NLS-1$
 			provider, getSite().getSelectionProvider());
-		getTrayViewer().setContents(process);
-
-//		// Setup the drop target and add our listener to it.
-//		// This will allow us to accept drops from the navigator.
-		final DropTarget trayDropTarget = new DropTarget(getTrayViewer().getControl(), DND.DROP_NONE | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
-//		// Set transfers to the types that are specified by the helper
-//		// JM
-		trayDropTarget.setTransfer(BPELDropTargetListener.getTransferTypes());
-//		// Create our drop listener and add it to the DropTarget
-//		// JM
-		trayDropTarget.addDropListener(new BPELDropTargetListener(getTrayViewer(), this));
-//		
-		getTrayViewer().getControl().addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				trayDropTarget.dispose();
-			}
-		});
+		viewer.setContents(process);
+		
+		viewer.addDropTargetListener(new FileDropTargetListener(viewer,this));
+		viewer.addDropTargetListener(new TextDropTargetListener(viewer,this));
 		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			getTrayViewer().getControl(), IHelpContextIds.TRAY_DESCRIPTION);	
+			viewer.getControl(), IHelpContextIds.TRAY_DESCRIPTION);	
 	}
 	
 	// Register a viewer with the selection providers

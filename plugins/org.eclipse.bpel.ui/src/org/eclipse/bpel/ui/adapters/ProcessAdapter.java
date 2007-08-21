@@ -17,7 +17,7 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.adapters.delegates.IndirectContainer;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
@@ -26,8 +26,6 @@ import org.eclipse.bpel.ui.editparts.ProcessOutlineEditPart;
 import org.eclipse.bpel.ui.editparts.ProcessTrayEditPart;
 import org.eclipse.bpel.ui.properties.PropertiesLabelProvider;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
-import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -45,7 +43,7 @@ public class ProcessAdapter extends ContainerAdapter implements INamedElement,
 
 	public IContainer createContainerDelegate() {
 		MultiContainer omc = new MultiContainer();
-		omc.add(new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getProcess_Activity()));
+		omc.add(new ActivityContainer(BPELPackage.eINSTANCE.getProcess_Activity()));
 		omc.add(new IndirectContainer(BPELPackage.eINSTANCE.getProcess_PartnerLinks(),			
 			new ReferenceContainer(BPELPackage.eINSTANCE.getPartnerLinks_Children())));
 		omc.add(new IndirectContainer(BPELPackage.eINSTANCE.getProcess_CorrelationSets(),			

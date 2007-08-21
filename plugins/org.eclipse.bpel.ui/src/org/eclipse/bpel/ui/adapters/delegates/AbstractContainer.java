@@ -22,29 +22,32 @@ import org.eclipse.emf.ecore.EObject;
  * also might want to subclass this if they plan to interact with the Actions returned
  * by other subclasses of AbstractContainer.
  */
-public abstract class AbstractContainer implements IContainer {
+public abstract class AbstractContainer implements IContainer<EObject> {
 
-	protected abstract boolean isValidChild(Object object, EObject child);
+	protected abstract boolean isValidChild(EObject object, EObject child);
 
-	/**
+	/** 
+	 * @param object 
+	 * @param child 
+	 * @param insertBefore 
+	 * @return if we can add this object
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#canAddObject(java.lang.Object, java.lang.Object, java.lang.Object)
-	 */	
-
-	public boolean canAddObject(Object object, Object child, Object insertBefore) {
-		if (child instanceof EObject == false) {
-			return false;
-		}
-		return isValidChild(object, (EObject) child);
+	 */
+	public boolean canAddObject (EObject object, EObject child, EObject insertBefore) {		
+		return isValidChild (object, child);
 	}
 
 	/**
+	 * @param object 
+	 * @param child 
+	 * @return next sibling child.
 	 * @see org.eclipse.bpel.ui.adapters.IContainer#getNextSiblingChild(java.lang.Object, java.lang.Object)
 	 */
 	
-	public final Object getNextSiblingChild(Object object, Object child) {
+	public final EObject getNextSiblingChild (EObject object, EObject child) {
 		
 		boolean bNext = false;
-		for(Object next : getChildren(object)) {
+		for(EObject next : getChildren(object)) {
 			if (next == child) {
 				bNext = true;
 			} else if (bNext) {

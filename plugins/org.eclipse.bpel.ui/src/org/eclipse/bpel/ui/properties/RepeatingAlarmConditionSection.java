@@ -112,9 +112,8 @@ public class RepeatingAlarmConditionSection extends ExpressionSection {
 	@Override
 	protected void basicSetInput(EObject newInput) {		
 		super.basicSetInput(newInput);
-		
-		boolean enable = (BPELUtil.getIContainerParent( newInput ) instanceof EventHandler);
-	
+				
+		boolean enable = (newInput.eContainer() instanceof EventHandler);
 		expressionLanguageViewer.getControl().setEnabled(enable);	
 		
 		expressionLanguageViewer.getControl().setEnabled(enable);

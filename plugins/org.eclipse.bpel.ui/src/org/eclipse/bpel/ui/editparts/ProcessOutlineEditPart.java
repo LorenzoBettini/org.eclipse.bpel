@@ -19,7 +19,7 @@ import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.ui.adapters.IContainer;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.uiextensionmodel.ReferencePartnerLinks;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 
@@ -64,7 +64,7 @@ public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 			list.add(sets);
 		}
 
-		IContainer container = new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getProcess_Activity());
+		IContainer container = new ActivityContainer(BPELPackage.eINSTANCE.getProcess_Activity());
 		list.addAll(container.getChildren(process));
 		return list;
 	}

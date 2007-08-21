@@ -16,7 +16,7 @@ import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.TerminationHandler;
-import org.eclipse.bpel.ui.adapters.delegates.ImplicitSequenceContainer;
+import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.OptionalIndirectContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
@@ -33,7 +33,7 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 	
 	public IContainer createContainerDelegate() {
 		MultiContainer omc = new MultiContainer();
-		omc.add(new ImplicitSequenceContainer(BPELPackage.eINSTANCE.getScope_Activity()));
+		omc.add(new ActivityContainer(BPELPackage.eINSTANCE.getScope_Activity()));
 // TODO: Support scoped partner links and correlation sets
 		omc.add(new OptionalIndirectContainer(BPELPackage.eINSTANCE.getScope_PartnerLinks(),			
 			new ReferenceContainer(BPELPackage.eINSTANCE.getPartnerLinks_Children())));

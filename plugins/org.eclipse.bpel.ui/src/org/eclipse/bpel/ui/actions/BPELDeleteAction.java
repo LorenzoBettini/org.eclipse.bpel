@@ -146,13 +146,12 @@ public class BPELDeleteAction extends EditAction {
 		}
 		
 		EObject modelObject = fSelection.get(0);		
-		EObject parent = BPELUtil.getIContainerParent(modelObject);
+		
+		EObject parent = modelObject.eContainer();
 		Object  sibling = null;
-		if (parent != null) {
-			IContainer container = BPELUtil.adapt(parent, IContainer.class);
-			if (container != null) {
-				sibling = container.getNextSiblingChild(parent, modelObject);
-			}
+		IContainer<EObject> container = BPELUtil.adapt(parent, IContainer.class);
+		if (container != null) {
+			sibling = container.getNextSiblingChild(parent, modelObject);
 		}
 		
 		execute( cmd );

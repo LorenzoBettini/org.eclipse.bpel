@@ -51,7 +51,7 @@ public class BPELCreateOperation implements IRunnableWithProgress {
     private IContainer mContainer ;
     
     // The template from which we will be creating the file(s)
-    private Templates.ProcessTemplate mTemplate;
+    private Templates.Template mTemplate;
     
     
 	public void setArgs(Map args) {
@@ -63,7 +63,7 @@ public class BPELCreateOperation implements IRunnableWithProgress {
 		mContainer = container;
 	}
 	
-	public void setTemplate(Templates.ProcessTemplate template) {
+	public void setTemplate(Templates.Template template) {
 		mTemplate = template;
 	}
 

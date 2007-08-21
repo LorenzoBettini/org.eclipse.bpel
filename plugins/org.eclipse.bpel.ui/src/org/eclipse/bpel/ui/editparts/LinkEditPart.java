@@ -83,23 +83,33 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 			adapter.addToObject(link.eContainer());
 		}
 		if (link.getSources().size() > 0) {
-			Source source = (Source)link.getSources().get(0);
-			if (source != null) adapter.addToObject(source);
+			Source source = link.getSources().get(0);
+			if (source != null) {
+				adapter.addToObject(source);
+			}
 			Activity sourceActivity = source.getActivity();
 			if (sourceActivity != null) {
 				adapter.addToObject(sourceActivity);
-				EObject sourceParent = BPELUtil.getIContainerParent(sourceActivity); 
-				if (sourceParent != null) adapter.addToObject(sourceParent);
+ 
+				EObject sourceParent = sourceActivity.eContainer();
+				if (sourceParent != null) {
+					adapter.addToObject(sourceParent);
+				}
 			}
 		}
 		if (link.getTargets().size() > 0) {
-			Target target = (Target)link.getTargets().get(0);
-			if (target != null) adapter.addToObject(target);
+			Target target = link.getTargets().get(0);
+			if (target != null) {
+				adapter.addToObject(target);
+			}
 			Activity targetActivity = target.getActivity();
 			if (targetActivity != null) {
 				adapter.addToObject(targetActivity);
-				EObject targetParent = BPELUtil.getIContainerParent(targetActivity); 
-				if (targetParent != null) adapter.addToObject(targetParent);
+
+				EObject targetParent = targetActivity.eContainer();
+				if (targetParent != null) {
+					adapter.addToObject(targetParent);
+				}				
 			}
 		}
 	}
