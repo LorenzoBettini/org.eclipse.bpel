@@ -161,7 +161,7 @@ public class BPELReader implements ErrorHandler {
 	// The process we are reading
 	private Process process = null;
 	// The resource we are reading from
-	private BPELResource fResource = null;
+	private Resource fResource = null;
 	// The document builder controls various DOM characteristics
 	private DocumentBuilder docBuilder = null;
 	// Registry for extensibility element serializers and deserializers
@@ -318,7 +318,7 @@ public class BPELReader implements ErrorHandler {
 	 * @return a list of objects 
 	 */
 	
-	public List<EObject> fromXML ( String xmlSource , String sourceDesciption ) {
+	public List<EObject> fromXML ( String xmlSource , String sourceDesciption , Resource resource ) {
 		
 		armErrorHandler ();
 		
@@ -343,6 +343,8 @@ public class BPELReader implements ErrorHandler {
 		if (doc == null) {
 			return Collections.emptyList();		
 		}
+		
+		fResource = resource;
 		
 		// Pass 1 and 2 are inside the try so they don't occur if
 		// an error happens during parsing.
@@ -372,10 +374,13 @@ public class BPELReader implements ErrorHandler {
 	 * In pass 2, we run any post load runnables which were queued during pass 1.
 	 */
 	protected void pass2() {	
-		for(Runnable r : fPass2Runnables) {
-			r.run();
+		try {
+			for(Runnable r : fPass2Runnables) {
+				r.run();
+			}
+		} finally {			
+			fPass2Runnables.clear();
 		}
-		fPass2Runnables.clear();
 	}
 	
 	
