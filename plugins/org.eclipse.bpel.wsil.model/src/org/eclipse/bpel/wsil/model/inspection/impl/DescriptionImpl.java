@@ -56,6 +56,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return InspectionPackage.Literals.DESCRIPTION;
 	}
@@ -77,10 +78,11 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case InspectionPackage.DESCRIPTION__ANY:
-				return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getAny()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -90,6 +92,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case InspectionPackage.DESCRIPTION__ANY:
@@ -104,6 +107,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case InspectionPackage.DESCRIPTION__ANY:
@@ -118,6 +122,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.DESCRIPTION__ANY:
@@ -132,6 +137,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.DESCRIPTION__ANY:
@@ -145,6 +151,7 @@ public class DescriptionImpl extends ReferenceImpl implements Description {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

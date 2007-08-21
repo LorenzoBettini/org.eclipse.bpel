@@ -57,11 +57,11 @@ public interface Inspection extends ItemWithAbstracts {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Services</em>' containment reference list.
 	 * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage#getInspection_Services()
-	 * @model type="org.eclipse.bpel.wsil.model.inspection.Service" containment="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true" transient="true" volatile="true" derived="true"
 	 *        extendedMetaData="kind='element' name='service' namespace='##targetNamespace' group='#group:1'"
 	 * @generated
 	 */
-	EList getServices();
+	EList<Service> getServices();
 
 	/**
 	 * Returns the value of the '<em><b>Links</b></em>' containment reference list.
@@ -74,10 +74,10 @@ public interface Inspection extends ItemWithAbstracts {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Links</em>' containment reference list.
 	 * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage#getInspection_Links()
-	 * @model type="org.eclipse.bpel.wsil.model.inspection.Link" containment="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true" transient="true" volatile="true" derived="true"
 	 *        extendedMetaData="kind='element' name='link' namespace='##targetNamespace' group='#group:1'"
 	 * @generated
 	 */
-	EList getLinks();
+	EList<Link> getLinks();
 
 } // Inspection

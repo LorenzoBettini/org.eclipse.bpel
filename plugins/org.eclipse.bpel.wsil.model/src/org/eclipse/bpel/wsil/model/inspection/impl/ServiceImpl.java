@@ -46,7 +46,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList name;
+	protected EList<Name> name;
 
 	/**
 	 * The cached value of the '{@link #getDescription() <em>Description</em>}' containment reference list.
@@ -56,7 +56,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList description;
+	protected EList<Description> description;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,6 +72,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return InspectionPackage.Literals.SERVICE;
 	}
@@ -81,9 +82,9 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getName() {
+	public EList<Name> getName() {
 		if (name == null) {
-			name = new EObjectContainmentEList(Name.class, this, InspectionPackage.SERVICE__NAME);
+			name = new EObjectContainmentEList<Name>(Name.class, this, InspectionPackage.SERVICE__NAME);
 		}
 		return name;
 	}
@@ -93,9 +94,9 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getDescription() {
+	public EList<Description> getDescription() {
 		if (description == null) {
-			description = new EObjectContainmentEList(Description.class, this, InspectionPackage.SERVICE__DESCRIPTION);
+			description = new EObjectContainmentEList<Description>(Description.class, this, InspectionPackage.SERVICE__DESCRIPTION);
 		}
 		return description;
 	}
@@ -105,12 +106,13 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case InspectionPackage.SERVICE__NAME:
-				return ((InternalEList)getName()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getName()).basicRemove(otherEnd, msgs);
 			case InspectionPackage.SERVICE__DESCRIPTION:
-				return ((InternalEList)getDescription()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getDescription()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -120,6 +122,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case InspectionPackage.SERVICE__NAME:
@@ -135,15 +138,17 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+		@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case InspectionPackage.SERVICE__NAME:
 				getName().clear();
-				getName().addAll((Collection)newValue);
+				getName().addAll((Collection<? extends Name>)newValue);
 				return;
 			case InspectionPackage.SERVICE__DESCRIPTION:
 				getDescription().clear();
-				getDescription().addAll((Collection)newValue);
+				getDescription().addAll((Collection<? extends Description>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -154,6 +159,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.SERVICE__NAME:
@@ -171,6 +177,7 @@ public class ServiceImpl extends ItemWithAbstractsImpl implements Service {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.SERVICE__NAME:

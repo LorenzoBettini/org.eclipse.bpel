@@ -39,10 +39,10 @@ public interface ItemWithAbstracts extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Abstract</em>' containment reference list.
 	 * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage#getItemWithAbstracts_Abstract()
-	 * @model type="org.eclipse.bpel.wsil.model.inspection.TypeOfAbstract" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='abstract' namespace='##targetNamespace'"
 	 * @generated
 	 */
-	EList getAbstract();
+	EList<TypeOfAbstract> getAbstract();
 
 } // ItemWithAbstracts

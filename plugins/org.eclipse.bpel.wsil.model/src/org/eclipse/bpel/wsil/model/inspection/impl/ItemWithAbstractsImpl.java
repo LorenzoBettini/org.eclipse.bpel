@@ -46,7 +46,7 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * @generated
 	 * @ordered
 	 */
-	protected EList abstract_;
+	protected EList<TypeOfAbstract> abstract_;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -62,6 +62,7 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return InspectionPackage.Literals.ITEM_WITH_ABSTRACTS;
 	}
@@ -71,9 +72,9 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getAbstract() {
+	public EList<TypeOfAbstract> getAbstract() {
 		if (abstract_ == null) {
-			abstract_ = new EObjectContainmentEList(TypeOfAbstract.class, this, InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT);
+			abstract_ = new EObjectContainmentEList<TypeOfAbstract>(TypeOfAbstract.class, this, InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT);
 		}
 		return abstract_;
 	}
@@ -83,10 +84,11 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT:
-				return ((InternalEList)getAbstract()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getAbstract()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -96,6 +98,7 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT:
@@ -109,11 +112,13 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+		@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT:
 				getAbstract().clear();
-				getAbstract().addAll((Collection)newValue);
+				getAbstract().addAll((Collection<? extends TypeOfAbstract>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -124,6 +129,7 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT:
@@ -138,6 +144,7 @@ public abstract class ItemWithAbstractsImpl extends EObjectImpl implements ItemW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.ITEM_WITH_ABSTRACTS__ABSTRACT:

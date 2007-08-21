@@ -52,6 +52,7 @@ public class InspectionAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
@@ -68,36 +69,46 @@ public class InspectionAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected InspectionSwitch modelSwitch =
-		new InspectionSwitch() {
-			public Object caseDescription(Description object) {
+	protected InspectionSwitch<Adapter> modelSwitch =
+		new InspectionSwitch<Adapter>() {
+			@Override
+			public Adapter caseDescription(Description object) {
 				return createDescriptionAdapter();
 			}
-			public Object caseWSILDocument(WSILDocument object) {
+			@Override
+			public Adapter caseWSILDocument(WSILDocument object) {
 				return createWSILDocumentAdapter();
 			}
-			public Object caseInspection(Inspection object) {
+			@Override
+			public Adapter caseInspection(Inspection object) {
 				return createInspectionAdapter();
 			}
-			public Object caseItemWithAbstracts(ItemWithAbstracts object) {
+			@Override
+			public Adapter caseItemWithAbstracts(ItemWithAbstracts object) {
 				return createItemWithAbstractsAdapter();
 			}
-			public Object caseLink(Link object) {
+			@Override
+			public Adapter caseLink(Link object) {
 				return createLinkAdapter();
 			}
-			public Object caseName(Name object) {
+			@Override
+			public Adapter caseName(Name object) {
 				return createNameAdapter();
 			}
-			public Object caseReference(Reference object) {
+			@Override
+			public Adapter caseReference(Reference object) {
 				return createReferenceAdapter();
 			}
-			public Object caseService(Service object) {
+			@Override
+			public Adapter caseService(Service object) {
 				return createServiceAdapter();
 			}
-			public Object caseTypeOfAbstract(TypeOfAbstract object) {
+			@Override
+			public Adapter caseTypeOfAbstract(TypeOfAbstract object) {
 				return createTypeOfAbstractAdapter();
 			}
-			public Object defaultCase(EObject object) {
+			@Override
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -110,8 +121,9 @@ public class InspectionAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 

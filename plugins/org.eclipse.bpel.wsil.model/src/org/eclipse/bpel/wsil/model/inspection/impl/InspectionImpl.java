@@ -11,6 +11,8 @@ import java.util.Collection;
 import org.eclipse.bpel.wsil.model.inspection.Inspection;
 import org.eclipse.bpel.wsil.model.inspection.InspectionPackage;
 
+import org.eclipse.bpel.wsil.model.inspection.Link;
+import org.eclipse.bpel.wsil.model.inspection.Service;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -62,6 +64,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return InspectionPackage.Literals.INSPECTION;
 	}
@@ -83,7 +86,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getServices() {
+	public EList<Service> getServices() {
 		return getGroups().list(InspectionPackage.Literals.INSPECTION__SERVICES);
 	}
 
@@ -92,7 +95,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getLinks() {
+	public EList<Link> getLinks() {
 		return getGroups().list(InspectionPackage.Literals.INSPECTION__LINKS);
 	}
 
@@ -101,14 +104,15 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case InspectionPackage.INSPECTION__GROUPS:
-				return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getGroups()).basicRemove(otherEnd, msgs);
 			case InspectionPackage.INSPECTION__SERVICES:
-				return ((InternalEList)getServices()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getServices()).basicRemove(otherEnd, msgs);
 			case InspectionPackage.INSPECTION__LINKS:
-				return ((InternalEList)getLinks()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getLinks()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -118,6 +122,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case InspectionPackage.INSPECTION__GROUPS:
@@ -136,6 +141,8 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+		@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case InspectionPackage.INSPECTION__GROUPS:
@@ -143,11 +150,11 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 				return;
 			case InspectionPackage.INSPECTION__SERVICES:
 				getServices().clear();
-				getServices().addAll((Collection)newValue);
+				getServices().addAll((Collection<? extends Service>)newValue);
 				return;
 			case InspectionPackage.INSPECTION__LINKS:
 				getLinks().clear();
-				getLinks().addAll((Collection)newValue);
+				getLinks().addAll((Collection<? extends Link>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -158,6 +165,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.INSPECTION__GROUPS:
@@ -178,6 +186,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.INSPECTION__GROUPS:
@@ -195,6 +204,7 @@ public class InspectionImpl extends ItemWithAbstractsImpl implements Inspection 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

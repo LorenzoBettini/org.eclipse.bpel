@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage
  * @generated
  */
-public class InspectionSwitch {
+public class InspectionSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -54,7 +54,7 @@ public class InspectionSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch(EObject theEObject) {
+	public T doSwitch(EObject theEObject) {
 		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
@@ -65,16 +65,16 @@ public class InspectionSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
 		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
 		else {
-			List eSuperTypes = theEClass.getESuperTypes();
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+					doSwitch(eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -85,11 +85,11 @@ public class InspectionSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
+	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case InspectionPackage.DESCRIPTION: {
 				Description description = (Description)theEObject;
-				Object result = caseDescription(description);
+				T result = caseDescription(description);
 				if (result == null) result = caseReference(description);
 				if (result == null) result = caseItemWithAbstracts(description);
 				if (result == null) result = defaultCase(theEObject);
@@ -97,26 +97,26 @@ public class InspectionSwitch {
 			}
 			case InspectionPackage.WSIL_DOCUMENT: {
 				WSILDocument wsilDocument = (WSILDocument)theEObject;
-				Object result = caseWSILDocument(wsilDocument);
+				T result = caseWSILDocument(wsilDocument);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case InspectionPackage.INSPECTION: {
 				Inspection inspection = (Inspection)theEObject;
-				Object result = caseInspection(inspection);
+				T result = caseInspection(inspection);
 				if (result == null) result = caseItemWithAbstracts(inspection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case InspectionPackage.ITEM_WITH_ABSTRACTS: {
 				ItemWithAbstracts itemWithAbstracts = (ItemWithAbstracts)theEObject;
-				Object result = caseItemWithAbstracts(itemWithAbstracts);
+				T result = caseItemWithAbstracts(itemWithAbstracts);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case InspectionPackage.LINK: {
 				Link link = (Link)theEObject;
-				Object result = caseLink(link);
+				T result = caseLink(link);
 				if (result == null) result = caseReference(link);
 				if (result == null) result = caseItemWithAbstracts(link);
 				if (result == null) result = defaultCase(theEObject);
@@ -124,27 +124,27 @@ public class InspectionSwitch {
 			}
 			case InspectionPackage.NAME: {
 				Name name = (Name)theEObject;
-				Object result = caseName(name);
+				T result = caseName(name);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case InspectionPackage.REFERENCE: {
 				Reference reference = (Reference)theEObject;
-				Object result = caseReference(reference);
+				T result = caseReference(reference);
 				if (result == null) result = caseItemWithAbstracts(reference);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case InspectionPackage.SERVICE: {
 				Service service = (Service)theEObject;
-				Object result = caseService(service);
+				T result = caseService(service);
 				if (result == null) result = caseItemWithAbstracts(service);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case InspectionPackage.TYPE_OF_ABSTRACT: {
 				TypeOfAbstract typeOfAbstract = (TypeOfAbstract)theEObject;
-				Object result = caseTypeOfAbstract(typeOfAbstract);
+				T result = caseTypeOfAbstract(typeOfAbstract);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -163,7 +163,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseItemWithAbstracts(ItemWithAbstracts object) {
+	public T caseItemWithAbstracts(ItemWithAbstracts object) {
 		return null;
 	}
 
@@ -178,7 +178,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseTypeOfAbstract(TypeOfAbstract object) {
+	public T caseTypeOfAbstract(TypeOfAbstract object) {
 		return null;
 	}
 
@@ -193,7 +193,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseDescription(Description object) {
+	public T caseDescription(Description object) {
 		return null;
 	}
 
@@ -208,7 +208,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseWSILDocument(WSILDocument object) {
+	public T caseWSILDocument(WSILDocument object) {
 		return null;
 	}
 
@@ -223,7 +223,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseInspection(Inspection object) {
+	public T caseInspection(Inspection object) {
 		return null;
 	}
 
@@ -238,7 +238,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLink(Link object) {
+	public T caseLink(Link object) {
 		return null;
 	}
 
@@ -253,7 +253,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseName(Name object) {
+	public T caseName(Name object) {
 		return null;
 	}
 
@@ -268,7 +268,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseReference(Reference object) {
+	public T caseReference(Reference object) {
 		return null;
 	}
 
@@ -283,7 +283,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseService(Service object) {
+	public T caseService(Service object) {
 		return null;
 	}
 
@@ -298,7 +298,7 @@ public class InspectionSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase(EObject object) {
+	public T defaultCase(EObject object) {
 		return null;
 	}
 

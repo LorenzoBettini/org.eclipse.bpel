@@ -62,7 +62,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap xMLNSPrefixMap;
+	protected EMap<String, String> xMLNSPrefixMap;
 
 	/**
 	 * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -72,7 +72,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap xSISchemaLocation;
+	protected EMap<String, String> xSISchemaLocation;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -88,6 +88,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return InspectionPackage.Literals.WSIL_DOCUMENT;
 	}
@@ -109,9 +110,9 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EMap getXMLNSPrefixMap() {
+	public EMap<String, String> getXMLNSPrefixMap() {
 		if (xMLNSPrefixMap == null) {
-			xMLNSPrefixMap = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, InspectionPackage.WSIL_DOCUMENT__XMLNS_PREFIX_MAP);
+			xMLNSPrefixMap = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, InspectionPackage.WSIL_DOCUMENT__XMLNS_PREFIX_MAP);
 		}
 		return xMLNSPrefixMap;
 	}
@@ -121,9 +122,9 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EMap getXSISchemaLocation() {
+	public EMap<String, String> getXSISchemaLocation() {
 		if (xSISchemaLocation == null) {
-			xSISchemaLocation = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, InspectionPackage.WSIL_DOCUMENT__XSI_SCHEMA_LOCATION);
+			xSISchemaLocation = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, InspectionPackage.WSIL_DOCUMENT__XSI_SCHEMA_LOCATION);
 		}
 		return xSISchemaLocation;
 	}
@@ -160,14 +161,15 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case InspectionPackage.WSIL_DOCUMENT__MIXED:
-				return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
 			case InspectionPackage.WSIL_DOCUMENT__XMLNS_PREFIX_MAP:
-				return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
 			case InspectionPackage.WSIL_DOCUMENT__XSI_SCHEMA_LOCATION:
-				return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
 			case InspectionPackage.WSIL_DOCUMENT__INSPECTION:
 				return basicSetInspection(null, msgs);
 		}
@@ -179,6 +181,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case InspectionPackage.WSIL_DOCUMENT__MIXED:
@@ -201,6 +204,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case InspectionPackage.WSIL_DOCUMENT__MIXED:
@@ -224,6 +228,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.WSIL_DOCUMENT__MIXED:
@@ -247,6 +252,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case InspectionPackage.WSIL_DOCUMENT__MIXED:
@@ -266,6 +272,7 @@ public class WSILDocumentImpl extends EObjectImpl implements WSILDocument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

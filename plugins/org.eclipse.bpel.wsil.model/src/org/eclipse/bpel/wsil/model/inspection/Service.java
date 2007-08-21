@@ -37,11 +37,11 @@ public interface Service extends ItemWithAbstracts {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' containment reference list.
 	 * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage#getService_Name()
-	 * @model type="org.eclipse.bpel.wsil.model.inspection.Name" containment="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='name' namespace='##targetNamespace'"
 	 * @generated
 	 */
-	EList getName();
+	EList<Name> getName();
 
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' containment reference list.
@@ -54,10 +54,10 @@ public interface Service extends ItemWithAbstracts {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description</em>' containment reference list.
 	 * @see org.eclipse.bpel.wsil.model.inspection.InspectionPackage#getService_Description()
-	 * @model type="org.eclipse.bpel.wsil.model.inspection.Description" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='description' namespace='##targetNamespace'"
 	 * @generated
 	 */
-	EList getDescription();
+	EList<Description> getDescription();
 
 } // Service
