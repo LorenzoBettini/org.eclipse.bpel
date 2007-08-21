@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.bpel.common.ui.CommonUIPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -147,13 +146,11 @@ public abstract class GraphicalEditorWithPalette extends GraphicalEditorWithFlyo
 	HashMap<String,IOrderedPaletteEntry> paletteContainers () {
 		
 		// Create extension items
-		HashMap<String,IOrderedPaletteEntry> map = new HashMap<String,IOrderedPaletteEntry>();
-		Iterator<Object> it = paletteRoot.getChildren().iterator();
+		HashMap<String,IOrderedPaletteEntry> map = new HashMap<String,IOrderedPaletteEntry>();		
 		
-		while (it.hasNext()) {
-			Object o = it.next();
-			if (o instanceof IOrderedPaletteEntry) {
-				IOrderedPaletteEntry entry = (IOrderedPaletteEntry)o;
+		for(Object next : paletteRoot.getChildren()) {
+			if (next instanceof IOrderedPaletteEntry) {
+				IOrderedPaletteEntry entry = (IOrderedPaletteEntry)next;
 				map.put(entry.getCategoryId(), entry);
 			}
 		}
