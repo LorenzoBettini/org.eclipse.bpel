@@ -1011,7 +1011,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray implements IEd
 		
 		viewer.addDropTargetListener(   new FileDropTargetListener(viewer,this) );
 		viewer.addDropTargetListener(   new TextDropTargetListener(viewer,this) );
-		viewer.addDropTargetListener(	new BPELTextTransferDropTargetListener(viewer));		
+		viewer.addDropTargetListener(	new BPELTextTransferDropTargetListener(viewer, this));		
 		viewer.addDropTargetListener(	new BPELTemplateTransferDropTargetListener(viewer));		
 		
 		

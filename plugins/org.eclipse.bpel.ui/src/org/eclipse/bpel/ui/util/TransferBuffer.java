@@ -350,7 +350,7 @@ public class TransferBuffer {
 					fTargetResource = (BPELResource) ModelHelper.getBPELEditor( targetObject ).getResource();
 				}
 	
-				List<EObject> result = fReader.fromXML( adjustXMLSource(xml) , "Clipboard");
+				List<EObject> result = fReader.fromXML( adjustXMLSource(xml) , "Clipboard", fTargetResource );
 				if (result.size() > 0) {
 					setContents( new Contents(null,result) );
 				} else {

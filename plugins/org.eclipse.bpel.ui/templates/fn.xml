@@ -136,22 +136,14 @@
         <assistant ref="xpathPicker"/>
     </arg>
     
-    <!-- Now the functions -->
+    <!-- BPEL functions -->
 
     <function id="getVariableProperty" returns="string">
-        <namespace prefix="bpws">http://schemas.xmlsoap.org/ws/2004/03/business-process/</namespace>
+        <namespace prefix="bpel2">http://docs.oasis-open.org/wsbpel/2.0/process/executable</namespace>
         <help>This function extracts global property values from variables.</help>
         <comment>
             <![CDATA[ This function extracts global property values from variables.]]>
         </comment>
-        <property id="namespace-uri">
-            <value>http://schemas.xmlsoap.org/ws/2004/03/business-process/</value>
-            <comment>Namespace URI for this function</comment>
-        </property>
-        <property id="namespace-prefix">
-            <value>bpws</value>
-            <comment>Namespace prefix for this function</comment>
-        </property>
         <arg default="" name="variableName" type="string">
             <comment>Source variable for the data.</comment>
         </arg>
@@ -160,6 +152,23 @@
         </arg>
     </function>
 
+   <function id="doXslTransform" returns="object">
+        <namespace prefix="bpel2">http://docs.oasis-open.org/wsbpel/2.0/process/executable</namespace>
+        <help>Perform an XSLT transformation.</help>
+        <comment>
+            <![CDATA[ Perform an XSLT transformation. ]]>
+        </comment>
+        <arg ref="templateURI"/>
+        <arg ref="nodeSet"/>
+        <arg default="" name="xsltParam" type="string" optional="true">
+            <comment>An XPath string parameter providing the qualified name of an XSLT parameter.</comment>
+        </arg>
+         <arg default="" name="xsltParamValue" type="object" optional="true">
+            <comment>An XPath object parameter providing the value for the named XSLT parameter. 
+            It can be an XPath Expr.</comment>
+        </arg>        
+    </function>
+    
     <function id="last" returns="number" visual="1">
         <help>Returns a number equal to context size of the expression evaluation context.
         </help>

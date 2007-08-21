@@ -12,8 +12,10 @@ package org.eclipse.bpel.ui.dnd;
 
 import java.util.List;
 
+import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.util.TransferBuffer;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
@@ -21,10 +23,13 @@ import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 
 /**
+ * 
+ * A drop handler that is used to transfer text representations of BPEL into the graphical
+ * editor. 
+ * 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Aug 20, 2007
  *
@@ -33,24 +38,33 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	
 	@SuppressWarnings("nls")
 	
-	class FromSourceFactory implements CreationFactory {
+	/** The reader which we use as a conversion */
+	org.eclipse.bpel.model.resource.BPELReader fReader = null;
+	
+	/** The create request that we generate from the content of the clipboard. */
+	Request fTargetRequest = null;
+
+	/** The target resource */
+	protected Resource fTargetResource;
+
+	protected BPELEditor fEditor;
+	
+	
+	/** The from source factory */
+	class FromSourceFactory implements CreationFactory {				
 		
-		org.eclipse.bpel.model.resource.BPELReader fReader = new org.eclipse.bpel.model.resource.BPELReader();
+		EObject fNewObject = null;		
 		
-		List<EObject> fList = null;
-		
-		void setContent ( String content ) {
-			fList = fReader.fromXML(TransferBuffer.adjustXMLSource(content), "Drag-Session");
+		FromSourceFactory ( EObject newObject) {
+			fNewObject = newObject;
 		}
-		 
+		
+		
 		/**
 		 * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
 		 */
 		public Object getNewObject() {
-			if (fList != null && fList.size() > 0) {
-				return fList.get(0);
-			}
-			return null;
+			return fNewObject;
 		}
 
 		/**
@@ -63,58 +77,52 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 				return eObj.eClass();
 			}
 			return null;
-		}		
-		
-	}
-	
-	
-	FromSourceFactory fFromSourceFactory = new FromSourceFactory();
-	
-	private CreateRequest fCreateRequest;
-	
-	
-	/**
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragEnter(org.eclipse.swt.dnd.DropTargetEvent)
-	 */
-	@Override
-	public void dragEnter(DropTargetEvent event) {		
-		super.dragEnter(event);
-		fCreateRequest = null;
+		}				
 	}
 
-	/**
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragEnter(org.eclipse.swt.dnd.DropTargetEvent)
-	 */
+	
 	@Override
-	public void dragLeave(DropTargetEvent event) {		
-		super.dragLeave(event);		
+	protected void unload() {		
+		super.unload();
+		fTargetRequest = null;
 	}
 
 	
 	/**
 	 * Constructs a listener on the specified viewer.
 	 * @param viewer the EditPartViewer
+	 * @param editor 
 	 */
-	public BPELTextTransferDropTargetListener(EditPartViewer viewer) {
+	
+	public BPELTextTransferDropTargetListener (EditPartViewer viewer, BPELEditor editor ) {
 		super(viewer, TextTransfer.getInstance() );
+		
+		fReader = new org.eclipse.bpel.model.resource.BPELReader();				
+		fEditor = editor;		
 	}
 
 	/**
+	 * We create the target request once from the content of the clipboard. 
+	 * We attempt to parse the clipboard and then push the result in the creation
+	 * factory so that the usual editor mechanics apply.
+	 * 
 	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#createTargetRequest()
 	 */
+	@SuppressWarnings("nls")
 	@Override
 	protected Request createTargetRequest() {
+
+		CreateRequest request = new CreateRequest();	
+		String data = (String) TextTransfer.getInstance().nativeToJava(getCurrentEvent().currentDataType);
 		
-		if (fCreateRequest != null) {
-			return fCreateRequest;
-		}
-		fCreateRequest = new CreateRequest();
-		
-		String data = (String) TextTransfer.getInstance().nativeToJava(getCurrentEvent().currentDataType);		
-		fFromSourceFactory.setContent( data );		
-		fCreateRequest.setFactory( fFromSourceFactory );
-		
-		return fCreateRequest;
+		try {
+			List<EObject> list = fReader.fromXML(TransferBuffer.adjustXMLSource(data), "Drag-Session", fEditor.getResource() );
+			request.setFactory(new FromSourceFactory(list.get(0)) );			
+		} catch (Throwable t) {			
+			t.printStackTrace();			
+			request.setFactory( new FromSourceFactory(null));
+		}			
+		return request;
 	}
 
 	/**
@@ -122,7 +130,7 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	 * @return CreateRequest
 	 */
 	protected final CreateRequest getCreateRequest() {
-		return ((CreateRequest)getTargetRequest());
+		return (CreateRequest) getTargetRequest();		
 	}
 
 
@@ -131,9 +139,9 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	 * @see AbstractTransferDropTargetListener#handleDragOperationChanged()
 	 */
 	@Override
-	protected void handleDragOperationChanged() {
-		if (getCreateRequest().getNewObject() == null) {
-			getCurrentEvent().detail = DND.DROP_NONE;
+	protected void handleDragOperationChanged() {		
+		if (getCreateRequest().getNewObject() == null ) {
+			getCurrentEvent().detail = DND.DROP_NONE;			
 		} else {
 			getCurrentEvent().detail = DND.DROP_COPY;
 		}
@@ -147,8 +155,7 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	 */
 	@Override
 	protected void handleDragOver() {
-		
-		if (getCreateRequest().getNewObject() == null) {
+		if ( getCreateRequest().getNewObject() == null ) {
 			getCurrentEvent().detail = DND.DROP_NONE;
 			getCurrentEvent().detail = DND.FEEDBACK_NONE;
 		} else {
@@ -164,15 +171,18 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	 */
 	@Override
 	protected void handleDrop() {
+		CreateRequest cr = getCreateRequest();
 		super.handleDrop();
-		fCreateRequest = null;
-		selectAddedObject();
+		
+		selectAddedObject( cr );
 	}
 
-	private void selectAddedObject() {
-		Object model = getCreateRequest().getNewObject();
-		if (model == null)
-			return;
+	private void selectAddedObject ( CreateRequest cr ) {
+		Object model = cr.getNewObject();
+		if (model == null) {
+			return ;
+		}
+		
 		EditPartViewer viewer = getViewer();
 		viewer.getControl().forceFocus();
 		Object editpart = viewer.getEditPartRegistry().get(model);
@@ -183,6 +193,20 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 		}
 	}
 
+	
+
+	/**
+	 * 
+	 */
+	@Override
+	protected Request getTargetRequest() {
+		if (fTargetRequest == null) {
+			fTargetRequest = createTargetRequest();
+		}
+		return fTargetRequest;
+	}
+	
+	
 	/**
 	 * Assumes that the target request is a {@link CreateRequest}. 
 	 */
