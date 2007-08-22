@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 import org.eclipse.bpel.fnmeta.model.FMPackage;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
-import org.eclipse.bpel.validator.factory.FunctionMetaValidatorAdapterFactory;
 import org.eclipse.bpel.validator.factory.BPELValidatorAdapterFactory;
+import org.eclipse.bpel.validator.factory.FunctionMetaValidatorAdapterFactory;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IFactory;
 import org.eclipse.bpel.validator.model.IModelQuery;
@@ -19,10 +19,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -59,34 +61,62 @@ public class Activator extends Plugin {
 		// hook up Java logging to the Eclipse error log		
 		Logger logger = Logger.getLogger( PLUGIN_ID );
 		Handler handler = new LogHandler();
-		logger.addHandler( handler );	
-				
+		logger.addHandler( handler );
 		
+		initializeAndTime();
+	}
+
+	
+	void initialize () {
 		
 		// factories 
-		IExtensionPoint ep = Platform.getExtensionRegistry().getExtensionPoint(PLUGIN_ID,"factories");
-				
-		for(IExtension e : ep.getExtensions() ) {
-			for(IConfigurationElement ce : e.getConfigurationElements() ) {
-				Object obj = ce.createExecutableExtension("class");
-				if (obj instanceof IFactory) {
-					RuleFactory.registerFactory( (IFactory) obj);
+		String epName = "factories";
+		
+		IExtensionPoint ep = Platform.getExtensionRegistry().getExtensionPoint(PLUGIN_ID,epName);
+		
+		if (ep != null) {
+			
+			for(IExtension e : ep.getExtensions() ) {
+				for(IConfigurationElement ce : e.getConfigurationElements() ) {
+					Object obj = null;
+					try {
+						obj = ce.createExecutableExtension("class");
+					} catch (CoreException e1) {
+						log(e1);
+					}
+					if (obj != null && obj instanceof IFactory) {
+						RuleFactory.registerFactory( (IFactory) obj);
+					}
 				}
 			}
+			
+		} else {
+			String name = PLUGIN_ID + "." + epName;
+			log(null,IStatus.ERROR,"Extension point " + name + " is not avaialble.");
 		}
-		
 		
 		// modelQuery
-		ep = Platform.getExtensionRegistry().getExtensionPoint(PLUGIN_ID,"modelQuery");
-		
-		for(IExtension e : ep.getExtensions() ) {
-			for(IConfigurationElement ce : e.getConfigurationElements() ) {
-				Object obj = ce.createExecutableExtension("class");
-				if (obj instanceof IModelQuery) {
-					ModelQueryImpl.register( (IModelQuery) obj);
+		epName = "modelQuery";
+		ep = Platform.getExtensionRegistry().getExtensionPoint(PLUGIN_ID,epName);
+		if (ep != null) {
+			for(IExtension e : ep.getExtensions() ) {
+				for(IConfigurationElement ce : e.getConfigurationElements() ) {
+					Object obj = null;
+					try {
+						obj = ce.createExecutableExtension("class");
+					} catch (CoreException e1) {
+						log(e1);						
+					}
+					if (obj != null && obj instanceof IModelQuery) {
+						ModelQueryImpl.register( (IModelQuery) obj);
+					}
 				}
 			}
+		} else {
+			String name = PLUGIN_ID + "." + epName;
+			log(null,IStatus.ERROR,"Extension point " + name + " is not avaialble.");			
 		}
+		
 		
 		// Register our adapter providers
 		AdapterRegistry.INSTANCE.registerAdapterFactory(
@@ -96,16 +126,41 @@ public class Activator extends Plugin {
 				BPELPackage.eINSTANCE,  BPELValidatorAdapterFactory.INSTANCE );			
 	}
 
+	IStatus initializeAndTime () {
+		long start = System.currentTimeMillis();
+		initialize ();			
+		long end = System.currentTimeMillis();				
+		IStatus	status = new Status(IStatus.INFO, PLUGIN_ID, 0,
+				"Validator Startup " + (end - start) + "ms"
+				,null); 
+		getLog().log(status);
+		return status;
+	}
+	
+	void initializeAsync ( ) {
+		Job job = new Job ("Registering Validator factories ...") {	
+			@Override
+			protected IStatus run (IProgressMonitor monitor) {
+				IStatus status = initializeAndTime();
+				monitor.done();
+				done(Job.ASYNC_FINISH);
+				return status;				
+			}			
+		};				
+		job.setPriority(Job.SHORT);		
+		job.schedule();
+	}
+	
+	
 	/**
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
 	
 	@Override
-	public void stop(BundleContext context) throws Exception {
+	public void stop(BundleContext context) throws Exception {		
 		plugin = null;
-		
-		
+				
 		AdapterRegistry.INSTANCE.unregisterAdapterFactory(
 			    FMPackage.eINSTANCE,  FunctionMetaValidatorAdapterFactory.INSTANCE );
 
@@ -131,14 +186,18 @@ public class Activator extends Plugin {
 	 * Utility methods for logging exceptions.
 	 * @param e exception to log
 	 * @param severity the severity to log the exception as.
+	 * @param message
 	 */
-	public static void log (Exception e, int severity) {
+	public static void log (Exception e, int severity, String message ) {
 		
 		IStatus status = null;
 		if (e instanceof CoreException) {
 			status = ((CoreException)e).getStatus();
 		} else {
-			String m = e.getMessage();
+			String m = message;
+			if (m == null) {
+				e.getMessage();
+			}
 			status = new Status(severity, PLUGIN_ID, 0, m==null? "<no message>" : m, e); //$NON-NLS-1$
 		}
 		
@@ -152,7 +211,7 @@ public class Activator extends Plugin {
 	 */
 	
 	public static void log(Exception e) { 
-		log(e, IStatus.ERROR); 
+		log(e, IStatus.ERROR,null); 
 	}
 	
 		
