@@ -42,6 +42,8 @@ public class BPELContainerEditPolicy extends ContainerEditPolicy {
 		if (ReferencedAddRequest.typeString.equals(request.getType())) {
 			// TODO: this is for AppendNewAction, etc.
 			return getReferencedAddCommand((ReferencedAddRequest)request);
+		} else if (REQ_CLONE.equals(request.getType())) {
+			System.out.println("Clone Request!!");
 		}
 		return super.getCommand(request);
 	}

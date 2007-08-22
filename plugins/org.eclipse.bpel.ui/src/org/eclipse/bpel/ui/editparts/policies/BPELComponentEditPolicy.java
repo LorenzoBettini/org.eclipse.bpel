@@ -18,13 +18,21 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 
+/**
+ * @author Original Contribution, IBM
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 21, 2007
+ *
+ */
 public class BPELComponentEditPolicy extends ComponentEditPolicy {
 
+	@Override
 	protected Command createDeleteCommand(GroupRequest request) {
 		return new DeleteChildCommand((EObject)getHost().getModel());
 	}
 
+	@Override
 	protected Command getOrphanCommand() {
-		return new OrphanChildCommand(getHost().getModel());
+		return new OrphanChildCommand((EObject) getHost().getModel());
 	}
 }
