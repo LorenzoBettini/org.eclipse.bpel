@@ -116,10 +116,14 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 		String data = (String) TextTransfer.getInstance().nativeToJava(getCurrentEvent().currentDataType);
 		
 		try {
-			List<EObject> list = fReader.fromXML(TransferBuffer.adjustXMLSource(data), "Drag-Session", fEditor.getResource() );
-			request.setFactory(new FromSourceFactory(list.get(0)) );			
+			List<EObject> list = fReader.fromXML(TransferBuffer.adjustXMLSource(data), "Drag-Session", fEditor.getResource() );			
+			if (list.size() > 0) {
+				request.setFactory(new FromSourceFactory(list.get(0)) );
+			} else {
+				request.setFactory(new FromSourceFactory(null));
+			}
 		} catch (Throwable t) {			
-			t.printStackTrace();			
+			t.printStackTrace();
 			request.setFactory( new FromSourceFactory(null));
 		}			
 		return request;
