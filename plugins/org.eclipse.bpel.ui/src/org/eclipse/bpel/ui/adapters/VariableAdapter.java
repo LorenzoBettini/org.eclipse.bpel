@@ -12,13 +12,11 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.ArrayList;
 
-import org.eclipse.bpel.common.ui.markers.ModelMarkerUtil;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.IHoverHelper;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.VariableEditPart;
@@ -44,7 +42,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class VariableAdapter extends AbstractStatefulAdapter implements INamedElement, ILabeledElement,
 	EditPartFactory, IOutlineEditPartFactory, IMarkerHolder, 
-	ITrayEditPartFactory, IExtensionFactory, IContentProposal, IHoverHelper, AdapterNotification
+	ITrayEditPartFactory, IExtensionFactory, IContentProposal, AdapterNotification
 {
 	
 
@@ -215,24 +213,6 @@ public class VariableAdapter extends AbstractStatefulAdapter implements INamedEl
 		return NLS.bind(Messages.VariableAdapter_0, 
 				getLabel( getTarget() ),
 				getLabel ( getTarget() ) );
-	}
-
-	
-	/**
-	 * @see org.eclipse.bpel.ui.IHoverHelper#getHoverFigure(org.eclipse.emf.ecore.EObject)
-	 */
-	
-	public String getHoverFigure (EObject modelObject) {
-		Variable v = getTarget(modelObject, Variable.class);
-		return "Variable \"" + v.getName() + "\"";
-	}
-
-	
-	/**
-	 * @see org.eclipse.bpel.ui.IHoverHelper#getHoverHelp(org.eclipse.core.resources.IMarker)
-	 */
-	public String getHoverHelp (IMarker marker) {		
-		return ModelMarkerUtil.getText(marker);
 	}
 		
 }

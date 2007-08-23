@@ -381,12 +381,8 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		try {
 			IHoverHelper helper = BPELUIRegistry.getInstance().getHoverHelper();
 			if (helper != null) {
-				String text = helper.getHoverFigure((EObject)getModel());
-				if (text == null) {
-					getFigure().setToolTip(null);
-				} else {
-					getFigure().setToolTip(new Label(text));
-				}
+				IFigure tooltip = helper.getHoverFigure((EObject)getModel());
+				getFigure().setToolTip(tooltip);
 			}
 		} catch (CoreException e) {
 			getFigure().setToolTip(null);

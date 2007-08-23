@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.adapters;
 import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.ui.actions.editpart.CreateElseAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateElseIfAction;
@@ -24,7 +25,7 @@ import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.gef.EditPart;
 
 
-public class IfAdapter extends ContainerActivityAdapter {
+public class IfAdapter extends ContainerActivityAdapter implements IAnnotatedElement {
 
 	/* IContainer delegate */
 		
@@ -66,5 +67,14 @@ public class IfAdapter extends ContainerActivityAdapter {
 		return actions;
 	}
 	
+	/* IAnnotatedElement */
+	
+	public String[] getAnnotation(Object object) {
+		Expression expression = ((If)object).getCondition();
+		return new String[] {
+			Messages.CONDITION, AnnotationHelper.getAnnotation(expression),
+			Messages.LANGUAGE, AnnotationHelper.getExpressionLanguage(expression)
+			};
+	}
 }
 	

@@ -11,13 +11,15 @@
 package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.SequenceEditPart;
 import org.eclipse.gef.EditPart;
 
 
-public class RepeatUntilAdapter extends ContainerActivityAdapter {
+public class RepeatUntilAdapter extends ContainerActivityAdapter implements IAnnotatedElement {
 
 
 	public IContainer createContainerDelegate() {
@@ -38,5 +40,15 @@ public class RepeatUntilAdapter extends ContainerActivityAdapter {
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);
 		return result;
+	}
+
+	/* IAnnotatedElement */
+	
+	public String[] getAnnotation(Object object) {
+		Expression expression = ((RepeatUntil)object).getCondition();
+		return new String[] {
+			Messages.CONDITION, AnnotationHelper.getAnnotation(expression),
+			Messages.LANGUAGE, AnnotationHelper.getExpressionLanguage(expression)
+			};
 	}
 }

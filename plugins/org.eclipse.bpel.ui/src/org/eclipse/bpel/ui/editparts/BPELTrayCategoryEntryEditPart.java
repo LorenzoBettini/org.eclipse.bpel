@@ -96,12 +96,9 @@ public abstract class BPELTrayCategoryEntryEditPart extends TrayCategoryEntryEdi
 		}		
 		
 		
-		String text = helper.getHoverFigure((EObject)getModel());
-		if (text == null) {
-			getFigure().setToolTip(null);
-		} else {
-			getFigure().setToolTip(new Label(text));
-		}
+		IFigure tooltip = helper.getHoverFigure((EObject)getModel());
+		getFigure().setToolTip(tooltip);
+
 	}
 
 	protected MouseMotionListener getMouseMotionListener() {

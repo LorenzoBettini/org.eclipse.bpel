@@ -11,13 +11,14 @@
 package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.SequenceEditPart;
 import org.eclipse.gef.EditPart;
 
 
-public class ForEachAdapter extends ContainerActivityAdapter {
+public class ForEachAdapter extends ContainerActivityAdapter implements IAnnotatedElement {
 
 	/* IContainer delegate */
 	
@@ -39,5 +40,16 @@ public class ForEachAdapter extends ContainerActivityAdapter {
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);
 		return result;
+	}
+
+	/* IAnnotatedElement */
+	
+	public String[] getAnnotation(Object object) {
+		ForEach obj = (ForEach)object;
+		return new String[] {
+			Messages.ForEachAdapter_2, AnnotationHelper.getAnnotation(obj.getCounterName()),
+			Messages.ForEachAdapter_0, AnnotationHelper.getAnnotation(obj.getStartCounterValue()),
+			Messages.ForEachAdapter_1, AnnotationHelper.getAnnotation(obj.getStartCounterValue()),
+			};
 	}
 }

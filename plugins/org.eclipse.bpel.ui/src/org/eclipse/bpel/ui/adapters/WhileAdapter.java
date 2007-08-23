@@ -11,13 +11,15 @@
 package org.eclipse.bpel.ui.adapters;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.editparts.SequenceEditPart;
 import org.eclipse.gef.EditPart;
 
 
-public class WhileAdapter extends ContainerActivityAdapter {
+public class WhileAdapter extends ContainerActivityAdapter implements IAnnotatedElement {
 
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.ContainerActivityAdapter#createContainerDelegate()
@@ -47,5 +49,15 @@ public class WhileAdapter extends ContainerActivityAdapter {
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);
 		return result;
+	}
+
+	/* IAnnotatedElement */
+	
+	public String[] getAnnotation(Object object) {
+		Expression expression = ((While)object).getCondition();
+		return new String[] {
+			Messages.CONDITION, AnnotationHelper.getAnnotation(expression),
+			Messages.LANGUAGE, AnnotationHelper.getExpressionLanguage(expression)
+			};
 	}
 }

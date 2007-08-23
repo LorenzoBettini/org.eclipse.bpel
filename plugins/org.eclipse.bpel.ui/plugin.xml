@@ -576,10 +576,8 @@
             targetEditor="org.eclipse.bpel.ui.bpeleditor"/>
    </extension>
    <extension
-         id="org.eclipse.bpel.ui.hover.simple.hover.helper"
-         name="Marker Hover Help"
          point="org.eclipse.bpel.ui.hoverHelpers">
-      <hoverHelper class="org.eclipse.bpel.ui.hovers.SimpleHoverHelper"/>
+	     <hoverHelper class="org.eclipse.bpel.ui.hovers.DefaultHoverHelper" />
    </extension>
    <extension
          point="org.eclipse.bpel.common.model.functionRegistry">
@@ -592,5 +590,4 @@
             uri="platform:/plugin/org.eclipse.bpel.ui/templates/fn.xml">
       </registry>
    </extension>
-   
 </plugin>

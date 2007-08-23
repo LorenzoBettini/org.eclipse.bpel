@@ -115,12 +115,8 @@ public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelpe
 		}		
 		
 		
-		String text = helper.getHoverFigure((EObject)getModel());
-		if (text == null) {
-			getFigure().setToolTip(null);
-		} else {
-			getFigure().setToolTip(new Label(text));
-		}
+		IFigure text = helper.getHoverFigure((EObject)getModel());
+		getFigure().setToolTip(text);
 	}
 
 	protected MouseMotionListener getMouseMotionListener() {

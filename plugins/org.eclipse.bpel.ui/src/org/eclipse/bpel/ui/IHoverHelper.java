@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -23,13 +24,13 @@ import org.eclipse.emf.ecore.EObject;
 
 public interface IHoverHelper {
 	/**
-	 * Return a string which will be used as the hover help figure for the
+	 * Return a figure which will be used as the hover help figure for the
 	 * specified model object.
 	 * 
 	 * @param modelObject  The model object to create hover help for
-	 * @return a string which will be displayed in the hover tool-tip window
+	 * @return a figure which will be displayed in the hover tool-tip window
 	 */
-	public String getHoverFigure (EObject modelObject);
+	public IFigure getHoverFigure (EObject modelObject);
 	
 	/**
 	 * Return a string which will be used as the hover-help for the

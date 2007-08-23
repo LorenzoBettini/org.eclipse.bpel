@@ -16,18 +16,23 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.actions.editpart.SetPartnerLinkAction;
 import org.eclipse.bpel.ui.actions.editpart.SetVariableAction;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
 import org.eclipse.bpel.ui.editparts.InvokeEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.eclipse.wst.wsdl.Operation;
 
 
 public class InvokeAdapter extends ContainerActivityAdapter implements EditPartFactory,
-	IOutlineEditPartFactory, IFaultHandlerHolder, ICompensationHandlerHolder
+	IOutlineEditPartFactory, IFaultHandlerHolder, ICompensationHandlerHolder, IAnnotatedElement
 {
 
 	/* IContainer delegate */
@@ -83,5 +88,25 @@ public class InvokeAdapter extends ContainerActivityAdapter implements EditPartF
 		EditPart result = new InvokeEditPart();
 		result.setModel(model);
 		return result;
+	}
+
+	/* IAnnotatedElement */
+	
+	public String[] getAnnotation(Object object) {
+		PartnerLink pLink = ModelHelper.getPartnerLink(object);
+		Operation operation = ModelHelper.getOperation(object);
+		Variable inVar = ModelHelper.getVariable(object, ModelHelper.OUTGOING);
+		Variable outVar = ModelHelper.getVariable(object, ModelHelper.INCOMING);
+		Role myRole = pLink != null ? pLink.getMyRole() : null;
+		Role partnerRole = pLink != null ? pLink.getPartnerRole() : null;
+		
+		return new String[] {
+			Messages.PARTNER_LINK, AnnotationHelper.getAnnotation(pLink),
+			Messages.OPERATION, AnnotationHelper.getAnnotation(operation),
+			Messages.INPUT, AnnotationHelper.getAnnotation(inVar),		
+			Messages.OUTPUT, AnnotationHelper.getAnnotation(outVar),
+			Messages.MY_ROLE, AnnotationHelper.getAnnotation(myRole),
+			Messages.PARTNER_ROLE, AnnotationHelper.getAnnotation(partnerRole)
+		};
 	}
 }

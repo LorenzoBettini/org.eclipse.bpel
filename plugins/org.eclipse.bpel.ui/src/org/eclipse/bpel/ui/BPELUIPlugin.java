@@ -272,18 +272,18 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	@SuppressWarnings("nls")
 	void initFunctions () {
 		
-		Job job = new Job ("Initializing XPath tooling ...") {
+		Job job = new Job ("Reading XPath Function Registry ...") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				long start = System.currentTimeMillis();
 				IStatus status;
 				try {
-					Functions.getInstance( BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE );										
+					Functions.getInstance( BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE );						
 					status = new Status(IStatus.OK, PLUGIN_ID, 0, "Done",null); //$NON-NLS-1$
 				} catch (Throwable t ) {					
 					log(t);
-					status = new Status(IStatus.ERROR,PLUGIN_ID,0,t.getLocalizedMessage(),t);
+					status = new Status(IStatus.ERROR,PLUGIN_ID,0,t.getLocalizedMessage(),t);					
 				}	
 				long end = System.currentTimeMillis();
 				System.out.println("InitFunctions took: " + (end - start) + "ms");

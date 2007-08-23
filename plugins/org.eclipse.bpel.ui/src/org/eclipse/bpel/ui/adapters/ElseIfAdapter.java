@@ -10,11 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Sequence;
-import org.eclipse.bpel.ui.BPELEditor;
+import org.eclipse.bpel.model.ElseIf;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
@@ -22,9 +20,7 @@ import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -32,7 +28,7 @@ import org.eclipse.swt.graphics.Image;
 
 
 public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
-	EditPartFactory, IOutlineEditPartFactory, IExtensionFactory
+	EditPartFactory, IOutlineEditPartFactory, IExtensionFactory, IAnnotatedElement
 {
 
 	/* IContainer delegate */
@@ -59,6 +55,7 @@ public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
 		String s = Messages.ElseIfAdapter_ElseIf_1; 
 		return s; 
 	}	
+	
 	public String getLabel(Object object) {
 		String s = ModelHelper.getDisplayName(object);
 		if (s != null && !("".equals(s))) return s; //$NON-NLS-1$
@@ -85,5 +82,15 @@ public class ElseIfAdapter extends ContainerAdapter implements ILabeledElement,
 	
 	public EObject createExtension(EObject object) {
 		return UiextensionmodelFactory.eINSTANCE.createCaseExtension();
+	}
+
+	/* IAnnotatedElement */
+	
+	public String[] getAnnotation(Object object) {
+		Expression expression = ((ElseIf)object).getCondition();
+		return new String[] {
+				org.eclipse.bpel.ui.adapters.Messages.CONDITION, AnnotationHelper.getAnnotation(expression),
+				org.eclipse.bpel.ui.adapters.Messages.LANGUAGE, AnnotationHelper.getExpressionLanguage(expression)
+			};
 	}
 }

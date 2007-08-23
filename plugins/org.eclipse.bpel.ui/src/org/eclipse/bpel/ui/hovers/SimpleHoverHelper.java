@@ -14,6 +14,7 @@ import org.eclipse.bpel.common.ui.markers.ModelMarkerUtil;
 import org.eclipse.bpel.ui.IHoverHelper;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -26,7 +27,7 @@ public class SimpleHoverHelper implements IHoverHelper {
 	/** (non-Javadoc)
 	 * @see org.eclipse.bpel.ui.IHoverHelper#getHoverFigure(org.eclipse.emf.ecore.EObject)
 	 */
-	public String getHoverFigure (EObject modelObject) {
+	public IFigure getHoverFigure (EObject modelObject) {
 		
 		IHoverHelper delegate  = BPELUtil.adapt(modelObject, IHoverHelper.class);
 		if (delegate != null) {
