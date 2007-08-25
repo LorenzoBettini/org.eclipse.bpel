@@ -14,16 +14,21 @@ import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.commands.AddImportCommand;
 import org.eclipse.bpel.ui.util.BrowseUtil;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.util.TransferDropTargetListener;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.xsd.XSDSchema;
 
@@ -34,7 +39,7 @@ import org.eclipse.xsd.XSDSchema;
  * @date Nov 16, 2006
  *
  */
-public class FileDropTargetListener implements TransferDropTargetListener , DropPopup.CommandListener {
+public class FileDropTargetListener implements TransferDropTargetListener {
 		
 	protected DropPopup fDropPopup;
 	
@@ -49,9 +54,6 @@ public class FileDropTargetListener implements TransferDropTargetListener , Drop
 	public FileDropTargetListener ( GraphicalViewer viewer, BPELEditor editor) {
 		super();
 		fEditor = editor;	
-		
-		fDropPopup = new DropPopup(null,  SWT.ON_TOP  ,"Imports processed", "Press any key or click mouse outside to dismiss.");
-		fDropPopup.setCommandListener(this);
 	}
 	
 	
@@ -109,20 +111,43 @@ public class FileDropTargetListener implements TransferDropTargetListener , Drop
 	}
 
 	
-	StringBuilder fDropMessage = new StringBuilder (256);
+	StringBuilder fBadDropPaths = new StringBuilder (256);
+	int fProssesedGoodDrops = 0;
+	int fProssesedBadDrops = 0;
 	
 	protected void startImport () {
-		fDropMessage.setLength(0);		
+		fProssesedGoodDrops = 0;
+		fProssesedBadDrops = 0;
+		fBadDropPaths.setLength(0);		
 	}
 	
-	protected void endImport (DropTargetEvent event ) {
+	protected void endImport (DropTargetEvent event ) {	
 		
-		fDropPopup.open();
-		if (fDropPopup.hasBrowser()) {					
-			fDropPopup.getShell().setBounds(event.x-150, event.y-75, 300, 150);
-			fDropPopup.setInput(fDropMessage.toString());
-		} else {
-			fDropPopup.close();
+		if (fProssesedGoodDrops > 0) {
+			fEditor.getSite().getShell().getDisplay().asyncExec(
+			new Runnable() {				
+				public void run() {
+					fEditor.selectModelObject(fEditor.getProcess().getImports() );
+				}
+			});
+		}
+		
+		if (fProssesedBadDrops > 0) {
+			fEditor.getSite().getShell().getDisplay().asyncExec( 
+			new Runnable() {				
+				@SuppressWarnings("boxing")
+				public void run() {
+					final MessageBox mb = new MessageBox (fEditor.getSite().getShell(),
+							SWT.ICON_INFORMATION | SWT.OK );
+					mb.setText(Messages.FileDropTargetListener_DropProblem);
+					mb.setMessage(
+							NLS.bind(
+									Messages.FileDropTargetListener_Message,
+									fProssesedBadDrops,
+									fBadDropPaths ));
+					mb.open();					
+				}
+			});
 		}
 	}
 	
@@ -135,29 +160,20 @@ public class FileDropTargetListener implements TransferDropTargetListener , Drop
 		}
 		
 		if (result == null) {
-			fDropMessage.append("<li><a href=\"").append(f).append("\" target=\"notthis\"><b>");
-			fDropMessage.append(path).append("</b></a> is not importable.");
+			fProssesedBadDrops += 1;
+			if (fBadDropPaths.length() > 0) {
+				fBadDropPaths.append(", "); //$NON-NLS-1$
+			}
+			fBadDropPaths.append(path);
 			
 		} else if (result instanceof XSDSchema || result instanceof Definition) {
-			if (result instanceof XSDSchema) {
-				fDropMessage.append("<li>XSD Schema ");
-			} else if (result instanceof Definition) {
-				fDropMessage.append("<li>WSDL Definitions ");
-			}
-			fDropMessage.append("<a href=\"").append(f).append("\" target=\"notthis\"><b>");
-			fDropMessage.append(path).append("</b></a> ");
 			
 			AddImportCommand cmd = new AddImportCommand(fEditor.getProcess(), result );
-			if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {
-				
-				fEditor.getCommandFramework().execute(cmd);
-				fDropMessage.append(" added to imports.");
-				
-			} else {
-				fDropMessage.append(" skipped - already present.");
+			if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {				
+				fEditor.getCommandFramework().execute(cmd);				
 			}
-		}	
-		fDropMessage.append("\n");
+			fProssesedGoodDrops += 1;
+		}			
 	}
 	
 	

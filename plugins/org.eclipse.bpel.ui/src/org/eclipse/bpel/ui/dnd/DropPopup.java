@@ -17,12 +17,17 @@ import org.eclipse.bpel.ui.Templates;
 import org.eclipse.bpel.ui.Templates.Template;
 import org.eclipse.bpel.ui.Templates.TemplateResource;
 import org.eclipse.jface.dialogs.PopupDialog;
+import org.eclipse.jface.internal.text.html.HTMLTextPresenter;
+import org.eclipse.jface.text.DefaultInformationControl;
+import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MenuDetectEvent;
@@ -30,6 +35,7 @@ import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -42,8 +48,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class DropPopup extends PopupDialog implements StatusTextListener, MenuDetectListener, KeyListener {
 	
-	protected StyledText fText;
-	protected Browser fBrowser ;	
+		
 	
 	interface CommandListener {
 		/**
@@ -53,6 +58,10 @@ public class DropPopup extends PopupDialog implements StatusTextListener, MenuDe
 	}
 	
 	CommandListener fTarget;
+	
+	protected HTMLTextPresenter fPresenter;
+	protected  TextPresentation fPresentation =  new TextPresentation();
+	protected StyledText fText;
 	
 	void setCommandListener ( CommandListener listener ) {
 		fTarget = listener;
@@ -67,43 +76,51 @@ public class DropPopup extends PopupDialog implements StatusTextListener, MenuDe
 	 */
 	
 	public DropPopup (Shell parentShell, int shellStyle, String title, String statusFieldText) {		
-		super(parentShell,shellStyle, true, false, false, false, title, statusFieldText);	
+		super(parentShell,shellStyle | SWT.TOOL, true, true, false, false, title, statusFieldText);	
 	}
 	
 	@Override
 	protected Control createDialogArea (Composite parent) {
-		try {
-			fBrowser = new Browser(parent,SWT.NONE) ;
-			
-			fBrowser.addStatusTextListener(this);	
-			fBrowser.addMenuDetectListener(this);
-			fBrowser.addKeyListener(this);
-		} catch (SWTError error) {
-			fBrowser = null;
-		}		
-		return fBrowser;
+		fText= new StyledText(parent, SWT.V_SCROLL | SWT.H_SCROLL);
+		fText.setEditable(false);
+		fPresenter= new HTMLTextPresenter(false);
+
+		fText.addControlListener(new ControlAdapter() {
+			/*
+			 * @see org.eclipse.swt.events.ControlAdapter#controlResized(org.eclipse.swt.events.ControlEvent)
+			 */
+			public void controlResized(ControlEvent e) {
+				fText.setText(fText.getText());
+			}
+		});	
+		return fText;
 	}
 	
+	
 	protected void setInput (String html) {
-		if (fBrowser == null) {
-			return ;
-		}
-		
+				
 		Template template = getViewTemplate();
 		TemplateResource resource = template.getResources().get(0);
 		
 		Map<String,Object> args = new HashMap<String,Object>();
 		
 		args.put("content",html);
-		args.put("background-color", toCSS("background-color", fBrowser.getParent().getBackground() ));
-		args.put("font", toCSS(fBrowser.getParent().getFont() ));
-		fBrowser.setText( resource.process(args) );		
+		args.put("background-color", toCSS("background-color", getShell().getBackground() ));
+		args.put("font", toCSS( getShell().getFont() ));
+		
+		fPresentation.clear();
+		Rectangle size=  fText.getClientArea();
+		html = resource.process(args);
+		System.out.println("Text: "  + html);
+		html = ((DefaultInformationControl.IInformationPresenterExtension)fPresenter).updatePresentation(getShell(), html, fPresentation, size.width, size.height);
+		fText.setText(html);
+		
+		TextPresentation.applyTextPresentation(fPresentation, fText);		
+		
+		// fBrowser.setText( resource.process(args) );		
+		
 	}	
-	
-	public boolean hasBrowser () {
-		return fBrowser != null;
-	}
-	
+		
 	
 	String toCSS ( String name, Color color ) {
 		StringBuilder sb = new StringBuilder();
