@@ -222,7 +222,8 @@ litigation.
 
    <includes
          id="org.eclipse.emf"
-         version="0.0.0"/>
+         version="0.0.0"
+         search-location="both"/>
 
    <includes
          id="org.eclipse.gef"
@@ -240,13 +241,20 @@ litigation.
          id="org.eclipse.emf.ecore.sdo"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.jst"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.edit"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources" version="3.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.xmi" version="2.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide" version="3.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources" version="3.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gef" version="3.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.change" version="2.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xsd" version="2.3.0" match="greaterOrEqual"/>
@@ -268,7 +276,7 @@ litigation.
       <import plugin="org.eclipse.jst.server.generic.core" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jem.util" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf" version="2.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.wst.validation" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.wst.wsdl.validation" version="1.1.0" match="greaterOrEqual"/>
    </requires>
