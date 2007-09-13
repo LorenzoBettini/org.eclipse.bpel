@@ -418,7 +418,8 @@ public class CValidator extends Validator {
 			problem = createError(node);
 			problem.setAttribute(IProblem.CONTEXT, name);
 			problem.fill("BPELC__UNSET_ATTRIBUTE", //$NON-NLS-1$
-					node.nodeName(), name, kind );
+					toString(node.nodeName()) , 
+					toString(name), kind );
 			return false;				
 		}
 		
@@ -428,7 +429,8 @@ public class CValidator extends Validator {
 			problem = createError(node);
 			problem.setAttribute(IProblem.CONTEXT, name);
 			problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", //$NON-NLS-1$
-					node.nodeName(), name, kind , atValue );
+					toString(node.nodeName()), 
+					toString(name), kind , atValue );
 			return false;
 		}
 		
