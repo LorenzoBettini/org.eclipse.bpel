@@ -14,7 +14,9 @@ package org.eclipse.bpel.validator.model;
  * Only JDK dependencies here please ...
  */
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.ListResourceBundle;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
@@ -36,9 +38,21 @@ public class Messages {
 	static private String DOT = "."; //$NON-NLS-1$
 			
 	static final Map<String,Messages> BUNDLES = new HashMap<String,Messages> ();
-		
+	
+	/** The empty resource bundle */
+	static final ResourceBundle EMPTY_BUNDLE = new ListResourceBundle() {
+		@Override
+		protected Object[][] getContents() {
+			return new Object[][] {
+				{"empty", "empty"}
+			};
+		}		
+	};
+	
 	String fBundleName;
-	ResourceBundle fBundle;	
+	
+	/** By default assume we have not successfully loaded the bundle */
+	ResourceBundle fBundle = EMPTY_BUNDLE;	
 	
 	/**
 	 * Temporary for monkey scripts ..
@@ -51,42 +65,8 @@ public class Messages {
 		}		
 	}
 		
-	/**
-	 * Return a messages resource bundle computed by taking the 
-	 * package name of the class concatenated with "messages"
 
-	 * @param clazz the class name
-	 * @return the messages for the given class 
-	 */
-	
-	@SuppressWarnings("nls")
-	static final public Messages getMessages ( Class<?> clazz ) {
-		return getMessages(clazz, "messages");
-	}
-	
-	
-	/**
-	 * Return a messages resource bundle computed by taking the 
-	 * package name of the class concatenated with the prefix.
-	 * <p>
-	 * As an example, String.class with prefix "foo" would try to
-	 * find the message bundle
-	 * <pre>
-	 *    java.lang.foo.properties
-	 * </pre>
-	 * 
-	 * @param clazz the class name
-	 * @param prefix the prefix name
-	 * @return the messages for the given class + prefix
-	 */
-	
-	static final public Messages getMessages ( Class<?> clazz, String prefix )  {
-		
-		String msgKey = keyFor (clazz, prefix);
-		return getMessages ( msgKey );
-	}
-	
-	
+			
 	/**
 	 * Return the messages for the bundle name.
 	 * 
@@ -126,15 +106,17 @@ public class Messages {
 	public Messages ( String bundleName ) {
 				
 		fBundleName = bundleName;
+		 
+		String resourceName = fBundleName.replace('.','/') + ".properties";
+		URL resourceURL = getClass().getClassLoader().getResource( resourceName );
+		if (resourceURL == null) {
+			return ;			
+		}
 		
 		try {
-			fBundle = new PropertyResourceBundle ( 
-				getClass().getClassLoader().getResourceAsStream( 
-						fBundleName.replace('.','/') + ".properties")  //$NON-NLS-1$
-			);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fBundle = new PropertyResourceBundle ( resourceURL.openStream() );
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 		
 	}
