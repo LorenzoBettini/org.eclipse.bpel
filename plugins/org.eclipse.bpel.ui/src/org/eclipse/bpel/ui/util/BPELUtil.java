@@ -472,6 +472,7 @@ public class BPELUtil {
 				}
 				
 				Object value = sourceObject.eGet(feature);
+				
 				boolean treatAsReference = (feature instanceof EReference);
 
 				if (treatAsReference) {
@@ -502,6 +503,13 @@ public class BPELUtil {
 						targetObject.eSet(feature, newValue); 
 					}
 				} else {
+					
+					/** In case of a DOM Node and the "element" feature, we simply clone the result */
+					if (value instanceof org.w3c.dom.Node && "element".equals(feature.getName())) {
+						org.w3c.dom.Node  e = (org.w3c.dom.Node)value;
+						value = e.cloneNode(true);
+					}
+					
 					// non-reference attribute.  just copy the value
 					if (Policy.DEBUG) System.out.println("  copying attr feature "+feature.getName()+" (value="+value+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					targetObject.eSet(feature, value);
