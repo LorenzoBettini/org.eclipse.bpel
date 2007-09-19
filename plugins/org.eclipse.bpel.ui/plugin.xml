@@ -11,7 +11,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.bpel.ui.BPELEditor"
+            class="org.eclipse.bpel.ui.BPELMultipageEditorPart"
             contributorClass="org.eclipse.bpel.ui.BPELActionBarContributor"
             default="true"
             extensions="bpel"

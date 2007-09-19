@@ -39,7 +39,10 @@ public interface IBPELUIConstants {
 
 	// ID of editor
 	public final String BPEL_EDITOR_ID = "org.eclipse.bpel.ui.bpeleditor"; //$NON-NLS-1$
-	
+	public final String DEFAULT_EDITOR_PAGE = "org.eclipse.bpel.ui.bpeleditor.defaultpage"; //$NON-NLS-1$
+	public static final String DESIGN_PAGE = "org.eclipse.bpel.ui.bpeleditor.designpage"; //$NON-NLS-1$
+	public static final String SOURCE_PAGE = "org.eclipse.bpel.ui.bpeleditor.sourcepage"; //$NON-NLS-1$
+
 	// Namespace for model extension set
 	public final String MODEL_EXTENSIONS_NAMESPACE = "http://org.eclipse.bpel.ui/"; //$NON-NLS-1$
 

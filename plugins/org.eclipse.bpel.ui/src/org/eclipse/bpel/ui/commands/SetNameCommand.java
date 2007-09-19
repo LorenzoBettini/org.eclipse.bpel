@@ -10,10 +10,17 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.INamedElement;
+import org.eclipse.bpel.ui.uiextensionmodel.StartNode;
+import org.eclipse.bpel.ui.util.BPELEditorUtil;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.w3c.dom.Element;
 
 
 /** 
@@ -22,6 +29,9 @@ import org.eclipse.emf.ecore.EObject;
  * Process objects.
  */
 public class SetNameCommand extends SetCommand {
+	
+	private class MyBPELWriter extends  org.eclipse.bpel.model.resource.BPELWriter {
+	}
 
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_NAME; }
 
@@ -41,5 +51,10 @@ public class SetNameCommand extends SetCommand {
 	public void set(Object o) {
 		INamedElement namedElement = (INamedElement)BPELUtil.adapt(fTarget, INamedElement.class);
 		namedElement.setName(fTarget, (String)o);
+				
+		Element element = BPELEditorUtil.getInstance().getElementForObject(fTarget);
+	    if (element != null) { 
+	    	element.setAttribute("name", (String)o); //$NON-NLS-1$
+	    }
 	}
 }

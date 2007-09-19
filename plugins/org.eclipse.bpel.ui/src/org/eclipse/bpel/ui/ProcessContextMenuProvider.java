@@ -142,7 +142,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		MenuManager insertMenu = new MenuManager(Messages.ProcessContextMenuProvider_Insert_Before_2); 
 
 		// TODO: There should be a better way to do this
-		BPELEditor bpelEditor = (BPELEditor)(((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart());
+		BPELEditor bpelEditor = ((BPELMultipageEditorPart)(((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart())).getDesignEditor();
 		
 		// add all the possible actions
 		// TODO: need to be more selective here!  Only add actions that make sense for this

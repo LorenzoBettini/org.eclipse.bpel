@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
+import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
@@ -19,12 +21,27 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
 
+import org.w3c.dom.Element;
+
+import org.w3c.dom.Element;
+
 
 /** 
  * This command is used to add a child into a parent object which supports IContainer. 
  */
 public class InsertInContainerCommand extends AutoUndoCommand {
 	
+	private class MyBPELWriter extends  org.eclipse.bpel.model.resource.BPELWriter {
+		private MyBPELWriter(org.eclipse.bpel.model.resource.BPELResource bpelResource, org.w3c.dom.Document document) {
+			super(bpelResource, document);
+		}
+		
+		public Element activity2XML(org.eclipse.bpel.model.Activity activity) {
+			//just make the method public
+			return super.activity2XML(activity);
+		}
+	}
+
 	protected EObject child, parent, before;
 	protected Rectangle rect;
 	
@@ -70,6 +87,20 @@ public class InsertInContainerCommand extends AutoUndoCommand {
 	public void doExecute() {
 		IContainer container = BPELUtil.adapt(parent, IContainer.class);		
 		container.addChild(parent, child, before);
+		
+	    Element parentElement = org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(parent);
+	    Element beforeElement = null;
+	    if (before != null) {
+	    	beforeElement = org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(before);
+	    }
+	    
+	    MyBPELWriter writer = new MyBPELWriter((BPELResource)(parent.eResource()),
+	    										parentElement.getOwnerDocument());
+
+	    Element childElement = writer.activity2XML(((Activity)child));
+	    ((Activity)child).setElement(childElement);
+
+	    parentElement.insertBefore(childElement, beforeElement);
 	}
 	
 	/**

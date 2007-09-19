@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.actions;
 
-import org.eclipse.bpel.ui.BPELEditor;
+import org.eclipse.bpel.ui.BPELMultipageEditorPart;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.ui.actions.EditorPartAction;
@@ -36,7 +36,7 @@ public class RevertAction extends EditorPartAction {
 	}
 	
 	public void run() {
-		((BPELEditor)getEditorPart()).doRevertToSaved(new NullProgressMonitor());
+		((BPELMultipageEditorPart)getEditorPart()).doRevertToSaved(new NullProgressMonitor());
 		getEditorPart().setFocus();
 	}
 }
