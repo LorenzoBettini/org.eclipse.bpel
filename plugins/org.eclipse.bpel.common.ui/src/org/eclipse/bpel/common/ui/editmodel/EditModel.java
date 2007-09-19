@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.bpel.common.ui.CommonUIPlugin;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarkerDelta;
@@ -481,21 +482,18 @@ public class EditModel {
 			return editModel;
 		}
 
-		/*
-		 * Return a new ResourceSet for the specified file.
-		 */
-		private ResourceSet getResourceSet (IResource primaryFile) {
-			
-			ResourceSet resourceSet = fileToResourceSet.get(primaryFile);
-			if (resourceSet != null) {
-				return resourceSet;
-			}
-			
-			resourceSet = getResourceSetProvider().getResourceSet(primaryFile);
-			
-			fileToResourceSet.put(primaryFile, resourceSet);
+	/*
+	 * Return a new ResourceSet for the specified file.
+	 */
+	private ResourceSet getResourceSet(IResource primaryFile) {
+		ResourceSet resourceSet = (ResourceSet)fileToResourceSet.get(primaryFile);
+		if(resourceSet != null)
 			return resourceSet;
-		}
+		// TODO: Extensibility
+		resourceSet = new BPELResourceSetImpl();
+		fileToResourceSet.put(primaryFile,resourceSet);
+		return resourceSet;	
+	}
 
 		/**
 		 * 

@@ -13,6 +13,7 @@ package org.eclipse.bpel.common.ui.editmodel;
 import java.io.IOException;
 import java.util.Map;
 
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -45,6 +46,7 @@ public EditModelClient(IEditorPart editor,IFile file,IEditModelListener modelLis
 	SynchronizationHandler handler = new Synchronizer();
 	this.editor = editor;
 	editModel = getSharedResourceSet(file);
+	((BPELResourceSetImpl)editModel.getResourceSet()).setLoadOptions(loadOptions);
 	try {
 		if(getCommandStack() == null) {
 			EditModelCommandStack commandStack = createCommandStack();
