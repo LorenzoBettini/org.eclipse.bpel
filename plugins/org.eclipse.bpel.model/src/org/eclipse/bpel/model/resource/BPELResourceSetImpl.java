@@ -179,6 +179,9 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 		}		
 	}
 	
+	public void setLoadOptions (Map<Object, Object> options) {
+		loadOptions = options;
+	}
 	
 	/**
 	 * Resource has changed, remove it from the cache or list of loaded resources.

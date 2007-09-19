@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,6 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
-import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.extensions.BPELActivitySerializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
 import org.eclipse.bpel.model.extensions.BPELExtensionSerializer;
@@ -161,137 +161,116 @@ public class BPELWriter {
 	
 	
 	@SuppressWarnings("nls")
-	class NamespacePrefixManager {
+	class NamespacePrefixManager implements BPELResourceImpl.MapListener {
+		private Map myNamespacePrefixMap; // for performance, we need to know which prefix to use for a namespace
+		private BPELResource resource;
 		
-		static final String EMPTY = "";
-		
-		EObject fTopElement;
-		
-		/**
-		 * @param eObj 
-		 */
-		
-		public NamespacePrefixManager (EObject eObj) {
-			
-			fTopElement = eObj;
-			assert(fTopElement != null);
-			
-			INamespaceMap<String,String> nsMap = BPELUtils.getNamespaceMap (fTopElement); 
-			assert(nsMap != null);
+		public NamespacePrefixManager(BPELResource resource) {
+			this.resource = resource;
+			myNamespacePrefixMap = new Hashtable();
+			// for performance, just register the process namespace map first
+			Process process = resource.getProcess();
+			BPELResource.NotifierMap nsMap = 
+				(BPELResource.NotifierMap)resource.getPrefixToNamespaceMap(process);
+			myNamespacePrefixMap.put(process, nsMap.reserve());
+			// listen to the process namespace map if any extension model modify this map;
+			nsMap.addListener(this);
             
-			if (getResource() == null || getResource().getOptionUseNSPrefix()) {
-                addNewRootPrefix(BPELConstants.PREFIX, BPELConstants.NAMESPACE);
-            } else {
-            	addNewRootPrefix(EMPTY_STRING, BPELConstants.NAMESPACE);
+            if (resource.getOptionUseNSPrefix()) {
+                addNewRootPrefix(BPELConstants.PREFIX, resource.getNamespaceURI());
             }
-			
 		}
 		
 		/**
-		 * Add prefix to the root of a BPEL, i.e. the process level
-		 * 
-		 * If the namespace is already mapped, it returns the current prefix name
-		 * already mapped.
-		 * 
-		 * @param basePrefix the base prefix to use
-		 * @param namespace  the namespace URI
-		 * @return the newly allocated or already used prefix for this namespace.
+		 * add prefix to the root of a bpel, i.e. the process level
 		 */
-		
-		public String addNewRootPrefix (String basePrefix, String namespace) {
-		
-			INamespaceMap<String,String> prefixNSMap = BPELUtils.getNamespaceMap (fTopElement);
+		public String addNewRootPrefix(String basePrefix, String namespace) {
+			Process process = resource.getProcess();
+			Map prefixNSMap = (Map)resource.getPrefixToNamespaceMap(process);
+			Map nsPrefixMap = (Map)myNamespacePrefixMap.get(process);
 			
-			List<String> prefixList = prefixNSMap.getReverse(namespace);
-			if (prefixList.size() > 0) {
-				return prefixList.get(0);
+			if (nsPrefixMap.get(namespace) == null) {
+				// Compute unique prefix for the current namespace
+				int i = 0;
+				String prefix = basePrefix;
+				while (prefixNSMap.containsKey(prefix)) {
+					prefix = basePrefix + i;
+					i++;					
+				}
+				prefixNSMap.put(prefix, namespace);
+				// We will now get notified by the NotifierMap that this prefix and namespace are added,
+				// and will respond to the event there, not below:
+				// myNamespacePrefixMap.put(namespace, testPrefix);
+				return prefix;				
 			}
-			
-			// Compute unique prefix for the current namespace
-			int i = 0;
-			String prefix = basePrefix;
-			while (prefixNSMap.containsKey(prefix)) {
-				prefix = basePrefix + i;
-				i++;					
-			}
-			prefixNSMap.put(prefix, namespace);
-			// We will now get notified by the NotifierMap that this prefix and namespace are added,
-			// and will respond to the event there, not below:
-			// myNamespacePrefixMap.put(namespace, testPrefix);
-			return prefix;				
+			return (String)nsPrefixMap.get(namespace);
 		}
 
-        /**
-         * Get the root prefix for this namespace URI. 
-         * 
-         * @param namespaceURI
-         * @return the prefix for the namespace.
-         */
-		
-        public String getRootPrefix (String namespaceURI) {
-        	List<String> pfxList = BPELUtils.getNamespaceMap(fTopElement).getReverse( namespaceURI );
-        	return pfxList.size() > 0 ? pfxList.get(0) : null;
+        public String getRootPrefix(String namespaceURI) {
+            Process process = resource.getProcess();
+            Map nsPrefixMap = (Map)myNamespacePrefixMap.get(process);
+            return (String) nsPrefixMap.get(namespaceURI);
         }
 
-        
-		/**
-		 * @param eObject
-		 * @param qname
-		 * @return
-		 */
-        
-		public String qNameToString (EObject eObject, QName qname) {
-									
+ 		public String qNameToString(EObject eObject, QName qname) {
+			BPELResource.NotifierMap prefixNSMap = null;
+			EObject context = eObject;
 			String prefix = null;
 			String namespace = qname.getNamespaceURI();
 				
-			if (namespace == null || namespace.length() == 0) {
-				return qname.getLocalPart();
-			}
-			
-			// Transform BPEL namespaces to the latest version so that references to the old namespace are not serialized.
-			if (BPELConstants.isBPELNamespace(namespace)) {
-				namespace = BPELConstants.NAMESPACE;
-			}
-			for(EObject context = eObject ; context != null && prefix == null; context = context.eContainer() ) {
-				List<String> pfxList = BPELUtils.getNamespaceMap(context).getReverse(namespace);
-				if (pfxList.size() > 0 ) {
-					prefix = pfxList.get(0);
-				}							
-			}
-			
-			// if a prefix is not found for the namespaceURI, create a new prefix
-			if (prefix == null) { 
-				prefix = addNewRootPrefix("ns", namespace);
-			}
-			if (prefix != null && prefix.equals(EMPTY) == false) {
-				return prefix + ":" + qname.getLocalPart();
-			}
-			
-			return qname.getLocalPart();
-		}        
-		
-		/**
-		 * Serializes the prefix present in the context to the DOM element.
-		 * @param eObject the EMF context object
-		 * @param context the DOM element into which the prefixes are to be serialized.
-		 */
-		
-		public void serializePrefixes (EObject eObject, Element context) {
-			
-			INamespaceMap<String,String> nsMap = BPELUtils.getNamespaceMap( eObject );
-			
-			for(String namespace : nsMap.values() ) {																			
-				for(String prefix : nsMap.getReverse( namespace )) {					
-					String xmlns = "xmlns";
-					if (EMPTY.equals(prefix) == false) {
-						xmlns += ":" + prefix;
-					}
-					context.setAttributeNS(XSDConstants.XMLNS_URI_2000,xmlns , namespace);
+			if (namespace != null && namespace.length() > 0) {
+				// Transform BPEL namespaces to the latest version so that references to the old namespace are not serialized.
+				if (BPELConstants.isBPELNamespace(namespace)) {
+					namespace = BPELConstants.NAMESPACE;
 				}
-				
+				while (context != null) {
+					prefixNSMap = resource.getPrefixToNamespaceMap(context);
+					if (!prefixNSMap.isEmpty()) {
+						if (prefixNSMap.containsValue(namespace)) {
+							Map nsPrefixMap = (Map)myNamespacePrefixMap.get(context);
+							if (nsPrefixMap == null) {
+								nsPrefixMap = prefixNSMap.reserve();
+								myNamespacePrefixMap.put(context, nsPrefixMap);
+							}
+							prefix = (String)nsPrefixMap.get(namespace);
+							if (prefix != null) 
+								break;
+						}
+					}
+					context = context.eContainer();
+				}				
+				// if a prefix is not found for the namespaceURI, create a new prefix
+				if (prefix == null) 
+					prefix = addNewRootPrefix("ns", namespace);
+				if (prefix != null && !prefix.equals(""))
+					return prefix + ":" + qname.getLocalPart();
 			}
-		}				
+			return qname.getLocalPart();
+		}   
+		
+		public void serializePrefixes(EObject eObject, Element context) {
+			Map nsMap = resource.getPrefixToNamespaceMap(eObject);
+			if (!nsMap.isEmpty()) {
+				for (Iterator i = nsMap.keySet().iterator(); i.hasNext(); ) {
+					String prefix = (String)i.next();
+					String namespace = (String)nsMap.get(prefix);
+					if (prefix == "")
+						context.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns", namespace);
+					else
+						context.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:"+prefix, namespace);
+				}
+			}
+		}	
+		
+		
+		public void objectAdded(Object key, Object value) {
+			// we only listen the process namespace map
+            if (! resource.getContents().isEmpty()) {
+    			Process process = resource.getProcess();
+    			((Map)myNamespacePrefixMap.get(process)).put(value, key);
+            }
+            // TODO What should happen if the process does not yet exist?
+		}
 	}
 
 	
@@ -390,7 +369,15 @@ public class BPELWriter {
 		}
 	}
     
-	
+	public BPELWriter() {
+	}
+
+	public BPELWriter(BPELResource resource, Document document) {
+		this();
+		this.fBPELResource = resource;
+		this.document = document;
+		bpelNamespacePrefixManager = new NamespacePrefixManager(resource);
+	}
 	
 	
 	/**
@@ -435,7 +422,7 @@ public class BPELWriter {
 
 			Process process = resource.getProcess();
 			
-			bpelNamespacePrefixManager = new NamespacePrefixManager( resource.getProcess() );
+			bpelNamespacePrefixManager = new NamespacePrefixManager( resource );
 			wsdlNamespacePrefixManager = new WsdlImportsManager(process);
 			
 			walkExternalReferences();
@@ -514,7 +501,7 @@ public class BPELWriter {
 		
 		bpelPackage = BPELPackage.eINSTANCE;
 		
-		bpelNamespacePrefixManager = new NamespacePrefixManager( eObj );
+		bpelNamespacePrefixManager = new NamespacePrefixManager( fBPELResource );
 		if (eObj instanceof Process) {
 			wsdlNamespacePrefixManager = new WsdlImportsManager( (Process) eObj );
 		} else {

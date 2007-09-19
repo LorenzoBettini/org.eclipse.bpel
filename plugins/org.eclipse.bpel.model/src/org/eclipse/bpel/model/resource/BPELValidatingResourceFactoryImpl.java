@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.resource;
 
+import java.io.IOException;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -61,6 +63,10 @@ public class BPELValidatingResourceFactoryImpl extends BPELResourceFactoryImpl {
 	 */
 	@Override
 	public Resource createResource(URI uri) {
-		return new BPELResourceImpl(uri, fEntityResolver, fErrorHandler);		
+		try {
+			return new BPELResourceImpl(uri, fEntityResolver, fErrorHandler);
+		} catch (IOException exc) {
+			return null;
+		}
 	}
 }

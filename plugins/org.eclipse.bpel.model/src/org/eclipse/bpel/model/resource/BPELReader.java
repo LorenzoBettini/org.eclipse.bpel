@@ -212,7 +212,24 @@ public class BPELReader implements ErrorHandler {
 	public BPELReader (DOMParser parser )  {		
 		this.fDOMParser = parser;
 	}
-	
+
+	/**
+	 * Read from the given Document into the given resource.
+	 * 
+	 * @param resource the EMF resource to construct
+	 * @param Document the document to read the BPEL from
+	 */
+	public void read(BPELResource resource, Document doc) {
+		this.fResource = resource;
+		// Pass 1 and 2 are inside the try so they don't occur if
+		// an error happens during parsing.
+		// In pass 1 we parse and create the structural elements and attributes. 
+		pass1(doc);
+		// In pass 2, we run any postLoadRunnables which need to happen after
+		// pass 1 (for example, establishing object links to variables).
+		pass2();
+	}
+
 	/**
 	 * 
 	 */
