@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: PropertyImpl.java,v 1.6 2007/10/01 17:05:13 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 import org.w3c.dom.Element;

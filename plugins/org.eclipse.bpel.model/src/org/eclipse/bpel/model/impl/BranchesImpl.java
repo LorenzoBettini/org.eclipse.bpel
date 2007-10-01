@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BranchesImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: BranchesImpl.java,v 1.5 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -10,6 +10,9 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -95,6 +98,9 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	public void setCountCompletedBranchesOnly(
 			Boolean newCountCompletedBranchesOnly) {
 		Boolean oldCountCompletedBranchesOnly = countCompletedBranchesOnly;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_SUCCESSFUL_BRANCHES_ONLY, BPELUtils.boolean2XML(newCountCompletedBranchesOnly));
+		}
 		countCompletedBranchesOnly = newCountCompletedBranchesOnly;
 		boolean oldCountCompletedBranchesOnlyESet = countCompletedBranchesOnlyESet;
 		countCompletedBranchesOnlyESet = true;
@@ -112,6 +118,9 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	 */
 	public void unsetCountCompletedBranchesOnly() {
 		Boolean oldCountCompletedBranchesOnly = countCompletedBranchesOnly;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_SUCCESSFUL_BRANCHES_ONLY, null);
+		}
 		boolean oldCountCompletedBranchesOnlyESet = countCompletedBranchesOnlyESet;
 		countCompletedBranchesOnly = COUNT_COMPLETED_BRANCHES_ONLY_EDEFAULT;
 		countCompletedBranchesOnlyESet = false;

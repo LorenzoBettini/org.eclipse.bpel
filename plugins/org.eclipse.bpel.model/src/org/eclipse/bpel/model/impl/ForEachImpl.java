@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.8 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ForEachImpl.java,v 1.9 2007/10/01 17:05:07 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -17,6 +17,10 @@ import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -151,6 +155,12 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public NotificationChain basicSetStartCounterValue(
 			Expression newStartCounterValue, NotificationChain msgs) {
 		Expression oldStartCounterValue = startCounterValue;
+		if (!isReconciling) {
+			if (newStartCounterValue != null && newStartCounterValue.getElement() == null) {
+				newStartCounterValue.setElement(ElementFactory.getInstance().createExpressionElement(newStartCounterValue, this, BPELConstants.ND_START_COUNTER_VALUE));
+			}
+			ReconciliationHelper.replaceChild(this, oldStartCounterValue, newStartCounterValue);
+		}
 		startCounterValue = newStartCounterValue;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -209,6 +219,13 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public NotificationChain basicSetFinalCounterValue(
 			Expression newFinalCounterValue, NotificationChain msgs) {
 		Expression oldFinalCounterValue = finalCounterValue;
+		if (!isReconciling) {
+			if (newFinalCounterValue != null && newFinalCounterValue.getElement() == null) {
+				newFinalCounterValue.setElement(ElementFactory.getInstance().createExpressionElement(newFinalCounterValue, this, BPELConstants.ND_FINAL_COUNTER_VALUE));
+			}
+			ReconciliationHelper.replaceChild(this, oldFinalCounterValue, newFinalCounterValue);
+		}
+
 		finalCounterValue = newFinalCounterValue;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -266,6 +283,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	 */
 	public void setParallel(Boolean newParallel) {
 		Boolean oldParallel = parallel;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_PARALLEL, BPELUtils.boolean2XML(newParallel));
+		}
 		parallel = newParallel;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -289,6 +309,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public NotificationChain basicSetCounterName(Variable newCounterName,
 			NotificationChain msgs) {
 		Variable oldCounterName = counterName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_COUNTER_NAME, newCounterName != null ? newCounterName.getName() : null);
+		}
 		counterName = newCounterName;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -346,6 +369,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public NotificationChain basicSetCompletionCondition(
 			CompletionCondition newCompletionCondition, NotificationChain msgs) {
 		CompletionCondition oldCompletionCondition = completionCondition;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCompletionCondition, newCompletionCondition);
+		}
 		completionCondition = newCompletionCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -405,6 +431,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

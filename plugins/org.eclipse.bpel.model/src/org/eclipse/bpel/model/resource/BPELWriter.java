@@ -1476,14 +1476,7 @@ public class BPELWriter {
 
 		if (from.getQuery() != null) {
 			Query query = from.getQuery();
-			Element queryElement = createBPELElement("query");
-			if (query.getQueryLanguage() != null) {
-				queryElement.setAttribute("queryLanguage", query.getQueryLanguage());
-			}
-			if (query.getValue() != null) {
-				CDATASection cdata = BPELUtils.createCDATASection(document, query.getValue());
-				queryElement.appendChild(cdata);
-			}
+			Element queryElement = query2XML(query);
 			fromElement.appendChild(queryElement);
 		}
 		
@@ -1592,6 +1585,18 @@ public class BPELWriter {
 		
 	}
 
+	protected Element query2XML(Query query) {
+		Element queryElement = createBPELElement("query");
+		if (query.getQueryLanguage() != null) {
+			queryElement.setAttribute("queryLanguage", query.getQueryLanguage());
+		}
+		if (query.getValue() != null) {
+			CDATASection cdata = BPELUtils.createCDATASection(document, query.getValue());
+			queryElement.appendChild(cdata);
+		}
+		return queryElement;
+	}
+
 	protected void to2XML(To to, Element toElement) {
 		if( to.getVariable() != null ) {
 			toElement.setAttribute("variable", to.getVariable().getName());
@@ -1610,14 +1615,7 @@ public class BPELWriter {
 
 		if (to.getQuery() != null) {
 			Query query = to.getQuery();
-			Element queryElement = createBPELElement("query");
-			if (query.getQueryLanguage() != null) {
-				queryElement.setAttribute("queryLanguage", query.getQueryLanguage());
-			}
-			if (query.getValue() != null) {
-				CDATASection cdata = BPELUtils.createCDATASection(document, query.getValue());
-				queryElement.appendChild(cdata);
-			}
+			Element queryElement = query2XML(query);
 			toElement.appendChild(queryElement);
 		}
 		if (to.getExpression() != null) {
@@ -2209,7 +2207,7 @@ public class BPELWriter {
 		}
 	}	
 	
-    private Element createBPELElement (String tagName) {
+    protected Element createBPELElement (String tagName) {
         
     	String namespaceURI = null;
         

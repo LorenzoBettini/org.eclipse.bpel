@@ -2,12 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.3 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: DocumentationImpl.java,v 1.4 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -29,7 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class DocumentationImpl extends EObjectImpl implements Documentation {
+public class DocumentationImpl extends ExtensibleElementImpl implements Documentation {
 	/**
 	 * The default value of the '{@link #getLang() <em>Lang</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -125,6 +127,9 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 */
 	public void setLang(String newLang) {
 		String oldLang = lang;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_LANGUAGE, newLang);
+		}
 		lang = newLang;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -136,7 +141,7 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSource() {
+	public String getSource() {	
 		return source;
 	}
 
@@ -147,6 +152,9 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 */
 	public void setSource(String newSource) {
 		String oldSource = source;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_SOURCE, newSource);
+		}
 		source = newSource;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -169,6 +177,9 @@ public class DocumentationImpl extends EObjectImpl implements Documentation {
 	 */
 	public void setValue(String newValue) {
 		String oldValue = value;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceText(getElement(), newValue);
+		}
 		value = newValue;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseIfImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ElseIfImpl.java,v 1.6 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -13,6 +13,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.ElseIf;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -93,6 +94,9 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {
 		Condition oldCondition = condition;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCondition, newCondition);
+		}
 		condition = newCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -147,6 +151,9 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

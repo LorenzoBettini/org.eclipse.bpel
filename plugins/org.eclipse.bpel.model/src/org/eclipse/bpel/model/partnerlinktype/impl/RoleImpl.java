@@ -10,12 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: RoleImpl.java,v 1.7 2007/10/01 17:05:11 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
@@ -31,7 +32,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.w3c.dom.Element;
 
 /**

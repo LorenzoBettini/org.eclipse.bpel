@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ServiceRefImpl.java,v 1.7 2007/10/01 17:05:10 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,6 +18,8 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.ServiceRef;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -126,6 +128,9 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 */
 	public void setReferenceScheme(String newReferenceScheme) {
 		String oldReferenceScheme = referenceScheme;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_REFERENCE_SCHEME, newReferenceScheme);
+		}
 		referenceScheme = newReferenceScheme;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -139,6 +144,9 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 * @generated
 	 */
 	public Object getValue() {
+		if (!isReconciling && getElement() != null) {
+			ReconciliationHelper.getInstance().reconcile(this, getElement());
+		}
 		return value;
 	}
 

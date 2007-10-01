@@ -249,5 +249,8 @@ public class BPELConstants {
     public static final String AT_PARALLEL = "parallel";
     public static final String AT_KEEP_SRC_ELEMENT = "keepSrcElement";
     public static final String AT_MUST_UNDERSTAND = "mustUnderstand";
-    
+    public static final String AT_IGNORE_MISSING_FROM_DATA = "ignoreMissingFromData";
+    public static final String AT_SOURCE = "source";
+    public static final String AT_REFERENCE_SCHEME = "reference-scheme";
+    public static final String AT_XSI_TYPE = "xsi:type";
 }

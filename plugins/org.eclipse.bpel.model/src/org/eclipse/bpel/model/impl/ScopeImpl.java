@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ScopeImpl.java,v 1.8 2007/10/01 17:05:10 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -30,6 +30,9 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -247,6 +250,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public void setIsolated(Boolean newIsolated) {
 		Boolean oldIsolated = isolated;
 		isolated = newIsolated;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_ISOLATED, BPELUtils.boolean2XML(newIsolated));
+		}
 		boolean oldIsolatedESet = isolatedESet;
 		isolatedESet = true;
 		if (eNotificationRequired())

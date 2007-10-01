@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ImportImpl.java,v 1.7 2007/10/01 17:05:10 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,8 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -147,6 +149,9 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 */
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_NAMESPACE, newNamespace);
+		}
 		namespace = newNamespace;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -169,6 +174,9 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 */
 	public void setLocation(String newLocation) {
 		String oldLocation = location;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_LOCATION, newLocation);
+		}
 		location = newLocation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -191,6 +199,9 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 */
 	public void setImportType(String newImportType) {
 		String oldImportType = importType;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_IMPORT_TYPE, newImportType);
+		}
 		importType = newImportType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

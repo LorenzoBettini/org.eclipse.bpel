@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: WaitImpl.java,v 1.5 2007/10/01 17:05:07 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,6 +22,9 @@ import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Wait;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -102,6 +105,12 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	public NotificationChain basicSetFor(Expression newFor,
 			NotificationChain msgs) {
 		Expression oldFor = for_;
+		if (!isReconciling) {
+			if (newFor != null && newFor.getElement() == null) {
+				newFor.setElement(ElementFactory.getInstance().createExpressionElement(newFor, this, BPELConstants.ND_FOR));
+			}
+			ReconciliationHelper.replaceChild(this, oldFor, newFor);
+		}
 		for_ = newFor;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -155,6 +164,13 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	public NotificationChain basicSetUntil(Expression newUntil,
 			NotificationChain msgs) {
 		Expression oldUntil = until;
+		if (!isReconciling) {
+			if (newUntil != null && newUntil.getElement() == null) {
+				newUntil.setElement(ElementFactory.getInstance().createExpressionElement(newUntil, this, BPELConstants.ND_UNTIL));
+			}
+			ReconciliationHelper.replaceChild(this, oldUntil, newUntil);
+		}
+
 		until = newUntil;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

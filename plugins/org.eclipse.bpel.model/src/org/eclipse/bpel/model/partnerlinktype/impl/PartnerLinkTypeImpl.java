@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkTypeImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: PartnerLinkTypeImpl.java,v 1.5 2007/10/01 17:05:10 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
@@ -41,8 +42,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 
 import org.w3c.dom.Element;
 

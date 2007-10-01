@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FaultHandlerImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: FaultHandlerImpl.java,v 1.5 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,7 @@ import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -126,6 +127,9 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetCatchAll(CatchAll newCatchAll,
 			NotificationChain msgs) {
 		CatchAll oldCatchAll = catchAll;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCatchAll, newCatchAll);
+		}
 		catchAll = newCatchAll;
 		boolean oldCatchAllESet = catchAllESet;
 		catchAllESet = true;
@@ -179,6 +183,9 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements
 	 */
 	public NotificationChain basicUnsetCatchAll(NotificationChain msgs) {
 		CatchAll oldCatchAll = catchAll;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCatchAll, null);
+		}
 		catchAll = null;
 		boolean oldCatchAllESet = catchAllESet;
 		catchAllESet = false;

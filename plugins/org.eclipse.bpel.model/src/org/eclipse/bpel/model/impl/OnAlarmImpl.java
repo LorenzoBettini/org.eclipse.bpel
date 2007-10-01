@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnAlarmImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: OnAlarmImpl.java,v 1.5 2007/10/01 17:05:09 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,9 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.OnAlarm;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -123,6 +126,9 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -177,6 +183,12 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	public NotificationChain basicSetFor(Expression newFor,
 			NotificationChain msgs) {
 		Expression oldFor = for_;
+		if (!isReconciling) {
+			if (newFor != null && newFor.getElement() == null) {
+				newFor.setElement(ElementFactory.getInstance().createExpressionElement(newFor, this, BPELConstants.ND_FOR));
+			}
+			ReconciliationHelper.replaceChild(this, oldFor, newFor);
+		}
 		for_ = newFor;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -230,6 +242,12 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	public NotificationChain basicSetUntil(Expression newUntil,
 			NotificationChain msgs) {
 		Expression oldUntil = until;
+		if (!isReconciling) {
+			if (newUntil != null && newUntil.getElement() == null) {
+				newUntil.setElement(ElementFactory.getInstance().createExpressionElement(newUntil, this, BPELConstants.ND_UNTIL));
+			}
+			ReconciliationHelper.replaceChild(this, oldUntil, newUntil);
+		}
 		until = newUntil;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -284,6 +302,12 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	public NotificationChain basicSetRepeatEvery(Expression newRepeatEvery,
 			NotificationChain msgs) {
 		Expression oldRepeatEvery = repeatEvery;
+		if (!isReconciling) {
+			if (newRepeatEvery != null && newRepeatEvery.getElement() == null) {
+				newRepeatEvery.setElement(ElementFactory.getInstance().createExpressionElement(newRepeatEvery, this, BPELConstants.ND_REPEAT_EVERY));
+			}
+			ReconciliationHelper.replaceChild(this, oldRepeatEvery, newRepeatEvery);
+		}
 		repeatEvery = newRepeatEvery;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

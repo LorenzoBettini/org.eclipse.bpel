@@ -38,6 +38,7 @@ import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELProxyURI;
 import org.eclipse.bpel.model.util.ImportResolver;
 import org.eclipse.bpel.model.util.ImportResolverRegistry;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
@@ -363,7 +364,7 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
 	public Process getProcess() {
 	    return getContents().size() == 1 && getContents().get(0) instanceof Process ? (Process) getContents().get(0) : null;
 	}
-	
+		
 	protected DocumentBuilder getDocumentBuilder() throws IOException {
 		final DocumentBuilderFactory factory = //DocumentBuilderFactory.newInstance();
 		   // new org.apache.crimson.jaxp.DocumentBuilderFactoryImpl();

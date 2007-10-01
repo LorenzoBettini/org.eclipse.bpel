@@ -2736,7 +2736,8 @@ public class BPELReader implements ErrorHandler {
 						
 					case Node.TEXT_NODE :
 					case Node.CDATA_SECTION_NODE :
-						elementData.append( n.getTextContent() );
+						// elementData.append( n.getTextContent() );
+						elementData.append( getText(n) );
 						break;
 				}
 			}

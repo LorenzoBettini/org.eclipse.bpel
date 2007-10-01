@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CatchImpl.java,v 1.6 2007/10/01 17:05:07 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,6 +23,8 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -147,6 +149,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_NAME, newFaultName == null ? null : newFaultName.toString());
+		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -170,6 +175,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public NotificationChain basicSetFaultVariable(Variable newFaultVariable,
 			NotificationChain msgs) {
 		Variable oldFaultVariable = faultVariable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_VARIABLE, newFaultVariable == null ? null : newFaultVariable.getName());
+		}
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -225,6 +233,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -304,6 +315,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			((Variable) variable).setMessageType(newFaultMessageType);
 		}
 		Message oldFaultMessageType = faultMessageType;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_MESSAGE_TYPE, newFaultMessageType == null ? null : newFaultMessageType.toString());
+		}
 		faultMessageType = newFaultMessageType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -353,6 +367,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			((Variable) variable).setXSDElement(newFaultElement);
 		}
 		XSDElementDeclaration oldFaultElement = faultElement;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_ELEMENT, newFaultElement == null ? null : newFaultElement.getQName());
+		}
 		faultElement = newFaultElement;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

@@ -28,7 +28,9 @@ import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -575,6 +577,10 @@ public class BPELUtils {
 		}
 		return "yes";
 	}
+	
+	public static boolean xml2boolean(String xml) {
+		return "yes".equals(xml);
+	}
 
 	/**
 	 * Create CData section with the string value indicated.
@@ -754,5 +760,8 @@ public class BPELUtils {
 		return true;
 	}
    
-	
+	public static boolean isTransparentFaultHandler(Object parent, Object child) {
+		return child instanceof FaultHandler && parent instanceof Invoke;
+	}
+
 }

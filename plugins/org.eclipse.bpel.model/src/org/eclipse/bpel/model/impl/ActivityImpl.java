@@ -10,32 +10,24 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.5 2007/09/19 15:26:17 smoser Exp $
+ * $Id: ActivityImpl.java,v 1.6 2007/10/01 17:05:09 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
-import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -159,8 +151,12 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		String oldName = name;
+		String oldName = name;		
 		name = newName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_NAME, newName);
+		}
+		
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					BPELPackage.ACTIVITY__NAME, oldName, name));
@@ -182,6 +178,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 */
 	public void setSuppressJoinFailure(Boolean newSuppressJoinFailure) {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils.boolean2XML(newSuppressJoinFailure));
+		}
 		suppressJoinFailure = newSuppressJoinFailure;
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailureESet = true;
@@ -199,6 +198,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 */
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_SUPPRESS_JOIN_FAILURE, null);
+		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;
 		suppressJoinFailureESet = false;
@@ -235,6 +237,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public NotificationChain basicSetTargets(Targets newTargets,
 			NotificationChain msgs) {
 		Targets oldTargets = targets;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldTargets, newTargets);
+		}
 		targets = newTargets;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -289,6 +294,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public NotificationChain basicSetSources(Sources newSources,
 			NotificationChain msgs) {
 		Sources oldSources = sources;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldSources, newSources);
+		}
 		sources = newSources;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -454,78 +462,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		return result.toString();
 	}
 	
-	public void elementChanged(Element changedElement) {
-		if (!isUpdatingDOM()) {
-			if (!isReconciling) {
-				isReconciling = true;
-				reconcile(changedElement);
-
-				WSDLElement theContainer = getContainer();
-				if (theContainer != null && theContainer.getElement() == changedElement) {
-					((WSDLElementImpl)theContainer).elementChanged(changedElement);
-				}
-				isReconciling = false;
-				traverseToRootForPatching();
-			} 
-	    } 
-	}
-
-	protected void reconcile(Element changedElement) {
-	    reconcileAttributes(changedElement);
-	    reconcileContents(changedElement);
-	}
-
-	protected void reconcileAttributes(Element changedElement) {
-		if (changedElement.hasAttribute(BPELConstants.AT_NAME)) {
-			String name = changedElement.getAttribute(BPELConstants.AT_NAME);
-			if (name != null) {
-				setName(name);
-			}
-		}
-	}
-
-	protected void reconcileContents(Element changedElement) {
-	    List remainingModelObjects = new ArrayList(getWSDLContents());
-
-	    Collection contentNodes = getContentNodes(changedElement);
-
-	    Element theDocumentationElement = null;
-
-	    // for each applicable child node of changedElement
-	    LOOP: for (Iterator i = contentNodes.iterator(); i.hasNext();) {
-	    	Element child = (Element)i.next();
-	    	// Set Documentation element if exists
-	    	/*if (WSDLConstants.DOCUMENTATION_ELEMENT_TAG.equals(child.getLocalName())
-	    			&& WSDLConstants.isMatchingNamespace(child.getNamespaceURI(), WSDLConstants.WSDL_NAMESPACE_URI)) {
-	    		// assume the first 'documentation' element is 'the' documentation element
-	    		// 'there can be only one!'
-	    		if (theDocumentationElement == null) {
-	    			theDocumentationElement = child;
-	    		}
-	    	}*/
-	    	// go thru the model objects to collect matching object for reuse
-	    	for (Iterator contents = remainingModelObjects.iterator(); contents.hasNext();) {
-	    		Object modelObject = (Object)contents.next();
-	    		if (((WSDLElement)modelObject).getElement() == child) {
-	    			contents.remove(); // removes the 'child' Node from the remainingModelObjects list
-	    			continue LOOP;
-	    		}
-	    	}
-
-	    	// if the documentation element has changed... update it
-	    	if (theDocumentationElement != getDocumentationElement()) {
-	    		setDocumentationElement(theDocumentationElement);
-	    	}
-
-	    	// we haven't found a matching model object for the Node, se we may need to
-	    	// create a new model object
-	    	handleUnreconciledElement(child, remainingModelObjects);
-	    }
-
-	    // now we can remove the remaining model objects
-	    handleReconciliation(remainingModelObjects);
-	}
-
 	public int getActivityNodeIndex(Node activityNode) {
 		Node parent = activityNode.getParentNode();
 		if (parent == null) {
@@ -544,17 +480,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 
 		return -1; // error
 	}
-	
-	private Collection getContentNodes(Element changedElement) {
-		Collection result = new ArrayList();
-		for (Node child = changedElement.getFirstChild(); child != null; child = child.getNextSibling()) {
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				result.add(child);
-			}
-	    }
-	    return result;
-	}
-
 	/*protected void handleReconciliation(Collection remainingModelObjects) {
 	    for (Iterator i = remainingModelObjects.iterator(); i.hasNext();){
 	    	remove(this, i.next());

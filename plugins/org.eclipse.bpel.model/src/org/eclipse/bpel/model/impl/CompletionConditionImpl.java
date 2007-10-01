@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.8 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CompletionConditionImpl.java,v 1.9 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -12,6 +12,8 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -89,6 +91,9 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetBranches(Branches newBranches,
 			NotificationChain msgs) {
 		Branches oldBranches = branches;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldBranches, newBranches);
+		}
 		branches = newBranches;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

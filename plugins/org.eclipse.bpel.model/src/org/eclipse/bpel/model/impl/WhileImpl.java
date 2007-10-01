@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WhileImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: WhileImpl.java,v 1.5 2007/10/01 17:05:09 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,6 +23,10 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.While;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationBPELReader;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -103,6 +107,9 @@ public class WhileImpl extends ActivityImpl implements While {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -156,8 +163,12 @@ public class WhileImpl extends ActivityImpl implements While {
 	 */
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {
+		
 		Condition oldCondition = condition;
-		condition = newCondition;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCondition, newCondition);
+		}
+		condition = newCondition;		
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
 					Notification.SET, BPELPackage.WHILE__CONDITION,
@@ -279,4 +290,28 @@ public class WhileImpl extends ActivityImpl implements While {
 		return super.eIsSet(featureID);
 	}
 
+//	protected void handleReconciliation(Collection remainingModelObjects) {
+//		for (Object o : remainingModelObjects) {			
+//			if (o == activity) {
+//				setActivity(null);				
+//			} else if (o == condition) {
+////				Condition condition = (Condition)o;
+////				Element conditionElement = ElementFactory.createExpressionElement(condition, BPELConstants.ND_CONDITION, this);
+////				condition.setElement(conditionElement);
+////				getElement().appendChild(conditionElement);
+//				setCondition(null);
+//			} else {
+//				System.err.println(getClass() + "!!!!!!!!!!" + o);
+//			}
+//		}		
+//	}
+//	
+//	public void handleUnreconciledElement(Element child, Collection remainingModelObjects) {		
+//		Activity activity = ReconciliationHelper.createActivity(child);
+//		if (activity != null) {
+//			ReconciliationHelper.addActivity(this, activity);
+//		} else {
+//			super.handleUnreconciledElement(child, remainingModelObjects);
+//		}
+//	}
 } //WhileImpl

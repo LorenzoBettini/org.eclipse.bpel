@@ -10,17 +10,18 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: QueryImpl.java,v 1.6 2007/10/01 17:05:09 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Query;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 
 import org.w3c.dom.Element;
 
@@ -40,7 +41,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class QueryImpl extends WSDLElementImpl implements Query {
+public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -105,7 +106,7 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue() {
+	public String getValue() {		
 		return value;
 	}
 
@@ -116,6 +117,9 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 */
 	public void setValue(String newValue) {
 		String oldValue = value;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceText(getElement(), newValue);
+		}
 		value = newValue;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -138,6 +142,9 @@ public class QueryImpl extends WSDLElementImpl implements Query {
 	 */
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
+		}
 		queryLanguage = newQueryLanguage;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

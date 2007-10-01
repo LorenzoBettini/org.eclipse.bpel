@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ThrowImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ThrowImpl.java,v 1.7 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,6 +24,8 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -113,6 +115,9 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 */
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_NAME, newFaultName == null ? null : newFaultName.getLocalPart());
+		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -154,6 +159,9 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	 */
 	public void setFaultVariable(Variable newFaultVariable) {
 		Variable oldFaultVariable = faultVariable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_VARIABLE, newFaultVariable == null ? null : newFaultVariable.getName() );
+		}
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: ExpressionImpl.java,v 1.6 2007/10/01 17:05:10 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,11 +18,13 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Expression;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -144,7 +146,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getBody() {
+	public Object getBody() {		
 		return body;
 	}
 
@@ -155,7 +157,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setBody(Object newBody) {
 		Object oldBody = body;
-		body = newBody;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceText(getElement(), newBody);
+		}
+		body = newBody;		
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					BPELPackage.EXPRESSION__BODY, oldBody, body));
@@ -177,6 +182,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
+		}
 		expressionLanguage = newExpressionLanguage;
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguageESet = true;
@@ -194,6 +202,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
+		if (!isReconciling)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_EXPRESSIONLANGUAGE, null);
+		}
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
 		expressionLanguageESet = false;
@@ -229,6 +240,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setOpaque(Boolean newOpaque) {
 		Boolean oldOpaque = opaque;
+		if (!isReconciling && getElement() != null)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
+		}
 		opaque = newOpaque;
 		boolean oldOpaqueESet = opaqueESet;
 		opaqueESet = true;
@@ -245,6 +259,9 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void unsetOpaque() {
 		Boolean oldOpaque = opaque;
+		if (!isReconciling && getElement() != null)  {
+			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_OPAQUE, null);
+		}
 		boolean oldOpaqueESet = opaqueESet;
 		opaque = OPAQUE_EDEFAULT;
 		opaqueESet = false;

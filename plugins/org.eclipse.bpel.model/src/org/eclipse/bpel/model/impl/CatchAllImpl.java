@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchAllImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CatchAllImpl.java,v 1.5 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -89,6 +90,9 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.10 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: ProcessImpl.java,v 1.11 2007/10/01 17:05:10 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -29,6 +29,9 @@ import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1378,5 +1381,58 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			fieldPostLoadRunnables = new ArrayList();
 		return fieldPostLoadRunnables;
 	}
+	
+//	public void reconcileAttributes(Element changedElement) {
+//		if (changedElement.hasAttribute(BPELConstants.AT_NAME)) {
+//			String name = changedElement.getAttribute(BPELConstants.AT_NAME);
+//			if (name != null) {
+//				setName(name);
+//			}
+//		} 
+//		if (changedElement.hasAttribute(BPELConstants.AT_SUPPRESS_JOIN_FAILURE)) {
+//			setSuppressJoinFailure(BPELUtils.xml2boolean(changedElement.getAttribute(BPELConstants.AT_SUPPRESS_JOIN_FAILURE)));
+//		} 
+//		if (changedElement.hasAttribute(BPELConstants.AT_TARGET_NAMESPACE)) {
+//			String nameSpace = changedElement.getAttribute(BPELConstants.AT_TARGET_NAMESPACE);
+//			if (nameSpace != null) {
+//				setTargetNamespace(nameSpace);
+//			}
+//		}
+//		if (changedElement.hasAttribute(BPELConstants.AT_QUERYLANGUAGE)) {
+//			String queryLanguage = changedElement.getAttribute(BPELConstants.AT_QUERYLANGUAGE);
+//			if (queryLanguage != null) {
+//				setQueryLanguage(queryLanguage);
+//			}
+//		}
+//		if (changedElement.hasAttribute(BPELConstants.AT_EXPRESSIONLANGUAGE)) {
+//			String expressionLanguage = changedElement.getAttribute(BPELConstants.AT_EXPRESSIONLANGUAGE);
+//			if (expressionLanguage != null) {
+//				setQueryLanguage(expressionLanguage);
+//			}
+//		}
+//		if (changedElement.hasAttribute(BPELConstants.AT_EXIT_ON_STANDARD_FAULT)) {
+//			setExitOnStandardFault(BPELUtils.xml2boolean(changedElement.getAttribute(BPELConstants.AT_EXIT_ON_STANDARD_FAULT)));
+//		}
+//		super.reconcileAttributes(changedElement);
+//	}
+//	
+//	protected void handleReconciliation(Collection remainingModelObjects) {
+//		for (Object o : remainingModelObjects) {
+//			if (o == activity) {
+//				setActivity(null);
+//			} else if (o == correlationSets) {
+//				setCorrelationSets(null);
+//			}
+//		}
+//	}	
+//
+//	public void handleUnreconciledElement(Element child, Collection remainingModelObjects) {
+//		Activity activity = ReconciliationHelper.createActivity(child);
+//		if (activity != null) {
+//			ReconciliationHelper.addActivity(this, activity);
+//		} else {
+//			super.handleUnreconciledElement(child, remainingModelObjects);
+//		}
+//	}
 
 } //ProcessImpl

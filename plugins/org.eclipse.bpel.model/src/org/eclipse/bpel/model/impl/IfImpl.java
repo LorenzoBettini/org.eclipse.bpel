@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IfImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: IfImpl.java,v 1.6 2007/10/01 17:05:08 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -17,6 +17,7 @@ import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -121,6 +122,9 @@ public class IfImpl extends ActivityImpl implements If {
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {
 		Condition oldCondition = condition;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCondition, newCondition);
+		}
 		condition = newCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -187,6 +191,9 @@ public class IfImpl extends ActivityImpl implements If {
 	 */
 	public NotificationChain basicSetElse(Else newElse, NotificationChain msgs) {
 		Else oldElse = else_;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldElse, newElse);
+		}
 		else_ = newElse;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -240,6 +247,9 @@ public class IfImpl extends ActivityImpl implements If {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
