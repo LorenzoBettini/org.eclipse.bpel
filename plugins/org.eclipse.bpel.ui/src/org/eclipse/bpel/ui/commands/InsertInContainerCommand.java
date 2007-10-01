@@ -11,7 +11,11 @@
 package org.eclipse.bpel.ui.commands;
 
 import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.resource.BPELResource;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
@@ -20,8 +24,10 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.wst.wsdl.WSDLElement;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import org.w3c.dom.Element;
 
@@ -87,20 +93,45 @@ public class InsertInContainerCommand extends AutoUndoCommand {
 	public void doExecute() {
 		IContainer container = BPELUtil.adapt(parent, IContainer.class);		
 		container.addChild(parent, child, before);
-		
-	    Element parentElement = org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(parent);
-	    Element beforeElement = null;
-	    if (before != null) {
-	    	beforeElement = org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(before);
+
+		Node parentElement = getRealParentElement(child, parent);
+	    Node beforeElement = getRealBeforeElement(child, parent, before);
+		ReconciliationHelper.getInstance().patchDom(child, parent, parentElement, before, beforeElement);
+	}
+	
+	/**
+	 * In case we created implicit sequence to hold two children and we want to insert 
+	 * before that sequence that means we want to insert at the beginning of that sequence 
+	 * @param child
+	 * @param parent
+	 * @param before
+	 * @return
+	 */
+	private static Node getRealBeforeElement(EObject child, EObject parent, EObject before) {
+		if (before != null && !(before instanceof org.eclipse.bpel.ui.uiextensionmodel.impl.EndNodeImpl)) {
+	    	if (ReconciliationHelper.isSingleActivityContainer(parent) && child instanceof Activity) {
+	    		return ReconciliationHelper.getActivity(parent).getElement().getFirstChild();
+	    	} 
+	    	return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(before);	    	
 	    }
-	    
-	    MyBPELWriter writer = new MyBPELWriter((BPELResource)(parent.eResource()),
-	    										parentElement.getOwnerDocument());
-
-	    Element childElement = writer.activity2XML(((Activity)child));
-	    ((Activity)child).setElement(childElement);
-
-	    parentElement.insertBefore(childElement, beforeElement);
+		return null;
+	}
+	
+	/**
+	 * In case we created implicit sequence to hold two children we need to patch
+	 * parent element to be that sequence 
+	 * @param child
+	 * @param parent
+	 * @return
+	 */
+	private static Node getRealParentElement(EObject child, EObject parent) {
+		if (ReconciliationHelper.isSingleActivityContainer(parent) && child instanceof Activity && child != ReconciliationHelper.getActivity(parent)) {
+	    	return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(ReconciliationHelper.getActivity(parent));
+//	    } else if (BPELUtils.isTransparentObject(parent)) {
+//	    	EObject container = parent.eContainer();
+//			return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(container);
+	    }
+	    return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(parent);		
 	}
 	
 	/**

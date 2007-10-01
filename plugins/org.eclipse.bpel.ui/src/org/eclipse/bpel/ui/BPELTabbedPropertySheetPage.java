@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -28,14 +29,7 @@ import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegist
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
-// import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-
-//import org.eclipse.wst.common.ui.properties.internal.provisional.ITabbedPropertySheetPageContributor;
-//import org.eclipse.wst.common.ui.properties.internal.provisional.TabbedPropertySheetPage;
-//import org.eclipse.wst.common.ui.properties.internal.view.TabDescriptor;
-//import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyRegistry;
-//import org.eclipse.wst.common.ui.properties.internal.view.TabbedPropertyViewer;
 
 /**
  * Our own version of the TabbedPropertySheetPage in order to supply the
@@ -94,6 +88,12 @@ public class BPELTabbedPropertySheetPage extends TabbedPropertySheetPage {
 	}
 	
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		// TODO: (DO) If we change selection in the Designer then it causes
+		// changing selection in the SourceTab too. We are not going to create
+		// PropertySheetPage twice, so, ignore the second case
+		if (selection instanceof ITextSelection) {
+			return;
+		}
 		selection = calculateSelection(selection);
 		super.selectionChanged(part, selection);
 //		TabDescriptor[] descriptors = getRegistry().getTabDescriptors(part, selection);

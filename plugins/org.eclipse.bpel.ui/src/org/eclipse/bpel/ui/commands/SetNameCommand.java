@@ -51,10 +51,5 @@ public class SetNameCommand extends SetCommand {
 	public void set(Object o) {
 		INamedElement namedElement = (INamedElement)BPELUtil.adapt(fTarget, INamedElement.class);
 		namedElement.setName(fTarget, (String)o);
-				
-		Element element = BPELEditorUtil.getInstance().getElementForObject(fTarget);
-	    if (element != null) { 
-	    	element.setAttribute("name", (String)o); //$NON-NLS-1$
-	    }
 	}
 }

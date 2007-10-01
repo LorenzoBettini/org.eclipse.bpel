@@ -301,9 +301,9 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	
 	private ExtensionMap extensionMap;
 	
-	private StructuredTextEditor fTextEditor = null;
-	private BPELEditor fDesignViewer = null;
-	private int currentPage = -1;
+	protected StructuredTextEditor fTextEditor = null;
+	protected BPELEditor fDesignViewer = null;
+	protected int currentPage = -1;
 
 	
 	protected TextEditorSelectionListener textEditorSelectionListener;
@@ -340,7 +340,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	 * ViewerSelectionManager from the TextEditor. setModel is also done here
 	 * because getModel() needs to reference the TextEditor.
 	 */
-	private void connectDesignPage() {
+	protected void connectDesignPage() {
 
 		/*
 		 * Connect selection from the Design page to the selection provider of
@@ -368,7 +368,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	/**
 	 * Creates the design page of the multi-page editor.
 	 */
-	private void createDesignPage() {
+	protected void createDesignPage() {
 		fDesignViewer = new BPELEditor(getEditDomain());
 		loadModel();
 		
@@ -385,7 +385,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	/**
 	 * Creates the source page of the multi-page editor.
 	 */
-	private void createSourcePage() throws PartInitException {
+	protected void createSourcePage() throws PartInitException {
 		fTextEditor = new StructuredTextEditor();
 		try
 	    {
@@ -903,7 +903,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		return false;
 	}
 
-	private void loadModel() {
+	protected void loadModel() {
 		Document structuredDocument = null;
 		
 		try {
@@ -995,7 +995,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		updateMarkersHard();
 	}
 	
-	private void updateMarkersHard () {
+	protected void updateMarkersHard () {
 		
 		for(EObject obj : fMarkers2EObject.values()) {
 			obj.eNotify(fMarkersStale);
