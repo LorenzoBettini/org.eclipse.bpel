@@ -16,8 +16,12 @@ import java.util.Iterator;
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.common.extension.model.ExtensionmodelFactory;
 import org.eclipse.bpel.model.BPELFactory;
+import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.core.resources.IFile;
@@ -94,7 +98,7 @@ public class BPELReader {
 
 		if (process == null) {
 			process = BPELFactory.eINSTANCE.createProcess();
-			processResource.getContents().add(process);
+			processResource.getContents().add(process);			
 		}
 		if (extensionMap == null) {
 			extensionMap = ExtensionmodelFactory.eINSTANCE.createExtensionMap(IBPELUIConstants.MODEL_EXTENSIONS_NAMESPACE);
@@ -109,13 +113,22 @@ public class BPELReader {
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
 		if (process.getVariables() == null) {
-			process.setVariables(BPELFactory.eINSTANCE.createVariables());
+			Variables variables = BPELFactory.eINSTANCE.createVariables();
+			process.setVariables(variables);
+			variables.setElement(ElementFactory.getInstance().createElement(variables, process));
+			process.getElement().appendChild(variables.getElement());
 		}
-		if (process.getPartnerLinks() == null) {
-			process.setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
+		if (process.getPartnerLinks() == null) {			
+			PartnerLinks partnerLinks = BPELFactory.eINSTANCE.createPartnerLinks();
+			process.setPartnerLinks(partnerLinks);
+			partnerLinks.setElement(ElementFactory.getInstance().createElement(partnerLinks, process));
+			process.getElement().appendChild(partnerLinks.getElement());
 		}
-		if (process.getCorrelationSets() == null) {
-			process.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+		if (process.getCorrelationSets() == null) {			
+			CorrelationSets correlationSets = BPELFactory.eINSTANCE.createCorrelationSets();
+			process.setCorrelationSets(correlationSets);
+			correlationSets.setElement(ElementFactory.getInstance().createElement(correlationSets, process));
+			process.getElement().appendChild(correlationSets.getElement());
 		}
 		// Make sure scopes have Variables.
 		// They aren't strictly necessary according to the spec but make we need those in
@@ -125,13 +138,22 @@ public class BPELReader {
 			if (object instanceof Scope) {
 				Scope scope = (Scope)object;
 				if (scope.getVariables() == null) {
-					scope.setVariables(BPELFactory.eINSTANCE.createVariables());
+					Variables variables = BPELFactory.eINSTANCE.createVariables();
+					scope.setVariables(variables);
+					variables.setElement(ElementFactory.getInstance().createElement(variables, scope));
+					scope.getElement().appendChild(variables.getElement());
 				}
 				if (scope.getPartnerLinks() == null) {
-					scope.setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
+					PartnerLinks partnerLinks = BPELFactory.eINSTANCE.createPartnerLinks();
+					scope.setPartnerLinks(partnerLinks);
+					partnerLinks.setElement(ElementFactory.getInstance().createElement(partnerLinks, scope));
+					scope.getElement().appendChild(partnerLinks.getElement());
 				}
 				if (scope.getCorrelationSets() == null) {
-					scope.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+					CorrelationSets correlationSets = BPELFactory.eINSTANCE.createCorrelationSets();
+					scope.setCorrelationSets(correlationSets);
+					correlationSets.setElement(ElementFactory.getInstance().createElement(correlationSets, scope));
+					scope.getElement().appendChild(correlationSets.getElement());
 				}
 			}
 		}
@@ -206,13 +228,22 @@ public class BPELReader {
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
 		if (process.getVariables() == null) {
-			process.setVariables(BPELFactory.eINSTANCE.createVariables());
+			Variables variables = BPELFactory.eINSTANCE.createVariables();
+			process.setVariables(variables);
+			variables.setElement(ElementFactory.getInstance().createElement(variables, process));
+			process.getElement().appendChild(variables.getElement());
 		}
-		if (process.getPartnerLinks() == null) {
-			process.setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
+		if (process.getPartnerLinks() == null) {			
+			PartnerLinks partnerLinks = BPELFactory.eINSTANCE.createPartnerLinks();
+			process.setPartnerLinks(partnerLinks);
+			partnerLinks.setElement(ElementFactory.getInstance().createElement(partnerLinks, process));
+			process.getElement().appendChild(partnerLinks.getElement());
 		}
-		if (process.getCorrelationSets() == null) {
-			process.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+		if (process.getCorrelationSets() == null) {			
+			CorrelationSets correlationSets = BPELFactory.eINSTANCE.createCorrelationSets();
+			process.setCorrelationSets(correlationSets);
+			correlationSets.setElement(ElementFactory.getInstance().createElement(correlationSets, process));
+			process.getElement().appendChild(correlationSets.getElement());
 		}
 		// Make sure scopes have Variables.
 		// They aren't strictly necessary according to the spec but make we need those in
@@ -222,13 +253,22 @@ public class BPELReader {
 			if (object instanceof Scope) {
 				Scope scope = (Scope)object;
 				if (scope.getVariables() == null) {
-					scope.setVariables(BPELFactory.eINSTANCE.createVariables());
+					Variables variables = BPELFactory.eINSTANCE.createVariables();
+					scope.setVariables(variables);
+					variables.setElement(ElementFactory.getInstance().createElement(variables, scope));
+					scope.getElement().appendChild(variables.getElement());
 				}
 				if (scope.getPartnerLinks() == null) {
-					scope.setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
+					PartnerLinks partnerLinks = BPELFactory.eINSTANCE.createPartnerLinks();
+					scope.setPartnerLinks(partnerLinks);
+					partnerLinks.setElement(ElementFactory.getInstance().createElement(partnerLinks, scope));
+					scope.getElement().appendChild(partnerLinks.getElement());
 				}
 				if (scope.getCorrelationSets() == null) {
-					scope.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+					CorrelationSets correlationSets = BPELFactory.eINSTANCE.createCorrelationSets();
+					scope.setCorrelationSets(correlationSets);
+					correlationSets.setElement(ElementFactory.getInstance().createElement(correlationSets, scope));
+					scope.getElement().appendChild(correlationSets.getElement());
 				}
 			}
 		}

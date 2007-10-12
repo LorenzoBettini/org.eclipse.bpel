@@ -58,7 +58,7 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 	}
 
 	protected void handleNodeChanged(Node node) {
-		if (node instanceof Element) {
+		if (node instanceof Element && !BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
 			reconcileModelObjectForElement((Element) node);
 		} else if (node instanceof Document) {
 			// The document changed so we may need to fix up the
@@ -86,7 +86,7 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 			 *  // Reset the document because removeAll() sets the document to
 			 * null as well. process.setDocument(document); }
 			 */
-		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
+		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE || BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
 			reconcileModelObjectForElement((Element) node.getParentNode());
 		}
 	}
