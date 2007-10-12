@@ -10,19 +10,26 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinksImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: PartnerLinksImpl.java,v 1.5 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
+import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationBPELReader;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -163,5 +170,21 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof PartnerLink) {
+			PartnerLink partnerLink = (PartnerLink)object;
+			ReconciliationHelper.adoptChild(this, children, partnerLink, BPELConstants.ND_PARTNER_LINK);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof PartnerLink) {
+			ReconciliationHelper.orphanChild(this, (PartnerLink)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
+
 
 } //PartnerLinksImpl

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.4 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: DocumentationImpl.java,v 1.5 2007/10/12 08:14:57 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -128,7 +128,7 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	public void setLang(String newLang) {
 		String oldLang = lang;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_LANGUAGE, newLang);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LANGUAGE, newLang);
 		}
 		lang = newLang;
 		if (eNotificationRequired())
@@ -153,7 +153,7 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	public void setSource(String newSource) {
 		String oldSource = source;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_SOURCE, newSource);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SOURCE, newSource);
 		}
 		source = newSource;
 		if (eNotificationRequired())

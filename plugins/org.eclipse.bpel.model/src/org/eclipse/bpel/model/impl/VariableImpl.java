@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableImpl.java,v 1.11 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: VariableImpl.java,v 1.12 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Message;
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.WSDLPackage;
 import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.eclipse.xsd.XSDElementDeclaration;
@@ -146,8 +147,9 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
      */
     public void setName(String newName) {
         String oldName = name;
-        if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_NAME, newName);
+        if (!isReconciling) {        	
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+            ReconciliationHelper.updateVariableName((WSDLElement)eContainer(), newName);
         }
         name = newName;
         if (eNotificationRequired())
@@ -188,7 +190,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
     public void setMessageType(Message newMessageType) {
         Message oldMessageType = messageType;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_MESSAGE_TYPE, newMessageType == null ? null : newMessageType.getQName().toString());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_TYPE, newMessageType == null ? null : newMessageType.getQName());
         }
         messageType = newMessageType;
         if (eNotificationRequired())
@@ -230,7 +232,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
     public void setXSDElement(XSDElementDeclaration newXSDElement) {
         XSDElementDeclaration oldXSDElement = xsdElement;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_ELEMENT, newXSDElement == null ? null : newXSDElement.getName());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ELEMENT, newXSDElement == null ? null : new QName(newXSDElement.getTargetNamespace(), newXSDElement.getName()));
         }
         xsdElement = newXSDElement;
         if (eNotificationRequired())
@@ -271,7 +273,7 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
     public void setType(XSDTypeDefinition newType) {
         XSDTypeDefinition oldType = type;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_TYPE, newType == null ? null : newType.getName());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_TYPE, newType == null ? null : new QName(newType.getTargetNamespace(), newType.getName()));
         }
         type = newType;
         if (eNotificationRequired())

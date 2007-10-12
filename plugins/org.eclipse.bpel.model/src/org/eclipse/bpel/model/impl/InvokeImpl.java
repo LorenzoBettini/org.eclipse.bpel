@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: InvokeImpl.java,v 1.6 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -28,6 +28,8 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -59,6 +61,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
+@SuppressWarnings("restriction")
 public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	/**
 	 * The cached value of the '{@link #getOutputVariable() <em>Output Variable</em>}' reference.
@@ -174,6 +177,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public void setOutputVariable(Variable newOutputVariable) {
 		Variable oldOutputVariable = outputVariable;
+		if (!isReconciling){
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OUTPUT_VARIABLE, newOutputVariable == null ? null : newOutputVariable.getName());
+		}
 		outputVariable = newOutputVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -216,6 +222,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public void setInputVariable(Variable newInputVariable) {
 		Variable oldInputVariable = inputVariable;
+		if (!isReconciling){
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INPUT_VARIABLE, newInputVariable == null ? null : newInputVariable.getName());
+		}
 		inputVariable = newInputVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -253,13 +262,14 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 		return msgs;
 	}
 
-	/**
+	/*
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setCompensationHandler(
 			CompensationHandler newCompensationHandler) {
+		// FIXME: (DO) sync should be implemented 
 		if (newCompensationHandler != compensationHandler) {
 			NotificationChain msgs = null;
 			if (compensationHandler != null)
@@ -298,6 +308,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	public NotificationChain basicSetFaultHandler(FaultHandler newFaultHandler,
 			NotificationChain msgs) {
 		FaultHandler oldFaultHandler = faultHandler;
+//		if (!isReconciling){
+//			ReconciliationHelper.replaceChild(this, oldFaultHandler, newFaultHandler);
+//		}
 		faultHandler = newFaultHandler;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -317,6 +330,7 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 */
 	public void setFaultHandler(FaultHandler newFaultHandler) {
+		// FIXME: (DO) sync should be implemented 
 		if (newFaultHandler != faultHandler) {
 			NotificationChain msgs = null;
 			if (faultHandler != null)

@@ -12,9 +12,13 @@
 package org.eclipse.bpel.model.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.wsdl.extensions.ExtensibilityElement;
+import javax.xml.namespace.QName;
 
+import org.apache.xerces.util.DOMUtil;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
@@ -44,8 +48,10 @@ import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class ElementFactory {
 	private HashMap<Document, MyBPELWriter> document2Writers = new HashMap<Document, MyBPELWriter>();
@@ -254,16 +260,63 @@ public class ElementFactory {
 //		throw new IllegalArgumentException("Unhandled type: " + element.toString());
 	}	
 	
+	public Node createLiteral(From from, String text) {
+		MyBPELWriter writer = getWriter(from);
+		Node node = null;
+		Element literal = writer.createBPELElement("literal");			
+			
+		if (Boolean.TRUE.equals(from.getUnsafeLiteral())) {
+			node = BPELUtils.convertStringToNode(text, writer.getResource());
+		}
+			
+		if (node != null) {
+			for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
+				DOMUtil.copyInto(child, literal);
+			}
+		} else {
+			CDATASection cdata = BPELUtils.createCDATASection(from.getElement().getOwnerDocument(), from.getLiteral());
+			return cdata;
+		}
+		return literal;
+	}
+	
 	public Element createExpressionElement(Expression element, Object parent, String name) {
 		MyBPELWriter writer = getWriter(parent);		
 		return writer.expression2XML(element, name);
+	}
+	
+	public String createName(WSDLElement element, QName name) {
+		return getWriter(element).getNamespacePrefixManager().qNameToString(element, name);
 	}
 	
 	private MyBPELWriter getWriter(Object parent) {
 		Document ownerDocument = getOwnerDocument(parent);
 		MyBPELWriter writer = document2Writers.get(ownerDocument);
 		if (writer == null) {
-			writer = new MyBPELWriter((BPELResource)((EObject)parent).eResource(), ownerDocument);
+			// TODO: (DU) check if adding namespace is ok
+			BPELResource resource = (BPELResource)((EObject)parent).eResource();
+			Map nsMap = (Map)resource.getPrefixToNamespaceMap(resource.getProcess());
+			if (resource.getOptionUseNSPrefix()) {
+	            // Check for existing prefix.
+	            String prefix = null;
+	            for (Iterator i = nsMap.entrySet().iterator(); i.hasNext();) {
+	                Map.Entry entry = (Map.Entry) i.next();
+	                if (resource.getNamespaceURI().equals(entry.getValue())) {
+	                    // Remove the entry if it is the default namespace.
+	                    if ("".equals(entry.getKey())) {
+	                        i.remove();
+	                    } else {
+	                        prefix = (String) entry.getKey();
+	                    }
+	                }
+	            }
+	            if (prefix == null) {
+	                nsMap.put(BPELConstants.PREFIX, resource.getNamespaceURI());
+	            }
+	        } else {
+	            nsMap.put("", resource.getNamespaceURI());
+	        }			
+			writer = new MyBPELWriter(resource, ownerDocument);			
 			document2Writers.put(ownerDocument, writer);
 		}
 		return writer;

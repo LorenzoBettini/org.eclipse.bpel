@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.9 2007/10/01 17:05:07 mchmielewski Exp $
+ * $Id: ForEachImpl.java,v 1.10 2007/10/12 08:14:56 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -284,7 +284,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public void setParallel(Boolean newParallel) {
 		Boolean oldParallel = parallel;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_PARALLEL, BPELUtils.boolean2XML(newParallel));
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARALLEL, BPELUtils.boolean2XML(newParallel));
 		}
 		parallel = newParallel;
 		if (eNotificationRequired())
@@ -310,7 +310,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			NotificationChain msgs) {
 		Variable oldCounterName = counterName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_COUNTER_NAME, newCounterName != null ? newCounterName.getName() : null);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_COUNTER_NAME, newCounterName != null ? newCounterName.getName() : null);
 		}
 		counterName = newCounterName;
 		if (eNotificationRequired()) {

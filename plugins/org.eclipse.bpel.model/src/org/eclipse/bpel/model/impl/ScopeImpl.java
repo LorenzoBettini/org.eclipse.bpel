@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.8 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: ScopeImpl.java,v 1.9 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -251,7 +251,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 		Boolean oldIsolated = isolated;
 		isolated = newIsolated;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_ISOLATED, BPELUtils.boolean2XML(newIsolated));
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ISOLATED, BPELUtils.boolean2XML(newIsolated));
 		}
 		boolean oldIsolatedESet = isolatedESet;
 		isolatedESet = true;

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.6 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: ExpressionImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -183,7 +183,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
 		}
 		expressionLanguage = newExpressionLanguage;
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
@@ -203,7 +203,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_EXPRESSIONLANGUAGE, null);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, (String)null);
 		}
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
@@ -241,7 +241,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void setOpaque(Boolean newOpaque) {
 		Boolean oldOpaque = opaque;
 		if (!isReconciling && getElement() != null)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
 		}
 		opaque = newOpaque;
 		boolean oldOpaqueESet = opaqueESet;
@@ -260,7 +260,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void unsetOpaque() {
 		Boolean oldOpaque = opaque;
 		if (!isReconciling && getElement() != null)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_OPAQUE, null);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPAQUE, (String)null);
 		}
 		boolean oldOpaqueESet = opaqueESet;
 		opaque = OPAQUE_EDEFAULT;
@@ -386,4 +386,8 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 		return result.toString();
 	}
 
+	@Override
+	protected void reconcile(Element changedElement) {
+		ReconciliationHelper.getInstance().reconcile(this, changedElement);	
+	}
 } //ExpressionImpl

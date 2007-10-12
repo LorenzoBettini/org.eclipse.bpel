@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ReplyImpl.java,v 1.8 2007/10/12 08:14:56 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -27,6 +27,8 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -55,6 +57,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
+@SuppressWarnings("restriction")
 public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	/**
 	 * The default value of the '{@link #getFaultName() <em>Fault Name</em>}' attribute.
@@ -131,6 +134,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 */
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_NAME, newFaultName == null ? null : newFaultName);
+		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -171,6 +177,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable.getName());
+		}
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

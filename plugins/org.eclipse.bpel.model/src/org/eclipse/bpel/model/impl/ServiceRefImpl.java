@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.7 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: ServiceRefImpl.java,v 1.8 2007/10/12 08:14:57 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -129,7 +129,7 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	public void setReferenceScheme(String newReferenceScheme) {
 		String oldReferenceScheme = referenceScheme;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_REFERENCE_SCHEME, newReferenceScheme);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_REFERENCE_SCHEME, newReferenceScheme);
 		}
 		referenceScheme = newReferenceScheme;
 		if (eNotificationRequired())

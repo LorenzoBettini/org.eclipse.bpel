@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.6 2007/10/01 17:05:09 mchmielewski Exp $
+ * $Id: QueryImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -143,7 +143,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
 		}
 		queryLanguage = newQueryLanguage;
 		if (eNotificationRequired())
@@ -241,4 +241,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		return result.toString();
 	}
 
+	protected void reconcile(Element changedElement) {
+		ReconciliationHelper.getInstance().reconcile(this, changedElement);	
+	}
 } //QueryImpl

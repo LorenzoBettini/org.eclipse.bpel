@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.6 2007/10/01 17:05:07 mchmielewski Exp $
+ * $Id: CatchImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -150,8 +151,8 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_NAME, newFaultName == null ? null : newFaultName.toString());
-		}
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_NAME, newFaultName);
+			}
 		faultName = newFaultName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -176,7 +177,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			NotificationChain msgs) {
 		Variable oldFaultVariable = faultVariable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_VARIABLE, newFaultVariable == null ? null : newFaultVariable.getName());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_VARIABLE, newFaultVariable == null ? null : newFaultVariable.getName());
 		}
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired()) {
@@ -316,7 +317,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		}
 		Message oldFaultMessageType = faultMessageType;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_MESSAGE_TYPE, newFaultMessageType == null ? null : newFaultMessageType.toString());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_MESSAGE_TYPE, newFaultMessageType == null ? null : newFaultMessageType.toString());
 		}
 		faultMessageType = newFaultMessageType;
 		if (eNotificationRequired())
@@ -368,7 +369,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		}
 		XSDElementDeclaration oldFaultElement = faultElement;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_FAULT_ELEMENT, newFaultElement == null ? null : newFaultElement.getQName());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_ELEMENT, newFaultElement == null ? null : new QName(newFaultElement.getTargetNamespace(), newFaultElement.getName()));
 		}
 		faultElement = newFaultElement;
 		if (eNotificationRequired())

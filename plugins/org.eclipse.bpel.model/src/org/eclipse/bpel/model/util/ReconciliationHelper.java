@@ -14,6 +14,9 @@ package org.eclipse.bpel.model.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
@@ -23,6 +26,9 @@ import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
+import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
@@ -33,11 +39,14 @@ import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Query;
@@ -45,19 +54,17 @@ import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.TerminationHandler;
+import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.wst.sse.core.internal.NotImplementedException;
-import org.eclipse.wst.wsdl.ExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 public class ReconciliationHelper {
 	private static ReconciliationHelper helper;
@@ -71,10 +78,14 @@ public class ReconciliationHelper {
 	}
 	
 	public void reconcile(WSDLElement element, Element changedElement) {
-		Process process = BPELUtils.getProcess(element);
-		if (process == null || process.eResource() == null || !process.eResource().isLoaded()) {
-			return;
-		}		
+//		if (isLoading(element)) {
+//			System.err.println("**LOADING***");
+//			(new Exception()).printStackTrace();
+//			return;
+//		}
+//		System.err.println("**RECONCILE***");
+//		System.err.println(element);
+//		(new Exception()).printStackTrace();
 		if (element instanceof Activity) {
 			getReader(element, changedElement).xml2Activity((Activity)element, changedElement);
 		} else if (element instanceof Process) {
@@ -105,26 +116,37 @@ public class ReconciliationHelper {
 			getReader(element, changedElement).xml2Variables((Variables)element, changedElement);
 		} else if (element instanceof From) {
 			getReader(element, changedElement).xml2From((From)element, changedElement);
+		} else if (element instanceof To) {
+			getReader(element, changedElement).xml2To((To)element, changedElement);
 		} else if (element instanceof Query) {
 			getReader(element, changedElement).xml2Query((Query)element, changedElement);
 		} else if (element instanceof ServiceRef) {
 			getReader(element, changedElement).xml2ServiceRef((ServiceRef)element, changedElement);
-//		} else if (element instanceof PartnerLinkType){
-//			WSDLElement parent = (WSDLElement)element.eContainer();
-//			parent.elementChanged(parent.getElement());
+		} else if (element instanceof PartnerLinks) {
+			getReader(element, changedElement).xml2PartnerLinks((PartnerLinks) element, changedElement);
+		} else if (element instanceof PartnerLink) {
+			getReader(element, changedElement).xml2PartnerLink((PartnerLink) element, changedElement);
 		} else if (element instanceof Catch){
 			getReader(element, changedElement).xml2Catch((Catch)element, changedElement);
 		} else if (element instanceof CatchAll){
 			getReader(element, changedElement).xml2CatchAll((CatchAll)element, changedElement);
-		} else if (element instanceof FaultHandler){
+		} else if (element instanceof FaultHandler) {
 			getReader(element, changedElement).xml2FaultHandler((FaultHandler)element, changedElement);
 		} else {
 			System.err.println("Cannot reconcile: " + element.getClass());
 //			throw new NotImplementedException(element.getClass().toString());
 		}
 	}
+
+	private static boolean isLoading(WSDLElement element) {
+		Process process = BPELUtils.getProcess(element);
+		return process == null || process.eResource() == null || !process.eResource().isLoaded();
+	}
 	
-	public static void replaceChild(WSDLElement parent, WSDLElement oldElement, WSDLElement newElement) {		
+	public static void replaceChild(WSDLElement parent, WSDLElement oldElement, WSDLElement newElement) {
+		if (isLoading(parent)) {
+			return;
+		}
 		if (parent.getElement() == null) {
 			System.err.println("trying to replace child on null element: " + parent.getClass());
 			return;
@@ -136,7 +158,7 @@ public class ReconciliationHelper {
 			if (newElement.getElement() == null) {
 				newElement.setElement(ElementFactory.getInstance().createElement(newElement, parent));
 			}
-			if (oldElement != null && parent.getElement() == oldElement.getElement().getParentNode()) {
+			if (oldElement != null && oldElement.getElement() != null && parent.getElement() == oldElement.getElement().getParentNode()) {
 				parent.getElement().replaceChild(newElement.getElement(), oldElement.getElement());
 			} else {
 				parent.getElement().appendChild(newElement.getElement());
@@ -146,17 +168,50 @@ public class ReconciliationHelper {
 		}
 	}
 	
-	public static void replaceAttribute(Element element, String attributeName, String attributeValue) {
-		if (element == null) {
-			System.err.println("trying to replace attribute on null element");
+	public static void replaceAttribute(WSDLElement element, String attributeName, String attributeValue) {
+		if (isLoading(element)) {
+			return;
+		}
+		if (element.getElement() == null) {
+			System.err.println("trying to replace attribute on null element:" + element.getClass());
 			return;
 		}
 		if (attributeValue != null) {
-			element.setAttribute(attributeName, attributeValue);
+			element.getElement().setAttribute(attributeName, attributeValue);
 		} else {
-			element.removeAttribute(attributeName);
+			element.getElement().removeAttribute(attributeName);
+		}	
+	}
+	
+	public static void replaceAttribute(WSDLElement element, String attributeName, QName attributeValue) {
+		if (isLoading(element)) {
+			return;
 		}
+		if (element.getElement() == null) {
+			System.err.println("trying to replace attribute on null element: " + element.getClass());
+			return;
+		}
+		replaceAttribute(element, attributeName, attributeValue == null ? null : ElementFactory.getInstance().createName(element, attributeValue));
+	}
 		
+	public static void replaceLiteral(From from, String literal) {
+		Element parentElement = from.getElement();
+		if (parentElement == null || isLoading(from)) {
+			return;
+		}
+		Element oldLiteral = ReconciliationBPELReader.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_LITERAL);
+		Node newLiteral = literal == null ? null : ElementFactory.getInstance().createLiteral(from, literal);
+		if (oldLiteral == null) {
+			if (newLiteral != null) {
+				parentElement.appendChild(newLiteral);
+			}
+		} else {
+			if (newLiteral != null) {
+				parentElement.replaceChild(newLiteral, oldLiteral);
+			} else {
+				parentElement.removeChild(oldLiteral);
+			}
+		}
 	}
 	
 	public static void replaceText(Element element, Object text) {
@@ -205,6 +260,14 @@ public class ReconciliationHelper {
 	}
 	
 	public void patchDom(EObject child, EObject parent, Node parentElement, EObject before, Node beforeElement) {
+		if (child instanceof Variable) {
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_VARIABLE);
+		} else if (child instanceof CorrelationSet) {
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_CORRELATION_SET);
+		} else if (child instanceof PartnerLink) {
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_PARTNER_LINK);
+		}
+		
 		// TODO: (DU) probably this if will be no longer needed when sync work is finished
 	    if (!BPELUtils.isTransparentFaultHandler(parent, child)) {
 	    	Element childElement = ((WSDLElement)child).getElement();
@@ -224,7 +287,7 @@ public class ReconciliationHelper {
 	    	ForEach forEach = (ForEach)child;
 	    	Variable counter = forEach.getCounterName();
 	    	if (counter.getElement() == null) {
-	    		replaceAttribute(forEach.getElement(), BPELConstants.AT_COUNTER_NAME, counter.getName());
+	    		replaceAttribute(forEach, BPELConstants.AT_COUNTER_NAME, counter.getName());
 	    	}
 	    } else if (child instanceof Scope) {
 	    	
@@ -233,33 +296,76 @@ public class ReconciliationHelper {
 	    } else if (child instanceof Assign) {
 	    	
 	    } else if (child instanceof Catch) {
-	    	
+	    	Catch c = (Catch)child;
+	    	reconcile(c, c.getElement());
+			System.err.println("Catch patch ok");
 	    } else if (child instanceof CatchAll) {
-	    	
+	    	CatchAll c = (CatchAll)child;
+	    	reconcile(c, c.getElement());
+			System.err.println("CatchAll patch ok");
 	    } else if (child instanceof TerminationHandler) {
 	    	
 	    } else if (child instanceof OnEvent) {
 	    	
 	    } else if (child instanceof OnAlarm) {
 	    	
+	    } else if (parent instanceof Invoke && child instanceof FaultHandler) {
+	    	Invoke c = (Invoke)parent;
+	    	reconcile(c, c.getElement());
+	    	System.err.println("Invoke patch ok");
 	    } else if (child instanceof FaultHandler) {
-	    	FaultHandler faultHandler = (FaultHandler)child;
-	    	for (Catch c : faultHandler.getCatch()) {
-	    		if (c.getElement() == null) {
-	    			c.setElement(ElementFactory.getInstance().createElement(c, parent));
-	    			Activity activity = c.getActivity();
-	    			c.setActivity(null);
-	    			reconcile(c, c.getElement());
-	    			parentElement.appendChild(c.getElement());
-	    		}
-	    	}
+	    	FaultHandler c = (FaultHandler)child;
+	    	reconcile(c, c.getElement());
 	    	System.err.println("FaultHandler patch ok");
-	    }
+	    } 
 	    	
 	}
+
+	private Node patchParentElement(EObject child, EObject parent, Node parentElement, String nodeName) {
+		WSDLElement variables = (WSDLElement)parent;
+		WSDLElement	var = (WSDLElement)child;
+		if (variables.getElement() == null) {
+			WSDLElement container = (WSDLElement)variables.eContainer();
+			variables.setElement(ElementFactory.getInstance().createElement(variables, container));
+			var.setElement(ReconciliationBPELReader.getBPELChildElementByLocalName(variables.getElement(), nodeName));
+			parentElement = variables.getElement();
+			container.getElement().appendChild(parentElement);				
+		}
+		return parentElement;
+	}
 	
+	public static void updateVariableName(WSDLElement parent, String varName) {
+		if (parent == null || parent.getElement() == null) {
+			return;
+		}
+		if (parent instanceof Catch) {
+			replaceAttribute(parent, BPELConstants.AT_FAULT_VARIABLE, varName);
+		}
+	}
 	
-	
+	public static void adoptChild(WSDLElement parent, List<? extends WSDLElement> children, WSDLElement newChild, String nodeName) {
+		if (isLoading(parent) || parent.getElement() == null) {
+			return;
+		}
+		newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
+		int index = children.indexOf(newChild);
+		List<Element> domChildren = ReconciliationBPELReader.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
+		if (index >= domChildren.size()) {
+			parent.getElement().appendChild(newChild.getElement());
+		} else {
+			parent.getElement().insertBefore(newChild.getElement(), domChildren.get(index));
+		}
+	}
+
+	public static void orphanChild(WSDLElement parent, WSDLElement child) {
+		if (isLoading(parent) || parent.getElement() == null) {
+			return;
+		}
+		if (parent.getElement() != null && child.getElement() != null) {
+			parent.getElement().removeChild(child.getElement());
+		}
+	}
+		
 //    public static Collection<Element> getContentNodes(WSDLElement element, Element changedElement) {
 //        Collection<Element> result = new ArrayList<Element>();
 //        for (Node child = changedElement.getFirstChild(); child != null; child = child.getNextSibling()) {

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: PartnerActivityImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -29,6 +29,8 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.OperationProxy;
 import org.eclipse.bpel.model.proxy.PortTypeProxy;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -56,6 +58,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
+@SuppressWarnings("restriction")
 public class PartnerActivityImpl extends ActivityImpl implements
 		PartnerActivity {
 	/**
@@ -158,6 +161,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+		}
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -285,6 +291,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	 */
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PORT_TYPE, newPortType == null ? null : newPortType.getQName());
+		}
 		portType = newPortType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -349,6 +358,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	 */
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPERATION, newOperation == null ? null : newOperation.getName());
+		}
 		operation = newOperation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

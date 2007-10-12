@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ReceiveImpl.java,v 1.8 2007/10/12 08:14:57 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -25,6 +25,9 @@ import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -53,6 +56,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
+@SuppressWarnings("restriction")
 public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	/**
 	 * The default value of the '{@link #getCreateInstance() <em>Create Instance</em>}' attribute.
@@ -138,6 +142,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, BPELUtils.boolean2XML(newCreateInstance));
+		}
 		createInstance = newCreateInstance;
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstanceESet = true;
@@ -207,6 +214,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable.getName());
+		}
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

@@ -13,6 +13,7 @@ package org.eclipse.bpel.model.util;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -603,6 +604,9 @@ public class BPELUtils {
 	 */
 	
 	public static String stripExtraCR(String value) {
+		if (value == null) {
+			return null;
+		}
 	    StringBuffer result = new StringBuffer();
 	    char[] chars = value.toCharArray();
 	    for (int i = 0; i < chars.length; i++) {

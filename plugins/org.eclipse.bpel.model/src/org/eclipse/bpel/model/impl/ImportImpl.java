@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.7 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: ImportImpl.java,v 1.8 2007/10/12 08:14:55 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -150,7 +150,7 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_NAMESPACE, newNamespace);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAMESPACE, newNamespace);
 		}
 		namespace = newNamespace;
 		if (eNotificationRequired())
@@ -175,7 +175,7 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	public void setLocation(String newLocation) {
 		String oldLocation = location;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_LOCATION, newLocation);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LOCATION, newLocation);
 		}
 		location = newLocation;
 		if (eNotificationRequired())
@@ -200,7 +200,7 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	public void setImportType(String newImportType) {
 		String oldImportType = importType;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_IMPORT_TYPE, newImportType);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_IMPORT_TYPE, newImportType);
 		}
 		importType = newImportType;
 		if (eNotificationRequired())

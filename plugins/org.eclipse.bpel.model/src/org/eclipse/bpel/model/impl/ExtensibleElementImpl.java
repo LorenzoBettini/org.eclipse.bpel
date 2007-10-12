@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.7 2007/10/01 17:05:07 mchmielewski Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.8 2007/10/12 08:14:55 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -98,6 +98,9 @@ public class ExtensibleElementImpl extends
 	public NotificationChain basicSetDocumentation(
 			Documentation newDocumentation, NotificationChain msgs) {
 		Documentation oldDocumentation = documentation;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldDocumentation, newDocumentation);
+		}
 		documentation = newDocumentation;
 		boolean oldDocumentationESet = documentationESet;
 		documentationESet = true;

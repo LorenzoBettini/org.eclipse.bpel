@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.6 2007/10/01 17:05:09 mchmielewski Exp $
+ * $Id: ActivityImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -154,9 +154,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		String oldName = name;		
 		name = newName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
 		}
-		
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					BPELPackage.ACTIVITY__NAME, oldName, name));
@@ -179,7 +178,7 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public void setSuppressJoinFailure(Boolean newSuppressJoinFailure) {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils.boolean2XML(newSuppressJoinFailure));
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils.boolean2XML(newSuppressJoinFailure));
 		}
 		suppressJoinFailure = newSuppressJoinFailure;
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
@@ -199,7 +198,7 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this.getElement(), BPELConstants.AT_SUPPRESS_JOIN_FAILURE, null);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, (String)null);
 		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;

@@ -2,11 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Documentation.java,v 1.1 2006/01/19 21:08:47 james Exp $
+ * $Id: Documentation.java,v 1.2 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.wst.wsdl.WSDLElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Documentation extends EObject {
+public interface Documentation extends WSDLElement {
 	/**
 	 * Returns the value of the '<em><b>Lang</b></em>' attribute.
 	 * <!-- begin-user-doc -->

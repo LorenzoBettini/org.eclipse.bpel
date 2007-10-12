@@ -161,7 +161,7 @@ public class BPELWriter {
 	
 	
 	@SuppressWarnings("nls")
-	class NamespacePrefixManager implements BPELResourceImpl.MapListener {
+	public static class NamespacePrefixManager implements BPELResourceImpl.MapListener {
 		private Map myNamespacePrefixMap; // for performance, we need to know which prefix to use for a namespace
 		private BPELResource resource;
 		

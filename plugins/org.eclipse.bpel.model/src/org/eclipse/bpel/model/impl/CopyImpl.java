@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CopyImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,9 @@ import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -160,6 +163,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 */
 	public NotificationChain basicSetTo(To newTo, NotificationChain msgs) {
 		To oldTo = to;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldTo, newTo);
+		}
 		to = newTo;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -212,6 +218,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 */
 	public NotificationChain basicSetFrom(From newFrom, NotificationChain msgs) {
 		From oldFrom = from;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFrom, newFrom);
+		}
 		from = newFrom;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -264,6 +273,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 */
 	public void setKeepSrcElementName(Boolean newKeepSrcElementName) {
 		Boolean oldKeepSrcElementName = keepSrcElementName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_KEEP_SRC_ELEMENT_NAME, BPELUtils.boolean2XML(newKeepSrcElementName));
+		}
 		keepSrcElementName = newKeepSrcElementName;
 		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
 		keepSrcElementNameESet = true;
@@ -316,6 +328,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 */
 	public void setIgnoreMissingFromData(Boolean newIgnoreMissingFromData) {
 		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_IGNORE_MISSING_FROM_DATA, BPELUtils.boolean2XML(newIgnoreMissingFromData));
+		}
 		ignoreMissingFromData = newIgnoreMissingFromData;
 		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
 		ignoreMissingFromDataESet = true;

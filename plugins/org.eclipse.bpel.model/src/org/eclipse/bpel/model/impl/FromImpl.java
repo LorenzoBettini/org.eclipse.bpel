@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.6 2007/10/01 17:05:09 mchmielewski Exp $
+ * $Id: FromImpl.java,v 1.7 2007/10/12 08:14:57 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -29,6 +29,7 @@ import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.proxy.PartProxy;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationBPELReader;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -296,7 +297,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setOpaque(Boolean newOpaque) {
         Boolean oldOpaque = opaque;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
         }
         opaque = newOpaque;
         boolean oldOpaqueESet = opaqueESet;
@@ -314,7 +315,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void unsetOpaque() {
         Boolean oldOpaque = opaque;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_OPAQUE, null);
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPAQUE, (String)null);
         }
         boolean oldOpaqueESet = opaqueESet;
         opaque = OPAQUE_EDEFAULT;
@@ -351,7 +352,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setEndpointReference(EndpointReferenceRole newEndpointReference) {
         EndpointReferenceRole oldEndpointReference = endpointReference;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_ENDPOINT_REFERENCE, newEndpointReference == null ? null : newEndpointReference.toString());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ENDPOINT_REFERENCE, newEndpointReference == null ? null : newEndpointReference.toString());
         }
         endpointReference = newEndpointReference == null ? ENDPOINT_REFERENCE_EDEFAULT
                 : newEndpointReference;
@@ -371,7 +372,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void unsetEndpointReference() {
         EndpointReferenceRole oldEndpointReference = endpointReference;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_ENDPOINT_REFERENCE, null);
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ENDPOINT_REFERENCE, (String)null);
         }
         boolean oldEndpointReferenceESet = endpointReferenceESet;
         endpointReference = ENDPOINT_REFERENCE_EDEFAULT;
@@ -407,7 +408,10 @@ public class FromImpl extends ExtensibleElementImpl implements From {
      */
     public void setLiteral(String newLiteral) {
         String oldLiteral = literal;
-        
+        if (!isReconciling) {
+        	setUnsafeLiteral(!ReconciliationBPELReader.isEmptyOrWhitespace(newLiteral));
+        	ReconciliationHelper.replaceLiteral(this, newLiteral);
+        }
         literal = newLiteral;
         boolean oldLiteralESet = literalESet;
         literalESet = true;
@@ -611,7 +615,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setType(XSDTypeDefinition newType) {
         XSDTypeDefinition oldType = type;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_XSI_TYPE, newType == null ? null : newType.getName());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_XSI_TYPE, newType == null ? null : newType.getName());
         }
         type = newType;
         if (eNotificationRequired())
@@ -654,7 +658,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setVariable(Variable newVariable) {
         Variable oldVariable = variable;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
         }
         variable = newVariable;
         if (eNotificationRequired())
@@ -706,7 +710,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
      */
     public void setPartName(String newPartName) {
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_PART, newPartName);
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPartName);
         }
         partName = newPartName;
     }
@@ -769,7 +773,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setPartnerLink(PartnerLink newPartnerLink) {
         PartnerLink oldPartnerLink = partnerLink;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
         }
         partnerLink = newPartnerLink;
         if (eNotificationRequired())
@@ -812,7 +816,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setProperty(Property newProperty) {
         Property oldProperty = property;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(getElement(), BPELConstants.AT_PROPERTY, newProperty == null ? null : newProperty.getQName().toString());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTY, newProperty == null ? null : newProperty.getQName());
         }
         property = newProperty;
         if (eNotificationRequired())

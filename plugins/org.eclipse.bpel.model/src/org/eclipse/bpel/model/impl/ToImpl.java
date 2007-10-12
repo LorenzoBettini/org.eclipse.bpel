@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ToImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -25,6 +25,8 @@ import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.proxy.PartProxy;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -174,6 +176,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
+		}
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -231,6 +236,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @customized
 	 */
 	public void setPartName(String newPartName) {
+		
 		partName = newPartName;
 	}
 
@@ -282,6 +288,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+		}
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -322,6 +331,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public void setProperty(Property newProperty) {
 		Property oldProperty = property;
+        if (!isReconciling) {
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTY, newProperty == null ? null : newProperty.getQName());
+        }
 		property = newProperty;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -345,6 +357,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public NotificationChain basicSetQuery(Query newQuery,
 			NotificationChain msgs) {
 		Query oldQuery = query;
+        if (!isReconciling) {
+            ReconciliationHelper.replaceChild(this, oldQuery, newQuery);
+        }
 		query = newQuery;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -398,6 +413,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public NotificationChain basicSetExpression(Expression newExpression,
 			NotificationChain msgs) {
 		Expression oldExpression = expression;
+		if (!isReconciling) {
+            ReconciliationHelper.replaceChild(this, oldExpression, newExpression);
+        }
 		expression = newExpression;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

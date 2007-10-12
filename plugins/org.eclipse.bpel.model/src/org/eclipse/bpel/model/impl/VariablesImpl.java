@@ -10,19 +10,26 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariablesImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: VariablesImpl.java,v 1.5 2007/10/12 08:14:58 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationBPELReader;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -159,6 +166,20 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+	
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Variable) {
+			ReconciliationHelper.adoptChild(this, children, (Variable)object, BPELConstants.ND_VARIABLE);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Variable) {
+			ReconciliationHelper.orphanChild(this, (Variable)obj);
+		}
+		super.orphanContent(reference, obj);
 	}
 
 } //VariablesImpl

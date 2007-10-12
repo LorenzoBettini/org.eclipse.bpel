@@ -10,22 +10,30 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: AssignImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.xerces.dom.ChildNode;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationBPELReader;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -126,6 +134,9 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	 */
 	public void setValidate(Boolean newValidate) {
 		Boolean oldValidate = validate;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VALIDATE, BPELUtils.boolean2XML(newValidate));
+		}
 		validate = newValidate;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -235,5 +246,18 @@ public class AssignImpl extends ActivityImpl implements Assign {
 		result.append(')');
 		return result.toString();
 	}
-
+	
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Copy) {
+			ReconciliationHelper.adoptChild(this, copy, (Copy)object, BPELConstants.ND_COPY);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Copy) {
+			ReconciliationHelper.orphanChild(this, (Copy)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
 } //AssignImpl

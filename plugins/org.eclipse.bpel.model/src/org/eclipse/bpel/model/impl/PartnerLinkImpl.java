@@ -10,25 +10,26 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: PartnerLinkImpl.java,v 1.8 2007/10/12 08:14:55 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
+import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
+import org.eclipse.bpel.model.proxy.IBPELServicesProxy;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELServicesUtility;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -47,6 +48,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
+@SuppressWarnings("restriction")
 public class PartnerLinkImpl extends ExtensibleElementImpl implements
 		PartnerLink {
 	/**
@@ -163,6 +165,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	 */
 	public void setName(String newName) {
 		String oldName = name;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+		}
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -204,6 +209,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	 */
 	public void setMyRole(Role newMyRole) {
 		Role oldMyRole = myRole;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MY_ROLE, newMyRole == null ? null : newMyRole.getName());
+		}
 		myRole = newMyRole;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -245,6 +253,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	 */
 	public void setPartnerRole(Role newPartnerRole) {
 		Role oldPartnerRole = partnerRole;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_ROLE, newPartnerRole == null ? null : newPartnerRole.getName());
+		}
 		partnerRole = newPartnerRole;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -287,6 +298,20 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	 */
 	public void setPartnerLinkType(PartnerLinkType newPartnerLinkType) {
 		PartnerLinkType oldPartnerLinkType = partnerLinkType;
+		if (!isReconciling) {
+			// TODO: (DO) Check BPELWriter			
+			if (newPartnerLinkType == null) {
+				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK_TYPE, (String)null);	
+			} else {
+				QName qname = null;
+				if (newPartnerLinkType.eIsProxy() && newPartnerLinkType instanceof IBPELServicesProxy) 
+					qname = ((IBPELServicesProxy)newPartnerLinkType).getQName();
+				else
+					qname = BPELServicesUtility.getQName(newPartnerLinkType);
+
+				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK_TYPE, qname);
+			}
+		}
 		partnerLinkType = newPartnerLinkType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -310,6 +335,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	 */
 	public void setInitializePartnerRole(Boolean newInitializePartnerRole) {
 		Boolean oldInitializePartnerRole = initializePartnerRole;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIALIZE_PARTNER_ROLE, BPELUtils.boolean2XML(newInitializePartnerRole));	
+		}
 		initializePartnerRole = newInitializePartnerRole;
 		boolean oldInitializePartnerRoleESet = initializePartnerRoleESet;
 		initializePartnerRoleESet = true;
