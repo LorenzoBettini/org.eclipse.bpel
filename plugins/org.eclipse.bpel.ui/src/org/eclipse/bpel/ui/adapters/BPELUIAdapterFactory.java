@@ -33,10 +33,14 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 
 	static BPELUIAdapterFactory instance;
 		
-	AdapterProvider provider;
+	protected AdapterProvider fProvider;
 	
-	private BPELUIAdapterFactory () {
-		provider = new AdapterProvider();
+	/**
+	 * Brand new shiny adapter factory.
+	 */
+	
+	public BPELUIAdapterFactory () {
+		fProvider = new AdapterProvider();
 	}
 	
 	/**
@@ -57,7 +61,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createRepeatUntilAdapter() {
-		return provider.getAdapter(RepeatUntilAdapter.class);
+		return fProvider.getAdapter(RepeatUntilAdapter.class);
 	}
 
 	/**
@@ -65,7 +69,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createAssignAdapter() {
-		return provider.getAdapter(AssignAdapter.class);		
+		return fProvider.getAdapter(AssignAdapter.class);		
 	}
 	
 	/** (non-Javadoc)
@@ -73,7 +77,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCopyAdapter() {
-		return provider.getAdapter(CopyAdapter.class);		
+		return fProvider.getAdapter(CopyAdapter.class);		
 	}
 	
 	
@@ -82,7 +86,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createElseIfAdapter() {
-		return provider.getAdapter(ElseIfAdapter.class);		
+		return fProvider.getAdapter(ElseIfAdapter.class);		
 	}
 	
 	
@@ -91,7 +95,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCatchAdapter() {
-		return provider.getAdapter(CatchAdapter.class);		
+		return fProvider.getAdapter(CatchAdapter.class);		
 	}
 	
 	/**
@@ -99,7 +103,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override	
 	public Adapter createFaultHandlerAdapter() {
-		return provider.getAdapter(FaultHandlerAdapter.class);		
+		return fProvider.getAdapter(FaultHandlerAdapter.class);		
 	}
 
 	/**
@@ -107,7 +111,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCompensationHandlerAdapter() {
-		return provider.getAdapter(CompensationHandlerAdapter.class);
+		return fProvider.getAdapter(CompensationHandlerAdapter.class);
 	}
 	
 	/**
@@ -115,7 +119,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createTerminationHandlerAdapter() {
-		return provider.getAdapter(TerminationHandlerAdapter.class);		
+		return fProvider.getAdapter(TerminationHandlerAdapter.class);		
 	}
 	
 	
@@ -124,7 +128,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createEventHandlerAdapter() {
-		return provider.getAdapter(EventHandlerAdapter.class);
+		return fProvider.getAdapter(EventHandlerAdapter.class);
 	}
 	
 	/**
@@ -132,7 +136,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createVariableAdapter() {
-		return provider.getAdapter(VariableAdapter.class);		
+		return fProvider.getAdapter(VariableAdapter.class);		
 	}
 	
 	/**
@@ -140,7 +144,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createEmptyAdapter() {
-		return provider.getAdapter(EmptyAdapter.class);		
+		return fProvider.getAdapter(EmptyAdapter.class);		
 	}
 	
 	/**
@@ -148,7 +152,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createFlowAdapter() {
-		return provider.getAdapter(FlowAdapter.class);
+		return fProvider.getAdapter(FlowAdapter.class);
 	}
 	
 	/**
@@ -156,7 +160,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createInvokeAdapter() {
-		return provider.getAdapter(InvokeAdapter.class);		
+		return fProvider.getAdapter(InvokeAdapter.class);		
 	}
 	
 	/**
@@ -164,7 +168,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createLinkAdapter() {
-		return provider.getAdapter(LinkAdapter.class);
+		return fProvider.getAdapter(LinkAdapter.class);
 	}
 	
 	/**
@@ -172,7 +176,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createOnAlarmAdapter() {
-		return provider.getAdapter(OnAlarmAdapter.class);		
+		return fProvider.getAdapter(OnAlarmAdapter.class);		
 	}
 	
 	/**
@@ -180,7 +184,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createOnMessageAdapter() {
-		return provider.getAdapter(OnMessageAdapter.class);		
+		return fProvider.getAdapter(OnMessageAdapter.class);		
 	}
 	
 	/**
@@ -188,7 +192,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createOnEventAdapter() {
-		return provider.getAdapter(OnEventAdapter.class);		
+		return fProvider.getAdapter(OnEventAdapter.class);		
 	}
 	
 	/**
@@ -196,7 +200,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createPartnerLinkAdapter() {
-		return provider.getAdapter(PartnerLinkAdapter.class);		
+		return fProvider.getAdapter(PartnerLinkAdapter.class);		
 	}
 	
 	/**
@@ -204,7 +208,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createPickAdapter() {
-		return provider.getAdapter(PickAdapter.class);		
+		return fProvider.getAdapter(PickAdapter.class);		
 	}
 	
 	/**
@@ -212,7 +216,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createProcessAdapter() {
-		return provider.getAdapter(ProcessAdapter.class);		
+		return fProvider.getAdapter(ProcessAdapter.class);		
 	}
 	
 	/**
@@ -220,7 +224,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createIfAdapter() {
-		return provider.getAdapter(IfAdapter.class);
+		return fProvider.getAdapter(IfAdapter.class);
 	}
 	
 	/**
@@ -228,7 +232,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createReceiveAdapter() {
-		return provider.getAdapter(ReceiveAdapter.class);		
+		return fProvider.getAdapter(ReceiveAdapter.class);		
 	}
 	
 	/**
@@ -236,7 +240,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createReplyAdapter() {
-		return provider.getAdapter(ReplyAdapter.class);		
+		return fProvider.getAdapter(ReplyAdapter.class);		
 	}
 	
 	/**
@@ -244,7 +248,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createSequenceAdapter() {
-		return provider.getAdapter(SequenceAdapter.class);		
+		return fProvider.getAdapter(SequenceAdapter.class);		
 	}
 	
 	/**
@@ -252,7 +256,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createScopeAdapter() {
-		return provider.getAdapter(ScopeAdapter.class);		
+		return fProvider.getAdapter(ScopeAdapter.class);		
 	}
 	
 	/**
@@ -260,7 +264,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createThrowAdapter() {
-		return provider.getAdapter(ThrowAdapter.class);		
+		return fProvider.getAdapter(ThrowAdapter.class);		
 	}
 	
 	/**
@@ -268,7 +272,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createWaitAdapter() {
-		return provider.getAdapter(WaitAdapter.class);		
+		return fProvider.getAdapter(WaitAdapter.class);		
 	}
 	
 	/**
@@ -276,7 +280,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createWhileAdapter() {
-		return provider.getAdapter(WhileAdapter.class);		
+		return fProvider.getAdapter(WhileAdapter.class);		
 	}
 	
 	/**
@@ -284,7 +288,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createForEachAdapter() {
-		return provider.getAdapter(ForEachAdapter.class);
+		return fProvider.getAdapter(ForEachAdapter.class);
 	}
 	
 	/**
@@ -292,7 +296,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCorrelationSetAdapter() {
-		return provider.getAdapter(CorrelationSetAdapter.class);		
+		return fProvider.getAdapter(CorrelationSetAdapter.class);		
 	}
 
 	/**
@@ -300,7 +304,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCorrelationSetsAdapter() {
-		return provider.getAdapter(CorrelationSetsAdapter.class);		
+		return fProvider.getAdapter(CorrelationSetsAdapter.class);		
 	}
 
 	/**
@@ -308,7 +312,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createPartnerLinksAdapter() {
-		return provider.getAdapter(PartnerLinksAdapter.class);		
+		return fProvider.getAdapter(PartnerLinksAdapter.class);		
 	}
 
 	/**
@@ -316,7 +320,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createVariablesAdapter() {
-		return provider.getAdapter(VariablesAdapter.class);		
+		return fProvider.getAdapter(VariablesAdapter.class);		
 	}
 	
 	/**
@@ -324,7 +328,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCatchAllAdapter() {
-		return provider.getAdapter(CatchAllAdapter.class);		
+		return fProvider.getAdapter(CatchAllAdapter.class);		
 	}
 	
 	/**
@@ -332,7 +336,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createElseAdapter() {
-		return provider.getAdapter(ElseAdapter.class);
+		return fProvider.getAdapter(ElseAdapter.class);
 	}
 	
 	/**
@@ -340,7 +344,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCompensateAdapter() {
-		return provider.getAdapter(CompensateAdapter.class);		
+		return fProvider.getAdapter(CompensateAdapter.class);		
 	}
 
 	/**
@@ -348,7 +352,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createCompensateScopeAdapter() {
-		return provider.getAdapter(CompensateScopeAdapter.class);		
+		return fProvider.getAdapter(CompensateScopeAdapter.class);		
 	}
 
 	/**
@@ -356,7 +360,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 * @return the custom activity adapter.
 	 */
 	public Adapter createCustomActivityAdapter() {
-		return provider.getAdapter(CustomActivityAdapter.class);		
+		return fProvider.getAdapter(CustomActivityAdapter.class);		
 	}
 
 	/**
@@ -364,7 +368,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createRethrowAdapter() {
-		return provider.getAdapter(RethrowAdapter.class);		
+		return fProvider.getAdapter(RethrowAdapter.class);		
 	}	
 	
 	/**
@@ -372,7 +376,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createExitAdapter() {
-		return provider.getAdapter(ExitAdapter.class);		
+		return fProvider.getAdapter(ExitAdapter.class);		
 	}
 	
 	/**
@@ -380,7 +384,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createValidateAdapter() {
-		return provider.getAdapter(ValidateAdapter.class);		
+		return fProvider.getAdapter(ValidateAdapter.class);		
 	}
 	
 	
@@ -390,7 +394,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */	
 	@Override
 	public Adapter createToAdapter() {		
-		return provider.getAdapter(ToAdapter.class);
+		return fProvider.getAdapter(ToAdapter.class);
 	}
 
 	/**
@@ -398,7 +402,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createFromAdapter() { 
-		return provider.getAdapter(FromAdapter.class);		
+		return fProvider.getAdapter(FromAdapter.class);		
 	}
 
 	/**
@@ -406,7 +410,7 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	 */
 	@Override
 	public Adapter createExpressionAdapter() {		
-		return provider.getAdapter(ExpressionAdapter.class);
+		return fProvider.getAdapter(ExpressionAdapter.class);
 	}
 	
 
