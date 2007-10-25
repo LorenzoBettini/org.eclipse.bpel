@@ -232,7 +232,10 @@ public class ModelQuery extends ModelQueryImpl {
 	
 	@Override
 	public INode lookup ( INode context, int what, QName qname ) {
-				
+			
+		if (qname == null) {
+			return null;
+		}
 		String name = qname.getLocalPart();			
 				
 		EObject eObj = null;
