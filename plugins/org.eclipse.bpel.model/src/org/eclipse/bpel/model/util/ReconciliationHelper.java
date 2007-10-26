@@ -37,6 +37,7 @@ import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
@@ -55,10 +56,12 @@ import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.CDATASection;
@@ -116,8 +119,12 @@ public class ReconciliationHelper {
 			getReader(element, changedElement).xml2Variables((Variables)element, changedElement);
 		} else if (element instanceof From) {
 			getReader(element, changedElement).xml2From((From)element, changedElement);
+		} else if (element instanceof FromPart) {
+			getReader(element, changedElement).xml2FromPart((FromPart)element, changedElement);
 		} else if (element instanceof To) {
 			getReader(element, changedElement).xml2To((To)element, changedElement);
+		} else if (element instanceof ToPart) {
+			getReader(element, changedElement).xml2ToPart((ToPart)element, changedElement);
 		} else if (element instanceof Query) {
 			getReader(element, changedElement).xml2Query((Query)element, changedElement);
 		} else if (element instanceof ServiceRef) {
@@ -161,7 +168,7 @@ public class ReconciliationHelper {
 			if (oldElement != null && oldElement.getElement() != null && parent.getElement() == oldElement.getElement().getParentNode()) {
 				parent.getElement().replaceChild(newElement.getElement(), oldElement.getElement());
 			} else {
-				parent.getElement().appendChild(newElement.getElement());
+				ElementPlacer.placeChild(parent.getElement(), newElement.getElement());
 			}
 		} else if (oldElement != null && oldElement.getElement() != null && parent.getElement() == oldElement.getElement().getParentNode())  {
 			parent.getElement().removeChild(oldElement.getElement());
@@ -203,7 +210,7 @@ public class ReconciliationHelper {
 		Node newLiteral = literal == null ? null : ElementFactory.getInstance().createLiteral(from, literal);
 		if (oldLiteral == null) {
 			if (newLiteral != null) {
-				parentElement.appendChild(newLiteral);
+				ElementPlacer.placeChild(parentElement, newLiteral);
 			}
 		} else {
 			if (newLiteral != null) {
@@ -247,7 +254,7 @@ public class ReconciliationHelper {
 		
 		// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
 		CDATASection cdata = BPELUtils.createCDATASection(element.getOwnerDocument(), text.toString());
-		element.appendChild(cdata);		
+		ElementPlacer.placeChild(element, cdata);
 	}
 
 	private ReconciliationBPELReader getReader(WSDLElement element, Element changedElement) {
@@ -279,7 +286,7 @@ public class ReconciliationHelper {
 				parentElement.insertBefore(childElement, beforeElement);
 			}
 	    } else {
-	    	((FaultHandler)child).setElement((Element)parentElement);
+//	    	((FaultHandler)child).setElement((Element)parentElement);
 	    }
 	    
 	    // This code is to handle particular types that are created with their children
@@ -309,14 +316,18 @@ public class ReconciliationHelper {
 	    	
 	    } else if (child instanceof OnAlarm) {
 	    	
-	    } else if (parent instanceof Invoke && child instanceof FaultHandler) {
-	    	Invoke c = (Invoke)parent;
-	    	reconcile(c, c.getElement());
-	    	System.err.println("Invoke patch ok");
-	    } else if (child instanceof FaultHandler) {
+//	    } else if (parent instanceof Invoke && child instanceof FaultHandler) {
+//	    	Invoke c = (Invoke)parent;
+//	    	reconcile(c, c.getElement());
+//	    	System.err.println("Invoke patch ok");
+	    } else if (child instanceof FaultHandler && !BPELUtils.isTransparentFaultHandler(parent, child)) {
 	    	FaultHandler c = (FaultHandler)child;
-	    	reconcile(c, c.getElement());
-	    	System.err.println("FaultHandler patch ok");
+	    	EList<Catch> _catch = c.getCatch();
+			if (_catch.size() == 1 && _catch.get(0).getElement() == null) {
+				Catch ch = _catch.get(0);
+				ch.setElement(ReconciliationBPELReader.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH));
+				reconcile(ch, ch.getElement());
+	    	}			
 	    } 
 	    	
 	}
@@ -329,7 +340,7 @@ public class ReconciliationHelper {
 			variables.setElement(ElementFactory.getInstance().createElement(variables, container));
 			var.setElement(ReconciliationBPELReader.getBPELChildElementByLocalName(variables.getElement(), nodeName));
 			parentElement = variables.getElement();
-			container.getElement().appendChild(parentElement);				
+			ElementPlacer.placeChild(container.getElement(), parentElement);
 		}
 		return parentElement;
 	}
@@ -347,11 +358,13 @@ public class ReconciliationHelper {
 		if (isLoading(parent) || parent.getElement() == null) {
 			return;
 		}
-		newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
+		if (newChild.getElement() == null) {
+			newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
+		}
 		int index = children.indexOf(newChild);
 		List<Element> domChildren = ReconciliationBPELReader.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
 		if (index >= domChildren.size()) {
-			parent.getElement().appendChild(newChild.getElement());
+			ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
 		} else {
 			parent.getElement().insertBefore(newChild.getElement(), domChildren.get(index));
 		}
@@ -361,7 +374,7 @@ public class ReconciliationHelper {
 		if (isLoading(parent) || parent.getElement() == null) {
 			return;
 		}
-		if (parent.getElement() != null && child.getElement() != null) {
+		if (parent.getElement() != null && child.getElement() != null && child.getElement().getParentNode() == parent.getElement()) {
 			parent.getElement().removeChild(child.getElement());
 		}
 	}

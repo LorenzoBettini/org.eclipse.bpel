@@ -2,11 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ValidateImpl.java,v 1.6 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
@@ -14,9 +15,12 @@ import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
@@ -139,5 +143,26 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 		}
 		return super.eIsSet(featureID);
 	}
-
+	
+	protected void changeReference(EReference reference) {
+		if (reference != null && reference.getFeatureID() == BPELPackage.VALIDATE__VARIABLES && !isReconciling) {
+			String varAttribute = element.getAttribute(BPELConstants.AT_VARIABLES);
+			if (variables == null || variables.size() == 0) {
+				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLES, (String)null);
+			} else {
+				StringBuilder val = new StringBuilder();
+				Iterator<Variable> i = variables.iterator();
+				for (;i.hasNext();) {
+					Variable var = i.next();
+					val.append(var.getName());
+					if (i.hasNext()) {
+						val.append(" ");
+					}
+				}
+				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLES, val.toString());
+			}
+		}
+		super.changeReference(reference);
+	}
+	
 } //ValidateImpl

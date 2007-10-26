@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ToPartImpl.java,v 1.7 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -12,6 +12,8 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -107,6 +109,9 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 */
 	public void setPart(String newPart) {
 		String oldPart = part;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPart);
+		}
 		part = newPart;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -147,6 +152,9 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 */
 	public void setFrom(From newFrom) {
 		From oldFrom = from;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFrom, newFrom);
+		}
 		from = newFrom;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

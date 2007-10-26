@@ -44,7 +44,8 @@ public class BPELUnknownExtensionDeserializer extends UnknownExtensionDeserializ
 					unknownExt.setRequired(new Boolean(requiredStr));
 				}
 	
-				unknownExt.setElement((Element)node);
+// (DO): Disabled to avoid <extensibilityAttributes> in sourceTab
+//				unknownExt.setElement((Element)node);
 				
 				return unknownExt;
 			} else {

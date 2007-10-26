@@ -149,7 +149,7 @@ public class BPELWriter {
 	static final String EMPTY_STRING = ""; //$NON-NLS-1$
 	
 	private Document document = null;
-	BPELResource fBPELResource = null;
+	private BPELResource fBPELResource = null;
 	private WsdlImportsManager wsdlNamespacePrefixManager;
 	private NamespacePrefixManager bpelNamespacePrefixManager;
 	private List<IExtensibilityElementListHandler> extensibilityElementListHandlers = null;
@@ -501,7 +501,7 @@ public class BPELWriter {
 		
 		bpelPackage = BPELPackage.eINSTANCE;
 		
-		bpelNamespacePrefixManager = new NamespacePrefixManager( fBPELResource );
+		bpelNamespacePrefixManager = new NamespacePrefixManager( getResource() );
 		if (eObj instanceof Process) {
 			wsdlNamespacePrefixManager = new WsdlImportsManager( (Process) eObj );
 		} else {

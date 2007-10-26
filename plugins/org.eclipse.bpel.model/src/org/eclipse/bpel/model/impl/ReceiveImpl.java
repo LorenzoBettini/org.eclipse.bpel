@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.8 2007/10/12 08:14:57 smoser Exp $
+ * $Id: ReceiveImpl.java,v 1.9 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
@@ -32,6 +33,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -215,7 +217,7 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable.getName());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
 		}
 		variable = newVariable;
 		if (eNotificationRequired())
@@ -337,5 +339,20 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 		result.append(')');
 		return result.toString();
 	}
-
+	
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof FromPart) {
+			ReconciliationHelper.adoptChild(this, fromPart, (FromPart)object, BPELConstants.ND_FROM_PART);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof FromPart) {
+			ReconciliationHelper.orphanChild(this, (FromPart)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
 } //ReceiveImpl

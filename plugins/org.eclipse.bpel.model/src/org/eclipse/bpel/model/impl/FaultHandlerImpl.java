@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FaultHandlerImpl.java,v 1.5 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: FaultHandlerImpl.java,v 1.6 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,16 +21,20 @@ import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
 /**
@@ -128,7 +132,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements
 			NotificationChain msgs) {
 		CatchAll oldCatchAll = catchAll;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCatchAll, newCatchAll);
+			ReconciliationHelper.replaceChild(element == null ? (WSDLElement)eContainer() : this, oldCatchAll, newCatchAll);
 		}
 		catchAll = newCatchAll;
 		boolean oldCatchAllESet = catchAllESet;
@@ -322,4 +326,18 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements
 		return super.eIsSet(featureID);
 	}
 
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Catch) {
+			ReconciliationHelper.adoptChild(element == null ? (WSDLElement)eContainer() : this, catch_, (Catch)object, BPELConstants.ND_CATCH);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Catch) {
+			ReconciliationHelper.orphanChild(element == null ? (WSDLElement)eContainer() : this, (Catch)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
+	
 } //FaultHandlerImpl

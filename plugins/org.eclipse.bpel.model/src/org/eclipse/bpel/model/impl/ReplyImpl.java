@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.8 2007/10/12 08:14:56 smoser Exp $
+ * $Id: ReplyImpl.java,v 1.9 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Sources;
@@ -33,6 +34,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -178,7 +180,7 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable.getName());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
 		}
 		variable = newVariable;
 		if (eNotificationRequired())
@@ -297,6 +299,23 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 		result.append(faultName);
 		result.append(')');
 		return result.toString();
+	}
+
+	
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof ToPart) {
+			ReconciliationHelper.adoptChild(this, toPart, (ToPart)object, BPELConstants.ND_TO_PART);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof ToPart) {
+			ReconciliationHelper.orphanChild(this, (ToPart)obj);
+		}
+		super.orphanContent(reference, obj);
 	}
 
 } //ReplyImpl

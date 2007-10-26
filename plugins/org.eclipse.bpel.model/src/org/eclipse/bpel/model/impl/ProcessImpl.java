@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.11 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: ProcessImpl.java,v 1.12 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -374,6 +374,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void setName(String newName) {
 		String oldName = name;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+		}
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -396,6 +399,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void setTargetNamespace(String newTargetNamespace) {
 		String oldTargetNamespace = targetNamespace;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_TARGET_NAMESPACE, newTargetNamespace);
+		}
 		targetNamespace = newTargetNamespace;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -419,6 +425,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
+		}
 		queryLanguage = newQueryLanguage;
 		boolean oldQueryLanguageESet = queryLanguageESet;
 		queryLanguageESet = true;
@@ -435,6 +444,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void unsetQueryLanguage() {
 		String oldQueryLanguage = queryLanguage;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_QUERYLANGUAGE, (String)null);
+		}
 		boolean oldQueryLanguageESet = queryLanguageESet;
 		queryLanguage = QUERY_LANGUAGE_EDEFAULT;
 		queryLanguageESet = false;
@@ -469,6 +481,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
+		}
 		expressionLanguage = newExpressionLanguage;
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguageESet = true;
@@ -486,6 +501,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, (String)null);
+		}
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
 		expressionLanguageESet = false;
@@ -522,6 +540,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setSuppressJoinFailure(Boolean newSuppressJoinFailure) {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		suppressJoinFailure = newSuppressJoinFailure;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils.boolean2XML(newSuppressJoinFailure));
+		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailureESet = true;
 		if (eNotificationRequired())
@@ -538,6 +559,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, (String)null);
+		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;
 		suppressJoinFailureESet = false;
@@ -574,6 +598,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setVariableAccessSerializable(
 			Boolean newVariableAccessSerializable) {
 		Boolean oldVariableAccessSerializable = variableAccessSerializable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE_ACCESS_SERIALIZABLE, BPELUtils.boolean2XML(newVariableAccessSerializable));
+		}
 		variableAccessSerializable = newVariableAccessSerializable;
 		boolean oldVariableAccessSerializableESet = variableAccessSerializableESet;
 		variableAccessSerializableESet = true;
@@ -591,6 +618,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void unsetVariableAccessSerializable() {
 		Boolean oldVariableAccessSerializable = variableAccessSerializable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE_ACCESS_SERIALIZABLE, (String)null);
+		}
 		boolean oldVariableAccessSerializableESet = variableAccessSerializableESet;
 		variableAccessSerializable = VARIABLE_ACCESS_SERIALIZABLE_EDEFAULT;
 		variableAccessSerializableESet = false;
@@ -628,6 +658,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetPartnerLinks(PartnerLinks newPartnerLinks,
 			NotificationChain msgs) {
 		PartnerLinks oldPartnerLinks = partnerLinks;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldPartnerLinks, newPartnerLinks);
+		}
 		partnerLinks = newPartnerLinks;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -685,6 +718,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetVariables(Variables newVariables,
 			NotificationChain msgs) {
 		Variables oldVariables = variables;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldVariables, newVariables);
+		}
 		variables = newVariables;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -739,6 +775,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -793,6 +832,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetFaultHandlers(
 			FaultHandler newFaultHandlers, NotificationChain msgs) {
 		FaultHandler oldFaultHandlers = faultHandlers;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFaultHandlers, newFaultHandlers);
+		}
 		faultHandlers = newFaultHandlers;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -850,6 +892,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetExtensions(Extensions newExtensions,
 			NotificationChain msgs) {
 		Extensions oldExtensions = extensions;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldExtensions, newExtensions);
+		}
 		extensions = newExtensions;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -904,6 +949,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXIT_ON_STANDARD_FAULT, BPELUtils.boolean2XML(newExitOnStandardFault));
+		}
 		exitOnStandardFault = newExitOnStandardFault;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -946,6 +994,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 */
 	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
 		MessageExchanges oldMessageExchanges = messageExchanges;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldMessageExchanges, newMessageExchanges);
+		}
 		messageExchanges = newMessageExchanges;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -1273,6 +1324,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain basicSetCorrelationSets(
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
 		CorrelationSets oldCorrelationSets = correlationSets;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCorrelationSets, newCorrelationSets);
+		}
 		correlationSets = newCorrelationSets;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

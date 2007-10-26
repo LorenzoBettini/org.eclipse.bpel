@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.6 2007/10/12 08:14:58 smoser Exp $
+ * $Id: InvokeImpl.java,v 1.7 2007/10/26 16:28:16 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -508,4 +509,23 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof ToPart) {
+			ReconciliationHelper.adoptChild(this, toPart, (ToPart)object, BPELConstants.ND_TO_PART);
+		} else if (object instanceof FromPart) {
+			ReconciliationHelper.adoptChild(this, fromPart, (FromPart)object, BPELConstants.ND_FROM_PART);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof ToPart) {
+			ReconciliationHelper.orphanChild(this, (ToPart)obj);
+		} else if (obj instanceof FromPart) {
+			ReconciliationHelper.orphanChild(this, (FromPart)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
 } //InvokeImpl
