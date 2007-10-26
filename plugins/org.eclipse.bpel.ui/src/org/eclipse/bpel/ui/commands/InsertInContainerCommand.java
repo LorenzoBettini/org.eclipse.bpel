@@ -127,9 +127,9 @@ public class InsertInContainerCommand extends AutoUndoCommand {
 	private static Node getRealParentElement(EObject child, EObject parent) {
 		if (ReconciliationHelper.isSingleActivityContainer(parent) && child instanceof Activity && child != ReconciliationHelper.getActivity(parent)) {
 	    	return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(ReconciliationHelper.getActivity(parent));
-//	    } else if (BPELUtils.isTransparentObject(parent)) {
-//	    	EObject container = parent.eContainer();
-//			return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(container);
+	    } else if (BPELUtils.isTransparentFaultHandler(parent.eContainer(), parent)) {
+	    	EObject container = parent.eContainer();
+			return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(container);
 	    }
 	    return org.eclipse.bpel.ui.util.BPELEditorUtil.getInstance().getElementForObject(parent);		
 	}

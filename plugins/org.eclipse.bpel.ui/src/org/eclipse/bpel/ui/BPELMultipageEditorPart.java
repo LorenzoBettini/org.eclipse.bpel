@@ -130,6 +130,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		}
 
 		// increase visibility.
+		@Override
 		public EditPartViewer getViewer() {
 			return super.getViewer();
 		}
@@ -152,22 +153,26 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			// getViewer().addDropTargetListener(new BPELTemplateTransferDropTargetListener(getViewer()));
 			IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
 			showOutlineAction = new Action() {
+				@Override
 				public void run() {
 					showPage(ID_OUTLINE);
 				}
                 
-                public String getToolTipText() {
+                @Override
+				public String getToolTipText() {
                     return Messages.OutlinePage_showOutlineView;
                 }
 			};
 			showOutlineAction.setImageDescriptor(BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_OUTLINE_16)); 
 			tbm.add(showOutlineAction);
 			showOverviewAction = new Action() {
+				@Override
 				public void run() {
 					showPage(ID_OVERVIEW);
 				}
                 
-                public String getToolTipText() {
+                @Override
+				public String getToolTipText() {
                     return Messages.OutlinePage_showOverviewView;
                 }
 			};
@@ -176,10 +181,12 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			showPage(ID_OUTLINE);
 		}
 
+		@Override
 		public Control getControl() {
 			return pageBook;
 		}
 
+		@Override
 		public void createControl(Composite parent) {
 			pageBook = new PageBook(parent, SWT.NONE);
 			outline = getViewer().createControl(pageBook);
@@ -219,10 +226,12 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			}
 		}
 
+		@Override
 		public void dispose() {
 			super.dispose();
 		}
 		
+		@Override
 		public void init(IPageSite pageSite) {
 			super.init(pageSite);
 			//should ActionRegistry be here too? 
@@ -400,6 +409,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	/**
 	 * Creates the pages of this multi-page editor.
 	 */
+	@Override
 	protected void createPages() {
 		try {
 			// source page must be created before design page
@@ -424,6 +434,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	}
 
 
+	@Override
 	public void dispose() {
 		/*if (outlinePage != null && outlinePage.getViewer() != null) {
 			outlinePage.getViewer().setContents(null);
@@ -446,6 +457,8 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			workspace.removeResourceChangeListener(postBuildRefactoringListener);
 		}
 
+		IStructuredModel model = fTextEditor.getModel();
+		model.releaseFromEdit();
 		fDesignViewer.dispose();
 		fTextEditor.dispose();
 
@@ -515,9 +528,15 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	/**
 	 * @see org.eclipse.ui.IEditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
-		//fDesignViewer should be saved the last to avoid problems with SynchronizationManager
+		// We use fTextEditor to save, because fDesignViewer.doSave() removes comments on save
+		// Save bpel only
 		fTextEditor.doSave(progressMonitor);
+		// Reset sync stamp and modified flag after save
+		fDesignViewer.getEditModelClient().getPrimaryResourceInfo().resetSynchronizeStamp();
+		fDesignViewer.getEditModelClient().getPrimaryResourceInfo().getResource().setModified(false);
+		// Save extensions
 		fDesignViewer.doSave(progressMonitor);
 	}
 
@@ -526,6 +545,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	 * 
 	 * @see org.eclipse.ui.ISaveablePart#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		//saveAs is not allowed; do nothing
 	}
@@ -549,6 +569,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	}
 
 	
+	@Override
 	public Object getAdapter(Class type) {
 		if (type == Process.class) {
 			return process;
@@ -807,6 +828,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	 * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite,
 	 *      org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		try {
 			super.init(site, input);
@@ -899,6 +921,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	 * 
 	 * @see org.eclipse.ui.ISaveablePart#isSaveAsAllowed()
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
@@ -938,7 +961,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	    reader.read(bpelResource, file, fDesignViewer.getResourceSet());
 	    process = reader.getProcess();
 	    
-	    bpelModelReconcileAdapter = new BPELModelReconcileAdapter (structuredDocument, process);
+	    bpelModelReconcileAdapter = new BPELModelReconcileAdapter (structuredDocument, process, bpelResource, fDesignViewer);
 	    
 	    if (getEditDomain() != null) {
 	    	((BPELEditDomain)getEditDomain()).setProcess(getProcess());
@@ -1039,6 +1062,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	}
 
 
+	@Override
 	protected void pageChange(int newPageIndex) {
 		currentPage = newPageIndex;
 		super.pageChange(newPageIndex);
@@ -1108,5 +1132,8 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		}
 	}
 
-
+	@Override
+	public boolean isDirty() {
+		return fDesignViewer.isDirty();
+	}
 }

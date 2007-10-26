@@ -1,37 +1,36 @@
 package org.eclipse.bpel.ui;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.model.impl.ActivityImpl;
 import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
 import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.ui.commands.util.UpdateModelCommand;
 import org.eclipse.bpel.ui.util.BPELEditorUtil;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.wsdl.Definition;
-import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 import org.eclipse.wst.wsdl.internal.impl.XSDSchemaExtensibilityElementImpl;
-import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.eclipse.wst.xsd.ui.internal.util.ModelReconcileAdapter;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 	protected Process process;
+	protected Resource bpelResource;
+	private BPELEditor fEditor;
 
-	public BPELModelReconcileAdapter(Document document, Process process) {
+	public BPELModelReconcileAdapter(Document document, Process process,
+			Resource bpelResource, BPELEditor editor) {
 		super(document);
 		this.process = process;
+		this.bpelResource = bpelResource;
+		this.fEditor = editor;
 	}
 
 	// This method is clever enough to deal with 'bad' documents that happen
@@ -58,7 +57,8 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 	}
 
 	protected void handleNodeChanged(Node node) {
-		if (node instanceof Element && !BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
+		if (node instanceof Element
+				&& !BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
 			reconcileModelObjectForElement((Element) node);
 		} else if (node instanceof Document) {
 			// The document changed so we may need to fix up the
@@ -82,33 +82,43 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 			 * model // does not reconcile well in this case. Also reset the
 			 * definition name and target // namespace.
 			 * process.getNamespaces().clear(); process.setQName(null);
-			 * process.setTargetNamespace(null);
-			 *  // Reset the document because removeAll() sets the document to
-			 * null as well. process.setDocument(document); }
+			 * process.setTargetNamespace(null); // Reset the document because
+			 * removeAll() sets the document to null as well.
+			 * process.setDocument(document); }
 			 */
-		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE || BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
+		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE
+				|| BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
 			reconcileModelObjectForElement((Element) node.getParentNode());
 		}
 	}
 
-	private void reconcileModelObjectForElement(Element element) {
-		Object modelObject = BPELEditorUtil.getInstance()
+	private void reconcileModelObjectForElement(final Element element) {
+		final Object modelObject = BPELEditorUtil.getInstance()
 				.findModelObjectForElement(process, element);
+		// Wrap changes in source tab to the Command
 		if (modelObject != null) {
-			if (modelObject instanceof ExtensibleElementImpl) {
-				((ExtensibleElementImpl) modelObject).elementChanged(element);
-			} else if (modelObject instanceof ExtensibilityElementImpl) {
-				((ExtensibilityElementImpl) modelObject)
-						.elementChanged(element);
-			} else if (modelObject instanceof XSDSchemaExtensibilityElementImpl) {
-				XSDSchemaExtensibilityElementImpl ee = (XSDSchemaExtensibilityElementImpl) modelObject;
-				((XSDSchemaImpl) ee.getSchema()).elementChanged(element);
-				ee.elementChanged(element);
-			} else if (modelObject instanceof WSDLElementImpl) {
-				((WSDLElementImpl) modelObject).elementChanged(element);
-			} else if (modelObject instanceof XSDConcreteComponent) {
-				((XSDConcreteComponent) modelObject).elementChanged(element);
-			}
+			UpdateModelCommand cmd = new UpdateModelCommand((EObject) modelObject, "Change text"){
+				@SuppressWarnings("restriction")
+				@Override
+				public void doExecute() {
+					if (modelObject instanceof ExtensibleElementImpl) {
+						((ExtensibleElementImpl) modelObject).elementChanged(element);
+					} else if (modelObject instanceof ExtensibilityElementImpl) {
+						((ExtensibilityElementImpl) modelObject)
+								.elementChanged(element);
+					} else if (modelObject instanceof XSDSchemaExtensibilityElementImpl) {
+						XSDSchemaExtensibilityElementImpl ee = (XSDSchemaExtensibilityElementImpl) modelObject;
+						((XSDSchemaImpl) ee.getSchema()).elementChanged(element);
+						ee.elementChanged(element);
+					} else if (modelObject instanceof WSDLElementImpl) {
+						((WSDLElementImpl) modelObject).elementChanged(element);
+					} else if (modelObject instanceof XSDConcreteComponent) {
+						((XSDConcreteComponent) modelObject).elementChanged(element);
+					}
+				}
+			};
+			
+			fEditor.getCommandFramework().execute(cmd);
 		}
 	}
 
