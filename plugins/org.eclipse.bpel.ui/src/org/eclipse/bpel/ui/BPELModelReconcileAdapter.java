@@ -61,31 +61,14 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 				&& !BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
 			reconcileModelObjectForElement((Element) node);
 		} else if (node instanceof Document) {
-			// The document changed so we may need to fix up the
-			// definition's root element
 			Document document = (Document) node;
 			Element processElement = getProcessElement(document);
-			/*
-			 * if (definitionElement != null && definitionElement !=
-			 * process.getElement()) { // here we handle the case where a new
-			 * 'definition' element was added //(e.g. the file was totally blank
-			 * and then we type in the root element) // See Bug 5366 // if
-			 * (definitionElement.getLocalName().equals(WSDLConstants.DEFINITION_ELEMENT_TAG)) {
-			 * //System.out.println("****** Setting new definition");
-			 * process.setElement(definitionElement); } } else if
-			 * (definitionElement != null) { // handle the case where the
-			 * definition element's content has changed //
-			 * ((ProcessImpl)process).elementChanged(definitionElement); } else
-			 * if (definitionElement == null) { // if there's no definition
-			 * element clear out the WSDL // ((ProcessImpl)process).removeAll(); //
-			 * The removeAll() call does not remove namespaces as well and the
-			 * model // does not reconcile well in this case. Also reset the
-			 * definition name and target // namespace.
-			 * process.getNamespaces().clear(); process.setQName(null);
-			 * process.setTargetNamespace(null); // Reset the document because
-			 * removeAll() sets the document to null as well.
-			 * process.setDocument(document); }
-			 */
+			if (processElement != null) {
+				process.setElement(processElement);
+				reconcileModelObjectForElement(processElement);
+			} else {
+				// TODO: (DU) what to do here?
+			}
 		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE
 				|| BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
 			reconcileModelObjectForElement((Element) node.getParentNode());
