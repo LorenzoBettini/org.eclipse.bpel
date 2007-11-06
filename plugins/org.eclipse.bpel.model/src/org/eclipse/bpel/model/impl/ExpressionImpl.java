@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
+ * $Id: ExpressionImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
 /**
@@ -158,7 +159,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void setBody(Object newBody) {
 		Object oldBody = body;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceText(getElement(), newBody);
+			ReconciliationHelper.replaceText(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()).getElement() : getElement(), newBody);
 		}
 		body = newBody;		
 		if (eNotificationRequired())
@@ -183,7 +184,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? (WSDLElement)eContainer() : this, BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
 		}
 		expressionLanguage = newExpressionLanguage;
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
@@ -203,7 +204,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
 		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, (String)null);
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()) : this, BPELConstants.AT_EXPRESSIONLANGUAGE, (String)null);
 		}
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
@@ -241,7 +242,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void setOpaque(Boolean newOpaque) {
 		Boolean oldOpaque = opaque;
 		if (!isReconciling && getElement() != null)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()) : this, BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
 		}
 		opaque = newOpaque;
 		boolean oldOpaqueESet = opaqueESet;
@@ -260,7 +261,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	public void unsetOpaque() {
 		Boolean oldOpaque = opaque;
 		if (!isReconciling && getElement() != null)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPAQUE, (String)null);
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()) : this, BPELConstants.AT_OPAQUE, (String)null);
 		}
 		boolean oldOpaqueESet = opaqueESet;
 		opaque = OPAQUE_EDEFAULT;

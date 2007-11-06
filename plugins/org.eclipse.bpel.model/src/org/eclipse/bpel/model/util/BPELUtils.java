@@ -29,7 +29,9 @@ import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
@@ -37,6 +39,7 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.proxy.MessageProxy;
@@ -764,8 +767,10 @@ public class BPELUtils {
 		return true;
 	}
    
-	public static boolean isTransparentFaultHandler(Object parent, Object child) {
-		return child instanceof FaultHandler && parent instanceof Invoke;
+	public static boolean isTransparent(Object parent, Object child) {
+		return (child instanceof FaultHandler && parent instanceof Invoke) || 
+			   (child instanceof Expression && parent instanceof From) ||
+			   (child instanceof Expression && parent instanceof To);
 	}
 
 }

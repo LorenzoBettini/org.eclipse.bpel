@@ -137,6 +137,8 @@ public class ReconciliationHelper {
 			getReader(element, changedElement).xml2Catch((Catch)element, changedElement);
 		} else if (element instanceof CatchAll){
 			getReader(element, changedElement).xml2CatchAll((CatchAll)element, changedElement);
+		} else if (element instanceof Copy){
+			getReader(element, changedElement).xml2Copy((Copy)element, changedElement);
 		} else if (element instanceof FaultHandler) {
 			getReader(element, changedElement).xml2FaultHandler((FaultHandler)element, changedElement);
 		} else {
@@ -253,8 +255,30 @@ public class ReconciliationHelper {
 		}
 		
 		// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
-		CDATASection cdata = BPELUtils.createCDATASection(element.getOwnerDocument(), text.toString());
-		ElementPlacer.placeChild(element, cdata);
+		if (text != null) {
+			CDATASection cdata = BPELUtils.createCDATASection(element.getOwnerDocument(), text.toString());
+			ElementPlacer.placeChild(element, cdata);
+		}
+	}
+	
+	public static void replaceExpression(WSDLElement parent, Expression expression) {
+		if (isLoading(parent)) {
+			return;
+		}
+		if (parent.getElement() == null) {
+			System.err.println("trying to replace expression on null element:" + parent.getClass());
+			return;
+		}
+		Element element = parent.getElement();
+		if (expression != null) {
+			if (expression.getExpressionLanguage() != null) {
+				element.setAttribute("expressionLanguage", expression.getExpressionLanguage());
+			}
+			replaceText(element, expression.getBody());			
+		} else {
+			replaceText(element, null);
+		}
+		
 	}
 
 	private ReconciliationBPELReader getReader(WSDLElement element, Element changedElement) {
@@ -276,7 +300,7 @@ public class ReconciliationHelper {
 		}
 		
 		// TODO: (DU) probably this if will be no longer needed when sync work is finished
-	    if (!BPELUtils.isTransparentFaultHandler(parent, child)) {
+	    if (!BPELUtils.isTransparent(parent, child)) {
 	    	Element childElement = ((WSDLElement)child).getElement();
 			if (childElement == null) {
 	    		childElement = ElementFactory.getInstance().createElement(((ExtensibleElement)child), parent);
@@ -320,7 +344,7 @@ public class ReconciliationHelper {
 //	    	Invoke c = (Invoke)parent;
 //	    	reconcile(c, c.getElement());
 //	    	System.err.println("Invoke patch ok");
-	    } else if (child instanceof FaultHandler && !BPELUtils.isTransparentFaultHandler(parent, child)) {
+	    } else if (child instanceof FaultHandler && !BPELUtils.isTransparent(parent, child)) {
 	    	FaultHandler c = (FaultHandler)child;
 	    	EList<Catch> _catch = c.getCatch();
 			if (_catch.size() == 1 && _catch.get(0).getElement() == null) {

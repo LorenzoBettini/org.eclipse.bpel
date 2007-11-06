@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
+ * $Id: ToImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -247,6 +247,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public void setPart(Part newPart) {
 		Part oldPart = part;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPart == null ? null : newPart.getName());
+		}
 		part = newPart;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -414,8 +417,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 			NotificationChain msgs) {
 		Expression oldExpression = expression;
 		if (!isReconciling) {
-            ReconciliationHelper.replaceChild(this, oldExpression, newExpression);
-        }
+			ReconciliationHelper.replaceExpression(this, newExpression);
+		}
 		expression = newExpression;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

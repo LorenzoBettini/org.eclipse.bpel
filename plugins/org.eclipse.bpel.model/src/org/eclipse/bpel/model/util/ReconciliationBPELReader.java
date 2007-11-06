@@ -876,9 +876,9 @@ public class ReconciliationBPELReader implements ErrorHandler {
 		if (!processElement.getLocalName().equals("process")) {
 			return null;
 		}
-		if (!BPELConstants.isBPELNamespace(processElement.getNamespaceURI())) {
-			return null;
-		}
+//		if (!BPELConstants.isBPELNamespace(processElement.getNamespaceURI())) {
+//			return null;
+//		}
 		
 		if (process == null) {
 			process = BPELFactory.eINSTANCE.createProcess();
@@ -1514,8 +1514,8 @@ public class ReconciliationBPELReader implements ErrorHandler {
 	public Activity xml2Activity(Activity activity, Element activityElement) {
 		boolean checkExtensibility = true;
 
-		if (!BPELUtils.isBPELElement(activityElement))
-			return null;
+//		if (!BPELUtils.isBPELElement(activityElement))
+//			return null;
 
 		String localName = activityElement.getLocalName();
 		if (localName.equals("process")) {
@@ -2649,6 +2649,11 @@ public class ReconciliationBPELReader implements ErrorHandler {
 	 * Converts an XML "to" element to a BPEL To object.
 	 */
 	protected To xml2To(To to, Element toElement) {
+		if (to == null) {
+			to = BPELFactory.eINSTANCE.createTo();
+			to.setElement(toElement);
+		}
+		
 		// Save all the references to external namespaces
 		saveNamespacePrefix(to, toElement);
 
@@ -2695,8 +2700,13 @@ public class ReconciliationBPELReader implements ErrorHandler {
 				"query");
 		if (queryElement != null) {
 			to.setQuery(xml2Query(to.getQuery(), queryElement));
-		} else {
-			to.setExpression(xml2Expression(to.getExpression(), toElement));
+		} else {			
+			Expression expression = to.getExpression();
+			if (expression == null) {
+				expression = BPELFactory.eINSTANCE.createExpression();
+				to.setExpression(expression);
+			}
+			xml2Expression(expression, toElement);
 //			// must be expression
 //			Expression expressionObject = BPELFactory.eINSTANCE
 //					.createExpression();
@@ -2831,10 +2841,11 @@ public class ReconciliationBPELReader implements ErrorHandler {
 			Expression expressionObject = from.getExpression();
 			if (expressionObject == null) {
 				expressionObject = BPELFactory.eINSTANCE.createExpression();
-				expressionObject.setElement(fromElement);
+//				expressionObject.setElement(fromElement);
+				from.setExpression(expressionObject);
 			}
 
-			from.setExpression(xml2Expression(expressionObject, fromElement));
+			xml2Expression(expressionObject, fromElement);
 		}
 
 		// Set opaque

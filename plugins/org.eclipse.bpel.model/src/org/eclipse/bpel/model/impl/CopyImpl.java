@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
+ * $Id: CopyImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -293,6 +293,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 */
 	public void unsetKeepSrcElementName() {
 		Boolean oldKeepSrcElementName = keepSrcElementName;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_KEEP_SRC_ELEMENT_NAME, (String)null);
+		}
 		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
 		keepSrcElementName = KEEP_SRC_ELEMENT_NAME_EDEFAULT;
 		keepSrcElementNameESet = false;
@@ -348,6 +351,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	 */
 	public void unsetIgnoreMissingFromData() {
 		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_IGNORE_MISSING_FROM_DATA, (String)null);
+		}
 		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
 		ignoreMissingFromData = IGNORE_MISSING_FROM_DATA_EDEFAULT;
 		ignoreMissingFromDataESet = false;
