@@ -41,7 +41,27 @@
       </editorContribution>
    </extension>
 
-<!-- Markers -->
+   <!-- Save as image action  -->
+
+   <extension
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="org.eclipse.bpel.ui.bpel.editor.contribution"
+            targetID="org.eclipse.bpel.ui.bpeleditor">
+         <action
+               class="org.eclipse.bpel.ui.actions.SaveImageAction"
+               enablesFor="*"
+               id="org.eclipse.bpel.ui.saveasimage.action"
+               label="Export as Image..."
+               menubarPath="file/export"
+               style="push"
+               toolbarPath="file/export"
+               tooltip="Export BPEL as image"/>
+      </editorContribution>
+   </extension>
+
+   <!-- Markers -->
+   
    <extension
          id="uiMarker"
          name="%UI_MARKER_LABEL"
