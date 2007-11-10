@@ -14,7 +14,9 @@ package org.eclipse.bpel.ui.actions;
 
 import java.io.File;
 
+import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELMultipageEditorPart;
+import org.eclipse.bpel.ui.Messages;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -27,6 +29,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -39,19 +42,10 @@ import org.eclipse.ui.PlatformUI;
 
 public class SaveImageAction extends Action implements IEditorActionDelegate {
 
-	private IEditorPart fEditor;
-
-	public SaveImageAction() {
-		setText("Export as Image");
-		setToolTipText("Export BPEL as Image");
-		// TODO: Add
-		// setImageDescriptor();
-		// setDisabledImageDescriptor();
-		// setAccelerator();
-	}
+	private BPELMultipageEditorPart fEditor;
 
 	private String getFileName(IEditorPart editorPart) {
-		String[] filterExtensions = new String[] { "*.png", "*.jpg", "*.bmp" };
+		String[] filterExtensions = new String[] { "*.png", "*.jpg", "*.bmp" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		FileDialog fileDialog = new FileDialog(editorPart.getEditorSite()
 				.getShell(), SWT.SAVE);
 		String fullName = editorPart.getEditorInput().getName();
@@ -59,7 +53,7 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 		String name = (pos == -1) ? fullName : fullName.substring(0, pos);
 		fileDialog.setFileName(name);
 		fileDialog.setFilterExtensions(filterExtensions);
-		fileDialog.setText("Export BPEL as Image");
+		fileDialog.setText(Messages.SaveImageAction_0);
 		return fileDialog.open();
 	}
 
@@ -71,8 +65,10 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 		File file = new File(fileName);
 		if (file.exists() && file.isFile()) {
 			if (!MessageDialog.openQuestion(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(), "Question",
-					"Overwrite '" + fileName + "'?")) {
+					.getActiveWorkbenchWindow().getShell(),
+					Messages.SaveImageAction_1, NLS.bind(
+							Messages.SaveImageAction_2,
+							(new Object[] { fileName })))) {
 				return;
 			}
 		}
@@ -81,7 +77,9 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 			saveBPELAsImage(fEditor, fileName);
 		} catch (Exception ex) {
 			MessageDialog.openError(fEditor.getEditorSite().getShell(),
-					"Error", "Can't save image to the file '" + fileName + "'");
+					Messages.SaveImageAction_3, NLS.bind(
+							Messages.SaveImageAction_4,
+							(new Object[] { fileName })));
 		}
 	}
 
@@ -103,9 +101,9 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 		imgLoader.data[0] = image.getImageData();
 
 		int format = SWT.IMAGE_JPEG;
-		if (fileName.endsWith(".bmp"))
+		if (fileName.endsWith(".bmp")) //$NON-NLS-1$
 			format = SWT.IMAGE_BMP;
-		else if (fileName.endsWith(".png"))
+		else if (fileName.endsWith(".png")) //$NON-NLS-1$
 			format = SWT.IMAGE_PNG;
 
 		imgLoader.save(fileName, format);
@@ -117,16 +115,18 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
+		if (fEditor == null) {
+			action.setEnabled(false);
+		} else {
+			action.setEnabled(fEditor.getActiveEditor() instanceof BPELEditor);
+		}
 	}
 
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
 		if (targetEditor instanceof BPELMultipageEditorPart) {
-			fEditor = targetEditor;
-			setEnabled(true);
+			fEditor = (BPELMultipageEditorPart) targetEditor;
 		} else {
 			fEditor = null;
-			setEnabled(false);
 		}
 	}
 }
