@@ -51,12 +51,15 @@
          <action
                class="org.eclipse.bpel.ui.actions.SaveImageAction"
                enablesFor="*"
+               disabledIcon="icons/dlcl16/capturescreen.gif"
+	           icon="icons/elcl16/capturescreen.gif"
                id="org.eclipse.bpel.ui.saveasimage.action"
-               label="Export as Image..."
                menubarPath="file/export"
                style="push"
                toolbarPath="file/export"
-               tooltip="Export BPEL as image"/>
+               tooltip="%EXPORT_AS_IMAGE_TOOLTIP"
+               label="%EXPORT_AS_IMAGE_LABEL"
+         />
       </editorContribution>
    </extension>
 
