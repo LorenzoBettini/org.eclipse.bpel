@@ -10,39 +10,27 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.7 2007/10/26 16:28:16 smoser Exp $
+ * $Id: InvokeImpl.java,v 1.8 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensationHandler;
-import org.eclipse.bpel.model.Correlations;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FaultHandler;
-import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.Operation;
-import org.eclipse.wst.wsdl.PortType;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,8 +43,8 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getInputVariable <em>Input Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getCompensationHandler <em>Compensation Handler</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getFaultHandler <em>Fault Handler</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getToPart <em>To Part</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getFromPart <em>From Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getFromParts <em>From Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.InvokeImpl#getToParts <em>To Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,24 +93,24 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	protected FaultHandler faultHandler;
 
 	/**
-	 * The cached value of the '{@link #getToPart() <em>To Part</em>}' reference list.
+	 * The cached value of the '{@link #getFromParts() <em>From Parts</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getToPart()
+	 * @see #getFromParts()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ToPart> toPart;
+	protected FromParts fromParts;
 
 	/**
-	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
+	 * The cached value of the '{@link #getToParts() <em>To Parts</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFromPart()
+	 * @see #getToParts()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<FromPart> fromPart;
+	protected ToParts toParts;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -178,9 +166,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public void setOutputVariable(Variable newOutputVariable) {
 		Variable oldOutputVariable = outputVariable;
-		if (!isReconciling){
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OUTPUT_VARIABLE, newOutputVariable == null ? null : newOutputVariable.getName());
-		}
 		outputVariable = newOutputVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -223,9 +208,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public void setInputVariable(Variable newInputVariable) {
 		Variable oldInputVariable = inputVariable;
-		if (!isReconciling){
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INPUT_VARIABLE, newInputVariable == null ? null : newInputVariable.getName());
-		}
 		inputVariable = newInputVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -309,9 +291,9 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	public NotificationChain basicSetFaultHandler(FaultHandler newFaultHandler,
 			NotificationChain msgs) {
 		FaultHandler oldFaultHandler = faultHandler;
-//		if (!isReconciling){
-//			ReconciliationHelper.replaceChild(this, oldFaultHandler, newFaultHandler);
-//		}
+		if (!isReconciling) {
+			ReconciliationHelper.replaceFaultHandler(this, newFaultHandler);
+		}
 		faultHandler = newFaultHandler;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -331,7 +313,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * @generated
 	 */
 	public void setFaultHandler(FaultHandler newFaultHandler) {
-		// FIXME: (DO) sync should be implemented 
 		if (newFaultHandler != faultHandler) {
 			NotificationChain msgs = null;
 			if (faultHandler != null)
@@ -356,12 +337,8 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ToPart> getToPart() {
-		if (toPart == null) {
-			toPart = new EObjectResolvingEList<ToPart>(ToPart.class, this,
-					BPELPackage.INVOKE__TO_PART);
-		}
-		return toPart;
+	public FromParts getFromParts() {
+		return fromParts;
 	}
 
 	/**
@@ -369,12 +346,104 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<FromPart> getFromPart() {
-		if (fromPart == null) {
-			fromPart = new EObjectResolvingEList<FromPart>(FromPart.class,
-					this, BPELPackage.INVOKE__FROM_PART);
+	public NotificationChain basicSetFromParts(FromParts newFromParts,
+			NotificationChain msgs) {
+		FromParts oldFromParts = fromParts;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFromParts, newFromParts);
 		}
-		return fromPart;
+		fromParts = newFromParts;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.INVOKE__FROM_PARTS,
+					oldFromParts, newFromParts);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFromParts(FromParts newFromParts) {
+		if (newFromParts != fromParts) {
+			NotificationChain msgs = null;
+			if (fromParts != null)
+				msgs = ((InternalEObject) fromParts)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.INVOKE__FROM_PARTS, null, msgs);
+			if (newFromParts != null)
+				msgs = ((InternalEObject) newFromParts)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.INVOKE__FROM_PARTS, null, msgs);
+			msgs = basicSetFromParts(newFromParts, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.INVOKE__FROM_PARTS, newFromParts, newFromParts));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ToParts getToParts() {
+		return toParts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetToParts(ToParts newToParts,
+			NotificationChain msgs) {
+		ToParts oldToParts = toParts;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldToParts, newToParts);
+		}
+		toParts = newToParts;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.INVOKE__TO_PARTS, oldToParts,
+					newToParts);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setToParts(ToParts newToParts) {
+		if (newToParts != toParts) {
+			NotificationChain msgs = null;
+			if (toParts != null)
+				msgs = ((InternalEObject) toParts).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.INVOKE__TO_PARTS,
+						null, msgs);
+			if (newToParts != null)
+				msgs = ((InternalEObject) newToParts).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.INVOKE__TO_PARTS,
+						null, msgs);
+			msgs = basicSetToParts(newToParts, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.INVOKE__TO_PARTS, newToParts, newToParts));
 	}
 
 	/**
@@ -386,10 +455,14 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				return basicSetCompensationHandler(null, msgs);
-			case BPELPackage.INVOKE__FAULT_HANDLER:
-				return basicSetFaultHandler(null, msgs);
+		case BPELPackage.INVOKE__COMPENSATION_HANDLER:
+			return basicSetCompensationHandler(null, msgs);
+		case BPELPackage.INVOKE__FAULT_HANDLER:
+			return basicSetFaultHandler(null, msgs);
+		case BPELPackage.INVOKE__FROM_PARTS:
+			return basicSetFromParts(null, msgs);
+		case BPELPackage.INVOKE__TO_PARTS:
+			return basicSetToParts(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -402,22 +475,22 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				if (resolve)
-					return getOutputVariable();
-				return basicGetOutputVariable();
-			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				if (resolve)
-					return getInputVariable();
-				return basicGetInputVariable();
-			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				return getCompensationHandler();
-			case BPELPackage.INVOKE__FAULT_HANDLER:
-				return getFaultHandler();
-			case BPELPackage.INVOKE__TO_PART:
-				return getToPart();
-			case BPELPackage.INVOKE__FROM_PART:
-				return getFromPart();
+		case BPELPackage.INVOKE__OUTPUT_VARIABLE:
+			if (resolve)
+				return getOutputVariable();
+			return basicGetOutputVariable();
+		case BPELPackage.INVOKE__INPUT_VARIABLE:
+			if (resolve)
+				return getInputVariable();
+			return basicGetInputVariable();
+		case BPELPackage.INVOKE__COMPENSATION_HANDLER:
+			return getCompensationHandler();
+		case BPELPackage.INVOKE__FAULT_HANDLER:
+			return getFaultHandler();
+		case BPELPackage.INVOKE__FROM_PARTS:
+			return getFromParts();
+		case BPELPackage.INVOKE__TO_PARTS:
+			return getToParts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -431,26 +504,24 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				setOutputVariable((Variable) newValue);
-				return;
-			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				setInputVariable((Variable) newValue);
-				return;
-			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				setCompensationHandler((CompensationHandler) newValue);
-				return;
-			case BPELPackage.INVOKE__FAULT_HANDLER:
-				setFaultHandler((FaultHandler) newValue);
-				return;
-			case BPELPackage.INVOKE__TO_PART:
-				getToPart().clear();
-				getToPart().addAll((Collection<? extends ToPart>) newValue);
-				return;
-			case BPELPackage.INVOKE__FROM_PART:
-				getFromPart().clear();
-				getFromPart().addAll((Collection<? extends FromPart>) newValue);
-				return;
+		case BPELPackage.INVOKE__OUTPUT_VARIABLE:
+			setOutputVariable((Variable) newValue);
+			return;
+		case BPELPackage.INVOKE__INPUT_VARIABLE:
+			setInputVariable((Variable) newValue);
+			return;
+		case BPELPackage.INVOKE__COMPENSATION_HANDLER:
+			setCompensationHandler((CompensationHandler) newValue);
+			return;
+		case BPELPackage.INVOKE__FAULT_HANDLER:
+			setFaultHandler((FaultHandler) newValue);
+			return;
+		case BPELPackage.INVOKE__FROM_PARTS:
+			setFromParts((FromParts) newValue);
+			return;
+		case BPELPackage.INVOKE__TO_PARTS:
+			setToParts((ToParts) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -463,24 +534,24 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				setOutputVariable((Variable) null);
-				return;
-			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				setInputVariable((Variable) null);
-				return;
-			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				setCompensationHandler((CompensationHandler) null);
-				return;
-			case BPELPackage.INVOKE__FAULT_HANDLER:
-				setFaultHandler((FaultHandler) null);
-				return;
-			case BPELPackage.INVOKE__TO_PART:
-				getToPart().clear();
-				return;
-			case BPELPackage.INVOKE__FROM_PART:
-				getFromPart().clear();
-				return;
+		case BPELPackage.INVOKE__OUTPUT_VARIABLE:
+			setOutputVariable((Variable) null);
+			return;
+		case BPELPackage.INVOKE__INPUT_VARIABLE:
+			setInputVariable((Variable) null);
+			return;
+		case BPELPackage.INVOKE__COMPENSATION_HANDLER:
+			setCompensationHandler((CompensationHandler) null);
+			return;
+		case BPELPackage.INVOKE__FAULT_HANDLER:
+			setFaultHandler((FaultHandler) null);
+			return;
+		case BPELPackage.INVOKE__FROM_PARTS:
+			setFromParts((FromParts) null);
+			return;
+		case BPELPackage.INVOKE__TO_PARTS:
+			setToParts((ToParts) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -493,39 +564,59 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.INVOKE__OUTPUT_VARIABLE:
-				return outputVariable != null;
-			case BPELPackage.INVOKE__INPUT_VARIABLE:
-				return inputVariable != null;
-			case BPELPackage.INVOKE__COMPENSATION_HANDLER:
-				return compensationHandler != null;
-			case BPELPackage.INVOKE__FAULT_HANDLER:
-				return faultHandler != null;
-			case BPELPackage.INVOKE__TO_PART:
-				return toPart != null && !toPart.isEmpty();
-			case BPELPackage.INVOKE__FROM_PART:
-				return fromPart != null && !fromPart.isEmpty();
+		case BPELPackage.INVOKE__OUTPUT_VARIABLE:
+			return outputVariable != null;
+		case BPELPackage.INVOKE__INPUT_VARIABLE:
+			return inputVariable != null;
+		case BPELPackage.INVOKE__COMPENSATION_HANDLER:
+			return compensationHandler != null;
+		case BPELPackage.INVOKE__FAULT_HANDLER:
+			return faultHandler != null;
+		case BPELPackage.INVOKE__FROM_PARTS:
+			return fromParts != null;
+		case BPELPackage.INVOKE__TO_PARTS:
+			return toParts != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
-		if (object instanceof ToPart) {
-			ReconciliationHelper.adoptChild(this, toPart, (ToPart)object, BPELConstants.ND_TO_PART);
-		} else if (object instanceof FromPart) {
-			ReconciliationHelper.adoptChild(this, fromPart, (FromPart)object, BPELConstants.ND_FROM_PART);
+		// if (object instanceof ToPart) {
+		// ReconciliationHelper
+		// .adoptChild(this, toPart, (ToPart) object, BPELConstants.ND_TO_PART);
+		// } else if (object instanceof FromPart) {
+		// ReconciliationHelper.adoptChild(this, fromPart, (FromPart) object,
+		// BPELConstants.ND_FROM_PART);
+		// }
+		if (object instanceof FaultHandler) {
+			((FaultHandler) object).setElement(getElement());
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
-	protected void orphanContent(EReference reference, Object obj) {
-		if (obj instanceof ToPart) {
-			ReconciliationHelper.orphanChild(this, (ToPart)obj);
-		} else if (obj instanceof FromPart) {
-			ReconciliationHelper.orphanChild(this, (FromPart)obj);
+		protected void orphanContent(EReference reference, Object obj) {
+			if (obj instanceof FaultHandler) {
+				((FaultHandler) obj).setElement(null);
+			}
+			super.orphanContent(reference, obj);
 		}
-		super.orphanContent(reference, obj);
+
+	@Override
+	public EList getWSDLContents() {
+		// TODO: (DU) It's a hack to make children of FaultHandler to be found
+		// by
+		// WSDLNodeAssociationProvider.getModelObjectHelper() when
+		// looking up EMF object from DOM element
+		if (faultHandler == null) {
+			return super.getWSDLContents();
+		} else {
+			EList result = new BasicEList();
+			result.addAll(super.getWSDLContents());
+			result.addAll(((FaultHandlerImpl) faultHandler).getWSDLContents());
+			return result;
+		}
 	}
-} //InvokeImpl
+
+} // InvokeImpl

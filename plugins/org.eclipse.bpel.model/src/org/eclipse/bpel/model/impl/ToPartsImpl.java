@@ -1,53 +1,40 @@
 /**
  * <copyright>
- * Copyright (c) 2005 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetsImpl.java,v 1.5 2007/11/20 14:14:23 smoser Exp $
+ * $Id: ToPartsImpl.java,v 1.1 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Correlation;
-import org.eclipse.bpel.model.CorrelationSet;
-import org.eclipse.bpel.model.CorrelationSets;
-import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Correlation Sets</b></em>'.
+ * An implementation of the model object '<em><b>To Parts</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.bpel.model.impl.CorrelationSetsImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ToPartsImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class CorrelationSetsImpl extends ExtensibleElementImpl implements
-		CorrelationSets {
+public class ToPartsImpl extends ExtensibleElementImpl implements ToParts {
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -56,14 +43,14 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<CorrelationSet> children;
+	protected EList<ToPart>	children;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CorrelationSetsImpl() {
+	protected ToPartsImpl() {
 		super();
 	}
 
@@ -74,7 +61,7 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return BPELPackage.Literals.CORRELATION_SETS;
+		return BPELPackage.Literals.TO_PARTS;
 	}
 
 	/**
@@ -82,11 +69,10 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<CorrelationSet> getChildren() {
+	public EList<ToPart> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList<CorrelationSet>(
-					CorrelationSet.class, this,
-					BPELPackage.CORRELATION_SETS__CHILDREN);
+			children = new EObjectContainmentEList<ToPart>(ToPart.class, this,
+					BPELPackage.TO_PARTS__CHILDREN);
 		}
 		return children;
 	}
@@ -97,12 +83,11 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID,
+			NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SETS__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.TO_PARTS__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -115,8 +100,8 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SETS__CHILDREN:
-				return getChildren();
+		case BPELPackage.TO_PARTS__CHILDREN:
+			return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -130,11 +115,10 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SETS__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll(
-						(Collection<? extends CorrelationSet>) newValue);
-				return;
+		case BPELPackage.TO_PARTS__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll((Collection<? extends ToPart>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -147,9 +131,9 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SETS__CHILDREN:
-				getChildren().clear();
-				return;
+		case BPELPackage.TO_PARTS__CHILDREN:
+			getChildren().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -162,23 +146,26 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SETS__CHILDREN:
-				return children != null && !children.isEmpty();
+		case BPELPackage.TO_PARTS__CHILDREN:
+			return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
-		if (object instanceof CorrelationSet) {
-			ReconciliationHelper.adoptChild(this, children, (CorrelationSet)object, BPELConstants.ND_CORRELATION_SET);
+		if (object instanceof ToPart) {
+			ReconciliationHelper.adoptChild(this, children, (ToPart) object,
+					BPELConstants.ND_TO_PART);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
-		if (obj instanceof CorrelationSet) {
-			ReconciliationHelper.orphanChild(this, (CorrelationSet)obj);
+		if (obj instanceof ToPart) {
+			ReconciliationHelper.orphanChild(this, (ToPart) obj);
 		}
 		super.orphanContent(reference, obj);
 	}
-} //CorrelationSetsImpl
+} //ToPartsImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.6 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CorrelationImpl.java,v 1.7 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,8 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationPattern;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -150,6 +152,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	 */
 	public void setInitiate(String newInitiate) {
 		String oldInitiate = initiate;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIATE, newInitiate);
+		}
 		initiate = newInitiate;
 		boolean oldInitiateESet = initiateESet;
 		initiateESet = true;
@@ -166,6 +171,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	 */
 	public void unsetInitiate() {
 		String oldInitiate = initiate;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIATE, (String)null);
+		}
 		boolean oldInitiateESet = initiateESet;
 		initiate = INITIATE_EDEFAULT;
 		initiateESet = false;
@@ -200,6 +208,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	 */
 	public void setPattern(CorrelationPattern newPattern) {
 		CorrelationPattern oldPattern = pattern;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PATTERN, newPattern == null ? PATTERN_EDEFAULT.getName() : newPattern.getName());
+		}
 		pattern = newPattern == null ? PATTERN_EDEFAULT : newPattern;
 		boolean oldPatternESet = patternESet;
 		patternESet = true;
@@ -216,6 +227,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	 */
 	public void unsetPattern() {
 		CorrelationPattern oldPattern = pattern;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PATTERN, PATTERN_EDEFAULT.getName());
+		}
 		boolean oldPatternESet = patternESet;
 		pattern = PATTERN_EDEFAULT;
 		patternESet = false;
@@ -268,6 +282,9 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	 */
 	public void setSet(CorrelationSet newSet) {
 		CorrelationSet oldSet = set;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SET, newSet == null ? null : newSet.getName());
+		}
 		set = newSet;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

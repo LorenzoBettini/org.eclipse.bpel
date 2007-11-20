@@ -10,11 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Receive.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Receive.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +32,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Receive#getCreateInstance <em>Create Instance</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Receive#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Receive#getFromPart <em>From Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Receive#getFromParts <em>From Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -124,19 +122,29 @@ public interface Receive extends PartnerActivity {
 	void setVariable(Variable value);
 
 	/**
-	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
+	 * Returns the value of the '<em><b>From Parts</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
+	 * If the meaning of the '<em>From Parts</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>From Part</em>' reference list.
-	 * @see org.eclipse.bpel.model.BPELPackage#getReceive_FromPart()
-	 * @model
+	 * @return the value of the '<em>From Parts</em>' containment reference.
+	 * @see #setFromParts(FromParts)
+	 * @see org.eclipse.bpel.model.BPELPackage#getReceive_FromParts()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<FromPart> getFromPart();
+	FromParts getFromParts();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Receive#getFromParts <em>From Parts</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>From Parts</em>' containment reference.
+	 * @see #getFromParts()
+	 * @generated
+	 */
+	void setFromParts(FromParts value);
 
 } // Receive

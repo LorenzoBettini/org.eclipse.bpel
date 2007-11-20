@@ -10,13 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Reply.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Reply.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
 import javax.xml.namespace.QName;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +34,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.Reply#getFaultName <em>Fault Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Reply#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Reply#getToPart <em>To Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Reply#getToParts <em>To Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -98,19 +96,29 @@ public interface Reply extends PartnerActivity, Activity {
 	void setVariable(Variable value);
 
 	/**
-	 * Returns the value of the '<em><b>To Part</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.bpel.model.ToPart}.
+	 * Returns the value of the '<em><b>To Parts</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>To Part</em>' reference isn't clear,
+	 * If the meaning of the '<em>To Parts</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>To Part</em>' reference list.
-	 * @see org.eclipse.bpel.model.BPELPackage#getReply_ToPart()
-	 * @model
+	 * @return the value of the '<em>To Parts</em>' containment reference.
+	 * @see #setToParts(ToParts)
+	 * @see org.eclipse.bpel.model.BPELPackage#getReply_ToParts()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<ToPart> getToPart();
+	ToParts getToParts();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Reply#getToParts <em>To Parts</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>To Parts</em>' containment reference.
+	 * @see #getToParts()
+	 * @generated
+	 */
+	void setToParts(ToParts value);
 
 } // Reply

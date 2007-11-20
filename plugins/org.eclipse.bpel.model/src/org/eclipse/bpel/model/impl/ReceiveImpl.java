@@ -10,38 +10,22 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.9 2007/10/26 16:28:16 smoser Exp $
+ * $Id: ReceiveImpl.java,v 1.10 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Correlations;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.FromPart;
-import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.Receive;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.Operation;
-import org.eclipse.wst.wsdl.PortType;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,7 +36,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getCreateInstance <em>Create Instance</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getFromPart <em>From Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getFromParts <em>From Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,14 +84,14 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	protected Variable variable;
 
 	/**
-	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
+	 * The cached value of the '{@link #getFromParts() <em>From Parts</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFromPart()
+	 * @see #getFromParts()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<FromPart> fromPart;
+	protected FromParts fromParts;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,9 +128,6 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, BPELUtils.boolean2XML(newCreateInstance));
-		}
 		createInstance = newCreateInstance;
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstanceESet = true;
@@ -216,9 +197,10 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
-		}
+        if (!isReconciling) {
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE,
+					newVariable == null ? null : newVariable.getName());
+        }
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -230,12 +212,71 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<FromPart> getFromPart() {
-		if (fromPart == null) {
-			fromPart = new EObjectResolvingEList<FromPart>(FromPart.class,
-					this, BPELPackage.RECEIVE__FROM_PART);
+	public FromParts getFromParts() {
+		return fromParts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFromParts(FromParts newFromParts,
+			NotificationChain msgs) {
+		FromParts oldFromParts = fromParts;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFromParts, newFromParts);
 		}
-		return fromPart;
+		fromParts = newFromParts;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.RECEIVE__FROM_PARTS,
+					oldFromParts, newFromParts);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFromParts(FromParts newFromParts) {
+		if (newFromParts != fromParts) {
+			NotificationChain msgs = null;
+			if (fromParts != null)
+				msgs = ((InternalEObject) fromParts).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.RECEIVE__FROM_PARTS, null, msgs);
+			if (newFromParts != null)
+				msgs = ((InternalEObject) newFromParts).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.RECEIVE__FROM_PARTS, null, msgs);
+			msgs = basicSetFromParts(newFromParts, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.RECEIVE__FROM_PARTS, newFromParts, newFromParts));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case BPELPackage.RECEIVE__FROM_PARTS:
+			return basicSetFromParts(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -246,14 +287,14 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.RECEIVE__CREATE_INSTANCE:
-				return getCreateInstance();
-			case BPELPackage.RECEIVE__VARIABLE:
-				if (resolve)
-					return getVariable();
-				return basicGetVariable();
-			case BPELPackage.RECEIVE__FROM_PART:
-				return getFromPart();
+		case BPELPackage.RECEIVE__CREATE_INSTANCE:
+			return getCreateInstance();
+		case BPELPackage.RECEIVE__VARIABLE:
+			if (resolve)
+				return getVariable();
+			return basicGetVariable();
+		case BPELPackage.RECEIVE__FROM_PARTS:
+			return getFromParts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -267,16 +308,15 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.RECEIVE__CREATE_INSTANCE:
-				setCreateInstance((Boolean) newValue);
-				return;
-			case BPELPackage.RECEIVE__VARIABLE:
-				setVariable((Variable) newValue);
-				return;
-			case BPELPackage.RECEIVE__FROM_PART:
-				getFromPart().clear();
-				getFromPart().addAll((Collection<? extends FromPart>) newValue);
-				return;
+		case BPELPackage.RECEIVE__CREATE_INSTANCE:
+			setCreateInstance((Boolean) newValue);
+			return;
+		case BPELPackage.RECEIVE__VARIABLE:
+			setVariable((Variable) newValue);
+			return;
+		case BPELPackage.RECEIVE__FROM_PARTS:
+			setFromParts((FromParts) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -289,15 +329,15 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.RECEIVE__CREATE_INSTANCE:
-				unsetCreateInstance();
-				return;
-			case BPELPackage.RECEIVE__VARIABLE:
-				setVariable((Variable) null);
-				return;
-			case BPELPackage.RECEIVE__FROM_PART:
-				getFromPart().clear();
-				return;
+		case BPELPackage.RECEIVE__CREATE_INSTANCE:
+			unsetCreateInstance();
+			return;
+		case BPELPackage.RECEIVE__VARIABLE:
+			setVariable((Variable) null);
+			return;
+		case BPELPackage.RECEIVE__FROM_PARTS:
+			setFromParts((FromParts) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -310,12 +350,12 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.RECEIVE__CREATE_INSTANCE:
-				return isSetCreateInstance();
-			case BPELPackage.RECEIVE__VARIABLE:
-				return variable != null;
-			case BPELPackage.RECEIVE__FROM_PART:
-				return fromPart != null && !fromPart.isEmpty();
+		case BPELPackage.RECEIVE__CREATE_INSTANCE:
+			return isSetCreateInstance();
+		case BPELPackage.RECEIVE__VARIABLE:
+			return variable != null;
+		case BPELPackage.RECEIVE__FROM_PARTS:
+			return fromParts != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -338,21 +378,5 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
-	}
-	
-	@Override
-	protected void adoptContent(EReference reference, Object object) {
-		if (object instanceof FromPart) {
-			ReconciliationHelper.adoptChild(this, fromPart, (FromPart)object, BPELConstants.ND_FROM_PART);
-		}
-		super.adoptContent(reference, object);
-	}
-	
-	@Override
-	protected void orphanContent(EReference reference, Object obj) {
-		if (obj instanceof FromPart) {
-			ReconciliationHelper.orphanChild(this, (FromPart)obj);
-		}
-		super.orphanContent(reference, obj);
 	}
 } //ReceiveImpl

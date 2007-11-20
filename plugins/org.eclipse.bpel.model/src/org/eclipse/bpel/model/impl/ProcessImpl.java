@@ -10,13 +10,15 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.12 2007/10/26 16:28:16 smoser Exp $
+ * $Id: ProcessImpl.java,v 1.13 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
@@ -25,9 +27,11 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLinks;
+import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
@@ -36,11 +40,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.xsd.util.XSDConstants;
 import org.w3c.dom.Element;
 
 /**
@@ -1421,6 +1427,22 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		return result.toString();
 	}
 
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Import) {
+			ReconciliationHelper.adoptChild(this, imports, (Import)object, BPELConstants.ND_IMPORT);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Import) {
+			ReconciliationHelper.orphanChild(this, (Import)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
+	
 	/**
 	 * @customized
 	 */
@@ -1434,6 +1456,23 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		if (fieldPostLoadRunnables == null)
 			fieldPostLoadRunnables = new ArrayList();
 		return fieldPostLoadRunnables;
+	}
+
+	@SuppressWarnings("restriction")
+	public void setPrefixForNamespace(String prefix, String namespace) {
+		// We should use this method instead of changing namespaces directly
+		// in DOM. The main reason is to avoid rebuilding EMF (temporary block
+		// reconciling) in case if the namespace attribute has been changed (DO)
+		boolean old = isReconciling;
+		isReconciling = true;
+		if (prefix.equals("")){
+			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns", namespace);
+		} else {
+			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:" + prefix, namespace);
+		}
+		Map<String,String> nsMap = BPELUtils.getNamespaceMap(this);
+		nsMap.put(prefix, namespace);
+		isReconciling = old;
 	}
 	
 //	public void reconcileAttributes(Element changedElement) {

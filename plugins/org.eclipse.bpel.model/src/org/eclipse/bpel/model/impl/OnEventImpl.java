@@ -10,36 +10,29 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: OnEventImpl.java,v 1.8 2007/11/20 14:14:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.OperationProxy;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,8 +48,8 @@ import org.w3c.dom.Element;
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getOperation <em>Operation</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getPortType <em>Port Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getMessageType <em>Message Type</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getFromPart <em>From Part</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getCorrelationSets <em>Correlation Sets</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getFromParts <em>From Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -134,16 +127,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	protected Message messageType;
 
 	/**
-	 * The cached value of the '{@link #getFromPart() <em>From Part</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFromPart()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<FromPart> fromPart;
-
-	/**
 	 * The cached value of the '{@link #getCorrelationSets() <em>Correlation Sets</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -152,6 +135,16 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @ordered
 	 */
 	protected CorrelationSets correlationSets;
+
+	/**
+	 * The cached value of the '{@link #getFromParts() <em>From Parts</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFromParts()
+	 * @generated
+	 * @ordered
+	 */
+	protected FromParts fromParts;
 
 	/**
 	 * The deserialized value of the operation name.
@@ -569,19 +562,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<FromPart> getFromPart() {
-		if (fromPart == null) {
-			fromPart = new EObjectResolvingEList<FromPart>(FromPart.class,
-					this, BPELPackage.ON_EVENT__FROM_PART);
-		}
-		return fromPart;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public CorrelationSets getCorrelationSets() {
 		return correlationSets;
 	}
@@ -639,18 +619,78 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public FromParts getFromParts() {
+		return fromParts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFromParts(FromParts newFromParts,
+			NotificationChain msgs) {
+		FromParts oldFromParts = fromParts;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFromParts, newFromParts);
+		}
+		fromParts = newFromParts;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.ON_EVENT__FROM_PARTS,
+					oldFromParts, newFromParts);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFromParts(FromParts newFromParts) {
+		if (newFromParts != fromParts) {
+			NotificationChain msgs = null;
+			if (fromParts != null)
+				msgs = ((InternalEObject) fromParts).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_EVENT__FROM_PARTS, null, msgs);
+			if (newFromParts != null)
+				msgs = ((InternalEObject) newFromParts).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- BPELPackage.ON_EVENT__FROM_PARTS, null, msgs);
+			msgs = basicSetFromParts(newFromParts, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_EVENT__FROM_PARTS, newFromParts,
+					newFromParts));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.ON_EVENT__ACTIVITY:
-				return basicSetActivity(null, msgs);
-			case BPELPackage.ON_EVENT__VARIABLE:
-				return basicSetVariable(null, msgs);
-			case BPELPackage.ON_EVENT__CORRELATIONS:
-				return basicSetCorrelations(null, msgs);
-			case BPELPackage.ON_EVENT__CORRELATION_SETS:
-				return basicSetCorrelationSets(null, msgs);
+		case BPELPackage.ON_EVENT__ACTIVITY:
+			return basicSetActivity(null, msgs);
+		case BPELPackage.ON_EVENT__VARIABLE:
+			return basicSetVariable(null, msgs);
+		case BPELPackage.ON_EVENT__CORRELATIONS:
+			return basicSetCorrelations(null, msgs);
+		case BPELPackage.ON_EVENT__CORRELATION_SETS:
+			return basicSetCorrelationSets(null, msgs);
+		case BPELPackage.ON_EVENT__FROM_PARTS:
+			return basicSetFromParts(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -663,32 +703,32 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.ON_EVENT__ACTIVITY:
-				return getActivity();
-			case BPELPackage.ON_EVENT__VARIABLE:
-				return getVariable();
-			case BPELPackage.ON_EVENT__PARTNER_LINK:
-				if (resolve)
-					return getPartnerLink();
-				return basicGetPartnerLink();
-			case BPELPackage.ON_EVENT__CORRELATIONS:
-				return getCorrelations();
-			case BPELPackage.ON_EVENT__OPERATION:
-				if (resolve)
-					return getOperation();
-				return basicGetOperation();
-			case BPELPackage.ON_EVENT__PORT_TYPE:
-				if (resolve)
-					return getPortType();
-				return basicGetPortType();
-			case BPELPackage.ON_EVENT__MESSAGE_TYPE:
-				if (resolve)
-					return getMessageType();
-				return basicGetMessageType();
-			case BPELPackage.ON_EVENT__FROM_PART:
-				return getFromPart();
-			case BPELPackage.ON_EVENT__CORRELATION_SETS:
-				return getCorrelationSets();
+		case BPELPackage.ON_EVENT__ACTIVITY:
+			return getActivity();
+		case BPELPackage.ON_EVENT__VARIABLE:
+			return getVariable();
+		case BPELPackage.ON_EVENT__PARTNER_LINK:
+			if (resolve)
+				return getPartnerLink();
+			return basicGetPartnerLink();
+		case BPELPackage.ON_EVENT__CORRELATIONS:
+			return getCorrelations();
+		case BPELPackage.ON_EVENT__OPERATION:
+			if (resolve)
+				return getOperation();
+			return basicGetOperation();
+		case BPELPackage.ON_EVENT__PORT_TYPE:
+			if (resolve)
+				return getPortType();
+			return basicGetPortType();
+		case BPELPackage.ON_EVENT__MESSAGE_TYPE:
+			if (resolve)
+				return getMessageType();
+			return basicGetMessageType();
+		case BPELPackage.ON_EVENT__CORRELATION_SETS:
+			return getCorrelationSets();
+		case BPELPackage.ON_EVENT__FROM_PARTS:
+			return getFromParts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -702,34 +742,33 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.ON_EVENT__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.ON_EVENT__VARIABLE:
-				setVariable((Variable) newValue);
-				return;
-			case BPELPackage.ON_EVENT__PARTNER_LINK:
-				setPartnerLink((PartnerLink) newValue);
-				return;
-			case BPELPackage.ON_EVENT__CORRELATIONS:
-				setCorrelations((Correlations) newValue);
-				return;
-			case BPELPackage.ON_EVENT__OPERATION:
-				setOperation((Operation) newValue);
-				return;
-			case BPELPackage.ON_EVENT__PORT_TYPE:
-				setPortType((PortType) newValue);
-				return;
-			case BPELPackage.ON_EVENT__MESSAGE_TYPE:
-				setMessageType((Message) newValue);
-				return;
-			case BPELPackage.ON_EVENT__FROM_PART:
-				getFromPart().clear();
-				getFromPart().addAll((Collection<? extends FromPart>) newValue);
-				return;
-			case BPELPackage.ON_EVENT__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets) newValue);
-				return;
+		case BPELPackage.ON_EVENT__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.ON_EVENT__VARIABLE:
+			setVariable((Variable) newValue);
+			return;
+		case BPELPackage.ON_EVENT__PARTNER_LINK:
+			setPartnerLink((PartnerLink) newValue);
+			return;
+		case BPELPackage.ON_EVENT__CORRELATIONS:
+			setCorrelations((Correlations) newValue);
+			return;
+		case BPELPackage.ON_EVENT__OPERATION:
+			setOperation((Operation) newValue);
+			return;
+		case BPELPackage.ON_EVENT__PORT_TYPE:
+			setPortType((PortType) newValue);
+			return;
+		case BPELPackage.ON_EVENT__MESSAGE_TYPE:
+			setMessageType((Message) newValue);
+			return;
+		case BPELPackage.ON_EVENT__CORRELATION_SETS:
+			setCorrelationSets((CorrelationSets) newValue);
+			return;
+		case BPELPackage.ON_EVENT__FROM_PARTS:
+			setFromParts((FromParts) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -742,33 +781,33 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ON_EVENT__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.ON_EVENT__VARIABLE:
-				setVariable((Variable) null);
-				return;
-			case BPELPackage.ON_EVENT__PARTNER_LINK:
-				setPartnerLink((PartnerLink) null);
-				return;
-			case BPELPackage.ON_EVENT__CORRELATIONS:
-				setCorrelations((Correlations) null);
-				return;
-			case BPELPackage.ON_EVENT__OPERATION:
-				setOperation((Operation) null);
-				return;
-			case BPELPackage.ON_EVENT__PORT_TYPE:
-				setPortType((PortType) null);
-				return;
-			case BPELPackage.ON_EVENT__MESSAGE_TYPE:
-				setMessageType((Message) null);
-				return;
-			case BPELPackage.ON_EVENT__FROM_PART:
-				getFromPart().clear();
-				return;
-			case BPELPackage.ON_EVENT__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets) null);
-				return;
+		case BPELPackage.ON_EVENT__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.ON_EVENT__VARIABLE:
+			setVariable((Variable) null);
+			return;
+		case BPELPackage.ON_EVENT__PARTNER_LINK:
+			setPartnerLink((PartnerLink) null);
+			return;
+		case BPELPackage.ON_EVENT__CORRELATIONS:
+			setCorrelations((Correlations) null);
+			return;
+		case BPELPackage.ON_EVENT__OPERATION:
+			setOperation((Operation) null);
+			return;
+		case BPELPackage.ON_EVENT__PORT_TYPE:
+			setPortType((PortType) null);
+			return;
+		case BPELPackage.ON_EVENT__MESSAGE_TYPE:
+			setMessageType((Message) null);
+			return;
+		case BPELPackage.ON_EVENT__CORRELATION_SETS:
+			setCorrelationSets((CorrelationSets) null);
+			return;
+		case BPELPackage.ON_EVENT__FROM_PARTS:
+			setFromParts((FromParts) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -781,24 +820,24 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ON_EVENT__ACTIVITY:
-				return activity != null;
-			case BPELPackage.ON_EVENT__VARIABLE:
-				return variable != null;
-			case BPELPackage.ON_EVENT__PARTNER_LINK:
-				return partnerLink != null;
-			case BPELPackage.ON_EVENT__CORRELATIONS:
-				return correlations != null;
-			case BPELPackage.ON_EVENT__OPERATION:
-				return operation != null;
-			case BPELPackage.ON_EVENT__PORT_TYPE:
-				return portType != null;
-			case BPELPackage.ON_EVENT__MESSAGE_TYPE:
-				return messageType != null;
-			case BPELPackage.ON_EVENT__FROM_PART:
-				return fromPart != null && !fromPart.isEmpty();
-			case BPELPackage.ON_EVENT__CORRELATION_SETS:
-				return correlationSets != null;
+		case BPELPackage.ON_EVENT__ACTIVITY:
+			return activity != null;
+		case BPELPackage.ON_EVENT__VARIABLE:
+			return variable != null;
+		case BPELPackage.ON_EVENT__PARTNER_LINK:
+			return partnerLink != null;
+		case BPELPackage.ON_EVENT__CORRELATIONS:
+			return correlations != null;
+		case BPELPackage.ON_EVENT__OPERATION:
+			return operation != null;
+		case BPELPackage.ON_EVENT__PORT_TYPE:
+			return portType != null;
+		case BPELPackage.ON_EVENT__MESSAGE_TYPE:
+			return messageType != null;
+		case BPELPackage.ON_EVENT__CORRELATION_SETS:
+			return correlationSets != null;
+		case BPELPackage.ON_EVENT__FROM_PARTS:
+			return fromParts != null;
 		}
 		return super.eIsSet(featureID);
 	}

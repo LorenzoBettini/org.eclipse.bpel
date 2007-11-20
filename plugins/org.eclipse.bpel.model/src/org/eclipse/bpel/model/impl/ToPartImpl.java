@@ -2,32 +2,35 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.7 2007/10/26 16:28:16 smoser Exp $
+ * $Id: ToPartImpl.java,v 1.8 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.wsdl.Fault;
+import javax.wsdl.Input;
+import javax.wsdl.Output;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromParts;
+import org.eclipse.bpel.model.PartnerActivity;
+import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
+import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.proxy.PartProxy;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
-
-import org.w3c.dom.Element;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.wst.wsdl.Message;
+import org.eclipse.wst.wsdl.Operation;
+import org.eclipse.wst.wsdl.Part;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,8 +39,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.bpel.model.impl.ToPartImpl#getFromVariable <em>From Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ToPartImpl#getPart <em>Part</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.ToPartImpl#getFrom <em>From</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,35 +48,31 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  */
 public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	/**
-	 * The default value of the '{@link #getPart() <em>Part</em>}' attribute.
+	 * The cached value of the '{@link #getFromVariable() <em>From Variable</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFromVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected Variable	fromVariable;
+
+	/**
+	 * The cached value of the '{@link #getPart() <em>Part</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getPart()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PART_EDEFAULT = null;
+	protected Part		part;
 
 	/**
-	 * The cached value of the '{@link #getPart() <em>Part</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPart()
-	 * @generated
-	 * @ordered
+	 * The deserialized value of the part name.
+	 * @customized
 	 */
-	protected String part = PART_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getFrom() <em>From</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFrom()
-	 * @generated
-	 * @ordered
-	 */
-	protected From from;
-
+	protected String	partName	= null;
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -98,7 +97,95 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPart() {
+	public Variable getFromVariable() {
+		if (fromVariable != null && fromVariable.eIsProxy()) {
+			InternalEObject oldFromVariable = (InternalEObject) fromVariable;
+			fromVariable = (Variable) eResolveProxy(oldFromVariable);
+			if (fromVariable != oldFromVariable) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO_PART__FROM_VARIABLE, oldFromVariable, fromVariable));
+			}
+		}
+		return fromVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Variable basicGetFromVariable() {
+		return fromVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFromVariable(Variable newFromVariable) {
+		Variable oldFromVariable = fromVariable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FROM_VARIABLE,
+					newFromVariable == null ? null : newFromVariable.getName());
+		}
+		fromVariable = newFromVariable;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO_PART__FROM_VARIABLE, oldFromVariable, fromVariable));
+	}
+	
+	/**
+	 * Customizes {@link #getPartGen()} to lazy-resolve the part name.
+	 * @customized
+	 */
+	public Part getPart() {
+		if (part == null && partName != null) {
+			EObject container = this.eContainer;
+			if (container != null && container instanceof ToParts) {
+				ToParts toParts = (ToParts) container;
+				container = toParts.eContainer();
+				if (container != null && container instanceof PartnerActivity) {
+					PartnerActivity partnerActivity = (PartnerActivity) container;
+					if (partnerActivity != null) {
+						Operation operation = partnerActivity.getOperation();
+						if (operation != null) {
+							Output output = operation.getOutput();
+							if (output != null) {
+								javax.wsdl.Message message = output
+										.getMessage();
+								if (message != null) {
+									// Create an part proxy with the
+									// deserialized part name.
+									part = new PartProxy(eResource(),
+											(Message) message, partName);
+									partName = null;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return getPartGen();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Part getPartGen() {
+		if (part != null && part.eIsProxy()) {
+			InternalEObject oldPart = (InternalEObject) part;
+			part = (Part) eResolveProxy(oldPart);
+			if (part != oldPart) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.TO_PART__PART, oldPart, part));
+			}
+		}
 		return part;
 	}
 
@@ -107,58 +194,34 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPart(String newPart) {
-		String oldPart = part;
+	public Part basicGetPart() {
+		return part;
+	}
+
+	/**
+	 * Set the deserialized value of the part name.
+	 * @customized
+	 */
+	public void setPartName(String newPartName) {
+
+		partName = newPartName;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPart(Part newPart) {
+		Part oldPart = part;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPart);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART,
+					newPart == null ? null : newPart.getName());
 		}
 		part = newPart;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					BPELPackage.TO_PART__PART, oldPart, part));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public From getFrom() {
-		if (from != null && from.eIsProxy()) {
-			InternalEObject oldFrom = (InternalEObject) from;
-			from = (From) eResolveProxy(oldFrom);
-			if (from != oldFrom) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							BPELPackage.TO_PART__FROM, oldFrom, from));
-			}
-		}
-		return from;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public From basicGetFrom() {
-		return from;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setFrom(From newFrom) {
-		From oldFrom = from;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldFrom, newFrom);
-		}
-		from = newFrom;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					BPELPackage.TO_PART__FROM, oldFrom, from));
+			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO_PART__PART,
+					oldPart, part));
 	}
 
 	/**
@@ -169,12 +232,14 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.TO_PART__PART:
+		case BPELPackage.TO_PART__FROM_VARIABLE:
+			if (resolve)
+				return getFromVariable();
+			return basicGetFromVariable();
+		case BPELPackage.TO_PART__PART:
+			if (resolve)
 				return getPart();
-			case BPELPackage.TO_PART__FROM:
-				if (resolve)
-					return getFrom();
-				return basicGetFrom();
+			return basicGetPart();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -187,12 +252,12 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.TO_PART__PART:
-				setPart((String) newValue);
-				return;
-			case BPELPackage.TO_PART__FROM:
-				setFrom((From) newValue);
-				return;
+		case BPELPackage.TO_PART__FROM_VARIABLE:
+			setFromVariable((Variable) newValue);
+			return;
+		case BPELPackage.TO_PART__PART:
+			setPart((Part) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -205,12 +270,12 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TO_PART__PART:
-				setPart(PART_EDEFAULT);
-				return;
-			case BPELPackage.TO_PART__FROM:
-				setFrom((From) null);
-				return;
+		case BPELPackage.TO_PART__FROM_VARIABLE:
+			setFromVariable((Variable) null);
+			return;
+		case BPELPackage.TO_PART__PART:
+			setPart((Part) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -223,30 +288,12 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TO_PART__PART:
-				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT
-						.equals(part);
-			case BPELPackage.TO_PART__FROM:
-				return from != null;
+		case BPELPackage.TO_PART__FROM_VARIABLE:
+			return fromVariable != null;
+		case BPELPackage.TO_PART__PART:
+			return part != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy())
-			return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (part: "); //$NON-NLS-1$
-		result.append(part);
-		result.append(')');
-		return result.toString();
 	}
 
 } //ToPartImpl

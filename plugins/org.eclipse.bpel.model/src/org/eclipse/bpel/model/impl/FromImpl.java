@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
+ * $Id: FromImpl.java,v 1.9 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -706,9 +706,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
      * @customized
      */
     public void setPartName(String newPartName) {
-        if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPartName);
-        }
         partName = newPartName;
     }
 
@@ -728,6 +725,9 @@ public class FromImpl extends ExtensibleElementImpl implements From {
      */
     public void setPart(Part newPart) {
         Part oldPart = part;
+        if (!isReconciling) {
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPart == null ? null : newPart.getName());
+        }
         part = newPart;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET,

@@ -20,6 +20,8 @@ import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.proxy.ScopeProxy;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -115,6 +117,9 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	 */
 	public void setTarget(Activity newTarget) {
 		Activity oldTarget = target;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_TARGET, newTarget == null ? null : newTarget.getName());
+		}
 		target = newTarget;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

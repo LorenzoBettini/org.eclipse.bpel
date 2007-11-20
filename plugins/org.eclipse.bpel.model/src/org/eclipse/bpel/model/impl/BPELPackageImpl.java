@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.33 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: BPELPackageImpl.java,v 1.34 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -50,6 +50,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
@@ -81,6 +82,7 @@ import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
@@ -98,11 +100,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.wst.wsdl.WSDLPackage;
-import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
 import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.impl.XSDPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -278,6 +277,20 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * @generated
 	 */
 	private EClass compensateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass fromPartsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass toPartsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1076,7 +1089,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInvoke_ToPart() {
+	public EReference getInvoke_FromParts() {
 		return (EReference) invokeEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -1085,7 +1098,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInvoke_FromPart() {
+	public EReference getInvoke_ToParts() {
 		return (EReference) invokeEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -1211,7 +1224,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReply_ToPart() {
+	public EReference getReply_ToParts() {
 		return (EReference) replyEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1296,7 +1309,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReceive_FromPart() {
+	public EReference getReceive_FromParts() {
 		return (EReference) receiveEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1746,6 +1759,42 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getFromParts() {
+		return fromPartsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFromParts_Children() {
+		return (EReference) fromPartsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getToParts() {
+		return toPartsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getToParts_Children() {
+		return (EReference) toPartsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCompensationHandler() {
 		return compensationHandlerEClass;
 	}
@@ -2008,7 +2057,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOnMessage_FromPart() {
+	public EReference getOnMessage_FromParts() {
 		return (EReference) onMessageEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -2432,7 +2481,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOnEvent_FromPart() {
+	public EReference getOnEvent_CorrelationSets() {
 		return (EReference) onEventEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -2441,7 +2490,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOnEvent_CorrelationSets() {
+	public EReference getOnEvent_FromParts() {
 		return (EReference) onEventEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -2648,8 +2697,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getFromPart_Part() {
-		return (EAttribute) fromPartEClass.getEStructuralFeatures().get(0);
+	public EReference getFromPart_ToVariable() {
+		return (EReference) fromPartEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2657,7 +2706,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFromPart_To() {
+	public EReference getFromPart_Part() {
 		return (EReference) fromPartEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -2675,8 +2724,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getToPart_Part() {
-		return (EAttribute) toPartEClass.getEStructuralFeatures().get(0);
+	public EReference getToPart_FromVariable() {
+		return (EReference) toPartEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2684,7 +2733,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getToPart_From() {
+	public EReference getToPart_Part() {
 		return (EReference) toPartEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -3155,8 +3204,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(invokeEClass, INVOKE__INPUT_VARIABLE);
 		createEReference(invokeEClass, INVOKE__COMPENSATION_HANDLER);
 		createEReference(invokeEClass, INVOKE__FAULT_HANDLER);
-		createEReference(invokeEClass, INVOKE__TO_PART);
-		createEReference(invokeEClass, INVOKE__FROM_PART);
+		createEReference(invokeEClass, INVOKE__FROM_PARTS);
+		createEReference(invokeEClass, INVOKE__TO_PARTS);
 
 		linkEClass = createEClass(LINK);
 		createEAttribute(linkEClass, LINK__NAME);
@@ -3173,7 +3222,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		replyEClass = createEClass(REPLY);
 		createEAttribute(replyEClass, REPLY__FAULT_NAME);
 		createEReference(replyEClass, REPLY__VARIABLE);
-		createEReference(replyEClass, REPLY__TO_PART);
+		createEReference(replyEClass, REPLY__TO_PARTS);
 
 		partnerActivityEClass = createEClass(PARTNER_ACTIVITY);
 		createEReference(partnerActivityEClass, PARTNER_ACTIVITY__PARTNER_LINK);
@@ -3184,7 +3233,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		receiveEClass = createEClass(RECEIVE);
 		createEAttribute(receiveEClass, RECEIVE__CREATE_INSTANCE);
 		createEReference(receiveEClass, RECEIVE__VARIABLE);
-		createEReference(receiveEClass, RECEIVE__FROM_PART);
+		createEReference(receiveEClass, RECEIVE__FROM_PARTS);
 
 		exitEClass = createEClass(EXIT);
 
@@ -3284,7 +3333,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(onMessageEClass, ON_MESSAGE__PARTNER_LINK);
 		createEReference(onMessageEClass, ON_MESSAGE__CORRELATIONS);
 		createEReference(onMessageEClass, ON_MESSAGE__OPERATION);
-		createEReference(onMessageEClass, ON_MESSAGE__FROM_PART);
+		createEReference(onMessageEClass, ON_MESSAGE__FROM_PARTS);
 
 		expressionEClass = createEClass(EXPRESSION);
 		createEAttribute(expressionEClass, EXPRESSION__BODY);
@@ -3346,8 +3395,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(onEventEClass, ON_EVENT__OPERATION);
 		createEReference(onEventEClass, ON_EVENT__PORT_TYPE);
 		createEReference(onEventEClass, ON_EVENT__MESSAGE_TYPE);
-		createEReference(onEventEClass, ON_EVENT__FROM_PART);
 		createEReference(onEventEClass, ON_EVENT__CORRELATION_SETS);
+		createEReference(onEventEClass, ON_EVENT__FROM_PARTS);
 
 		importEClass = createEClass(IMPORT);
 		createEAttribute(importEClass, IMPORT__NAMESPACE);
@@ -3379,12 +3428,12 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		extensionActivityEClass = createEClass(EXTENSION_ACTIVITY);
 
 		fromPartEClass = createEClass(FROM_PART);
-		createEAttribute(fromPartEClass, FROM_PART__PART);
-		createEReference(fromPartEClass, FROM_PART__TO);
+		createEReference(fromPartEClass, FROM_PART__TO_VARIABLE);
+		createEReference(fromPartEClass, FROM_PART__PART);
 
 		toPartEClass = createEClass(TO_PART);
-		createEAttribute(toPartEClass, TO_PART__PART);
-		createEReference(toPartEClass, TO_PART__FROM);
+		createEReference(toPartEClass, TO_PART__FROM_VARIABLE);
+		createEReference(toPartEClass, TO_PART__PART);
 
 		opaqueActivityEClass = createEClass(OPAQUE_ACTIVITY);
 
@@ -3444,6 +3493,12 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEAttribute(messageExchangeEClass, MESSAGE_EXCHANGE__NAME);
 
 		compensateEClass = createEClass(COMPENSATE);
+
+		fromPartsEClass = createEClass(FROM_PARTS);
+		createEReference(fromPartsEClass, FROM_PARTS__CHILDREN);
+
+		toPartsEClass = createEClass(TO_PARTS);
+		createEReference(toPartsEClass, TO_PARTS__CHILDREN);
 
 		// Create enums
 		correlationPatternEEnum = createEEnum(CORRELATION_PATTERN);
@@ -3569,6 +3624,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				.add(this.getExtensibleElement());
 		messageExchangeEClass.getESuperTypes().add(this.getExtensibleElement());
 		compensateEClass.getESuperTypes().add(this.getActivity());
+		fromPartsEClass.getESuperTypes().add(this.getExtensibleElement());
+		toPartsEClass.getESuperTypes().add(this.getExtensibleElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(
@@ -3754,15 +3811,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				null,
 				"faultHandler", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getInvoke_ToPart(),
-				this.getToPart(),
+				getInvoke_FromParts(),
+				this.getFromParts(),
 				null,
-				"toPart", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"fromParts", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getInvoke_FromPart(),
-				this.getFromPart(),
+				getInvoke_ToParts(),
+				this.getToParts(),
 				null,
-				"fromPart", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"toParts", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				linkEClass,
@@ -3826,10 +3883,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				null,
 				"variable", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getReply_ToPart(),
-				this.getToPart(),
+				getReply_ToParts(),
+				this.getToParts(),
 				null,
-				"toPart", null, 0, -1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"toParts", null, 0, 1, Reply.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				partnerActivityEClass,
@@ -3870,10 +3927,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				null,
 				"variable", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getReceive_FromPart(),
-				this.getFromPart(),
+				getReceive_FromParts(),
+				this.getFromParts(),
 				null,
-				"fromPart", null, 0, -1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"fromParts", null, 0, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				exitEClass,
@@ -4260,10 +4317,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				null,
 				"operation", null, 1, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getOnMessage_FromPart(),
-				this.getFromPart(),
+				getOnMessage_FromParts(),
+				this.getFromParts(),
 				null,
-				"fromPart", null, 0, -1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"fromParts", null, 0, 1, OnMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				expressionEClass,
@@ -4489,15 +4546,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				null,
 				"messageType", null, 1, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getOnEvent_FromPart(),
-				this.getFromPart(),
-				null,
-				"fromPart", null, 0, -1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEReference(
 				getOnEvent_CorrelationSets(),
 				this.getCorrelationSets(),
 				null,
 				"correlationSets", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getOnEvent_FromParts(),
+				this.getFromParts(),
+				null,
+				"fromParts", null, 0, 1, OnEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				importEClass,
@@ -4596,29 +4653,31 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				fromPartEClass,
 				FromPart.class,
 				"FromPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(
-				getFromPart_Part(),
-				theEcorePackage.getEString(),
-				"part", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getFromPart_To(),
-				this.getTo(),
+				getFromPart_ToVariable(),
+				this.getVariable(),
 				null,
-				"to", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"toVariable", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getFromPart_Part(),
+				theWSDLPackage.getPart(),
+				null,
+				"part", null, 0, 1, FromPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				toPartEClass,
 				ToPart.class,
 				"ToPart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(
-				getToPart_Part(),
-				theEcorePackage.getEString(),
-				"part", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(
-				getToPart_From(),
-				this.getFrom(),
+				getToPart_FromVariable(),
+				this.getVariable(),
 				null,
-				"from", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+				"fromVariable", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getToPart_Part(),
+				theWSDLPackage.getPart(),
+				null,
+				"part", null, 0, 1, ToPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				opaqueActivityEClass,
@@ -4811,6 +4870,26 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				compensateEClass,
 				Compensate.class,
 				"Compensate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+		initEClass(
+				fromPartsEClass,
+				FromParts.class,
+				"FromParts", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getFromParts_Children(),
+				this.getFromPart(),
+				null,
+				"children", null, 0, -1, FromParts.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(
+				toPartsEClass,
+				ToParts.class,
+				"ToParts", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getToParts_Children(),
+				this.getToPart(),
+				null,
+				"children", null, 0, -1, ToParts.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class,

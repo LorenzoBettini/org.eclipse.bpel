@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: CorrelationSetImpl.java,v 1.7 2007/11/20 14:14:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,10 +20,14 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.messageproperties.Property;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -112,6 +116,9 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	 */
 	public void setName(String newName) {
 		String oldName = name;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+		}
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -220,4 +227,12 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 		return result.toString();
 	}
 
+	protected void changeReference(EReference reference) {
+		if (reference.getFeatureID() == BPELPackage.CORRELATION_SET__PROPERTIES) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTIES, ElementFactory.getInstance().createPropertiesString(this));
+		}
+
+		super.changeReference(reference);
+	}
+	
 } //CorrelationSetImpl

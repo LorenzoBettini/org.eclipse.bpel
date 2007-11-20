@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.21 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: BPELFactoryImpl.java,v 1.22 2007/11/20 14:14:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -50,6 +50,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
@@ -81,6 +82,7 @@ import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
@@ -140,149 +142,153 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case BPELPackage.PROCESS:
-				return createProcess();
-			case BPELPackage.PARTNER_LINK:
-				return createPartnerLink();
-			case BPELPackage.FAULT_HANDLER:
-				return createFaultHandler();
-			case BPELPackage.ACTIVITY:
-				return createActivity();
-			case BPELPackage.CORRELATION_SET:
-				return createCorrelationSet();
-			case BPELPackage.INVOKE:
-				return createInvoke();
-			case BPELPackage.LINK:
-				return createLink();
-			case BPELPackage.CATCH:
-				return createCatch();
-			case BPELPackage.REPLY:
-				return createReply();
-			case BPELPackage.PARTNER_ACTIVITY:
-				return createPartnerActivity();
-			case BPELPackage.RECEIVE:
-				return createReceive();
-			case BPELPackage.EXIT:
-				return createExit();
-			case BPELPackage.THROW:
-				return createThrow();
-			case BPELPackage.WAIT:
-				return createWait();
-			case BPELPackage.EMPTY:
-				return createEmpty();
-			case BPELPackage.SEQUENCE:
-				return createSequence();
-			case BPELPackage.WHILE:
-				return createWhile();
-			case BPELPackage.PICK:
-				return createPick();
-			case BPELPackage.FLOW:
-				return createFlow();
-			case BPELPackage.ON_ALARM:
-				return createOnAlarm();
-			case BPELPackage.ASSIGN:
-				return createAssign();
-			case BPELPackage.COPY:
-				return createCopy();
-			case BPELPackage.EXTENSION:
-				return createExtension();
-			case BPELPackage.SCOPE:
-				return createScope();
-			case BPELPackage.COMPENSATE_SCOPE:
-				return createCompensateScope();
-			case BPELPackage.COMPENSATION_HANDLER:
-				return createCompensationHandler();
-			case BPELPackage.TO:
-				return createTo();
-			case BPELPackage.FROM:
-				return createFrom();
-			case BPELPackage.ON_MESSAGE:
-				return createOnMessage();
-			case BPELPackage.EXPRESSION:
-				return createExpression();
-			case BPELPackage.BOOLEAN_EXPRESSION:
-				return createBooleanExpression();
-			case BPELPackage.CORRELATION:
-				return createCorrelation();
-			case BPELPackage.EVENT_HANDLER:
-				return createEventHandler();
-			case BPELPackage.SOURCE:
-				return createSource();
-			case BPELPackage.TARGET:
-				return createTarget();
-			case BPELPackage.PARTNER_LINKS:
-				return createPartnerLinks();
-			case BPELPackage.VARIABLES:
-				return createVariables();
-			case BPELPackage.CORRELATION_SETS:
-				return createCorrelationSets();
-			case BPELPackage.LINKS:
-				return createLinks();
-			case BPELPackage.CATCH_ALL:
-				return createCatchAll();
-			case BPELPackage.CORRELATIONS:
-				return createCorrelations();
-			case BPELPackage.VARIABLE:
-				return createVariable();
-			case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE:
-				return createUnknownExtensibilityAttribute();
-			case BPELPackage.ON_EVENT:
-				return createOnEvent();
-			case BPELPackage.IMPORT:
-				return createImport();
-			case BPELPackage.RETHROW:
-				return createRethrow();
-			case BPELPackage.CONDITION:
-				return createCondition();
-			case BPELPackage.TARGETS:
-				return createTargets();
-			case BPELPackage.SOURCES:
-				return createSources();
-			case BPELPackage.QUERY:
-				return createQuery();
-			case BPELPackage.SERVICE_REF:
-				return createServiceRef();
-			case BPELPackage.EXTENSIONS:
-				return createExtensions();
-			case BPELPackage.EXTENSION_ACTIVITY:
-				return createExtensionActivity();
-			case BPELPackage.FROM_PART:
-				return createFromPart();
-			case BPELPackage.TO_PART:
-				return createToPart();
-			case BPELPackage.OPAQUE_ACTIVITY:
-				return createOpaqueActivity();
-			case BPELPackage.FOR_EACH:
-				return createForEach();
-			case BPELPackage.REPEAT_UNTIL:
-				return createRepeatUntil();
-			case BPELPackage.TERMINATION_HANDLER:
-				return createTerminationHandler();
-			case BPELPackage.VALIDATE:
-				return createValidate();
-			case BPELPackage.IF:
-				return createIf();
-			case BPELPackage.ELSE_IF:
-				return createElseIf();
-			case BPELPackage.ELSE:
-				return createElse();
-			case BPELPackage.COMPLETION_CONDITION:
-				return createCompletionCondition();
-			case BPELPackage.BRANCHES:
-				return createBranches();
-			case BPELPackage.EXTENSIBLE_ELEMENT:
-				return createExtensibleElement();
-			case BPELPackage.DOCUMENTATION:
-				return createDocumentation();
-			case BPELPackage.MESSAGE_EXCHANGES:
-				return createMessageExchanges();
-			case BPELPackage.MESSAGE_EXCHANGE:
-				return createMessageExchange();
-			case BPELPackage.COMPENSATE:
-				return createCompensate();
-			default:
-				throw new IllegalArgumentException(
-						"The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+		case BPELPackage.PROCESS:
+			return createProcess();
+		case BPELPackage.PARTNER_LINK:
+			return createPartnerLink();
+		case BPELPackage.FAULT_HANDLER:
+			return createFaultHandler();
+		case BPELPackage.ACTIVITY:
+			return createActivity();
+		case BPELPackage.CORRELATION_SET:
+			return createCorrelationSet();
+		case BPELPackage.INVOKE:
+			return createInvoke();
+		case BPELPackage.LINK:
+			return createLink();
+		case BPELPackage.CATCH:
+			return createCatch();
+		case BPELPackage.REPLY:
+			return createReply();
+		case BPELPackage.PARTNER_ACTIVITY:
+			return createPartnerActivity();
+		case BPELPackage.RECEIVE:
+			return createReceive();
+		case BPELPackage.EXIT:
+			return createExit();
+		case BPELPackage.THROW:
+			return createThrow();
+		case BPELPackage.WAIT:
+			return createWait();
+		case BPELPackage.EMPTY:
+			return createEmpty();
+		case BPELPackage.SEQUENCE:
+			return createSequence();
+		case BPELPackage.WHILE:
+			return createWhile();
+		case BPELPackage.PICK:
+			return createPick();
+		case BPELPackage.FLOW:
+			return createFlow();
+		case BPELPackage.ON_ALARM:
+			return createOnAlarm();
+		case BPELPackage.ASSIGN:
+			return createAssign();
+		case BPELPackage.COPY:
+			return createCopy();
+		case BPELPackage.EXTENSION:
+			return createExtension();
+		case BPELPackage.SCOPE:
+			return createScope();
+		case BPELPackage.COMPENSATE_SCOPE:
+			return createCompensateScope();
+		case BPELPackage.COMPENSATION_HANDLER:
+			return createCompensationHandler();
+		case BPELPackage.TO:
+			return createTo();
+		case BPELPackage.FROM:
+			return createFrom();
+		case BPELPackage.ON_MESSAGE:
+			return createOnMessage();
+		case BPELPackage.EXPRESSION:
+			return createExpression();
+		case BPELPackage.BOOLEAN_EXPRESSION:
+			return createBooleanExpression();
+		case BPELPackage.CORRELATION:
+			return createCorrelation();
+		case BPELPackage.EVENT_HANDLER:
+			return createEventHandler();
+		case BPELPackage.SOURCE:
+			return createSource();
+		case BPELPackage.TARGET:
+			return createTarget();
+		case BPELPackage.PARTNER_LINKS:
+			return createPartnerLinks();
+		case BPELPackage.VARIABLES:
+			return createVariables();
+		case BPELPackage.CORRELATION_SETS:
+			return createCorrelationSets();
+		case BPELPackage.LINKS:
+			return createLinks();
+		case BPELPackage.CATCH_ALL:
+			return createCatchAll();
+		case BPELPackage.CORRELATIONS:
+			return createCorrelations();
+		case BPELPackage.VARIABLE:
+			return createVariable();
+		case BPELPackage.UNKNOWN_EXTENSIBILITY_ATTRIBUTE:
+			return createUnknownExtensibilityAttribute();
+		case BPELPackage.ON_EVENT:
+			return createOnEvent();
+		case BPELPackage.IMPORT:
+			return createImport();
+		case BPELPackage.RETHROW:
+			return createRethrow();
+		case BPELPackage.CONDITION:
+			return createCondition();
+		case BPELPackage.TARGETS:
+			return createTargets();
+		case BPELPackage.SOURCES:
+			return createSources();
+		case BPELPackage.QUERY:
+			return createQuery();
+		case BPELPackage.SERVICE_REF:
+			return createServiceRef();
+		case BPELPackage.EXTENSIONS:
+			return createExtensions();
+		case BPELPackage.EXTENSION_ACTIVITY:
+			return createExtensionActivity();
+		case BPELPackage.FROM_PART:
+			return createFromPart();
+		case BPELPackage.TO_PART:
+			return createToPart();
+		case BPELPackage.OPAQUE_ACTIVITY:
+			return createOpaqueActivity();
+		case BPELPackage.FOR_EACH:
+			return createForEach();
+		case BPELPackage.REPEAT_UNTIL:
+			return createRepeatUntil();
+		case BPELPackage.TERMINATION_HANDLER:
+			return createTerminationHandler();
+		case BPELPackage.VALIDATE:
+			return createValidate();
+		case BPELPackage.IF:
+			return createIf();
+		case BPELPackage.ELSE_IF:
+			return createElseIf();
+		case BPELPackage.ELSE:
+			return createElse();
+		case BPELPackage.COMPLETION_CONDITION:
+			return createCompletionCondition();
+		case BPELPackage.BRANCHES:
+			return createBranches();
+		case BPELPackage.EXTENSIBLE_ELEMENT:
+			return createExtensibleElement();
+		case BPELPackage.DOCUMENTATION:
+			return createDocumentation();
+		case BPELPackage.MESSAGE_EXCHANGES:
+			return createMessageExchanges();
+		case BPELPackage.MESSAGE_EXCHANGE:
+			return createMessageExchange();
+		case BPELPackage.COMPENSATE:
+			return createCompensate();
+		case BPELPackage.FROM_PARTS:
+			return createFromParts();
+		case BPELPackage.TO_PARTS:
+			return createToParts();
+		default:
+			throw new IllegalArgumentException(
+					"The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -294,15 +300,14 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case BPELPackage.CORRELATION_PATTERN:
-				return createCorrelationPatternFromString(eDataType,
-						initialValue);
-			case BPELPackage.ENDPOINT_REFERENCE_ROLE:
-				return createEndpointReferenceRoleFromString(eDataType,
-						initialValue);
-			default:
-				throw new IllegalArgumentException(
-						"The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+		case BPELPackage.CORRELATION_PATTERN:
+			return createCorrelationPatternFromString(eDataType, initialValue);
+		case BPELPackage.ENDPOINT_REFERENCE_ROLE:
+			return createEndpointReferenceRoleFromString(eDataType,
+					initialValue);
+		default:
+			throw new IllegalArgumentException(
+					"The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -314,15 +319,14 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case BPELPackage.CORRELATION_PATTERN:
-				return convertCorrelationPatternToString(eDataType,
-						instanceValue);
-			case BPELPackage.ENDPOINT_REFERENCE_ROLE:
-				return convertEndpointReferenceRoleToString(eDataType,
-						instanceValue);
-			default:
-				throw new IllegalArgumentException(
-						"The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+		case BPELPackage.CORRELATION_PATTERN:
+			return convertCorrelationPatternToString(eDataType, instanceValue);
+		case BPELPackage.ENDPOINT_REFERENCE_ROLE:
+			return convertEndpointReferenceRoleToString(eDataType,
+					instanceValue);
+		default:
+			throw new IllegalArgumentException(
+					"The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -564,6 +568,26 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 	public Compensate createCompensate() {
 		CompensateImpl compensate = new CompensateImpl();
 		return compensate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FromParts createFromParts() {
+		FromPartsImpl fromParts = new FromPartsImpl();
+		return fromParts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ToParts createToParts() {
+		ToPartsImpl toParts = new ToPartsImpl();
+		return toParts;
 	}
 
 	/**

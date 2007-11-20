@@ -62,6 +62,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
@@ -94,6 +95,7 @@ import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -105,10 +107,12 @@ import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
 import org.eclipse.bpel.model.extensions.BPELUnknownExtensionDeserializer;
 import org.eclipse.bpel.model.extensions.ServiceReferenceDeserializer;
 import org.eclipse.bpel.model.impl.FromImpl;
+import org.eclipse.bpel.model.impl.FromPartImpl;
 import org.eclipse.bpel.model.impl.OnEventImpl;
 import org.eclipse.bpel.model.impl.OnMessageImpl;
 import org.eclipse.bpel.model.impl.PartnerActivityImpl;
 import org.eclipse.bpel.model.impl.ToImpl;
+import org.eclipse.bpel.model.impl.ToPartImpl;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
 import org.eclipse.bpel.model.proxy.CorrelationSetProxy;
@@ -1072,6 +1076,44 @@ public class BPELReader implements ErrorHandler {
 		
 		return correlationSets;
 	}
+	
+	protected FromParts xml2FromParts(Element fromPartsElement) {
+		if (!fromPartsElement.getLocalName().equals("fromParts"))
+			return null;
+			
+		FromParts fromParts = BPELFactory.eINSTANCE.createFromParts();
+		fromParts.setElement(fromPartsElement);
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(fromParts, fromPartsElement);		
+		
+		for(Element e : getBPELChildElementsByLocalName(fromPartsElement, "fromPart")) {
+			fromParts.getChildren().add(xml2FromPart(e));
+		}
+
+		xml2ExtensibleElement(fromParts, fromPartsElement);
+		
+		return fromParts;
+	}
+	
+	protected ToParts xml2ToParts(Element toPartsElement) {
+		if (!toPartsElement.getLocalName().equals("toParts"))
+			return null;
+			
+		ToParts toParts = BPELFactory.eINSTANCE.createToParts();
+		toParts.setElement(toPartsElement);
+		
+		// Save all the references to external namespaces		
+		saveNamespacePrefix(toParts, toPartsElement);		
+		
+		for(Element e : getBPELChildElementsByLocalName(toPartsElement, "toPart")) {
+			toParts.getChildren().add(xml2ToPart(e));
+		}
+
+		xml2ExtensibleElement(toParts, toPartsElement);
+		
+		return toParts;
+	}
 
 	protected MessageExchanges xml2MessageExchanges(Element messageExchangesElement) {
 		if (!messageExchangesElement.getLocalName().equals("messageExchanges"))
@@ -1899,10 +1941,12 @@ public class BPELReader implements ErrorHandler {
 		// Set activity
 		onMessage.setActivity(getChildActivity(onMessageElement));
 
-		// Set the FromPart
-		for(Element e :  getBPELChildElementsByLocalName(onMessageElement, "fromPart")) {
-			onMessage.getFromPart().add( xml2FromPart ( e ));
-		}		
+		// Set fromParts
+		Element fromPartsElement = getBPELChildElementByLocalName(onMessageElement, "fromParts");
+		if (fromPartsElement != null) {
+			FromParts fromParts = xml2FromParts(fromPartsElement);
+			onMessage.setFromParts(fromParts);
+		}	
 
 		xml2ExtensibleElement(onMessage, onMessageElement);
 				
@@ -1925,9 +1969,11 @@ public class BPELReader implements ErrorHandler {
 		// Set activity
 		onEvent.setActivity(getChildActivity(onEventElement));
 
-		// Set the FromPart
-		for(Element e :  getBPELChildElementsByLocalName(onEventElement, "fromPart")) {
-			onEvent.getFromPart().add(xml2FromPart(e));
+		// Set fromParts
+		Element fromPartsElement = getBPELChildElementByLocalName(onEventElement, "fromParts");
+		if (fromPartsElement != null) {
+			FromParts fromParts = xml2FromParts(fromPartsElement);
+			onEvent.setFromParts(fromParts);
 		}		
 		
 		// Handle CorrelationSets Element
@@ -2456,19 +2502,16 @@ public class BPELReader implements ErrorHandler {
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(toPart, toPartElement);
 
-		// Handle part attribute
-		if (toPartElement.hasAttribute("part")) 
-			toPart.setPart(toPartElement.getAttribute("part"));
+		// Set part
+		Attr part = toPartElement.getAttributeNode("part"); 		
+    
+		if (part != null && part.getSpecified()) {		
+			final String partAttr = toPartElement.getAttribute("part");
+            ((ToPartImpl) toPart).setPartName(partAttr);
+		}
 
-		// Handle from-spec
-        Element fromElement = getBPELChildElementByLocalName(toPartElement, "from");
-        if (fromElement != null) {
-            From from = BPELFactory.eINSTANCE.createFrom();
-            from.setElement(fromElement);
-            
-            xml2From(from, fromElement); 
-            toPart.setFrom(from);
-        }
+		// Set fromVariable
+		setVariable(toPartElement, toPart, "fromVariable", BPELPackage.eINSTANCE.getToPart_FromVariable());
         
         
 		return toPart;
@@ -2484,19 +2527,16 @@ public class BPELReader implements ErrorHandler {
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(fromPart, fromPartElement);
 
-		// Handle part attribute
-		if (fromPartElement.hasAttribute("part")) 
-			fromPart.setPart(fromPartElement.getAttribute("part"));
+		// Set part
+		Attr part = fromPartElement.getAttributeNode("part"); 		
+    
+		if (part != null && part.getSpecified()) {		
+			final String partAttr = fromPartElement.getAttribute("part");
+            ((FromPartImpl) fromPart).setPartName(partAttr);
+		}
 
-		// Handle to-spec
-		Element toElement = getBPELChildElementByLocalName(fromPartElement, "to");
-        if (toElement != null) {
-            To to = BPELFactory.eINSTANCE.createTo();
-            to.setElement(toElement);
-            
-            xml2To(to, toElement); 
-            fromPart.setTo(to);
-        }
+		// Set toVariable
+		setVariable(fromPartElement, fromPart, "toVariable", BPELPackage.eINSTANCE.getFromPart_ToVariable());
         
 		return fromPart;
 	}
@@ -2837,13 +2877,16 @@ public class BPELReader implements ErrorHandler {
 			invoke.setFaultHandler(faultHandler);
 		}
 
-		// Set the ToPart		
-		for(Element e : getBPELChildElementsByLocalName(invokeElement, "toPart") ) {			
-			invoke.getToPart().add( xml2ToPart(e) );
+		Element toPartsElement = getBPELChildElementByLocalName(invokeElement, "toParts");
+		if (toPartsElement != null) {
+			ToParts toParts = xml2ToParts(toPartsElement);
+			invoke.setToParts(toParts);
 		}
-		// Set the FromPart
-		for(Element e : getBPELChildElementsByLocalName(invokeElement, "fromPart")) {
-			invoke.getFromPart().add( xml2FromPart(e) );
+		// Set fromParts
+		Element fromPartsElement = getBPELChildElementByLocalName(invokeElement, "fromParts");
+		if (fromPartsElement != null) {
+			FromParts fromParts = xml2FromParts(fromPartsElement);
+			invoke.setFromParts(fromParts);
 		}		
 		return invoke;
 	}
@@ -2865,9 +2908,10 @@ public class BPELReader implements ErrorHandler {
 			reply.setFaultName(qName);
 		}
 
-		// Set the ToPart
-		for(Element e :  getBPELChildElementsByLocalName(replyElement, "toPart")) {
-			reply.getToPart().add( xml2ToPart ( e ));
+		Element toPartsElement = getBPELChildElementByLocalName(replyElement, "toParts");
+		if (toPartsElement != null) {
+			ToParts toParts = xml2ToParts(toPartsElement);
+			reply.setToParts(toParts);
 		}
 		
 		return reply;		
@@ -2891,10 +2935,11 @@ public class BPELReader implements ErrorHandler {
 			receive.setCreateInstance(new Boolean(createInstance.equals("yes")));
 		}
 
-		// Set the FromPart
-		for(Element e : getBPELChildElementsByLocalName(receiveElement, "fromPart")) {
-			receive.getFromPart().add( xml2FromPart (e) );
-		}		
+		Element fromPartsElement = getBPELChildElementByLocalName(receiveElement, "fromParts");
+		if (fromPartsElement != null) {
+			FromParts fromParts = xml2FromParts(fromPartsElement);
+			receive.setFromParts(fromParts);
+		}	
 		
 		return receive;
 	}

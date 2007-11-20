@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPart.java,v 1.3 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: FromPart.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.wst.wsdl.WSDLElement;
-
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.wst.wsdl.Part;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,8 +16,8 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.eclipse.bpel.model.FromPart#getToVariable <em>To Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.FromPart#getPart <em>Part</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.FromPart#getTo <em>To</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,55 +27,55 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface FromPart extends ExtensibleElement {
 	/**
-	 * Returns the value of the '<em><b>Part</b></em>' attribute.
+	 * Returns the value of the '<em><b>To Variable</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>To Variable</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>To Variable</em>' reference.
+	 * @see #setToVariable(Variable)
+	 * @see org.eclipse.bpel.model.BPELPackage#getFromPart_ToVariable()
+	 * @model
+	 * @generated
+	 */
+	Variable getToVariable();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.FromPart#getToVariable <em>To Variable</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>To Variable</em>' reference.
+	 * @see #getToVariable()
+	 * @generated
+	 */
+	void setToVariable(Variable value);
+
+	/**
+	 * Returns the value of the '<em><b>Part</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Part</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Part</em>' attribute.
-	 * @see #setPart(String)
+	 * @return the value of the '<em>Part</em>' reference.
+	 * @see #setPart(Part)
 	 * @see org.eclipse.bpel.model.BPELPackage#getFromPart_Part()
 	 * @model
 	 * @generated
 	 */
-	String getPart();
+	Part getPart();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.FromPart#getPart <em>Part</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.FromPart#getPart <em>Part</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Part</em>' attribute.
+	 * @param value the new value of the '<em>Part</em>' reference.
 	 * @see #getPart()
 	 * @generated
 	 */
-	void setPart(String value);
-
-	/**
-	 * Returns the value of the '<em><b>To</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>To</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>To</em>' reference.
-	 * @see #setTo(To)
-	 * @see org.eclipse.bpel.model.BPELPackage#getFromPart_To()
-	 * @model
-	 * @generated
-	 */
-	To getTo();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.FromPart#getTo <em>To</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>To</em>' reference.
-	 * @see #getTo()
-	 * @generated
-	 */
-	void setTo(To value);
+	void setPart(Part value);
 
 } // FromPart

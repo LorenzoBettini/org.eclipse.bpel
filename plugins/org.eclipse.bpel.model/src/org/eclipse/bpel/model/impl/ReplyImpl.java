@@ -10,39 +10,23 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.9 2007/10/26 16:28:16 smoser Exp $
+ * $Id: ReplyImpl.java,v 1.10 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Correlations;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.FromPart;
-import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Reply;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.Operation;
-import org.eclipse.wst.wsdl.PortType;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -53,7 +37,7 @@ import org.w3c.dom.Element;
  * <ul>
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getFaultName <em>Fault Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getToPart <em>To Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getToParts <em>To Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,14 +76,14 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	protected Variable variable;
 
 	/**
-	 * The cached value of the '{@link #getToPart() <em>To Part</em>}' reference list.
+	 * The cached value of the '{@link #getToParts() <em>To Parts</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getToPart()
+	 * @see #getToParts()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ToPart> toPart;
+	protected ToParts toParts;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -136,9 +120,6 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 */
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_NAME, newFaultName == null ? null : newFaultName);
-		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -179,9 +160,6 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
-		}
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -193,12 +171,71 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ToPart> getToPart() {
-		if (toPart == null) {
-			toPart = new EObjectResolvingEList<ToPart>(ToPart.class, this,
-					BPELPackage.REPLY__TO_PART);
+	public ToParts getToParts() {
+		return toParts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetToParts(ToParts newToParts,
+			NotificationChain msgs) {
+		ToParts oldToParts = toParts;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldToParts, newToParts);
 		}
-		return toPart;
+		toParts = newToParts;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.REPLY__TO_PARTS, oldToParts,
+					newToParts);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setToParts(ToParts newToParts) {
+		if (newToParts != toParts) {
+			NotificationChain msgs = null;
+			if (toParts != null)
+				msgs = ((InternalEObject) toParts).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.REPLY__TO_PARTS,
+						null, msgs);
+			if (newToParts != null)
+				msgs = ((InternalEObject) newToParts).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - BPELPackage.REPLY__TO_PARTS,
+						null, msgs);
+			msgs = basicSetToParts(newToParts, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.REPLY__TO_PARTS, newToParts, newToParts));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case BPELPackage.REPLY__TO_PARTS:
+			return basicSetToParts(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -209,14 +246,14 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.REPLY__FAULT_NAME:
-				return getFaultName();
-			case BPELPackage.REPLY__VARIABLE:
-				if (resolve)
-					return getVariable();
-				return basicGetVariable();
-			case BPELPackage.REPLY__TO_PART:
-				return getToPart();
+		case BPELPackage.REPLY__FAULT_NAME:
+			return getFaultName();
+		case BPELPackage.REPLY__VARIABLE:
+			if (resolve)
+				return getVariable();
+			return basicGetVariable();
+		case BPELPackage.REPLY__TO_PARTS:
+			return getToParts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -230,16 +267,15 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.REPLY__FAULT_NAME:
-				setFaultName((QName) newValue);
-				return;
-			case BPELPackage.REPLY__VARIABLE:
-				setVariable((Variable) newValue);
-				return;
-			case BPELPackage.REPLY__TO_PART:
-				getToPart().clear();
-				getToPart().addAll((Collection<? extends ToPart>) newValue);
-				return;
+		case BPELPackage.REPLY__FAULT_NAME:
+			setFaultName((QName) newValue);
+			return;
+		case BPELPackage.REPLY__VARIABLE:
+			setVariable((Variable) newValue);
+			return;
+		case BPELPackage.REPLY__TO_PARTS:
+			setToParts((ToParts) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -252,15 +288,15 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.REPLY__FAULT_NAME:
-				setFaultName(FAULT_NAME_EDEFAULT);
-				return;
-			case BPELPackage.REPLY__VARIABLE:
-				setVariable((Variable) null);
-				return;
-			case BPELPackage.REPLY__TO_PART:
-				getToPart().clear();
-				return;
+		case BPELPackage.REPLY__FAULT_NAME:
+			setFaultName(FAULT_NAME_EDEFAULT);
+			return;
+		case BPELPackage.REPLY__VARIABLE:
+			setVariable((Variable) null);
+			return;
+		case BPELPackage.REPLY__TO_PARTS:
+			setToParts((ToParts) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -273,13 +309,13 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.REPLY__FAULT_NAME:
-				return FAULT_NAME_EDEFAULT == null ? faultName != null
-						: !FAULT_NAME_EDEFAULT.equals(faultName);
-			case BPELPackage.REPLY__VARIABLE:
-				return variable != null;
-			case BPELPackage.REPLY__TO_PART:
-				return toPart != null && !toPart.isEmpty();
+		case BPELPackage.REPLY__FAULT_NAME:
+			return FAULT_NAME_EDEFAULT == null ? faultName != null
+					: !FAULT_NAME_EDEFAULT.equals(faultName);
+		case BPELPackage.REPLY__VARIABLE:
+			return variable != null;
+		case BPELPackage.REPLY__TO_PARTS:
+			return toParts != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -301,21 +337,21 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 		return result.toString();
 	}
 
-	
-	@Override
-	protected void adoptContent(EReference reference, Object object) {
-		if (object instanceof ToPart) {
-			ReconciliationHelper.adoptChild(this, toPart, (ToPart)object, BPELConstants.ND_TO_PART);
-		}
-		super.adoptContent(reference, object);
-	}
-	
-	@Override
-	protected void orphanContent(EReference reference, Object obj) {
-		if (obj instanceof ToPart) {
-			ReconciliationHelper.orphanChild(this, (ToPart)obj);
-		}
-		super.orphanContent(reference, obj);
-	}
+	//	@Override
+	//	protected void adoptContent(EReference reference, Object object) {
+	//		if (object instanceof ToPart) {
+	//			ReconciliationHelper
+	//					.adoptChild(this, toPart, (ToPart) object, BPELConstants.ND_TO_PART);
+	//		}
+	//		super.adoptContent(reference, object);
+	//	}
+	//
+	//	@Override
+	//	protected void orphanContent(EReference reference, Object obj) {
+	//		if (obj instanceof ToPart) {
+	//			ReconciliationHelper.orphanChild(this, (ToPart) obj);
+	//		}
+	//		super.orphanContent(reference, obj);
+	//	}
 
 } //ReplyImpl

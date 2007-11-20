@@ -10,19 +10,23 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationsImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CorrelationsImpl.java,v 1.5 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -161,6 +165,21 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements
 				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Correlation) {
+			ReconciliationHelper.adoptChild(this, children, (Correlation)object, BPELConstants.ND_CORRELATION);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Correlation) {
+			ReconciliationHelper.orphanChild(this, (Correlation)obj);
+		}
+		super.orphanContent(reference, obj);
 	}
 
 } //CorrelationsImpl

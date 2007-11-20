@@ -10,11 +10,10 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.6 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: OnEvent.java,v 1.7 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
@@ -34,8 +33,8 @@ import org.eclipse.wst.wsdl.PortType;
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getOperation <em>Operation</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getPortType <em>Port Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getMessageType <em>Message Type</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.OnEvent#getFromPart <em>From Part</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getCorrelationSets <em>Correlation Sets</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.OnEvent#getFromParts <em>From Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -227,22 +226,6 @@ public interface OnEvent extends ExtensibleElement {
 	void setMessageType(Message value);
 
 	/**
-	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>From Part</em>' reference list.
-	 * @see org.eclipse.bpel.model.BPELPackage#getOnEvent_FromPart()
-	 * @model
-	 * @generated
-	 */
-	EList<FromPart> getFromPart();
-
-	/**
 	 * Returns the value of the '<em><b>Correlation Sets</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -267,5 +250,31 @@ public interface OnEvent extends ExtensibleElement {
 	 * @generated
 	 */
 	void setCorrelationSets(CorrelationSets value);
+
+	/**
+	 * Returns the value of the '<em><b>From Parts</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>From Parts</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>From Parts</em>' containment reference.
+	 * @see #setFromParts(FromParts)
+	 * @see org.eclipse.bpel.model.BPELPackage#getOnEvent_FromParts()
+	 * @model containment="true"
+	 * @generated
+	 */
+	FromParts getFromParts();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.OnEvent#getFromParts <em>From Parts</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>From Parts</em>' containment reference.
+	 * @see #getFromParts()
+	 * @generated
+	 */
+	void setFromParts(FromParts value);
 
 } // OnEvent

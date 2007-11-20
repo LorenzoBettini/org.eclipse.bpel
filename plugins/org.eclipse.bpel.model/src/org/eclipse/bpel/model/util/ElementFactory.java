@@ -27,8 +27,10 @@ import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.EventHandler;
@@ -36,12 +38,17 @@ import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
+import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -95,6 +102,22 @@ public class ElementFactory {
 		
 		protected Element correlationSets2XML(CorrelationSets correlationSets) {
 			return super.correlationSets2XML(correlationSets);
+		}
+		
+	    protected Element fromParts2XML(FromParts fromParts) {
+			return super.fromParts2XML(fromParts);
+		}
+
+		protected Element fromPart2XML(FromPart fromPart) {
+			return super.fromPart2XML(fromPart);
+		}
+
+		protected Element toParts2XML(ToParts toParts) {
+			return super.toParts2XML(toParts);
+		}
+
+		protected Element toPart2XML(ToPart toPart) {
+			return super.toPart2XML(toPart);
 		}
 		
 		protected Element correlationSet2XML(CorrelationSet correlationSet) {
@@ -164,6 +187,26 @@ public class ElementFactory {
 		protected Element faultHandlers2XML(FaultHandler faultHandler) {
 			return super.faultHandlers2XML(faultHandler);
 		}
+		
+		protected void faultHandler2XML(Element parentElement, FaultHandler faultHandler) {
+			super.faultHandler2XML(parentElement, faultHandler);
+		}
+		
+		protected Element import2XML(Import imp){
+			return super.import2XML(imp);
+		}
+		
+		protected Element correlation2XML(Correlation correlation) {
+			return super.correlation2XML(correlation);
+		}
+		
+		protected Element correlations2XML(Correlations correlations) {
+			return super.correlations2XML(correlations);
+		}
+		
+		protected String properties2XML(CorrelationSet correlationSet) {
+			return super.properties2XML(correlationSet);
+		}	
 	}
 	private static ElementFactory factory;
 	
@@ -255,6 +298,27 @@ public class ElementFactory {
 		if (element instanceof FaultHandler) {
 			return writer.faultHandlers2XML((FaultHandler)element);
 		}
+		if (element instanceof FromParts) {
+			return writer.fromParts2XML((FromParts) element);
+		}
+		if (element instanceof ToParts) {
+			return writer.toParts2XML((ToParts) element);
+		}
+	      if (element instanceof FromPart) {
+            return writer.fromPart2XML((FromPart) element);
+        }
+        if (element instanceof ToPart) {
+            return writer.toPart2XML((ToPart) element);
+        }
+		if (element instanceof Import){
+			return writer.import2XML((Import) element);
+		}
+		if (element instanceof Correlation) {
+			return writer.correlation2XML((Correlation)element);
+		}
+		if (element instanceof Correlations) {
+			return writer.correlations2XML((Correlations)element);
+		}	
 		System.err.println("Cannot create: " + element.toString());
 		return writer.createBPELElement("error");
 //		throw new IllegalArgumentException("Unhandled type: " + element.toString());
@@ -280,13 +344,23 @@ public class ElementFactory {
 		return literal;
 	}
 	
+	public String createPropertiesString(CorrelationSet correlationSet) {
+		return getWriter(correlationSet).properties2XML(correlationSet);
+	}
+	
 	public Element createExpressionElement(Expression element, Object parent, String name) {
 		MyBPELWriter writer = getWriter(parent);		
 		return writer.expression2XML(element, name);
 	}
 	
 	public String createName(WSDLElement element, QName name) {
-		return getWriter(element).getNamespacePrefixManager().qNameToString(element, name);
+		String namespace = name.getNamespaceURI();
+		String prefix = BPELUtils.getNamespacePrefix(element, namespace);
+		if (prefix != null){
+			return prefix + ":" + name.getLocalPart();
+		} else
+			return name.getLocalPart();
+//		return getWriter(element).getNamespacePrefixManager().qNameToString(element, name);
 	}
 	
 	private MyBPELWriter getWriter(Object parent) {
@@ -330,5 +404,9 @@ public class ElementFactory {
 //			ownerDocument = ((ExtensibleElement)((EObject)parent).eContainer()).getElement().getOwnerDocument();
 //		}
 		return ownerDocument;
+	}
+	
+	void writeFaultHandler(FaultHandler faultHandler, WSDLElement parent) {
+	    getWriter(parent).faultHandler2XML(parent.getElement(), faultHandler);       
 	}
 }

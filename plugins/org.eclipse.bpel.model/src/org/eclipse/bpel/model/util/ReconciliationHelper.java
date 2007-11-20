@@ -27,8 +27,10 @@ import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Copy;
+import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
@@ -38,9 +40,9 @@ import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
-import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
@@ -57,10 +59,10 @@ import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
-import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -121,10 +123,14 @@ public class ReconciliationHelper {
 			getReader(element, changedElement).xml2From((From)element, changedElement);
 		} else if (element instanceof FromPart) {
 			getReader(element, changedElement).xml2FromPart((FromPart)element, changedElement);
+		} else if (element instanceof FromParts) {
+			getReader(element, changedElement).xml2FromParts((FromParts)element, changedElement);
 		} else if (element instanceof To) {
 			getReader(element, changedElement).xml2To((To)element, changedElement);
 		} else if (element instanceof ToPart) {
 			getReader(element, changedElement).xml2ToPart((ToPart)element, changedElement);
+		} else if (element instanceof ToParts) {
+			getReader(element, changedElement).xml2ToParts((ToParts)element, changedElement);
 		} else if (element instanceof Query) {
 			getReader(element, changedElement).xml2Query((Query)element, changedElement);
 		} else if (element instanceof ServiceRef) {
@@ -141,6 +147,14 @@ public class ReconciliationHelper {
 			getReader(element, changedElement).xml2Copy((Copy)element, changedElement);
 		} else if (element instanceof FaultHandler) {
 			getReader(element, changedElement).xml2FaultHandler((FaultHandler)element, changedElement);
+		} else if (element instanceof Correlation) {
+			getReader(element, changedElement).xml2Correlation((Correlation)element, changedElement);
+		} else if (element instanceof Correlations) {
+			getReader(element, changedElement).xml2Correlations((Correlations)element, changedElement);
+		} else if (element instanceof CorrelationSet) {
+			getReader(element, changedElement).xml2CorrelationSet((CorrelationSet)element, changedElement);
+		} else if (element instanceof CorrelationSets) {
+			getReader(element, changedElement).xml2CorrelationSets((CorrelationSets)element, changedElement);
 		} else {
 			System.err.println("Cannot reconcile: " + element.getClass());
 //			throw new NotImplementedException(element.getClass().toString());
@@ -280,7 +294,24 @@ public class ReconciliationHelper {
 		}
 		
 	}
-
+	
+	public static void replaceFaultHandler(WSDLElement parent, FaultHandler newFaultHandler) {
+		if (isLoading(parent)) {
+			return;
+		}
+		if (parent.getElement() == null) {
+			System.err.println("trying to replace faultHandler on null element:" + parent.getClass());
+			return;
+		}
+		Element parentElement = parent.getElement();
+		for (Element node : ReconciliationBPELReader.getBPELChildElementsByLocalName(parentElement, BPELConstants.ND_CATCH)) {
+			parentElement.removeChild(node);
+		}
+		parentElement.removeChild(ReconciliationBPELReader.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH_ALL));
+		if (newFaultHandler != null) {
+			ElementFactory.getInstance().writeFaultHandler(newFaultHandler, parent);
+		}
+	}
 	private ReconciliationBPELReader getReader(WSDLElement element, Element changedElement) {
 		ReconciliationBPELReader reader = document2reader.get(changedElement.getOwnerDocument());
 		if (reader == null) {
@@ -309,8 +340,8 @@ public class ReconciliationHelper {
 			if (childElement.getParentNode() != parentElement) {
 				parentElement.insertBefore(childElement, beforeElement);
 			}
-	    } else {
-//	    	((FaultHandler)child).setElement((Element)parentElement);
+	    } else if (child instanceof FaultHandler){
+	    	((FaultHandler)child).setElement((Element)parentElement);
 	    }
 	    
 	    // This code is to handle particular types that are created with their children
@@ -339,18 +370,15 @@ public class ReconciliationHelper {
 	    } else if (child instanceof OnEvent) {
 	    	
 	    } else if (child instanceof OnAlarm) {
-	    	
-//	    } else if (parent instanceof Invoke && child instanceof FaultHandler) {
-//	    	Invoke c = (Invoke)parent;
-//	    	reconcile(c, c.getElement());
-//	    	System.err.println("Invoke patch ok");
-	    } else if (child instanceof FaultHandler && !BPELUtils.isTransparent(parent, child)) {
+		    
+	    } else if (child instanceof FaultHandler) {
 	    	FaultHandler c = (FaultHandler)child;
 	    	EList<Catch> _catch = c.getCatch();
 			if (_catch.size() == 1 && _catch.get(0).getElement() == null) {
 				Catch ch = _catch.get(0);
-				ch.setElement(ReconciliationBPELReader.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH));
-				reconcile(ch, ch.getElement());
+				Element catchElement = ReconciliationBPELReader.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH);
+				ch.setElement(catchElement);
+				reconcile(ch, catchElement);
 	    	}			
 	    } 
 	    	
@@ -384,6 +412,10 @@ public class ReconciliationHelper {
 		}
 		if (newChild.getElement() == null) {
 			newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
+		}
+		if (newChild.getElement().getParentNode() == parent.getElement()) {
+			// already in the dom tree
+			return;
 		}
 		int index = children.indexOf(newChild);
 		List<Element> domChildren = ReconciliationBPELReader.getBPELChildElementsByLocalName(parent.getElement(), nodeName);

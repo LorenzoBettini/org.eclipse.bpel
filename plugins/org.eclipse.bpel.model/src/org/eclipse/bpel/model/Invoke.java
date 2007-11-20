@@ -10,11 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Invoke.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Invoke.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
  */
 package org.eclipse.bpel.model;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,8 +31,8 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.bpel.model.Invoke#getInputVariable <em>Input Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Invoke#getCompensationHandler <em>Compensation Handler</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Invoke#getFaultHandler <em>Fault Handler</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Invoke#getToPart <em>To Part</em>}</li>
- *   <li>{@link org.eclipse.bpel.model.Invoke#getFromPart <em>From Part</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Invoke#getFromParts <em>From Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Invoke#getToParts <em>To Parts</em>}</li>
  * </ul>
  * </p>
  *
@@ -148,35 +146,55 @@ public interface Invoke extends PartnerActivity {
 	void setFaultHandler(FaultHandler value);
 
 	/**
-	 * Returns the value of the '<em><b>To Part</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.bpel.model.ToPart}.
+	 * Returns the value of the '<em><b>From Parts</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>To Part</em>' reference isn't clear,
+	 * If the meaning of the '<em>From Parts</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>To Part</em>' reference list.
-	 * @see org.eclipse.bpel.model.BPELPackage#getInvoke_ToPart()
-	 * @model
+	 * @return the value of the '<em>From Parts</em>' containment reference.
+	 * @see #setFromParts(FromParts)
+	 * @see org.eclipse.bpel.model.BPELPackage#getInvoke_FromParts()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<ToPart> getToPart();
+	FromParts getFromParts();
 
 	/**
-	 * Returns the value of the '<em><b>From Part</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.bpel.model.FromPart}.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Invoke#getFromParts <em>From Parts</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>From Parts</em>' containment reference.
+	 * @see #getFromParts()
+	 * @generated
+	 */
+	void setFromParts(FromParts value);
+
+	/**
+	 * Returns the value of the '<em><b>To Parts</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>From Part</em>' reference isn't clear,
+	 * If the meaning of the '<em>To Parts</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>From Part</em>' reference list.
-	 * @see org.eclipse.bpel.model.BPELPackage#getInvoke_FromPart()
-	 * @model
+	 * @return the value of the '<em>To Parts</em>' containment reference.
+	 * @see #setToParts(ToParts)
+	 * @see org.eclipse.bpel.model.BPELPackage#getInvoke_ToParts()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<FromPart> getFromPart();
+	ToParts getToParts();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Invoke#getToParts <em>To Parts</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>To Parts</em>' containment reference.
+	 * @see #getToParts()
+	 * @generated
+	 */
+	void setToParts(ToParts value);
 
 } // Invoke
