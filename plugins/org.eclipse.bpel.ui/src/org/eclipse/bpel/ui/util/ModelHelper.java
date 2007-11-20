@@ -46,6 +46,8 @@ import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
+import org.eclipse.bpel.model.FromPart;
+import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
@@ -65,6 +67,8 @@ import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
+import org.eclipse.bpel.model.ToPart;
+import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
@@ -1589,7 +1593,61 @@ public class ModelHelper {
 		}
 	}
 
+	public static ToParts getToParts(EObject model) {
+		if (model instanceof Invoke) {
+			return ((Invoke) model).getToParts();
+		}
+		if (model instanceof Reply) {
+			return ((Reply) model).getToParts();
+		}
+		throw new IllegalArgumentException("This model object has no toParts to get"); //$NON-NLS-1$
+	}
 	
+	public static void setToParts(EObject context, ToParts toParts) {
+		if (context instanceof Reply) {
+			((Reply) context).setToParts(toParts);
+			return;
+		}
+		if (context instanceof Invoke) {
+			((Invoke) context).setToParts(toParts);
+			return;
+		}
+		throw new IllegalArgumentException("toParts cannot be set to this model object"); //$NON-NLS-1$
+	}
 	
+	public static FromParts getFromParts(EObject model) {
+		if (model instanceof Invoke) {
+			return ((Invoke) model).getFromParts();
+		}
+		if (model instanceof Receive) {
+			return ((Receive) model).getFromParts();
+		}
+		if (model instanceof OnMessage) {
+			return ((OnMessage) model).getFromParts();
+		}
+		if (model instanceof OnEvent) {
+			return ((OnEvent) model).getFromParts();
+		}
+		throw new IllegalArgumentException("This model object has no fromParts to get"); //$NON-NLS-1$
+	}
 
+	public static void setFromParts(EObject context, FromParts fromParts) {
+		if (context instanceof Receive) {
+			((Receive) context).setFromParts(fromParts);
+			return;
+		}
+		if (context instanceof Invoke) {
+			((Invoke) context).setFromParts(fromParts);
+			return;
+		}
+		if (context instanceof OnMessage) {
+			((OnMessage) context).setFromParts(fromParts);
+			return;
+		}
+		if (context instanceof OnEvent) {
+			((OnEvent) context).setFromParts(fromParts);
+			return;
+		}
+		throw new IllegalArgumentException("fromParts cannot be set to this model object"); //$NON-NLS-1$
+	}
 }

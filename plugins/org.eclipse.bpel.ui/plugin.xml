@@ -297,6 +297,17 @@
             <input type="org.eclipse.bpel.model.OnEvent"/>
         </propertySection>
         <propertySection
+              class="org.eclipse.bpel.ui.properties.InvokeVariableSection"
+              tab="org.eclipse.bpel.ui.tabs.details"
+              id="org.eclipse.bpel.ui.sections.InvokeVariable"
+              afterSection="org.eclipse.bpel.ui.sections.InvokeImpl">
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Invoke"/>
+            <input type="org.eclipse.bpel.model.Reply"/>
+            <input type="org.eclipse.bpel.model.OnMessage"/>
+            <input type="org.eclipse.bpel.model.OnEvent"/>
+        </propertySection>
+        <propertySection
                tab="org.eclipse.bpel.ui.tabs.details"
                class="org.eclipse.bpel.ui.properties.CompensateScopeSection"
                id="org.eclipse.bpel.ui.sections.CompensateScope">

@@ -91,6 +91,11 @@ public final class Messages extends NLS {
 	public static String PartnerLinkTypeSelectorDialog_4;
 	public static String PartnerLinkTypeSelectorDialog_5;
 	public static String PartnerLinkTypeSelectorDialog_6;
+	public static String SaveImageAction_0;
+	public static String SaveImageAction_1;
+	public static String SaveImageAction_2;
+	public static String SaveImageAction_3;
+	public static String SaveImageAction_4;
 	public static String SchemaImportDialog_0;
 	public static String SchemaImportDialog_10;
 	public static String SchemaImportDialog_11;

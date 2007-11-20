@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.bpel.common.ui.assist.FieldAssistAdapter;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
-import org.eclipse.bpel.common.ui.details.viewers.CComboViewer;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
@@ -40,19 +39,14 @@ import org.eclipse.bpel.ui.commands.SetOperationCommand;
 import org.eclipse.bpel.ui.commands.SetPartnerLinkCommand;
 import org.eclipse.bpel.ui.commands.SetVariableCommand;
 import org.eclipse.bpel.ui.commands.SetWSDLFaultCommand;
-import org.eclipse.bpel.ui.details.providers.AddNullFilter;
 import org.eclipse.bpel.ui.details.providers.ModelLabelProvider;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
-import org.eclipse.bpel.ui.details.providers.ModelViewerSorter;
 import org.eclipse.bpel.ui.details.providers.OperationContentProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerLinkContentProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerLinkTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerRoleFilter;
-import org.eclipse.bpel.ui.details.providers.VariableContentProvider;
-import org.eclipse.bpel.ui.details.providers.VariableFilter;
 import org.eclipse.bpel.ui.details.providers.WSDLFaultContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
-import org.eclipse.bpel.ui.dialogs.PartnerLinkSelectorDialog;
 import org.eclipse.bpel.ui.dialogs.PartnerLinkTypeSelectorDialog;
 import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.proposal.providers.RunnableProposal;
@@ -74,14 +68,12 @@ import org.eclipse.jface.fieldassist.IControlContentAdapter;
 import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -89,7 +81,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.PlatformUI;
@@ -101,10 +92,8 @@ import org.eclipse.wst.wsdl.Input;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Output;
-import org.eclipse.wst.wsdl.Part;
 import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.wst.wsdl.WSDLFactory;
-import org.eclipse.xsd.XSDElementDeclaration;
 
 /**
  * Details section for the Partner/PortType/Operation properties of a
@@ -116,46 +105,21 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 	protected static final int PARTNER_CONTEXT = 0;
 	protected static final int OPERATION_CONTEXT = 1;
-	protected static final int NORMALRADIO_CONTEXT = 2;
-	protected static final int FAULTRADIO_CONTEXT = 3;
 	protected static final int FAULTNAME_CONTEXT = 4;
 	
-	protected int lastChangeContext = -1;
+	private int lastChangeContext = -1;
 
-	protected Composite parentComposite;
-	protected Composite partnerComposite, portTypeComposite, operationComposite;
-	protected Composite replyTypeComposite, faultNameComposite;
+	private Composite parentComposite;
 
-	protected Label partnerLabel;
-	protected Text partnerName;
-	protected CComboViewer operationViewer;
-	protected Label interfaceLabel, operationLabel;
-	protected Hyperlink interfaceName;
-	protected Button partnerBrowseButton;
-	protected Text operationText;
-
-	boolean blockOperationUpdates;
-
-	protected Button normalRadio, faultRadio;
-	protected CCombo faultNameCombo;
-	protected CComboViewer faultNameViewer;
-	
-//	protected boolean[] variableEnabled = new boolean[2];
-//	protected Button[] variableBrowseButton = new Button[2];
-//	protected Label[] variableLabel = new Label[2];
-//	protected Label[] variableName = new Label[2];
-	protected boolean isInvoke;
-	private Composite inputVariableComposite;
-	private Composite outputVariableComposite;	
-	private Label inputVariableLabel;
-	Text inputVariableText;
-	private Label outputVariableLabel;
-	Text outputVariableText;
-	
+	private Label partnerLabel;
+	private Text partnerName;
+	private Label interfaceLabel, operationLabel;
+	private Hyperlink interfaceName;
+	private Button partnerBrowseButton;
+	private Text operationText;
+	private Button faultButton;
+	private boolean isInvoke;
 	private PartnerRoleFilter fPartnerRoleFilter = new PartnerRoleFilter();
-	private VariableFilter fInputVariableFilter = new VariableFilter();
-	private VariableFilter fOutputVariableFilter = new VariableFilter();
-	
 	private Label quickPickLabel;
 	private Tree quickPickTree;	
 	private TreeViewer quickPickTreeViewer;
@@ -177,23 +141,18 @@ public class InvokeImplSection extends BPELPropertySection {
 			}
 		}			
 	};
-	
-	
-	private Button inputVariableButton;
-	private Button outputVariableButton;
-	private Button faultButton;
 
 	private Button operationButton;
 
-	RunnableProposal fWSDLEditRunnableProposal;
+	private RunnableProposal fWSDLEditRunnableProposal;
 		
-	static final int SPLIT_POINT = 55;
-	static final int SPLIT_POINT_OFFSET = 3 * IDetailsAreaConstants.HSPACE;
+	public static final int SPLIT_POINT = 55;
+	public static final int SPLIT_POINT_OFFSET = 3 * IDetailsAreaConstants.HSPACE;
 	
 	
-	static final PartnerLink IGNORE_PARTNER_LINK = BPELFactory.eINSTANCE.createPartnerLink();
+	private static final PartnerLink IGNORE_PARTNER_LINK = BPELFactory.eINSTANCE.createPartnerLink();
 	
-	static final Operation IGNORE_OPERATION = WSDLFactory.eINSTANCE.createOperation();
+	private static final Operation IGNORE_OPERATION = WSDLFactory.eINSTANCE.createOperation();
 	
 	/** 
 	 * Stretch this section to maximum use of space
@@ -202,37 +161,17 @@ public class InvokeImplSection extends BPELPropertySection {
 	public boolean shouldUseExtraSpace () {
 		return true;
 	}
-	
-	
-	/**
-	 * @param direction
-	 * @return the label word 
-	 */
-	public String labelWordFor(int direction) {
-		if (isInvoke) {
-			return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Request_3:Messages.InvokeImplDetails_Response_4; 
-		}
-		return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Response_4:Messages.InvokeImplDetails_Request_3;  
-	}
 
 	/**
 	 * The same as labelWordFor(), except these strings don't contain mnemonics!
 	 * @param direction 
 	 * @return the label
 	 */
-	public String plainLabelWordFor (int direction) {
+	private String plainLabelWordFor (int direction) {
 		if (isInvoke) {
 			return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Request_3_Plain:Messages.InvokeImplDetails_Response_4_Plain; 
 		}
 		return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Response_4_Plain:Messages.InvokeImplDetails_Request_3_Plain;  
-	}
-
-	protected Role getActiveRole() {
-		PartnerLink partnerLink = ModelHelper.getPartnerLink(getInput());
-		if (partnerLink == null)  {
-			return null;
-		}
-		return isInvoke? partnerLink.getPartnerRole() : partnerLink.getMyRole();
 	}
 
 	@Override
@@ -252,19 +191,13 @@ public class InvokeImplSection extends BPELPropertySection {
 							updatePartnerWidgets();
 							updatePortTypeWidgets();
 							updateOperationWidgets();
-							updateInputVariableWidgets();
-							updateOutputVariableWidgets();
 							updateFaultWidgets();
 						} else if (ModelHelper.isOperationAffected(input, n)) {
 							upp = true;
 							updatePortTypeWidgets();
-							updateOperationWidgets();
-							updateInputVariableWidgets();
-							updateOutputVariableWidgets();								
+							updateOperationWidgets();							
 							updateFaultWidgets();
-						} else {
-							updateInputVariableWidgets();
-							updateOutputVariableWidgets();								
+						} else {							
 							updateFaultWidgets();								
 						}
 						// Update the response variable widgets, because if the operation
@@ -273,9 +206,6 @@ public class InvokeImplSection extends BPELPropertySection {
 												
 						if (replyTypeEnabled() && ModelHelper.isFaultNameAffected(input, n)) {
 							updateFaultWidgets();
-							if (!upp) {
-								updateFaultWidgets();
-							}
 						}
 						
 				    } catch (Exception e) {
@@ -294,15 +224,8 @@ public class InvokeImplSection extends BPELPropertySection {
 		return true;
 	}
 	
-	
-	protected boolean faultNameEnabled() {
-		return replyTypeEnabled(); 
-	}
 
-	protected void doChildLayout() {
-						
-		// Only Invoke needs output variable				
-		outputVariableComposite.setVisible( isInvoke );		
+	private void doChildLayout() {	
 		faultComposite.setVisible( replyTypeEnabled() );		
 		parentComposite.layout(true);
 	}
@@ -317,13 +240,11 @@ public class InvokeImplSection extends BPELPropertySection {
 		updatePartnerWidgets();
 		updatePortTypeWidgets();
 		updateOperationWidgets();
-		updateInputVariableWidgets();
-		updateOutputVariableWidgets();
 		updateFaultWidgets();		
 		
 	}
 	
-	protected void rearrangeWidgets() {
+	private void rearrangeWidgets() {
 		
 		Object input = getInput();		
 		isInvoke = (input instanceof Invoke);
@@ -335,11 +256,11 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 
-	protected Composite createPartnerWidgets(Composite top, Composite parent) {
+	private Composite createPartnerWidgets(Composite top, Composite parent) {
 		
 		FlatFormData data;
 		
-		final Composite composite = partnerComposite = createFlatFormComposite(parent);
+		final Composite composite = createFlatFormComposite(parent);
 		
 		data = new FlatFormData();
 		if (top == null) {
@@ -484,33 +405,33 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 
 	
-	void browseForPartnerLink () {
-		
-		Shell shell = partnerLabel.getShell();
-		EObject model = getInput();
-		PartnerLinkSelectorDialog dialog = new PartnerLinkSelectorDialog(shell, model);
-		if (dialog.open() == Window.OK) {
-			PartnerLink partner = dialog.getPartnerLink();
-			
-			List<Command> cmds = basicCommandList( model , null, null );
-			
-			SetCommand cmd = (SetCommand) ListMap.Find(cmds, new ListMap.Visitor() {
-				public Object visit(Object obj) {
-					return (obj instanceof SetPartnerLinkCommand ? obj : ListMap.IGNORE );
-				}				
-			});
-			
-			cmd.setNewValue( partner );
-			CompoundCommand ccmd = new CompoundCommand();
-			ccmd.getCommands().addAll(cmds);
-			lastChangeContext = PARTNER_CONTEXT;
-			getCommandFramework().execute(wrapInShowContextCommand(ccmd));
-		}
-	}
+//	private  void browseForPartnerLink () {
+//		
+//		Shell shell = partnerLabel.getShell();
+//		EObject model = getInput();
+//		PartnerLinkSelectorDialog dialog = new PartnerLinkSelectorDialog(shell, model);
+//		if (dialog.open() == Window.OK) {
+//			PartnerLink partner = dialog.getPartnerLink();
+//			
+//			List<Command> cmds = basicCommandList( model , null, null );
+//			
+//			SetCommand cmd = (SetCommand) ListMap.Find(cmds, new ListMap.Visitor() {
+//				public Object visit(Object obj) {
+//					return (obj instanceof SetPartnerLinkCommand ? obj : ListMap.IGNORE );
+//				}				
+//			});
+//			
+//			cmd.setNewValue( partner );
+//			CompoundCommand ccmd = new CompoundCommand();
+//			ccmd.getCommands().addAll(cmds);
+//			lastChangeContext = PARTNER_CONTEXT;
+//			getCommandFramework().execute(wrapInShowContextCommand(ccmd));
+//		}
+//	}
 	
 	
 	
-	protected Composite createPortTypeWidgets (Composite top, Composite parent) {
+	private  Composite createPortTypeWidgets (Composite top, Composite parent) {
 		
 		FlatFormData data;
 		
@@ -518,7 +439,7 @@ public class InvokeImplSection extends BPELPropertySection {
 			return top ;
 		}
 		
-		final Composite composite = portTypeComposite = createFlatFormComposite(parent);
+		final Composite composite = createFlatFormComposite(parent);
 		data = new FlatFormData();
 		if (top == null) {
 			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
@@ -559,10 +480,10 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 
 	
-	protected Composite createOperationWidgets(Composite top, Composite parent) {
+	private  Composite createOperationWidgets(Composite top, Composite parent) {
 		FlatFormData data;
 		
-		final Composite composite = operationComposite = createFlatFormComposite(parent);
+		final Composite composite = createFlatFormComposite(parent);
 		data = new FlatFormData();
 		if (top == null) {
 			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
@@ -709,426 +630,442 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 	
 	
-	protected Composite createInputVariableWidgets(Composite top, Composite parent) {
+//	protected Composite createInputVariableWidgets(Composite top, Composite parent) {
+//		FlatFormData data;
+//		
+//		final Composite composite = inputVariableComposite = createFlatFormComposite(parent);
+//		data = new FlatFormData();
+//		if (top == null) {
+//			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+//		} else {
+//			data.top = new FlatFormAttachment(top, IDetailsAreaConstants.VSPACE);
+//		}		
+//		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
+//		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
+//		composite.setLayoutData(data);
+//		
+//		inputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_7); 
+//		inputVariableText = fWidgetFactory.createText(composite,EMPTY_STRING); 
+//		inputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER);
+//				
+//		// Provide Content Assist for the variables
+//		// Content assist on partnerName
+//		RunnableProposal proposal = new RunnableProposal() {
+//			
+//			@Override
+//			public String getLabel() {
+//				return Messages.InvokeImplSection_10;
+//			}
+//			public void run() {
+//				createVariable (  
+//						ModelHelper.getProcess( getInput () ),
+//						null,
+//						isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
+//			}			
+//		};
+//
+//		RunnableProposal proposal2 = new RunnableProposal() {
+//			
+//			@Override
+//			public String getLabel() {
+//				return Messages.InvokeImplSection_11;
+//			}
+//			public void run() {
+//				createVariable ( 
+//					getInput (),
+//					null,
+//					isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
+//			}			
+//		};
+//
+//		RunnableProposal proposal3 = new RunnableProposal() {			
+//			@Override
+//			public String getLabel() {
+//				return Messages.InvokeImplSection_12;
+//			}
+//			public void run() {
+//				int direction = isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING;
+//				getCommandFramework().execute( new SetVariableCommand(getInput(),null,direction) );
+//			}			
+//		};
+//		
+//		VariableContentProvider provider = new VariableContentProvider();
+//		ModelContentProposalProvider proposalProvider;
+//		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+//			@Override
+//			public Object value() {
+//				return getInput();
+//			}			
+//		}, provider,fInputVariableFilter);
+//		
+//		proposalProvider.addProposalToEnd( new Separator () );
+//		proposalProvider.addProposalToEnd( proposal );
+//		proposalProvider.addProposalToEnd( proposal2 );
+//		proposalProvider.addProposalToEnd( proposal3 );
+//		
+//		final FieldAssistAdapter contentAssist = new FieldAssistAdapter (
+//				inputVariableText, 
+//				fTextContentAdapter, 
+//				proposalProvider, 
+//				null, 
+//				null );
+//		// 
+//		contentAssist.setLabelProvider( new ModelLabelProvider () );		
+//		contentAssist.setPopupSize( new Point(300,100) );
+//		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
+//		contentAssist.setProposalAcceptanceStyle( ContentProposalAdapter.PROPOSAL_REPLACE);
+//		contentAssist.addContentProposalListener( proposal );	
+//		contentAssist.addContentProposalListener( proposal2 );
+//		contentAssist.addContentProposalListener( proposal3 );
+//		contentAssist.addContentProposalListener(new IContentProposalListener () {
+//
+//			public void proposalAccepted(IContentProposal chosenProposal) {
+//				if (chosenProposal.getContent() == null) {
+//					return ;
+//				}
+//				Variable variable = null;
+//				try {
+//					variable = (Variable) ((Adapter)chosenProposal).getTarget();
+//				} catch (Throwable t) {
+//					return ;
+//				}
+//				SetVariableCommand cmd = new SetVariableCommand(getInput(),variable);
+//				getCommandFramework().execute( cmd );
+//			}			
+//		});
+//		
+//		// End of Content Assist for variable
+//		inputVariableButton.addListener(SWT.Selection, new Listener() {
+//			public void handleEvent(Event event) {
+//				contentAssist.openProposals();
+//			}			
+//		});
+//		
+//		inputVariableText.addListener(SWT.KeyDown, new Listener () {
+//			public void handleEvent(Event event) {
+//				if (event.keyCode == SWT.CR) {
+//					findAndSetOrCreateVariable( inputVariableText.getText(),
+//							isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING );
+//				}
+//			}        	
+//		});
+//		
+//		data = new FlatFormData();
+//		data.right = new FlatFormAttachment(100,0);
+//		data.top = new FlatFormAttachment(inputVariableText,+2,SWT.TOP);
+//		data.bottom = new FlatFormAttachment(inputVariableText,-2,SWT.BOTTOM);
+//		inputVariableButton.setLayoutData(data);
+//	
+//		data = new FlatFormData();
+//		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel, STANDARD_LABEL_WIDTH_SM));
+//		data.right = new FlatFormAttachment(inputVariableButton, 0);
+//		inputVariableText.setLayoutData(data);
+//
+//		data = new FlatFormData();
+//		data.left = new FlatFormAttachment(0, 0);
+//		data.right = new FlatFormAttachment(inputVariableText, -IDetailsAreaConstants.HSPACE);
+//		data.top = new FlatFormAttachment(inputVariableText, 0, SWT.CENTER);
+//		inputVariableLabel.setLayoutData(data);
+//		
+//		return composite;
+//
+//		
+//	}
+
+//	/**
+//	 * The output variable widgets are only pertaining to Invoke activity, if there is
+//	 * an output message on the partner link
+//	 * 
+//	 * @param top
+//	 * @param parent
+//	 * @return the output variable composite
+//	 */
+//	
+//	protected Composite createOutputVariableComposite (Composite top, Composite parent) {
+//		FlatFormData data;
+//		
+//		final Composite composite = outputVariableComposite = createFlatFormComposite(parent);
+//		
+//		data = new FlatFormData();
+//		if (top == null) {
+//			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+//		} else {
+//			data.top = new FlatFormAttachment( top, IDetailsAreaConstants.VSPACE);
+//		}		
+//		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
+//		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
+//		composite.setLayoutData(data);
+//		
+//		outputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_13); 
+//		outputVariableText = fWidgetFactory.createText(composite,EMPTY_STRING);
+//		outputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER);
+//				
+//		// Provide Content Assist for the operation
+//		
+//		// Runnable proposal.
+//		RunnableProposal proposal = new RunnableProposal() {
+//			
+//			@Override
+//			public String getLabel() {
+//				return Messages.InvokeImplSection_16;
+//			}
+//			public void run() {
+//				createVariable ( ModelHelper.getProcess( getInput () ),null,ModelHelper.INCOMING );
+//			}			
+//		};
+//
+//		RunnableProposal proposal2 = new RunnableProposal() {			
+//			@Override
+//			public String getLabel() {
+//				return "Create Local Output Variable"; //$NON-NLS-1$
+//			}
+//			public void run() {
+//				createVariable (getInput (),null,ModelHelper.INCOMING);
+//			}			
+//		};
+//
+//
+//		RunnableProposal proposal3 = new RunnableProposal() {			
+//			@Override
+//			public String getLabel() {
+//				return "Clear Output Variable"; //$NON-NLS-1$
+//			}
+//			public void run() {
+//				getCommandFramework().execute( new SetVariableCommand(getInput(),null,ModelHelper.INCOMING) );
+//			}			
+//		};
+//		
+//		VariableContentProvider provider = new VariableContentProvider();
+//		ModelContentProposalProvider proposalProvider;
+//		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+//			@Override
+//			public Object value() {
+//				return getInput();
+//			}			
+//		}, provider,fOutputVariableFilter);
+//		
+//		proposalProvider.addProposalToEnd( new Separator () );
+//		proposalProvider.addProposalToEnd( proposal );
+//		proposalProvider.addProposalToEnd( proposal2 );
+//		proposalProvider.addProposalToEnd( proposal3 );
+//		
+//		final FieldAssistAdapter contentAssist = new FieldAssistAdapter (
+//				outputVariableText, 
+//				fTextContentAdapter, 
+//				proposalProvider, 
+//				null, 
+//				null );
+//		// 
+//		contentAssist.setLabelProvider( new ModelLabelProvider () );		
+//		contentAssist.setPopupSize( new Point(300,100) );
+//		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
+//		contentAssist.setProposalAcceptanceStyle( ContentProposalAdapter.PROPOSAL_REPLACE );
+//		contentAssist.addContentProposalListener( proposal );
+//		contentAssist.addContentProposalListener( proposal2 );
+//		contentAssist.addContentProposalListener( proposal3 );
+//		contentAssist.addContentProposalListener(new IContentProposalListener () {
+//
+//			public void proposalAccepted (IContentProposal chosenProposal) {
+//				if (chosenProposal.getContent() == null) {
+//					return ;
+//				}
+//				Variable variable = null;
+//				try {
+//					variable = (Variable) ((Adapter)chosenProposal).getTarget();
+//				} catch (Throwable t) {
+//					return ;
+//				}
+//				SetVariableCommand cmd = new SetVariableCommand(getInput(),variable, ModelHelper.INCOMING );
+//				getCommandFramework().execute( cmd );
+//			}			
+//		});
+//		
+//		// End of Content Assist for operation
+//		
+//		outputVariableButton.addListener(SWT.Selection, new Listener() {
+//			public void handleEvent(Event event) {
+//				contentAssist.openProposals();
+//			}
+//		});
+//		outputVariableText.addListener(SWT.KeyDown, new Listener () {
+//			public void handleEvent(Event event) {
+//				if (event.keyCode == SWT.CR) {
+//					findAndSetOrCreateVariable( outputVariableText.getText(),ModelHelper.INCOMING );
+//				}
+//			}        	
+//		});
+//
+//		data = new FlatFormData();
+//		data.right = new FlatFormAttachment(100,0);
+//		data.top = new FlatFormAttachment(outputVariableText,+2,SWT.TOP);
+//		data.bottom = new FlatFormAttachment(outputVariableText,-2,SWT.BOTTOM);
+//		outputVariableButton.setLayoutData(data);
+//			
+//		data = new FlatFormData();
+//		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel, STANDARD_LABEL_WIDTH_SM));
+//		data.right = new FlatFormAttachment(outputVariableButton,0);
+//		outputVariableText.setLayoutData(data);
+//
+//		data = new FlatFormData();
+//		data.left = new FlatFormAttachment(0, 0);
+//		data.right = new FlatFormAttachment(outputVariableText, -IDetailsAreaConstants.HSPACE);
+//		data.top = new FlatFormAttachment(outputVariableText, 0, SWT.CENTER);
+//		outputVariableLabel.setLayoutData(data);
+//		
+//		return composite;
+//	}
+	
+	
+
+//	private  String getVariableDialogTitle(EObject target, int direction) {
+//		if (fModelObject instanceof Invoke) {
+//			return (direction == ModelHelper.OUTGOING) ?
+//				Messages.InvokeImplSection_Select_Request_Variable_1 : 
+//				Messages.InvokeImplSection_Select_Response_Variable_1; 
+//		}
+//		return (direction == ModelHelper.OUTGOING) ?
+//			Messages.InvokeImplSection_Select_Response_Variable_1 : 
+//			Messages.InvokeImplSection_Select_Request_Variable_1; 
+//	}
+	
+	private Composite createFaultComposite(Composite top, Composite parent) {
 		FlatFormData data;
-		
-		final Composite composite = inputVariableComposite = createFlatFormComposite(parent);
+
+		final Composite composite = faultComposite = createFlatFormComposite(parent);
+
 		data = new FlatFormData();
 		if (top == null) {
 			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
 		} else {
 			data.top = new FlatFormAttachment(top, IDetailsAreaConstants.VSPACE);
-		}		
+		}
 		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
+		data.right = new FlatFormAttachment(InvokeImplSection.SPLIT_POINT,
+				-InvokeImplSection.SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
-		
-		inputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_7); 
-		inputVariableText = fWidgetFactory.createText(composite,EMPTY_STRING); 
-		inputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER);
-				
-		// Provide Content Assist for the variables
-		// Content assist on partnerName
-		RunnableProposal proposal = new RunnableProposal() {
-			
-			@Override
-			public String getLabel() {
-				return Messages.InvokeImplSection_10;
-			}
-			public void run() {
-				createVariable (  
-						ModelHelper.getProcess( getInput () ),
-						null,
-						isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
-			}			
-		};
 
-		RunnableProposal proposal2 = new RunnableProposal() {
-			
-			@Override
-			public String getLabel() {
-				return Messages.InvokeImplSection_11;
-			}
-			public void run() {
-				createVariable ( 
-					getInput (),
-					null,
-					isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
-			}			
-		};
+		faultLabel = fWidgetFactory.createLabel(composite,
+				Messages.InvokeImplDetails_Fault_Name__25);
+		faultText = fWidgetFactory.createText(composite, EMPTY_STRING);
+		faultButton = fWidgetFactory.createButton(composite, EMPTY_STRING,
+				SWT.ARROW | SWT.DOWN | SWT.CENTER);
+		// Provide Content Assist for the operation
 
-		RunnableProposal proposal3 = new RunnableProposal() {			
-			@Override
-			public String getLabel() {
-				return Messages.InvokeImplSection_12;
-			}
-			public void run() {
-				int direction = isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING;
-				getCommandFramework().execute( new SetVariableCommand(getInput(),null,direction) );
-			}			
-		};
-		
-		VariableContentProvider provider = new VariableContentProvider();
+		WSDLFaultContentProvider provider = new WSDLFaultContentProvider();
 		ModelContentProposalProvider proposalProvider;
-		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
-			@Override
-			public Object value() {
-				return getInput();
-			}			
-		}, provider,fInputVariableFilter);
-		
-		proposalProvider.addProposalToEnd( new Separator () );
-		proposalProvider.addProposalToEnd( proposal );
-		proposalProvider.addProposalToEnd( proposal2 );
-		proposalProvider.addProposalToEnd( proposal3 );
-		
-		final FieldAssistAdapter contentAssist = new FieldAssistAdapter (
-				inputVariableText, 
-				fTextContentAdapter, 
-				proposalProvider, 
-				null, 
-				null );
+		proposalProvider = new ModelContentProposalProvider(
+				new ModelContentProposalProvider.ValueProvider() {
+					@Override
+					public Object value() {
+						return ModelHelper.getOperation(getInput());
+					}
+				}, provider);
+
+		proposalProvider.addProposalToEnd(new Separator());
+
+		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(
+				faultText, fTextContentAdapter, proposalProvider, null, null);
 		// 
-		contentAssist.setLabelProvider( new ModelLabelProvider () );		
-		contentAssist.setPopupSize( new Point(300,100) );
+		contentAssist.setLabelProvider(new ModelLabelProvider());
+		contentAssist.setPopupSize(new Point(300, 100));
 		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-		contentAssist.setProposalAcceptanceStyle( ContentProposalAdapter.PROPOSAL_REPLACE);
-		contentAssist.addContentProposalListener( proposal );	
-		contentAssist.addContentProposalListener( proposal2 );
-		contentAssist.addContentProposalListener( proposal3 );
-		contentAssist.addContentProposalListener(new IContentProposalListener () {
+		contentAssist
+				.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+		contentAssist.addContentProposalListener(new IContentProposalListener() {
 
 			public void proposalAccepted(IContentProposal chosenProposal) {
 				if (chosenProposal.getContent() == null) {
-					return ;
+					return;
 				}
-				Variable variable = null;
+				Fault fault = null;
 				try {
-					variable = (Variable) ((Adapter)chosenProposal).getTarget();
+					fault = (Fault) ((Adapter) chosenProposal)
+									.getTarget();
 				} catch (Throwable t) {
-					return ;
+					return;
 				}
-				SetVariableCommand cmd = new SetVariableCommand(getInput(),variable);
-				getCommandFramework().execute( cmd );
-			}			
-		});
-		
-		// End of Content Assist for variable
-		inputVariableButton.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				contentAssist.openProposals();
-			}			
-		});
-		
-		inputVariableText.addListener(SWT.KeyDown, new Listener () {
-			public void handleEvent(Event event) {
-				if (event.keyCode == SWT.CR) {
-					findAndSetOrCreateVariable( inputVariableText.getText(),
-							isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING );
-				}
-			}        	
-		});
-		
-		data = new FlatFormData();
-		data.right = new FlatFormAttachment(100,0);
-		data.top = new FlatFormAttachment(inputVariableText,+2,SWT.TOP);
-		data.bottom = new FlatFormAttachment(inputVariableText,-2,SWT.BOTTOM);
-		inputVariableButton.setLayoutData(data);
-	
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel, STANDARD_LABEL_WIDTH_SM));
-		data.right = new FlatFormAttachment(inputVariableButton, 0);
-		inputVariableText.setLayoutData(data);
-
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(inputVariableText, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(inputVariableText, 0, SWT.CENTER);
-		inputVariableLabel.setLayoutData(data);
-		
-		return composite;
-
-		
-	}
-
-	/**
-	 * The output variable widgets are only pertaining to Invoke activity, if there is
-	 * an output message on the partner link
-	 * 
-	 * @param top
-	 * @param parent
-	 * @return the output variable composite
-	 */
-	
-	protected Composite createOutputVariableComposite (Composite top, Composite parent) {
-		FlatFormData data;
-		
-		final Composite composite = outputVariableComposite = createFlatFormComposite(parent);
-		
-		data = new FlatFormData();
-		if (top == null) {
-			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
-		} else {
-			data.top = new FlatFormAttachment( top, IDetailsAreaConstants.VSPACE);
-		}		
-		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
-		composite.setLayoutData(data);
-		
-		outputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_13); 
-		outputVariableText = fWidgetFactory.createText(composite,EMPTY_STRING);
-		outputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER);
-				
-		// Provide Content Assist for the operation
-		
-		// Runnable proposal.
-		RunnableProposal proposal = new RunnableProposal() {
-			
-			@Override
-			public String getLabel() {
-				return Messages.InvokeImplSection_16;
-			}
-			public void run() {
-				createVariable ( ModelHelper.getProcess( getInput () ),null,ModelHelper.INCOMING );
-			}			
-		};
-
-		RunnableProposal proposal2 = new RunnableProposal() {			
-			@Override
-			public String getLabel() {
-				return "Create Local Output Variable"; //$NON-NLS-1$
-			}
-			public void run() {
-				createVariable (getInput (),null,ModelHelper.INCOMING);
-			}			
-		};
-
-
-		RunnableProposal proposal3 = new RunnableProposal() {			
-			@Override
-			public String getLabel() {
-				return "Clear Output Variable"; //$NON-NLS-1$
-			}
-			public void run() {
-				getCommandFramework().execute( new SetVariableCommand(getInput(),null,ModelHelper.INCOMING) );
-			}			
-		};
-		
-		VariableContentProvider provider = new VariableContentProvider();
-		ModelContentProposalProvider proposalProvider;
-		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
-			@Override
-			public Object value() {
-				return getInput();
-			}			
-		}, provider,fOutputVariableFilter);
-		
-		proposalProvider.addProposalToEnd( new Separator () );
-		proposalProvider.addProposalToEnd( proposal );
-		proposalProvider.addProposalToEnd( proposal2 );
-		proposalProvider.addProposalToEnd( proposal3 );
-		
-		final FieldAssistAdapter contentAssist = new FieldAssistAdapter (
-				outputVariableText, 
-				fTextContentAdapter, 
-				proposalProvider, 
-				null, 
-				null );
-		// 
-		contentAssist.setLabelProvider( new ModelLabelProvider () );		
-		contentAssist.setPopupSize( new Point(300,100) );
-		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-		contentAssist.setProposalAcceptanceStyle( ContentProposalAdapter.PROPOSAL_REPLACE );
-		contentAssist.addContentProposalListener( proposal );
-		contentAssist.addContentProposalListener( proposal2 );
-		contentAssist.addContentProposalListener( proposal3 );
-		contentAssist.addContentProposalListener(new IContentProposalListener () {
-
-			public void proposalAccepted (IContentProposal chosenProposal) {
-				if (chosenProposal.getContent() == null) {
-					return ;
-				}
-				Variable variable = null;
-				try {
-					variable = (Variable) ((Adapter)chosenProposal).getTarget();
-				} catch (Throwable t) {
-					return ;
-				}
-				SetVariableCommand cmd = new SetVariableCommand(getInput(),variable, ModelHelper.INCOMING );
-				getCommandFramework().execute( cmd );
-			}			
-		});
-		
-		// End of Content Assist for operation
-		
-		outputVariableButton.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				contentAssist.openProposals();
 			}
 		});
-		outputVariableText.addListener(SWT.KeyDown, new Listener () {
-			public void handleEvent(Event event) {
-				if (event.keyCode == SWT.CR) {
-					findAndSetOrCreateVariable( outputVariableText.getText(),ModelHelper.INCOMING );
-				}
-			}        	
-		});
+		// End of Content Assist for fault
 
-		data = new FlatFormData();
-		data.right = new FlatFormAttachment(100,0);
-		data.top = new FlatFormAttachment(outputVariableText,+2,SWT.TOP);
-		data.bottom = new FlatFormAttachment(outputVariableText,-2,SWT.BOTTOM);
-		outputVariableButton.setLayoutData(data);
-			
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel, STANDARD_LABEL_WIDTH_SM));
-		data.right = new FlatFormAttachment(outputVariableButton,0);
-		outputVariableText.setLayoutData(data);
-
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(outputVariableText, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(outputVariableText, 0, SWT.CENTER);
-		outputVariableLabel.setLayoutData(data);
-		
-		return composite;
-	}
-	
-	
-
-	protected String getVariableDialogTitle(EObject target, int direction) {
-		if (fModelObject instanceof Invoke) {
-			return (direction == ModelHelper.OUTGOING) ?
-				Messages.InvokeImplSection_Select_Request_Variable_1 : 
-				Messages.InvokeImplSection_Select_Response_Variable_1; 
-		}
-		return (direction == ModelHelper.OUTGOING) ?
-			Messages.InvokeImplSection_Select_Response_Variable_1 : 
-			Messages.InvokeImplSection_Select_Request_Variable_1; 
-	}
-	
-	
-	protected Composite createFaultComposite (Composite top, Composite parent) {
-		FlatFormData data;
-		
-		final Composite composite = faultComposite = createFlatFormComposite(parent);
-		
-		data = new FlatFormData();
-		if (top == null) {
-			data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
-		} else {
-			data.top = new FlatFormAttachment( top, IDetailsAreaConstants.VSPACE);
-		}		
-		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
-		composite.setLayoutData(data);
-		
-		faultLabel = fWidgetFactory.createLabel(composite,  Messages.InvokeImplDetails_Fault_Name__25); 
-		faultText = fWidgetFactory.createText(composite,EMPTY_STRING); 
-		faultButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW|SWT.DOWN|SWT.CENTER); 
-		// Provide Content Assist for the operation
-		
-		
-		WSDLFaultContentProvider provider = new WSDLFaultContentProvider();
-		ModelContentProposalProvider proposalProvider;
-		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
-			@Override
-			public Object value() {
-				return ModelHelper.getOperation( getInput() );
-			}			
-		}, provider);
-		
-		proposalProvider.addProposalToEnd( new Separator () );
-				
-		final FieldAssistAdapter contentAssist = new FieldAssistAdapter (
-				faultText, 
-				fTextContentAdapter, 
-				proposalProvider, 
-				null, 
-				null );
-		// 
-		contentAssist.setLabelProvider( new ModelLabelProvider () );		
-		contentAssist.setPopupSize( new Point(300,100) );
-		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-		contentAssist.setProposalAcceptanceStyle( ContentProposalAdapter.PROPOSAL_REPLACE );
-		// End of Content Assist for operation
-		
 		faultButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				contentAssist.openProposals();				
-			}			
+				contentAssist.openProposals();
+			}
 		});
-		
+
 		data = new FlatFormData();
-		data.right = new FlatFormAttachment(100,0);
-		data.top = new FlatFormAttachment(faultText,+2,SWT.TOP);
-		data.bottom = new FlatFormAttachment(faultText,-2,SWT.BOTTOM);
+		data.right = new FlatFormAttachment(100, 0);
+		data.top = new FlatFormAttachment(faultText, +2, SWT.TOP);
+		data.bottom = new FlatFormAttachment(faultText, -2, SWT.BOTTOM);
 		faultButton.setLayoutData(data);
-					
+
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel, STANDARD_LABEL_WIDTH_SM));
-		data.right = new FlatFormAttachment(faultButton,0);
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
+				operationLabel, STANDARD_LABEL_WIDTH_SM));
+		data.right = new FlatFormAttachment(faultButton, 0);
 		faultText.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(faultText, -IDetailsAreaConstants.HSPACE);
+		data.right = new FlatFormAttachment(faultText,
+				-IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(faultText, 0, SWT.CENTER);
 		faultLabel.setLayoutData(data);
-		
+
 		return composite;
 	}
 	
-	protected Composite createFaultNameWidgets(Composite top, Composite parent) {
-		FlatFormData data;
-
-		Composite composite = faultNameComposite = createFlatFormComposite(parent);
-		data = new FlatFormData();
-		if (top == null) {
-			data.top = new FlatFormAttachment (0,IDetailsAreaConstants.VSPACE);
-		} else {
-			data.top = new FlatFormAttachment (top,IDetailsAreaConstants.VSPACE);
-		}		
-		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
-		composite.setLayoutData(data);
-
-		Label faultNameLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplDetails_Fault_Name__25); 
-		
-		faultNameCombo = fWidgetFactory.createCCombo(composite);
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNameLabel, STANDARD_LABEL_WIDTH_SM));
-		data.right = new FlatFormAttachment(100, -SHORT_BUTTON_WIDTH-IDetailsAreaConstants.HSPACE);
-		faultNameCombo.setLayoutData(data);
-		
-		faultNameViewer = new CComboViewer(faultNameCombo);
-		faultNameViewer.setLabelProvider(new ModelLabelProvider());
-		faultNameViewer.setContentProvider(new WSDLFaultContentProvider());
-		faultNameViewer.setSorter(ModelViewerSorter.getInstance());
-		faultNameViewer.addFilter(AddNullFilter.getInstance());
-		faultNameViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection sel = (IStructuredSelection)faultNameViewer.getSelection();
-				Fault fault = (Fault)sel.getFirstElement();
-				CompoundCommand cmd = new CompoundCommand();
-				cmd.add(new SetWSDLFaultCommand(getInput(), fault));
-				/* WDG: removed command */
-				lastChangeContext = FAULTNAME_CONTEXT;
-				getCommandFramework().execute(wrapInShowContextCommand(cmd));
-			}
-		});
-		
-		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(faultNameCombo, -IDetailsAreaConstants.HSPACE);
-		data.top = new FlatFormAttachment(faultNameCombo, 0, SWT.CENTER);
-		faultNameLabel.setLayoutData(data);
-		
-		return composite;
-	}
+//	protected Composite createFaultNameWidgets(Composite top, Composite parent) {
+//		FlatFormData data;
+//
+//		Composite composite = faultNameComposite = createFlatFormComposite(parent);
+//		data = new FlatFormData();
+//		if (top == null) {
+//			data.top = new FlatFormAttachment (0,IDetailsAreaConstants.VSPACE);
+//		} else {
+//			data.top = new FlatFormAttachment (top,IDetailsAreaConstants.VSPACE);
+//		}		
+//		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
+//		data.right = new FlatFormAttachment(SPLIT_POINT, -SPLIT_POINT_OFFSET);
+//		composite.setLayoutData(data);
+//
+//		Label faultNameLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplDetails_Fault_Name__25); 
+//		
+//		faultNameCombo = fWidgetFactory.createCCombo(composite);
+//		data = new FlatFormData();
+//		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultNameLabel, STANDARD_LABEL_WIDTH_SM));
+//		data.right = new FlatFormAttachment(100, -SHORT_BUTTON_WIDTH-IDetailsAreaConstants.HSPACE);
+//		faultNameCombo.setLayoutData(data);
+//		
+//		faultNameViewer = new CComboViewer(faultNameCombo);
+//		faultNameViewer.setLabelProvider(new ModelLabelProvider());
+//		faultNameViewer.setContentProvider(new WSDLFaultContentProvider());
+//		faultNameViewer.setSorter(ModelViewerSorter.getInstance());
+//		faultNameViewer.addFilter(AddNullFilter.getInstance());
+//		faultNameViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+//			public void selectionChanged(SelectionChangedEvent event) {
+//				IStructuredSelection sel = (IStructuredSelection)faultNameViewer.getSelection();
+//				Fault fault = (Fault)sel.getFirstElement();
+//				CompoundCommand cmd = new CompoundCommand();
+//				cmd.add(new SetWSDLFaultCommand(getInput(), fault));
+//				/* WDG: removed command */
+//				lastChangeContext = FAULTNAME_CONTEXT;
+//				getCommandFramework().execute(wrapInShowContextCommand(cmd));
+//			}
+//		});
+//		
+//		data = new FlatFormData();
+//		data.left = new FlatFormAttachment(0, 0);
+//		data.right = new FlatFormAttachment(faultNameCombo, -IDetailsAreaConstants.HSPACE);
+//		data.top = new FlatFormAttachment(faultNameCombo, 0, SWT.CENTER);
+//		faultNameLabel.setLayoutData(data);
+//		
+//		return composite;
+//	}
 
 	
-	protected Composite createQuickPick (Composite top, Composite parent) 
+	private  Composite createQuickPick (Composite top, Composite parent) 
 	{
 		FlatFormData data;
 		
@@ -1143,7 +1080,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 		data.left = new FlatFormAttachment(SPLIT_POINT, SPLIT_POINT_OFFSET);		
 		data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
-		data.bottom = new FlatFormAttachment(100,-IDetailsAreaConstants.HSPACE);
+		data.bottom = new FlatFormAttachment(100,-IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 				
 		quickPickLabel = fWidgetFactory.createLabel(composite, "Quick Pick:");  //$NON-NLS-1$
@@ -1192,8 +1129,6 @@ public class InvokeImplSection extends BPELPropertySection {
 		ref = createPortTypeWidgets(ref, composite);
 		ref = createOperationWidgets(ref,composite);
 		 
-		ref = createInputVariableWidgets(ref,composite);
-		ref = createOutputVariableComposite(ref,composite);
 		ref = createFaultComposite ( ref, composite );
 		
 		
@@ -1204,7 +1139,7 @@ public class InvokeImplSection extends BPELPropertySection {
 			parentComposite, IHelpContextIds.PROPERTY_PAGE_INVOKE_IMPLEMENTATION);
 	}
 	
-	protected void updatePartnerWidgets() {
+	private  void updatePartnerWidgets() {
 				
 		PartnerLink partnerLink = ModelHelper.getPartnerLink(getInput());
 		if (partnerLink == null) {
@@ -1215,60 +1150,60 @@ public class InvokeImplSection extends BPELPropertySection {
 		}
 	}
 	
-	protected void updateInputVariableWidgets () {
-		
-		if (isInvoke) {
-			inputVariableLabel.setText(Messages.InvokeImplSection_22);
-		} else {
-			inputVariableLabel.setText(Messages.InvokeImplSection_23);
-		}
-		
-		Variable inputVar = ModelHelper.getVariable(getInput(), 
-				isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
-		
-		if (inputVar != null) {
-			inputVariableText.setText( inputVar.getName() );
-		} else {
-			inputVariableText.setText(EMPTY_STRING);
-		}
-		
-		//Figure out the type of the message.		
-		fInputVariableFilter.clear(); 
-		Object type = ModelHelper.getVariableType( getInput(), isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING );
-		if (type != null && type instanceof Message) {
-			fInputVariableFilter.setType( (Message) type );
-		}		
-	}
+//	protected void updateInputVariableWidgets () {
+//		
+//		if (isInvoke) {
+//			inputVariableLabel.setText(Messages.InvokeImplSection_22);
+//		} else {
+//			inputVariableLabel.setText(Messages.InvokeImplSection_23);
+//		}
+//		
+//		Variable inputVar = ModelHelper.getVariable(getInput(), 
+//				isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
+//		
+//		if (inputVar != null) {
+//			inputVariableText.setText( inputVar.getName() );
+//		} else {
+//			inputVariableText.setText(EMPTY_STRING);
+//		}
+//		
+//		//Figure out the type of the message.		
+//		fInputVariableFilter.clear(); 
+//		Object type = ModelHelper.getVariableType( getInput(), isInvoke ? ModelHelper.OUTGOING : ModelHelper.INCOMING );
+//		if (type != null && type instanceof Message) {
+//			fInputVariableFilter.setType( (Message) type );
+//		}		
+//	}
 	
-	protected void updateOutputVariableWidgets () {
-		
-		outputVariableComposite.setVisible( isInvoke );
-		
-		if ( !isInvoke ) {			
-			return ;
-		}				
-		
-		Variable outputVar = ModelHelper.getVariable(getInput(), ModelHelper.INCOMING);
-		if (outputVar != null) {
-			outputVariableText.setText(outputVar.getName());
-		} else {
-			outputVariableText.setText(EMPTY_STRING);
-		}
-		
-		//Figure out the type of the message.		
-		fOutputVariableFilter.clear(); 
-		Object type = ModelHelper.getVariableType( getInput(), ModelHelper.INCOMING );
-		if (type != null) {
-			if (type instanceof Message) {
-				fOutputVariableFilter.setType( (Message) type );
-			}
-		}		
-	}
+//	protected void updateOutputVariableWidgets () {
+//		
+//		outputVariableComposite.setVisible( isInvoke );
+//		
+//		if ( !isInvoke ) {			
+//			return ;
+//		}				
+//		
+//		Variable outputVar = ModelHelper.getVariable(getInput(), ModelHelper.INCOMING);
+//		if (outputVar != null) {
+//			outputVariableText.setText(outputVar.getName());
+//		} else {
+//			outputVariableText.setText(EMPTY_STRING);
+//		}
+//		
+//		//Figure out the type of the message.		
+//		fOutputVariableFilter.clear(); 
+//		Object type = ModelHelper.getVariableType( getInput(), ModelHelper.INCOMING );
+//		if (type != null) {
+//			if (type instanceof Message) {
+//				fOutputVariableFilter.setType( (Message) type );
+//			}
+//		}		
+//	}
 	
 	
 	// TODO: move these to ModelHelper?
 	
-	PortType getEffectivePortType (PartnerLink partnerLink) {
+	private PortType getEffectivePortType (PartnerLink partnerLink) {
 		if (partnerLink != null) {
 			Role role = isInvoke? partnerLink.getPartnerRole() : partnerLink.getMyRole();
 			return ModelHelper.getRolePortType(role);
@@ -1276,7 +1211,11 @@ public class InvokeImplSection extends BPELPropertySection {
 		return null;		
 	}
 
-	protected void updateQuickPickWidgets () {
+	private  void updateQuickPickWidgets () {
+		
+		fPartnerRoleFilter.setRequireMyRole( !isInvoke );
+		fPartnerRoleFilter.setRequirePartnerRole( isInvoke );
+		
 		Object myInput = getInput();
 		if ( myInput != quickPickTreeViewer.getInput() ) {
 			quickPickTreeViewer.setInput( myInput );			
@@ -1287,7 +1226,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 	
-	protected void updatePortTypeWidgets() {
+	private  void updatePortTypeWidgets() {
 		if (interfaceName == null) {
 			return ;
 		}
@@ -1304,7 +1243,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		}
 	}
 	
-	protected void updateOperationWidgets() {
+	private  void updateOperationWidgets() {
 		
 		Operation operation = ModelHelper.getOperation(getInput());
 		if (operation != null) {
@@ -1314,8 +1253,35 @@ public class InvokeImplSection extends BPELPropertySection {
 		}
 	}
 	
+	/**
+	 * replyFaultEnabled() Checks if the active activity is a reply activity and
+	 * has a fault name
+	 * 
+	 * @return - true When the active activity is a reply activity and has a
+	 *         fault set. 
+	 *         - false When the active activity is no reply activity.
+	 *         When the active activity is a reply activity and the fault is
+	 *         set.
+	 */
+	protected boolean replyFaultEnabled() {
+		if (isInvoke)
+			return false;
+		if (!(getInput() instanceof Reply))
+			return false;
+		boolean faultEnabled = (ModelHelper.getFaultName(getInput()) != null);
+		return faultEnabled;
+	}
+	
 	protected void updateFaultWidgets () {
-		
+		boolean faultEnabled = replyFaultEnabled();
+		if (faultEnabled) {
+			Fault fault = ModelHelper.getWSDLFault(getInput());
+			if (fault != null) {
+				faultText.setText( fault.getName() );
+			} else {
+				faultText.setText ( EMPTY_STRING );
+			}
+		}
 	}
 
 	/**
@@ -1341,24 +1307,18 @@ public class InvokeImplSection extends BPELPropertySection {
 	@Override
 	public void restoreUserContext(Object userContext) {
 		
-		if (false) {
-			return;
-		}
-		
 		int i = ((Integer)userContext).intValue();
 		switch (i) {
 		case PARTNER_CONTEXT: partnerName.setFocus(); return;
-		case OPERATION_CONTEXT: operationViewer.getCCombo().setFocus(); return;
-		case NORMALRADIO_CONTEXT: normalRadio.setFocus(); return;
-		case FAULTRADIO_CONTEXT: faultRadio.setFocus(); return;
-		case FAULTNAME_CONTEXT: faultNameCombo.setFocus(); return;
+		case OPERATION_CONTEXT: operationText.setFocus(); return;
+		case FAULTNAME_CONTEXT: faultText.setFocus(); return;
 		}
 		throw new IllegalStateException();
 	}
 
 
 	
-	void findAndSetOperation (String text) {
+	private void findAndSetOperation (String text) {
 		
 		text = text.trim();
 		EObject model = getInput();
@@ -1389,85 +1349,85 @@ public class InvokeImplSection extends BPELPropertySection {
 		getCommandFramework().execute ( cmd );
 	}
 
-	void findAndSetOrCreateVariable (String text, int direction) {
-		
-		text = text.trim();
-		EObject model = getInput();
-		
-		SetVariableCommand cmd = new SetVariableCommand(getInput(),null,direction);
-		if (text.length() > 0) {
-			Variable variable = (Variable) ModelHelper.findElementByName(ModelHelper.getContainingScope(model), 
-					text, Variable.class);			
-			if (variable == null) {
-			
-				createVariable (getInput(), text,direction );						
-				return ;			
-			} 
-			
-			cmd.setNewValue( variable );
-		}
-		
-		getCommandFramework().execute ( cmd );
-	}
+//	void findAndSetOrCreateVariable (String text, int direction) {
+//		
+//		text = text.trim();
+//		EObject model = getInput();
+//		
+//		SetVariableCommand cmd = new SetVariableCommand(getInput(),null,direction);
+//		if (text.length() > 0) {
+//			Variable variable = (Variable) ModelHelper.findElementByName(ModelHelper.getContainingScope(model), 
+//					text, Variable.class);			
+//			if (variable == null) {
+//			
+//				createVariable (getInput(), text,direction );						
+//				return ;			
+//			} 
+//			
+//			cmd.setNewValue( variable );
+//		}
+//		
+//		getCommandFramework().execute ( cmd );
+//	}
 	
-	/**
-	 * Create an input variable, set it to the right type, and set the input variable
-	 * pon the activity. 
-	 * 
-	 * @param ref the object on which to create the variable (Scope or Process)
-	 * @param name the name of the variable, or null
-	 * @param the direction of the variable
-	 */
-	
-	void createVariable ( EObject ref, String name,  int direction ) {
-		
-		Variable variable = BPELFactory.eINSTANCE.createVariable();
-		
-		if (name == null) {
-			name = plainLabelWordFor( direction );
-		}
-
-		Message messageType = null;
-		XSDElementDeclaration elementType = null;
-		
-		Object type = ModelHelper.getVariableType( getInput(), direction );
-		
-		if (type != null && type instanceof Message) {
-			messageType = (Message) type;
-			if (messageType.getEParts().size() == 1) {
-				Part part = (Part) messageType.getEParts().get(0);
-				elementType = part.getElementDeclaration();
-			}
-		}		
-		
-		// ask for the name, we know the type.
-		NameDialog nameDialog = new NameDialog( 
-				inputVariableComposite.getShell(), 
-				Messages.VariableSelectorDialog_New_Variable_4, 
-				Messages.VariableSelectorDialog_Variable_Name_5, 
-				name, 
-				BPELUtil.getNCNameValidator());
-		
-		if (nameDialog.open() == Window.CANCEL) {
-			return ;
-		}		
-		
-		// set name and type
-		variable.setName ( nameDialog.getValue() );
-				
-		if ( elementType != null ) {
-			variable.setXSDElement(elementType);
-		} else if (messageType != null) {
-			variable.setMessageType ( messageType );
-		} 
-		
-		// create the variable and then set the input variable to it.
-		CompoundCommand cmd = new CompoundCommand();
-		cmd.add ( new AddVariableCommand(ref,variable) );
-		cmd.add ( new SetVariableCommand(getInput(), variable, direction) );
-		
-		getCommandFramework().execute( cmd );				
-	}
+//	/**
+//	 * Create an input variable, set it to the right type, and set the input variable
+//	 * pon the activity. 
+//	 * 
+//	 * @param ref the object on which to create the variable (Scope or Process)
+//	 * @param name the name of the variable, or null
+//	 * @param the direction of the variable
+//	 */
+//	
+//	void createVariable ( EObject ref, String name,  int direction ) {
+//		
+//		Variable variable = BPELFactory.eINSTANCE.createVariable();
+//		
+//		if (name == null) {
+//			name = plainLabelWordFor( direction );
+//		}
+//
+//		Message messageType = null;
+//		XSDElementDeclaration elementType = null;
+//		
+//		Object type = ModelHelper.getVariableType( getInput(), direction );
+//		
+//		if (type != null && type instanceof Message) {
+//			messageType = (Message) type;
+//			if (messageType.getEParts().size() == 1) {
+//				Part part = (Part) messageType.getEParts().get(0);
+//				elementType = part.getElementDeclaration();
+//			}
+//		}		
+//		
+//		// ask for the name, we know the type.
+//		NameDialog nameDialog = new NameDialog( 
+//				inputVariableComposite.getShell(), 
+//				Messages.VariableSelectorDialog_New_Variable_4, 
+//				Messages.VariableSelectorDialog_Variable_Name_5, 
+//				name, 
+//				BPELUtil.getNCNameValidator());
+//		
+//		if (nameDialog.open() == Window.CANCEL) {
+//			return ;
+//		}		
+//		
+//		// set name and type
+//		variable.setName ( nameDialog.getValue() );
+//				
+//		if ( elementType != null ) {
+//			variable.setXSDElement(elementType);
+//		} else if (messageType != null) {
+//			variable.setMessageType ( messageType );
+//		} 
+//		
+//		// create the variable and then set the input variable to it.
+//		CompoundCommand cmd = new CompoundCommand();
+//		cmd.add ( new AddVariableCommand(ref,variable) );
+//		cmd.add ( new SetVariableCommand(getInput(), variable, direction) );
+//		
+//		getCommandFramework().execute( cmd );				
+//	}
 	
 	
 	void findAndSetOrCreatePartnerLink ( String name ) {
@@ -1492,7 +1452,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		
 	}
 	
-	void createPartnerLink ( EObject ref , String name ) {
+	private void createPartnerLink ( EObject ref , String name ) {
 		PartnerLink pl = BPELFactory.eINSTANCE.createPartnerLink();
 		
 		if (name == null) {
@@ -1501,7 +1461,7 @@ public class InvokeImplSection extends BPELPropertySection {
 
 		// ask for the name, we know the type.
 		NameDialog nameDialog = new NameDialog( 
-				inputVariableComposite.getShell(), 
+				parentComposite.getShell(), 
 				Messages.PartnerLinkSelectorDialog_5, 
 				Messages.PartnerLinkSelectorDialog_6, 
 				name, 
@@ -1547,7 +1507,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	 * @param selection the selection from the tree
 	 */
 	
-	void quickPickSelectionChanged ( ISelection selection ) {
+	private void quickPickSelectionChanged ( ISelection selection ) {
 		
 		if (selection.isEmpty()) {
 			return ;
@@ -1557,7 +1517,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 	
-	void quickPickSelectionChanged ( TreePath[] paths ) {
+	private void quickPickSelectionChanged ( TreePath[] paths ) {
 	
 		// Assumption is that we are single selection ...
 		if (paths.length > 0) {
@@ -1567,7 +1527,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 	
 	
-	void quickPickSelectionChanged ( TreePath path ) {				
+	private void quickPickSelectionChanged ( TreePath path ) {				
 	
 		// The tree view contains nodes which may have multiple parents
 		// so we have to walk the selection using the visual elements
@@ -1640,7 +1600,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	
 
 	
-	void alterCommands (List<Command> list, EObject input, PartnerLink pl , Operation op, Input msg ) {
+	private void alterCommands (List<Command> list, EObject input, PartnerLink pl , Operation op, Input msg ) {
 		
 		if (input instanceof Receive || input instanceof OnMessage || 
 			input instanceof OnEvent || input instanceof Reply)
@@ -1660,7 +1620,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 		
-	void alterCommands (List<Command> cmds, EObject input, PartnerLink pl, Operation op, Output msg) {
+	private void alterCommands (List<Command> cmds, EObject input, PartnerLink pl, Operation op, Output msg) {
 		if (input instanceof Reply) {
 			if (pl.getMyRole() == null || msg == null) {
 				return ;
@@ -1676,12 +1636,12 @@ public class InvokeImplSection extends BPELPropertySection {
 	}
 	
 	
-	void alterCommands ( List<Command> cmds, EObject input, Message msg, PartnerLink pl) {
+	private void alterCommands ( List<Command> cmds, EObject input, Message msg, PartnerLink pl) {
 		alterCommands ( cmds, input,msg,pl, ModelHelper.NOT_SPECIFIED);
 	}
 	
 	
-	void alterCommands (List<Command> cmds, EObject input, Message msg, PartnerLink pl, final int direction) {			
+	private void alterCommands (List<Command> cmds, EObject input, Message msg, PartnerLink pl, final int direction) {			
 								 
 		Variable variable = findVariable(input, msg, pl);
 		
@@ -1722,7 +1682,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	 * @return the chosen variable or null
 	 */
 	
-	Variable findVariable ( EObject input, Message msg , PartnerLink pl ) {
+	private Variable findVariable ( EObject input, Message msg , PartnerLink pl ) {
 		
 		Variable list[] = ModelHelper.getVariablesOfType( input, msg );			
 				
@@ -1764,7 +1724,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	 */
 		
 	
-	List<Command> basicCommandList (EObject input, PartnerLink pl, Operation op) {
+	private List<Command> basicCommandList (EObject input, PartnerLink pl, Operation op) {
 		List<Command> list = new ArrayList<Command>(8);
 	
 		
@@ -1794,7 +1754,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	 * @return the runnable proposal for WSDL editing.
 	 */
 	
-	RunnableProposal getWSDLEdit ( ) {
+	private RunnableProposal getWSDLEdit ( ) {
 		
 		if (fWSDLEditRunnableProposal == null) {
 			fWSDLEditRunnableProposal = new RunnableProposal() {				

@@ -703,7 +703,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	 */
 	protected void buttonPressed(int id, boolean selection, boolean event ) {
 		
-		if (!selection || !event ) {
+		if (!event || (!selection && id != BID_INITIALIZE_PARTNER_ROLE)) {
 			// only respond to events
 			return ;
 		}
@@ -725,9 +725,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			
 		case BID_MY_ROLE_2 :
 			if (myRole == null || myRole.equals( fRoles[1]) == false ) {
-				cmd = new SetRoleCommand(pl,fRoles[1],ModelHelper.MY_ROLE);
-				cmd = new SetCommand(pl,fRoles[1],BPELPackage.eINSTANCE.getPartnerLink_MyRole() );
-				
+				cmd = new SetCommand(pl,fRoles[1],BPELPackage.eINSTANCE.getPartnerLink_MyRole() );				
 			}
 			break;
 			
@@ -755,7 +753,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 			}
 			break;
 		case BID_INITIALIZE_PARTNER_ROLE :
-			cmd = new SetCommand(pl,fPartnerRoleNone.getSelection(),BPELPackage.eINSTANCE.getPartnerLink_InitializePartnerRole() );
+			cmd = new SetCommand(pl,fInitializePartnerRole.getSelection(),BPELPackage.eINSTANCE.getPartnerLink_InitializePartnerRole() );
 			break;
 		}
 		

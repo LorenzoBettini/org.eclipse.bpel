@@ -83,7 +83,7 @@ public class AddImportCommand extends AutoUndoCommand {
 		if (bNoop) {
 			return ;
 		}
-		fProcess.getImports().add( fImport );
+		fProcess.getImports().add(0, fImport );
 	}
 
 
