@@ -14,6 +14,7 @@ package org.eclipse.bpel.ui.dialogs;
 import java.util.List;
 
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.details.providers.CompositeContentProvider;
 import org.eclipse.bpel.ui.details.providers.GatedContentProvider;
@@ -197,6 +198,10 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 		
 		
 		if (obj instanceof PartnerLinkType) {			
+			if (!checkNamespace((PartnerLinkType)obj)){
+				return;
+			}
+			
 			super.okPressed();
 			return;
 		}
@@ -205,6 +210,29 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 		throw new IllegalStateException(Messages.PartnerLinkTypeSelectorDialog_4);
 	}
 	
+	private boolean checkNamespace(PartnerLinkType obj) {
+		// Now check if the target namespace has a prefix mappings.
+		String targetNamespace = obj.getEnclosingDefinition().getTargetNamespace();
+		
+		String prefix = BPELUtils.getNamespacePrefix (modelObject, targetNamespace);
+		if (prefix != null) {
+			return true;
+		}
+		
+		// We have to map the namespace to a prefix. 
+		NamespaceMappingDialog dialog = new NamespaceMappingDialog(getShell(), modelObject);
+		dialog.setNamespace( targetNamespace );
+		
+		if (dialog.open() == Window.CANCEL) {
+			return false;
+		}
+		
+		// define the prefix
+		ModelHelper.getProcess(modelObject).setPrefixForNamespace(dialog.getPrefix(), targetNamespace);
+		return true;
+	}
+
+
 	protected void createBrowseFilterGroupButtons ( Group  group ) {
         
 		fShowPortTypes = createCheckButton(group,Messages.PartnerLinkTypeSelectorDialog_5, 
