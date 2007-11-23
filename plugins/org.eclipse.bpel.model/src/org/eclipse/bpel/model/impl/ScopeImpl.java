@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.9 2007/10/12 08:14:58 smoser Exp $
+ * $Id: ScopeImpl.java,v 1.10 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -268,6 +268,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 */
 	public void unsetIsolated() {
 		Boolean oldIsolated = isolated;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ISOLATED, (String)null);
+		}
 		boolean oldIsolatedESet = isolatedESet;
 		isolated = ISOLATED_EDEFAULT;
 		isolatedESet = false;
@@ -303,6 +306,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetFaultHandlers(
 			FaultHandler newFaultHandlers, NotificationChain msgs) {
 		FaultHandler oldFaultHandlers = faultHandlers;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldFaultHandlers, newFaultHandlers);
+		}
 		faultHandlers = newFaultHandlers;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -358,6 +364,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetCompensationHandler(
 			CompensationHandler newCompensationHandler, NotificationChain msgs) {
 		CompensationHandler oldCompensationHandler = compensationHandler;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCompensationHandler, newCompensationHandler);
+		}
 		compensationHandler = newCompensationHandler;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -416,6 +425,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -470,6 +482,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetVariables(Variables newVariables,
 			NotificationChain msgs) {
 		Variables oldVariables = variables;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldVariables, newVariables);
+		}
 		variables = newVariables;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -524,6 +539,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetCorrelationSets(
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
 		CorrelationSets oldCorrelationSets = correlationSets;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCorrelationSets, newCorrelationSets);
+		}
 		correlationSets = newCorrelationSets;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -581,6 +599,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetEventHandlers(
 			EventHandler newEventHandlers, NotificationChain msgs) {
 		EventHandler oldEventHandlers = eventHandlers;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldEventHandlers, newEventHandlers);
+		}
 		eventHandlers = newEventHandlers;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -636,6 +657,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetPartnerLinks(PartnerLinks newPartnerLinks,
 			NotificationChain msgs) {
 		PartnerLinks oldPartnerLinks = partnerLinks;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldPartnerLinks, newPartnerLinks);
+		}
 		partnerLinks = newPartnerLinks;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -691,6 +715,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain basicSetTerminationHandler(
 			TerminationHandler newTerminationHandler, NotificationChain msgs) {
 		TerminationHandler oldTerminationHandler = terminationHandler;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldTerminationHandler, newTerminationHandler);
+		}
 		terminationHandler = newTerminationHandler;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -766,6 +793,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 */
 	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
 		MessageExchanges oldMessageExchanges = messageExchanges;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldMessageExchanges, newMessageExchanges);
+		}
 		messageExchanges = newMessageExchanges;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -789,6 +819,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 */
 	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXIT_ON_STANDARD_FAULT, BPELUtils.boolean2XML(newExitOnStandardFault));
+		}
 		exitOnStandardFault = newExitOnStandardFault;
 		boolean oldExitOnStandardFaultESet = exitOnStandardFaultESet;
 		exitOnStandardFaultESet = true;
@@ -806,6 +839,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 */
 	public void unsetExitOnStandardFault() {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXIT_ON_STANDARD_FAULT, (String)null);
+		}
 		boolean oldExitOnStandardFaultESet = exitOnStandardFaultESet;
 		exitOnStandardFault = EXIT_ON_STANDARD_FAULT_EDEFAULT;
 		exitOnStandardFaultESet = false;

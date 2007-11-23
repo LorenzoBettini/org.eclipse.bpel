@@ -1540,50 +1540,8 @@ public class BPELWriter {
 		}
 
 		
-		if (from.getServiceRef() != null) {
-			ServiceRef serviceRef = from.getServiceRef();
-			Element serviceRefElement = createBPELElement("service-ref");
-			String referenceScheme = serviceRef.getReferenceScheme();
-			if (referenceScheme != null) {
-				serviceRefElement.setAttribute("reference-scheme", referenceScheme);
-			}
-			if (serviceRef.getValue() != null) {
-				Object value = serviceRef.getValue();
-				if (value instanceof ExtensibilityElement) {
-					ExtensibilityElement extensibilityElement = (ExtensibilityElement)value;
-					BPELExtensionSerializer serializer = null;
-					QName qname = extensibilityElement.getElementType();
-					try {
-					    serializer=(BPELExtensionSerializer)extensionRegistry.querySerializer(ExtensibleElement.class,qname);
-					} catch (WSDLException e) {
-					}
-					
-					if (serializer != null) {
-						// Deserialize the DOM element and add the new Extensibility element to the parent
-						// ExtensibleElement
-						DocumentFragment fragment=document.createDocumentFragment();
-						try {
-						    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
-							Element child = (Element)fragment.getFirstChild();
-							serviceRefElement.appendChild(child);
-						} catch (WSDLException e) {
-							throw new WrappedException(e);
-						}
-					}
-				} else {
-					ServiceReferenceSerializer serializer = extensionRegistry.getServiceReferenceSerializer(referenceScheme);
-					if (serializer != null) {
-						DocumentFragment fragment=document.createDocumentFragment();
-					    serializer.marshall(value, fragment, fProcess, from, this);
-						Element child = (Element)fragment.getFirstChild();
-						serviceRefElement.appendChild(child);
-					} else {
-						CDATASection cdata = BPELUtils.createCDATASection(document, serviceRef.getValue().toString());
-						serviceRefElement.appendChild(cdata);
-					}
-				}
-				fromElement.appendChild(serviceRefElement);
-			}
+		if (from.getServiceRef() != null) {			
+			fromElement.appendChild(serviceRef2XML(from.getServiceRef()));
 		}
 
 		
@@ -1612,6 +1570,59 @@ public class BPELWriter {
 		
 	}
 
+	protected Element serviceRef2XML(ServiceRef serviceRef) {
+		Element serviceRefElement = createBPELElement("service-ref");
+		String referenceScheme = serviceRef.getReferenceScheme();
+		if (referenceScheme != null) {
+			serviceRefElement.setAttribute("reference-scheme", referenceScheme);
+		}
+		if (serviceRef.getValue() != null) {
+			Node valueNode = serviceRefValue2XML(serviceRef);
+			if (valueNode != null) {
+				serviceRefElement.appendChild(valueNode);
+			}
+		}
+		return serviceRefElement;
+	}
+	
+	protected Node serviceRefValue2XML(ServiceRef serviceRef) {
+		Object value = serviceRef.getValue();
+		if (value instanceof ExtensibilityElement) {
+			ExtensibilityElement extensibilityElement = (ExtensibilityElement)value;
+			BPELExtensionSerializer serializer = null;
+			QName qname = extensibilityElement.getElementType();
+			try {
+			    serializer=(BPELExtensionSerializer)extensionRegistry.querySerializer(ExtensibleElement.class,qname);
+			} catch (WSDLException e) {
+			}
+			
+			if (serializer != null) {
+				// Deserialize the DOM element and add the new Extensibility element to the parent
+				// ExtensibleElement
+				DocumentFragment fragment=document.createDocumentFragment();
+				try {
+				    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
+					Element child = (Element)fragment.getFirstChild();
+					return child;
+				} catch (WSDLException e) {
+					throw new WrappedException(e);
+				}
+			}
+		} else if (serviceRef.getValue() != null) {
+			ServiceReferenceSerializer serializer = extensionRegistry.getServiceReferenceSerializer(serviceRef.getReferenceScheme());
+			if (serializer != null) {
+				DocumentFragment fragment=document.createDocumentFragment();
+			    serializer.marshall(value, fragment, fProcess, serviceRef.eContainer(), this);
+				Element child = (Element)fragment.getFirstChild();
+				return child;
+			} else {
+				CDATASection cdata = BPELUtils.createCDATASection(document, serviceRef.getValue().toString());
+				return cdata;
+			}
+		}
+		return null;
+	}
+	
 	protected Element query2XML(Query query) {
 		Element queryElement = createBPELElement("query");
 		if (query.getQueryLanguage() != null) {
@@ -2173,6 +2184,9 @@ public class BPELWriter {
 				}
 				
 				Node tempElement= fragment.getFirstChild();
+				if (tempElement == null){
+					return;
+				}
 				String nodeName=tempElement.getNodeName();
 				nodeName=nodeName.substring(nodeName.lastIndexOf(':')+1);
 				if (nodeName.equals("extensibilityAttributes")) {

@@ -36,22 +36,34 @@ import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Link;
+import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.OnAlarm;
+import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Query;
+import org.eclipse.bpel.model.ServiceRef;
+import org.eclipse.bpel.model.Source;
+import org.eclipse.bpel.model.Sources;
+import org.eclipse.bpel.model.Target;
+import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.impl.ServiceRefImpl;
 import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -144,6 +156,10 @@ public class ElementFactory {
 			return super.onMessage2XML(onMsg);
 		}
 		
+		protected Element onEvent2XML(OnEvent onEvent) {
+			return super.onEvent2XML(onEvent);
+		}
+		
 		protected Element copy2XML(Copy copy) {
 			return super.copy2XML(copy);
 		}
@@ -206,7 +222,51 @@ public class ElementFactory {
 		
 		protected String properties2XML(CorrelationSet correlationSet) {
 			return super.properties2XML(correlationSet);
-		}	
+		}
+
+		protected Element link2XML(Link link) {
+			return super.link2XML(link);
+		}
+		
+		protected Element links2XML(Links links) {
+			return super.links2XML(links);
+		}
+		
+		protected Element extension2XML(Extension extension) {
+			return super.extension2XML(extension);
+		}
+		
+		protected Element extensions2XML(Extensions extensions) {
+			return super.extensions2XML(extensions);
+		}
+		
+		protected Element terminationHandler2XML(TerminationHandler terminationHandler) {
+			return super.terminationHandler2XML(terminationHandler);
+		}
+		
+		protected Element source2XML(Source source) {
+			return super.source2XML(source);
+		}
+		
+		protected Element sources2XML(Sources sources) {
+			return super.sources2XML(sources);
+		}
+		
+		protected Element target2XML(Target target) {
+			return super.target2XML(target);
+		}
+		
+		protected Element targets2XML(Targets targets) {
+			return super.targets2XML(targets);
+		}
+		
+		protected Element serviceRef2XML(ServiceRef serviceRef) {
+			return super.serviceRef2XML(serviceRef);
+		}
+		
+		protected Node serviceRefValue2XML(ServiceRef serviceRef) {
+			return super.serviceRefValue2XML(serviceRef);
+		}
 	}
 	private static ElementFactory factory;
 	
@@ -250,6 +310,9 @@ public class ElementFactory {
 		if (element instanceof OnMessage) {
 			return writer.onMessage2XML((OnMessage)element);
 		}
+		if (element instanceof OnEvent) {
+			return writer.onEvent2XML((OnEvent)element);
+		}
 		if (element instanceof Copy) {
 			return writer.copy2XML((Copy)element);
 		}
@@ -261,6 +324,9 @@ public class ElementFactory {
 		}
 		if (element instanceof CompensationHandler) {
 			return writer.compensationHandler2XML((CompensationHandler)element);
+		}
+		if (element instanceof TerminationHandler) {
+			return writer.terminationHandler2XML((TerminationHandler)element);
 		}
 		if (element instanceof To) {
 			Element toElement = writer.createBPELElement("to");
@@ -319,6 +385,33 @@ public class ElementFactory {
 		if (element instanceof Correlations) {
 			return writer.correlations2XML((Correlations)element);
 		}	
+		if (element instanceof Link) {
+			return writer.link2XML((Link)element);
+		}
+		if (element instanceof Links) {
+			return writer.links2XML((Links)element);
+		}
+		if (element instanceof Extension) {
+			return writer.extension2XML((Extension)element);
+		}
+		if (element instanceof Extensions) {
+			return writer.extensions2XML((Extensions)element);
+		}
+		if (element instanceof Source) {
+			return writer.source2XML((Source)element);
+		}
+		if (element instanceof Sources) {
+			return writer.sources2XML((Sources)element);
+		}
+		if (element instanceof Target) {
+			return writer.target2XML((Target)element);
+		}
+		if (element instanceof Targets) {
+			return writer.targets2XML((Targets)element);
+		}
+		if (element instanceof ServiceRef) {
+			return writer.serviceRef2XML((ServiceRef)element);
+		}
 		System.err.println("Cannot create: " + element.toString());
 		return writer.createBPELElement("error");
 //		throw new IllegalArgumentException("Unhandled type: " + element.toString());
@@ -408,5 +501,10 @@ public class ElementFactory {
 	
 	void writeFaultHandler(FaultHandler faultHandler, WSDLElement parent) {
 	    getWriter(parent).faultHandler2XML(parent.getElement(), faultHandler);       
+	}
+
+
+	public Node createValue(ServiceRef serviceRef) {
+		return getWriter(serviceRef).serviceRefValue2XML(serviceRef);
 	}
 }

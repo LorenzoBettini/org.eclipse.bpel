@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionsImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ExtensionsImpl.java,v 1.6 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -12,9 +12,13 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.Extensions;
+import org.eclipse.bpel.model.Link;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -153,5 +157,18 @@ public class ExtensionsImpl extends ExtensibleElementImpl implements Extensions 
 		}
 		return super.eIsSet(featureID);
 	}
-
+	
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Extension) {
+			ReconciliationHelper.adoptChild(this, children, (Extension)object, BPELConstants.ND_EXTENSION);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Extension) {
+			ReconciliationHelper.orphanChild(this, (Extension)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
 } //ExtensionsImpl

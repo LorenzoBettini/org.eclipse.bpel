@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangesImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: MessageExchangesImpl.java,v 1.5 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -12,9 +12,13 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.MessageExchanges;
+import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
@@ -138,6 +142,20 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+	
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof MessageExchange) {
+			ReconciliationHelper.adoptChild(this, children, (MessageExchange)object, BPELConstants.ND_MESSAGE_EXCHANGE);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof MessageExchange) {
+			ReconciliationHelper.orphanChild(this, (MessageExchange)obj);
+		}
+		super.orphanContent(reference, obj);
 	}
 
 } //MessageExchangesImpl

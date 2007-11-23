@@ -34,8 +34,11 @@ import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
+import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
@@ -45,6 +48,8 @@ import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -56,6 +61,10 @@ import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.ServiceRef;
+import org.eclipse.bpel.model.Source;
+import org.eclipse.bpel.model.Sources;
+import org.eclipse.bpel.model.Target;
+import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.model.ToPart;
@@ -63,6 +72,7 @@ import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
+import org.eclipse.bpel.model.impl.ServiceRefImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -91,70 +101,97 @@ public class ReconciliationHelper {
 //		System.err.println("**RECONCILE***");
 //		System.err.println(element);
 //		(new Exception()).printStackTrace();
+		ReconciliationBPELReader reader = getReader(element, changedElement);
 		if (element instanceof Activity) {
-			getReader(element, changedElement).xml2Activity((Activity)element, changedElement);
+			reader.xml2Activity((Activity)element, changedElement);
 		} else if (element instanceof Process) {
-			getReader(element, changedElement).xml2Process(changedElement);
+			reader.xml2Process(changedElement);
 		} else if (element instanceof Import) {
-			getReader(element, changedElement).xml2Import((Import)element, changedElement);
+			reader.xml2Import((Import)element, changedElement);
 		} else if (element instanceof Condition) {
-			getReader(element, changedElement).xml2Condition((Condition)element, changedElement);
+			reader.xml2Condition((Condition)element, changedElement);
 		} else if (element instanceof CompletionCondition) {
-			getReader(element, changedElement).xml2CompletionCondition((CompletionCondition)element, changedElement);
+			reader.xml2CompletionCondition((CompletionCondition)element, changedElement);
 		} else if (element instanceof Branches) {
-			getReader(element, changedElement).xml2Branches((Branches)element, changedElement);
+			reader.xml2Branches((Branches)element, changedElement);
 		} else if (element instanceof Expression) {
-			getReader(element, changedElement).xml2Expression((Expression)element, changedElement);
+			reader.xml2Expression((Expression)element, changedElement);
 		} else if (element instanceof Documentation) {
-			getReader(element, changedElement).xml2Documentation((Documentation)element, changedElement);
+			reader.xml2Documentation((Documentation)element, changedElement);
 		} else if (element instanceof Link) {
-			getReader(element, changedElement).xml2Link((Link)element, changedElement);
+			reader.xml2Link((Link)element, changedElement);
 		} else if (element instanceof Links) {
-			getReader(element, changedElement).xml2Links((Links)element, changedElement);
+			reader.xml2Links((Links)element, changedElement);
 		} else if (element instanceof ElseIf) {
-			getReader(element, changedElement).xml2ElseIf((ElseIf)element, changedElement);
+			reader.xml2ElseIf((ElseIf)element, changedElement);
 		} else if (element instanceof Else) {
-			getReader(element, changedElement).xml2Else((Else)element, changedElement);
+			reader.xml2Else((Else)element, changedElement);
 		} else if (element instanceof Variable) {
-			getReader(element, changedElement).xml2Variable((Variable)element, changedElement);
+			reader.xml2Variable((Variable)element, changedElement);
 		} else if (element instanceof Variables) {
-			getReader(element, changedElement).xml2Variables((Variables)element, changedElement);
+			reader.xml2Variables((Variables)element, changedElement);
 		} else if (element instanceof From) {
-			getReader(element, changedElement).xml2From((From)element, changedElement);
+			reader.xml2From((From)element, changedElement);
 		} else if (element instanceof FromPart) {
-			getReader(element, changedElement).xml2FromPart((FromPart)element, changedElement);
+			reader.xml2FromPart((FromPart)element, changedElement);
 		} else if (element instanceof FromParts) {
-			getReader(element, changedElement).xml2FromParts((FromParts)element, changedElement);
+			reader.xml2FromParts((FromParts)element, changedElement);
 		} else if (element instanceof To) {
-			getReader(element, changedElement).xml2To((To)element, changedElement);
+			reader.xml2To((To)element, changedElement);
 		} else if (element instanceof ToPart) {
-			getReader(element, changedElement).xml2ToPart((ToPart)element, changedElement);
+			reader.xml2ToPart((ToPart)element, changedElement);
 		} else if (element instanceof ToParts) {
-			getReader(element, changedElement).xml2ToParts((ToParts)element, changedElement);
+			reader.xml2ToParts((ToParts)element, changedElement);
 		} else if (element instanceof Query) {
-			getReader(element, changedElement).xml2Query((Query)element, changedElement);
+			reader.xml2Query((Query)element, changedElement);
 		} else if (element instanceof ServiceRef) {
-			getReader(element, changedElement).xml2ServiceRef((ServiceRef)element, changedElement);
+			reader.xml2ServiceRef((ServiceRef)element, changedElement);
 		} else if (element instanceof PartnerLinks) {
-			getReader(element, changedElement).xml2PartnerLinks((PartnerLinks) element, changedElement);
+			reader.xml2PartnerLinks((PartnerLinks) element, changedElement);
 		} else if (element instanceof PartnerLink) {
-			getReader(element, changedElement).xml2PartnerLink((PartnerLink) element, changedElement);
+			reader.xml2PartnerLink((PartnerLink) element, changedElement);
 		} else if (element instanceof Catch){
-			getReader(element, changedElement).xml2Catch((Catch)element, changedElement);
+			reader.xml2Catch((Catch)element, changedElement);
 		} else if (element instanceof CatchAll){
-			getReader(element, changedElement).xml2CatchAll((CatchAll)element, changedElement);
+			reader.xml2CatchAll((CatchAll)element, changedElement);
 		} else if (element instanceof Copy){
-			getReader(element, changedElement).xml2Copy((Copy)element, changedElement);
+			reader.xml2Copy((Copy)element, changedElement);
 		} else if (element instanceof FaultHandler) {
-			getReader(element, changedElement).xml2FaultHandler((FaultHandler)element, changedElement);
+			reader.xml2FaultHandler((FaultHandler)element, changedElement);
+		} else if (element instanceof EventHandler) {
+			reader.xml2EventHandler((EventHandler)element, changedElement);
+		} else if (element instanceof TerminationHandler) {
+			reader.xml2TerminationHandler((TerminationHandler)element, changedElement);
 		} else if (element instanceof Correlation) {
-			getReader(element, changedElement).xml2Correlation((Correlation)element, changedElement);
+			reader.xml2Correlation((Correlation)element, changedElement);
 		} else if (element instanceof Correlations) {
-			getReader(element, changedElement).xml2Correlations((Correlations)element, changedElement);
+			reader.xml2Correlations((Correlations)element, changedElement);
 		} else if (element instanceof CorrelationSet) {
-			getReader(element, changedElement).xml2CorrelationSet((CorrelationSet)element, changedElement);
+			reader.xml2CorrelationSet((CorrelationSet)element, changedElement);
 		} else if (element instanceof CorrelationSets) {
-			getReader(element, changedElement).xml2CorrelationSets((CorrelationSets)element, changedElement);
+			reader.xml2CorrelationSets((CorrelationSets)element, changedElement);
+		} else if (element instanceof OnAlarm){
+			reader.xml2OnAlarm((OnAlarm)element, changedElement);
+		} else if (element instanceof OnMessage){
+			reader.xml2OnMessage((OnMessage)element, changedElement);
+		} else if (element instanceof OnEvent){
+			reader.xml2OnEvent((OnEvent)element, changedElement);
+		} else if (element instanceof MessageExchange){
+			reader.xml2MessageExchange((MessageExchange)element, changedElement);
+		} else if (element instanceof MessageExchanges){
+			reader.xml2MessageExchanges((MessageExchanges)element, changedElement);
+		} else if (element instanceof Extension){
+			reader.xml2Extension((Extension)element, changedElement);
+		} else if (element instanceof Extensions){
+			reader.xml2Extensions((Extensions)element, changedElement);
+		} else if (element instanceof Source){
+			reader.xml2Source((Source)element, changedElement);
+		} else if (element instanceof Sources){
+			reader.xml2Sources((Sources)element, changedElement);
+		} else if (element instanceof Target){
+			reader.xml2Target((Target)element, changedElement);
+		} else if (element instanceof Targets){
+			reader.xml2Targets((Targets)element, changedElement);
 		} else {
 			System.err.println("Cannot reconcile: " + element.getClass());
 //			throw new NotImplementedException(element.getClass().toString());
@@ -312,6 +349,21 @@ public class ReconciliationHelper {
 			ElementFactory.getInstance().writeFaultHandler(newFaultHandler, parent);
 		}
 	}
+	
+	public static void replaceValue(ServiceRef serviceRef, Node oldValueNode, Node newValueNode) {
+		if (isLoading(serviceRef)) {
+			return;
+		}
+		if (serviceRef.getElement() == null) {
+			return;
+		}
+		if (oldValueNode == null && newValueNode != null) {
+			ElementPlacer.placeChild(serviceRef.getElement(), newValueNode);
+		} else if (oldValueNode != null && newValueNode != null) {
+			serviceRef.getElement().replaceChild(newValueNode, oldValueNode);
+		}
+	}
+	
 	private ReconciliationBPELReader getReader(WSDLElement element, Element changedElement) {
 		ReconciliationBPELReader reader = document2reader.get(changedElement.getOwnerDocument());
 		if (reader == null) {
@@ -366,7 +418,9 @@ public class ReconciliationHelper {
 	    	reconcile(c, c.getElement());
 			System.err.println("CatchAll patch ok");
 	    } else if (child instanceof TerminationHandler) {
-	    	
+	    	TerminationHandler th = (TerminationHandler)child;
+	    	reconcile(th, th.getElement());
+			System.err.println("TerminationHandler patch ok");
 	    } else if (child instanceof OnEvent) {
 	    	
 	    } else if (child instanceof OnAlarm) {
@@ -379,7 +433,8 @@ public class ReconciliationHelper {
 				Element catchElement = ReconciliationBPELReader.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH);
 				ch.setElement(catchElement);
 				reconcile(ch, catchElement);
-	    	}			
+	    	}
+			System.err.println("FaultHandler patch ok");
 	    } 
 	    	
 	}
@@ -694,5 +749,5 @@ public class ReconciliationHelper {
 //        } else {
 //            getActivities(parent).add(activity);
 //        }
-//    }   
+//    }   	
 }

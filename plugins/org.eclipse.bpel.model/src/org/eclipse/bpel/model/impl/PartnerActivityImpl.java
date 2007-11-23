@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
+ * $Id: PartnerActivityImpl.java,v 1.8 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -188,6 +188,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
 			NotificationChain msgs) {
 		Correlations oldCorrelations = correlations;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCorrelations, newCorrelations);
+		}
 		correlations = newCorrelations;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

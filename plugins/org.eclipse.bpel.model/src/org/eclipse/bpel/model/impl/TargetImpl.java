@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: TargetImpl.java,v 1.5 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,6 +23,8 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -121,6 +123,9 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	 */
 	public NotificationChain basicSetLink(Link newLink, NotificationChain msgs) {
 		Link oldLink = link;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LINK_NAME, newLink == null ? null : newLink.getName());
+		}
 		link = newLink;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

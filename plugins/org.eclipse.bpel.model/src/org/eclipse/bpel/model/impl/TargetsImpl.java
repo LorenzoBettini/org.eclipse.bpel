@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetsImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: TargetsImpl.java,v 1.6 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,12 +19,17 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Condition;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Target;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -116,6 +121,12 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	public NotificationChain basicSetJoinCondition(Condition newJoinCondition,
 			NotificationChain msgs) {
 		Condition oldJoinCondition = joinCondition;
+		if (!isReconciling) {
+			if (newJoinCondition != null && newJoinCondition.getElement() == null) {
+				newJoinCondition.setElement(ElementFactory.getInstance().createExpressionElement(newJoinCondition, this, BPELConstants.ND_JOIN_CONDITION));
+			}
+			ReconciliationHelper.replaceChild(this, oldJoinCondition, newJoinCondition);
+		}
 		joinCondition = newJoinCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -244,4 +255,18 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 		return super.eIsSet(featureID);
 	}
 
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Target) {
+			ReconciliationHelper.adoptChild(this, children, (Target)object, BPELConstants.ND_TARGET);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Target) {
+			ReconciliationHelper.orphanChild(this, (Target)obj);
+		}
+		super.orphanContent(reference, obj);
+	}	
+	
 } //TargetsImpl

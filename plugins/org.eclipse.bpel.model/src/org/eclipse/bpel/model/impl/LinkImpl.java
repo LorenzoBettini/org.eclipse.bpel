@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinkImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: LinkImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,8 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Target;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -123,6 +125,9 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	 */
 	public void setName(String newName) {
 		String oldName = name;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+		}
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

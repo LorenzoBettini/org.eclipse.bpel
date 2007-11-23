@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.5 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: FlowImpl.java,v 1.6 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -130,6 +131,9 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	public NotificationChain basicSetLinks(Links newLinks,
 			NotificationChain msgs) {
 		Links oldLinks = links;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldLinks, newLinks);
+		}
 		links = newLinks;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -184,6 +188,9 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	public NotificationChain basicSetCompletionCondition(
 			CompletionCondition newCompletionCondition, NotificationChain msgs) {
 		CompletionCondition oldCompletionCondition = completionCondition;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCompletionCondition, newCompletionCondition);
+		}
 		completionCondition = newCompletionCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

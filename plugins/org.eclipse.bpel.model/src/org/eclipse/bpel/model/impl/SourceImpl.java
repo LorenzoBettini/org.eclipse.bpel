@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourceImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: SourceImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,6 +24,9 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -133,6 +136,9 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	 */
 	public NotificationChain basicSetLink(Link newLink, NotificationChain msgs) {
 		Link oldLink = link;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LINK_NAME, newLink == null ? null : newLink.getName());
+		}
 		link = newLink;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -223,6 +229,12 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	public NotificationChain basicSetTransitionCondition(
 			Condition newTransitionCondition, NotificationChain msgs) {
 		Condition oldTransitionCondition = transitionCondition;
+		if (!isReconciling) {
+			if (newTransitionCondition != null && newTransitionCondition.getElement() == null) {
+				newTransitionCondition.setElement(ElementFactory.getInstance().createExpressionElement(newTransitionCondition, this, BPELConstants.ND_TRANSITION_CONDITION));
+			}
+			ReconciliationHelper.replaceChild(this, oldTransitionCondition, newTransitionCondition);
+		}
 		transitionCondition = newTransitionCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,

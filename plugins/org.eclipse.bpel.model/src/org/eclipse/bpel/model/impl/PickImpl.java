@@ -10,23 +10,28 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PickImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: PickImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Sources;
 import org.eclipse.bpel.model.Targets;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -134,6 +139,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 */
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, BPELUtils.boolean2XML(newCreateInstance));
+		}
 		createInstance = newCreateInstance;
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstanceESet = true;
@@ -150,6 +158,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 */
 	public void unsetCreateInstance() {
 		Boolean oldCreateInstance = createInstance;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, (String)null);
+		}
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstance = CREATE_INSTANCE_EDEFAULT;
 		createInstanceESet = false;
@@ -315,4 +326,25 @@ public class PickImpl extends ActivityImpl implements Pick {
 		return result.toString();
 	}
 
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof OnMessage) {
+			ReconciliationHelper.adoptChild(this, messages, (OnMessage)object, BPELConstants.ND_ON_MESSAGE);
+		}
+		if (object instanceof OnAlarm) {
+			ReconciliationHelper.adoptChild(this, alarm, (OnAlarm)object, BPELConstants.ND_ON_ALARM);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object object) {
+		if (object instanceof OnMessage) {
+			ReconciliationHelper.orphanChild(this, (OnMessage)object);
+		}
+		if (object instanceof OnAlarm) {
+			ReconciliationHelper.orphanChild(this, (OnAlarm)object);
+		}
+		super.orphanContent(reference, object);
+	}
 } //PickImpl

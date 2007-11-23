@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangeImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: MessageExchangeImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -11,6 +11,8 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -90,6 +92,9 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	 */
 	public void setName(String newName) {
 		String oldName = name;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+		}
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

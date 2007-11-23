@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.8 2007/10/12 08:14:57 smoser Exp $
+ * $Id: ServiceRefImpl.java,v 1.9 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -35,6 +36,7 @@ import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -93,6 +95,8 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	 */
 	protected Object value = VALUE_EDEFAULT;
 
+	private Node valueNode;
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -158,6 +162,11 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	public void setValue(Object newValue) {
 		Object oldValue = value;
 		value = newValue;
+		if (!isReconciling && oldValue != newValue) {
+			Node valueElement = ElementFactory.getInstance().createValue(this);
+			ReconciliationHelper.replaceValue(this, valueNode, valueElement);
+			valueNode = valueElement;
+		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					BPELPackage.SERVICE_REF__VALUE, oldValue, value));

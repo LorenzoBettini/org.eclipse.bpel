@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourcesImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: SourcesImpl.java,v 1.6 2007/11/23 17:30:14 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,11 +18,15 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -161,4 +165,18 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 		return super.eIsSet(featureID);
 	}
 
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Source) {
+			ReconciliationHelper.adoptChild(this, children, (Source)object, BPELConstants.ND_SOURCE);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Source) {
+			ReconciliationHelper.orphanChild(this, (Source)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
+	
 } //SourcesImpl

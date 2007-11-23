@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EventHandlerImpl.java,v 1.4 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: EventHandlerImpl.java,v 1.5 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,9 +21,13 @@ import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
+import org.eclipse.bpel.model.OnMessage;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -199,6 +203,28 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 				return events != null && !events.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof OnEvent) {
+			ReconciliationHelper.adoptChild(this, events, (OnEvent)object, BPELConstants.ND_ON_EVENT);
+		}
+		if (object instanceof OnAlarm) {
+			ReconciliationHelper.adoptChild(this, alarm, (OnAlarm)object, BPELConstants.ND_ON_ALARM);
+		}
+		super.adoptContent(reference, object);
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object object) {
+		if (object instanceof OnEvent) {
+			ReconciliationHelper.orphanChild(this, (OnEvent)object);
+		}
+		if (object instanceof OnAlarm) {
+			ReconciliationHelper.orphanChild(this, (OnAlarm)object);
+		}
+		super.orphanContent(reference, object);
 	}
 
 } //EventHandlerImpl

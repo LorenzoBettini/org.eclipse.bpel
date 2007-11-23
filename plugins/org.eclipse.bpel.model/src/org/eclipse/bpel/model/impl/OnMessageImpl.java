@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.8 2007/11/20 14:14:22 smoser Exp $
+ * $Id: OnMessageImpl.java,v 1.9 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.OperationProxy;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -182,6 +183,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
+		}
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -205,6 +209,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
 		Activity oldActivity = activity;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldActivity, newActivity);
+		}
 		activity = newActivity;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -299,6 +306,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PORT_TYPE, newPortType == null ? null : newPortType.getQName());
+		}
 		portType = newPortType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -340,6 +350,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+		}
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -364,6 +377,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
 			NotificationChain msgs) {
 		Correlations oldCorrelations = correlations;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldCorrelations, newCorrelations);
+		}
 		correlations = newCorrelations;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -456,6 +472,9 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	 */
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPERATION, newOperation == null ? null : newOperation.getName());
+		}
 		operation = newOperation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,

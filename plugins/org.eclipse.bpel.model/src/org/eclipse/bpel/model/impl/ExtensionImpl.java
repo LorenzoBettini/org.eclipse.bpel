@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExtensionImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: ExtensionImpl.java,v 1.8 2007/11/23 17:30:13 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,9 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -127,6 +130,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 */
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAMESPACE, newNamespace);
+		}
 		namespace = newNamespace;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -149,6 +155,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 */
 	public void setMustUnderstand(Boolean newMustUnderstand) {
 		Boolean oldMustUnderstand = mustUnderstand;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MUST_UNDERSTAND, BPELUtils.boolean2XML(newMustUnderstand));
+		}
 		mustUnderstand = newMustUnderstand;
 		boolean oldMustUnderstandESet = mustUnderstandESet;
 		mustUnderstandESet = true;
@@ -165,6 +174,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	 */
 	public void unsetMustUnderstand() {
 		Boolean oldMustUnderstand = mustUnderstand;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MUST_UNDERSTAND, (String)null);
+		}
 		boolean oldMustUnderstandESet = mustUnderstandESet;
 		mustUnderstand = MUST_UNDERSTAND_EDEFAULT;
 		mustUnderstandESet = false;
