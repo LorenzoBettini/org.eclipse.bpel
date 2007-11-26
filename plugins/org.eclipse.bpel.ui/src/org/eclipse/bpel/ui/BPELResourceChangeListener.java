@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.common.extension.model.ExtensionmodelFactory;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -71,7 +72,7 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 								if ((flags & IResourceDelta.MOVED_TO) != 0) {
 									fileMoved(target, delta.getMovedToPath());
 								} else {
-									fileDeleted(target);
+									fileDeleted(target, monitor);
 								}
 								break;
 							}
@@ -216,12 +217,19 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 	/**
 	 * If the BPEL file has been deleted we have to delete related files (e.g. .wcdl).
 	 */
-	protected void fileDeleted(IFile oldBPELFile) throws CoreException {
+	protected void fileDeleted(IFile oldBPELFile, IProgressMonitor monitor) throws CoreException {
 		// notify listeners
 		Object[] temp = listeners.toArray();
 		for (int i = 0; i < temp.length; i++) {
 			IFileChangeListener listener = (IFileChangeListener) temp[i];
 			listener.deleted(oldBPELFile);
+		}
+		// Delete bpelex file
+		IFile bpelex = BPELUtil.getBPELEXFile(oldBPELFile);
+		try {
+			bpelex.delete(true, monitor);
+		} catch (CoreException e) {
+			BPELUIPlugin.log(e);
 		}
 	}
 }
