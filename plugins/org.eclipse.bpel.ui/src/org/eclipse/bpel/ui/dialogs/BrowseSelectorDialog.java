@@ -46,6 +46,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.util.XSDConstants;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -277,15 +279,25 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 
 	
-	protected boolean handleAddImport ( Object obj ) {
-		
-		AddImportCommand cmd = new AddImportCommand( ModelHelper.getProcess( modelObject ) , obj ) ;
-		
+	protected boolean handleAddImport(Object obj) {
+
+		// Do not import schema for schemas
+		if (obj instanceof XSDSimpleTypeDefinition) {
+			if (((XSDSimpleTypeDefinition) obj).getTargetNamespace().equals(
+					XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001)) {
+				return false;
+			}
+		}
+
+		AddImportCommand cmd = new AddImportCommand(ModelHelper
+				.getProcess(modelObject), obj);
+
 		if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {
-			ModelHelper.getBPELEditor( modelObject ).getCommandStack().execute(cmd);
+			ModelHelper.getBPELEditor(modelObject).getCommandStack().execute(
+					cmd);
 			// Now refresh the view to imported types.
-			return true;						
-		}				
+			return true;
+		}
 		return false;
 	}
 	
