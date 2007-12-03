@@ -72,7 +72,6 @@ import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
-import org.eclipse.bpel.model.impl.ServiceRefImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -80,6 +79,7 @@ import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class ReconciliationHelper {
 	private static ReconciliationHelper helper;
@@ -259,7 +259,7 @@ public class ReconciliationHelper {
 		if (parentElement == null || isLoading(from)) {
 			return;
 		}
-		Element oldLiteral = ReconciliationBPELReader.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_LITERAL);
+		Element oldLiteral = ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_LITERAL);
 		Node newLiteral = literal == null ? null : ElementFactory.getInstance().createLiteral(from, literal);
 		if (oldLiteral == null) {
 			if (newLiteral != null) {
@@ -280,6 +280,19 @@ public class ReconciliationHelper {
 			return;
 		}		
 		
+		ArrayList<Node> nodesToRemove = getTextNodes(element);
+		for (Node n : nodesToRemove) {
+			element.removeChild(n);
+		}
+		
+		// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
+		if (text != null) {
+			CDATASection cdata = BPELUtils.createCDATASection(element.getOwnerDocument(), text.toString());
+			ElementPlacer.placeChild(element, cdata);
+		}
+	}
+
+	private static ArrayList<Node> getTextNodes(Element element) {
 		ArrayList<Node> nodesToRemove = new ArrayList<Node>();
 		Node node = element.getFirstChild();		
 		boolean bCData = false;		
@@ -301,15 +314,7 @@ public class ReconciliationHelper {
 			}
 			node = node.getNextSibling();
 		}
-		for (Node n : nodesToRemove) {
-			element.removeChild(n);
-		}
-		
-		// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
-		if (text != null) {
-			CDATASection cdata = BPELUtils.createCDATASection(element.getOwnerDocument(), text.toString());
-			ElementPlacer.placeChild(element, cdata);
-		}
+		return nodesToRemove;
 	}
 	
 	public static void replaceExpression(WSDLElement parent, Expression expression) {
@@ -341,10 +346,10 @@ public class ReconciliationHelper {
 			return;
 		}
 		Element parentElement = parent.getElement();
-		for (Element node : ReconciliationBPELReader.getBPELChildElementsByLocalName(parentElement, BPELConstants.ND_CATCH)) {
+		for (Element node : ReconciliationHelper.getBPELChildElementsByLocalName(parentElement, BPELConstants.ND_CATCH)) {
 			parentElement.removeChild(node);
 		}
-		parentElement.removeChild(ReconciliationBPELReader.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH_ALL));
+		parentElement.removeChild(ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH_ALL));
 		if (newFaultHandler != null) {
 			ElementFactory.getInstance().writeFaultHandler(newFaultHandler, parent);
 		}
@@ -430,7 +435,7 @@ public class ReconciliationHelper {
 	    	EList<Catch> _catch = c.getCatch();
 			if (_catch.size() == 1 && _catch.get(0).getElement() == null) {
 				Catch ch = _catch.get(0);
-				Element catchElement = ReconciliationBPELReader.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH);
+				Element catchElement = ReconciliationHelper.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH);
 				ch.setElement(catchElement);
 				reconcile(ch, catchElement);
 	    	}
@@ -445,13 +450,64 @@ public class ReconciliationHelper {
 		if (variables.getElement() == null) {
 			WSDLElement container = (WSDLElement)variables.eContainer();
 			variables.setElement(ElementFactory.getInstance().createElement(variables, container));
-			var.setElement(ReconciliationBPELReader.getBPELChildElementByLocalName(variables.getElement(), nodeName));
+			var.setElement(ReconciliationHelper.getBPELChildElementByLocalName(variables.getElement(), nodeName));
 			parentElement = variables.getElement();
 			ElementPlacer.placeChild(container.getElement(), parentElement);
 		}
 		return parentElement;
 	}
 	
+	/**
+	 * Returns the first child node of <code>parentElement</code> that is an
+	 * {@link Element} with a BPEL namespace and the given
+	 * <code>localName</code>, or <code>null</code> if a matching element
+	 * is not found.
+	 * 
+	 * @param parentElement
+	 *            the element to find the children of
+	 * @param localName
+	 *            the localName to match against
+	 * @return the first matching element, or null if no element was found
+	 */
+	protected static Element getBPELChildElementByLocalName(Element parentElement,
+			String localName) {
+		NodeList children = parentElement.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node node = children.item(i);
+			if (localName.equals(node.getLocalName())
+					&& BPELUtils.isBPELElement(node)) {
+				return (Element) node;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a list of child nodes of <code>parentElement</code> that are
+	 * {@link Element}s with a BPEL namespace that have the given
+	 * <code>localName</code>. Returns an empty list if no matching elements
+	 * are found.
+	 * 
+	 * @param parentElement
+	 *            the element to find the children of
+	 * @param localName
+	 *            the localName to match against
+	 * @return a node list of the matching children of parentElement
+	 */
+	public static List<Element> getBPELChildElementsByLocalName(
+			Element parentElement, String localName) {
+		List<Element> list = new ArrayList<Element>();
+		NodeList children = parentElement.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node node = children.item(i);
+			if (localName.equals(node.getLocalName())
+					&& BPELUtils.isBPELElement(node)) {
+				list.add((Element) node);
+			}
+		}
+		return list;
+	}
+
 	public static void updateVariableName(WSDLElement parent, String varName) {
 		if (parent == null || parent.getElement() == null) {
 			return;
@@ -473,7 +529,7 @@ public class ReconciliationHelper {
 			return;
 		}
 		int index = children.indexOf(newChild);
-		List<Element> domChildren = ReconciliationBPELReader.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
+		List<Element> domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
 		if (index >= domChildren.size()) {
 			ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
 		} else {

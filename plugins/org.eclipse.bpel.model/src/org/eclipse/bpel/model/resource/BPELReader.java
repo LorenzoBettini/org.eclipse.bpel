@@ -2544,7 +2544,7 @@ public class BPELReader implements ErrorHandler {
 	/**
 	 * Converts an XML "to" element to a BPEL To object.
 	 */
-	protected void xml2To(To to, Element toElement) {
+	protected To xml2To(To to, Element toElement) {
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(to, toElement);
 		
@@ -2617,12 +2617,13 @@ public class BPELReader implements ErrorHandler {
 				expressionObject.setBody(data);
 			}				
 		}
+		return to;
 	}
 
 	/**
 	 * Converts an XML "from" element to a BPEL From object.
 	 */
-	protected void xml2From(From from, Element fromElement) {
+	protected From xml2From(From from, Element fromElement) {
 		
 		/** This is basically what's in xml2To */
 		
@@ -2824,6 +2825,7 @@ public class BPELReader implements ErrorHandler {
 			XSDTypeDefinition type = new XSDTypeDefinitionProxy(getResource().getURI(), qName);
 			from.setType(type);						
 		}
+		return from;
 	}
 
 

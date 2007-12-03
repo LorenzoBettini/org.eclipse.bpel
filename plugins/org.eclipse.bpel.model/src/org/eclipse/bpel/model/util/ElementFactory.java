@@ -412,6 +412,9 @@ public class ElementFactory {
 		if (element instanceof ServiceRef) {
 			return writer.serviceRef2XML((ServiceRef)element);
 		}
+		if (element instanceof ExtensibilityElement) {
+			return writer.extensibilityElement2XML((ExtensibilityElement)element);
+		}
 		System.err.println("Cannot create: " + element.toString());
 		return writer.createBPELElement("error");
 //		throw new IllegalArgumentException("Unhandled type: " + element.toString());

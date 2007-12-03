@@ -1875,25 +1875,10 @@ public class BPELWriter {
 			Object body = expression.getBody();
 			if (body instanceof ExtensibilityElement) {
 				ExtensibilityElement extensibilityElement = (ExtensibilityElement)body;
-				BPELExtensionSerializer serializer = null;
-				QName qname = extensibilityElement.getElementType();
-				try {
-				    serializer=(BPELExtensionSerializer)extensionRegistry.querySerializer(ExtensibleElement.class,qname);
-				} catch (WSDLException e) {
-					return null;
-				}
-				
-				// Deserialize the DOM element and add the new Extensibility element to the parent
-				// ExtensibleElement
-				DocumentFragment fragment=document.createDocumentFragment();
-				try {
-				    serializer.marshall(ExtensibleElement.class,qname,extensibilityElement,fragment,fProcess,extensionRegistry);
-					Element child = (Element)fragment.getFirstChild();
+				Element child = extensibilityElement2XML(extensibilityElement);
+				if (child != null) {
 					expressionElement.appendChild(child);
-				} catch (WSDLException e) {
-					throw new WrappedException(e);
-				}
-				
+				}				
 			} else {
 				CDATASection cdata = BPELUtils.createCDATASection(document, expression.getBody().toString());
 				expressionElement.appendChild(cdata);
