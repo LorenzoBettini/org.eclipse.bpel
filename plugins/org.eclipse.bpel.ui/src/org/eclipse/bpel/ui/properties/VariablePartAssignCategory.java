@@ -419,7 +419,11 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		
 		Object[] path = variableContentProvider.getPathToRoot(sel.getFirstElement());
 		String query = displayQuery() ? fNameText.getText() : EMPTY_STRING;
-				
+		
+		side.setVariable(null);
+		side.setPart(null);
+		side.setProperty(null);
+		side.setQuery(null);		
 		
 		for(Object n : path ) {
 			ITreeNode treeNode = BPELUtil.adapt(n, ITreeNode.class);			

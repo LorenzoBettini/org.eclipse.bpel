@@ -533,6 +533,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	public void doSave(IProgressMonitor progressMonitor) {
 		// We use fTextEditor to save, because fDesignViewer.doSave() removes comments on save
 		// Save bpel only
+		fDesignViewer.getCommandFramework().applyCurrentChange();
 		fTextEditor.doSave(progressMonitor);
 		// Reset sync stamp and modified flag after save
 		fDesignViewer.getEditModelClient().getPrimaryResourceInfo().resetSynchronizeStamp();
