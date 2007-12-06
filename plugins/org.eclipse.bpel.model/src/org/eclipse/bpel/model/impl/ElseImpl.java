@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseImpl.java,v 1.6 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: ElseImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -77,7 +77,6 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

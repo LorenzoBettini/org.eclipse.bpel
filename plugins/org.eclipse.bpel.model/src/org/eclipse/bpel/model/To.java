@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: To.java,v 1.3 2007/07/26 01:34:12 mchmielewski Exp $
+ * $Id: To.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -65,7 +65,6 @@ public interface To extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Variable</em>' reference.
 	 * @see #getVariable()
-	 * @generated
 	 */
 	void setVariable(Variable value);
 
@@ -91,7 +90,6 @@ public interface To extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Part</em>' reference.
 	 * @see #getPart()
-	 * @generated
 	 */
 	void setPart(Part value);
 
@@ -117,7 +115,6 @@ public interface To extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Partner Link</em>' reference.
 	 * @see #getPartnerLink()
-	 * @generated
 	 */
 	void setPartnerLink(PartnerLink value);
 
@@ -143,7 +140,6 @@ public interface To extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Property</em>' reference.
 	 * @see #getProperty()
-	 * @generated
 	 */
 	void setProperty(Property value);
 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.7 2007/11/20 14:14:23 smoser Exp $
+ * $Id: CorrelationSetImpl.java,v 1.8 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -112,7 +112,6 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;

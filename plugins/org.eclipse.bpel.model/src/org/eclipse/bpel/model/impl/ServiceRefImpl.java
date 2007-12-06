@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.9 2007/11/23 17:30:14 smoser Exp $
+ * $Id: ServiceRefImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -128,7 +128,6 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setReferenceScheme(String newReferenceScheme) {
 		String oldReferenceScheme = referenceScheme;
@@ -145,7 +144,6 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public Object getValue() {
 		if (!isReconciling && getElement() != null) {
@@ -157,7 +155,6 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setValue(Object newValue) {
 		Object oldValue = value;

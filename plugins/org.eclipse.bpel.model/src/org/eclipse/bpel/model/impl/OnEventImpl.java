@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.9 2007/11/23 17:30:14 smoser Exp $
+ * $Id: OnEventImpl.java,v 1.10 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -184,7 +184,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
@@ -241,7 +240,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetVariable(Variable newVariable,
 			NotificationChain msgs) {
@@ -317,7 +315,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
@@ -343,7 +340,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
 			NotificationChain msgs) {
@@ -439,7 +435,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;
@@ -513,7 +508,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
@@ -588,7 +582,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCorrelationSets(
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
@@ -648,7 +641,6 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFromParts(FromParts newFromParts,
 			NotificationChain msgs) {

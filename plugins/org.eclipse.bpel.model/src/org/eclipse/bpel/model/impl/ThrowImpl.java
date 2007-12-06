@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ThrowImpl.java,v 1.8 2007/10/12 08:14:56 smoser Exp $
+ * $Id: ThrowImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -111,7 +111,6 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
@@ -155,7 +154,6 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setFaultVariable(Variable newFaultVariable) {
 		Variable oldFaultVariable = faultVariable;

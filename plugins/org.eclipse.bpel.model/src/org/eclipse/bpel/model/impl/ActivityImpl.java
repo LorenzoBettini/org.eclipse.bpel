@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
+ * $Id: ActivityImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -148,7 +148,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;		
@@ -173,7 +172,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setSuppressJoinFailure(Boolean newSuppressJoinFailure) {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
@@ -193,7 +191,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
@@ -231,7 +228,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetTargets(Targets newTargets,
 			NotificationChain msgs) {
@@ -288,7 +284,6 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetSources(Sources newSources,
 			NotificationChain msgs) {

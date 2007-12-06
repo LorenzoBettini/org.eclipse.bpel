@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Documentation.java,v 1.2 2007/10/12 08:14:58 smoser Exp $
+ * $Id: Documentation.java,v 1.3 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -50,7 +50,6 @@ public interface Documentation extends WSDLElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Lang</em>' attribute.
 	 * @see #getLang()
-	 * @generated
 	 */
 	void setLang(String value);
 
@@ -76,7 +75,6 @@ public interface Documentation extends WSDLElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source</em>' attribute.
 	 * @see #getSource()
-	 * @generated
 	 */
 	void setSource(String value);
 
@@ -102,7 +100,6 @@ public interface Documentation extends WSDLElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
-	 * @generated
 	 */
 	void setValue(String value);
 

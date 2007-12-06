@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.9 2007/11/23 17:30:13 smoser Exp $
+ * $Id: OnMessageImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -179,7 +179,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
@@ -204,7 +203,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
@@ -302,7 +300,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
@@ -346,7 +343,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
@@ -372,7 +368,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
 			NotificationChain msgs) {
@@ -468,7 +463,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;
@@ -493,7 +487,6 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFromParts(FromParts newFromParts,
 			NotificationChain msgs) {

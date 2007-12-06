@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Branches.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Branches.java,v 1.3 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -50,7 +50,6 @@ public interface Branches extends Expression {
 	 * @see #isSetCountCompletedBranchesOnly()
 	 * @see #unsetCountCompletedBranchesOnly()
 	 * @see #getCountCompletedBranchesOnly()
-	 * @generated
 	 */
 	void setCountCompletedBranchesOnly(Boolean value);
 
@@ -61,7 +60,6 @@ public interface Branches extends Expression {
 	 * @see #isSetCountCompletedBranchesOnly()
 	 * @see #getCountCompletedBranchesOnly()
 	 * @see #setCountCompletedBranchesOnly(Boolean)
-	 * @generated
 	 */
 	void unsetCountCompletedBranchesOnly();
 

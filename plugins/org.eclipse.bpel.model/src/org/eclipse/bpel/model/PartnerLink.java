@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLink.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: PartnerLink.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -75,7 +75,6 @@ public interface PartnerLink extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
-	 * @generated
 	 */
 	void setName(String value);
 
@@ -101,7 +100,6 @@ public interface PartnerLink extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>My Role</em>' reference.
 	 * @see #getMyRole()
-	 * @generated
 	 */
 	void setMyRole(Role value);
 
@@ -127,7 +125,6 @@ public interface PartnerLink extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Partner Role</em>' reference.
 	 * @see #getPartnerRole()
-	 * @generated
 	 */
 	void setPartnerRole(Role value);
 
@@ -153,7 +150,6 @@ public interface PartnerLink extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Partner Link Type</em>' reference.
 	 * @see #getPartnerLinkType()
-	 * @generated
 	 */
 	void setPartnerLinkType(PartnerLinkType value);
 
@@ -183,7 +179,6 @@ public interface PartnerLink extends ExtensibleElement {
 	 * @see #isSetInitializePartnerRole()
 	 * @see #unsetInitializePartnerRole()
 	 * @see #getInitializePartnerRole()
-	 * @generated
 	 */
 	void setInitializePartnerRole(Boolean value);
 
@@ -194,7 +189,6 @@ public interface PartnerLink extends ExtensibleElement {
 	 * @see #isSetInitializePartnerRole()
 	 * @see #getInitializePartnerRole()
 	 * @see #setInitializePartnerRole(Boolean)
-	 * @generated
 	 */
 	void unsetInitializePartnerRole();
 

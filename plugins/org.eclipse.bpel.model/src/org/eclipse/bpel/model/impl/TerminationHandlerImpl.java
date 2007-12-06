@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TerminationHandlerImpl.java,v 1.6 2007/11/23 17:30:13 smoser Exp $
+ * $Id: TerminationHandlerImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -78,7 +78,6 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

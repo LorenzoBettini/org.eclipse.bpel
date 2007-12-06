@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPartImpl.java,v 1.8 2007/11/20 14:14:22 smoser Exp $
+ * $Id: FromPartImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -115,7 +115,6 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setToVariable(Variable newToVariable) {
 		Variable oldToVariable = toVariable;
@@ -209,7 +208,6 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPart(Part newPart) {
 		Part oldPart = part;

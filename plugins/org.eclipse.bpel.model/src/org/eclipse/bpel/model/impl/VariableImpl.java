@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableImpl.java,v 1.12 2007/10/12 08:14:58 smoser Exp $
+ * $Id: VariableImpl.java,v 1.13 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -143,7 +143,6 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
      */
     public void setName(String newName) {
         String oldName = name;
@@ -185,7 +184,6 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
      */
     public void setMessageType(Message newMessageType) {
         Message oldMessageType = messageType;
@@ -227,7 +225,6 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
      */
     public void setXSDElement(XSDElementDeclaration newXSDElement) {
         XSDElementDeclaration oldXSDElement = xsdElement;
@@ -268,7 +265,6 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
      */
     public void setType(XSDTypeDefinition newType) {
         XSDTypeDefinition oldType = type;
@@ -292,7 +288,6 @@ public class VariableImpl extends ExtensibleElementImpl implements Variable {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public NotificationChain basicSetFrom(From newFrom, NotificationChain msgs) {
         From oldFrom = from;

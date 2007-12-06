@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Invoke.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
+ * $Id: Invoke.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -63,7 +63,6 @@ public interface Invoke extends PartnerActivity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Output Variable</em>' reference.
 	 * @see #getOutputVariable()
-	 * @generated
 	 */
 	void setOutputVariable(Variable value);
 
@@ -89,7 +88,6 @@ public interface Invoke extends PartnerActivity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Input Variable</em>' reference.
 	 * @see #getInputVariable()
-	 * @generated
 	 */
 	void setInputVariable(Variable value);
 

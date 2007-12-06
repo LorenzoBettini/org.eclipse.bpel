@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Catch.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: Catch.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -62,7 +62,6 @@ public interface Catch extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fault Name</em>' attribute.
 	 * @see #getFaultName()
-	 * @generated
 	 */
 	void setFaultName(QName value);
 
@@ -140,7 +139,6 @@ public interface Catch extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fault Message Type</em>' reference.
 	 * @see #getFaultMessageType()
-	 * @generated
 	 */
 	void setFaultMessageType(Message value);
 
@@ -166,7 +164,6 @@ public interface Catch extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fault Element</em>' reference.
 	 * @see #getFaultElement()
-	 * @generated
 	 */
 	void setFaultElement(XSDElementDeclaration value);
 

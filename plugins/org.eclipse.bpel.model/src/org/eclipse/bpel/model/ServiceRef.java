@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRef.java,v 1.3 2007/04/20 23:31:44 mchmielewski Exp $
+ * $Id: ServiceRef.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -60,7 +60,6 @@ public interface ServiceRef extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Reference Scheme</em>' attribute.
 	 * @see #getReferenceScheme()
-	 * @generated
 	 */
 	void setReferenceScheme(String value);
 
@@ -76,7 +75,6 @@ public interface ServiceRef extends ExtensibleElement {
 	 * @see #setValue(Object)
 	 * @see org.eclipse.bpel.model.BPELPackage#getServiceRef_Value()
 	 * @model
-	 * @generated
 	 */
 	Object getValue();
 
@@ -86,7 +84,6 @@ public interface ServiceRef extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
-	 * @generated
 	 */
 	void setValue(Object value);
 

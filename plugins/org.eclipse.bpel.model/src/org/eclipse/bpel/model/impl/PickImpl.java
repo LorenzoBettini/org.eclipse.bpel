@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PickImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
+ * $Id: PickImpl.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -135,7 +135,6 @@ public class PickImpl extends ActivityImpl implements Pick {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;

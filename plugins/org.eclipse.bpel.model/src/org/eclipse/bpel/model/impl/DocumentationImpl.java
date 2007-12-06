@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.5 2007/10/12 08:14:57 smoser Exp $
+ * $Id: DocumentationImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -123,7 +123,6 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setLang(String newLang) {
 		String oldLang = lang;
@@ -148,7 +147,6 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setSource(String newSource) {
 		String oldSource = source;
@@ -173,7 +171,6 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setValue(String newValue) {
 		String oldValue = value;

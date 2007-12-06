@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
+ * $Id: ExpressionImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -154,7 +154,6 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setBody(Object newBody) {
 		Object oldBody = body;
@@ -179,7 +178,6 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
@@ -199,7 +197,6 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
@@ -237,7 +234,6 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setOpaque(Boolean newOpaque) {
 		Boolean oldOpaque = opaque;
@@ -256,7 +252,6 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetOpaque() {
 		Boolean oldOpaque = opaque;

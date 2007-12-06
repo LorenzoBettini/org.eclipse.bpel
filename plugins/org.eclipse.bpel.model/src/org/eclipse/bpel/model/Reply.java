@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Reply.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
+ * $Id: Reply.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -65,7 +65,6 @@ public interface Reply extends PartnerActivity, Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fault Name</em>' attribute.
 	 * @see #getFaultName()
-	 * @generated
 	 */
 	void setFaultName(QName value);
 
@@ -91,7 +90,6 @@ public interface Reply extends PartnerActivity, Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Variable</em>' reference.
 	 * @see #getVariable()
-	 * @generated
 	 */
 	void setVariable(Variable value);
 

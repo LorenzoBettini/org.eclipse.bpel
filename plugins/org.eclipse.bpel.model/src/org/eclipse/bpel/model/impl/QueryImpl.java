@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
+ * $Id: QueryImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -113,7 +113,6 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setValue(String newValue) {
 		String oldValue = value;
@@ -138,7 +137,6 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;

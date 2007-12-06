@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.10 2007/12/06 19:58:29 smoser Exp $
+ * $Id: FromImpl.java,v 1.11 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -286,7 +286,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setOpaque(Boolean newOpaque) {
         Boolean oldOpaque = opaque;
@@ -304,7 +303,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void unsetOpaque() {
         Boolean oldOpaque = opaque;
@@ -341,7 +339,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setEndpointReference(EndpointReferenceRole newEndpointReference) {
         EndpointReferenceRole oldEndpointReference = endpointReference;
@@ -361,7 +358,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void unsetEndpointReference() {
         EndpointReferenceRole oldEndpointReference = endpointReference;
@@ -398,7 +394,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setLiteral(String newLiteral) {
         String oldLiteral = literal;
@@ -418,7 +413,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void unsetLiteral() {
         String oldLiteral = literal;
@@ -475,7 +469,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public NotificationChain basicSetExpression(Expression newExpression,
             NotificationChain msgs) {
@@ -532,7 +525,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public NotificationChain basicSetServiceRef(ServiceRef newServiceRef,
             NotificationChain msgs) {
@@ -607,7 +599,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setType(XSDTypeDefinition newType) {
         XSDTypeDefinition oldType = type;
@@ -650,7 +641,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setVariable(Variable newVariable) {
         Variable oldVariable = variable;
@@ -721,7 +711,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setPart(Part newPart) {
         Part oldPart = part;
@@ -765,7 +754,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setPartnerLink(PartnerLink newPartnerLink) {
         PartnerLink oldPartnerLink = partnerLink;
@@ -808,7 +796,6 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
      */
     public void setProperty(Property newProperty) {
         Property oldProperty = property;
@@ -833,7 +820,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+
      */
     public NotificationChain basicSetQuery(Query newQuery,
             NotificationChain msgs) {

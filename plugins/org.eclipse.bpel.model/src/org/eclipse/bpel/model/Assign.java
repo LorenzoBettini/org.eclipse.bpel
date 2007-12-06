@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Assign.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Assign.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -77,7 +77,6 @@ public interface Assign extends Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Validate</em>' attribute.
 	 * @see #getValidate()
-	 * @generated
 	 */
 	void setValidate(Boolean value);
 

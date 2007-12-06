@@ -48,7 +48,6 @@ public interface CompensateScope extends Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target</em>' reference.
 	 * @see #getTarget()
-	 * @generated
 	 */
 	void setTarget(Activity value);
 

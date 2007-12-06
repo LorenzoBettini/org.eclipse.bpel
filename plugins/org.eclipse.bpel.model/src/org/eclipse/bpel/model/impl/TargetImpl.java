@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetImpl.java,v 1.5 2007/11/23 17:30:13 smoser Exp $
+ * $Id: TargetImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -119,7 +119,6 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetLink(Link newLink, NotificationChain msgs) {
 		Link oldLink = link;

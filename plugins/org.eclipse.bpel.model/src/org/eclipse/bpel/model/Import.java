@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Import.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: Import.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -55,7 +55,6 @@ public interface Import extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Namespace</em>' attribute.
 	 * @see #getNamespace()
-	 * @generated
 	 */
 	void setNamespace(String value);
 
@@ -81,7 +80,6 @@ public interface Import extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Location</em>' attribute.
 	 * @see #getLocation()
-	 * @generated
 	 */
 	void setLocation(String value);
 
@@ -97,7 +95,6 @@ public interface Import extends ExtensibleElement {
 	 * @see #setImportType(String)
 	 * @see org.eclipse.bpel.model.BPELPackage#getImport_ImportType()
 	 * @model
-	 * @generated
 	 */
 	String getImportType();
 

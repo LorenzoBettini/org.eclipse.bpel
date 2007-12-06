@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: From.java,v 1.3 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: From.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -73,7 +73,6 @@ public interface From extends ExtensibleElement {
 	 * @see #isSetOpaque()
 	 * @see #unsetOpaque()
 	 * @see #getOpaque()
-	 * @generated
 	 */
 	void setOpaque(Boolean value);
 
@@ -84,7 +83,6 @@ public interface From extends ExtensibleElement {
 	 * @see #isSetOpaque()
 	 * @see #getOpaque()
 	 * @see #setOpaque(Boolean)
-	 * @generated
 	 */
 	void unsetOpaque();
 
@@ -129,7 +127,6 @@ public interface From extends ExtensibleElement {
 	 * @see #isSetEndpointReference()
 	 * @see #unsetEndpointReference()
 	 * @see #getEndpointReference()
-	 * @generated
 	 */
 	void setEndpointReference(EndpointReferenceRole value);
 
@@ -140,7 +137,6 @@ public interface From extends ExtensibleElement {
 	 * @see #isSetEndpointReference()
 	 * @see #getEndpointReference()
 	 * @see #setEndpointReference(EndpointReferenceRole)
-	 * @generated
 	 */
 	void unsetEndpointReference();
 
@@ -182,7 +178,6 @@ public interface From extends ExtensibleElement {
 	 * @see #isSetLiteral()
 	 * @see #unsetLiteral()
 	 * @see #getLiteral()
-	 * @generated
 	 */
 	void setLiteral(String value);
 
@@ -193,7 +188,6 @@ public interface From extends ExtensibleElement {
 	 * @see #isSetLiteral()
 	 * @see #getLiteral()
 	 * @see #setLiteral(String)
-	 * @generated
 	 */
 	void unsetLiteral();
 
@@ -309,7 +303,6 @@ public interface From extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' reference.
 	 * @see #getType()
-	 * @generated
 	 */
 	void setType(XSDTypeDefinition value);
 
@@ -335,7 +328,6 @@ public interface From extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Variable</em>' reference.
 	 * @see #getVariable()
-	 * @generated
 	 */
 	void setVariable(Variable value);
 
@@ -361,7 +353,6 @@ public interface From extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Part</em>' reference.
 	 * @see #getPart()
-	 * @generated
 	 */
 	void setPart(Part value);
 
@@ -387,7 +378,6 @@ public interface From extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Partner Link</em>' reference.
 	 * @see #getPartnerLink()
-	 * @generated
 	 */
 	void setPartnerLink(PartnerLink value);
 
@@ -413,7 +403,6 @@ public interface From extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Property</em>' reference.
 	 * @see #getProperty()
-	 * @generated
 	 */
 	void setProperty(Property value);
 

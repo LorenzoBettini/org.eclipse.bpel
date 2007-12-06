@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Extension.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: Extension.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -54,7 +54,6 @@ public interface Extension extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Namespace</em>' attribute.
 	 * @see #getNamespace()
-	 * @generated
 	 */
 	void setNamespace(String value);
 
@@ -85,7 +84,6 @@ public interface Extension extends ExtensibleElement {
 	 * @see #isSetMustUnderstand()
 	 * @see #unsetMustUnderstand()
 	 * @see #getMustUnderstand()
-	 * @generated
 	 */
 	void setMustUnderstand(Boolean value);
 
@@ -96,7 +94,6 @@ public interface Extension extends ExtensibleElement {
 	 * @see #isSetMustUnderstand()
 	 * @see #getMustUnderstand()
 	 * @see #setMustUnderstand(Boolean)
-	 * @generated
 	 */
 	void unsetMustUnderstand();
 

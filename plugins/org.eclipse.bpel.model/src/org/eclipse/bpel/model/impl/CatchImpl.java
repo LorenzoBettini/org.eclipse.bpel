@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.7 2007/10/12 08:14:58 smoser Exp $
+ * $Id: CatchImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -146,7 +146,6 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
@@ -171,7 +170,6 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFaultVariable(Variable newFaultVariable,
 			NotificationChain msgs) {
@@ -229,7 +227,6 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

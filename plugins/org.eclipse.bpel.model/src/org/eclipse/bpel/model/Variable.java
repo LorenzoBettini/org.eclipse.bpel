@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Variable.java,v 1.4 2007/06/14 22:52:40 mchmielewski Exp $
+ * $Id: Variable.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -61,7 +61,6 @@ public interface Variable extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
-	 * @generated
 	 */
 	void setName(String value);
 
@@ -87,7 +86,6 @@ public interface Variable extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Message Type</em>' reference.
 	 * @see #getMessageType()
-	 * @generated
 	 */
 	void setMessageType(Message value);
 
@@ -113,7 +111,6 @@ public interface Variable extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>XSD Element</em>' reference.
 	 * @see #getXSDElement()
-	 * @generated
 	 */
 	void setXSDElement(XSDElementDeclaration value);
 
@@ -139,7 +136,6 @@ public interface Variable extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' reference.
 	 * @see #getType()
-	 * @generated
 	 */
 	void setType(XSDTypeDefinition value);
 

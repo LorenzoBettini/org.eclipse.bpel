@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourceImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
+ * $Id: SourceImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -132,7 +132,6 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetLink(Link newLink, NotificationChain msgs) {
 		Link oldLink = link;
@@ -224,7 +223,6 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetTransitionCondition(
 			Condition newTransitionCondition, NotificationChain msgs) {

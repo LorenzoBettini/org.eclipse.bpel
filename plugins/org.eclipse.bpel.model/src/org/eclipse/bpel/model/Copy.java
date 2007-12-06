@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Copy.java,v 1.5 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Copy.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -113,7 +113,6 @@ public interface Copy extends ExtensibleElement {
 	 * @see #isSetKeepSrcElementName()
 	 * @see #unsetKeepSrcElementName()
 	 * @see #getKeepSrcElementName()
-	 * @generated
 	 */
 	void setKeepSrcElementName(Boolean value);
 
@@ -124,7 +123,6 @@ public interface Copy extends ExtensibleElement {
 	 * @see #isSetKeepSrcElementName()
 	 * @see #getKeepSrcElementName()
 	 * @see #setKeepSrcElementName(Boolean)
-	 * @generated
 	 */
 	void unsetKeepSrcElementName();
 
@@ -167,7 +165,6 @@ public interface Copy extends ExtensibleElement {
 	 * @see #isSetIgnoreMissingFromData()
 	 * @see #unsetIgnoreMissingFromData()
 	 * @see #getIgnoreMissingFromData()
-	 * @generated
 	 */
 	void setIgnoreMissingFromData(Boolean value);
 
@@ -178,7 +175,6 @@ public interface Copy extends ExtensibleElement {
 	 * @see #isSetIgnoreMissingFromData()
 	 * @see #getIgnoreMissingFromData()
 	 * @see #setIgnoreMissingFromData(Boolean)
-	 * @generated
 	 */
 	void unsetIgnoreMissingFromData();
 

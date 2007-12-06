@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.11 2007/11/22 16:09:17 smoser Exp $
+ * $Id: ReceiveImpl.java,v 1.12 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -124,7 +124,6 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;
@@ -143,7 +142,6 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetCreateInstance() {
 		Boolean oldCreateInstance = createInstance;
@@ -196,7 +194,6 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
@@ -222,7 +219,6 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFromParts(FromParts newFromParts,
 			NotificationChain msgs) {

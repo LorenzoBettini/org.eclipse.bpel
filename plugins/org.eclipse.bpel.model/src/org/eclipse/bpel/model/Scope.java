@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Scope.java,v 1.5 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Scope.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -72,7 +72,6 @@ public interface Scope extends Activity {
 	 * @see #isSetIsolated()
 	 * @see #unsetIsolated()
 	 * @see #getIsolated()
-	 * @generated
 	 */
 	void setIsolated(Boolean value);
 
@@ -83,7 +82,6 @@ public interface Scope extends Activity {
 	 * @see #isSetIsolated()
 	 * @see #getIsolated()
 	 * @see #setIsolated(Boolean)
-	 * @generated
 	 */
 	void unsetIsolated();
 
@@ -329,7 +327,6 @@ public interface Scope extends Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Message Exchanges</em>' reference.
 	 * @see #getMessageExchanges()
-	 * @generated
 	 */
 	void setMessageExchanges(MessageExchanges value);
 
@@ -360,7 +357,6 @@ public interface Scope extends Activity {
 	 * @see #isSetExitOnStandardFault()
 	 * @see #unsetExitOnStandardFault()
 	 * @see #getExitOnStandardFault()
-	 * @generated
 	 */
 	void setExitOnStandardFault(Boolean value);
 
@@ -371,7 +367,6 @@ public interface Scope extends Activity {
 	 * @see #isSetExitOnStandardFault()
 	 * @see #getExitOnStandardFault()
 	 * @see #setExitOnStandardFault(Boolean)
-	 * @generated
 	 */
 	void unsetExitOnStandardFault();
 

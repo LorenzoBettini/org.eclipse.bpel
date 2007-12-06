@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
+ * $Id: ToImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -172,7 +172,6 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
@@ -243,7 +242,6 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPart(Part newPart) {
 		Part oldPart = part;
@@ -287,7 +285,6 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
@@ -330,7 +327,6 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setProperty(Property newProperty) {
 		Property oldProperty = property;
@@ -355,7 +351,6 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetQuery(Query newQuery,
 			NotificationChain msgs) {
@@ -411,7 +406,6 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetExpression(Expression newExpression,
 			NotificationChain msgs) {

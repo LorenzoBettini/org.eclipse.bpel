@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnAlarmImpl.java,v 1.5 2007/10/01 17:05:09 mchmielewski Exp $
+ * $Id: OnAlarmImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -121,7 +121,6 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
@@ -178,7 +177,6 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFor(Expression newFor,
 			NotificationChain msgs) {
@@ -237,7 +235,6 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetUntil(Expression newUntil,
 			NotificationChain msgs) {
@@ -297,7 +294,6 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetRepeatEvery(Expression newRepeatEvery,
 			NotificationChain msgs) {

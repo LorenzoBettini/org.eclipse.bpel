@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Pick.java,v 1.2 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: Pick.java,v 1.3 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -77,7 +77,6 @@ public interface Pick extends Activity {
 	 * @see #isSetCreateInstance()
 	 * @see #getCreateInstance()
 	 * @see #setCreateInstance(Boolean)
-	 * @generated
 	 */
 	void unsetCreateInstance();
 

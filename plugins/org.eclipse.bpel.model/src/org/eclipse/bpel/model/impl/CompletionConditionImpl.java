@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.9 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: CompletionConditionImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -86,7 +86,6 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetBranches(Branches newBranches,
 			NotificationChain msgs) {

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Query.java,v 1.2 2007/04/11 20:42:39 mchmielewski Exp $
+ * $Id: Query.java,v 1.3 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -58,7 +58,6 @@ public interface Query extends WSDLElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
-	 * @generated
 	 */
 	void setValue(String value);
 
@@ -84,7 +83,6 @@ public interface Query extends WSDLElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Query Language</em>' attribute.
 	 * @see #getQueryLanguage()
-	 * @generated
 	 */
 	void setQueryLanguage(String value);
 

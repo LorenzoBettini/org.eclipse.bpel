@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchAllImpl.java,v 1.5 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: CatchAllImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -85,7 +85,6 @@ public class CatchAllImpl extends ExtensibleElementImpl implements CatchAll {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.8 2007/11/23 17:30:14 smoser Exp $
+ * $Id: PartnerActivityImpl.java,v 1.9 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -157,7 +157,6 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
@@ -183,7 +182,6 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCorrelations(Correlations newCorrelations,
 			NotificationChain msgs) {
@@ -290,7 +288,6 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
@@ -357,7 +354,6 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;

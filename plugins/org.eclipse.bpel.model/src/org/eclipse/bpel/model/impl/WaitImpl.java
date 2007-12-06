@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.5 2007/10/01 17:05:07 mchmielewski Exp $
+ * $Id: WaitImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -100,7 +100,6 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFor(Expression newFor,
 			NotificationChain msgs) {
@@ -159,7 +158,6 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetUntil(Expression newUntil,
 			NotificationChain msgs) {

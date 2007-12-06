@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Throw.java,v 1.1 2005/11/29 18:50:25 james Exp $
+ * $Id: Throw.java,v 1.2 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -60,7 +60,6 @@ public interface Throw extends Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fault Name</em>' attribute.
 	 * @see #getFaultName()
-	 * @generated
 	 */
 	void setFaultName(QName value);
 
@@ -86,7 +85,6 @@ public interface Throw extends Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fault Variable</em>' reference.
 	 * @see #getFaultVariable()
-	 * @generated
 	 */
 	void setFaultVariable(Variable value);
 

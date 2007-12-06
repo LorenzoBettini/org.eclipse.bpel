@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangeImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
+ * $Id: MessageExchangeImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -88,7 +88,6 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;

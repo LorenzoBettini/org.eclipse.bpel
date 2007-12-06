@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.9 2007/11/20 14:14:22 smoser Exp $
+ * $Id: PartnerLinkImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -161,7 +161,6 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
@@ -205,7 +204,6 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setMyRole(Role newMyRole) {
 		Role oldMyRole = myRole;
@@ -249,7 +247,6 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPartnerRole(Role newPartnerRole) {
 		Role oldPartnerRole = partnerRole;
@@ -294,7 +291,6 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPartnerLinkType(PartnerLinkType newPartnerLinkType) {
 		PartnerLinkType oldPartnerLinkType = partnerLinkType;
@@ -331,7 +327,6 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setInitializePartnerRole(Boolean newInitializePartnerRole) {
 		Boolean oldInitializePartnerRole = initializePartnerRole;
@@ -351,7 +346,6 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetInitializePartnerRole() {
 		Boolean oldInitializePartnerRole = initializePartnerRole;

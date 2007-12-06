@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseIfImpl.java,v 1.6 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: ElseIfImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -89,7 +89,6 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {
@@ -146,7 +145,6 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

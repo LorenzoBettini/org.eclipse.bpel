@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.7 2007/10/12 08:14:56 smoser Exp $
+ * $Id: AssignImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -130,7 +130,6 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setValidate(Boolean newValidate) {
 		Boolean oldValidate = validate;

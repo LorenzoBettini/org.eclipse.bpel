@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BranchesImpl.java,v 1.6 2007/10/12 08:14:56 smoser Exp $
+ * $Id: BranchesImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -93,7 +93,6 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setCountCompletedBranchesOnly(
 			Boolean newCountCompletedBranchesOnly) {
@@ -114,7 +113,6 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetCountCompletedBranchesOnly() {
 		Boolean oldCountCompletedBranchesOnly = countCompletedBranchesOnly;

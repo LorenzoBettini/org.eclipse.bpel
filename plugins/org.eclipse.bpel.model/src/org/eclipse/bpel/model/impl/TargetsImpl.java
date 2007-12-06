@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetsImpl.java,v 1.6 2007/11/23 17:30:13 smoser Exp $
+ * $Id: TargetsImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -116,7 +116,6 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetJoinCondition(Condition newJoinCondition,
 			NotificationChain msgs) {

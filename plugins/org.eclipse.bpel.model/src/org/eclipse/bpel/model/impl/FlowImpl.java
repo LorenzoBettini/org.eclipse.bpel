@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.6 2007/11/23 17:30:13 smoser Exp $
+ * $Id: FlowImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -126,7 +126,6 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetLinks(Links newLinks,
 			NotificationChain msgs) {
@@ -183,7 +182,6 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCompletionCondition(
 			CompletionCondition newCompletionCondition, NotificationChain msgs) {

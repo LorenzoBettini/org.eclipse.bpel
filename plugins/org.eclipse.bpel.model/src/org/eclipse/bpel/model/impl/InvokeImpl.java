@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.9 2007/11/22 16:09:17 smoser Exp $
+ * $Id: InvokeImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -162,7 +162,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setOutputVariable(Variable newOutputVariable) {
 		Variable oldOutputVariable = outputVariable;
@@ -207,7 +206,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setInputVariable(Variable newInputVariable) {
 		Variable oldInputVariable = inputVariable;
@@ -258,7 +256,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	 */
 	public void setCompensationHandler(
 			CompensationHandler newCompensationHandler) {
-		// FIXME: (DO) sync should be implemented 
 		if (newCompensationHandler != compensationHandler) {
 			NotificationChain msgs = null;
 			if (compensationHandler != null)
@@ -292,7 +289,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFaultHandler(FaultHandler newFaultHandler,
 			NotificationChain msgs) {
@@ -350,7 +346,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFromParts(FromParts newFromParts,
 			NotificationChain msgs) {
@@ -407,7 +402,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetToParts(ToParts newToParts,
 			NotificationChain msgs) {

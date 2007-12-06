@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.8 2007/10/12 08:14:55 smoser Exp $
+ * $Id: ImportImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -145,7 +145,6 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
@@ -170,7 +169,6 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setLocation(String newLocation) {
 		String oldLocation = location;
@@ -195,7 +193,6 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setImportType(String newImportType) {
 		String oldImportType = importType;

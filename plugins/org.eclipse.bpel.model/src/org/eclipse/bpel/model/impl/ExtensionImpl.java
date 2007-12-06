@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExtensionImpl.java,v 1.8 2007/11/23 17:30:13 smoser Exp $
+ * $Id: ExtensionImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -126,7 +126,6 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
@@ -151,7 +150,6 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setMustUnderstand(Boolean newMustUnderstand) {
 		Boolean oldMustUnderstand = mustUnderstand;
@@ -170,7 +168,6 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetMustUnderstand() {
 		Boolean oldMustUnderstand = mustUnderstand;

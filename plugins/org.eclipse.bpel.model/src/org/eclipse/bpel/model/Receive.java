@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Receive.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
+ * $Id: Receive.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -68,7 +68,6 @@ public interface Receive extends PartnerActivity {
 	 * @see #isSetCreateInstance()
 	 * @see #unsetCreateInstance()
 	 * @see #getCreateInstance()
-	 * @generated
 	 */
 	void setCreateInstance(Boolean value);
 
@@ -79,7 +78,6 @@ public interface Receive extends PartnerActivity {
 	 * @see #isSetCreateInstance()
 	 * @see #getCreateInstance()
 	 * @see #setCreateInstance(Boolean)
-	 * @generated
 	 */
 	void unsetCreateInstance();
 
@@ -117,7 +115,6 @@ public interface Receive extends PartnerActivity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Variable</em>' reference.
 	 * @see #getVariable()
-	 * @generated
 	 */
 	void setVariable(Variable value);
 

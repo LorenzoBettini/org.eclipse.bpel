@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.8 2007/11/06 20:19:59 mchmielewski Exp $
+ * $Id: CopyImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -159,7 +159,6 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetTo(To newTo, NotificationChain msgs) {
 		To oldTo = to;
@@ -214,7 +213,6 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFrom(From newFrom, NotificationChain msgs) {
 		From oldFrom = from;
@@ -269,7 +267,6 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setKeepSrcElementName(Boolean newKeepSrcElementName) {
 		Boolean oldKeepSrcElementName = keepSrcElementName;
@@ -289,7 +286,6 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetKeepSrcElementName() {
 		Boolean oldKeepSrcElementName = keepSrcElementName;
@@ -327,7 +323,6 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setIgnoreMissingFromData(Boolean newIgnoreMissingFromData) {
 		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
@@ -347,7 +342,6 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetIgnoreMissingFromData() {
 		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;

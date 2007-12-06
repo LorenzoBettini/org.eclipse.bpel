@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.10 2007/11/23 17:30:14 smoser Exp $
+ * $Id: ScopeImpl.java,v 1.11 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -245,7 +245,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setIsolated(Boolean newIsolated) {
 		Boolean oldIsolated = isolated;
@@ -264,7 +263,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetIsolated() {
 		Boolean oldIsolated = isolated;
@@ -301,7 +299,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFaultHandlers(
 			FaultHandler newFaultHandlers, NotificationChain msgs) {
@@ -359,7 +356,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCompensationHandler(
 			CompensationHandler newCompensationHandler, NotificationChain msgs) {
@@ -420,7 +416,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
@@ -477,7 +472,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetVariables(Variables newVariables,
 			NotificationChain msgs) {
@@ -534,7 +528,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCorrelationSets(
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
@@ -594,7 +587,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetEventHandlers(
 			EventHandler newEventHandlers, NotificationChain msgs) {
@@ -652,7 +644,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetPartnerLinks(PartnerLinks newPartnerLinks,
 			NotificationChain msgs) {
@@ -710,7 +701,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetTerminationHandler(
 			TerminationHandler newTerminationHandler, NotificationChain msgs) {
@@ -789,7 +779,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
 		MessageExchanges oldMessageExchanges = messageExchanges;
@@ -815,7 +804,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
@@ -835,7 +823,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetExitOnStandardFault() {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;

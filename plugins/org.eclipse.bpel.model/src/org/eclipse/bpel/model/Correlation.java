@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Correlation.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: Correlation.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -60,7 +60,6 @@ public interface Correlation extends ExtensibleElement {
 	 * @see #isSetInitiate()
 	 * @see #unsetInitiate()
 	 * @see #getInitiate()
-	 * @generated
 	 */
 	void setInitiate(String value);
 
@@ -116,7 +115,6 @@ public interface Correlation extends ExtensibleElement {
 	 * @see #isSetPattern()
 	 * @see #unsetPattern()
 	 * @see #getPattern()
-	 * @generated
 	 */
 	void setPattern(CorrelationPattern value);
 
@@ -127,7 +125,6 @@ public interface Correlation extends ExtensibleElement {
 	 * @see #isSetPattern()
 	 * @see #getPattern()
 	 * @see #setPattern(CorrelationPattern)
-	 * @generated
 	 */
 	void unsetPattern();
 
@@ -155,7 +152,6 @@ public interface Correlation extends ExtensibleElement {
 	 * @see #setSet(CorrelationSet)
 	 * @see org.eclipse.bpel.model.BPELPackage#getCorrelation_Set()
 	 * @model required="true"
-	 * @generated
 	 */
 	CorrelationSet getSet();
 
@@ -165,7 +161,6 @@ public interface Correlation extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Set</em>' reference.
 	 * @see #getSet()
-	 * @generated
 	 */
 	void setSet(CorrelationSet value);
 

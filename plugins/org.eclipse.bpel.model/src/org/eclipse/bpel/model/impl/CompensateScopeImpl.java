@@ -113,7 +113,6 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setTarget(Activity newTarget) {
 		Activity oldTarget = target;

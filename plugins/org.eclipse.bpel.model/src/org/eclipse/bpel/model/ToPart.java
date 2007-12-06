@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPart.java,v 1.4 2007/11/20 14:14:22 smoser Exp $
+ * $Id: ToPart.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -48,7 +48,6 @@ public interface ToPart extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>From Variable</em>' reference.
 	 * @see #getFromVariable()
-	 * @generated
 	 */
 	void setFromVariable(Variable value);
 
@@ -64,7 +63,6 @@ public interface ToPart extends ExtensibleElement {
 	 * @see #setPart(Part)
 	 * @see org.eclipse.bpel.model.BPELPackage#getToPart_Part()
 	 * @model
-	 * @generated
 	 */
 	Part getPart();
 

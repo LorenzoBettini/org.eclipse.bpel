@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.7 2007/11/20 14:14:22 smoser Exp $
+ * $Id: CorrelationImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -148,7 +148,6 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setInitiate(String newInitiate) {
 		String oldInitiate = initiate;
@@ -167,7 +166,6 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetInitiate() {
 		String oldInitiate = initiate;
@@ -204,7 +202,6 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setPattern(CorrelationPattern newPattern) {
 		CorrelationPattern oldPattern = pattern;
@@ -223,7 +220,6 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetPattern() {
 		CorrelationPattern oldPattern = pattern;
@@ -278,7 +274,6 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setSet(CorrelationSet newSet) {
 		CorrelationSet oldSet = set;

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Activity.java,v 1.3 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: Activity.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -60,7 +60,6 @@ public interface Activity extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
-	 * @generated
 	 */
 	void setName(String value);
 
@@ -89,7 +88,6 @@ public interface Activity extends ExtensibleElement {
 	 * @see #isSetSuppressJoinFailure()
 	 * @see #unsetSuppressJoinFailure()
 	 * @see #getSuppressJoinFailure()
-	 * @generated
 	 */
 	void setSuppressJoinFailure(Boolean value);
 
@@ -100,7 +98,6 @@ public interface Activity extends ExtensibleElement {
 	 * @see #isSetSuppressJoinFailure()
 	 * @see #getSuppressJoinFailure()
 	 * @see #setSuppressJoinFailure(Boolean)
-	 * @generated
 	 */
 	void unsetSuppressJoinFailure();
 

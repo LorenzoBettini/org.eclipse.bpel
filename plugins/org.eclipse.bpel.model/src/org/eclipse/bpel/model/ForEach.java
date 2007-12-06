@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEach.java,v 1.5 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: ForEach.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -103,7 +103,6 @@ public interface ForEach extends Activity {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Parallel</em>' attribute.
 	 * @see #getParallel()
-	 * @generated
 	 */
 	void setParallel(Boolean value);
 

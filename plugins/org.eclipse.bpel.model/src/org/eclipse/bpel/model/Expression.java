@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Expression.java,v 1.3 2006/01/19 21:08:47 james Exp $
+ * $Id: Expression.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -57,7 +57,6 @@ public interface Expression extends ExtensibilityElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Body</em>' attribute.
 	 * @see #getBody()
-	 * @generated
 	 */
 	void setBody(Object value);
 
@@ -87,7 +86,6 @@ public interface Expression extends ExtensibilityElement {
 	 * @see #isSetExpressionLanguage()
 	 * @see #unsetExpressionLanguage()
 	 * @see #getExpressionLanguage()
-	 * @generated
 	 */
 	void setExpressionLanguage(String value);
 
@@ -140,7 +138,6 @@ public interface Expression extends ExtensibilityElement {
 	 * @see #isSetOpaque()
 	 * @see #unsetOpaque()
 	 * @see #getOpaque()
-	 * @generated
 	 */
 	void setOpaque(Boolean value);
 
@@ -151,7 +148,6 @@ public interface Expression extends ExtensibilityElement {
 	 * @see #isSetOpaque()
 	 * @see #getOpaque()
 	 * @see #setOpaque(Boolean)
-	 * @generated
 	 */
 	void unsetOpaque();
 

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WhileImpl.java,v 1.5 2007/10/01 17:05:09 mchmielewski Exp $
+ * $Id: WhileImpl.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -102,7 +102,6 @@ public class WhileImpl extends ActivityImpl implements While {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
@@ -159,7 +158,6 @@ public class WhileImpl extends ActivityImpl implements While {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchange.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: MessageExchange.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -45,7 +45,6 @@ public interface MessageExchange extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
-	 * @generated
 	 */
 	void setName(String value);
 

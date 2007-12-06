@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IfImpl.java,v 1.6 2007/10/01 17:05:08 mchmielewski Exp $
+ * $Id: IfImpl.java,v 1.7 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -117,7 +117,6 @@ public class IfImpl extends ActivityImpl implements If {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {
@@ -187,7 +186,6 @@ public class IfImpl extends ActivityImpl implements If {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetElse(Else newElse, NotificationChain msgs) {
 		Else oldElse = else_;
@@ -242,7 +240,6 @@ public class IfImpl extends ActivityImpl implements If {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

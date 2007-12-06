@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.10 2007/10/12 08:14:56 smoser Exp $
+ * $Id: ForEachImpl.java,v 1.11 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -150,7 +150,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetStartCounterValue(
 			Expression newStartCounterValue, NotificationChain msgs) {
@@ -214,7 +213,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFinalCounterValue(
 			Expression newFinalCounterValue, NotificationChain msgs) {
@@ -279,7 +277,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setParallel(Boolean newParallel) {
 		Boolean oldParallel = parallel;
@@ -304,7 +301,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCounterName(Variable newCounterName,
 			NotificationChain msgs) {
@@ -364,7 +360,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCompletionCondition(
 			CompletionCondition newCompletionCondition, NotificationChain msgs) {
@@ -426,7 +421,6 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {

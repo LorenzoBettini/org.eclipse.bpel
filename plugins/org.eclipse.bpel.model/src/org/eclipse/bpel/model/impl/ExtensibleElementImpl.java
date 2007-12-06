@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.8 2007/10/12 08:14:55 smoser Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -93,7 +93,6 @@ public class ExtensibleElementImpl extends
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetDocumentation(
 			Documentation newDocumentation, NotificationChain msgs) {
@@ -156,10 +155,12 @@ public class ExtensibleElementImpl extends
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicUnsetDocumentation(NotificationChain msgs) {
 		Documentation oldDocumentation = documentation;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldDocumentation, null);
+		}
 		documentation = null;
 		boolean oldDocumentationESet = documentationESet;
 		documentationESet = false;

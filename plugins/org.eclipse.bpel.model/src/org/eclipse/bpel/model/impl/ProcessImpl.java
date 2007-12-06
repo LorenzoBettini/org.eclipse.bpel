@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.13 2007/11/20 14:14:22 smoser Exp $
+ * $Id: ProcessImpl.java,v 1.14 2007/12/06 20:01:23 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -376,7 +376,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
@@ -401,7 +400,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setTargetNamespace(String newTargetNamespace) {
 		String oldTargetNamespace = targetNamespace;
@@ -427,7 +425,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;
@@ -446,7 +443,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetQueryLanguage() {
 		String oldQueryLanguage = queryLanguage;
@@ -483,7 +479,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
@@ -503,7 +498,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
@@ -541,7 +535,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setSuppressJoinFailure(Boolean newSuppressJoinFailure) {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
@@ -561,7 +554,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
@@ -599,7 +591,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setVariableAccessSerializable(
 			Boolean newVariableAccessSerializable) {
@@ -620,7 +611,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void unsetVariableAccessSerializable() {
 		Boolean oldVariableAccessSerializable = variableAccessSerializable;
@@ -659,7 +649,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetPartnerLinks(PartnerLinks newPartnerLinks,
 			NotificationChain msgs) {
@@ -719,7 +708,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetVariables(Variables newVariables,
 			NotificationChain msgs) {
@@ -776,7 +764,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetActivity(Activity newActivity,
 			NotificationChain msgs) {
@@ -833,7 +820,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetFaultHandlers(
 			FaultHandler newFaultHandlers, NotificationChain msgs) {
@@ -893,7 +879,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetExtensions(Extensions newExtensions,
 			NotificationChain msgs) {
@@ -951,7 +936,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
@@ -996,7 +980,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
 		MessageExchanges oldMessageExchanges = messageExchanges;
@@ -1268,7 +1251,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetEventHandlers(
 			EventHandler newEventHandlers, NotificationChain msgs) {
@@ -1325,7 +1307,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public NotificationChain basicSetCorrelationSets(
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {

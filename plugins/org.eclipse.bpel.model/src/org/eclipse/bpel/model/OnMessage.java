@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessage.java,v 1.5 2007/11/20 14:14:22 smoser Exp $
+ * $Id: OnMessage.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -66,7 +66,6 @@ public interface OnMessage extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Variable</em>' reference.
 	 * @see #getVariable()
-	 * @generated
 	 */
 	void setVariable(Variable value);
 
@@ -118,7 +117,6 @@ public interface OnMessage extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Port Type</em>' reference.
 	 * @see #getPortType()
-	 * @generated
 	 */
 	void setPortType(PortType value);
 
@@ -144,7 +142,6 @@ public interface OnMessage extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Partner Link</em>' reference.
 	 * @see #getPartnerLink()
-	 * @generated
 	 */
 	void setPartnerLink(PartnerLink value);
 
@@ -196,7 +193,6 @@ public interface OnMessage extends ExtensibleElement {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Operation</em>' reference.
 	 * @see #getOperation()
-	 * @generated
 	 */
 	void setOperation(Operation value);
 
