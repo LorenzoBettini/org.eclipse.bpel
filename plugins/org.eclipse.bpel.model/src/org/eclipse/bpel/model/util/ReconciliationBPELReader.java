@@ -2887,7 +2887,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			from.setEndpointReference(EndpointReferenceRole
 					.get(endpointReference.getValue()));
 		} else {
-			from.setEndpointReference(null);
+			from.unsetEndpointReference();
 		}
 
 		// Set service-ref element

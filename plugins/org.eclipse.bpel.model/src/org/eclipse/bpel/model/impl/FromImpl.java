@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.9 2007/11/20 14:14:22 smoser Exp $
+ * $Id: FromImpl.java,v 1.10 2007/12/06 19:58:29 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -346,7 +346,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
     public void setEndpointReference(EndpointReferenceRole newEndpointReference) {
         EndpointReferenceRole oldEndpointReference = endpointReference;
         if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ENDPOINT_REFERENCE, newEndpointReference == null ? null : newEndpointReference.toString());
+            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ENDPOINT_REFERENCE, newEndpointReference == null ? ENDPOINT_REFERENCE_EDEFAULT.toString() : newEndpointReference.toString());
         }
         endpointReference = newEndpointReference == null ? ENDPOINT_REFERENCE_EDEFAULT
                 : newEndpointReference;

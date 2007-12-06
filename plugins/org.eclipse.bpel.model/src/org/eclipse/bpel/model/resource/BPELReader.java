@@ -2601,7 +2601,6 @@ public class BPELReader implements ErrorHandler {
 			
 			// must be expression
 			Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
-			expressionObject.setElement(toElement);
 			
 			to.setExpression(expressionObject);
 			
@@ -2794,7 +2793,6 @@ public class BPELReader implements ErrorHandler {
 		
 			// must be expression
 			Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
-			expressionObject.setElement(fromElement);
 			
 			from.setExpression(expressionObject);
 			
