@@ -75,11 +75,20 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		}
 	}
 
-	private void reconcileModelObjectForElement(final Element element) {
-		final Object modelObject = BPELEditorUtil.getInstance()
-				.findModelObjectForElement(process, element);
+	private void reconcileModelObjectForElement(Element elementCandidate) {
+		Object modelObjectCandidate = BPELEditorUtil.getInstance()
+				.findModelObjectForElement(process, elementCandidate);
+		
+		// Get out of possible nested XML within the literal
+		while (modelObjectCandidate == null && elementCandidate.getParentNode() != null) {
+			elementCandidate = (Element)elementCandidate.getParentNode();
+			modelObjectCandidate = BPELEditorUtil.getInstance().findModelObjectForElement(process, elementCandidate);
+		}
+		
 		// Wrap changes in source tab to the Command
-		if (modelObject != null) {
+		if (modelObjectCandidate != null) {
+			final Object modelObject = modelObjectCandidate;
+			final Element element = elementCandidate; 
 			UpdateModelCommand cmd = new UpdateModelCommand((EObject) modelObject, "Change text"){
 				@SuppressWarnings("restriction")
 				@Override

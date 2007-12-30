@@ -166,6 +166,9 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			builder.append(s);
 		}
 		
+		if (builder.length() > 0){
+			builder.deleteCharAt(0);
+		}
 		
 		try {
 			fChangeHelper.startNonUserChange();
