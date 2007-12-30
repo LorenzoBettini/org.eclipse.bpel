@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
+ * $Id: QueryImpl.java,v 1.9 2007/12/30 15:40:15 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -117,7 +117,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	public void setValue(String newValue) {
 		String oldValue = value;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceText(getElement(), newValue);
+			ReconciliationHelper.replaceText(this, oldValue, newValue);
 		}
 		value = newValue;
 		if (eNotificationRequired())

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ExpressionImpl.java,v 1.10 2007/12/30 15:40:15 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -157,8 +157,12 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setBody(Object newBody) {
 		Object oldBody = body;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceText(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()).getElement() : getElement(), newBody);
+		
+		ExtensibleElementImpl parent = ((ExtensibleElementImpl)eContainer());
+		boolean transparent = BPELUtils.isTransparent(eContainer(), this);
+		
+		if ((!transparent && !isReconciling) || (transparent && !parent.isReconciling())) {						
+			ReconciliationHelper.replaceText(transparent ? parent : this, oldBody, newBody);
 		}
 		body = newBody;		
 		if (eNotificationRequired())

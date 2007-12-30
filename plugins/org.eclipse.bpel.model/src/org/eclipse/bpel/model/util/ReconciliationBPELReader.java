@@ -2264,6 +2264,8 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		if (elseElement != null) {
 			Else _else = xml2Else(_if.getElse(), elseElement);
 			_if.setElse(_else);
+		} else {
+			_if.setElse(null);
 		}
 
 		setStandardAttributes(ifElement, _if);

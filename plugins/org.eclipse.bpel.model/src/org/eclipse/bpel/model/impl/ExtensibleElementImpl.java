@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.10 2007/12/30 15:40:15 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -418,4 +418,8 @@ public class ExtensibleElementImpl extends
 			} 
 	    } 
 	}	
+	
+	boolean isReconciling() {
+		return isReconciling;
+	}
 } //ExtensibleElementImpl
