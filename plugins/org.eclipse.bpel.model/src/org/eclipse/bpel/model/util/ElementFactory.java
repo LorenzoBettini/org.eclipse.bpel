@@ -63,6 +63,8 @@ import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
+import org.eclipse.bpel.model.adapters.BasicEObjectaAdapter;
+import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.impl.ServiceRefImpl;
 import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.emf.ecore.EObject;
@@ -434,7 +436,7 @@ public class ElementFactory {
 				DOMUtil.copyInto(child, literal);
 			}
 		} else {
-			CDATASection cdata = BPELUtils.createCDATASection(from.getElement().getOwnerDocument(), from.getLiteral());
+			CDATASection cdata = BPELUtils.createCDATASection(from.getElement().getOwnerDocument(), text);
 			return cdata;
 		}
 		return literal;
@@ -481,7 +483,9 @@ public class ElementFactory {
 	                }
 	            }
 	            if (prefix == null) {
-	                nsMap.put(BPELConstants.PREFIX, resource.getNamespaceURI());
+	            	Map<String,String> processNsMap = BPELUtils.getNamespaceMap(resource.getProcess());
+	            	prefix = ((INamespaceMap<String, String>)processNsMap).getReverse(resource.getNamespaceURI()).get(0);
+	                nsMap.put(prefix != null ? prefix : BPELConstants.PREFIX, resource.getNamespaceURI());
 	            }
 	        } else {
 	            nsMap.put("", resource.getNamespaceURI());

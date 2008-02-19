@@ -117,6 +117,7 @@ import org.eclipse.bpel.model.proxy.XSDElementDeclarationProxy;
 import org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy;
 import org.eclipse.bpel.model.resource.BPELLinkResolver;
 import org.eclipse.bpel.model.resource.BPELReader;
+import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.resource.BPELVariableResolver;
 import org.eclipse.bpel.model.resource.LineCapturingDOMParser;
 import org.eclipse.bpel.model.resource.LinkResolver;
@@ -343,22 +344,24 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 	 * @param element
 	 */
 	protected void saveNamespacePrefix(EObject eObject, Element element) {
-		Map<String, String> nsMap = null; // lazy init since it may require a
-											// new map
-		NamedNodeMap attrs = element.getAttributes();
-
-		for (int i = 0; i < attrs.getLength(); i++) {
-			Attr attr = (Attr) attrs.item(i);
-			// XML namespace attributes use the reserved namespace
-			// "http://www.w3.org/2000/xmlns/".
-			if (XSDConstants.XMLNS_URI_2000.equals(attr.getNamespaceURI())) {
-				if (nsMap == null) {
-					nsMap = BPELUtils.getNamespaceMap(eObject);
-				}
-				nsMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()),
-						attr.getValue());
-			}
-		}
+//		Map<String, String> nsMap = null; // lazy init since it may require a
+//											// new map
+//		NamedNodeMap attrs = element.getAttributes();
+//
+//		for (int i = 0; i < attrs.getLength(); i++) {
+//			Attr attr = (Attr) attrs.item(i);
+//			// XML namespace attributes use the reserved namespace
+//			// "http://www.w3.org/2000/xmlns/".
+//			if (XSDConstants.XMLNS_URI_2000.equals(attr.getNamespaceURI())) {
+//				if (nsMap == null) {
+//					nsMap = BPELUtils.getNamespaceMap(eObject);
+////					nsMap = ((BPELResource)fResource).getPrefixToNamespaceMap(eObject);
+////					nsMap.clear();
+//				}
+//				nsMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()),
+//						attr.getValue());
+//			}
+//		}
 	}
 
 	/**
@@ -3591,6 +3594,8 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			}
 		}
 
+		extensibleElement.getExtensibilityElements().clear();
+		
 		for (Node node : nodes) {
 
 			// TODO What is this check for? If we're actually checking for

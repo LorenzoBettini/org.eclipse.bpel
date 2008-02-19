@@ -79,10 +79,10 @@ public class ElementPlacer {
 			String nodeType = findType(nodeName, nodeTypeList);			
 			if (nodeType != null) {
 				Node beforeElement = parent.getFirstChild();
-				while (beforeElement != null && !isPreviousType(nodeType, findType(beforeElement.getLocalName(), nodeTypeList), nodeTypeList)) {
+				while (beforeElement != null && (!isPreviousType(nodeType, findType(beforeElement.getLocalName(), nodeTypeList), nodeTypeList) || beforeElement.getNodeType() != Node.ELEMENT_NODE)) {
 					beforeElement = beforeElement.getNextSibling();
 				}
-				while (beforeElement != null && isType(beforeElement.getLocalName(), nodeType)) {
+				while (beforeElement != null && (isType(beforeElement.getLocalName(), nodeType) || beforeElement.getNodeType() != Node.ELEMENT_NODE)) {
 					beforeElement = beforeElement.getNextSibling();
 				}
 				parent.insertBefore(child, beforeElement);

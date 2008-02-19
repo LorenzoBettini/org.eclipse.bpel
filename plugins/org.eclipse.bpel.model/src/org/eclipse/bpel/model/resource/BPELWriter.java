@@ -729,6 +729,10 @@ public class BPELWriter {
 	}
 	
 	protected Element partnerLinks2XML(PartnerLinks partnerLinks) {
+		// If there are no partner links then skip creating Element
+		if (partnerLinks.getChildren().isEmpty())
+			return null;
+		
 		Element partnerLinksElement = createBPELElement("partnerLinks");
 		
 		for(Object next : partnerLinks.getChildren()) {
@@ -774,6 +778,10 @@ public class BPELWriter {
 	}
 
 	protected Element variables2XML(Variables variables) {
+		// If there are no variables then skip creating Element
+		if (variables.getChildren().isEmpty())
+			return null;
+		
 		Element variablesElement = createBPELElement("variables");
 		
 		for(Object next : variables.getChildren()) {
@@ -895,6 +903,10 @@ public class BPELWriter {
 	}
 
 	protected Element correlationSets2XML(CorrelationSets correlationSets) {
+		// If there are no correlation sets then skip creating Element
+		if (correlationSets.getChildren().isEmpty())
+			return null;
+		
 		Element correlationSetsElement = createBPELElement("correlationSets");
 
 		Iterator<?> it = correlationSets.getChildren().iterator();

@@ -206,12 +206,14 @@ public class ReconciliationHelper {
 		return process == null || process.eResource() == null || !process.eResource().isLoaded();
 	}
 	
-	public static void replaceChild(WSDLElement parent, WSDLElement oldElement, WSDLElement newElement) {
+	public static void replaceChild(WSDLElement parent, WSDLElement oldElement,
+			WSDLElement newElement) {
 		if (isLoading(parent)) {
 			return;
 		}
 		if (parent.getElement() == null) {
-			System.err.println("trying to replace child on null element: " + parent.getClass());
+			System.err.println("trying to replace child on null element: "
+					+ parent.getClass());
 			return;
 		}
 		if (oldElement == newElement) {
@@ -219,17 +221,31 @@ public class ReconciliationHelper {
 		}
 		if (newElement != null) {
 			if (newElement.getElement() == null) {
-				newElement.setElement(ElementFactory.getInstance().createElement(newElement, parent));
+				Element newDomElement = ElementFactory.getInstance()
+						.createElement(newElement, parent);
+				if (newDomElement == null) {
+					return;
+				}
+				newElement.setElement(newDomElement);
 			}
-			if (oldElement != null && oldElement.getElement() != null && parent.getElement() == oldElement.getElement().getParentNode()) {
-				parent.getElement().replaceChild(newElement.getElement(), oldElement.getElement());
+			if (oldElement != null
+					&& oldElement.getElement() != null
+					&& parent.getElement() == oldElement.getElement()
+							.getParentNode()) {
+				parent.getElement().replaceChild(newElement.getElement(),
+						oldElement.getElement());
 			} else {
-				ElementPlacer.placeChild(parent.getElement(), newElement.getElement());
+				ElementPlacer.placeChild(parent.getElement(), newElement
+						.getElement());
 			}
-		} else if (oldElement != null && oldElement.getElement() != null && parent.getElement() == oldElement.getElement().getParentNode())  {
+		} else if (oldElement != null
+				&& oldElement.getElement() != null
+				&& parent.getElement() == oldElement.getElement()
+						.getParentNode()) {
 			parent.getElement().removeChild(oldElement.getElement());
 		}
 	}
+	
 	
 	public static void replaceAttribute(WSDLElement element, String attributeName, String attributeValue) {
 		if (isLoading(element)) {
@@ -393,11 +409,11 @@ public class ReconciliationHelper {
 	
 	public void patchDom(EObject child, EObject parent, Node parentElement, EObject before, Node beforeElement) {
 		if (child instanceof Variable) {
-			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_VARIABLE);
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_VARIABLES, BPELConstants.ND_VARIABLE);
 		} else if (child instanceof CorrelationSet) {
-			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_CORRELATION_SET);
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_CORRELATION_SETS, BPELConstants.ND_CORRELATION_SET);
 		} else if (child instanceof PartnerLink) {
-			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_PARTNER_LINK);
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_PARTNER_LINKS, BPELConstants.ND_PARTNER_LINK);
 		}
 		
 		// TODO: (DU) probably this if will be no longer needed when sync work is finished
@@ -457,15 +473,18 @@ public class ReconciliationHelper {
 	    	
 	}
 
-	private Node patchParentElement(EObject child, EObject parent, Node parentElement, String nodeName) {
+	private Node patchParentElement(EObject child, EObject parent, Node parentElement, String parentNodeName, String nodeName) {
 		WSDLElement variables = (WSDLElement)parent;
 		WSDLElement	var = (WSDLElement)child;
 		if (variables.getElement() == null) {
 			WSDLElement container = (WSDLElement)variables.eContainer();
-			variables.setElement(ElementFactory.getInstance().createElement(variables, container));
+			parentElement = ReconciliationHelper.getBPELChildElementByLocalName(container.getElement(), parentNodeName);
+			variables.setElement(parentElement != null ? (Element)parentElement : ElementFactory.getInstance().createElement(variables, container));
 			var.setElement(ReconciliationHelper.getBPELChildElementByLocalName(variables.getElement(), nodeName));
-			parentElement = variables.getElement();
-			ElementPlacer.placeChild(container.getElement(), parentElement);
+			if (parentElement == null) {
+				ElementPlacer.placeChild(container.getElement(), variables.getElement());
+				parentElement = variables.getElement();
+			}
 		}
 		return parentElement;
 	}
@@ -482,7 +501,7 @@ public class ReconciliationHelper {
 	 *            the localName to match against
 	 * @return the first matching element, or null if no element was found
 	 */
-	protected static Element getBPELChildElementByLocalName(Element parentElement,
+	public static Element getBPELChildElementByLocalName(Element parentElement,
 			String localName) {
 		NodeList children = parentElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -554,11 +573,39 @@ public class ReconciliationHelper {
 		if (isLoading(parent) || parent.getElement() == null) {
 			return;
 		}
-		if (parent.getElement() != null && child.getElement() != null && child.getElement().getParentNode() == parent.getElement()) {
+		if (parent.getElement() != null && child.getElement() != null
+				&& child.getElement().getParentNode() == parent.getElement()) {
 			parent.getElement().removeChild(child.getElement());
 		}
-	}
-		
+		// Remove <variables> if there are no children
+		if ((child instanceof Variable) && (((Variables) parent).getChildren().size() == 0)) {
+			if (parent.getContainer() instanceof Process)
+				((Process) parent.getContainer()).setVariables(null);
+			else if (parent.getContainer() instanceof Scope)
+				((Scope) parent.getContainer()).setVariables(null);
+			else
+				throw new IllegalStateException();
+		}
+		// Remove <partnerlinks> if there are no children
+		if ((child instanceof PartnerLinks) && (((PartnerLinks) parent).getChildren().size() == 0)) {
+			if (parent.getContainer() instanceof Process)
+				((Process) parent.getContainer()).setPartnerLinks(null);
+			else if (parent.getContainer() instanceof Scope)
+				((Scope) parent.getContainer()).setPartnerLinks(null);
+			else
+				throw new IllegalStateException();
+		}
+		// Remove <correlationsets> if there are no children
+		if ((child instanceof CorrelationSets) && (((CorrelationSets) parent).getChildren().size() == 0)) {
+			if (parent.getContainer() instanceof Process)
+				((Process) parent.getContainer()).setCorrelationSets(null);
+			else if (parent.getContainer() instanceof Scope)
+				((Scope) parent.getContainer()).setCorrelationSets(null);
+			else
+				throw new IllegalStateException();
+		}
+	
+	}		
 //    public static Collection<Element> getContentNodes(WSDLElement element, Element changedElement) {
 //        Collection<Element> result = new ArrayList<Element>();
 //        for (Node child = changedElement.getFirstChild(); child != null; child = child.getNextSibling()) {
