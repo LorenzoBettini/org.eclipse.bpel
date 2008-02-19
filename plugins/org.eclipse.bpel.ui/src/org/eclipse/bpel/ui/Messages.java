@@ -60,6 +60,7 @@ public final class Messages extends NLS {
 	public static String InvokeImplSection_22;
 	public static String InvokeImplSection_23;
 	public static String InvokeImplSection_24;
+	public static String InvokeImplSection_25;
 	public static String InvokeImplSection_3;
 	public static String InvokeImplSection_4;
 	public static String InvokeImplSection_7;

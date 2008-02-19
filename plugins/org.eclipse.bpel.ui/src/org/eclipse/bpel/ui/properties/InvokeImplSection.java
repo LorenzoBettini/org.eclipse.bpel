@@ -961,7 +961,20 @@ public class InvokeImplSection extends BPELPropertySection {
 					}
 				}, provider);
 
+		RunnableProposal proposalClearFault = new RunnableProposal() {			
+			@Override
+			public String getLabel() {
+				return Messages.InvokeImplSection_25;
+			}
+			public void run() {				
+				CompoundCommand cmd = new CompoundCommand();
+				cmd.add(new SetWSDLFaultCommand(getInput(), null));
+				getCommandFramework().execute( cmd );
+			}
+		};
+		
 		proposalProvider.addProposalToEnd(new Separator());
+		proposalProvider.addProposalToEnd(proposalClearFault);
 
 		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(
 				faultText, fTextContentAdapter, proposalProvider, null, null);
@@ -972,7 +985,6 @@ public class InvokeImplSection extends BPELPropertySection {
 		contentAssist
 				.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 		contentAssist.addContentProposalListener(new IContentProposalListener() {
-
 			public void proposalAccepted(IContentProposal chosenProposal) {
 				if (chosenProposal.getContent() == null) {
 					return;
@@ -984,8 +996,12 @@ public class InvokeImplSection extends BPELPropertySection {
 				} catch (Throwable t) {
 					return;
 				}
+				CompoundCommand cmd = new CompoundCommand();
+				cmd.add(new SetWSDLFaultCommand(getInput(), fault));
+				getCommandFramework().execute( cmd );
 			}
 		});
+		contentAssist.addContentProposalListener( proposalClearFault );
 		// End of Content Assist for fault
 
 		faultButton.addListener(SWT.Selection, new Listener() {
@@ -1139,7 +1155,7 @@ public class InvokeImplSection extends BPELPropertySection {
 			parentComposite, IHelpContextIds.PROPERTY_PAGE_INVOKE_IMPLEMENTATION);
 	}
 	
-	private  void updatePartnerWidgets() {
+	private void updatePartnerWidgets() {
 				
 		PartnerLink partnerLink = ModelHelper.getPartnerLink(getInput());
 		if (partnerLink == null) {
@@ -1281,6 +1297,8 @@ public class InvokeImplSection extends BPELPropertySection {
 			} else {
 				faultText.setText ( EMPTY_STRING );
 			}
+		} else {
+			faultText.setText ( EMPTY_STRING );
 		}
 	}
 

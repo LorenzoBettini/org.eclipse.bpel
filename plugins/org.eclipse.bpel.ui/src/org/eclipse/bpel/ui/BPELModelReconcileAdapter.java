@@ -1,14 +1,18 @@
 package org.eclipse.bpel.ui;
 
+import java.util.Map;
+
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
+import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.util.BPELConstants;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.commands.util.UpdateModelCommand;
 import org.eclipse.bpel.ui.util.BPELEditorUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
@@ -16,6 +20,8 @@ import org.eclipse.wst.wsdl.internal.impl.XSDSchemaExtensibilityElementImpl;
 import org.eclipse.wst.xsd.ui.internal.util.ModelReconcileAdapter;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
+import org.eclipse.xsd.util.XSDConstants;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -66,8 +72,23 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 			if (processElement != null) {
 				process.setElement(processElement);
 				reconcileModelObjectForElement(processElement);
-			} else {
-				// TODO: (DU) what to do here?
+			} else {				
+				process.setPartnerLinks(null);
+				process.setVariables(null);
+				process.setCorrelationSets(null);
+				process.setActivity(null);
+				process.setDocumentation(null);
+				process.setName(null);
+				process.setTargetNamespace(null);
+				process.unsetQueryLanguage();
+				process.unsetExpressionLanguage();
+				process.unsetSuppressJoinFailure();
+				process.unsetVariableAccessSerializable();
+				process.setFaultHandlers(null);
+				process.setExtensions(null);
+				process.setExitOnStandardFault(false);
+				process.setMessageExchanges(null);
+				process.setEventHandlers(null);		
 			}
 		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE
 				|| BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
@@ -130,8 +151,8 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 	}
 
 	public void handleNotifyChange(INodeNotifier notifier, int eventType,
-			Object feature, Object oldValue, Object newValue, int index) {
-		Node node = (Node) notifier;
+			final Object feature, final Object oldValue, final Object newValue, int index) {
+		final Node node = (Node) notifier;
 		switch (eventType) {
 		case INodeNotifier.ADD: {
 			if (newValue instanceof Element) {
@@ -145,6 +166,28 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		}
 		case INodeNotifier.CHANGE:
 		case INodeNotifier.STRUCTURE_CHANGED: {
+			if (feature instanceof Attr && XSDConstants.XMLNS_URI_2000.equals(((Attr)feature).getNamespaceURI())) {
+				final EObject modelObject = (EObject)BPELEditorUtil.getInstance().findModelObjectForElement(process, (Element)node);
+				final Map<String, String> nsMap = ((BPELResource)bpelResource).getPrefixToNamespaceMap(modelObject);
+				final INamespaceMap<String, String> objectMap = BPELUtils.getNamespaceMap(modelObject);
+				UpdateModelCommand cmd = new UpdateModelCommand(modelObject, "Change text"){
+					@SuppressWarnings("restriction")
+					@Override
+					public void doExecute() {
+						Attr attr = (Attr)feature;												
+						if (newValue == null) {
+							nsMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
+							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
+						} else {
+							nsMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()), attr.getValue());
+							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
+						}
+					}
+				};
+				if (fEditor != null) {
+					fEditor.getCommandFramework().execute(cmd);
+				}
+			}
 			handleNodeChanged(node);
 			break;
 		}

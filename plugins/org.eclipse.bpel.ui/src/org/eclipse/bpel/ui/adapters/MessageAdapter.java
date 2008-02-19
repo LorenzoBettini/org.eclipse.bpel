@@ -35,6 +35,9 @@ public class MessageAdapter extends AbstractAdapter implements ILabeledElement {
 	}	
 	
 	public String getLabel (Object object) {
+		if (object == null){
+			return null;
+		}
 		Message msg = (Message)object;
 		if (msg.getQName() != null) {
 			if (msg.getQName().getLocalPart() != null)  return msg.getQName().getLocalPart();
