@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariablesImpl.java,v 1.6 2008/02/19 13:19:48 smoser Exp $
+ * $Id: VariablesImpl.java,v 1.7 2008/02/20 15:23:28 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ElementFactory;
+import org.eclipse.bpel.model.util.ElementPlacer;
 import org.eclipse.bpel.model.util.ReconciliationBPELReader;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -172,9 +173,10 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Variable) {
 			if (getElement() == null) {
-				setElement(ReconciliationHelper.getBPELChildElementByLocalName(((WSDLElement)eContainer).getElement(), BPELConstants.ND_VARIABLES));
+				ReconciliationHelper.getInstance().patchParentElement((Variable)object, this, null, BPELConstants.ND_VARIABLES, BPELConstants.ND_VARIABLE);
+			} else {
+				ReconciliationHelper.adoptChild(this, children, (Variable)object, BPELConstants.ND_VARIABLE);
 			}
-			ReconciliationHelper.adoptChild(this, children, (Variable)object, BPELConstants.ND_VARIABLE);
 		}
 		super.adoptContent(reference, object);
 	}

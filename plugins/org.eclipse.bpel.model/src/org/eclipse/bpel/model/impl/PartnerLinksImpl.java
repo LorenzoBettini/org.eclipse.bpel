@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinksImpl.java,v 1.6 2008/02/19 13:19:48 smoser Exp $
+ * $Id: PartnerLinksImpl.java,v 1.7 2008/02/20 15:23:28 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -175,10 +175,10 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof PartnerLink) {
 			if (getElement() == null) {
-				setElement(ReconciliationHelper.getBPELChildElementByLocalName(((WSDLElement)eContainer).getElement(), BPELConstants.ND_PARTNER_LINKS));
+				ReconciliationHelper.getInstance().patchParentElement((PartnerLink)object, this, null, BPELConstants.ND_PARTNER_LINKS, BPELConstants.ND_PARTNER_LINK);
+			} else {
+				ReconciliationHelper.adoptChild(this, children, (PartnerLink)object, BPELConstants.ND_PARTNER_LINK);
 			}
-			PartnerLink partnerLink = (PartnerLink)object;
-			ReconciliationHelper.adoptChild(this, children, partnerLink, BPELConstants.ND_PARTNER_LINK);
 		}
 		super.adoptContent(reference, object);
 	}

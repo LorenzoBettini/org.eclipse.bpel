@@ -473,7 +473,7 @@ public class ReconciliationHelper {
 	    	
 	}
 
-	private Node patchParentElement(EObject child, EObject parent, Node parentElement, String parentNodeName, String nodeName) {
+	public Node patchParentElement(EObject child, EObject parent, Node parentElement, String parentNodeName, String nodeName) {
 		WSDLElement variables = (WSDLElement)parent;
 		WSDLElement	var = (WSDLElement)child;
 		if (variables.getElement() == null) {

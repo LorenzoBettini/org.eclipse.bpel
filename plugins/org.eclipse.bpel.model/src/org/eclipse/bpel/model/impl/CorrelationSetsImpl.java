@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetsImpl.java,v 1.6 2008/02/19 13:19:47 smoser Exp $
+ * $Id: CorrelationSetsImpl.java,v 1.7 2008/02/20 15:23:28 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,6 +21,7 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -172,9 +173,10 @@ public class CorrelationSetsImpl extends ExtensibleElementImpl implements
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof CorrelationSet) {
 			if (getElement() == null) {
-				setElement(ReconciliationHelper.getBPELChildElementByLocalName(((WSDLElement)eContainer).getElement(), BPELConstants.ND_CORRELATION_SETS));
+				ReconciliationHelper.getInstance().patchParentElement((CorrelationSet)object, this, null, BPELConstants.ND_CORRELATION_SETS, BPELConstants.ND_CORRELATION_SET);
+			} else {
+				ReconciliationHelper.adoptChild(this, children, (CorrelationSet)object, BPELConstants.ND_CORRELATION_SET);
 			}
-			ReconciliationHelper.adoptChild(this, children, (CorrelationSet)object, BPELConstants.ND_CORRELATION_SET);
 		}
 		super.adoptContent(reference, object);
 	}
