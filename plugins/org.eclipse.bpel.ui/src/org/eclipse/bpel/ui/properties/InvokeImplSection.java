@@ -47,6 +47,7 @@ import org.eclipse.bpel.ui.details.providers.PartnerLinkTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerRoleFilter;
 import org.eclipse.bpel.ui.details.providers.WSDLFaultContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
+import org.eclipse.bpel.ui.dialogs.PartnerLinkRoleSelectorDialog;
 import org.eclipse.bpel.ui.dialogs.PartnerLinkTypeSelectorDialog;
 import org.eclipse.bpel.ui.proposal.providers.ModelContentProposalProvider;
 import org.eclipse.bpel.ui.proposal.providers.RunnableProposal;
@@ -58,6 +59,7 @@ import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NameDialog;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -332,7 +334,7 @@ public class InvokeImplSection extends BPELPropertySection {
 				fTextContentAdapter, 
 				proposalProvider, 
 				null, 
-				null );
+				null, true );
 		// 
 		contentAssist.setLabelProvider( new ModelLabelProvider () );		
 		contentAssist.setPopupSize( new Point(300,100) );
@@ -516,7 +518,7 @@ public class InvokeImplSection extends BPELPropertySection {
 				fTextContentAdapter, 
 				proposalProvider, 
 				null, 
-				null );
+				null, true );
 		// 
 		contentAssist.setLabelProvider( new ModelLabelProvider () );		
 		contentAssist.setPopupSize( new Point(300,100) );
@@ -977,7 +979,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		proposalProvider.addProposalToEnd(proposalClearFault);
 
 		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(
-				faultText, fTextContentAdapter, proposalProvider, null, null);
+				faultText, fTextContentAdapter, proposalProvider, null, null, true);
 		// 
 		contentAssist.setLabelProvider(new ModelLabelProvider());
 		contentAssist.setPopupSize(new Point(300, 100));
@@ -1501,6 +1503,32 @@ public class InvokeImplSection extends BPELPropertySection {
 			plt = (PartnerLinkType) result;
 		}
 		
+		// Ask user about role
+		
+		EList<Role> list = plt.getRole();
+		if (list.size() > 1){
+			PartnerLinkRoleSelectorDialog roleDialog = new PartnerLinkRoleSelectorDialog(parentComposite.getShell(), list, plt);
+			if (isInvoke){
+				roleDialog.setTitle("Choose Partner Role");
+			} else {
+				roleDialog.setTitle("Choose My Role");
+			}
+			if (roleDialog.open() == Window.CANCEL){
+				return;
+			}
+			if (isInvoke){
+				pl.setPartnerRole(list.get(roleDialog.getSelectedRole()));
+			} else {
+				pl.setMyRole(list.get(roleDialog.getSelectedRole()));
+			}
+		} else {
+			if (isInvoke){
+				pl.setPartnerRole(list.get(0));
+			} else {
+				pl.setMyRole(list.get(0));
+			}
+		}
+		
 		// set name and type
 		pl.setName ( nameDialog.getValue() );
 		pl.setPartnerLinkType( plt );
@@ -1512,7 +1540,10 @@ public class InvokeImplSection extends BPELPropertySection {
 		//
 		CompoundCommand cmd = new CompoundCommand();
 		cmd.getCommands().addAll(cmds);
-		getCommandFramework().execute(cmd);					
+		getCommandFramework().execute(cmd);
+		// TODO: Is there any way to refresh quick pick without this hack?
+		quickPickTreeViewer.setInput ( null );
+		updateQuickPickWidgets();
 	}
 	
 	/** 
