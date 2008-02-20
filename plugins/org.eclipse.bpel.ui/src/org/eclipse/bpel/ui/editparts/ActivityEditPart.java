@@ -361,14 +361,20 @@ public abstract class ActivityEditPart extends BPELEditPart implements NodeEditP
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connEditPart) {
 		// Provide default anchor for Links.
 		if (connEditPart == null || connEditPart instanceof LinkEditPart) {
-			return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.BOTTOM, 0);
+			if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout()){
+				return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.RIGHT_INNER, 0);
+			}else
+				return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.BOTTOM, 0);
 		}
 		return null;
 	}
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connEditPart) {
 		// Provide default anchor for Links.
 		if (connEditPart == null || connEditPart instanceof LinkEditPart) {
-			return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.TOP, 0);
+			if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout()){
+				return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.LEFT_INNER, 0);
+			}else
+				return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.TOP, 0);
 		}
 		return null;
 	}

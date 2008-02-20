@@ -24,6 +24,7 @@ import org.eclipse.bpel.ui.editparts.borders.LeafBorder;
 import org.eclipse.bpel.ui.editparts.figures.CollapsableContainerFigure;
 import org.eclipse.bpel.ui.editparts.util.BPELDecorationLayout;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.figures.ILayoutAware;
 import org.eclipse.bpel.ui.util.BPELDragEditPartsTracker;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.marker.BPELEditPartMarkerDecorator;
@@ -52,7 +53,7 @@ import org.eclipse.swt.graphics.Image;
  * In the collapsed state, this class will render the node. In the
  * expanded state, the subclass will be expected to render the node.
  */
-public abstract class CollapsableEditPart extends CompositeActivityEditPart {
+public abstract class CollapsableEditPart extends CompositeActivityEditPart implements ILayoutAware {
 	
 	// Whether or not the edit part is collapsed
 	protected boolean collapsed;
@@ -293,7 +294,10 @@ public abstract class CollapsableEditPart extends CompositeActivityEditPart {
 		figure.setLayoutManager(new FlowLayout());
 		
 		if (!isGenericContainerBorder()) {
-			figure.setBorder(new LeafBorder(figure));
+			LeafBorder lBorder = new LeafBorder(figure);
+			// FIX: We have to set the editpart!
+			lBorder.setEditPart(this);
+			figure.setBorder(lBorder);
 			figure.addMouseMotionListener(getMouseMotionListener());
 			figure.add(collapsedLabel);
 		}
@@ -520,9 +524,15 @@ public abstract class CollapsableEditPart extends CompositeActivityEditPart {
 	 * This must be called after the figure for this edit part has been created.
 	 */
 	public ConnectionAnchor getConnectionAnchor(int location) {
-		if (location == CenteredConnectionAnchor.TOP_INNER) {
+		switch(location){
+		case CenteredConnectionAnchor.TOP_INNER:
 			return new CenteredConnectionAnchor(getFigure(), location, 30);
+		case CenteredConnectionAnchor.LEFT:
+			return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.LEFT_INNER, 0);
+		case CenteredConnectionAnchor.RIGHT:
+			return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.RIGHT_INNER, 0);
+		default:
+				return super.getConnectionAnchor(location);
 		}
-		return super.getConnectionAnchor(location);
 	}
 }

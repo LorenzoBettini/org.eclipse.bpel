@@ -12,9 +12,11 @@ package org.eclipse.bpel.ui.editparts.borders;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
@@ -35,7 +37,7 @@ public class ScopeBorder extends CollapsableBorder {
 	static final int borderWidth = 1;
 	static final int margin = 11;
 	// space between the inside of the border and the contents
-	static final int hBorderInsets = 3;
+	static final int hBorderInsets = 11;
 	static final int vBorderInsets = 16;
 	// extra horizontal space to use when we have no children.
 	static final int extraHorizontalSpace = 50;
@@ -65,6 +67,11 @@ public class ScopeBorder extends CollapsableBorder {
 	private Rectangle rectTermination;
 	private Rectangle rectEvent;
 	
+	private IFigure faultImageFigure;
+	private IFigure compensationImageFigure;
+	private IFigure terminationImageFigure;
+	private IFigure eventImageFigure;
+	
 	public ScopeBorder(IFigure parentFigure, String labelText, Image image) {
 		super(true, IBPELUIConstants.ARC_WIDTH, parentFigure, labelText, image);
 		
@@ -88,6 +95,18 @@ public class ScopeBorder extends CollapsableBorder {
 		r = eventImage.getBounds();
 		this.eventImageWidth = r.width;
 		this.eventImageHeight = r.height;
+		
+		faultImageFigure = new ImageFigure(faultImage);
+		faultImageFigure.setParent(parentFigure);
+		
+		compensationImageFigure = new ImageFigure(compensationImage);
+		compensationImageFigure.setParent(parentFigure);
+		
+		terminationImageFigure = new ImageFigure(terminationImage);
+		terminationImageFigure.setParent(parentFigure);
+		
+		eventImageFigure = new ImageFigure(eventImage);
+		eventImageFigure.setParent(parentFigure);
 	}
 
 	public Dimension getPreferredSize(IFigure f) {
@@ -118,25 +137,36 @@ public class ScopeBorder extends CollapsableBorder {
 			graphics.drawImage(expandedImage, rectExpandedTop.getLocation());
 			graphics.drawImage(expandedImage, rectExpandedBottom.getLocation());
 		}
+		
+		Rectangle oldClip = new Rectangle();
+		oldClip = graphics.getClip(oldClip);
 
 		// Draw the fault image in the upper right hand corner of the round rectangle
 		if (showFault) {
-			graphics.drawImage(faultImage, rectFault.x, rectFault.y);
+			graphics.setClip(faultImageFigure.getBounds().getCopy());
+			faultImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 		// Draw the compensation image in the upper right hand corner of the round rectangle,
 		// leaving room for the fault image.
 		if (showCompensation) {
-			graphics.drawImage(compensationImage, rectCompensation.x, rectCompensation.y);
+			graphics.setClip(compensationImageFigure.getBounds().getCopy());
+			compensationImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 		// Draw the termination image in the upper right hand corner of the round rectangle,
 		// leaving room for the fault image.
 		if (showTermination) {
-			graphics.drawImage(terminationImage, rectTermination.x, rectTermination.y);
+			graphics.setClip(terminationImageFigure.getBounds().getCopy());
+			terminationImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 		// Draw the event image in the upper right hand corner of the round rectangle,
 		// leaving room for fault and compensation.
 		if (showEvent) {
-			graphics.drawImage(eventImage, rectEvent.x, rectEvent.y);
+			graphics.setClip(eventImageFigure.getBounds().getCopy());
+			eventImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 	}
 	
@@ -159,49 +189,9 @@ public class ScopeBorder extends CollapsableBorder {
 		expandedBounds.height -= expandedHeight / 2 - 1;
 		// Room for the bottom
 		expandedBounds.height -= expandedHeight / 2;
-
-		// Calculate the location of the fault/event/compensation decorations
-		// Draw the fault image in the upper right hand corner of the round rectangle
-		if (showFault) {
-			int x = expandedBounds.x + expandedBounds.width - faultImageWidth;
-			this.rectFault = new Rectangle(x, expandedBounds.y, faultImageWidth, faultImageHeight);
-		}
-		// Draw the compensation image in the upper right hand corner of the round rectangle,
-		// leaving room for the fault image.
-		if (showCompensation) {
-			int x = expandedBounds.x + expandedBounds.width - compensationImageWidth;
-			if (showFault) {
-				x -= faultImageWidth + 2;
-			}
-		 	this.rectCompensation = new Rectangle(x, expandedBounds.y, compensationImageWidth, compensationImageHeight);
-		}
-		// Draw the termination image in the upper right hand corner of the round rectangle,
-		// leaving room for fault and compensation.
-		if (showTermination) {
-			int x = expandedBounds.x + expandedBounds.width - terminationImageWidth;
-			if (showFault) {
-				x -= faultImageWidth + 2;
-			}
-			if (showCompensation) {
-				x -= compensationImageWidth + 2;
-			}
-		 	this.rectTermination = new Rectangle(x, expandedBounds.y, terminationImageWidth, terminationImageHeight);
-		}
-		// Draw the event image in the upper right hand corner of the round rectangle,
-		// leaving room for fault, termination and compensation.
-		if (showEvent) {
-			int x = expandedBounds.x + expandedBounds.width - eventImageWidth;
-			if (showFault) {
-				x -= faultImageWidth + 2;
-			}
-			if (showCompensation) {
-				x -= compensationImageWidth + 2;
-			}
-			if (showTermination) {
-				x -= terminationImageWidth + 2;
-			}
-			this.rectEvent = new Rectangle(x, expandedBounds.y, eventImageWidth, eventImageHeight);
-		}		
+		
+		// Calculate the positions of the handler icons
+		computeHandlerIconPositions(ModelHelper.getBPELEditor(getEditPart().getModel()).isHorizontalLayout(),figure);
 
 		// Top drawer
 		IMarker topMarker = getTopMarker();
@@ -352,5 +342,111 @@ public class ScopeBorder extends CollapsableBorder {
 		invalidate();
 		calculate(parentFigure);
 		return expandedBounds;
+	}
+	
+	private void computeHandlerIconPositions(boolean horizontal, IFigure figure){
+		if(horizontal){
+			// Calculate the location of the fault/event/compensation decorations
+			if (showFault) {
+				int x = expandedBounds.x + expandedBounds.width - faultImageWidth;
+				if(showCompensation)
+					x -= compensationImageWidth;
+				if(showTermination)
+					x -= terminationImageWidth;
+				if(showEvent)
+					x -= eventImageWidth;
+				this.rectFault = new Rectangle(x, figure.getBounds().y+figure.getBounds().height-faultImageHeight, faultImageWidth, faultImageHeight);
+			}
+			if (showCompensation) {
+				int x = expandedBounds.x + expandedBounds.width - compensationImageWidth;
+				if(showTermination)
+					x -= terminationImageWidth;
+				if(showEvent)
+					x -= eventImageWidth;
+			 	this.rectCompensation = new Rectangle(x, figure.getBounds().y+figure.getBounds().height-compensationImageHeight, compensationImageWidth, compensationImageHeight);
+			}
+			if (showTermination) {
+				int x = expandedBounds.x + expandedBounds.width - terminationImageWidth;
+				if(showEvent)
+					x -= eventImageWidth;
+			 	this.rectTermination = new Rectangle(x, figure.getBounds().y+figure.getBounds().height-terminationImageHeight, terminationImageWidth, terminationImageHeight);
+			}
+			if (showEvent) {
+				int x = expandedBounds.x + expandedBounds.width - eventImageWidth;
+				this.rectEvent = new Rectangle(x, figure.getBounds().y+figure.getBounds().height-eventImageHeight, eventImageWidth, eventImageHeight);
+			}
+		}else{
+			// Calculate the location of the fault/event/compensation decorations
+			// Draw the fault image in the upper right hand corner of the round rectangle
+			if (showFault) {
+				int x = expandedBounds.x + expandedBounds.width - faultImageWidth +1;
+				this.rectFault = new Rectangle(x, expandedBounds.y, faultImageWidth, faultImageHeight);
+			}
+			// Draw the compensation image in the upper right hand corner of the round rectangle,
+			// leaving room for the fault image.
+			if (showCompensation) {
+				int x = expandedBounds.x + expandedBounds.width - compensationImageWidth +1;
+				int y = expandedBounds.y;
+				if (showFault) {
+					y += faultImageHeight;
+				}
+			 	this.rectCompensation = new Rectangle(x, y, compensationImageWidth, compensationImageHeight);
+			}
+			// Draw the termination image in the upper right hand corner of the round rectangle,
+			// leaving room for fault and compensation.
+			if (showTermination) {
+				int x = expandedBounds.x + expandedBounds.width - terminationImageWidth +1;
+				int y = expandedBounds.y;
+				if (showFault) {
+					y += faultImageWidth;
+				}
+				if (showCompensation) {
+					y += compensationImageWidth;
+				}
+			 	this.rectTermination = new Rectangle(x, y, terminationImageWidth, terminationImageHeight);
+			}
+			// Draw the event image in the upper right hand corner of the round rectangle,
+			// leaving room for fault, termination and compensation.
+			if (showEvent) {
+				int x = expandedBounds.x + expandedBounds.width - eventImageWidth+1;
+				int y = expandedBounds.y;
+				if (showFault) {
+					y += faultImageHeight;
+				}
+				if (showCompensation) {
+					y += compensationImageHeight;
+				}
+				if (showTermination) {
+					y += terminationImageWidth;
+				}
+				this.rectEvent = new Rectangle(x, y, eventImageWidth, eventImageHeight);
+			}	
+		}
+		
+		// Apply the bounds to the figures
+		if(showFault)
+			this.faultImageFigure.setBounds(rectFault);
+		if(showCompensation)
+			this.compensationImageFigure.setBounds(rectCompensation);
+		if(showTermination)
+			this.terminationImageFigure.setBounds(rectTermination);
+		if(showEvent)
+			this.eventImageFigure.setBounds(rectEvent);
+	}
+
+	public IFigure getFaultImageFigure() {
+		return faultImageFigure;
+	}
+
+	public IFigure getCompensationImageFigure() {
+		return compensationImageFigure;
+	}
+
+	public IFigure getTerminationImageFigure() {
+		return terminationImageFigure;
+	}
+
+	public IFigure getEventImageFigure() {
+		return eventImageFigure;
 	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.bpel.ui.actions.MakePartner2WayAction;
 import org.eclipse.bpel.ui.actions.ShowPaletteInPaletteViewAction;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
 import org.eclipse.bpel.ui.actions.ToggleAutoFlowLayout;
+import org.eclipse.bpel.ui.actions.ToggleLayoutOrientationAction;
 import org.eclipse.bpel.ui.actions.ToggleShowCompensationHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowEventHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowFaultHandler;
@@ -223,6 +224,11 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		}
 
 		action = actionRegistry.getAction(AutoArrangeFlowsAction.ACTION_ID);
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(LAYOUT_ACTIONS, action);
+		}
+		
+		action = actionRegistry.getAction(ToggleLayoutOrientationAction.ACTION_ID);
 		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(LAYOUT_ACTIONS, action);
 		}

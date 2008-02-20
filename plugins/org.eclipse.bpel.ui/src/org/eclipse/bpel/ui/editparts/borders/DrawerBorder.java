@@ -19,7 +19,7 @@ public abstract class DrawerBorder extends AbstractBorder {
 	public static final int DRAWER_WIDTH = 16;
 	public static final int DRAWER_HALF_HEIGHT = 12;
 	public static final int DRAWER_HEIGHT = 25;
-	public static final int DRAWER_INSET = 1;
+	public static final int DRAWER_INSET = 30;
 	
 	private Image topImage;
 	private Image bottomImage;

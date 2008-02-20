@@ -10,16 +10,99 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.bpel.ui.editparts.borders.PickBorder;
+import org.eclipse.bpel.ui.editparts.figures.CollapsablePickContainerFigure;
+import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
+import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Layer;
+import org.eclipse.gef.EditPolicy;
 
 public class PickEditPart extends SequenceEditPart {
 	
+	private class PickOrderedLayoutEditPolicy extends BPELOrderedLayoutEditPolicy{
+		@Override
+		protected ArrayList createVerticalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor, targetAnchor;
+			
+			sourcePart = parent;
+			sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+			
+			if (children != null){
+				for (int i = 0; i < children.size(); i++) {
+					targetPart = (BPELEditPart)children.get(i);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+					connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+				}			
+			}		
+			return connections;
+		}
+	}
+	
+	@Override
+	protected void createEditPolicies() {
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new PickOrderedLayoutEditPolicy());
+		else
+			super.createEditPolicies();
+	}
+	
 	protected void configureExpandedFigure(IFigure figure) {
 		super.configureExpandedFigure(figure);
+		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
 		FlowLayout layout = (FlowLayout)figure.getLayoutManager();
-		layout.setHorizontal(true);
+		layout.setHorizontal(!horizontal);
 		layout.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
 		layout.setStretchMinorAxis(true);
+		
+		// Adjust the border
+		((PickBorder)figure.getBorder()).setHorizontal(horizontal);
+		
+	}
+	
+	// Overridden to return a PickContainerFigure
+	@Override
+	protected IFigure getNewContentPane(Layer layer) {
+		CollapsablePickContainerFigure fig =  new CollapsablePickContainerFigure(getModel(), image, getLabel());
+		fig.addMouseMotionListener(getMouseMotionListener());
+		fig.setEditPart(this);
+		return fig;
+	}
+	
+	@Override
+	public ConnectionAnchor getConnectionAnchor(int location) {
+		if(location == CenteredConnectionAnchor.LEFT){
+			return new CenteredConnectionAnchor(getContentPane(),CenteredConnectionAnchor.LEFT_INNER,0);
+		}
+		return super.getConnectionAnchor(location);
+	}
+	
+	/**
+	 * Overridden to toggle the horizontal flag for picks, because if 
+	 * the layout orientation is horizontal, the children of a pick should
+	 * be laid out vertically and the other way around.
+	 */
+	@Override
+	public void switchLayout(boolean horizontal) {
+		removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+		
+		EditPolicy newPolicy = null;
+		if(horizontal)
+			newPolicy = new PickOrderedLayoutEditPolicy();
+		else
+			newPolicy = new BPELOrderedLayoutEditPolicy();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, newPolicy);
+		
+		((FlowLayout)contentFigure.getLayoutManager()).setHorizontal(!horizontal);
+		((PickBorder)contentFigure.getBorder()).setHorizontal(horizontal);
 	}
 }

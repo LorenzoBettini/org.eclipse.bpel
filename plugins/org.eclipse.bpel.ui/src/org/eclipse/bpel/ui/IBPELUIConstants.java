@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui;
 
 import org.eclipse.bpel.model.terms.BPELTerms;
+import org.eclipse.core.runtime.QualifiedName;
 
 @SuppressWarnings({"nls"})
 
@@ -229,6 +230,7 @@ public interface IBPELUIConstants {
 	public final String ICON_LINK_TOPLEFT = "ovr16/link_topleft.png"; //$NON-NLS-1$
 	public final String ICON_LINK_TOPRIGHT = "ovr16/link_topright.png"; //$NON-NLS-1$
 	public final String ICON_LINK_ARROWDOWN = "ovr16/link_arrowdown.png"; //$NON-NLS-1$
+	public final String ICON_LINK_ARROWRIGHT = "ovr16/link_arrowright.png"; //$NON-NLS-1$
 	public final String ICON_LINK_CONDITIONAL = "obj16/condlnk_dgm16.gif"; //$NON-NLS-1$
 	
 	// Expressions
@@ -406,13 +408,21 @@ public interface IBPELUIConstants {
 	public final String COLOR_LINK_TWO = "linkTwo"; //$NON-NLS-1$
 	public final String COLOR_LINK_THREE = "linkThree"; //$NON-NLS-1$
 	
+	// The colors of the handlerlinks
+	public final String COLOR_HANDLER_LINK_FH = "handlerLinkOne"; //$NON-NLS-1$
+	public final String COLOR_HANDLER_LINK_CH = "handlerLinkTwo"; //$NON-NLS-1$
+	public final String COLOR_HANDLER_LINK_EH = "handlerLinkThree"; //$NON-NLS-1$
+	public final String COLOR_HANDLER_LINK_TH = "handlerLinkFour"; //$NON-NLS-1$
 	
 	
+	/**
+     * Common prefix for properties defined in this interface.
+     */
+	public static final String PROPERTY_PREFIX = BPEL_EDITOR_ID; //$NON-NLS-1$
 	
-	
-	
-	
-	
+    // Layout orientation
+	public static final QualifiedName HORIZONTAL_LAYOUT_PROPERTY = new QualifiedName(
+            PROPERTY_PREFIX, "horizontalLayout"); //$NON-NLS-1$
 	
 	
 	

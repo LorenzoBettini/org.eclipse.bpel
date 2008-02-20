@@ -26,9 +26,9 @@ public class BPELPolylineConnection extends PolylineConnection {
 	private static final int LEFT_RIGHT = 0, RIGHT_LEFT = 1, TOP_BOTTOM = 2, BOTTOM_TOP = 3;
 	
 	Color color1, color2, color3;
-	Image topLeft, topRight, bottomLeft, bottomRight, arrow;
+	Image topLeft, topRight, bottomLeft, bottomRight, arrowDown, arrowRight;
 	
-	public BPELPolylineConnection(Image topLeft, Image topRight, Image bottomLeft, Image bottomRight, Image arrow) {
+	public BPELPolylineConnection(Image topLeft, Image topRight, Image bottomLeft, Image bottomRight, Image arrowDown, Image arrowRight) {
 		BPELUIPlugin plugin = BPELUIPlugin.INSTANCE;
 		ColorRegistry colorRegistry = plugin.getColorRegistry();
 		color1 = colorRegistry.get(IBPELUIConstants.COLOR_LINK_ONE);
@@ -38,7 +38,8 @@ public class BPELPolylineConnection extends PolylineConnection {
 		this.topRight = topRight;
 		this.bottomLeft = bottomLeft;
 		this.bottomRight = bottomRight;
-		this.arrow = arrow;
+		this.arrowDown = arrowDown;
+		this.arrowRight = arrowRight;
 		// Leave room for the 3-pixel wide line, as well as our custom arrowhead.
 		setLineWidth(12);
 	}
@@ -68,13 +69,21 @@ public class BPELPolylineConnection extends PolylineConnection {
 
 			// If we are on the last one, draw the arrow too.
 			if (i == size - 2) {
-				g.drawImage(arrow, p2.x - 6, p2.y - 6);
+				Image arrowImage = arrowDown;
+				// If the end is horizontal, transform the arrow
+				if(direction == RIGHT_LEFT || direction == LEFT_RIGHT){
+					arrowImage = arrowRight;
+				}
+				g.drawImage(arrowImage, p2.x - 6, p2.y - 6);
 			}
 			
 			// Draw the line.
 			// If we are on the last one, the line should fall short by 4 pixels.
 			if (i == size - 2) {
-				p2.y -= 4;
+				if(direction == RIGHT_LEFT || direction == LEFT_RIGHT)
+					p2.x -= 4;
+				else
+					p2.y -= 4;
 			}
 			g.setLineWidth(1);
 			g.setForegroundColor(color2);

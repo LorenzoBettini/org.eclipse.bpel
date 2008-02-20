@@ -16,16 +16,19 @@ package org.eclipse.bpel.ui.figures;
  * that vertical lines are sometimes crooked by 1 pixel depending
  * on the magnification.
  */
-public class ConnectionXCoordHistory {
-	private static ConnectionXCoordHistory instance;
+public class ConnectionCoordHistory {
+	private static ConnectionCoordHistory instance;
 
 	// x-coord of 1st anchor in aligned vertical parts
 	private static int firstX = 0;	
 	
-	private ConnectionXCoordHistory(){}		
+	// y-coord of 1st anchor in aligned horizontal parts
+	private static int firstY = 0;	
 	
-	public static ConnectionXCoordHistory getInstance() {
-		if (instance == null)  instance = new ConnectionXCoordHistory();
+	private ConnectionCoordHistory(){}		
+	
+	public static ConnectionCoordHistory getInstance() {
+		if (instance == null)  instance = new ConnectionCoordHistory();
 		return instance;
 	}	
 	
@@ -41,5 +44,19 @@ public class ConnectionXCoordHistory {
 			return x;			
 		}
 		return firstX;
+	}
+	
+	public int adjustY(int y){
+		if (firstY ==0 ){
+			firstY = y;
+			return y;			
+		}else if (Math.abs(firstY - y) > 2){
+			/* assume any anchor point outside 2px of firstY means
+			 * that the anchor is at the start of a new container
+			 */
+			firstY = y;
+			return y;			
+		}
+		return firstY;
 	}
 }

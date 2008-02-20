@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.editparts.borders;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
@@ -19,18 +20,46 @@ import org.eclipse.swt.graphics.Image;
 public class RoundRectangleBorderWithDecoration extends RoundRectangleBorder {
 	Image decoration;
 	
-	public RoundRectangleBorderWithDecoration(Image decoration) {
-		this.decoration = decoration;
+	private int decoXOffset;
+	private int decoYOffset;
+	
+	private IFigure decorationFigure;
+	
+	public RoundRectangleBorderWithDecoration(IFigure parent, Image decoration) {
+		this(parent,decoration,new Insets(5,5,5,5));
 	}
-	public RoundRectangleBorderWithDecoration(Insets insets, Image decoration) {
+	public RoundRectangleBorderWithDecoration(IFigure parent, Image decoration, Insets insets) {
 		super(insets);
 		this.decoration = decoration;
+		decoXOffset = 0;
+		decoYOffset = -(decoration.getBounds().height/2);
+		
+		this.decorationFigure = new ImageFigure(decoration);
+		this.decorationFigure.setParent(parent);
 	}
 	public void paint(IFigure figure, Graphics graphics, Insets insets) {
 		super.paint(figure, graphics, insets);
 		if (decoration != null) {
 			Rectangle r = figure.getBounds();
-			graphics.drawImage(decoration, r.x + r.width - decoration.getBounds().width, r.y);
+			graphics.pushState();
+			Rectangle decoBounds = new Rectangle(r.x+decoXOffset,r.y+decoYOffset,decoration.getBounds().width,decoration.getBounds().height);
+			decorationFigure.setBounds(decoBounds);
+			graphics.setClip(decoBounds);
+			decorationFigure.paint(graphics);
+			graphics.popState();
 		}
+	}
+	
+	public int getDecoXOffset() {
+		return decoXOffset;
+	}
+	public int getDecoYOffset() {
+		return decoYOffset;
+	}
+	public Image getDecoration() {
+		return decoration;
+	}
+	public IFigure getDecorationFigure() {
+		return decorationFigure;
 	}
 }

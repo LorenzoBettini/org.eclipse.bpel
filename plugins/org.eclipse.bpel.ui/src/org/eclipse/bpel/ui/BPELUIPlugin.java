@@ -164,6 +164,11 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		colorRegistry.put(IBPELUIConstants.COLOR_DARK_CYAN, ColorUtils.getRelativeRGB( 0, 0x80, 0x80));
 		colorRegistry.put(IBPELUIConstants.COLOR_GRAY, ColorUtils.getRelativeRGB( 0xC0, 0xC0, 0xC0));
 		colorRegistry.put(IBPELUIConstants.COLOR_DARK_GRAY, ColorUtils.getRelativeRGB(0x80, 0x80, 0x80));
+		
+		colorRegistry.put(IBPELUIConstants.COLOR_HANDLER_LINK_FH, ColorUtils.getRelativeRGB(222,145,29));
+		colorRegistry.put(IBPELUIConstants.COLOR_HANDLER_LINK_CH, ColorUtils.getRelativeRGB(124,151,203));
+		colorRegistry.put(IBPELUIConstants.COLOR_HANDLER_LINK_EH, ColorUtils.getRelativeRGB(179,179,179));
+		colorRegistry.put(IBPELUIConstants.COLOR_HANDLER_LINK_TH, ColorUtils.getRelativeRGB(255,0,0));
 	}
 	
 	/**

@@ -48,7 +48,6 @@ import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
-import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
@@ -69,13 +68,13 @@ import org.eclipse.bpel.ui.adapters.BPELUIWSILAdapterFactory;
 import org.eclipse.bpel.ui.adapters.BPELUIXSDAdapterFactory;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
-import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.bpelactions.AbstractBPELAction;
 import org.eclipse.bpel.ui.dialogs.NamespaceMappingDialog;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
 import org.eclipse.bpel.ui.editparts.InvokeEditPart;
+import org.eclipse.bpel.ui.editparts.LinkEditPart;
 import org.eclipse.bpel.ui.editparts.ScopeEditPart;
 import org.eclipse.bpel.ui.editparts.StartNodeEditPart;
 import org.eclipse.bpel.ui.editparts.borders.GradientBorder;
@@ -93,12 +92,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -794,6 +791,9 @@ public class BPELUtil {
 					((BPELEditPart)ep).regenerateVisuals();
 					ep.refresh();
 				}
+			}
+			if(ep instanceof LinkEditPart){
+				ep.refresh();
 			}
 			return true;//unused;
 		}

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.bpel.common.ui.markers.IModelMarkerConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -20,8 +23,11 @@ import org.eclipse.bpel.ui.editparts.policies.BPELContainerEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.ElseHighlightEditPolicy;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.figures.ILayoutAware;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
@@ -36,12 +42,47 @@ import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.graphics.Image;
 
 
-public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
+public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayoutAware{
 
 	private Image image;
 	public Label nameLabel;
 	private IFigure childFigure;
 	private ElseElseIfBorder border;
+	
+	private class ElseIfOrderedHorizontalLayoutEditPolicy extends BPELOrderedLayoutEditPolicy{
+		@Override
+		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor = null, targetAnchor = null;
+			
+			// The real first child is the nameLabel, so set the first sourceAnchor 
+			// to this label
+			
+			sourceAnchor = new CenteredConnectionAnchor(nameLabel, CenteredConnectionAnchor.RIGHT,0);
+			
+			
+			for(int i=0; i < children.size(); i++){
+				if(i==0){
+					targetPart = (BPELEditPart)children.get(i);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+				}
+				if(i < children.size()-1){
+					if(i>0){
+						sourcePart = (BPELEditPart)children.get(i);
+						sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+					}
+					targetPart = (BPELEditPart)children.get(i+1);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+				}
+				if(sourceAnchor != null && targetAnchor != null)
+					connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+			}
+			
+			return connections;
+		}
+	}
 	
 	protected void createEditPolicies() {
 		super.createEditPolicies();
@@ -50,7 +91,10 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ElseHighlightEditPolicy(false, true));
 		
 		// The case must lay out its child activity
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ElseIfOrderedHorizontalLayoutEditPolicy());
+		else 
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
 			
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new BPELContainerEditPolicy());
 	}
@@ -74,14 +118,18 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getModel(), ILabeledElement.class);
 		if (element == null) return null;
 		
+		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		
 		IFigure figure = new Figure();
 		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();
 		figure.setForegroundColor(registry.get(IBPELUIConstants.COLOR_BLACK));	
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setHorizontal(false);
+		layout.setHorizontal(horizontal);
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);
+		layout.setHorizontal(horizontal);
+		
 		figure.setLayoutManager(layout);
 		
 		nameLabel = new Label(element.getLabel(getModel()));
@@ -97,14 +145,15 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);		
-		layout.setHorizontal(false);
+		layout.setHorizontal(horizontal);
 		childFigure.setLayoutManager(layout);
 		figure.add(childFigure);
 		
-		// TODO: This is a temporary hack until Case/OnMessage look and feel is determined
-		// See also SwitchBorder.getInsets()
-		figure.setBorder(new MarginBorder(0, 0, 6, 0));
-		
+		if(!horizontal){
+			// TODO: This is a temporary hack until Case/OnMessage look and feel is determined
+			// See also SwitchBorder.getInsets()
+			figure.setBorder(new MarginBorder(0, 0, 6, 0));
+		}
 		return figure;
 	}
 
@@ -155,6 +204,8 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 			return new CenteredConnectionAnchor(getFigure(), location, 17);
 		}else if (location == CenteredConnectionAnchor.BOTTOM_INNER){
 			return new CenteredConnectionAnchor(getFigure(), location, -16);
+		}else if (location == CenteredConnectionAnchor.LEFT){
+			return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.LEFT, 0);
 		}
 		return new CenteredConnectionAnchor(getFigure(), location, 0);
 	}
@@ -235,5 +286,28 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart {
 			}
 		}
 		border.setImage(image);
+	}
+
+	public void switchLayout(boolean horizontal) {
+		// Layout of the mainFigure
+		((FlowLayout)figure.getLayoutManager()).setHorizontal(horizontal);
+		
+		// Configure the childFigure
+		((FlowLayout)childFigure.getLayoutManager()).setHorizontal(horizontal);
+		
+		removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+		
+		EditPolicy newPolicy = null;
+		
+		if(horizontal){
+			newPolicy = new ElseIfOrderedHorizontalLayoutEditPolicy();
+			figure.setBorder(null);
+		}else{
+			newPolicy = new BPELOrderedLayoutEditPolicy();
+			// TODO: This is a temporary hack until Case/OnMessage look and feel is determined
+			// See also SwitchBorder.getInsets()
+			figure.setBorder(new MarginBorder(0, 0, 6, 0));
+		}
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, newPolicy);
 	}
 }

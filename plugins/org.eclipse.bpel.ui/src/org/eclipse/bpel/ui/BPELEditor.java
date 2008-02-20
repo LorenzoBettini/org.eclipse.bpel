@@ -51,6 +51,7 @@ import org.eclipse.bpel.ui.actions.ShowPaletteInPaletteViewAction;
 import org.eclipse.bpel.ui.actions.ShowPropertiesViewAction;
 import org.eclipse.bpel.ui.actions.ShowViewAction;
 import org.eclipse.bpel.ui.actions.ToggleAutoFlowLayout;
+import org.eclipse.bpel.ui.actions.ToggleLayoutOrientationAction;
 import org.eclipse.bpel.ui.actions.ToggleShowCompensationHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowEventHandler;
 import org.eclipse.bpel.ui.actions.ToggleShowFaultHandler;
@@ -77,6 +78,7 @@ import org.eclipse.bpel.ui.util.TransferBuffer;
 import org.eclipse.bpel.ui.util.WSDLImportHelper;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
@@ -812,6 +814,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 		
+		action = new ToggleLayoutOrientationAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
 		// show properties action
 		ShowViewAction showViewAction = new ShowPropertiesViewAction();	
 		showViewAction.setPage( getSite().getPage() );
@@ -1143,7 +1149,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	protected IFile getFileInput() {
 		return (IFile) getEditorInput().getAdapter(IFile.class);
 	}
-
+	
 	/**
 	 * This is called during startup.
 	 */
@@ -1344,5 +1350,27 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	@Override
 	protected String getPaletteAdditionsContributorId() {
 		return IBPELUIConstants.BPEL_EDITOR_ID;
+	}
+	
+	public boolean isHorizontalLayout(){
+		boolean result = false;
+		IFile file = (IFile)getEditorInput().getAdapter(IFile.class);
+		try {
+			result = Boolean.valueOf(file.getPersistentProperty(IBPELUIConstants.HORIZONTAL_LAYOUT_PROPERTY));
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public void setHorizontalLayout(boolean horizontal){
+		IFile file = (IFile)getEditorInput().getAdapter(IFile.class);
+		try {
+			file.setPersistentProperty(IBPELUIConstants.HORIZONTAL_LAYOUT_PROPERTY, Boolean.toString(horizontal));
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

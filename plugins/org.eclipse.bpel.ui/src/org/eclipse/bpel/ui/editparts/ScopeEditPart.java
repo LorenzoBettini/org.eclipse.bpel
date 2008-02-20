@@ -31,24 +31,27 @@ import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.adapters.ITerminationHandlerHolder;
 import org.eclipse.bpel.ui.editparts.borders.DrawerBorder;
-import org.eclipse.bpel.ui.editparts.borders.LeafBorder;
 import org.eclipse.bpel.ui.editparts.borders.ScopeBorder;
 import org.eclipse.bpel.ui.editparts.figures.CollapsableContainerFigure;
 import org.eclipse.bpel.ui.editparts.figures.CollapsableScopeContainerFigure;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.ContainerHighlightEditPolicy;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.figures.ScopeHandlerLinker;
 import org.eclipse.bpel.ui.util.BPELDragEditPartsTracker;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.marker.BPELEditPartMarkerDecorator;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LayoutManager;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DragTracker;
@@ -82,10 +85,13 @@ public class ScopeEditPart extends CollapsableEditPart {
 	private IFigure parentFigure;
 	
 	// The figure which holds fault handler, compensation handler and event handler
-	private IFigure auxilaryFigure;
+	private AuxiliaryFigure auxilaryFigure;
 	
 	// The figure which holds the activity
 	private CollapsableScopeContainerFigure contentFigure;
+	
+	// The Handler which handles the drawing of links to the handlers.
+	private ScopeHandlerLinker handlerLinker;
 
 	// The text and image labels to show when collapsed.
 	private Image collapsedImage;
@@ -106,6 +112,67 @@ public class ScopeEditPart extends CollapsableEditPart {
 			}
 			return newChildren;
 		}		
+	}
+	
+	/**
+	 * A special figure which can be informed of a figureMoved event
+	 * via a FigureListener. 
+	 * @author ascharf
+	 *
+	 */
+	private class AuxiliaryFigure extends Figure implements FigureListener{
+
+		public void figureMoved(IFigure source) {
+			refreshMargin();
+		}
+		
+		private void refreshMargin(){
+			if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+				setBorder(new MarginBorder(contentFigure.getPreferredSize().height+10,0,0,0));
+			else
+				setBorder(null);
+		}
+	}
+	
+	private class ScopeOrderedHorizontalLayoutEditPolicy extends ScopeEditPart.ScopeOrderedLayoutEditPolicy{
+		@Override
+		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor = null, targetAnchor = null;
+			
+			sourcePart = parent;
+			sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+			
+			if (children != null){
+				for (int i = 0; i < children.size(); i++) {
+					if(i == 0){
+						targetPart = (BPELEditPart)children.get(i);
+						targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+						if(sourceAnchor != null && targetAnchor != null)
+							connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+					}
+					if(i < children.size()-1){
+						if(i>0){
+							sourcePart = (BPELEditPart)children.get(i);
+							sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+						}
+						targetPart = (BPELEditPart)children.get(i+1);
+						targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+					}else{
+						// Link from the last child to the right border
+						sourcePart = (BPELEditPart)children.get(i);
+						sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+						targetAnchor = parent.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+					}
+					if(sourceAnchor != null && targetAnchor != null)
+						connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+				}			
+			}		
+			
+			return connections;
+		}
 	}
 	
 	@Override
@@ -135,7 +202,10 @@ public class ScopeEditPart extends CollapsableEditPart {
 				return DrawerBorder.DRAWER_WIDTH;
 			}			
 		});
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedLayoutEditPolicy());
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedHorizontalLayoutEditPolicy());
+		else
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedLayoutEditPolicy());
 	}
 
 	protected DrawerBorder getDrawerBorder() {
@@ -188,10 +258,14 @@ public class ScopeEditPart extends CollapsableEditPart {
 			configureExpandedFigure(contentFigure);
 		}
 		
-		this.auxilaryFigure = new Figure();
+		boolean isHorizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		
+		this.auxilaryFigure = new AuxiliaryFigure();
 		layout = new AlignedFlowLayout();
-		layout.setHorizontal(true);
+		layout.setHorizontal(!isHorizontal);
 		auxilaryFigure.setLayoutManager(layout);
+		contentFigure.addFigureListener(auxilaryFigure);
+		
 		parentFigure.add(auxilaryFigure);
 		
 		ScopeBorder border = getScopeBorder();
@@ -231,6 +305,9 @@ public class ScopeEditPart extends CollapsableEditPart {
 		border.setShowCompensation(getCompensationHandler() != null);
 		border.setShowTermination(getTerminationHandler() != null);
 		border.setShowEvent(getEventHandler() != null);
+		
+		auxilaryFigure.refreshMargin();
+		
 		// Force a repaint, as the drawer images may have changed.
 		getFigure().repaint();
 	}
@@ -341,10 +418,16 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * with an offset of 0.
 	 */
 	public ConnectionAnchor getConnectionAnchor(int location) {
-		if (location == CenteredConnectionAnchor.TOP_INNER) {
-			return new CenteredConnectionAnchor(contentFigure, location, 8);			
+		switch(location){
+		case CenteredConnectionAnchor.TOP_INNER:
+			return new CenteredConnectionAnchor(contentFigure, location, 8);
+		case CenteredConnectionAnchor.LEFT:
+			return new CenteredConnectionAnchor(contentFigure, CenteredConnectionAnchor.LEFT_INNER, 0);
+		case CenteredConnectionAnchor.RIGHT:
+			return new CenteredConnectionAnchor(contentFigure, CenteredConnectionAnchor.RIGHT_INNER, 0);
+		default:
+				return new CenteredConnectionAnchor(contentFigure, location, 0);
 		}
-		return new CenteredConnectionAnchor(contentFigure, location, 0);
 	}	
 	
 	/**
@@ -357,11 +440,43 @@ public class ScopeEditPart extends CollapsableEditPart {
 		if (content != null) {
 			if (childEditPart instanceof ActivityEditPart) {
 				content.add(child, index);
-			} else {
-				content.add(child);
+			}  else {
+				// We want to have a kind of sorting, so get the
+				// correct index
+				content.add(child, getIndexForChild(content, childEditPart));
 			}
 		}
 	}	
+	
+	/**
+	 * Gets the index for the given <code>child</code> which should be
+	 * inserted into the <code>container</code> afterwards. This method
+	 * does a kind of really simple sorting.
+	 * @param container	The container where the child will be inserted.
+	 * @param child		The child to get the index for
+	 * @return 			The index for inserting the child into the container
+	 */
+	private int getIndexForChild(IFigure container, EditPart child) {
+		int result = 0;
+		Object model = child.getModel();
+		if(model instanceof TerminationHandler){
+			if(showEH)
+				result++;
+		}else if(model instanceof CompensationHandler){
+			if(showEH)
+				result++;
+			if(showTH)
+				result++;
+		}else if(model instanceof FaultHandler){
+			if(showEH)
+				result++;
+			if(showTH)
+				result++;
+			if(showCH)
+				result++;
+		}
+		return result;
+	}
 
 	/**
 	 * Override removeChildVisual so that it removes the childEditPart from
@@ -505,16 +620,20 @@ public class ScopeEditPart extends CollapsableEditPart {
 			refreshChildren();
 		}
 		
-		refreshSourceConnections();
-		refreshTargetConnections();
-		
-		// Switching collapsed states may have changed the border, which is
-		// responsible for drawing the drawer markers. Refresh these markers
-		// now.
-		// TODO: This isn't necessary anymore
-		refreshDrawerImages();
-		// Force a repaint, as the drawer images may have changed.
-		getFigure().repaint();
+//		refreshSourceConnections();
+//		refreshTargetConnections();
+//		
+//		// Switching collapsed states may have changed the border, which is
+//		// responsible for drawing the drawer markers. Refresh these markers
+//		// now.
+//		// TODO: This isn't necessary anymore
+//		refreshDrawerImages();
+//		// Force a repaint, as the drawer images may have changed.
+//		getFigure().repaint();
+
+		// Instead of manually calling all refresh methods,
+		// a call to refreshVisuals should be enough
+		refreshVisuals();
 	}
 	
 	protected void configureCollapsedFigure(IFigure figure) {
@@ -531,7 +650,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		FlowLayout layout = new FlowLayout();
 		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setHorizontal(false);
+		layout.setHorizontal(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);
 		figure.setLayoutManager(layout);
@@ -616,5 +735,57 @@ public class ScopeEditPart extends CollapsableEditPart {
 	public IFigure getMainActivityFigure() {
 		return contentFigure;
 	}
+
+	public void switchLayout(boolean horizontal) {
+		((FlowLayout)contentFigure.getLayoutManager()).setHorizontal(horizontal);
+		((AlignedFlowLayout)auxilaryFigure.getLayoutManager()).setHorizontal(!horizontal);
+		
+		this.removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+		
+		if(horizontal){
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedHorizontalLayoutEditPolicy());
+		}else{
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedLayoutEditPolicy());
+		}
+			
+				
+	}
 	
+	/**
+	 * Overridden to refresh the handlerLinks as needed.
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		getHandlerLinker().refreshHandlerLinks();
+		
+		
+	}
+	
+	@Override
+	protected void clearConnections() {
+		super.clearConnections();
+		getHandlerLinker().clearHandlerConnections();
+	}
+	
+	private ScopeHandlerLinker getHandlerLinker() {
+		if(handlerLinker == null)
+			handlerLinker = new ScopeHandlerLinker(this);
+		return handlerLinker;
+	}
+	
+	@Override
+	protected void handleModelChanged() {
+		super.handleModelChanged();
+		
+		this.showCH = getCompensationHandler() != null ? true : false;
+		this.showFH = getFaultHandler() != null ? true : false;
+		this.showEH = getEventHandler() != null ? true : false;
+		this.showTH = getTerminationHandler() != null ? true : false;
+		
+		
+		
+		refresh();
+	}
+
 }

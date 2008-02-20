@@ -10,11 +10,19 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.bpel.ui.editparts.borders.DrawerBorder;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.ContainerHighlightEditPolicy;
+import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.util.ImplicitLinkHandlerConnectionRouter;
+import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPolicy;
 
 
@@ -25,6 +33,66 @@ import org.eclipse.gef.EditPolicy;
 
 
 public class SequenceEditPart extends CollapsableEditPart {
+	
+	private class SequenceHorizontalBPELOrderedLayoutPolicy extends BPELOrderedLayoutEditPolicy{
+		@Override
+		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor = null, targetAnchor = null;
+
+			sourcePart = parent;
+			sourceAnchor = sourcePart
+					.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+
+			if (children != null) {
+				for (int i = 0; i < children.size(); i++) {
+					if (i == 0) {
+						// Link from the left border to the first child
+						targetPart = (BPELEditPart) children.get(i);
+						targetAnchor = targetPart
+								.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+						if (sourceAnchor != null && targetAnchor != null)
+							connections.add(createConnection(sourceAnchor,
+									targetAnchor, arrowColor));
+					}
+					if (i < children.size() - 1) {
+						sourcePart = (BPELEditPart) children.get(i);
+						sourceAnchor = sourcePart
+								.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+
+						targetPart = (BPELEditPart) children.get(i + 1);
+						targetAnchor = targetPart
+								.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+					} else {
+						// Link from the last child to the right border
+						sourcePart = (BPELEditPart) children.get(i);
+						sourceAnchor = sourcePart
+								.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+						targetAnchor = parent
+								.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+					}
+					if (sourceAnchor != null && targetAnchor != null) {
+						PolylineConnection connection = createConnection(
+								sourceAnchor, targetAnchor, arrowColor);
+
+						if (sourcePart instanceof StartNodeEditPart
+								|| sourcePart instanceof ScopeEditPart
+								|| sourcePart instanceof InvokeEditPart) {
+							boolean horizontal = ModelHelper.getBPELEditor(
+									getHost().getModel()).isHorizontalLayout();
+							connection
+									.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(
+											horizontal));
+						}
+						connections.add(connection);
+					}
+				}
+			}
+			return connections;
+		}
+	}
 	
 	@Override
 	protected void createEditPolicies() {
@@ -61,8 +129,13 @@ public class SequenceEditPart extends CollapsableEditPart {
 			}
 		});
 		
-		// The sequence must lay out its child activities
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
+		BPELOrderedLayoutEditPolicy policy = null;
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			policy = new SequenceHorizontalBPELOrderedLayoutPolicy();
+		else
+			policy = new BPELOrderedLayoutEditPolicy();
+		
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, policy);
 	}
 	
 	@Override
@@ -70,9 +143,22 @@ public class SequenceEditPart extends CollapsableEditPart {
 		
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setHorizontal(false);
+		layout.setHorizontal(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);
 		aFigure.setLayoutManager(layout);
 	}
+
+	public void switchLayout(boolean horizontal) {
+		removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+		EditPolicy newPolicy = null;
+		if(horizontal){
+			newPolicy = new SequenceHorizontalBPELOrderedLayoutPolicy();
+		}else
+			newPolicy = new BPELOrderedLayoutEditPolicy();
+		
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, newPolicy);
+		((FlowLayout)contentFigure.getLayoutManager()).setHorizontal(horizontal);
+	}
+	
 }

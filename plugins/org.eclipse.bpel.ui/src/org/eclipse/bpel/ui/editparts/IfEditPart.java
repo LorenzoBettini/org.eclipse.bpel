@@ -14,8 +14,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.bpel.ui.editparts.borders.PickBorder;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
+import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -30,7 +36,7 @@ public class IfEditPart extends PickEditPart {
 	 * It displays the activity children of the If activty and layouts together
 	 * with the other ElseIfEditParts (representing Else and ElseIf).
 	 */
-	private class IfNodeEditPart extends ElseIfEditPart {
+	private class IfNodeEditPart extends ElseIfEditPart{
 
 		/**
 		 * This EditPart does not have its own children but displays the
@@ -75,21 +81,6 @@ public class IfEditPart extends PickEditPart {
 		protected void removeChildVisual(EditPart childEditPart) {
 			super.removeChildVisual(childEditPart);
 		}
-	}
-
-	/**
-	 * Modified layout policy for the IfNodeEditPart
-	 */
-	private class IfNodeOrderedLayoutPolicy extends BPELOrderedLayoutEditPolicy {
-
-		/**
-		 * This is a HACK - I increased the visibility of the
-		 * getFeedbackIndexFor() method to make it callable from the IfEditPart
-		 */
-		public int getFeedbackIndexFor(Request request) {
-			return super.getFeedbackIndexFor(request);
-		}
-
 	}
 
 	/**
@@ -168,11 +159,13 @@ public class IfEditPart extends PickEditPart {
 		 * target feedbacks.
 		 */
 		@Override
-		protected int getFeedbackIndexFor(Request request) {
+		public int getFeedbackIndexFor(Request request) {
 			EditPolicy policy = ifEditPart
 					.getEditPolicy(EditPolicy.LAYOUT_ROLE);
-			return ((IfNodeOrderedLayoutPolicy) policy)
+			// TODO: Changed the type to BPELOrderedLayoutEditPolicy?
+			return ((BPELOrderedLayoutEditPolicy) policy)
 					.getFeedbackIndexFor(request);
+			
 		}
 
 		/*
@@ -184,6 +177,75 @@ public class IfEditPart extends PickEditPart {
 			EditPolicy policy = ifEditPart
 					.getEditPolicy(EditPolicy.LAYOUT_ROLE);
 			policy.showTargetFeedback(request);
+		}
+	}
+	
+	/**
+	 * Extending the behaviour for horizontal layout
+	 * @author ascharf
+	 *
+	 */
+	private class IfOrderedHorizontalLayoutEditPolicy extends IfEditPart.IfOrderedLayoutEditPolicy{
+		@Override
+		public void refreshConnections() {
+			// remove connections before redrawing
+			clearConnections();
+
+			if (!isCollapsed()) {
+				polyLineConnectionList = createHorizontalConnections((BPELEditPart) getHost());
+				polyLineConnectionList.addAll(createVerticalConnections(getIfNodeEditPart()));
+			}
+		}
+		
+		@Override
+		protected ArrayList createVerticalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor = null, targetAnchor = null;
+			
+			// The real first child is the IfNodeEditPart, so set the first sourceAnchor 
+			// to this
+			Label nameLabel = ((IfNodeEditPart)parent).nameLabel;
+			sourceAnchor = new CenteredConnectionAnchor(nameLabel, CenteredConnectionAnchor.RIGHT,0);
+			
+			for(int i=0; i < children.size(); i++){
+				if(i==0){
+					targetPart = (BPELEditPart)children.get(0);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+				}
+				if(i < children.size()-1){
+					sourcePart = (BPELEditPart)children.get(i);
+					sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+				
+					targetPart = (BPELEditPart)children.get(i+1);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+				}
+				if(sourceAnchor != null && targetAnchor != null)
+					connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+			}
+			
+			return connections;
+		}
+		
+		@Override
+		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor, targetAnchor;
+			
+			sourcePart = parent;
+			sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+			
+			if (children != null){
+				for (int i = 0; i < children.size(); i++) {
+					targetPart = (BPELEditPart)children.get(i);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+					connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+				}			
+			}		
+			return connections;
 		}
 	}
 
@@ -220,7 +282,7 @@ public class IfEditPart extends PickEditPart {
 
 		// we need a special layout policy since this is only a "fake" node
 		this.ifEditPart.installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new IfNodeOrderedLayoutPolicy());
+				new BPELOrderedLayoutEditPolicy());
 	}
 
 	/**
@@ -260,8 +322,10 @@ public class IfEditPart extends PickEditPart {
 	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
-		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new IfOrderedLayoutEditPolicy());
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			installEditPolicy(EditPolicy.LAYOUT_ROLE,new IfOrderedHorizontalLayoutEditPolicy());
+		else
+			installEditPolicy(EditPolicy.LAYOUT_ROLE,new IfOrderedLayoutEditPolicy());
 	}
 
 	@Override
@@ -281,4 +345,23 @@ public class IfEditPart extends PickEditPart {
 		super.unregisterVisuals();
 	}
 
+	/**
+	 * Overridden to also switch the layout of our fake node
+	 */
+	@Override
+	public void switchLayout(boolean horizontal) {
+		removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+		
+		EditPolicy newPolicy = null;
+		if(horizontal)
+			newPolicy = new IfOrderedHorizontalLayoutEditPolicy();
+		else
+			newPolicy = new IfOrderedLayoutEditPolicy();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, newPolicy);
+		
+		((FlowLayout)contentFigure.getLayoutManager()).setHorizontal(!horizontal);
+		((PickBorder)contentFigure.getBorder()).setHorizontal(horizontal);
+		
+		getIfNodeEditPart().switchLayout(horizontal);
+	}
 }

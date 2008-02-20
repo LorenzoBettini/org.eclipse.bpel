@@ -674,4 +674,8 @@ public class FlowEditPart extends CollapsableEditPart {
 
 		return true;
 	}
+
+	public void switchLayout(boolean horizontal) {
+		// Actually does nothing
+	}
 }

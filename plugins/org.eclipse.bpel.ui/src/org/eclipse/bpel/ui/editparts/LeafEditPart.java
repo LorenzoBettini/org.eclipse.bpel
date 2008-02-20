@@ -139,6 +139,7 @@ public class LeafEditPart extends ActivityEditPart {
 		IFigure result = editPartMarkerDecorator.createFigure(gradient);
 		
 		this.border = new LeafBorder(editPartMarkerDecorator.getDecorationLayer());
+		this.border.setEditPart(this);
 		gradient.setBorder(border);
 		gradient.addMouseMotionListener(getMouseMotionListener());
 		refreshDrawerImages();
@@ -246,42 +247,56 @@ public class LeafEditPart extends ActivityEditPart {
 		super.unregisterVisuals();
 	}
 	
-	/**
-	 * Returns the connection anchor for the given
-	 * ConnectionEditPart's source. 
-	 *
-	 * @return  ConnectionAnchor.
-	 */
+	// TODO: Why do we override this?
+//	/**
+//	 * Returns the connection anchor for the given
+//	 * ConnectionEditPart's source. 
+//	 *
+//	 * @return  ConnectionAnchor.
+//	 */
+//	@Override
+//	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connEditPart) {
+//		// This may be called when the model is disconnected. If so, return null.
+//		if (getActivity().eResource() == null) return null;
+//
+//		// Leaf nodes can be the source of both implicit and link connections.
+//		// However, they both anchor at the same part of the edit part.
+//		return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.BOTTOM, 0);
+//	}
+//	
+//	
+//
+//	/**
+//	 * Returns the connection anchor for the given 
+//	 * ConnectionEditPart's target.
+//	 *
+//	 * @return  ConnectionAnchor.
+//	 */
+//	@Override
+//	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connEditPart) {
+//		// This may be called when the model is disconnected. If so, return null.
+//		if (getActivity().eResource() == null) {
+//			return null;
+//		}
+//		
+//		ConnectionAnchor anc = null;
+//		
+//		// Leaf nodes can be the target of both implicit and link connections.
+//		// However, they both anchor at the same part of the edit part.
+//		if (anc == null)
+//			anc = new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.TOP, 0);
+//		return anc;
+//	}
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connEditPart) {
-		// This may be called when the model is disconnected. If so, return null.
-		if (getActivity().eResource() == null) return null;
-
-		// Leaf nodes can be the source of both implicit and link connections.
-		// However, they both anchor at the same part of the edit part.
-		return new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.BOTTOM, 0);
-	}
-
-	/**
-	 * Returns the connection anchor for the given 
-	 * ConnectionEditPart's target.
-	 *
-	 * @return  ConnectionAnchor.
-	 */
-	@Override
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connEditPart) {
-		// This may be called when the model is disconnected. If so, return null.
-		if (getActivity().eResource() == null) {
-			return null;
+	public ConnectionAnchor getConnectionAnchor(int location) {
+		switch(location){
+		case CenteredConnectionAnchor.LEFT:
+			return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.LEFT_INNER, 0);
+		case CenteredConnectionAnchor.RIGHT:
+			return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.RIGHT_INNER, 0);
+		default:
+				return super.getConnectionAnchor(location);
 		}
-		
-		ConnectionAnchor anc = null;
-		
-		// Leaf nodes can be the target of both implicit and link connections.
-		// However, they both anchor at the same part of the edit part.
-		if (anc == null)
-			anc = new CenteredConnectionAnchor(getMainActivityFigure(), CenteredConnectionAnchor.TOP, 0);
-		return anc;
 	}
 	
 	

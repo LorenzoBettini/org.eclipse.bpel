@@ -22,17 +22,21 @@ import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.ReorderInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
-import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.CollapsableEditPart;
 import org.eclipse.bpel.ui.editparts.CompositeActivityEditPart;
+import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.IfEditPart;
+import org.eclipse.bpel.ui.editparts.InvokeEditPart;
 import org.eclipse.bpel.ui.editparts.ProcessEditPart;
+import org.eclipse.bpel.ui.editparts.ScopeEditPart;
+import org.eclipse.bpel.ui.editparts.StartNodeEditPart;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.util.ImplicitLinkHandlerConnectionRouter;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
-import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
@@ -56,7 +60,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	protected ArrayList polyLineConnectionList = new ArrayList();	
 	
 	// colour of the connection lines
-	Color arrowColor = BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
+	protected Color arrowColor = BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
 	
 	protected Command createAddCommand(EditPart child, EditPart before) {
 		return new InsertInContainerCommand((EObject)getHost().getModel(), (EObject)child.getModel(), 
@@ -148,7 +152,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	protected ArrayList createVerticalConnections(BPELEditPart parent) {
 		ArrayList connections = new ArrayList();
 		List children = getConnectionChildren(parent);
-		BPELEditPart sourcePart, targetPart;
+		BPELEditPart sourcePart = null, targetPart = null;
 		ConnectionAnchor sourceAnchor = null, targetAnchor = null;
 		
 		// TODO: Connections misaligned when there are no children
@@ -177,7 +181,13 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.TOP);
 				}
 				if (sourceAnchor != null && targetAnchor != null) {
-					connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
+					PolylineConnection connection = createConnection(sourceAnchor,targetAnchor,arrowColor);
+					
+					if(sourcePart instanceof StartNodeEditPart || sourcePart instanceof ScopeEditPart || sourcePart instanceof InvokeEditPart){
+						boolean horizontal = ModelHelper.getBPELEditor(getHost().getModel()).isHorizontalLayout();
+						connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(horizontal));
+					}
+					connections.add(connection);
 				}
 			}
 		}
@@ -273,7 +283,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 		connection.setTargetAnchor(targetAnchor);
 		connection.setForegroundColor(color);
 		connection.setBackgroundColor(color);
-		connection.setConnectionRouter(new ManhattanConnectionRouter());
+		connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(ModelHelper.getBPELEditor(getHost().getModel()).isHorizontalLayout()));
 		PolygonDecoration arrow = new PolygonDecoration();
 		arrow.setTemplate(PolygonDecoration.TRIANGLE_TIP);
 		arrow.setScale(5,2.5);
@@ -304,5 +314,18 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		super.deactivate();
+		clearConnections();
+	}
+	
+	@Override
+	public int getFeedbackIndexFor(Request request) {
+		// TODO Auto-generated method stub
+		return super.getFeedbackIndexFor(request);
 	}
 }

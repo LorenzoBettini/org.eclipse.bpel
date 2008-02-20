@@ -12,10 +12,12 @@ package org.eclipse.bpel.ui.editparts.borders;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -27,13 +29,15 @@ public class LeafBorder extends GradientBorder {
 	
 	// The horizontal margin between the border and the image/text 
 	private static final int leftMargin = 6;
-	private static final int rightMargin = 10;
+	private static final int rightMargin = 13;
 	// The vertical margin between the border and the image/text
 	private static final int topMargin = 4;
 	private static final int bottomMargin = 3;
 	
 	// The width of the border and the drawer border.
 	private static final int borderWidth = 1;
+	
+	private static final int yHandlerIconOffset = 5;
 	
 	private int faultImageWidth, faultImageHeight;
 	private int compensationImageWidth, compensationImageHeight;
@@ -54,6 +58,10 @@ public class LeafBorder extends GradientBorder {
 	
 	private Rectangle rectBounds;
 	
+	private IFigure faultImageFigure;
+	private IFigure compensationImageFigure;
+	private IFigure eventImageFigure;
+	
 	public LeafBorder(IFigure parentFigure) {
 		super(false, IBPELUIConstants.ARC_WIDTH);
 		this.parentFigure = parentFigure;
@@ -73,6 +81,15 @@ public class LeafBorder extends GradientBorder {
 		r = eventImage.getBounds();
 		this.eventImageWidth = r.width;
 		this.eventImageHeight = r.height;
+		
+		faultImageFigure = new ImageFigure(faultImage);
+		faultImageFigure.setParent(parentFigure);
+		
+		compensationImageFigure = new ImageFigure(compensationImage);
+		compensationImageFigure.setParent(parentFigure);
+		
+		eventImageFigure = new ImageFigure(eventImage);
+		eventImageFigure.setParent(parentFigure);
 	}
 
 	public void paint(IFigure figure, Graphics graphics, Insets insets) {
@@ -141,31 +158,25 @@ public class LeafBorder extends GradientBorder {
 		} else {
 			graphics.drawRoundRectangle(rectBounds, arcSize, arcSize);
 		}
+		
+		computeHandlerIconPositions(ModelHelper.getBPELEditor(getEditPart().getModel()).isHorizontalLayout());
 
 		// Draw the fault image in the upper right hand corner of the round rectangle
 		if (showFault) {
-			this.rectFault = new Rectangle(bounds.x + bounds.width - faultImageWidth - DRAWER_WIDTH, bounds.y, faultImageWidth, faultImageHeight);
-			graphics.drawImage(faultImage, rectFault.x, rectFault.y);
+			graphics.setClip(faultImageFigure.getBounds().getCopy());
+			faultImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 		// Draw the compensation image in the upper right hand corner of the round rectangle
 		if (showCompensation) {
-			int compensationImageOffset = bounds.y;
-			if (showFault) {
-				compensationImageOffset += faultImageHeight + 2;
-			}
-			this.rectCompensation = new Rectangle(bounds.x + bounds.width - compensationImageWidth - DRAWER_WIDTH, compensationImageOffset, compensationImageWidth, compensationImageHeight);
-			graphics.drawImage(compensationImage, rectCompensation.x, rectCompensation.y);
+			graphics.setClip(compensationImageFigure.getBounds().getCopy());
+			compensationImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 		if (showEvent) {
-			int eventImageOffset = bounds.y;
-			if (showFault) {
-				eventImageOffset += faultImageHeight + 2;
-			}
-			if (showCompensation) {
-				eventImageOffset += compensationImageHeight + 2;
-			}
-			this.rectEvent = new Rectangle(bounds.x + bounds.width - eventImageWidth - DRAWER_WIDTH, eventImageOffset, eventImageWidth, eventImageHeight);
-			graphics.drawImage(eventImage, rectEvent.x, rectEvent.y);
+			graphics.setClip(eventImageFigure.getBounds().getCopy());
+			eventImageFigure.paint(graphics);
+			graphics.setClip(oldClip);
 		}
 	}
 
@@ -262,5 +273,73 @@ public class LeafBorder extends GradientBorder {
 		int imageY = bounds.y + DRAWER_INSET + 2 + DRAWER_HALF_HEIGHT;
 		Rectangle imageBounds = new Rectangle(imageX, imageY, imageSize.width, imageSize.height);
 		return imageBounds.contains(p);
+	}	
+	
+	private void computeHandlerIconPositions(boolean horizontal){
+		if(horizontal){
+			// Draw the fault image in the upper right hand corner of the round rectangle
+			if (showFault) {
+				int x = bounds.x + bounds.width - faultImageWidth - DRAWER_WIDTH+1;
+				if(showCompensation)
+					x -= compensationImageWidth;
+				if(showEvent)
+					x -= eventImageWidth;
+				this.rectFault = new Rectangle(x, getGradientRect().y+getGradientRect().height-faultImageHeight+yHandlerIconOffset, faultImageWidth, faultImageHeight);
+			}
+			// Draw the compensation image in the upper right hand corner of the round rectangle
+			if (showCompensation) {
+				int x = bounds.x + bounds.width - compensationImageWidth - DRAWER_WIDTH+1;
+				if(showEvent)
+					x -= eventImageWidth;
+				this.rectCompensation = new Rectangle(x,  getGradientRect().y+getGradientRect().height-compensationImageHeight+yHandlerIconOffset, compensationImageWidth, compensationImageHeight);
+			}
+			if (showEvent) {
+				int x = bounds.x + bounds.width - eventImageWidth - DRAWER_WIDTH+1;
+				this.rectEvent = new Rectangle(x,  getGradientRect().y+getGradientRect().height-eventImageHeight+yHandlerIconOffset, eventImageWidth, eventImageHeight);
+			}
+		}else{
+			// Draw the fault image in the upper right hand corner of the round rectangle
+			if (showFault) {
+				this.rectFault = new Rectangle(bounds.x + bounds.width - faultImageWidth - DRAWER_WIDTH+1, bounds.y, faultImageWidth, faultImageHeight);
+			}
+			// Draw the compensation image in the upper right hand corner of the round rectangle
+			if (showCompensation) {
+				int compensationImageOffset = bounds.y;
+				if (showFault) {
+					compensationImageOffset += faultImageHeight;
+				}
+				this.rectCompensation = new Rectangle(bounds.x + bounds.width - compensationImageWidth - DRAWER_WIDTH+1, compensationImageOffset, compensationImageWidth, compensationImageHeight);
+			}
+			if (showEvent) {
+				int eventImageOffset = bounds.y;
+				if (showFault) {
+					eventImageOffset += faultImageHeight;
+				}
+				if (showCompensation) {
+					eventImageOffset += compensationImageHeight;
+				}
+				this.rectEvent = new Rectangle(bounds.x + bounds.width - eventImageWidth - DRAWER_WIDTH+1, eventImageOffset, eventImageWidth, eventImageHeight);
+			}	
+		}
+		
+		// Apply the bounds to the figures
+		if(showFault)
+			faultImageFigure.setBounds(rectFault);
+		if(showCompensation)
+			compensationImageFigure.setBounds(rectCompensation);
+		if(showEvent)
+			eventImageFigure.setBounds(rectEvent);
+	}
+
+	public IFigure getFaultImageFigure() {
+		return faultImageFigure;
+	}
+
+	public IFigure getCompensationImageFigure() {
+		return compensationImageFigure;
+	}
+
+	public IFigure getEventImageFigure() {
+		return eventImageFigure;
 	}	
 }

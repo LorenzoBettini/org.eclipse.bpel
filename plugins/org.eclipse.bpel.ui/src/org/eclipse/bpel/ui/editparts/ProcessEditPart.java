@@ -22,17 +22,29 @@ import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.BPELEditDomain;
 import org.eclipse.bpel.ui.adapters.IContainer;
+import org.eclipse.bpel.ui.adapters.IEventHandlerHolder;
+import org.eclipse.bpel.ui.adapters.IFaultHandlerHolder;
 import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.policies.BPELContainerEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
 import org.eclipse.bpel.ui.editparts.util.GraphAnimation;
+import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.figures.ILayoutAware;
+import org.eclipse.bpel.ui.figures.ProcessHandlerLinker;
+import org.eclipse.bpel.ui.uiextensionmodel.impl.StartNodeImpl;
+import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ImplicitLinkHandlerConnectionRouter;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.draw2d.AbstractBorder;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Layer;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.LayoutManager;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.DragTracker;
@@ -48,7 +60,7 @@ import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 
-public class ProcessEditPart extends BPELEditPart {
+public class ProcessEditPart extends BPELEditPart implements ILayoutAware{
 
 	private IFigure layeredPane;
 	private IFigure activityAndHandlerHolder;
@@ -59,6 +71,41 @@ public class ProcessEditPart extends BPELEditPart {
 	// Whether to show each of the actual handlers.
 	// TODO: Initialize these from the preferences store
 	private boolean showFH = false, showEH = false;
+	
+	// The Handler which handles the drawing of links to the handlers.
+	private ProcessHandlerLinker handlerLinker;
+	
+	private class ProcessOrderedHorizontalLayoutEditPolicy extends ProcessEditPart.ProcessOrderedLayoutEditPolicy{
+		@Override
+		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
+			ArrayList connections = new ArrayList();
+			List children = getConnectionChildren(parent);
+			BPELEditPart sourcePart, targetPart;
+			ConnectionAnchor sourceAnchor, targetAnchor;
+			
+			for(int i=0; i < children.size(); i++){
+				if(i != children.size()-1){
+					sourcePart = (BPELEditPart)children.get(i);
+					targetPart = (BPELEditPart)children.get(i+1);
+					
+					sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
+					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
+					
+					PolylineConnection connection = createConnection(sourceAnchor,targetAnchor,arrowColor);
+					
+					
+					if(sourcePart instanceof StartNodeEditPart){
+						boolean horizontal = ModelHelper.getBPELEditor(getHost().getModel()).isHorizontalLayout();
+						connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(horizontal));
+					}
+					
+					connections.add(connection);
+				}
+			}
+			
+			return connections;
+		}
+	}
 
 	public class ProcessOrderedLayoutEditPolicy extends BPELOrderedLayoutEditPolicy {
 		// return list of children to create vertical connections for.
@@ -103,7 +150,10 @@ public class ProcessEditPart extends BPELEditPart {
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new BPELContainerEditPolicy());
 
 		// The process must lay out its child activity
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedLayoutEditPolicy());
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedHorizontalLayoutEditPolicy());
+		else
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedLayoutEditPolicy());
 	}
 
 	
@@ -119,29 +169,18 @@ public class ProcessEditPart extends BPELEditPart {
 		
 		this.activityAndHandlerHolder = new Figure();
 		AlignedFlowLayout layout = new AlignedFlowLayout();
-		layout.setHorizontal(false);
 		layout.setHorizontalAlignment(AlignedFlowLayout.ALIGN_CENTER);
 		layout.setVerticalAlignment(AlignedFlowLayout.ALIGN_BEGIN);
 		layout.setSecondaryAlignment(AlignedFlowLayout.ALIGN_CENTER);
 		this.activityAndHandlerHolder.setLayoutManager(layout);
 		
 		this.handlerHolder = new Figure();
-		this.handlerHolder.setBorder(new AbstractBorder() {
-			public Insets getInsets(IFigure arg0) {
-				return new Insets(20, 0, 10, 0);
-			}
-			public void paint(IFigure arg0, Graphics arg1, Insets arg2) {
-			}
-		});
 		layout = new AlignedFlowLayout(true);
-		layout.setHorizontalAlignment(AlignedFlowLayout.ALIGN_BEGIN);
-		layout.setVerticalAlignment(AlignedFlowLayout.ALIGN_BEGIN);
-		layout.setSecondaryAlignment(AlignedFlowLayout.ALIGN_BEGIN);
+		layout.setHorizontalAlignment(AlignedFlowLayout.ALIGN_BEGIN);;
 		this.handlerHolder.setLayoutManager(layout);
 		
 		this.activityHolder = new Figure();
 		layout = new AlignedFlowLayout();
-		layout.setHorizontal(false);
 		layout.setHorizontalAlignment(AlignedFlowLayout.ALIGN_CENTER);
 		layout.setVerticalAlignment(AlignedFlowLayout.ALIGN_BEGIN);
 		layout.setSecondaryAlignment(AlignedFlowLayout.ALIGN_CENTER);
@@ -151,6 +190,10 @@ public class ProcessEditPart extends BPELEditPart {
 		activityAndHandlerHolder.add(handlerHolder);
 		activityAndHandlerHolder.add(activityHolder);
 		layer2.add(activityAndHandlerHolder);
+		
+		// It's not a reals switch - just apply all layout setting here
+		// to avoid duplicate code
+		switchLayout(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
 		
 		return layeredPane;
 	}
@@ -205,6 +248,30 @@ public class ProcessEditPart extends BPELEditPart {
     	
 		return list;
 	}
+	
+	public boolean isShowFH() {
+		return showFH;
+	}
+
+	public boolean isShowEH() {
+		return showEH;
+	}
+	
+	public FaultHandler getFaultHandler() {
+		IFaultHandlerHolder holder = (IFaultHandlerHolder)BPELUtil.adapt(getModel(), IFaultHandlerHolder.class);
+		if (holder != null) {
+			return holder.getFaultHandler(getModel());
+		}
+		return null;
+	}
+	
+	public EventHandler getEventHandler() {
+		IEventHandlerHolder holder = (IEventHandlerHolder)BPELUtil.adapt(getModel(), IEventHandlerHolder.class);
+		if (holder != null) {
+			return holder.getEventHandler(getModel());
+		}
+		return null;
+	}
 
 	protected Process getProcess() {
 		return (Process)getModel();
@@ -218,12 +285,34 @@ public class ProcessEditPart extends BPELEditPart {
 				// The index includes the start node, which isn't in this
 				// content pane. Subtract one.
 				content.add(child, index - 1);
-			} else {
-				// The handlerHolder currently doesn't care about indexes,
-				// just add it.
-				content.add(child);
+			} else if(content == handlerHolder){
+				content.add(child, getIndexForChild(content, childEditPart));
 			}
 		}
+	}
+	
+	/**
+	 * Gets the index for the given <code>child</code> which should be
+	 * inserted into the <code>container</code> afterwards. This method
+	 * does a kind of really simple sorting.
+	 * @param container	The container where the child will be inserted.
+	 * @param child		The child to get the index for
+	 * @return 			The index for inserting the child into the container
+	 */
+	private int getIndexForChild(IFigure container, EditPart child) {
+		int result = 0;
+		if(!(child.getModel() instanceof StartNodeImpl)){
+			int i = container.getChildren().size();
+			if (i <= 1 || child.getModel() instanceof FaultHandler) {
+				if (i > 1)
+					result = 2;
+				else
+					result = 1;
+			}else
+				result = 1;
+		}
+		
+		return result;
 	}
 	
 	protected void removeChildVisual(EditPart childEditPart) {
@@ -288,5 +377,79 @@ public class ProcessEditPart extends BPELEditPart {
 				}
 			}
 		};
+	}
+
+
+	public void switchLayout(boolean horizontal) {
+		AlignedFlowLayout handlerLayout = (AlignedFlowLayout)handlerHolder.getLayoutManager();
+		handlerLayout.setHorizontal(!horizontal);
+		
+		// Adjust the layout of the activityAndHandlerHolder
+		((AlignedFlowLayout)activityAndHandlerHolder.getLayoutManager()).setHorizontal(horizontal);
+		
+		// Adjust the layout of the activityHolder
+		((AlignedFlowLayout)activityHolder.getLayoutManager()).setHorizontal(horizontal);
+		
+		// Remove the LayoutPolicy which is responsible for creating the implicit links
+		removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+		
+		if(horizontal){
+			// Handler Holder layout
+			handlerLayout.setSecondaryAlignment(AlignedFlowLayout.ALIGN_BEGIN);
+			
+			// If we are in horizontal mode we add a top margin 
+			activityAndHandlerHolder.setBorder( new MarginBorder(20,20,0,20));
+			
+			this.handlerHolder.setBorder(new MarginBorder(0,20,0,0));
+
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedHorizontalLayoutEditPolicy());
+		}else{
+			// Handler Holder layout
+			handlerLayout.setSecondaryAlignment(AlignedFlowLayout.ALIGN_BEGIN);
+			
+			// If we are in horizontal mode we remove the border 
+			activityAndHandlerHolder.setBorder(null);
+			
+			this.handlerHolder.setBorder(new AbstractBorder() {
+				public Insets getInsets(IFigure arg0) {
+					return new Insets(20, 0, 10, 0);
+				}
+				public void paint(IFigure arg0, Graphics arg1, Insets arg2) {
+				}
+			});
+			
+			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedLayoutEditPolicy());
+		}
+	}
+	
+	@Override
+	protected void clearConnections() {
+		super.clearConnections();
+		getHandlerLinker().clearHandlerConnections();
+	}
+	
+	/**
+	 * Overridden to refresh the handlerLinks as needed.
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		getHandlerLinker().refreshHandlerLinks();
+	}
+	
+	private ProcessHandlerLinker getHandlerLinker() {
+		if(handlerLinker == null)
+			handlerLinker = new ProcessHandlerLinker(this);
+		return handlerLinker;
+	}
+	
+	@Override
+	protected void handleModelChanged() {
+		super.handleModelChanged();
+		
+		this.showFH = getFaultHandler() != null ? true : false;
+		this.showEH = getEventHandler() != null ? true : false;
+		
+		refresh();
 	}
 }

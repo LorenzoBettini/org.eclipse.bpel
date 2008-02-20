@@ -15,8 +15,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.bpel.common.ui.ImageUtils;
 import org.eclipse.bpel.common.ui.CommonUIPlugin;
+import org.eclipse.bpel.common.ui.ImageUtils;
 import org.eclipse.bpel.common.ui.markers.IModelMarkerConstants;
 import org.eclipse.bpel.common.ui.markers.ModelMarkerUtil;
 import org.eclipse.bpel.model.Activity;
@@ -30,11 +30,14 @@ import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.editparts.policies.LinkConnectionEditPolicy;
 import org.eclipse.bpel.ui.editparts.util.OverlayCompositeImageDescriptor;
 import org.eclipse.bpel.ui.figures.BPELPolylineConnection;
+import org.eclipse.bpel.ui.figures.ManhattanConnectionRouterEx;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.FlowLinkUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -45,6 +48,7 @@ import org.eclipse.draw2d.graph.Node;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.AccessibleEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -62,7 +66,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	private MultiObjectAdapter adapter;
 	private Image decorationImage;
 	private IFigure decoration;
-	private Image topLeft, topRight, bottomLeft, bottomRight, arrow;
+	private Image topLeft, topRight, bottomLeft, bottomRight, arrowDown, arrowRight;
 	protected AccessibleEditPart acc;
 	
 	public LinkEditPart() {
@@ -124,6 +128,16 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	}
 	
 	/**
+	 * Overriden to change to connection router. That's needed cause ManhattanConnectionRouter
+	 * produces bad routing in case of horizontal layout
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		applyConnectionRouter(getConnectionFigure());
+	}
+	
+	/**
 	 * The model has changed. Perform any actions necessary to ensure that the
 	 * edit part, model and graphical representation are in sync.
 	 * 
@@ -162,10 +176,11 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 		topRight = plugin.getImage(IBPELUIConstants.ICON_LINK_TOPRIGHT);
 		bottomLeft = plugin.getImage(IBPELUIConstants.ICON_LINK_BOTTOMLEFT);
 		bottomRight = plugin.getImage(IBPELUIConstants.ICON_LINK_BOTTOMRIGHT);
-		arrow = plugin.getImage(IBPELUIConstants.ICON_LINK_ARROWDOWN);
+		arrowDown = plugin.getImage(IBPELUIConstants.ICON_LINK_ARROWDOWN);
+		arrowRight = plugin.getImage(IBPELUIConstants.ICON_LINK_ARROWRIGHT);
 		
-		BPELPolylineConnection c = new BPELPolylineConnection(topLeft, topRight, bottomLeft, bottomRight, arrow);
-		c.setConnectionRouter(new ManhattanConnectionRouter());
+		BPELPolylineConnection c = new BPELPolylineConnection(topLeft, topRight, bottomLeft, bottomRight, arrowDown, arrowRight);
+		applyConnectionRouter(c);
 		return c;
 	}
 	
@@ -399,5 +414,15 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 				}
 			}
 		};
+	}
+	
+	private void applyConnectionRouter(Connection con){
+		EditPart conTo = getSource() == null ? getTarget() : getSource();
+		if(conTo != null){
+			if(ModelHelper.getBPELEditor(conTo.getModel()).isHorizontalLayout())
+				con.setConnectionRouter(new ManhattanConnectionRouterEx(ManhattanConnectionRouterEx.RIGHT, ManhattanConnectionRouterEx.LEFT));
+			else
+				con.setConnectionRouter(new ManhattanConnectionRouter());
+		}
 	}
 }

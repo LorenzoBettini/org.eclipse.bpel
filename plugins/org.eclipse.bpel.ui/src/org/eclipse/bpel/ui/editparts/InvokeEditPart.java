@@ -24,8 +24,11 @@ import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.editparts.borders.LeafBorder;
 import org.eclipse.bpel.ui.editparts.figures.GradientFigure;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.figures.ILayoutAware;
+import org.eclipse.bpel.ui.figures.InvokeHandlerLinker;
 import org.eclipse.bpel.ui.util.BPELDragEditPartsTracker;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.marker.BPELEditPartMarkerDecorator;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
@@ -33,6 +36,7 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LayoutManager;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DragTracker;
@@ -45,7 +49,7 @@ import org.eclipse.gef.Request;
  * There is a lot of code here copied from ScopeEditPart, but there was
  * no obvious way to share this code in a meaningful way.
  */
-public class InvokeEditPart extends LeafEditPart {
+public class InvokeEditPart extends LeafEditPart implements ILayoutAware{
 	// Whether to show each of the handlers.
 	// TODO: Initialize these from the preferences store
 	private boolean showFH = false, showCH = false;
@@ -55,6 +59,9 @@ public class InvokeEditPart extends LeafEditPart {
 	
 	// The figure which holds fault handler, compensation handler and event handler
 	private IFigure auxilaryFigure;
+	
+	// The Handler which handles the drawing of links to the handlers.
+	private InvokeHandlerLinker handlerLinker;
 	
 	/**
 	 * Override getDragTracker to supply double-click behaviour to expand
@@ -82,6 +89,12 @@ public class InvokeEditPart extends LeafEditPart {
 		super.refreshVisuals();
 		border.setShowFault(getFaultHandler() != null);
 		border.setShowCompensation(getCompensationHandler() != null);
+		
+		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout()){
+			auxilaryFigure.getInsets().top = contentFigure.getBounds().height+10;
+		}else
+			auxilaryFigure.getInsets().top = 0;
+		
 		getFigure().repaint();
 	}
 
@@ -117,11 +130,13 @@ public class InvokeEditPart extends LeafEditPart {
 		
 		this.auxilaryFigure = new Figure();
 		layout = new AlignedFlowLayout();
-		layout.setHorizontal(true);
+		layout.setHorizontal(!ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
+		auxilaryFigure.setBorder(new MarginBorder(0,0,0,0));
 		auxilaryFigure.setLayoutManager(layout);
 		parentFigure.add(auxilaryFigure);
 		
 		this.border = new LeafBorder(gradient);
+		this.border.setEditPart(this);
 		border.setShowFault(getFaultHandler() != null);
 		border.setShowCompensation(getCompensationHandler() != null);
 		gradient.setBorder(border);
@@ -171,10 +186,16 @@ public class InvokeEditPart extends LeafEditPart {
 	 * with an offset of 0.
 	 */
 	public ConnectionAnchor getConnectionAnchor(int location) {
-		if (location == CenteredConnectionAnchor.TOP_INNER) {
-			return new CenteredConnectionAnchor(contentFigure, location, 8);			
+		switch(location){
+		case CenteredConnectionAnchor.TOP_INNER:
+			return new CenteredConnectionAnchor(contentFigure, location, 8);
+		case CenteredConnectionAnchor.LEFT:
+			return new CenteredConnectionAnchor(contentFigure, CenteredConnectionAnchor.LEFT_INNER, 0);
+		case CenteredConnectionAnchor.RIGHT:
+			return new CenteredConnectionAnchor(contentFigure, CenteredConnectionAnchor.RIGHT_INNER,0);
+		default: 
+				return new CenteredConnectionAnchor(contentFigure,location,0);
 		}
-		return new CenteredConnectionAnchor(contentFigure, location, 0);
 	}	
 	
 	/**
@@ -184,9 +205,18 @@ public class InvokeEditPart extends LeafEditPart {
 	protected void addChildVisual(EditPart childEditPart, int index) {
 		IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
 		IFigure content = getContentPane(childEditPart);
-		if (content != null)
-			content.add(child);
+		if (content != null) {
+			if (content == auxilaryFigure && content.getChildren().size() > 0) {
+				// The handlers have to get sorted to properly display the handlerlinks
+				content.add(child, getIndexForChild(childEditPart));
+			} else
+				content.add(child);
+		}
 	}	
+	
+	private int getIndexForChild(EditPart editPart) {
+		return editPart.getModel() instanceof CompensationHandler ? 0 : 1;
+	}
 
 	/**
 	 * Override removeChildVisual so that it removes the childEditPart from
@@ -272,4 +302,41 @@ public class InvokeEditPart extends LeafEditPart {
 	public IFigure getMainActivityFigure() {
 		return contentFigure;
 	}
+	
+	@Override
+	public void refresh() {
+		super.refresh();
+		getHandlerLinker().refreshHandlerLinks();
+	}
+	
+	private InvokeHandlerLinker getHandlerLinker() {
+		if(handlerLinker == null){
+			handlerLinker = new InvokeHandlerLinker(this);
+		}
+			
+		return handlerLinker;
+	}
+	
+	@Override
+	protected void clearConnections() {
+		super.clearConnections();
+		getHandlerLinker().clearHandlerConnections();
+	}
+	
+	@Override
+	protected void handleModelChanged() {
+		super.handleModelChanged();
+		
+		this.showCH = getCompensationHandler() != null ? true : false;
+		this.showFH = getFaultHandler() != null ? true : false;
+		
+		refresh();
+	}
+
+	public void switchLayout(boolean horizontal) {
+		((AlignedFlowLayout)auxilaryFigure.getLayoutManager()).setHorizontal(!horizontal);
+		
+	}
+	
+	
 }

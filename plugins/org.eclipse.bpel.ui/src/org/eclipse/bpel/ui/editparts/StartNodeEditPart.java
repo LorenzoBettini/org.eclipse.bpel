@@ -20,13 +20,17 @@ import org.eclipse.bpel.ui.adapters.IFaultHandlerHolder;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.editparts.policies.BPELSelectionEditPolicy;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
+import org.eclipse.bpel.ui.figures.ILayoutAware;
 import org.eclipse.bpel.ui.uiextensionmodel.StartNode;
 import org.eclipse.bpel.ui.util.BPELDragEditPartsTracker;
 import org.eclipse.bpel.ui.util.BPELUtil;
+import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ImageFigure;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
@@ -37,11 +41,15 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 
 
-public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
+public class StartNodeEditPart extends BPELEditPart implements NodeEditPart, ILayoutAware{
 	
 	protected Image image;
 	protected int imageWidth;
 	protected int imageHeight;
+	
+	//Determines the border which will be added to both sides (left/right)
+	//As a result this value is the distance to any attached handlers. 
+	public static final int BORDER_WIDTH = 8;
 	
 	// Whether the process has a fault handler and event handler
 	protected boolean hasFH, hasEH;
@@ -57,6 +65,9 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 	protected Image eventImage;
 	protected Rectangle rectFault;
 	protected Rectangle rectEvent;
+	
+	private IFigure faultImageFigure;
+	private IFigure eventImageFigure;
 
 	private class StartNodeFigure extends ImageFigure {
 		/**
@@ -71,15 +82,19 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		 */
 		@Override
 		public void paint(Graphics graphics) {
-			org.eclipse.draw2d.geometry.Rectangle bounds = getBounds();
 			super.paint(graphics);
+			computeHandlerIconPositions(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
 			if (hasFH) {
-				rectFault = new Rectangle(bounds.x + bounds.width - faultImageWidth, bounds.y, faultImageWidth, faultImageHeight);
-				graphics.drawImage(faultImage, rectFault.x, rectFault.y);
+				graphics.pushState();
+				graphics.setClip(faultImageFigure.getBounds().getCopy());
+				faultImageFigure.paint(graphics);
+				graphics.popState();
 			}
 			if (hasEH) {
-				rectEvent = new Rectangle(bounds.x + bounds.width - eventImageWidth, bounds.y + bounds.height - eventImageHeight, eventImageWidth, eventImageHeight); 
-				graphics.drawImage(eventImage, rectEvent.x, rectEvent.y);
+				graphics.pushState();
+				graphics.setClip(eventImageFigure.getBounds().getCopy());
+				eventImageFigure.paint(graphics);
+				graphics.popState();
 			}
 		}
 	}
@@ -124,7 +139,26 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		}
 		this.hasFH = getFaultHandler() != null;
 		this.hasEH = getEventHandler() != null;
-		return new StartNodeFigure();
+		// Cause the handlerIcons don't belong to the 
+		// bounds of the StartNodeFigure (as a result of 
+		// moving them a bit to the right in vertical layout and a bit to to the bottom
+		// in horizontal layout) hit testing
+		// doesn't reach the Startnode. So add an invisible
+		// border
+		StartNodeFigure snf = new StartNodeFigure();
+		if(!ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			snf.setBorder(new MarginBorder(0,7+BORDER_WIDTH,0,7+BORDER_WIDTH));
+		else
+			snf.setBorder(new MarginBorder(5,0,5,0));
+		
+		
+		faultImageFigure = new ImageFigure(faultImage);
+		faultImageFigure.setParent(snf);
+		
+		eventImageFigure = new ImageFigure(eventImage);
+		eventImageFigure.setParent(snf);
+		
+		return snf;
 	}
 	
 	/**
@@ -163,7 +197,25 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 		// or a direct edit policy.
 		
 		// Show the selection rectangle
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new BPELSelectionEditPolicy(false, false));
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new BPELSelectionEditPolicy(false, false){
+			@Override
+			protected int getWestInset() {
+				Insets ins = ((StartNodeEditPart)getHost()).getFigure().getInsets();
+				if(ins != null){
+					return ins.left;
+				}
+				return super.getWestInset();
+			}
+			
+			@Override
+			protected int getEastInset() {
+				Insets ins = ((StartNodeEditPart)getHost()).getFigure().getInsets();
+				if(ins != null){
+					return ins.right;
+				}
+				return super.getEastInset();
+			}
+		});
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connEditPart) {
@@ -285,5 +337,46 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart {
 				return super.handleButtonDown(button);
 			}
 		};	
+	}
+	
+	private void computeHandlerIconPositions(boolean horizontal){
+		org.eclipse.draw2d.geometry.Rectangle bounds = getFigure().getBounds();
+		if(horizontal){
+			rectFault = new Rectangle(bounds.x, bounds.y + bounds.height - faultImageHeight, faultImageWidth, faultImageHeight);
+			rectEvent = new Rectangle(bounds.x +faultImageWidth, bounds.y + bounds.height - eventImageHeight, eventImageWidth, eventImageHeight);
+			
+		}else{
+			rectFault = new Rectangle(bounds.x + bounds.width - faultImageWidth - BORDER_WIDTH, bounds.y-1, faultImageWidth, faultImageHeight);
+			rectEvent = new Rectangle(bounds.x + bounds.width - eventImageWidth - BORDER_WIDTH, bounds.y + bounds.height - eventImageHeight+1, eventImageWidth, eventImageHeight);
+		}
+		
+		// Apply the bounds to the figures
+		faultImageFigure.setBounds(new org.eclipse.draw2d.geometry.Rectangle(rectFault.x,rectFault.y,rectFault.width,rectFault.height));
+		eventImageFigure.setBounds(new org.eclipse.draw2d.geometry.Rectangle(rectEvent.x,rectEvent.y,rectEvent.width,rectEvent.height));
+	}
+	
+	public Rectangle getRectFault() {
+		return rectFault;
+	}
+
+	public Rectangle getRectEvent() {
+		return rectEvent;
+	}
+
+	public void switchLayout(boolean horizontal) {
+		if(horizontal){
+			getFigure().setBorder(new MarginBorder(5,0,5,0));
+		}else{
+			getFigure().setBorder(new MarginBorder(0,7+BORDER_WIDTH,0,7+BORDER_WIDTH));
+		}
+		
+	}
+
+	public IFigure getFaultImageFigure() {
+		return faultImageFigure;
+	}
+
+	public IFigure getEventImageFigure() {
+		return eventImageFigure;
 	}
 }

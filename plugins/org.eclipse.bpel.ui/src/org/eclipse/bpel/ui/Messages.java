@@ -138,6 +138,8 @@ public final class Messages extends NLS {
 	public static String AttributesDetails_Query_Language__2;
 	public static String AutoArrangeFlowsAction_Arrange_Flow_Contents_2;
 	public static String AutoArrangeFlowsAction_Auto_arrange_flow_contents_3;
+	public static String ToggleLayoutOrientation_1;
+	public static String ToggleLayoutOrientation_2;
 	public static String BPELCopyAction_Copy_1;
 	public static String BPELCopyAction_Copy_2;
 	public static String BPELCopyAction_Copy_3;
