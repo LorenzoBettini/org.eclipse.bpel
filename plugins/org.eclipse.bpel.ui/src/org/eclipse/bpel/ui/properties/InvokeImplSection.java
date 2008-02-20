@@ -22,9 +22,13 @@ import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
+import org.eclipse.bpel.model.PartnerLinks;
+import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Reply;
+import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.BPELUIPlugin;
@@ -95,6 +99,7 @@ import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Output;
 import org.eclipse.wst.wsdl.PortType;
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.WSDLFactory;
 
 /**
@@ -164,13 +169,33 @@ public class InvokeImplSection extends BPELPropertySection {
 		return true;
 	}
 
+	private static List<String> getVariablesNamesInUse(EObject parent) {
+		List<String> variablesNames = new ArrayList<String>();
+		Variables variables;
+		for (;parent != null; parent = parent.eContainer()) {
+			if (parent instanceof Process) {
+				variables = ((Process)parent).getVariables();
+			} else if (parent instanceof Scope) {
+				variables = ((Scope)parent).getVariables();
+			} else {
+				continue;
+			}
+			EList<Variable> variableList = variables.getChildren();
+			for (Variable var : variableList) {
+				variablesNames.add(var.getName());
+			}			
+		}
+
+		return variablesNames;
+	}
+	
 	/**
 	 * The same as labelWordFor(), except these strings don't contain mnemonics!
 	 * @param direction 
 	 * @return the label
 	 */
-	private String plainLabelWordFor (int direction) {
-		if (isInvoke) {
+	private String plainLabelWordFor (EObject input, int direction) {
+		if (isInvoke || !(input instanceof Reply)) {
 			return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Request_3_Plain:Messages.InvokeImplDetails_Response_4_Plain; 
 		}
 		return (direction == ModelHelper.OUTGOING || direction == ModelHelper.NOT_SPECIFIED)? Messages.InvokeImplDetails_Response_4_Plain:Messages.InvokeImplDetails_Request_3_Plain;  
@@ -1652,7 +1677,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	private void alterCommands (List<Command> list, EObject input, PartnerLink pl , Operation op, Input msg ) {
 		
 		if (input instanceof Receive || input instanceof OnMessage || 
-			input instanceof OnEvent || input instanceof Reply)
+			input instanceof OnEvent)
 		{  		
 			if (pl.getMyRole() == null || msg == null) {
 				return ;
@@ -1697,7 +1722,15 @@ public class InvokeImplSection extends BPELPropertySection {
 		if (variable == null) {
 			// no such variable, create one
 			variable = BPELFactory.eINSTANCE.createVariable();
-			String name = pl.getName() + plainLabelWordFor(direction);			
+			String name = pl.getName() + plainLabelWordFor(input, direction);
+			List<String> variablesNamesInUse = getVariablesNamesInUse(input);
+			if (variablesNamesInUse.contains(name)) {
+				int index = 1;
+				while (variablesNamesInUse.contains(name + index)) {
+					index++;
+				}
+				name = name + index;
+			}
 			variable.setName ( name );			
 			variable.setMessageType( msg );
 			cmds.add(0, new AddVariableCommand(input, variable));
