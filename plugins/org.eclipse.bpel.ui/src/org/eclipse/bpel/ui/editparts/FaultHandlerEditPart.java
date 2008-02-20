@@ -57,7 +57,8 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
 		boolean vertical = (getModel() instanceof CompensationHandler) || (getModel() instanceof TerminationHandler);
-		layout.setHorizontal(!vertical);
+		boolean horizontalLayout = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		layout.setHorizontal(horizontalLayout ? vertical : !vertical);
 		figure.setLayoutManager(layout);
 		if (image == null) {
 			// Get Image from registry
@@ -76,9 +77,8 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 		
 		this.contentPane = figure;
 		
-		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
-		int topMargin = calcTopMargin(horizontal);
-		int leftMargin = calcLeftMargin(horizontal);
+		int topMargin = calcTopMargin(horizontalLayout);
+		int leftMargin = calcLeftMargin(horizontalLayout);
 		
 		IFigure container = new Figure();
 		this.containerBorder = new MarginBorder(topMargin,leftMargin,0,0);
@@ -106,6 +106,11 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 	}
 	
 	public void switchLayout(boolean horizontal) {
+		boolean vertical = (getModel() instanceof CompensationHandler) || (getModel() instanceof TerminationHandler);
+		boolean horizontalLayout = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		
+		((FlowLayout)getContentPane().getLayoutManager()).setHorizontal(horizontalLayout ? vertical : !vertical);
+		
 		int leftMargin = calcLeftMargin(horizontal);
 		int topMargin = calcTopMargin(horizontal);
 		getFigure().setBorder(new MarginBorder(topMargin,leftMargin,0,0));
