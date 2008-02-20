@@ -188,6 +188,10 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 			}
 			
 			fPartnerLinkType = wizard.getPartnerLinkType();
+			if (!checkNamespace((PartnerLinkType)fPartnerLinkType)){
+				return;
+			}
+			
 			if (fPartnerLinkType == null) { 
 				return ;
 			}		
@@ -282,7 +286,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	}
 	
 	/**
-	 * In the case of partner link types, we nee to see a few more levels
+	 * In the case of partner link types, we need to see a few more levels
 	 *  
 	 */
 	

@@ -70,6 +70,7 @@ public class BPELEditModelClient extends EditModelClient {
 					URI.createPlatformResourceURI(artifactsFile.getFullPath().toString()));
 			// create an empty definition too.
 			Definition artifactsDefn = WSDLFactory.eINSTANCE.createDefinition();
+			artifactsDefn.setLocation(artifactsResource.getURI().toString());
 
 			// set the target namespace based on the target namespace of the process.
 			EList bpelContents = getPrimaryResourceInfo().getResource().getContents();
