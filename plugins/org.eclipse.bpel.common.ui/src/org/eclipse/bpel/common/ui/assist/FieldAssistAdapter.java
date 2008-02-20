@@ -40,12 +40,26 @@ public class FieldAssistAdapter extends ContentAssistCommandAdapter {
 				autoActivationCharacters);
 	}
 
+	/**
+	 * @param control
+	 * @param controlContentAdapter
+	 * @param proposalProvider
+	 * @param commandId
+	 * @param autoActivationCharacters
+	 * @param installDecoration
+	 */
+	public FieldAssistAdapter(Control control, IControlContentAdapter controlContentAdapter, IContentProposalProvider proposalProvider, String commandId, char[] autoActivationCharacters, boolean installDecoration) {
+		super(control, controlContentAdapter, proposalProvider, commandId,
+				autoActivationCharacters, installDecoration);
+	}
+
 	public void  openProposals () {
 		openProposalPopup();
 		getControl().setFocus();
 	}
 	
 	
+	@Override
 	protected void openProposalPopup () {
 		
 		Point popupSize = getPopupSize();
