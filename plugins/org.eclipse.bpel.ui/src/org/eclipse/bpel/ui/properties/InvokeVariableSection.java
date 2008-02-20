@@ -319,7 +319,7 @@ public class InvokeVariableSection extends BPELPropertySection {
 		proposalProvider.addProposalToEnd(proposal3);
 
 		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(inputVariableText,
-				fTextContentAdapter, proposalProvider, null, null);
+				fTextContentAdapter, proposalProvider, null, null, true);
 		// 
 		contentAssist.setLabelProvider(new ModelLabelProvider());
 		contentAssist.setPopupSize(new Point(300, 100));
@@ -467,7 +467,7 @@ public class InvokeVariableSection extends BPELPropertySection {
 		proposalProvider.addProposalToEnd(proposal3);
 
 		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(outputVariableText,
-				fTextContentAdapter, proposalProvider, null, null);
+				fTextContentAdapter, proposalProvider, null, null, true);
 		// 
 		contentAssist.setLabelProvider(new ModelLabelProvider());
 		contentAssist.setPopupSize(new Point(300, 100));
@@ -691,7 +691,7 @@ public class InvokeVariableSection extends BPELPropertySection {
 			proposalProvider.addProposalToEnd(proposal3);
 
 			final FieldAssistAdapter contentAssist = new FieldAssistAdapter(text,
-					fTextContentAdapter, proposalProvider, null, null);
+					fTextContentAdapter, proposalProvider, null, null, true);
 			contentAssist.setLabelProvider(labelProvider);
 			contentAssist.setPopupSize(new Point(300, 100));
 			contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);

@@ -23,6 +23,9 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -31,6 +34,7 @@ import org.eclipse.jface.text.ITextViewerExtension;
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Point;
@@ -71,6 +75,9 @@ public class XPathTextEditor extends TextEditor {
 	IWhitespaceDetector fWhitespaceDetector = new XPathWhitespaceDetector();
 
 	VariablePickerAction fVariablePickerAction;
+
+	/** Decoration for the content assist */
+	private ControlDecoration decoration;
 	
 	/**
 	 * 
@@ -248,10 +255,23 @@ public class XPathTextEditor extends TextEditor {
 		super.handlePreferenceStoreChanged(event);
 	}
 	
-	
-	
-	
-	
+	/**
+	 * Enable/disable content assist decoration
+	 * @param enabled
+	 */
+	public void setDecoration(boolean enabled) {
+		if (enabled){
+			decoration = new ControlDecoration(getSourceViewer().getTextWidget(), SWT.TOP | SWT.LEFT);
+			decoration.setMarginWidth(25);
+			decoration.setDescriptionText("Content Assist Available (Ctrl+Space)");
+			decoration.setShowOnlyOnFocus(true);
+			FieldDecoration dec = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL);
+			decoration.setImage(dec.getImage());
+		} else {
+			decoration.dispose();
+		}
+	}
+
 	/*** Private Classes */
 	
 	class BracketInserter implements VerifyKeyListener  {

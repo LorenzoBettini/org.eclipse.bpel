@@ -164,7 +164,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 		data = new FormData();
 		data.top = new FormAttachment(combo,2 * IDetailsAreaConstants.VSPACE);
-		data.left = new FormAttachment(0, 0);
+		data.left = new FormAttachment(0, 5);
 		data.right = new FormAttachment(100, 0);
 		data.bottom = new FormAttachment(100, 0);
 		editorComposite.setLayoutData(data);
@@ -214,7 +214,8 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 				textEditorComposite);
 
 		textEditor.addPropertyListener(getPropertyListener());	
-
+		textEditor.setDecoration(true);
+		
 		return textEditorComposite;
 	}
 
