@@ -30,28 +30,21 @@ import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.CompensationHandler;
-import org.eclipse.bpel.model.CompletionCondition;
-import org.eclipse.bpel.model.Condition;
-import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.EventHandler;
-import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.ForEach;
-import org.eclipse.bpel.model.From;
-import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Link;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -63,16 +56,12 @@ import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Source;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Throw;
-import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
-import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
@@ -93,7 +82,6 @@ import org.eclipse.bpel.ui.commands.CreatePartnerLinkTypeCommand;
 import org.eclipse.bpel.ui.commands.SetPartnerLinkTypeCommand;
 import org.eclipse.bpel.ui.commands.SetRoleCommand;
 import org.eclipse.bpel.ui.commands.SetUniqueNameCommand;
-import org.eclipse.bpel.ui.expressions.IEditorConstants;
 import org.eclipse.bpel.ui.uiextensionmodel.ActivityExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.CaseExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.OnAlarmExtension;
@@ -349,6 +337,38 @@ public class ModelHelper {
 		return false;
 	}
 
+	public static MessageExchange getMessageExchange(Object context) {
+		if (context instanceof Receive) {
+			return ((Receive)context).getMessageExchange();
+		}
+		if (context instanceof OnMessage) {
+			return ((OnMessage)context).getMessageExchange();
+		}
+		if (context instanceof OnEvent) {
+			return ((OnEvent)context).getMessageExchange();
+		}
+		if (context instanceof Reply) {
+			return ((Reply)context).getMessageExchange();
+		}
+		throw new IllegalArgumentException("Object has no message exchange."); //$NON-NLS-1$
+	}
+
+	public static void setMessageExchange(Object context, MessageExchange messageExchange) {
+		if (context instanceof Receive) {
+			((Receive)context).setMessageExchange(messageExchange); return;
+		}
+		if (context instanceof OnMessage) {
+			((OnMessage)context).setMessageExchange(messageExchange); return;
+		}
+		if (context instanceof OnEvent) {
+			((OnEvent)context).setMessageExchange(messageExchange); return;
+		}
+		if (context instanceof Reply) {
+			((Reply)context).setMessageExchange(messageExchange); return;
+		}
+		throw new IllegalArgumentException();
+	}
+	
 	public static PartnerLink getPartnerLink(Object context) {
 		if (context instanceof Invoke)  {
 			return ((Invoke)context).getPartnerLink();
@@ -402,6 +422,22 @@ public class ModelHelper {
 		}
 		if (context instanceof Reply) {
 			return (n.getFeatureID(Reply.class) == BPELPackage.REPLY__PARTNER_LINK);
+		}
+		throw new IllegalArgumentException();
+	}
+	
+	public static boolean isMessageExchangeAffected(Object context, Notification n) {
+		if (context instanceof Receive) {
+			return (n.getFeatureID(Receive.class) == BPELPackage.RECEIVE__MESSAGE_EXCHANGE);
+		}
+		if (context instanceof OnMessage) {
+			return (n.getFeatureID(OnMessage.class) == BPELPackage.ON_MESSAGE__MESSAGE_EXCHANGE);
+		}
+		if (context instanceof OnEvent) {
+			return (n.getFeatureID(OnEvent.class) == BPELPackage.ON_EVENT__MESSAGE_EXCHANGE);
+		}
+		if (context instanceof Reply) {
+			return (n.getFeatureID(Reply.class) == BPELPackage.REPLY__MESSAGE_EXCHANGE);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -459,8 +495,6 @@ public class ModelHelper {
 		}
 		throw new IllegalArgumentException();
 	}
-
-	
 	
 	public static Operation getOperation(Object context) {
 		if (context instanceof Invoke)  return ((Invoke)context).getOperation();
@@ -1252,7 +1286,7 @@ public class ModelHelper {
 		}
 		if (modelObject instanceof EObject) {
 			
-			Resource r = ((EObject)modelObject).eResource();
+			Resource r = ((EObject)modelObject).eResource(); 
 			if (r != null) {
 				return BPELEditor.getBPELEditor(r.getResourceSet());
 			}

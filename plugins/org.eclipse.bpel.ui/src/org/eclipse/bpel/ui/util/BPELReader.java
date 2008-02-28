@@ -105,7 +105,7 @@ public class BPELReader {
 			extensionsResource.getContents().add(extensionMap);
 		}
 
-		// Make sure the Process has Variables, PartnerLinks and CorrelationSets objects.
+		// Make sure the Process has Variables, PartnerLinks, CorrelationSets and MessageExchanges objects.
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
 		if (process.getVariables() == null) {
@@ -117,6 +117,10 @@ public class BPELReader {
 		if (process.getCorrelationSets() == null) {
 			process.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());			
 		}
+		if (process.getMessageExchanges() == null) {
+			process.setMessageExchanges(BPELFactory.eINSTANCE.createMessageExchanges());			
+		}
+		
 		// Make sure scopes have Variables.
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
@@ -132,6 +136,9 @@ public class BPELReader {
 				}
 				if (scope.getCorrelationSets() == null) {
 					scope.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+				}
+				if (scope.getMessageExchanges() == null) {
+					scope.setMessageExchanges(BPELFactory.eINSTANCE.createMessageExchanges());
 				}
 			}
 		}
@@ -214,6 +221,9 @@ public class BPELReader {
 		if (process.getCorrelationSets() == null) {
 			process.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
 		}
+		if (process.getMessageExchanges() == null) {
+			process.setMessageExchanges(BPELFactory.eINSTANCE.createMessageExchanges());
+		}
 		// Make sure scopes have Variables.
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
@@ -229,6 +239,9 @@ public class BPELReader {
 				}
 				if (scope.getCorrelationSets() == null) {
 					scope.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+				}
+				if (scope.getMessageExchanges() == null) {
+					scope.setMessageExchanges(BPELFactory.eINSTANCE.createMessageExchanges());
 				}
 			}
 		}

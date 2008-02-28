@@ -24,6 +24,7 @@ import org.eclipse.bpel.common.ui.editmodel.ResourceInfo;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variable;
@@ -710,7 +711,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		// The closest parent which has an edit part in the graph view.
 		//
 		// The following do not have viewers in the graph view:
-		//  1) Variables, PartnerLinks, Correlation Sets
+		//  1) Variables, PartnerLinks, Correlation Sets, Message Exchanges
 		// If it's any of those, then we have to reveal the closest container
 		// and then select the model object and show the properties.
 
@@ -720,7 +721,8 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		EditPart editPart = null;
 		if ( modelObject instanceof Variable ||
 		     modelObject instanceof PartnerLink ||
-		     modelObject instanceof CorrelationSet ) {
+		     modelObject instanceof CorrelationSet ||
+		     modelObject instanceof MessageExchange) {
 			
 			refObj = ModelHelper.getContainingScope(modelObject);
 			editPart = (EditPart)graphViewer.getEditPartRegistry().get(refObj);

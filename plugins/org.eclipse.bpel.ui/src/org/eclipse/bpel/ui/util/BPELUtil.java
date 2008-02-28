@@ -561,7 +561,7 @@ public class BPELUtil {
 	}
 
 	/**
-	 * Helper that traverses the IContainer heirarchy of the given modelObject in depth
+	 * Helper that traverses the IContainer hierarchy of the given modelObject in depth
 	 * first fashion and applies the given visitor to each node.
 	 * 
 	 * DO NOT USE THIS for anything that must see "all" model objects (including implicit
@@ -600,11 +600,11 @@ public class BPELUtil {
 		public boolean visit(Object child) {
 			if (!ignoreObjects.contains(child)) {
 			INamedElement namedElement = (INamedElement)BPELUtil.adapt(child, INamedElement.class);
-			if (namedElement != null) {
-				String name = namedElement.getName(child);
-				if ((name != null) && (name.compareToIgnoreCase(candidateName) == 0))
-					unused = false;
-			}
+				if (namedElement != null) {
+					String name = namedElement.getName(child);
+					if ((name != null) && (name.compareToIgnoreCase(candidateName) == 0))
+						unused = false;
+				}
 			}
 			return true;//unused;
 		}

@@ -43,4 +43,9 @@ public class VariablesEditPart extends BPELTrayCategoryEditPart {
 	    return new Label(Messages.VariablesEditPart_Remove_Variable_1); 
 	}
 	
+	@Override
+	public void setModel(Object model) {
+		// TODO Auto-generated method stub
+		super.setModel(model);
+	}
 }

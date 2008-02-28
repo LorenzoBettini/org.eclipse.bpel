@@ -50,6 +50,8 @@ public class ProcessAdapter extends ContainerAdapter implements INamedElement,
 			new ReferenceContainer(BPELPackage.eINSTANCE.getCorrelationSets_Children())));
 		omc.add(new IndirectContainer(BPELPackage.eINSTANCE.getProcess_Variables(),			
 			new ReferenceContainer(BPELPackage.eINSTANCE.getVariables_Children())));
+		omc.add(new IndirectContainer(BPELPackage.eINSTANCE.getProcess_MessageExchanges(),			
+				new ReferenceContainer(BPELPackage.eINSTANCE.getMessageExchanges_Children())));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getProcess_FaultHandlers()));
 		omc.add(new ReferenceContainer(BPELPackage.eINSTANCE.getProcess_EventHandlers()));
 		return omc;

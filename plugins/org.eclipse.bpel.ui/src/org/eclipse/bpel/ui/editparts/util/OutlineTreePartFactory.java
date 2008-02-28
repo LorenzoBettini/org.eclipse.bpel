@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variable;
@@ -46,7 +47,7 @@ public class OutlineTreePartFactory implements EditPartFactory {
 		List result = new ArrayList();
 		if (model instanceof Process) {
 			Process process = (Process)model;
-			Object[] rootItems = {process.getPartnerLinks(), process.getVariables(), process.getCorrelationSets()};
+			Object[] rootItems = {process.getPartnerLinks(), process.getVariables(), process.getCorrelationSets(), process.getMessageExchanges()};
 			for (int i = 0; i < rootItems.length; i++) {
 				if (rootItems[i] != null) {
 					result.add(rootItems[i]);
@@ -56,7 +57,7 @@ public class OutlineTreePartFactory implements EditPartFactory {
 			List children = container.getChildren(model);
 			for (Iterator iter = children.iterator(); iter.hasNext();) {
 				Object element = iter.next();
-				if (!(element instanceof PartnerLink || element instanceof Variable || element instanceof CorrelationSet)) {
+				if (!(element instanceof PartnerLink || element instanceof Variable || element instanceof CorrelationSet || element instanceof MessageExchange)) {
 					result.add(element);
 				}
 			}

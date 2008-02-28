@@ -19,6 +19,8 @@ import org.eclipse.bpel.common.ui.tray.TrayMarkerDecorator;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
@@ -38,7 +40,6 @@ import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.ToolbarLayout;
@@ -170,7 +171,12 @@ public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelpe
 		if (sets != null) {
 			list.add(sets);
 		}
-
+		
+		MessageExchanges exchanges = getMessageExchanges();
+		if (exchanges != null) {
+			list.add(exchanges);
+		}
+		
 		return list;
 	}
 	
@@ -239,6 +245,25 @@ public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelpe
 		return process.getCorrelationSets();
 	}
 	
+	/**
+	 * We show scoped correlationSets if a Scope is the current selection,
+	 * otherwise we show the process correlationSets.
+	 */
+	protected MessageExchanges getMessageExchanges() {		
+		if (lastSelection instanceof Scope) {
+			Scope scope = (Scope) lastSelection;
+			if ( scope.getMessageExchanges() == null) {
+				scope.setMessageExchanges( BPELFactory.eINSTANCE.createMessageExchanges() );
+			}
+			return scope.getMessageExchanges();
+		}
+		Process process = getProcess();
+		if (process.getMessageExchanges() == null) {
+			process.setMessageExchanges( BPELFactory.eINSTANCE.createMessageExchanges() );
+		}
+
+		return process.getMessageExchanges();
+	}
 	
 	protected Process getProcess() {
 		return (Process)getModel();
@@ -295,6 +320,8 @@ public class ProcessTrayEditPart extends MainTrayEditPart implements IHoverHelpe
 					if (currentSelection instanceof PartnerLinks || currentSelection instanceof PartnerLink)
 						return false;
 					if (currentSelection instanceof CorrelationSets || currentSelection instanceof CorrelationSet)
+						return false;
+					if (currentSelection instanceof MessageExchanges || currentSelection instanceof MessageExchange)
 						return false;
 					if (currentSelection instanceof ReferencePartnerLinks)
 						return false;

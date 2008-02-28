@@ -99,7 +99,6 @@ import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Output;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.WSDLFactory;
 
 /**
@@ -1534,9 +1533,9 @@ public class InvokeImplSection extends BPELPropertySection {
 		if (list.size() > 1){
 			PartnerLinkRoleSelectorDialog roleDialog = new PartnerLinkRoleSelectorDialog(parentComposite.getShell(), list, plt);
 			if (isInvoke){
-				roleDialog.setTitle("Choose Partner Role");
+				roleDialog.setTitle(Messages.PartnerRoleSelectorDialog_Title_PartnerRole);
 			} else {
-				roleDialog.setTitle("Choose My Role");
+				roleDialog.setTitle(Messages.PartnerRoleSelectorDialog_Title_MyRole);
 			}
 			if (roleDialog.open() == Window.CANCEL){
 				return;

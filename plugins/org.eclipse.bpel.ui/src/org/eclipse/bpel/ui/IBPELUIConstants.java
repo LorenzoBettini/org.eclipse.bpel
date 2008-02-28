@@ -245,6 +245,7 @@ public interface IBPELUIConstants {
 	public final String CMD_ADD_CORRELATION = Messages.IBPELUIConstants_Add_Correlation_6; 
 	public final String CMD_ADD_PARTNERLINK = Messages.IBPELUIConstants_Add_Partner_7; 
 	public final String CMD_ADD_VARIABLE = Messages.IBPELUIConstants_Add_Variable_8; 
+	public final String CMD_ADD_MESSAGEEXCHANGE = Messages.IBPELUIConstants_Add_MessageExchange; 
 	public final String CMD_ADD_PROPERTY = Messages.IBPELUIConstants_Add_Property_9; 
 	public final String CMD_ADD_PROPERTY_ALIAS = Messages.IBPELUIConstants_Add_Property_Alias_10; 
 	public final String CMD_ADD_FAULTHANDLER = Messages.IBPELUIConstants_Add_Fault_Handler_11; 
@@ -301,6 +302,7 @@ public interface IBPELUIConstants {
 	public final String CMD_SELECT_CREATEINSTANCE = Messages.IBPELUIConstants_Create_Instance_Change_51; 
 	public final String CMD_VALIDATE_XML = Messages.IBPELUIConstants_Assign_Validate_XML_52;
 	public final String CMD_SELECT_SPECCOMPLIANT = Messages.IBPELUIConstants_Spec_Compliance_Change_2; 
+	public final String CMD_SELECT_MESSAGE_EXCHANGE=Messages.IBPELUIConstants_Message_Exchange_Change;
 
 	public final String CMD_SELECT_TARGETNAMESPACE = Messages.IBPELUIConstants_Target_namespace_Change_61; 
 

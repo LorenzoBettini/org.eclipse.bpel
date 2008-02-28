@@ -204,6 +204,14 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	}
 	
 	/**
+	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createCorrelationSetsAdapter()
+	 */
+	@Override
+	public Adapter createMessageExchangeAdapter() {
+		return fProvider.getAdapter(MessageExchangeAdapter.class);		
+	}
+	
+	/**
 	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createPickAdapter()
 	 */
 	@Override
@@ -299,6 +307,14 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 		return fProvider.getAdapter(CorrelationSetAdapter.class);		
 	}
 
+	/**
+	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createCorrelationSetsAdapter()
+	 */
+	@Override
+	public Adapter createMessageExchangesAdapter() {
+		return fProvider.getAdapter(MessageExchangesAdapter.class);		
+	}
+	
 	/**
 	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createCorrelationSetsAdapter()
 	 */

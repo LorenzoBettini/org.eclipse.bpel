@@ -14,6 +14,7 @@ import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
 import org.eclipse.bpel.ui.uiextensionmodel.ReferencePartnerLinks;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ContainerEditPolicy;
@@ -27,7 +28,8 @@ public class TrayContainerEditPolicy extends ContainerEditPolicy {
 
 	protected Command getCreateCommand(CreateRequest request) {
 		CompoundCommand command = new CompoundCommand();
-		EObject parent = (EObject) getHost().getModel();
+		EditPart host = getHost();
+		EObject parent = (EObject) host.getModel();
 		EObject child = (EObject) request.getNewObject();
 		if (parent instanceof ReferencePartnerLinks) {
 			parent = ((ReferencePartnerLinks)parent).getPartnerLinks();

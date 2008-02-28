@@ -205,7 +205,9 @@ public final class Messages extends NLS {
 	public static String BPELEditor_addCorrelationSet;
 	public static String BPELEditor_addInterfacePartner;
 	public static String BPELEditor_addReferencePartner;
+	public static String BPELEditor_addPartnerLink;
 	public static String BPELEditor_addVariable;
+	public static String BPELEditor_addMessageExchange;
 	public static String BPELGraphicalEditPolicy_link1_1;
 	public static String BPELPasteAction_Paste_1;
 	public static String BPELPasteAction_Paste_2;
@@ -370,6 +372,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Add_Property_Alias_10;
 	public static String IBPELUIConstants_Add_Role_12;
 	public static String IBPELUIConstants_Add_Variable_8;
+	public static String IBPELUIConstants_Add_MessageExchange;
 	public static String IBPELUIConstants_Assign_Copy_Change_64;
 	public static String IBPELUIConstants_Auto_Arrange_33;
 	public static String IBPELUIConstants_Change_4;
@@ -399,6 +402,7 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_My_Role_Change_42;
 	public static String IBPELUIConstants_Name_Change_66;
 	public static String IBPELUIConstants_Name_Change_80;
+	public static String IBPELUIConstants_Message_Exchange_Change;
 	public static String IBPELUIConstants_Operation_Change_39;
 	public static String IBPELUIConstants_Partner_Change_79;
 	public static String IBPELUIConstants_Partner_Link_Change_43;
@@ -465,6 +469,22 @@ public final class Messages extends NLS {
 	public static String LiteralAssignCategory_Warning_1;
 	public static String MakePartner2WayAction_0;
 	public static String MessageAdapter_Message_1;
+
+	public static String MessageExchangesAdapter_Label;
+	public static String MessageExchangesAdapter_TypeLabel;
+	public static String MessageExchangeAdapter_TypeLabel;
+	public static String MessageExchangesEditPart_Add_Message_Exchange_1;
+	public static String MessageExchangesEditPart_Remove_Message_Exchange_1;
+	public static String MessageExchangeImplSection_1;
+	public static String MessageExchangeImplSection_Create_Global;
+	public static String MessageExchangeImplSection_Create_Local;
+	public static String MessageExchangeImplSection_Clear;
+	
+	public static String MessageExchange_Create_Dialog_Title; 
+	public static String MessageExchange_Create_Dialog_NameField_Label; 
+	
+	
+	
 	public static String ModelLabelProvider____None____1;
 	public static String ModelTreeLabelProvider_s1_s2;
 	public static String NameDetails_BPEL_Name__3;
@@ -494,6 +514,8 @@ public final class Messages extends NLS {
 	public static String PartnerLinkSelectorDialog_4;
 	public static String PartnerLinkSelectorDialog_5;
 	public static String PartnerLinkSelectorDialog_6;
+	public static String PartnerRoleSelectorDialog_Title_PartnerRole;
+	public static String PartnerRoleSelectorDialog_Title_MyRole;
 	public static String PartnerLinkTypeAdapter_Partner_Link_Type_1;
 	public static String PartnerLinksAdapter_Interface_Partners_1;
 	public static String PartnerLinksAdapter_PartnerLinks_1;

@@ -63,6 +63,7 @@ import org.eclipse.bpel.ui.dnd.FileDropTargetListener;
 import org.eclipse.bpel.ui.dnd.TextDropTargetListener;
 import org.eclipse.bpel.ui.editparts.CorrelationSetsEditPart;
 import org.eclipse.bpel.ui.editparts.FlowEditPart;
+import org.eclipse.bpel.ui.editparts.MessageExchangesEditPart;
 import org.eclipse.bpel.ui.editparts.PartnerLinksEditPart;
 import org.eclipse.bpel.ui.editparts.VariablesEditPart;
 import org.eclipse.bpel.ui.editparts.util.BPELEditPartFactory;
@@ -835,7 +836,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 
 		action = new BPELAddChildInTrayAction(this, 
 				PartnerLinksEditPart.class, 
-				"Add Partner Link",  
+				Messages.BPELEditor_addPartnerLink,  
 				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_PARTNER_IN_16));
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
@@ -865,6 +866,13 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 				CorrelationSetsEditPart.class, 
 				Messages.BPELEditor_addCorrelationSet,  
 				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_CORRELATIONSET_16));
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
+		action = new BPELAddChildInTrayAction(this, 
+				MessageExchangesEditPart.class, 
+				Messages.BPELEditor_addMessageExchange,  
+				BPELUIPlugin.INSTANCE.getImageDescriptor(IBPELUIConstants.ICON_EXIT_16));//TODO - replace icon with right one
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 

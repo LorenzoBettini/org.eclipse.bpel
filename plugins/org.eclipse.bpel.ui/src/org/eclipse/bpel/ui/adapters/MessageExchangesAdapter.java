@@ -1,5 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2005 IBM Corporation and others.
+/**
+ * <copyright>
+ * Copyright (c) 2008 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,39 +8,48 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
+ 
 package org.eclipse.bpel.ui.adapters;
 
 import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.PartnerLinks;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.delegates.ReferenceContainer;
+import org.eclipse.bpel.ui.editparts.MessageExchangesEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
-import org.eclipse.bpel.ui.editparts.PartnerLinksEditPart;
 import org.eclipse.bpel.ui.properties.PropertiesLabelProvider;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.bpel.ui.Messages;
 
-
-public class PartnerLinksAdapter extends ContainerAdapter implements EditPartFactory,
+/**
+ * 
+ * @author Miriam Grundig (MGrundig@de.ibm.com)
+ */
+public class MessageExchangesAdapter extends ContainerAdapter implements EditPartFactory,
 	ILabeledElement, IOutlineEditPartFactory, ITrayEditPartFactory
 {
 
-	/* IContainer delegate */
+	public MessageExchangesAdapter() {
+		super();
+	}
 	
+	/* IContainer delegate */
+
 	public IContainer createContainerDelegate() {
-		return new ReferenceContainer(BPELPackage.eINSTANCE.getPartnerLinks_Children());
+		return new ReferenceContainer(BPELPackage.eINSTANCE.getMessageExchanges_Children());
 	}
 
 	/* EditPartFactory */
-	
+
 	public EditPart createEditPart(EditPart context, Object model) {
-		PartnerLinksEditPart result = new PartnerLinksEditPart();
+		MessageExchangesEditPart result = new MessageExchangesEditPart();
 		result.setLabelProvider(PropertiesLabelProvider.getInstance());
 		result.setModel(model);
 		return result;
@@ -50,34 +60,33 @@ public class PartnerLinksAdapter extends ContainerAdapter implements EditPartFac
 	public EditPart createTrayEditPart(EditPart context, Object model) {
 		return createEditPart(context, model);
 	}
-	
-	/* ILabeledElement */
 
+	/* ILabeledElement */
+	
 	public Image getSmallImage(Object object) {
-		String imageName = IBPELUIConstants.ICON_PARTNER_IN_16;
-		return BPELUIPlugin.INSTANCE.getImage(imageName);
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EXIT_16); //TODO - replace holder with the right image
 	}
 	
 	public Image getLargeImage(Object object) {
-		String imageName = IBPELUIConstants.ICON_PARTNER_IN_16;
-		return BPELUIPlugin.INSTANCE.getImage(imageName);
-	}
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EXIT_32); //TODO - replace holder with the right image
+	}	
 	
 	public String getTypeLabel(Object object) {
-		return Messages.PartnerLinksEditPart_Partners_1; 
-	}
+		return Messages.MessageExchangesAdapter_TypeLabel;
+	}	
 	
 	public String getLabel(Object object) {
-		return Messages.PartnerLinksAdapter_PartnerLinks_1; 
+		return Messages.MessageExchangesAdapter_Label;
 	}
 
 	/* IOutlineEditPartFactory */
 	
 	public EditPart createOutlineEditPart(EditPart context, final Object model) {
-		EditPart result = new OutlineTreeEditPart() {
+		EditPart result = new OutlineTreeEditPart(){
 			protected List getModelChildren() {
-				PartnerLinks parnterLinks = (PartnerLinks) model;
-				return parnterLinks.getChildren();
+				MessageExchanges messageExchanges = (MessageExchanges) model;
+				List list =  messageExchanges.getChildren(); 
+				return list;
 			}
 		};
 		result.setModel(model);

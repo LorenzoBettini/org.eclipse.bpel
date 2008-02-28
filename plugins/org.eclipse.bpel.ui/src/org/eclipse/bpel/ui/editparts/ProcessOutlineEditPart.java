@@ -15,13 +15,12 @@ import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
-import org.eclipse.bpel.ui.uiextensionmodel.ReferencePartnerLinks;
-import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 
 
 public class ProcessOutlineEditPart extends OutlineTreeEditPart {
@@ -39,6 +38,7 @@ public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 			if (process.getVariables() != null)  adapter.addToObject(process.getVariables());
 			if (process.getPartnerLinks() != null)  adapter.addToObject(process.getPartnerLinks());
 			if (process.getCorrelationSets() != null)  adapter.addToObject(process.getCorrelationSets());
+			if (process.getMessageExchanges() != null)  adapter.addToObject(process.getMessageExchanges());
 		}
 	}
 
@@ -63,9 +63,15 @@ public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 		if (sets != null) {
 			list.add(sets);
 		}
+		
+		MessageExchanges exchanges = process.getMessageExchanges();
+		if (exchanges != null) {
+			list.add(exchanges);
+		}
 
 		IContainer container = new ActivityContainer(BPELPackage.eINSTANCE.getProcess_Activity());
-		list.addAll(container.getChildren(process));
+		List list2 = container.getChildren(process);
+		list.addAll(list2);
 		return list;
 	}
 }

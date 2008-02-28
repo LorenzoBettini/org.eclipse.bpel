@@ -195,6 +195,11 @@
               id="org.eclipse.bpel.ui.tabs.initialization"
               label="%DETAILS_PAGES_INITIALIZATION_LABEL"/>
         <propertyTab
+              afterTab="org.eclipse.bpel.ui.tabs.correlation"
+              category="implementation"
+              id="org.eclipse.bpel.ui.tabs.messageExchange"
+              label="%DETAILS_PAGES_MESSAGE_EXCHANGE_LABEL"/>
+        <propertyTab
               category="documentation"
               id="org.eclipse.bpel.ui.tabs.documentation"
               label="%DETAILS_PAGES_DOCUMENTATION_LABEL"/>
@@ -227,6 +232,7 @@
             <input type="org.eclipse.bpel.model.PartnerLink"/>
             <input type="org.eclipse.bpel.model.Process"/>
             <input type="org.eclipse.bpel.model.Link"/>
+            <input type="org.eclipse.bpel.model.MessageExchange"/>
         </propertySection>
         <propertySection
                afterSection="org.eclipse.bpel.ui.sections.Name"
@@ -267,6 +273,15 @@
                class="org.eclipse.bpel.ui.properties.CorrelationSection"
                id="org.eclipse.bpel.ui.sections.Correlation">
             <input type="org.eclipse.bpel.model.Invoke"/>
+            <input type="org.eclipse.bpel.model.OnMessage"/>
+            <input type="org.eclipse.bpel.model.OnEvent"/>
+            <input type="org.eclipse.bpel.model.Receive"/>
+            <input type="org.eclipse.bpel.model.Reply"/>
+        </propertySection>
+        <propertySection
+               tab="org.eclipse.bpel.ui.tabs.messageExchange"
+               class="org.eclipse.bpel.ui.properties.MessageExchangeSection"
+               id="org.eclipse.bpel.ui.sections.MessageExchange">
             <input type="org.eclipse.bpel.model.OnMessage"/>
             <input type="org.eclipse.bpel.model.OnEvent"/>
             <input type="org.eclipse.bpel.model.Receive"/>

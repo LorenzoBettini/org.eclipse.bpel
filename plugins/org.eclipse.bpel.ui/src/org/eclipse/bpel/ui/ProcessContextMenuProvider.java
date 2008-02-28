@@ -29,6 +29,7 @@ import org.eclipse.bpel.ui.actions.editpart.IEditPartAction;
 import org.eclipse.bpel.ui.adapters.IEditPartActionContributor;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
 import org.eclipse.bpel.ui.editparts.CorrelationSetsEditPart;
+import org.eclipse.bpel.ui.editparts.MessageExchangesEditPart;
 import org.eclipse.bpel.ui.editparts.PartnerLinksEditPart;
 import org.eclipse.bpel.ui.editparts.ReferencePartnerLinksEditPart;
 import org.eclipse.bpel.ui.editparts.VariablesEditPart;
@@ -193,6 +194,11 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		}
 		
 		action = actionRegistry.getAction(AddChildInTrayAction.calculateId(CorrelationSetsEditPart.class));
+		if (action != null && action.isEnabled()) {
+			menu.appendToGroup(FREQUENT_ACTIONS, action);
+		}
+
+		action = actionRegistry.getAction(AddChildInTrayAction.calculateId(MessageExchangesEditPart.class));
 		if (action != null && action.isEnabled()) {
 			menu.appendToGroup(FREQUENT_ACTIONS, action);
 		}

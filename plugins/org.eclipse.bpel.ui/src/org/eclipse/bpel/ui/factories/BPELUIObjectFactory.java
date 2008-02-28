@@ -92,6 +92,7 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			BPELPackage.eINSTANCE.getTerminationHandler(),
 			BPELPackage.eINSTANCE.getEventHandler(),
 			BPELPackage.eINSTANCE.getOnEvent(),
+			BPELPackage.eINSTANCE.getMessageExchange(),
 			BPELPackage.eINSTANCE.getValidate() };
 
 	protected EClass modelType;
@@ -221,8 +222,8 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 			Scope scope = (Scope) result;
 			scope.setVariables(BPELFactory.eINSTANCE.createVariables());
 			scope.setPartnerLinks(BPELFactory.eINSTANCE.createPartnerLinks());
-			scope.setCorrelationSets(BPELFactory.eINSTANCE
-					.createCorrelationSets());
+			scope.setCorrelationSets(BPELFactory.eINSTANCE.createCorrelationSets());
+			scope.setMessageExchanges(BPELFactory.eINSTANCE.createMessageExchanges());
 
 		} else if (result instanceof Pick) {
 			Pick pick = (Pick) result;
