@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.10 2007/12/06 20:01:24 smoser Exp $
+ * $Id: OnEventImpl.java,v 1.11 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,6 +19,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.model.FromParts;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
@@ -51,6 +52,7 @@ import org.eclipse.wst.wsdl.PortType;
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getMessageType <em>Message Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getFromParts <em>From Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.OnEventImpl#getMessageExchange <em>Message Exchange</em>}</li>
  * </ul>
  * </p>
  *
@@ -146,6 +148,16 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * @ordered
 	 */
 	protected FromParts fromParts;
+
+	/**
+	 * The cached value of the '{@link #getMessageExchange() <em>Message Exchange</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMessageExchange()
+	 * @generated
+	 * @ordered
+	 */
+	protected MessageExchange messageExchange;
 
 	/**
 	 * The deserialized value of the operation name.
@@ -245,7 +257,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			NotificationChain msgs) {
 		Variable oldVariable = variable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLE, newVariable == null ? null
+							: newVariable.getName());
 		}
 		variable = newVariable;
 		if (eNotificationRequired()) {
@@ -319,7 +333,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PARTNER_LINK,
+					newPartnerLink == null ? null : newPartnerLink.getName());
 		}
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
@@ -345,7 +361,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			NotificationChain msgs) {
 		Correlations oldCorrelations = correlations;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCorrelations, newCorrelations);
+			ReconciliationHelper.replaceChild(this, oldCorrelations,
+					newCorrelations);
 		}
 		correlations = newCorrelations;
 		if (eNotificationRequired()) {
@@ -439,7 +456,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPERATION, newOperation == null ? null : newOperation.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_OPERATION, newOperation == null ? null
+							: newOperation.getName());
 		}
 		operation = newOperation;
 		if (eNotificationRequired())
@@ -512,7 +531,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PORT_TYPE, newPortType == null ? null : newPortType.getQName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PORT_TYPE, newPortType == null ? null
+							: newPortType.getQName());
 		}
 		portType = newPortType;
 		if (eNotificationRequired())
@@ -587,7 +608,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
 		CorrelationSets oldCorrelationSets = correlationSets;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCorrelationSets, newCorrelationSets);
+			ReconciliationHelper.replaceChild(this, oldCorrelationSets,
+					newCorrelationSets);
 		}
 		correlationSets = newCorrelationSets;
 		if (eNotificationRequired()) {
@@ -691,6 +713,51 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MessageExchange getMessageExchange() {
+		if (messageExchange != null && messageExchange.eIsProxy()) {
+			InternalEObject oldMessageExchange = (InternalEObject) messageExchange;
+			messageExchange = (MessageExchange) eResolveProxy(oldMessageExchange);
+			if (messageExchange != oldMessageExchange) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.ON_EVENT__MESSAGE_EXCHANGE,
+							oldMessageExchange, messageExchange));
+			}
+		}
+		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageExchange basicGetMessageExchange() {
+		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @author Miriam Grundig (MGrundig@de.ibm.com)
+	 */
+	public void setMessageExchange(MessageExchange newMessageExchange) {
+		MessageExchange oldMessageExchange = messageExchange;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+		}
+		messageExchange = newMessageExchange;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.ON_EVENT__MESSAGE_EXCHANGE, oldMessageExchange,
+					messageExchange));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
@@ -743,6 +810,10 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			return getCorrelationSets();
 		case BPELPackage.ON_EVENT__FROM_PARTS:
 			return getFromParts();
+		case BPELPackage.ON_EVENT__MESSAGE_EXCHANGE:
+			if (resolve)
+				return getMessageExchange();
+			return basicGetMessageExchange();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -783,6 +854,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 		case BPELPackage.ON_EVENT__FROM_PARTS:
 			setFromParts((FromParts) newValue);
 			return;
+		case BPELPackage.ON_EVENT__MESSAGE_EXCHANGE:
+			setMessageExchange((MessageExchange) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -822,6 +896,9 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 		case BPELPackage.ON_EVENT__FROM_PARTS:
 			setFromParts((FromParts) null);
 			return;
+		case BPELPackage.ON_EVENT__MESSAGE_EXCHANGE:
+			setMessageExchange((MessageExchange) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -852,6 +929,8 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 			return correlationSets != null;
 		case BPELPackage.ON_EVENT__FROM_PARTS:
 			return fromParts != null;
+		case BPELPackage.ON_EVENT__MESSAGE_EXCHANGE:
+			return messageExchange != null;
 		}
 		return super.eIsSet(featureID);
 	}

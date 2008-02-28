@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Scope.java,v 1.6 2007/12/06 20:01:24 smoser Exp $
+ * $Id: Scope.java,v 1.7 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -306,17 +306,17 @@ public interface Scope extends Activity {
 	void setTerminationHandler(TerminationHandler value);
 
 	/**
-	 * Returns the value of the '<em><b>Message Exchanges</b></em>' reference.
+	 * Returns the value of the '<em><b>Message Exchanges</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Message Exchanges</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Message Exchanges</em>' reference.
+	 * @return the value of the '<em>Message Exchanges</em>' containment reference.
 	 * @see #setMessageExchanges(MessageExchanges)
 	 * @see org.eclipse.bpel.model.BPELPackage#getScope_MessageExchanges()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	MessageExchanges getMessageExchanges();

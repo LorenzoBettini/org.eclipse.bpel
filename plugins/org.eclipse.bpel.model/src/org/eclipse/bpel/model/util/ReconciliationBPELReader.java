@@ -107,6 +107,7 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.CorrelationSetProxy;
 import org.eclipse.bpel.model.proxy.LinkProxy;
+import org.eclipse.bpel.model.proxy.MessageExchangeProxy;
 import org.eclipse.bpel.model.proxy.MessageProxy;
 import org.eclipse.bpel.model.proxy.PartnerLinkProxy;
 import org.eclipse.bpel.model.proxy.PartnerLinkTypeProxy;
@@ -117,7 +118,6 @@ import org.eclipse.bpel.model.proxy.XSDElementDeclarationProxy;
 import org.eclipse.bpel.model.proxy.XSDTypeDefinitionProxy;
 import org.eclipse.bpel.model.resource.BPELLinkResolver;
 import org.eclipse.bpel.model.resource.BPELReader;
-import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.resource.BPELVariableResolver;
 import org.eclipse.bpel.model.resource.LineCapturingDOMParser;
 import org.eclipse.bpel.model.resource.LinkResolver;
@@ -415,7 +415,30 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		}
 		eObject.eSet(reference, targetPartnerLink);
 	}
+	
+	/**
+	 * Sets a PartnerLink element for a given EObject. The given activity
+	 * element must contain an attribute named "messageExchange".
+	 * 
+	 * @param activityElement
+	 *            the DOM element of the activity
+	 * @param eObject
+	 *            the EObject in which to set the message exchange
+	 */
+	protected void setMessageExchange(Element activityElement, final EObject eObject, final EReference reference) {
+		if (!activityElement.hasAttribute("messageExchange")) {
+			eObject.eSet(reference, null);
+			return;
+		}
 
+		final String messageExchangeName = activityElement.getAttribute("messageExchange");
+		MessageExchange targetMessageExchange = BPELUtils.getMessageExchange(eObject, messageExchangeName);
+		if (targetMessageExchange == null) {
+			targetMessageExchange = new MessageExchangeProxy(getResource().getURI(), messageExchangeName);
+		}
+		eObject.eSet(reference, targetMessageExchange);
+	}
+	
 	/**
 	 * Sets a Variable element for a given EObject. The given activity element
 	 * must contain an attribute with the given name
@@ -1142,6 +1165,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		return toParts;
 	}
 	
+	/**
+	 * Converts an XML messageExchanges
+	 */
 	protected MessageExchanges xml2MessageExchanges(MessageExchanges messageExchanges,
 			Element messageExchangesElement) {
 		if (!messageExchangesElement.getLocalName().equals("messageExchanges"))
@@ -1155,15 +1181,18 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Save all the references to external namespaces
 		saveNamespacePrefix(messageExchanges, messageExchangesElement);
 
-		syncLists(messageExchangesElement, ReconciliationHelper.getBPELChildElementsByLocalName(messageExchangesElement, BPELConstants.ND_MESSAGE_EXCHANGE), 
-   				messageExchanges.getChildren(), new Creator() {
-			public WSDLElement create(Element element) {
-				return xml2MessageExchange(null, element);
-			}
-		});
+		
+		List<Element> childElements = ReconciliationHelper.getBPELChildElementsByLocalName(
+				messageExchangesElement, "messageExchange");
+		EList<MessageExchange> childrenList = messageExchanges.getChildren();
+		syncLists(messageExchangesElement, childElements, childrenList,
+				new Creator() {
+					public WSDLElement create(Element element) {
+						return xml2MessageExchange(null, element);
+					}
+				});
 
 		xml2ExtensibleElement(messageExchanges, messageExchangesElement);
-
 		return messageExchanges;
 	}
 
@@ -1244,6 +1273,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 	 * Converts an XML messageExchange element to a BPEL MessageExchange object.
 	 */
 	protected MessageExchange xml2MessageExchange(MessageExchange messageExchange, Element messageExchangeElement) {
+		if (!messageExchangeElement.getLocalName().equals("messageExchange"))
+			return null;
+		
 		if (messageExchange == null) {
 			messageExchange = BPELFactory.eINSTANCE.createMessageExchange();
 			messageExchange.setElement(messageExchangeElement);
@@ -2088,6 +2120,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			onMessage.setFromParts(null);
 		}
 
+		// Set messageExchange
+		setMessageExchange(onMessageElement, (EObject) onMessage, BPELPackage.eINSTANCE.getOnMessage_MessageExchange());
+
 		xml2ExtensibleElement(onMessage, onMessageElement);
 
 		return onMessage;
@@ -2129,6 +2164,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		} else {
 			onEvent.setCorrelationSets(null);
 		}
+		
+		// Set messageExchange
+		setMessageExchange(onEventElement, (EObject) onEvent, BPELPackage.eINSTANCE.getOnEvent_MessageExchange());
 
 		xml2ExtensibleElement(onEvent, onEventElement);
 
@@ -3203,6 +3241,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			reply.setToParts(null);
 		}
 
+		// Set messageExchange
+		setMessageExchange(replyElement, (EObject) reply, BPELPackage.eINSTANCE.getReply_MessageExchange());
+
 		return reply;
 	}
 
@@ -3239,6 +3280,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		} else {
 			receive.setFromParts(null);
 		}
+		
+		// Set messageExchange
+		setMessageExchange(receiveElement, (EObject) receive, BPELPackage.eINSTANCE.getReceive_MessageExchange());
 
 		return receive;
 	}

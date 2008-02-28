@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import javax.xml.namespace.QName;
 
@@ -179,10 +178,10 @@ public class ReconciliationHelper {
 			reader.xml2OnMessage((OnMessage)element, changedElement);
 		} else if (element instanceof OnEvent){
 			reader.xml2OnEvent((OnEvent)element, changedElement);
-		} else if (element instanceof MessageExchange){
-			reader.xml2MessageExchange((MessageExchange)element, changedElement);
 		} else if (element instanceof MessageExchanges){
 			reader.xml2MessageExchanges((MessageExchanges)element, changedElement);
+		} else if (element instanceof MessageExchange){
+			reader.xml2MessageExchange((MessageExchange)element, changedElement);
 		} else if (element instanceof Extension){
 			reader.xml2Extension((Extension)element, changedElement);
 		} else if (element instanceof Extensions){
@@ -414,6 +413,8 @@ public class ReconciliationHelper {
 			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_CORRELATION_SETS, BPELConstants.ND_CORRELATION_SET);
 		} else if (child instanceof PartnerLink) {
 			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_PARTNER_LINKS, BPELConstants.ND_PARTNER_LINK);
+		} else if (child instanceof MessageExchange) {
+			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_MESSAGE_EXCHANGES, BPELConstants.ND_MESSAGE_EXCHANGE);
 		}
 		
 		// TODO: (DU) probably this if will be no longer needed when sync work is finished
@@ -601,6 +602,15 @@ public class ReconciliationHelper {
 				((Process) parent.getContainer()).setCorrelationSets(null);
 			else if (parent.getContainer() instanceof Scope)
 				((Scope) parent.getContainer()).setCorrelationSets(null);
+			else
+				throw new IllegalStateException();
+		}
+		// Remove <messageExchanges> if there are no children
+		if ((child instanceof MessageExchanges) && (((MessageExchanges) parent).getChildren().size() == 0)) {
+			if (parent.getContainer() instanceof Process)
+				((Process) parent.getContainer()).setMessageExchanges(null);
+			else if (parent.getContainer() instanceof Scope)
+				((Scope) parent.getContainer()).setMessageExchanges(null);
 			else
 				throw new IllegalStateException();
 		}

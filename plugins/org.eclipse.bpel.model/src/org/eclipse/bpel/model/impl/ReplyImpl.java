@@ -10,13 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.12 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ReplyImpl.java,v 1.13 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
@@ -38,6 +39,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getFaultName <em>Fault Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getToParts <em>To Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ReplyImpl#getMessageExchange <em>Message Exchange</em>}</li>
  * </ul>
  * </p>
  *
@@ -86,6 +88,16 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	protected ToParts toParts;
 
 	/**
+	 * The cached value of the '{@link #getMessageExchange() <em>Message Exchange</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMessageExchange()
+	 * @generated
+	 * @ordered
+	 */
+	protected MessageExchange messageExchange;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +132,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_NAME, newFaultName == null ? null : newFaultName);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_NAME, newFaultName == null ? null
+							: newFaultName);
 		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
@@ -162,7 +176,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLE, newVariable == null ? null
+							: newVariable.getName());
 		}
 		variable = newVariable;
 		if (eNotificationRequired())
@@ -231,6 +247,51 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MessageExchange getMessageExchange() {
+		if (messageExchange != null && messageExchange.eIsProxy()) {
+			InternalEObject oldMessageExchange = (InternalEObject) messageExchange;
+			messageExchange = (MessageExchange) eResolveProxy(oldMessageExchange);
+			if (messageExchange != oldMessageExchange) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.REPLY__MESSAGE_EXCHANGE,
+							oldMessageExchange, messageExchange));
+			}
+		}
+		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageExchange basicGetMessageExchange() {
+		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @author Miriam Grundig (MGrundig@de.ibm.com)
+	 */
+	public void setMessageExchange(MessageExchange newMessageExchange) {
+		MessageExchange oldMessageExchange = messageExchange;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+		}
+		messageExchange = newMessageExchange;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.REPLY__MESSAGE_EXCHANGE, oldMessageExchange,
+					messageExchange));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
@@ -257,6 +318,10 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 			return basicGetVariable();
 		case BPELPackage.REPLY__TO_PARTS:
 			return getToParts();
+		case BPELPackage.REPLY__MESSAGE_EXCHANGE:
+			if (resolve)
+				return getMessageExchange();
+			return basicGetMessageExchange();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -279,6 +344,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 		case BPELPackage.REPLY__TO_PARTS:
 			setToParts((ToParts) newValue);
 			return;
+		case BPELPackage.REPLY__MESSAGE_EXCHANGE:
+			setMessageExchange((MessageExchange) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -300,6 +368,9 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 		case BPELPackage.REPLY__TO_PARTS:
 			setToParts((ToParts) null);
 			return;
+		case BPELPackage.REPLY__MESSAGE_EXCHANGE:
+			setMessageExchange((MessageExchange) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -319,6 +390,8 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 			return variable != null;
 		case BPELPackage.REPLY__TO_PARTS:
 			return toParts != null;
+		case BPELPackage.REPLY__MESSAGE_EXCHANGE:
+			return messageExchange != null;
 		}
 		return super.eIsSet(featureID);
 	}

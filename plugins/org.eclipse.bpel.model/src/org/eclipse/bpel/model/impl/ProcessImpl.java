@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.14 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ProcessImpl.java,v 1.15 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -336,7 +336,7 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	protected Boolean exitOnStandardFault = EXIT_ON_STANDARD_FAULT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getMessageExchanges() <em>Message Exchanges</em>}' reference.
+	 * The cached value of the '{@link #getMessageExchanges() <em>Message Exchanges</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMessageExchanges()
@@ -380,7 +380,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setName(String newName) {
 		String oldName = name;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME,
+					newName);
 		}
 		name = newName;
 		if (eNotificationRequired())
@@ -404,7 +405,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setTargetNamespace(String newTargetNamespace) {
 		String oldTargetNamespace = targetNamespace;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_TARGET_NAMESPACE, newTargetNamespace);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_TARGET_NAMESPACE, newTargetNamespace);
 		}
 		targetNamespace = newTargetNamespace;
 		if (eNotificationRequired())
@@ -429,7 +431,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
 		}
 		queryLanguage = newQueryLanguage;
 		boolean oldQueryLanguageESet = queryLanguageESet;
@@ -447,7 +450,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void unsetQueryLanguage() {
 		String oldQueryLanguage = queryLanguage;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_QUERYLANGUAGE, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_QUERYLANGUAGE, (String) null);
 		}
 		boolean oldQueryLanguageESet = queryLanguageESet;
 		queryLanguage = QUERY_LANGUAGE_EDEFAULT;
@@ -483,7 +487,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
 		}
 		expressionLanguage = newExpressionLanguage;
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
@@ -502,7 +507,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXPRESSIONLANGUAGE, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_EXPRESSIONLANGUAGE, (String) null);
 		}
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
@@ -540,7 +546,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		suppressJoinFailure = newSuppressJoinFailure;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils.boolean2XML(newSuppressJoinFailure));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils
+							.boolean2XML(newSuppressJoinFailure));
 		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailureESet = true;
@@ -558,7 +566,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SUPPRESS_JOIN_FAILURE, (String) null);
 		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;
@@ -596,7 +605,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			Boolean newVariableAccessSerializable) {
 		Boolean oldVariableAccessSerializable = variableAccessSerializable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE_ACCESS_SERIALIZABLE, BPELUtils.boolean2XML(newVariableAccessSerializable));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLE_ACCESS_SERIALIZABLE, BPELUtils
+							.boolean2XML(newVariableAccessSerializable));
 		}
 		variableAccessSerializable = newVariableAccessSerializable;
 		boolean oldVariableAccessSerializableESet = variableAccessSerializableESet;
@@ -615,7 +626,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void unsetVariableAccessSerializable() {
 		Boolean oldVariableAccessSerializable = variableAccessSerializable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE_ACCESS_SERIALIZABLE, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLE_ACCESS_SERIALIZABLE,
+					(String) null);
 		}
 		boolean oldVariableAccessSerializableESet = variableAccessSerializableESet;
 		variableAccessSerializable = VARIABLE_ACCESS_SERIALIZABLE_EDEFAULT;
@@ -654,7 +667,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			NotificationChain msgs) {
 		PartnerLinks oldPartnerLinks = partnerLinks;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldPartnerLinks, newPartnerLinks);
+			ReconciliationHelper.replaceChild(this, oldPartnerLinks,
+					newPartnerLinks);
 		}
 		partnerLinks = newPartnerLinks;
 		if (eNotificationRequired()) {
@@ -825,7 +839,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			FaultHandler newFaultHandlers, NotificationChain msgs) {
 		FaultHandler oldFaultHandlers = faultHandlers;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldFaultHandlers, newFaultHandlers);
+			ReconciliationHelper.replaceChild(this, oldFaultHandlers,
+					newFaultHandlers);
 		}
 		faultHandlers = newFaultHandlers;
 		if (eNotificationRequired()) {
@@ -884,7 +899,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			NotificationChain msgs) {
 		Extensions oldExtensions = extensions;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldExtensions, newExtensions);
+			ReconciliationHelper.replaceChild(this, oldExtensions,
+					newExtensions);
 		}
 		extensions = newExtensions;
 		if (eNotificationRequired()) {
@@ -940,7 +956,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXIT_ON_STANDARD_FAULT, BPELUtils.boolean2XML(newExitOnStandardFault));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_EXIT_ON_STANDARD_FAULT, BPELUtils
+							.boolean2XML(newExitOnStandardFault));
 		}
 		exitOnStandardFault = newExitOnStandardFault;
 		if (eNotificationRequired())
@@ -955,26 +973,31 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 * @generated
 	 */
 	public MessageExchanges getMessageExchanges() {
-		if (messageExchanges != null && messageExchanges.eIsProxy()) {
-			InternalEObject oldMessageExchanges = (InternalEObject) messageExchanges;
-			messageExchanges = (MessageExchanges) eResolveProxy(oldMessageExchanges);
-			if (messageExchanges != oldMessageExchanges) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							BPELPackage.PROCESS__MESSAGE_EXCHANGES,
-							oldMessageExchanges, messageExchanges));
-			}
-		}
 		return messageExchanges;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
-	public MessageExchanges basicGetMessageExchanges() {
-		return messageExchanges;
+	private NotificationChain basicSetMessageExchanges(
+			MessageExchanges newMessageExchanges, NotificationChain msgs) {
+		MessageExchanges oldMessageExchanges = messageExchanges;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldMessageExchanges,
+					newMessageExchanges);
+		}
+		messageExchanges = newMessageExchanges;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.PROCESS__MESSAGE_EXCHANGES,
+					oldMessageExchanges, newMessageExchanges);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -982,15 +1005,34 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 * <!-- end-user-doc -->
 	 */
 	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
-		MessageExchanges oldMessageExchanges = messageExchanges;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldMessageExchanges, newMessageExchanges);
-		}
-		messageExchanges = newMessageExchanges;
-		if (eNotificationRequired())
+		if (newMessageExchanges != messageExchanges) {
+			NotificationChain msgs = null;
+			if (messageExchanges != null)
+				msgs = ((InternalEObject) messageExchanges).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__MESSAGE_EXCHANGES, null,
+						msgs);
+			if (newMessageExchanges != null)
+				msgs = ((InternalEObject) newMessageExchanges).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.PROCESS__MESSAGE_EXCHANGES, null,
+						msgs);
+			msgs = basicSetMessageExchanges(newMessageExchanges, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					BPELPackage.PROCESS__MESSAGE_EXCHANGES,
-					oldMessageExchanges, messageExchanges));
+					newMessageExchanges, newMessageExchanges));
+		//		MessageExchanges oldMessageExchanges = messageExchanges;
+		//		if (!isReconciling) {
+		//			ReconciliationHelper.replaceChild(this, oldMessageExchanges, newMessageExchanges);
+		//		}
+		//		messageExchanges = newMessageExchanges;
+		//		if (eNotificationRequired())
+		//			eNotify(new ENotificationImpl(this, Notification.SET,
+		//					BPELPackage.PROCESS__MESSAGE_EXCHANGES,
+		//					oldMessageExchanges, messageExchanges));
 	}
 
 	/**
@@ -1002,23 +1044,25 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.PROCESS__PARTNER_LINKS:
-				return basicSetPartnerLinks(null, msgs);
-			case BPELPackage.PROCESS__VARIABLES:
-				return basicSetVariables(null, msgs);
-			case BPELPackage.PROCESS__ACTIVITY:
-				return basicSetActivity(null, msgs);
-			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				return basicSetFaultHandlers(null, msgs);
-			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				return basicSetEventHandlers(null, msgs);
-			case BPELPackage.PROCESS__CORRELATION_SETS:
-				return basicSetCorrelationSets(null, msgs);
-			case BPELPackage.PROCESS__IMPORTS:
-				return ((InternalEList<?>) getImports()).basicRemove(otherEnd,
-						msgs);
-			case BPELPackage.PROCESS__EXTENSIONS:
-				return basicSetExtensions(null, msgs);
+		case BPELPackage.PROCESS__PARTNER_LINKS:
+			return basicSetPartnerLinks(null, msgs);
+		case BPELPackage.PROCESS__VARIABLES:
+			return basicSetVariables(null, msgs);
+		case BPELPackage.PROCESS__ACTIVITY:
+			return basicSetActivity(null, msgs);
+		case BPELPackage.PROCESS__FAULT_HANDLERS:
+			return basicSetFaultHandlers(null, msgs);
+		case BPELPackage.PROCESS__EVENT_HANDLERS:
+			return basicSetEventHandlers(null, msgs);
+		case BPELPackage.PROCESS__CORRELATION_SETS:
+			return basicSetCorrelationSets(null, msgs);
+		case BPELPackage.PROCESS__IMPORTS:
+			return ((InternalEList<?>) getImports())
+					.basicRemove(otherEnd, msgs);
+		case BPELPackage.PROCESS__EXTENSIONS:
+			return basicSetExtensions(null, msgs);
+		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+			return basicSetMessageExchanges(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -1031,40 +1075,38 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.PROCESS__NAME:
-				return getName();
-			case BPELPackage.PROCESS__TARGET_NAMESPACE:
-				return getTargetNamespace();
-			case BPELPackage.PROCESS__QUERY_LANGUAGE:
-				return getQueryLanguage();
-			case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
-				return getExpressionLanguage();
-			case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
-				return getVariableAccessSerializable();
-			case BPELPackage.PROCESS__PARTNER_LINKS:
-				return getPartnerLinks();
-			case BPELPackage.PROCESS__VARIABLES:
-				return getVariables();
-			case BPELPackage.PROCESS__ACTIVITY:
-				return getActivity();
-			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				return getFaultHandlers();
-			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				return getEventHandlers();
-			case BPELPackage.PROCESS__CORRELATION_SETS:
-				return getCorrelationSets();
-			case BPELPackage.PROCESS__IMPORTS:
-				return getImports();
-			case BPELPackage.PROCESS__EXTENSIONS:
-				return getExtensions();
-			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
-				return getExitOnStandardFault();
-			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				if (resolve)
-					return getMessageExchanges();
-				return basicGetMessageExchanges();
+		case BPELPackage.PROCESS__NAME:
+			return getName();
+		case BPELPackage.PROCESS__TARGET_NAMESPACE:
+			return getTargetNamespace();
+		case BPELPackage.PROCESS__QUERY_LANGUAGE:
+			return getQueryLanguage();
+		case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
+			return getExpressionLanguage();
+		case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
+			return getSuppressJoinFailure();
+		case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
+			return getVariableAccessSerializable();
+		case BPELPackage.PROCESS__PARTNER_LINKS:
+			return getPartnerLinks();
+		case BPELPackage.PROCESS__VARIABLES:
+			return getVariables();
+		case BPELPackage.PROCESS__ACTIVITY:
+			return getActivity();
+		case BPELPackage.PROCESS__FAULT_HANDLERS:
+			return getFaultHandlers();
+		case BPELPackage.PROCESS__EVENT_HANDLERS:
+			return getEventHandlers();
+		case BPELPackage.PROCESS__CORRELATION_SETS:
+			return getCorrelationSets();
+		case BPELPackage.PROCESS__IMPORTS:
+			return getImports();
+		case BPELPackage.PROCESS__EXTENSIONS:
+			return getExtensions();
+		case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+			return getExitOnStandardFault();
+		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+			return getMessageExchanges();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1078,55 +1120,55 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.PROCESS__NAME:
-				setName((String) newValue);
-				return;
-			case BPELPackage.PROCESS__TARGET_NAMESPACE:
-				setTargetNamespace((String) newValue);
-				return;
-			case BPELPackage.PROCESS__QUERY_LANGUAGE:
-				setQueryLanguage((String) newValue);
-				return;
-			case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
-				setExpressionLanguage((String) newValue);
-				return;
-			case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean) newValue);
-				return;
-			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
-				setVariableAccessSerializable((Boolean) newValue);
-				return;
-			case BPELPackage.PROCESS__PARTNER_LINKS:
-				setPartnerLinks((PartnerLinks) newValue);
-				return;
-			case BPELPackage.PROCESS__VARIABLES:
-				setVariables((Variables) newValue);
-				return;
-			case BPELPackage.PROCESS__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				setFaultHandlers((FaultHandler) newValue);
-				return;
-			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				setEventHandlers((EventHandler) newValue);
-				return;
-			case BPELPackage.PROCESS__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets) newValue);
-				return;
-			case BPELPackage.PROCESS__IMPORTS:
-				getImports().clear();
-				getImports().addAll((Collection<? extends Import>) newValue);
-				return;
-			case BPELPackage.PROCESS__EXTENSIONS:
-				setExtensions((Extensions) newValue);
-				return;
-			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
-				setExitOnStandardFault((Boolean) newValue);
-				return;
-			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				setMessageExchanges((MessageExchanges) newValue);
-				return;
+		case BPELPackage.PROCESS__NAME:
+			setName((String) newValue);
+			return;
+		case BPELPackage.PROCESS__TARGET_NAMESPACE:
+			setTargetNamespace((String) newValue);
+			return;
+		case BPELPackage.PROCESS__QUERY_LANGUAGE:
+			setQueryLanguage((String) newValue);
+			return;
+		case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
+			setExpressionLanguage((String) newValue);
+			return;
+		case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
+			setSuppressJoinFailure((Boolean) newValue);
+			return;
+		case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
+			setVariableAccessSerializable((Boolean) newValue);
+			return;
+		case BPELPackage.PROCESS__PARTNER_LINKS:
+			setPartnerLinks((PartnerLinks) newValue);
+			return;
+		case BPELPackage.PROCESS__VARIABLES:
+			setVariables((Variables) newValue);
+			return;
+		case BPELPackage.PROCESS__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.PROCESS__FAULT_HANDLERS:
+			setFaultHandlers((FaultHandler) newValue);
+			return;
+		case BPELPackage.PROCESS__EVENT_HANDLERS:
+			setEventHandlers((EventHandler) newValue);
+			return;
+		case BPELPackage.PROCESS__CORRELATION_SETS:
+			setCorrelationSets((CorrelationSets) newValue);
+			return;
+		case BPELPackage.PROCESS__IMPORTS:
+			getImports().clear();
+			getImports().addAll((Collection<? extends Import>) newValue);
+			return;
+		case BPELPackage.PROCESS__EXTENSIONS:
+			setExtensions((Extensions) newValue);
+			return;
+		case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+			setExitOnStandardFault((Boolean) newValue);
+			return;
+		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+			setMessageExchanges((MessageExchanges) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -1139,54 +1181,54 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PROCESS__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.PROCESS__TARGET_NAMESPACE:
-				setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-				return;
-			case BPELPackage.PROCESS__QUERY_LANGUAGE:
-				unsetQueryLanguage();
-				return;
-			case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
-				unsetExpressionLanguage();
-				return;
-			case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
-				unsetVariableAccessSerializable();
-				return;
-			case BPELPackage.PROCESS__PARTNER_LINKS:
-				setPartnerLinks((PartnerLinks) null);
-				return;
-			case BPELPackage.PROCESS__VARIABLES:
-				setVariables((Variables) null);
-				return;
-			case BPELPackage.PROCESS__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				setFaultHandlers((FaultHandler) null);
-				return;
-			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				setEventHandlers((EventHandler) null);
-				return;
-			case BPELPackage.PROCESS__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets) null);
-				return;
-			case BPELPackage.PROCESS__IMPORTS:
-				getImports().clear();
-				return;
-			case BPELPackage.PROCESS__EXTENSIONS:
-				setExtensions((Extensions) null);
-				return;
-			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
-				setExitOnStandardFault(EXIT_ON_STANDARD_FAULT_EDEFAULT);
-				return;
-			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				setMessageExchanges((MessageExchanges) null);
-				return;
+		case BPELPackage.PROCESS__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case BPELPackage.PROCESS__TARGET_NAMESPACE:
+			setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
+			return;
+		case BPELPackage.PROCESS__QUERY_LANGUAGE:
+			unsetQueryLanguage();
+			return;
+		case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
+			unsetExpressionLanguage();
+			return;
+		case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
+			unsetSuppressJoinFailure();
+			return;
+		case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
+			unsetVariableAccessSerializable();
+			return;
+		case BPELPackage.PROCESS__PARTNER_LINKS:
+			setPartnerLinks((PartnerLinks) null);
+			return;
+		case BPELPackage.PROCESS__VARIABLES:
+			setVariables((Variables) null);
+			return;
+		case BPELPackage.PROCESS__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.PROCESS__FAULT_HANDLERS:
+			setFaultHandlers((FaultHandler) null);
+			return;
+		case BPELPackage.PROCESS__EVENT_HANDLERS:
+			setEventHandlers((EventHandler) null);
+			return;
+		case BPELPackage.PROCESS__CORRELATION_SETS:
+			setCorrelationSets((CorrelationSets) null);
+			return;
+		case BPELPackage.PROCESS__IMPORTS:
+			getImports().clear();
+			return;
+		case BPELPackage.PROCESS__EXTENSIONS:
+			setExtensions((Extensions) null);
+			return;
+		case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+			setExitOnStandardFault(EXIT_ON_STANDARD_FAULT_EDEFAULT);
+			return;
+		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+			setMessageExchanges((MessageExchanges) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1199,42 +1241,42 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PROCESS__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-						.equals(name);
-			case BPELPackage.PROCESS__TARGET_NAMESPACE:
-				return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null
-						: !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-			case BPELPackage.PROCESS__QUERY_LANGUAGE:
-				return isSetQueryLanguage();
-			case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
-				return isSetExpressionLanguage();
-			case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
-				return isSetVariableAccessSerializable();
-			case BPELPackage.PROCESS__PARTNER_LINKS:
-				return partnerLinks != null;
-			case BPELPackage.PROCESS__VARIABLES:
-				return variables != null;
-			case BPELPackage.PROCESS__ACTIVITY:
-				return activity != null;
-			case BPELPackage.PROCESS__FAULT_HANDLERS:
-				return faultHandlers != null;
-			case BPELPackage.PROCESS__EVENT_HANDLERS:
-				return eventHandlers != null;
-			case BPELPackage.PROCESS__CORRELATION_SETS:
-				return correlationSets != null;
-			case BPELPackage.PROCESS__IMPORTS:
-				return imports != null && !imports.isEmpty();
-			case BPELPackage.PROCESS__EXTENSIONS:
-				return extensions != null;
-			case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
-				return EXIT_ON_STANDARD_FAULT_EDEFAULT == null ? exitOnStandardFault != null
-						: !EXIT_ON_STANDARD_FAULT_EDEFAULT
-								.equals(exitOnStandardFault);
-			case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
-				return messageExchanges != null;
+		case BPELPackage.PROCESS__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
+		case BPELPackage.PROCESS__TARGET_NAMESPACE:
+			return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null
+					: !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
+		case BPELPackage.PROCESS__QUERY_LANGUAGE:
+			return isSetQueryLanguage();
+		case BPELPackage.PROCESS__EXPRESSION_LANGUAGE:
+			return isSetExpressionLanguage();
+		case BPELPackage.PROCESS__SUPPRESS_JOIN_FAILURE:
+			return isSetSuppressJoinFailure();
+		case BPELPackage.PROCESS__VARIABLE_ACCESS_SERIALIZABLE:
+			return isSetVariableAccessSerializable();
+		case BPELPackage.PROCESS__PARTNER_LINKS:
+			return partnerLinks != null;
+		case BPELPackage.PROCESS__VARIABLES:
+			return variables != null;
+		case BPELPackage.PROCESS__ACTIVITY:
+			return activity != null;
+		case BPELPackage.PROCESS__FAULT_HANDLERS:
+			return faultHandlers != null;
+		case BPELPackage.PROCESS__EVENT_HANDLERS:
+			return eventHandlers != null;
+		case BPELPackage.PROCESS__CORRELATION_SETS:
+			return correlationSets != null;
+		case BPELPackage.PROCESS__IMPORTS:
+			return imports != null && !imports.isEmpty();
+		case BPELPackage.PROCESS__EXTENSIONS:
+			return extensions != null;
+		case BPELPackage.PROCESS__EXIT_ON_STANDARD_FAULT:
+			return EXIT_ON_STANDARD_FAULT_EDEFAULT == null ? exitOnStandardFault != null
+					: !EXIT_ON_STANDARD_FAULT_EDEFAULT
+							.equals(exitOnStandardFault);
+		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
+			return messageExchanges != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1312,7 +1354,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
 		CorrelationSets oldCorrelationSets = correlationSets;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCorrelationSets, newCorrelationSets);
+			ReconciliationHelper.replaceChild(this, oldCorrelationSets,
+					newCorrelationSets);
 		}
 		correlationSets = newCorrelationSets;
 		if (eNotificationRequired()) {
@@ -1411,19 +1454,20 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Import) {
-			ReconciliationHelper.adoptChild(this, imports, (Import)object, BPELConstants.ND_IMPORT);
+			ReconciliationHelper.adoptChild(this, imports, (Import) object,
+					BPELConstants.ND_IMPORT);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Import) {
-			ReconciliationHelper.orphanChild(this, (Import)obj);
+			ReconciliationHelper.orphanChild(this, (Import) obj);
 		}
 		super.orphanContent(reference, obj);
 	}
-	
+
 	/**
 	 * @customized
 	 */
@@ -1446,67 +1490,69 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		// reconciling) in case if the namespace attribute has been changed (DO)
 		boolean old = isReconciling;
 		isReconciling = true;
-		if (prefix.equals("")){
-			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns", namespace);
+		if (prefix.equals("")) {
+			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns",
+					namespace);
 		} else {
-			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:" + prefix, namespace);
+			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000,
+					"xmlns:" + prefix, namespace);
 		}
-		Map<String,String> nsMap = BPELUtils.getNamespaceMap(this);
+		Map<String, String> nsMap = BPELUtils.getNamespaceMap(this);
 		nsMap.put(prefix, namespace);
 		isReconciling = old;
 	}
-	
-//	public void reconcileAttributes(Element changedElement) {
-//		if (changedElement.hasAttribute(BPELConstants.AT_NAME)) {
-//			String name = changedElement.getAttribute(BPELConstants.AT_NAME);
-//			if (name != null) {
-//				setName(name);
-//			}
-//		} 
-//		if (changedElement.hasAttribute(BPELConstants.AT_SUPPRESS_JOIN_FAILURE)) {
-//			setSuppressJoinFailure(BPELUtils.xml2boolean(changedElement.getAttribute(BPELConstants.AT_SUPPRESS_JOIN_FAILURE)));
-//		} 
-//		if (changedElement.hasAttribute(BPELConstants.AT_TARGET_NAMESPACE)) {
-//			String nameSpace = changedElement.getAttribute(BPELConstants.AT_TARGET_NAMESPACE);
-//			if (nameSpace != null) {
-//				setTargetNamespace(nameSpace);
-//			}
-//		}
-//		if (changedElement.hasAttribute(BPELConstants.AT_QUERYLANGUAGE)) {
-//			String queryLanguage = changedElement.getAttribute(BPELConstants.AT_QUERYLANGUAGE);
-//			if (queryLanguage != null) {
-//				setQueryLanguage(queryLanguage);
-//			}
-//		}
-//		if (changedElement.hasAttribute(BPELConstants.AT_EXPRESSIONLANGUAGE)) {
-//			String expressionLanguage = changedElement.getAttribute(BPELConstants.AT_EXPRESSIONLANGUAGE);
-//			if (expressionLanguage != null) {
-//				setQueryLanguage(expressionLanguage);
-//			}
-//		}
-//		if (changedElement.hasAttribute(BPELConstants.AT_EXIT_ON_STANDARD_FAULT)) {
-//			setExitOnStandardFault(BPELUtils.xml2boolean(changedElement.getAttribute(BPELConstants.AT_EXIT_ON_STANDARD_FAULT)));
-//		}
-//		super.reconcileAttributes(changedElement);
-//	}
-//	
-//	protected void handleReconciliation(Collection remainingModelObjects) {
-//		for (Object o : remainingModelObjects) {
-//			if (o == activity) {
-//				setActivity(null);
-//			} else if (o == correlationSets) {
-//				setCorrelationSets(null);
-//			}
-//		}
-//	}	
-//
-//	public void handleUnreconciledElement(Element child, Collection remainingModelObjects) {
-//		Activity activity = ReconciliationHelper.createActivity(child);
-//		if (activity != null) {
-//			ReconciliationHelper.addActivity(this, activity);
-//		} else {
-//			super.handleUnreconciledElement(child, remainingModelObjects);
-//		}
-//	}
+
+	//	public void reconcileAttributes(Element changedElement) {
+	//		if (changedElement.hasAttribute(BPELConstants.AT_NAME)) {
+	//			String name = changedElement.getAttribute(BPELConstants.AT_NAME);
+	//			if (name != null) {
+	//				setName(name);
+	//			}
+	//		} 
+	//		if (changedElement.hasAttribute(BPELConstants.AT_SUPPRESS_JOIN_FAILURE)) {
+	//			setSuppressJoinFailure(BPELUtils.xml2boolean(changedElement.getAttribute(BPELConstants.AT_SUPPRESS_JOIN_FAILURE)));
+	//		} 
+	//		if (changedElement.hasAttribute(BPELConstants.AT_TARGET_NAMESPACE)) {
+	//			String nameSpace = changedElement.getAttribute(BPELConstants.AT_TARGET_NAMESPACE);
+	//			if (nameSpace != null) {
+	//				setTargetNamespace(nameSpace);
+	//			}
+	//		}
+	//		if (changedElement.hasAttribute(BPELConstants.AT_QUERYLANGUAGE)) {
+	//			String queryLanguage = changedElement.getAttribute(BPELConstants.AT_QUERYLANGUAGE);
+	//			if (queryLanguage != null) {
+	//				setQueryLanguage(queryLanguage);
+	//			}
+	//		}
+	//		if (changedElement.hasAttribute(BPELConstants.AT_EXPRESSIONLANGUAGE)) {
+	//			String expressionLanguage = changedElement.getAttribute(BPELConstants.AT_EXPRESSIONLANGUAGE);
+	//			if (expressionLanguage != null) {
+	//				setQueryLanguage(expressionLanguage);
+	//			}
+	//		}
+	//		if (changedElement.hasAttribute(BPELConstants.AT_EXIT_ON_STANDARD_FAULT)) {
+	//			setExitOnStandardFault(BPELUtils.xml2boolean(changedElement.getAttribute(BPELConstants.AT_EXIT_ON_STANDARD_FAULT)));
+	//		}
+	//		super.reconcileAttributes(changedElement);
+	//	}
+	//	
+	//	protected void handleReconciliation(Collection remainingModelObjects) {
+	//		for (Object o : remainingModelObjects) {
+	//			if (o == activity) {
+	//				setActivity(null);
+	//			} else if (o == correlationSets) {
+	//				setCorrelationSets(null);
+	//			}
+	//		}
+	//	}	
+	//
+	//	public void handleUnreconciledElement(Element child, Collection remainingModelObjects) {
+	//		Activity activity = ReconciliationHelper.createActivity(child);
+	//		if (activity != null) {
+	//			ReconciliationHelper.addActivity(this, activity);
+	//		} else {
+	//			super.handleUnreconciledElement(child, remainingModelObjects);
+	//		}
+	//	}
 
 } //ProcessImpl

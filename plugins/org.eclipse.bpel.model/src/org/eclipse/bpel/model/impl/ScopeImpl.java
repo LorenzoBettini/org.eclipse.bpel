@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.11 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ScopeImpl.java,v 1.12 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -176,7 +176,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	protected TerminationHandler terminationHandler;
 
 	/**
-	 * The cached value of the '{@link #getMessageExchanges() <em>Message Exchanges</em>}' reference.
+	 * The cached value of the '{@link #getMessageExchanges() <em>Message Exchanges</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMessageExchanges()
@@ -250,7 +250,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 		Boolean oldIsolated = isolated;
 		isolated = newIsolated;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ISOLATED, BPELUtils.boolean2XML(newIsolated));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_ISOLATED, BPELUtils
+							.boolean2XML(newIsolated));
 		}
 		boolean oldIsolatedESet = isolatedESet;
 		isolatedESet = true;
@@ -267,7 +269,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public void unsetIsolated() {
 		Boolean oldIsolated = isolated;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_ISOLATED, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_ISOLATED, (String) null);
 		}
 		boolean oldIsolatedESet = isolatedESet;
 		isolated = ISOLATED_EDEFAULT;
@@ -304,7 +307,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			FaultHandler newFaultHandlers, NotificationChain msgs) {
 		FaultHandler oldFaultHandlers = faultHandlers;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldFaultHandlers, newFaultHandlers);
+			ReconciliationHelper.replaceChild(this, oldFaultHandlers,
+					newFaultHandlers);
 		}
 		faultHandlers = newFaultHandlers;
 		if (eNotificationRequired()) {
@@ -361,7 +365,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			CompensationHandler newCompensationHandler, NotificationChain msgs) {
 		CompensationHandler oldCompensationHandler = compensationHandler;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCompensationHandler, newCompensationHandler);
+			ReconciliationHelper.replaceChild(this, oldCompensationHandler,
+					newCompensationHandler);
 		}
 		compensationHandler = newCompensationHandler;
 		if (eNotificationRequired()) {
@@ -533,7 +538,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			CorrelationSets newCorrelationSets, NotificationChain msgs) {
 		CorrelationSets oldCorrelationSets = correlationSets;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCorrelationSets, newCorrelationSets);
+			ReconciliationHelper.replaceChild(this, oldCorrelationSets,
+					newCorrelationSets);
 		}
 		correlationSets = newCorrelationSets;
 		if (eNotificationRequired()) {
@@ -592,7 +598,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			EventHandler newEventHandlers, NotificationChain msgs) {
 		EventHandler oldEventHandlers = eventHandlers;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldEventHandlers, newEventHandlers);
+			ReconciliationHelper.replaceChild(this, oldEventHandlers,
+					newEventHandlers);
 		}
 		eventHandlers = newEventHandlers;
 		if (eNotificationRequired()) {
@@ -649,7 +656,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			NotificationChain msgs) {
 		PartnerLinks oldPartnerLinks = partnerLinks;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldPartnerLinks, newPartnerLinks);
+			ReconciliationHelper.replaceChild(this, oldPartnerLinks,
+					newPartnerLinks);
 		}
 		partnerLinks = newPartnerLinks;
 		if (eNotificationRequired()) {
@@ -706,7 +714,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 			TerminationHandler newTerminationHandler, NotificationChain msgs) {
 		TerminationHandler oldTerminationHandler = terminationHandler;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldTerminationHandler, newTerminationHandler);
+			ReconciliationHelper.replaceChild(this, oldTerminationHandler,
+					newTerminationHandler);
 		}
 		terminationHandler = newTerminationHandler;
 		if (eNotificationRequired()) {
@@ -754,25 +763,6 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * @generated
 	 */
 	public MessageExchanges getMessageExchanges() {
-		if (messageExchanges != null && messageExchanges.eIsProxy()) {
-			InternalEObject oldMessageExchanges = (InternalEObject) messageExchanges;
-			messageExchanges = (MessageExchanges) eResolveProxy(oldMessageExchanges);
-			if (messageExchanges != oldMessageExchanges) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							BPELPackage.SCOPE__MESSAGE_EXCHANGES,
-							oldMessageExchanges, messageExchanges));
-			}
-		}
-		return messageExchanges;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MessageExchanges basicGetMessageExchanges() {
 		return messageExchanges;
 	}
 
@@ -781,17 +771,47 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	 * <!-- end-user-doc -->
 	 */
 	public void setMessageExchanges(MessageExchanges newMessageExchanges) {
-		MessageExchanges oldMessageExchanges = messageExchanges;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldMessageExchanges, newMessageExchanges);
-		}
-		messageExchanges = newMessageExchanges;
-		if (eNotificationRequired())
+		if (newMessageExchanges != messageExchanges) {
+			NotificationChain msgs = null;
+			if (messageExchanges != null)
+				msgs = ((InternalEObject) messageExchanges).eInverseRemove(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.SCOPE__MESSAGE_EXCHANGES, null,
+						msgs);
+			if (newMessageExchanges != null)
+				msgs = ((InternalEObject) newMessageExchanges).eInverseAdd(
+						this, EOPPOSITE_FEATURE_BASE
+								- BPELPackage.SCOPE__MESSAGE_EXCHANGES, null,
+						msgs);
+			msgs = basicSetMessageExchanges(newMessageExchanges, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					BPELPackage.SCOPE__MESSAGE_EXCHANGES, oldMessageExchanges,
-					messageExchanges));
+					BPELPackage.SCOPE__MESSAGE_EXCHANGES, newMessageExchanges,
+					newMessageExchanges));
 	}
 
+	private NotificationChain basicSetMessageExchanges(
+			MessageExchanges newMessageExchanges, NotificationChain msgs) {
+		MessageExchanges oldMessageExchanges = messageExchanges;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldMessageExchanges,
+					newMessageExchanges);
+		}
+		messageExchanges = newMessageExchanges;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, BPELPackage.SCOPE__MESSAGE_EXCHANGES,
+					oldMessageExchanges, newMessageExchanges);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -808,7 +828,9 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public void setExitOnStandardFault(Boolean newExitOnStandardFault) {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXIT_ON_STANDARD_FAULT, BPELUtils.boolean2XML(newExitOnStandardFault));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_EXIT_ON_STANDARD_FAULT, BPELUtils
+							.boolean2XML(newExitOnStandardFault));
 		}
 		exitOnStandardFault = newExitOnStandardFault;
 		boolean oldExitOnStandardFaultESet = exitOnStandardFaultESet;
@@ -827,7 +849,8 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public void unsetExitOnStandardFault() {
 		Boolean oldExitOnStandardFault = exitOnStandardFault;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_EXIT_ON_STANDARD_FAULT, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_EXIT_ON_STANDARD_FAULT, (String) null);
 		}
 		boolean oldExitOnStandardFaultESet = exitOnStandardFaultESet;
 		exitOnStandardFault = EXIT_ON_STANDARD_FAULT_EDEFAULT;
@@ -857,22 +880,24 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.SCOPE__FAULT_HANDLERS:
-				return basicSetFaultHandlers(null, msgs);
-			case BPELPackage.SCOPE__COMPENSATION_HANDLER:
-				return basicSetCompensationHandler(null, msgs);
-			case BPELPackage.SCOPE__ACTIVITY:
-				return basicSetActivity(null, msgs);
-			case BPELPackage.SCOPE__VARIABLES:
-				return basicSetVariables(null, msgs);
-			case BPELPackage.SCOPE__CORRELATION_SETS:
-				return basicSetCorrelationSets(null, msgs);
-			case BPELPackage.SCOPE__EVENT_HANDLERS:
-				return basicSetEventHandlers(null, msgs);
-			case BPELPackage.SCOPE__PARTNER_LINKS:
-				return basicSetPartnerLinks(null, msgs);
-			case BPELPackage.SCOPE__TERMINATION_HANDLER:
-				return basicSetTerminationHandler(null, msgs);
+		case BPELPackage.SCOPE__FAULT_HANDLERS:
+			return basicSetFaultHandlers(null, msgs);
+		case BPELPackage.SCOPE__COMPENSATION_HANDLER:
+			return basicSetCompensationHandler(null, msgs);
+		case BPELPackage.SCOPE__ACTIVITY:
+			return basicSetActivity(null, msgs);
+		case BPELPackage.SCOPE__VARIABLES:
+			return basicSetVariables(null, msgs);
+		case BPELPackage.SCOPE__CORRELATION_SETS:
+			return basicSetCorrelationSets(null, msgs);
+		case BPELPackage.SCOPE__EVENT_HANDLERS:
+			return basicSetEventHandlers(null, msgs);
+		case BPELPackage.SCOPE__PARTNER_LINKS:
+			return basicSetPartnerLinks(null, msgs);
+		case BPELPackage.SCOPE__TERMINATION_HANDLER:
+			return basicSetTerminationHandler(null, msgs);
+		case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
+			return basicSetMessageExchanges(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -885,30 +910,28 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.SCOPE__ISOLATED:
-				return getIsolated();
-			case BPELPackage.SCOPE__FAULT_HANDLERS:
-				return getFaultHandlers();
-			case BPELPackage.SCOPE__COMPENSATION_HANDLER:
-				return getCompensationHandler();
-			case BPELPackage.SCOPE__ACTIVITY:
-				return getActivity();
-			case BPELPackage.SCOPE__VARIABLES:
-				return getVariables();
-			case BPELPackage.SCOPE__CORRELATION_SETS:
-				return getCorrelationSets();
-			case BPELPackage.SCOPE__EVENT_HANDLERS:
-				return getEventHandlers();
-			case BPELPackage.SCOPE__PARTNER_LINKS:
-				return getPartnerLinks();
-			case BPELPackage.SCOPE__TERMINATION_HANDLER:
-				return getTerminationHandler();
-			case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
-				if (resolve)
-					return getMessageExchanges();
-				return basicGetMessageExchanges();
-			case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
-				return getExitOnStandardFault();
+		case BPELPackage.SCOPE__ISOLATED:
+			return getIsolated();
+		case BPELPackage.SCOPE__FAULT_HANDLERS:
+			return getFaultHandlers();
+		case BPELPackage.SCOPE__COMPENSATION_HANDLER:
+			return getCompensationHandler();
+		case BPELPackage.SCOPE__ACTIVITY:
+			return getActivity();
+		case BPELPackage.SCOPE__VARIABLES:
+			return getVariables();
+		case BPELPackage.SCOPE__CORRELATION_SETS:
+			return getCorrelationSets();
+		case BPELPackage.SCOPE__EVENT_HANDLERS:
+			return getEventHandlers();
+		case BPELPackage.SCOPE__PARTNER_LINKS:
+			return getPartnerLinks();
+		case BPELPackage.SCOPE__TERMINATION_HANDLER:
+			return getTerminationHandler();
+		case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
+			return getMessageExchanges();
+		case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
+			return getExitOnStandardFault();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -921,39 +944,39 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.SCOPE__ISOLATED:
-				setIsolated((Boolean) newValue);
-				return;
-			case BPELPackage.SCOPE__FAULT_HANDLERS:
-				setFaultHandlers((FaultHandler) newValue);
-				return;
-			case BPELPackage.SCOPE__COMPENSATION_HANDLER:
-				setCompensationHandler((CompensationHandler) newValue);
-				return;
-			case BPELPackage.SCOPE__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.SCOPE__VARIABLES:
-				setVariables((Variables) newValue);
-				return;
-			case BPELPackage.SCOPE__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets) newValue);
-				return;
-			case BPELPackage.SCOPE__EVENT_HANDLERS:
-				setEventHandlers((EventHandler) newValue);
-				return;
-			case BPELPackage.SCOPE__PARTNER_LINKS:
-				setPartnerLinks((PartnerLinks) newValue);
-				return;
-			case BPELPackage.SCOPE__TERMINATION_HANDLER:
-				setTerminationHandler((TerminationHandler) newValue);
-				return;
-			case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
-				setMessageExchanges((MessageExchanges) newValue);
-				return;
-			case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
-				setExitOnStandardFault((Boolean) newValue);
-				return;
+		case BPELPackage.SCOPE__ISOLATED:
+			setIsolated((Boolean) newValue);
+			return;
+		case BPELPackage.SCOPE__FAULT_HANDLERS:
+			setFaultHandlers((FaultHandler) newValue);
+			return;
+		case BPELPackage.SCOPE__COMPENSATION_HANDLER:
+			setCompensationHandler((CompensationHandler) newValue);
+			return;
+		case BPELPackage.SCOPE__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.SCOPE__VARIABLES:
+			setVariables((Variables) newValue);
+			return;
+		case BPELPackage.SCOPE__CORRELATION_SETS:
+			setCorrelationSets((CorrelationSets) newValue);
+			return;
+		case BPELPackage.SCOPE__EVENT_HANDLERS:
+			setEventHandlers((EventHandler) newValue);
+			return;
+		case BPELPackage.SCOPE__PARTNER_LINKS:
+			setPartnerLinks((PartnerLinks) newValue);
+			return;
+		case BPELPackage.SCOPE__TERMINATION_HANDLER:
+			setTerminationHandler((TerminationHandler) newValue);
+			return;
+		case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
+			setMessageExchanges((MessageExchanges) newValue);
+			return;
+		case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
+			setExitOnStandardFault((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -966,39 +989,39 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SCOPE__ISOLATED:
-				unsetIsolated();
-				return;
-			case BPELPackage.SCOPE__FAULT_HANDLERS:
-				setFaultHandlers((FaultHandler) null);
-				return;
-			case BPELPackage.SCOPE__COMPENSATION_HANDLER:
-				setCompensationHandler((CompensationHandler) null);
-				return;
-			case BPELPackage.SCOPE__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.SCOPE__VARIABLES:
-				setVariables((Variables) null);
-				return;
-			case BPELPackage.SCOPE__CORRELATION_SETS:
-				setCorrelationSets((CorrelationSets) null);
-				return;
-			case BPELPackage.SCOPE__EVENT_HANDLERS:
-				setEventHandlers((EventHandler) null);
-				return;
-			case BPELPackage.SCOPE__PARTNER_LINKS:
-				setPartnerLinks((PartnerLinks) null);
-				return;
-			case BPELPackage.SCOPE__TERMINATION_HANDLER:
-				setTerminationHandler((TerminationHandler) null);
-				return;
-			case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
-				setMessageExchanges((MessageExchanges) null);
-				return;
-			case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
-				unsetExitOnStandardFault();
-				return;
+		case BPELPackage.SCOPE__ISOLATED:
+			unsetIsolated();
+			return;
+		case BPELPackage.SCOPE__FAULT_HANDLERS:
+			setFaultHandlers((FaultHandler) null);
+			return;
+		case BPELPackage.SCOPE__COMPENSATION_HANDLER:
+			setCompensationHandler((CompensationHandler) null);
+			return;
+		case BPELPackage.SCOPE__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.SCOPE__VARIABLES:
+			setVariables((Variables) null);
+			return;
+		case BPELPackage.SCOPE__CORRELATION_SETS:
+			setCorrelationSets((CorrelationSets) null);
+			return;
+		case BPELPackage.SCOPE__EVENT_HANDLERS:
+			setEventHandlers((EventHandler) null);
+			return;
+		case BPELPackage.SCOPE__PARTNER_LINKS:
+			setPartnerLinks((PartnerLinks) null);
+			return;
+		case BPELPackage.SCOPE__TERMINATION_HANDLER:
+			setTerminationHandler((TerminationHandler) null);
+			return;
+		case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
+			setMessageExchanges((MessageExchanges) null);
+			return;
+		case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
+			unsetExitOnStandardFault();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1011,28 +1034,28 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SCOPE__ISOLATED:
-				return isSetIsolated();
-			case BPELPackage.SCOPE__FAULT_HANDLERS:
-				return faultHandlers != null;
-			case BPELPackage.SCOPE__COMPENSATION_HANDLER:
-				return compensationHandler != null;
-			case BPELPackage.SCOPE__ACTIVITY:
-				return activity != null;
-			case BPELPackage.SCOPE__VARIABLES:
-				return variables != null;
-			case BPELPackage.SCOPE__CORRELATION_SETS:
-				return correlationSets != null;
-			case BPELPackage.SCOPE__EVENT_HANDLERS:
-				return eventHandlers != null;
-			case BPELPackage.SCOPE__PARTNER_LINKS:
-				return partnerLinks != null;
-			case BPELPackage.SCOPE__TERMINATION_HANDLER:
-				return terminationHandler != null;
-			case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
-				return messageExchanges != null;
-			case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
-				return isSetExitOnStandardFault();
+		case BPELPackage.SCOPE__ISOLATED:
+			return isSetIsolated();
+		case BPELPackage.SCOPE__FAULT_HANDLERS:
+			return faultHandlers != null;
+		case BPELPackage.SCOPE__COMPENSATION_HANDLER:
+			return compensationHandler != null;
+		case BPELPackage.SCOPE__ACTIVITY:
+			return activity != null;
+		case BPELPackage.SCOPE__VARIABLES:
+			return variables != null;
+		case BPELPackage.SCOPE__CORRELATION_SETS:
+			return correlationSets != null;
+		case BPELPackage.SCOPE__EVENT_HANDLERS:
+			return eventHandlers != null;
+		case BPELPackage.SCOPE__PARTNER_LINKS:
+			return partnerLinks != null;
+		case BPELPackage.SCOPE__TERMINATION_HANDLER:
+			return terminationHandler != null;
+		case BPELPackage.SCOPE__MESSAGE_EXCHANGES:
+			return messageExchanges != null;
+		case BPELPackage.SCOPE__EXIT_ON_STANDARD_FAULT:
+			return isSetExitOnStandardFault();
 		}
 		return super.eIsSet(featureID);
 	}

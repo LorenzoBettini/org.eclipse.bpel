@@ -117,6 +117,7 @@ import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
 import org.eclipse.bpel.model.proxy.CorrelationSetProxy;
 import org.eclipse.bpel.model.proxy.LinkProxy;
+import org.eclipse.bpel.model.proxy.MessageExchangeProxy;
 import org.eclipse.bpel.model.proxy.MessageProxy;
 import org.eclipse.bpel.model.proxy.PartnerLinkProxy;
 import org.eclipse.bpel.model.proxy.PartnerLinkTypeProxy;
@@ -1120,6 +1121,7 @@ public class BPELReader implements ErrorHandler {
 			return null;
 		
 		MessageExchanges messageExchanges = BPELFactory.eINSTANCE.createMessageExchanges();
+		messageExchanges.setElement(messageExchangesElement);
 		
 		// Save all the references to external namespaces
 		saveNamespacePrefix(messageExchanges, messageExchangesElement);
@@ -1196,13 +1198,14 @@ public class BPELReader implements ErrorHandler {
 	 * Converts an XML messageExchange element to a BPEL MessageExchange object.
 	 */
 	protected MessageExchange xml2MessageExchange(Element messageExchangeElement) {
+		if (!messageExchangeElement.getLocalName().equals("messageExchange"))
+			return null;
+		
 		MessageExchange messageExchange = BPELFactory.eINSTANCE.createMessageExchange();
+		messageExchange.setElement(messageExchangeElement);
 		
 		// Save all the references to external namespaces
 		saveNamespacePrefix(messageExchange, messageExchangeElement);
-		
-		if (messageExchangeElement == null) 
-			return messageExchange;
 		
 		// Set name
 		if (messageExchangeElement.hasAttribute("name"))
@@ -1212,7 +1215,7 @@ public class BPELReader implements ErrorHandler {
 		
 		return messageExchange;
 	}
-
+	
 	/**
 	 * Converts an XML extension element to a BPEL Extension object.
 	 */
@@ -1948,6 +1951,9 @@ public class BPELReader implements ErrorHandler {
 			onMessage.setFromParts(fromParts);
 		}	
 
+		// Set messageExchange
+		setMessageExchange(onMessageElement, onMessage, BPELPackage.eINSTANCE.getOnMessage_MessageExchange());
+		
 		xml2ExtensibleElement(onMessage, onMessageElement);
 				
 		return onMessage;
@@ -1980,6 +1986,9 @@ public class BPELReader implements ErrorHandler {
 		Element correlationSetsElement = getBPELChildElementByLocalName(onEventElement, "correlationSets");
 		if (correlationSetsElement != null)
 			onEvent.setCorrelationSets(xml2CorrelationSets(correlationSetsElement));
+		
+		// Set messageExchange
+		setMessageExchange(onEventElement, onEvent, BPELPackage.eINSTANCE.getOnEvent_MessageExchange());
 		
 		xml2ExtensibleElement(onEvent, onEventElement);
 				
@@ -2914,6 +2923,9 @@ public class BPELReader implements ErrorHandler {
 			reply.setToParts(toParts);
 		}
 		
+		// Set messageExchange
+		setMessageExchange(replyElement, reply, BPELPackage.eINSTANCE.getReply_MessageExchange());
+		
 		return reply;		
 	}
      
@@ -2941,9 +2953,40 @@ public class BPELReader implements ErrorHandler {
 			receive.setFromParts(fromParts);
 		}	
 		
+		// Set messageExchange
+		setMessageExchange(receiveElement, receive, BPELPackage.eINSTANCE.getReceive_MessageExchange());
+		
 		return receive;
 	}
 	
+	/**
+	 * Sets a MessageExchange element for a given EObject. The given activity
+	 * element must contain an attribute named "messageExchange".
+	 * 
+	 * @param activityElement
+	 *            the DOM element of the activity
+	 * @param eObject
+	 *            the EObject in which to set the partner link
+	 */
+	protected void setMessageExchange(Element activityElement, final EObject eObject, final EReference reference) {
+		if (!activityElement.hasAttribute("messageExchange")) {
+			return;
+		}
+		final String messageExchangeName = activityElement.getAttribute("messageExchange");
+		
+		// We must do this as a post load runnable because the partner link might not
+		// exist yet.
+		fPass2Runnables.add(new Runnable() {
+			public void run() {	
+				MessageExchange targetMessageExchange = BPELUtils.getMessageExchange(eObject, messageExchangeName);
+				if (targetMessageExchange == null) {
+					targetMessageExchange = new MessageExchangeProxy(getResource().getURI(), messageExchangeName);
+				}
+				eObject.eSet(reference, targetMessageExchange);				
+			}
+		});		
+	}
+
 	/**
 	 * Converts an XML forEach element to a BPEL ForEach object.
 	 */

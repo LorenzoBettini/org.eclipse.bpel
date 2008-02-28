@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.21 2007/11/20 14:14:23 smoser Exp $
+ * $Id: BPELAdapterFactory.java,v 1.22 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -311,6 +311,11 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseMessageExchange(MessageExchange object) {
+			return createMessageExchangeAdapter();
+		}
+
+		@Override
 		public Adapter caseEventHandler(EventHandler object) {
 			return createEventHandlerAdapter();
 		}
@@ -328,6 +333,11 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter casePartnerLinks(PartnerLinks object) {
 			return createPartnerLinksAdapter();
+		}
+
+		@Override
+		public Adapter caseMessageExchanges(MessageExchanges object) {
+			return createMessageExchangesAdapter();
 		}
 
 		@Override
@@ -484,16 +494,6 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter caseDocumentation(Documentation object) {
 			return createDocumentationAdapter();
-		}
-
-		@Override
-		public Adapter caseMessageExchanges(MessageExchanges object) {
-			return createMessageExchangesAdapter();
-		}
-
-		@Override
-		public Adapter caseMessageExchange(MessageExchange object) {
-			return createMessageExchangeAdapter();
 		}
 
 		@Override

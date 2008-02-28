@@ -10,32 +10,24 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinksImpl.java,v 1.7 2008/02/20 15:23:28 odanilov Exp $
+ * $Id: PartnerLinksImpl.java,v 1.8 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
-import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
-import org.eclipse.bpel.model.util.ElementFactory;
-import org.eclipse.bpel.model.util.ReconciliationBPELReader;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.WSDLElement;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

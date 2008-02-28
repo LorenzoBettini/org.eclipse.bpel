@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangeImpl.java,v 1.6 2007/12/06 20:01:23 smoser Exp $
+ * $Id: MessageExchangeImpl.java,v 1.7 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -11,15 +11,18 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
 /**
@@ -37,6 +40,7 @@ import org.w3c.dom.Element;
  */
 public class MessageExchangeImpl extends ExtensibleElementImpl implements
 		MessageExchange {
+
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -45,7 +49,7 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -108,8 +112,8 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGE__NAME:
-				return getName();
+		case BPELPackage.MESSAGE_EXCHANGE__NAME:
+			return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -122,9 +126,9 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGE__NAME:
-				setName((String) newValue);
-				return;
+		case BPELPackage.MESSAGE_EXCHANGE__NAME:
+			setName((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -137,9 +141,9 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
+		case BPELPackage.MESSAGE_EXCHANGE__NAME:
+			setName(NAME_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -152,9 +156,9 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-						.equals(name);
+		case BPELPackage.MESSAGE_EXCHANGE__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
 		}
 		return super.eIsSet(featureID);
 	}

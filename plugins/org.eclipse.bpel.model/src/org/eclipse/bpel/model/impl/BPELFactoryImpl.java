@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELFactoryImpl.java,v 1.22 2007/11/20 14:14:23 smoser Exp $
+ * $Id: BPELFactoryImpl.java,v 1.23 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -206,6 +206,8 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			return createBooleanExpression();
 		case BPELPackage.CORRELATION:
 			return createCorrelation();
+		case BPELPackage.MESSAGE_EXCHANGE:
+			return createMessageExchange();
 		case BPELPackage.EVENT_HANDLER:
 			return createEventHandler();
 		case BPELPackage.SOURCE:
@@ -214,6 +216,8 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			return createTarget();
 		case BPELPackage.PARTNER_LINKS:
 			return createPartnerLinks();
+		case BPELPackage.MESSAGE_EXCHANGES:
+			return createMessageExchanges();
 		case BPELPackage.VARIABLES:
 			return createVariables();
 		case BPELPackage.CORRELATION_SETS:
@@ -276,10 +280,6 @@ public class BPELFactoryImpl extends EFactoryImpl implements BPELFactory {
 			return createExtensibleElement();
 		case BPELPackage.DOCUMENTATION:
 			return createDocumentation();
-		case BPELPackage.MESSAGE_EXCHANGES:
-			return createMessageExchanges();
-		case BPELPackage.MESSAGE_EXCHANGE:
-			return createMessageExchange();
 		case BPELPackage.COMPENSATE:
 			return createCompensate();
 		case BPELPackage.FROM_PARTS:

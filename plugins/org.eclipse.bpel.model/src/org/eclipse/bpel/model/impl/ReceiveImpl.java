@@ -10,12 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.12 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ReceiveImpl.java,v 1.13 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.FromParts;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
@@ -37,6 +39,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getCreateInstance <em>Create Instance</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getFromParts <em>From Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ReceiveImpl#getMessageExchange <em>Message Exchange</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,6 +97,16 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	protected FromParts fromParts;
 
 	/**
+	 * The cached value of the '{@link #getMessageExchange() <em>Message Exchange</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMessageExchange()
+	 * @generated
+	 * @ordered
+	 */
+	protected MessageExchange messageExchange;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +141,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, BPELUtils.boolean2XML(newCreateInstance));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_CREATE_INSTANCE, BPELUtils
+							.boolean2XML(newCreateInstance));
 		}
 		createInstance = newCreateInstance;
 		boolean oldCreateInstanceESet = createInstanceESet;
@@ -197,10 +212,11 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 */
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
-        if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE,
-					newVariable == null ? null : newVariable.getName());
-        }
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLE, newVariable == null ? null
+							: newVariable.getName());
+		}
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -268,6 +284,51 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MessageExchange getMessageExchange() {
+		if (messageExchange != null && messageExchange.eIsProxy()) {
+			InternalEObject oldMessageExchange = (InternalEObject) messageExchange;
+			messageExchange = (MessageExchange) eResolveProxy(oldMessageExchange);
+			if (messageExchange != oldMessageExchange) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							BPELPackage.RECEIVE__MESSAGE_EXCHANGE,
+							oldMessageExchange, messageExchange));
+			}
+		}
+		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageExchange basicGetMessageExchange() {
+		return messageExchange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @author Miriam Grundig (MGrundig@de.ibm.com)
+	 */
+	public void setMessageExchange(MessageExchange newMessageExchange) {
+		MessageExchange oldMessageExchange = messageExchange;
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+		}
+		messageExchange = newMessageExchange;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.RECEIVE__MESSAGE_EXCHANGE, oldMessageExchange,
+					messageExchange));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
@@ -294,6 +355,10 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			return basicGetVariable();
 		case BPELPackage.RECEIVE__FROM_PARTS:
 			return getFromParts();
+		case BPELPackage.RECEIVE__MESSAGE_EXCHANGE:
+			if (resolve)
+				return getMessageExchange();
+			return basicGetMessageExchange();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -316,6 +381,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 		case BPELPackage.RECEIVE__FROM_PARTS:
 			setFromParts((FromParts) newValue);
 			return;
+		case BPELPackage.RECEIVE__MESSAGE_EXCHANGE:
+			setMessageExchange((MessageExchange) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -337,6 +405,9 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 		case BPELPackage.RECEIVE__FROM_PARTS:
 			setFromParts((FromParts) null);
 			return;
+		case BPELPackage.RECEIVE__MESSAGE_EXCHANGE:
+			setMessageExchange((MessageExchange) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -355,6 +426,8 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 			return variable != null;
 		case BPELPackage.RECEIVE__FROM_PARTS:
 			return fromParts != null;
+		case BPELPackage.RECEIVE__MESSAGE_EXCHANGE:
+			return messageExchange != null;
 		}
 		return super.eIsSet(featureID);
 	}

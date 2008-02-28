@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchanges.java,v 1.3 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: MessageExchanges.java,v 1.4 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface MessageExchanges extends ExtensibleElement {
 	/**
-	 * Returns the value of the '<em><b>Children</b></em>' reference list.
+	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.bpel.model.MessageExchange}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -34,9 +34,9 @@ public interface MessageExchanges extends ExtensibleElement {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Children</em>' reference list.
+	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.bpel.model.BPELPackage#getMessageExchanges_Children()
-	 * @model required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<MessageExchange> getChildren();

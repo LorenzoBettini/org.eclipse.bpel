@@ -193,6 +193,7 @@ public class BPELConstants {
     public static final String AT_FAULT_VARIABLE = "faultVariable";
     public static final String AT_PARTNER = "partner";
     public static final String AT_PARTNER_LINK = "partnerLink";
+    public static final String AT_MESSAGE_EXCHANGE = "messageExchange";
     public static final String AT_PORT_TYPE = "portType";
     public static final String AT_OPERATION = "operation";
     public static final String AT_VARIABLE = "variable";

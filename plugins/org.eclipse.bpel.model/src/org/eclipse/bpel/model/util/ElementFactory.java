@@ -45,6 +45,8 @@ import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
@@ -142,6 +144,10 @@ public class ElementFactory {
 			return super.partnerLinks2XML(partnerLinks);
 		}
 		
+		protected Element messageExchanges2XML(MessageExchanges messageExchanges) {
+			return super.messageExchanges2XML(messageExchanges);
+		}
+		
 		protected Element elseIf2XML(ElseIf elseIf) {
 			return super.elseIf2XML(elseIf);
 		}
@@ -192,6 +198,10 @@ public class ElementFactory {
 		
 		protected Element partnerLink2XML(PartnerLink partnerLink) {
 			return super.partnerLink2XML(partnerLink);
+		}
+		
+		protected Element messageExchange2XML(MessageExchange messageExchange) {
+			return super.messageExchange2XML(messageExchange);
 		}
 		
 		protected Element validate2XML(Validate activity) {
@@ -296,7 +306,10 @@ public class ElementFactory {
 		}		
 		if (element instanceof PartnerLinks) {
 			return writer.partnerLinks2XML((PartnerLinks)element);
-		}
+		}		
+		if (element instanceof MessageExchanges) {
+			return writer.messageExchanges2XML((MessageExchanges)element);
+		}	
 		if (element instanceof CorrelationSets) {
 			return writer.correlationSets2XML((CorrelationSets)element);
 		}
@@ -357,6 +370,9 @@ public class ElementFactory {
 		if (element instanceof PartnerLink) {
 			return writer.partnerLink2XML((PartnerLink)element);
 		}
+		if (element instanceof MessageExchange) {
+			return writer.messageExchange2XML((MessageExchange)element);
+		}	
 		if (element instanceof Validate) {
 			return writer.validate2XML((Validate)element);
 		}
@@ -497,9 +513,10 @@ public class ElementFactory {
 	}
 
 	private static Document getOwnerDocument(Object parent) {
-		Document ownerDocument;
+		Document ownerDocument = null;
 //		if (!BPELUtils.isTransparentObject(parent)) {
-			ownerDocument = ((ExtensibleElement)parent).getElement().getOwnerDocument();
+			if(((ExtensibleElement)parent).getElement() != null)
+				ownerDocument = ((ExtensibleElement)parent).getElement().getOwnerDocument();
 //		} else {
 //			ownerDocument = ((ExtensibleElement)((EObject)parent).eContainer()).getElement().getOwnerDocument();
 //		}

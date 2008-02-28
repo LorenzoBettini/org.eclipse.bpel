@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.24 2007/11/20 14:14:23 smoser Exp $
+ * $Id: BPELSwitch.java,v 1.25 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -620,6 +620,19 @@ public class BPELSwitch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
+		case BPELPackage.MESSAGE_EXCHANGE: {
+			MessageExchange messageExchange = (MessageExchange) theEObject;
+			T result = caseMessageExchange(messageExchange);
+			if (result == null)
+				result = caseExtensibleElement(messageExchange);
+			if (result == null)
+				result = caseExtensibleElement_1(messageExchange);
+			if (result == null)
+				result = caseWSDLElement(messageExchange);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
 		case BPELPackage.EVENT_HANDLER: {
 			EventHandler eventHandler = (EventHandler) theEObject;
 			T result = caseEventHandler(eventHandler);
@@ -668,6 +681,19 @@ public class BPELSwitch<T> {
 				result = caseExtensibleElement_1(partnerLinks);
 			if (result == null)
 				result = caseWSDLElement(partnerLinks);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
+		case BPELPackage.MESSAGE_EXCHANGES: {
+			MessageExchanges messageExchanges = (MessageExchanges) theEObject;
+			T result = caseMessageExchanges(messageExchanges);
+			if (result == null)
+				result = caseExtensibleElement(messageExchanges);
+			if (result == null)
+				result = caseExtensibleElement_1(messageExchanges);
+			if (result == null)
+				result = caseWSDLElement(messageExchanges);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
@@ -1077,32 +1103,6 @@ public class BPELSwitch<T> {
 		case BPELPackage.DOCUMENTATION: {
 			Documentation documentation = (Documentation) theEObject;
 			T result = caseDocumentation(documentation);
-			if (result == null)
-				result = defaultCase(theEObject);
-			return result;
-		}
-		case BPELPackage.MESSAGE_EXCHANGES: {
-			MessageExchanges messageExchanges = (MessageExchanges) theEObject;
-			T result = caseMessageExchanges(messageExchanges);
-			if (result == null)
-				result = caseExtensibleElement(messageExchanges);
-			if (result == null)
-				result = caseExtensibleElement_1(messageExchanges);
-			if (result == null)
-				result = caseWSDLElement(messageExchanges);
-			if (result == null)
-				result = defaultCase(theEObject);
-			return result;
-		}
-		case BPELPackage.MESSAGE_EXCHANGE: {
-			MessageExchange messageExchange = (MessageExchange) theEObject;
-			T result = caseMessageExchange(messageExchange);
-			if (result == null)
-				result = caseExtensibleElement(messageExchange);
-			if (result == null)
-				result = caseExtensibleElement_1(messageExchange);
-			if (result == null)
-				result = caseWSDLElement(messageExchange);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;

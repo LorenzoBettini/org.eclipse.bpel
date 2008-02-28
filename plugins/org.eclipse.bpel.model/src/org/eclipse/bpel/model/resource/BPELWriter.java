@@ -639,7 +639,7 @@ public class BPELWriter {
 		if (process.getEventHandlers() != null) 
 			processElement.appendChild(eventHandler2XML(process.getEventHandlers()));
 		
-		if (process.getMessageExchanges() != null)
+		if (process.getMessageExchanges() != null && !process.getMessageExchanges().getChildren().isEmpty())
 			processElement.appendChild(messageExchanges2XML(process.getMessageExchanges()));
 		
 		if (process.getActivity() != null) 
@@ -951,12 +951,14 @@ public class BPELWriter {
 	}
 
 	protected Element messageExchanges2XML(MessageExchanges messageExchanges) {
+		// If there are no messageExchanges then skip creating Element
+		if (messageExchanges.getChildren().isEmpty())
+			return null;
+		
 		Element messageExchangesElement = createBPELElement("messageExchanges");
 		
-		Iterator<?> it = messageExchanges.getChildren().iterator();
-		while (it.hasNext()) {
-			MessageExchange messageExchange = (MessageExchange) it.next();
-			messageExchangesElement.appendChild(messageExchange2XML(messageExchange));
+		for (Object next : messageExchanges.getChildren()) {
+			messageExchangesElement.appendChild(messageExchange2XML((MessageExchange) next));
 		}
 		
 		// serialize local namespace prefixes to XML
@@ -965,7 +967,7 @@ public class BPELWriter {
 		
 		return messageExchangesElement;
 	}
-	
+
 	protected Element messageExchange2XML(MessageExchange messageExchange) {
 		Element messageExchangeElement = createBPELElement("messageExchange");
 		
@@ -1207,7 +1209,6 @@ public class BPELWriter {
 		if (sources != null) {
 			activityElement.insertBefore(sources2XML(sources), firstChild); 
 		}
-
 	}	
 
 	protected Element catch2XML(Catch _catch) {
@@ -1413,7 +1414,9 @@ public class BPELWriter {
 			activityElement.setAttribute("variable", activity.getVariable().getName());
 		if (activity.isSetCreateInstance())
 			activityElement.setAttribute("createInstance",BPELUtils.boolean2XML(activity.getCreateInstance()));
-
+		if (activity.getMessageExchange() != null)
+			activityElement.setAttribute("messageExchange",activity.getMessageExchange().getName());
+		
 		if (activity.getCorrelations() != null)
 			activityElement.appendChild(correlations2XML(activity.getCorrelations()));			
 		
@@ -1438,6 +1441,9 @@ public class BPELWriter {
 		if (activity.getFaultName() != null) {
 			activityElement.setAttribute("faultName", bpelNamespacePrefixManager.qNameToString(activity, activity.getFaultName()));
 		}
+		if (activity.getMessageExchange() != null)
+			activityElement.setAttribute("messageExchange",activity.getMessageExchange().getName());
+		
 		if (activity.getCorrelations() != null)
 			activityElement.appendChild(correlations2XML(activity.getCorrelations()));
 		
@@ -1967,7 +1973,9 @@ public class BPELWriter {
 		}
 		if (onMsg.getVariable() != null && onMsg.getVariable().getName() != null) {
 			onMessageElement.setAttribute("variable", onMsg.getVariable().getName());
-		}		
+		}
+		if (onMsg.getMessageExchange() != null)
+			onMessageElement.setAttribute("messageExchange",onMsg.getMessageExchange().getName());
 		if (onMsg.getCorrelations() != null) {
 			onMessageElement.appendChild(correlations2XML(onMsg.getCorrelations()));
 		}		
@@ -2001,6 +2009,8 @@ public class BPELWriter {
 		if (onEvent.getVariable() != null && onEvent.getVariable().getName() != null) {
 			onEventElement.setAttribute("variable", onEvent.getVariable().getName());
 		}	
+		if (onEvent.getMessageExchange() != null)
+			onEventElement.setAttribute("messageExchange", onEvent.getMessageExchange().getName());
 		if (onEvent.getMessageType() != null) {
 			onEventElement.setAttribute("messageType", bpelNamespacePrefixManager.qNameToString(onEvent, onEvent.getMessageType().getQName()));
 		}
@@ -2087,7 +2097,7 @@ public class BPELWriter {
 			activityElement.appendChild(terminationHandler2XML(activity.getTerminationHandler()));
 		if (activity.getEventHandlers() != null)
 			activityElement.appendChild(eventHandler2XML(activity.getEventHandlers()));
-		if (activity.getMessageExchanges() != null)
+		if (activity.getMessageExchanges() != null && !activity.getMessageExchanges().getChildren().isEmpty())
 			activityElement.appendChild(messageExchanges2XML(activity.getMessageExchanges()));
 		if (activity.getActivity() != null )
 			activityElement.appendChild(activity2XML(activity.getActivity()));

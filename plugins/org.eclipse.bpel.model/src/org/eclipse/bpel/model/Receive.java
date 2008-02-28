@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Receive.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
+ * $Id: Receive.java,v 1.6 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -33,6 +33,7 @@ package org.eclipse.bpel.model;
  *   <li>{@link org.eclipse.bpel.model.Receive#getCreateInstance <em>Create Instance</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Receive#getVariable <em>Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Receive#getFromParts <em>From Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Receive#getMessageExchange <em>Message Exchange</em>}</li>
  * </ul>
  * </p>
  *
@@ -143,5 +144,31 @@ public interface Receive extends PartnerActivity {
 	 * @generated
 	 */
 	void setFromParts(FromParts value);
+
+	/**
+	 * Returns the value of the '<em><b>Message Exchange</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Message Exchange</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Message Exchange</em>' reference.
+	 * @see #setMessageExchange(MessageExchange)
+	 * @see org.eclipse.bpel.model.BPELPackage#getReceive_MessageExchange()
+	 * @model required="true"
+	 * @generated
+	 */
+	MessageExchange getMessageExchange();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Receive#getMessageExchange <em>Message Exchange</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message Exchange</em>' reference.
+	 * @see #getMessageExchange()
+	 * @generated
+	 */
+	void setMessageExchange(MessageExchange value);
 
 } // Receive

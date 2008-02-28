@@ -13,7 +13,6 @@ package org.eclipse.bpel.model.util;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +33,8 @@ import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
+import org.eclipse.bpel.model.MessageExchange;
+import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
@@ -451,6 +452,41 @@ public class BPELUtils {
 		return null;	
 	}
 
+	
+	/**
+	 * Return a message exchange whose name is messageExchangeName.
+	 * 
+	 * @param eObject the reference object
+	 * @param messageExchangeName the message exchange name.
+	 * @return the MessageExchange or null if one does not exist.
+	 */
+	
+	public static MessageExchange getMessageExchange (EObject eObject, String messageExchangeName) {
+		
+		EObject container = eObject ;
+		
+		while (container != null) {
+			
+			MessageExchanges messageExchanges = null;
+			
+			if (container instanceof Process) {
+				messageExchanges = ((Process)container).getMessageExchanges();				
+			} else if (container instanceof Scope) { 
+				messageExchanges = ((Scope)container).getMessageExchanges();
+			}
+				
+			
+			if (messageExchanges != null) {
+				for(MessageExchange me : messageExchanges.getChildren()) {
+					if (me.getName().equals(messageExchangeName)) {
+						return me;
+					}
+				}
+			}
+			container = container.eContainer();	
+		}	
+		return null;	
+	}
 	
 	/**
 	 * Get the correlation set for an activity.

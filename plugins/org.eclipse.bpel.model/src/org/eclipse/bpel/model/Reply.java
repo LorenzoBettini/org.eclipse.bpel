@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Reply.java,v 1.5 2007/12/06 20:01:24 smoser Exp $
+ * $Id: Reply.java,v 1.6 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -35,6 +35,7 @@ import javax.xml.namespace.QName;
  *   <li>{@link org.eclipse.bpel.model.Reply#getFaultName <em>Fault Name</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Reply#getVariable <em>Variable</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Reply#getToParts <em>To Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Reply#getMessageExchange <em>Message Exchange</em>}</li>
  * </ul>
  * </p>
  *
@@ -118,5 +119,31 @@ public interface Reply extends PartnerActivity, Activity {
 	 * @generated
 	 */
 	void setToParts(ToParts value);
+
+	/**
+	 * Returns the value of the '<em><b>Message Exchange</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Message Exchange</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Message Exchange</em>' reference.
+	 * @see #setMessageExchange(MessageExchange)
+	 * @see org.eclipse.bpel.model.BPELPackage#getReply_MessageExchange()
+	 * @model required="true"
+	 * @generated
+	 */
+	MessageExchange getMessageExchange();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Reply#getMessageExchange <em>Message Exchange</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message Exchange</em>' reference.
+	 * @see #getMessageExchange()
+	 * @generated
+	 */
+	void setMessageExchange(MessageExchange value);
 
 } // Reply

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangesImpl.java,v 1.5 2007/11/23 17:30:13 smoser Exp $
+ * $Id: MessageExchangesImpl.java,v 1.6 2008/02/28 17:33:20 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -12,6 +12,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.MessageExchanges;
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
@@ -21,8 +22,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
 /**
@@ -41,7 +44,7 @@ import org.w3c.dom.Element;
 public class MessageExchangesImpl extends ExtensibleElementImpl implements
 		MessageExchanges {
 	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getChildren()
@@ -76,7 +79,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 	 */
 	public EList<MessageExchange> getChildren() {
 		if (children == null) {
-			children = new EObjectResolvingEList<MessageExchange>(
+			children = new EObjectContainmentEList<MessageExchange>(
 					MessageExchange.class, this,
 					BPELPackage.MESSAGE_EXCHANGES__CHILDREN);
 		}
@@ -89,10 +92,26 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
-				return getChildren();
+		case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+			return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -106,11 +125,11 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll(
-						(Collection<? extends MessageExchange>) newValue);
-				return;
+		case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll(
+					(Collection<? extends MessageExchange>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -123,9 +142,9 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
-				getChildren().clear();
-				return;
+		case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+			getChildren().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -138,24 +157,26 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
-				return children != null && !children.isEmpty();
+		case BPELPackage.MESSAGE_EXCHANGES__CHILDREN:
+			return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
-	
+
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof MessageExchange) {
+			if (getElement() == null) {
+				ReconciliationHelper.getInstance().patchParentElement((MessageExchange)object, this, null, BPELConstants.ND_MESSAGE_EXCHANGES, BPELConstants.ND_MESSAGE_EXCHANGE);
+			}
 			ReconciliationHelper.adoptChild(this, children, (MessageExchange)object, BPELConstants.ND_MESSAGE_EXCHANGE);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof MessageExchange) {
-			ReconciliationHelper.orphanChild(this, (MessageExchange)obj);
+			ReconciliationHelper.orphanChild(this, (MessageExchange) obj);
 		}
 		super.orphanContent(reference, obj);
 	}
-
 } //MessageExchangesImpl

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.9 2007/11/20 14:14:22 smoser Exp $
+ * $Id: Process.java,v 1.10 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -480,26 +480,26 @@ public interface Process extends ExtensibleElement {
 	void setExitOnStandardFault(Boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Message Exchanges</b></em>' reference.
+	 * Returns the value of the '<em><b>Message Exchanges</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Message Exchanges</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Message Exchanges</em>' reference.
+	 * @return the value of the '<em>Message Exchanges</em>' containment reference.
 	 * @see #setMessageExchanges(MessageExchanges)
 	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_MessageExchanges()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	MessageExchanges getMessageExchanges();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getMessageExchanges <em>Message Exchanges</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getMessageExchanges <em>Message Exchanges</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Message Exchanges</em>' reference.
+	 * @param value the new value of the '<em>Message Exchanges</em>' containment reference.
 	 * @see #getMessageExchanges()
 	 * @generated
 	 */

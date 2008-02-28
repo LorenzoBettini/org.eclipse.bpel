@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEvent.java,v 1.8 2007/12/06 20:01:24 smoser Exp $
+ * $Id: OnEvent.java,v 1.9 2008/02/28 17:33:21 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -35,6 +35,7 @@ import org.eclipse.wst.wsdl.PortType;
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getMessageType <em>Message Type</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getCorrelationSets <em>Correlation Sets</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.OnEvent#getFromParts <em>From Parts</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.OnEvent#getMessageExchange <em>Message Exchange</em>}</li>
  * </ul>
  * </p>
  *
@@ -273,5 +274,31 @@ public interface OnEvent extends ExtensibleElement {
 	 * @generated
 	 */
 	void setFromParts(FromParts value);
+
+	/**
+	 * Returns the value of the '<em><b>Message Exchange</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Message Exchange</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Message Exchange</em>' reference.
+	 * @see #setMessageExchange(MessageExchange)
+	 * @see org.eclipse.bpel.model.BPELPackage#getOnEvent_MessageExchange()
+	 * @model required="true"
+	 * @generated
+	 */
+	MessageExchange getMessageExchange();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.OnEvent#getMessageExchange <em>Message Exchange</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message Exchange</em>' reference.
+	 * @see #getMessageExchange()
+	 * @generated
+	 */
+	void setMessageExchange(MessageExchange value);
 
 } // OnEvent
