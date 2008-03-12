@@ -568,10 +568,10 @@ public class AssignImplSection extends BPELPropertySection {
 	 */
 	@Override
 	public void gotoMarker(IMarker marker) {
-		
-		String uriFragment = marker.getAttribute(IBPELUIConstants.MARKER_ATT_FROM, EMPTY_STRING);
-		EObject from = fModelObject.eResource().getEObject(uriFragment);
-		EObject copy = from.eContainer();
+// TODO: This code do nothing and sometime causes NPE (from==null), so temporary disabled (Oleg)
+//		String uriFragment = marker.getAttribute(IBPELUIConstants.MARKER_ATT_FROM, EMPTY_STRING);
+//		EObject from = fModelObject.eResource().getEObject(uriFragment);
+//		EObject copy = from.eContainer();
 		// currentCopyIndex = ((Assign)getModel()).getCopy().indexOf(copy);
 		refresh();
 	}
