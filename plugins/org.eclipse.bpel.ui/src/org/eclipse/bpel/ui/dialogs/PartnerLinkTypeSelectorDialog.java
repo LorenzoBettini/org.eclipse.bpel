@@ -232,7 +232,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 		}
 		
 		// define the prefix
-		ModelHelper.getProcess(modelObject).setPrefixForNamespace(dialog.getPrefix(), targetNamespace);
+		BPELUtils.setPrefix(ModelHelper.getProcess(modelObject), targetNamespace, dialog.getPrefix());
 		return true;
 	}
 

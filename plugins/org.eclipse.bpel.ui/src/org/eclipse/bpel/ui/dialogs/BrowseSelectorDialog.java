@@ -209,8 +209,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		}
 		
 		// define the prefix
-		ModelHelper.getProcess(modelObject).setPrefixForNamespace(dialog.getPrefix(), targetNamespace); 
-//		BPELUtils.setNamespacePrefix( ModelHelper.getProcess(modelObject), targetNamespace, dialog.getPrefix()); 		
+		BPELUtils.setPrefix( ModelHelper.getProcess(modelObject), targetNamespace, dialog.getPrefix()); 		
 		
 		return true;
 	}

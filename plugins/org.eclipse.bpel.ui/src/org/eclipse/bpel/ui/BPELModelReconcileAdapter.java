@@ -167,26 +167,27 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		case INodeNotifier.CHANGE:
 		case INodeNotifier.STRUCTURE_CHANGED: {
 			if (feature instanceof Attr && XSDConstants.XMLNS_URI_2000.equals(((Attr)feature).getNamespaceURI())) {
+				final Attr attr = (Attr)feature;												
 				final EObject modelObject = (EObject)BPELEditorUtil.getInstance().findModelObjectForElement(process, (Element)node);
-				final Map<String, String> nsMap = ((BPELResource)bpelResource).getPrefixToNamespaceMap(modelObject);
 				final INamespaceMap<String, String> objectMap = BPELUtils.getNamespaceMap(modelObject);
 				UpdateModelCommand cmd = new UpdateModelCommand(modelObject, "Change text"){
 					@SuppressWarnings("restriction")
 					@Override
 					public void doExecute() {
-						Attr attr = (Attr)feature;												
 						if (newValue == null) {
-							nsMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
 							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
 						} else {
-							nsMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()), attr.getValue());
-							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
+							objectMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()), attr.getValue());
 						}
 					}
 				};
 				if (fEditor != null) {
 					fEditor.getCommandFramework().execute(cmd);
 				}
+				// We should continue reconciling only if BPEL namespace has been changed
+				// otherwise we should not update children
+				if (!BPELConstants.NAMESPACE.equals(attr.getValue()))
+					break;
 			}
 			handleNodeChanged(node);
 			break;
