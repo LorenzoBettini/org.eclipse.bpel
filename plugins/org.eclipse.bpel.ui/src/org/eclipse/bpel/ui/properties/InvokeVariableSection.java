@@ -229,6 +229,14 @@ public class InvokeVariableSection extends BPELPropertySection {
 					if (n.getEventType() == Notification.SET && n.getNewValue() != null) {
 						// a new variable has been set
 						usePartMappingCheckbox.setSelection(false);
+						try {
+							ModelHelper.setToParts(getInput(), null);
+						} catch (IllegalArgumentException e) {
+						}
+						try {
+							ModelHelper.setFromParts(getInput(), null);
+						} catch (IllegalArgumentException e) {
+						}
 					}
 				}
 			}
