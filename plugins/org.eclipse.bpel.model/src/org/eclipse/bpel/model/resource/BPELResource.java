@@ -74,20 +74,4 @@ public interface BPELResource extends Resource {
         public void objectAdded(Object key, Object value);
     }
     
-    interface NotifierMap extends Map {
-        public void addListener(MapListener listener);
-        public void removeListener(MapListener listener);
-        public NotifierMap reserve();
-    }
-
-    /**
-     * Returns the prefix-to-namespace map for the resource/process.
-     */
-    NotifierMap getPrefixToNamespaceMap();
-
-    /**
-     * Returns the prefix-to-namespace map for the specified <code>object</code>.
-     */
-    NotifierMap getPrefixToNamespaceMap(Object object);
-    
 }

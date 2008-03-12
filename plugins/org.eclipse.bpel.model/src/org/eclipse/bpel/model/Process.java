@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: Process.java,v 1.10 2008/02/28 17:33:21 smoser Exp $
+ * $Id: Process.java,v 1.11 2008/03/12 17:19:20 odanilov Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -580,7 +580,5 @@ public interface Process extends ExtensibleElement {
 	 * @customized
 	 */
 	java.util.List<Runnable> getPostLoadRunnables();
-
-	public void setPrefixForNamespace(String prefix, String namespace);
 
 } // Process

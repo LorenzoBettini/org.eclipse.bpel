@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessImpl.java,v 1.15 2008/02/28 17:33:20 smoser Exp $
+ * $Id: ProcessImpl.java,v 1.16 2008/03/12 17:19:20 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -1481,25 +1481,6 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		if (fieldPostLoadRunnables == null)
 			fieldPostLoadRunnables = new ArrayList();
 		return fieldPostLoadRunnables;
-	}
-
-	@SuppressWarnings("restriction")
-	public void setPrefixForNamespace(String prefix, String namespace) {
-		// We should use this method instead of changing namespaces directly
-		// in DOM. The main reason is to avoid rebuilding EMF (temporary block
-		// reconciling) in case if the namespace attribute has been changed (DO)
-		boolean old = isReconciling;
-		isReconciling = true;
-		if (prefix.equals("")) {
-			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns",
-					namespace);
-		} else {
-			getElement().setAttributeNS(XSDConstants.XMLNS_URI_2000,
-					"xmlns:" + prefix, namespace);
-		}
-		Map<String, String> nsMap = BPELUtils.getNamespaceMap(this);
-		nsMap.put(prefix, namespace);
-		isReconciling = old;
 	}
 
 	//	public void reconcileAttributes(Element changedElement) {

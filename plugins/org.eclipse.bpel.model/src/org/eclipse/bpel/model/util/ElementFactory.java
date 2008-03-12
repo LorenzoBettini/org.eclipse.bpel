@@ -13,6 +13,7 @@ package org.eclipse.bpel.model.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.wsdl.extensions.ExtensibilityElement;
@@ -449,7 +450,8 @@ public class ElementFactory {
 			
 		if (node != null) {
 			for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
-				DOMUtil.copyInto(child, literal);
+				// TODO: (DU) This is here due to https://issues.apache.org/jira/browse/XERCESJ-1289
+				BPELUtils.copyInto(child, literal);
 			}
 		} else {
 			CDATASection cdata = BPELUtils.createCDATASection(from.getElement().getOwnerDocument(), text);
@@ -481,31 +483,16 @@ public class ElementFactory {
 		Document ownerDocument = getOwnerDocument(parent);
 		MyBPELWriter writer = document2Writers.get(ownerDocument);
 		if (writer == null) {
-			// TODO: (DU) check if adding namespace is ok
 			BPELResource resource = (BPELResource)((EObject)parent).eResource();
-			Map nsMap = (Map)resource.getPrefixToNamespaceMap(resource.getProcess());
-			if (resource.getOptionUseNSPrefix()) {
-	            // Check for existing prefix.
-	            String prefix = null;
-	            for (Iterator i = nsMap.entrySet().iterator(); i.hasNext();) {
-	                Map.Entry entry = (Map.Entry) i.next();
-	                if (resource.getNamespaceURI().equals(entry.getValue())) {
-	                    // Remove the entry if it is the default namespace.
-	                    if ("".equals(entry.getKey())) {
-	                        i.remove();
-	                    } else {
-	                        prefix = (String) entry.getKey();
-	                    }
-	                }
-	            }
-	            if (prefix == null) {
-	            	Map<String,String> processNsMap = BPELUtils.getNamespaceMap(resource.getProcess());
-	            	prefix = ((INamespaceMap<String, String>)processNsMap).getReverse(resource.getNamespaceURI()).get(0);
-	                nsMap.put(prefix != null ? prefix : BPELConstants.PREFIX, resource.getNamespaceURI());
+	        INamespaceMap<String, String> nsMap = BPELUtils.getNamespaceMap(resource.getProcess());
+	        if (resource.getOptionUseNSPrefix()) {
+	        	nsMap.remove("");
+	        	if (!nsMap.containsValue(resource.getNamespaceURI())){
+	            	nsMap.put(BPELConstants.PREFIX, resource.getNamespaceURI());
 	            }
 	        } else {
 	            nsMap.put("", resource.getNamespaceURI());
-	        }			
+	        }            
 			writer = new MyBPELWriter(resource, ownerDocument);			
 			document2Writers.put(ownerDocument, writer);
 		}
