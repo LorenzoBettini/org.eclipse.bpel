@@ -2837,31 +2837,14 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		if (queryElement != null) {
 			to.setQuery(xml2Query(to.getQuery(), queryElement));
 		} else {			
-			Expression expression = to.getExpression();
-			if (expression == null) {
-				expression = BPELFactory.eINSTANCE.createExpression();
-				to.setExpression(expression);
+			if (partnerLink == null && variable == null){
+				Expression expression = to.getExpression();
+				if (expression == null) {
+					expression = BPELFactory.eINSTANCE.createExpression();
+					to.setExpression(expression);
+				}
+				xml2Expression(expression, toElement);
 			}
-			xml2Expression(expression, toElement);
-//			// must be expression
-//			Expression expressionObject = BPELFactory.eINSTANCE
-//					.createExpression();
-//			expressionObject.setElement(toElement);
-//
-//			to.setExpression(expressionObject);
-//
-//			// Set expressionLanguage
-//			if (toElement.hasAttribute("expressionLanguage")) {
-//				expressionObject.setExpressionLanguage(toElement
-//						.getAttribute("expressionLanguage"));
-//			}
-//
-//			// Set expression text
-//			// Get the condition text
-//			String data = getText(toElement);
-//			if (data != null) {
-//				expressionObject.setBody(data);
-//			}
 		}
 		
 		return to;
