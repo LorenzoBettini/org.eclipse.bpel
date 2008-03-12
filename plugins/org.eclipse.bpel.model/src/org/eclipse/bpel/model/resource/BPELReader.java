@@ -2554,6 +2554,21 @@ public class BPELReader implements ErrorHandler {
 	 * Converts an XML "to" element to a BPEL To object.
 	 */
 	protected To xml2To(To to, Element toElement) {
+//		The to-spec MUST be one of the following variants:
+//	1.		<to variable="BPELVariableName" part="NCName"?>
+//			   <query queryLanguage="anyURI"?>?
+//			      queryContent
+//			   </query>
+//			</to>
+//
+//	2.		<to partnerLink="NCName" />
+//
+//	3.		<to variable="BPELVariableName" property="QName" />
+//
+//	4.		<to expressionLanguage="anyURI"?>expression</to>
+//
+//	5.		<to/>
+			
 		// Save all the references to external namespaces		
 		saveNamespacePrefix(to, toElement);
 		
@@ -2608,22 +2623,25 @@ public class BPELReader implements ErrorHandler {
 			}
 		} else {	
 			
-			// must be expression
-			Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
-			
-			to.setExpression(expressionObject);
-			
-			// Set expressionLanguage
-			if (toElement.hasAttribute("expressionLanguage")) {
-				expressionObject.setExpressionLanguage(toElement.getAttribute("expressionLanguage"));
+			if (partnerLink == null && variable == null){
+
+				// must be expression
+				Expression expressionObject = BPELFactory.eINSTANCE.createExpression();
+				
+				to.setExpression(expressionObject);
+				
+				// Set expressionLanguage
+				if (toElement.hasAttribute("expressionLanguage")) {
+					expressionObject.setExpressionLanguage(toElement.getAttribute("expressionLanguage"));
+				}
+		
+				// Set expression text
+				// Get the condition text
+				String data = getText( toElement );
+				if (data != null) {			
+					expressionObject.setBody(data);
+				}				
 			}
-	
-			// Set expression text
-			// Get the condition text
-			String data = getText( toElement );
-			if (data != null) {			
-				expressionObject.setBody(data);
-			}				
 		}
 		return to;
 	}
