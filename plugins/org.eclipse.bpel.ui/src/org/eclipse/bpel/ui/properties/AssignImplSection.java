@@ -18,8 +18,6 @@ import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
-import org.eclipse.bpel.model.adapters.IProperty;
-import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
@@ -194,16 +192,19 @@ public class AssignImplSection extends BPELPropertySection {
 		fDeleteCopy.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				
+				int index = fCopyList.getSelectionIndex();
 				getCommandFramework().execute(wrapInShowContextCommand(
 						new RemoveCopyCommand((Assign)getInput(), fCurrentCopy)));
-				
+				fCopyList.select(index);
+				Assign assign = getModel();
+				Copy copy = (Copy) assign.getCopy().get( index );
+				selectCategoriesForInput( copy );				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 		});
 	
-		
 		fCopyList.addSelectionListener(new SelectionListener() {
 			
 			public void widgetSelected(SelectionEvent e) {
