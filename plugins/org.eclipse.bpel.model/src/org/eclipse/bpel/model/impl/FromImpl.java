@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FromImpl.java,v 1.12 2007/12/30 15:40:15 smoser Exp $
+ * $Id: FromImpl.java,v 1.13 2008/03/24 10:55:08 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -474,7 +474,7 @@ public class FromImpl extends ExtensibleElementImpl implements From {
             NotificationChain msgs) {
         Expression oldExpression = expression;
         if (!isReconciling) {
-        	ReconciliationHelper.replaceExpression(this, oldExpression, newExpression);
+        	ReconciliationHelper.replaceExpression(this, newExpression);
         }
         expression = newExpression;
         if (eNotificationRequired()) {

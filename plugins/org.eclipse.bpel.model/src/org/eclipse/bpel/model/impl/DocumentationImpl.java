@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.7 2007/12/30 15:40:15 smoser Exp $
+ * $Id: DocumentationImpl.java,v 1.8 2008/03/24 10:55:08 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -175,7 +175,7 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	public void setValue(String newValue) {
 		String oldValue = value;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceText(this, oldValue, newValue);
+			ReconciliationHelper.replaceText(this, newValue);
 		}
 		value = newValue;
 		if (eNotificationRequired())

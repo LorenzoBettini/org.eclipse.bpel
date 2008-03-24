@@ -12,11 +12,9 @@
 
 package org.eclipse.bpel.model.util;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -77,6 +75,7 @@ import org.eclipse.bpel.model.While;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -85,7 +84,6 @@ import org.w3c.dom.NodeList;
 public class ReconciliationHelper {
 	private static ReconciliationHelper helper;
 	private HashMap<Document, ReconciliationBPELReader> document2reader = new HashMap<Document, ReconciliationBPELReader>();
-	private static Map<Object, WeakReference<Node>> object2cdata = new HashMap<Object, WeakReference<Node>>();
 	
 	public static ReconciliationHelper getInstance() {
 		if (helper == null) {
@@ -292,32 +290,29 @@ public class ReconciliationHelper {
 		}
 	}
 	
-	public static void replaceText(WSDLElement parent, Object oldText, Object newText) {
+	public static void replaceText(WSDLElement parent, Object newText) {
 		if (isLoading(parent)) {
 			return;
 		}
-		
+
 		Element element = parent.getElement();
 		if (element == null) {
 			System.err.println("trying to replace text on null element");
 			return;
-		}		
-		
+		}
+
 		ArrayList<Node> nodesToRemove = getTextNodes(element);
 		for (Node n : nodesToRemove) {
 			element.removeChild(n);
 		}
-		
+
 		// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
-		if (newText != null) {
-			WeakReference<Node> cdataRef = object2cdata.get(newText); 
-			Node cdata = cdataRef == null ? null : cdataRef.get(); 
-			if (cdata == null) {
-				cdata = BPELUtils.createCDATASection(element.getOwnerDocument(), newText.toString());
-				object2cdata.put(newText, new WeakReference<Node>(cdata));
-			}
-			ElementPlacer.placeChild(element, cdata);			
+		if (newText != null && !newText.toString().equals("")) {
+			CDATASection cdata = BPELUtils.createCDATASection(element
+					.getOwnerDocument(), newText.toString());
+			ElementPlacer.placeChild(element, cdata);
 		}
+
 	}
 
 	private static ArrayList<Node> getTextNodes(Element element) {
@@ -345,7 +340,7 @@ public class ReconciliationHelper {
 		return nodesToRemove;
 	}
 	
-	public static void replaceExpression(WSDLElement parent, Expression oldExpression, Expression newExpression) {
+	public static void replaceExpression(WSDLElement parent, Expression newExpression) {
 		if (isLoading(parent)) {
 			return;
 		}
@@ -358,9 +353,9 @@ public class ReconciliationHelper {
 			if (newExpression.getExpressionLanguage() != null) {
 				element.setAttribute("expressionLanguage", newExpression.getExpressionLanguage());
 			}
-			replaceText(parent, oldExpression == null ? null : oldExpression.getBody(), newExpression.getBody());			
+			replaceText(parent, newExpression.getBody());			
 		} else {
-			replaceText(parent, oldExpression == null ? null : oldExpression.getBody(), null);
+			replaceText(parent, null);
 		}
 		
 	}
