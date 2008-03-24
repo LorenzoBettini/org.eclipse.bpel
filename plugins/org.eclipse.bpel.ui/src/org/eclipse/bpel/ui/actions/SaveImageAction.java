@@ -90,15 +90,28 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 				.getEditPartRegistry().get(LayerManager.ID);
 		IFigure figure = ((LayerManager) rootEditPart)
 				.getLayer(LayerConstants.PRINTABLE_LAYERS);
+
 		Dimension size = figure.getSize();
+		Dimension prefSize = figure.getPreferredSize();
 		Image image = new Image(null, size.width, size.height);
 		GC gc = new GC(image);
 		Graphics graphics = new SWTGraphics(gc);
 		figure.paint(graphics);
 
+		// We need to crop this image to remove extra white space around Process
+		// figure
+		Image croppedImage = new Image(null, prefSize.width,
+				prefSize.height + 20);
+		GC croppedImageGC = new GC(croppedImage);
+		Graphics croppedImageGraphics = new SWTGraphics(croppedImageGC);
+
+		croppedImageGraphics.drawImage(image,
+				(size.width - prefSize.width) / 2, 0, prefSize.width,
+				prefSize.height, 0, 0, prefSize.width, prefSize.height);
+
 		ImageLoader imgLoader = new ImageLoader();
 		imgLoader.data = new ImageData[1];
-		imgLoader.data[0] = image.getImageData();
+		imgLoader.data[0] = croppedImage.getImageData();
 
 		int format = SWT.IMAGE_JPEG;
 		if (fileName.endsWith(".bmp")) //$NON-NLS-1$
