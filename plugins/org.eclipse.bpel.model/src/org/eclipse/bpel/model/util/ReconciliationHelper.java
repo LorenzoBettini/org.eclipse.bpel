@@ -472,8 +472,9 @@ public class ReconciliationHelper {
 	public Node patchParentElement(EObject child, EObject parent, Node parentElement, String parentNodeName, String nodeName) {
 		WSDLElement variables = (WSDLElement)parent;
 		WSDLElement	var = (WSDLElement)child;
-		if (variables.getElement() == null) {
-			WSDLElement container = (WSDLElement)variables.eContainer();
+		WSDLElement container = (WSDLElement)variables.eContainer();
+		
+		if (variables.getElement() == null && container != null && container.getElement() != null) {			
 			parentElement = ReconciliationHelper.getBPELChildElementByLocalName(container.getElement(), parentNodeName);
 			variables.setElement(parentElement != null ? (Element)parentElement : ElementFactory.getInstance().createElement(variables, container));
 			var.setElement(ReconciliationHelper.getBPELChildElementByLocalName(variables.getElement(), nodeName));
@@ -499,6 +500,9 @@ public class ReconciliationHelper {
 	 */
 	public static Element getBPELChildElementByLocalName(Element parentElement,
 			String localName) {
+		if (parentElement == null) {
+			return null;
+		}
 		NodeList children = parentElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
