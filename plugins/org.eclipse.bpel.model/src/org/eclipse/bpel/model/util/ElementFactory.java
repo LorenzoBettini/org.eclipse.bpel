@@ -80,7 +80,7 @@ import org.w3c.dom.Node;
 public class ElementFactory {
 	private HashMap<Document, MyBPELWriter> document2Writers = new HashMap<Document, MyBPELWriter>();
 	
-	private static class MyBPELWriter extends org.eclipse.bpel.model.resource.BPELWriter {
+	static class MyBPELWriter extends org.eclipse.bpel.model.resource.BPELWriter {
 		public MyBPELWriter(org.eclipse.bpel.model.resource.BPELResource bpelResource, Document document) {
 			super(bpelResource, document);
 		}
@@ -445,7 +445,7 @@ public class ElementFactory {
 		Element literal = writer.createBPELElement("literal");			
 			
 		if (Boolean.TRUE.equals(from.getUnsafeLiteral())) {
-			node = BPELUtils.convertStringToNode(text, writer.getResource());
+			node = BPELUtils.convertStringToNode(from, text, writer.getResource());
 		}
 			
 		if (node != null) {

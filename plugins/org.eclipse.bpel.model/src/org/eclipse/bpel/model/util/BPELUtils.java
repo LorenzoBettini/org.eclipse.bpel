@@ -370,19 +370,38 @@ public class BPELUtils {
 	 * @return the node
 	 */
 
-	public static Node convertStringToNode(String s, BPELResource bpelResource) {
+	public static Node convertStringToNode(EObject parent, String s, BPELResource bpelResource) {
 		// Create DOM document
 		DocumentBuilderFactory factory = new DocumentBuilderFactoryImpl();
 		factory.setNamespaceAware(true);
 		factory.setValidating(false);
 
+		StringBuilder namespaces = new StringBuilder();
+		Map<String, String> nsMap = getAllNamespacesForContext(parent);		
+		for (Entry<String, String> e : nsMap.entrySet()) {
+			String prefix = e.getKey();
+			String value = e.getValue();
+			if (BPELConstants.isBPELNamespace(value)) {
+				continue;
+			}
+			if (prefix != "") {
+				namespaces.append("xmlns:");
+				namespaces.append(prefix);
+			} else {
+				namespaces.append("xmlns");
+			}
+			namespaces.append("=\"");
+			namespaces.append(value);
+			namespaces.append("\" ");
+		}		
+		
 		String namespaceURI = bpelResource.getNamespaceURI();
 		if (bpelResource.getOptionUseNSPrefix()) {
 			String prefix = "bpws";
-			s = "<" + prefix + ":from xmlns:" + prefix + "=\"" + namespaceURI
-					+ "\">" + s + "</" + prefix + ":from>";
+			s = "<" + prefix + ":from xmlns:" + prefix + "=\"" + namespaceURI + "\" "
+					+ namespaces.toString() + ">" + s + "</" + prefix + ":from>";
 		} else {
-			s = "<from xmlns=\"" + namespaceURI + "\">" + s + "</from>";
+			s = "<from xmlns=\"" + namespaceURI + "\" " + namespaces.toString() + ">" + s + "</from>";
 		}
 
 		try {

@@ -1528,7 +1528,7 @@ public class BPELWriter {
 			fromElement.appendChild(literal);
 
 			if (Boolean.TRUE.equals(from.getUnsafeLiteral())) {
-				node = BPELUtils.convertStringToNode(from.getLiteral(),
+				node = BPELUtils.convertStringToNode(from, from.getLiteral(),
 						getResource());
 			}
 
