@@ -115,7 +115,7 @@ public class LiteralAssignCategory extends AssignCategoryBase {
 			from.setUnsafeLiteral(Boolean.FALSE);
 		} else {
 			// test if the unsafe literal can be converted into an element and serialized safely 
-			if (BPELUtils.convertStringToNode(expr, (BPELResource)getBPELEditor().getResource()) != null) {
+			if (BPELUtils.convertStringToNode(from, expr, (BPELResource)getBPELEditor().getResource()) != null) {
 				from.setUnsafeLiteral(Boolean.TRUE);
 			} else {
 				from.setUnsafeLiteral(Boolean.FALSE);
