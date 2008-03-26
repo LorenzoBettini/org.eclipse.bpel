@@ -159,8 +159,6 @@ public class BPELWriter {
 	private BPELExtensionRegistry extensionRegistry = BPELExtensionRegistry
 			.getInstance();
 
-	private Process fProcess;
-
 	/**
 	 * WsdlImportsManager is responsible for ensuring that, for a given
 	 * namespace and resource uri, an import exists in the bpel file.
@@ -492,8 +490,6 @@ public class BPELWriter {
 	}
 
 	protected Element process2XML(Process process) {
-
-		fProcess = process;
 
 		Element processElement = createBPELElement("process");
 		if (process.getName() != null)
@@ -1311,7 +1307,7 @@ public class BPELWriter {
 				.getActivitySerializer(qName);
 		if (serializer != null) {
 			DocumentFragment fragment = document.createDocumentFragment();
-			serializer.marshall(qName, activity, fragment, fProcess, this);
+			serializer.marshall(qName, activity, fragment, getProcess(), this);
 			Element child = (Element) fragment.getFirstChild();
 			activityElement.appendChild(child);
 			// Standard attributes
@@ -1609,7 +1605,7 @@ public class BPELWriter {
 				DocumentFragment fragment = document.createDocumentFragment();
 				try {
 					serializer.marshall(ExtensibleElement.class, qname,
-							extensibilityElement, fragment, fProcess,
+							extensibilityElement, fragment, getProcess(),
 							extensionRegistry);
 					Element child = (Element) fragment.getFirstChild();
 					return child;
@@ -1623,7 +1619,7 @@ public class BPELWriter {
 							.getReferenceScheme());
 			if (serializer != null) {
 				DocumentFragment fragment = document.createDocumentFragment();
-				serializer.marshall(value, fragment, fProcess, serviceRef
+				serializer.marshall(value, fragment, getProcess(), serviceRef
 						.eContainer(), this);
 				Element child = (Element) fragment.getFirstChild();
 				return child;
@@ -2253,7 +2249,7 @@ public class BPELWriter {
 				// element
 				try {
 					serializer.marshall(ExtensibleElement.class, qname,
-							extensibilityElement, fragment, fProcess,
+							extensibilityElement, fragment, getProcess(),
 							extensionRegistry);
 				} catch (WSDLException e) {
 					throw new WrappedException(e);
@@ -2309,6 +2305,14 @@ public class BPELWriter {
 	}
 
 	/**
+	 * Get process from the resource 
+	 * @return the Process
+	 */
+	private Process getProcess() {
+		return getResource().getProcess();
+	}
+
+	/**
 	 * Convert a BPEL ExtensibilityElement to XML
 	 */
 	protected Element extensibilityElement2XML(
@@ -2330,7 +2334,7 @@ public class BPELWriter {
 		try {
 			serializer
 					.marshall(ExtensibleElement.class, qname,
-							extensibilityElement, fragment, fProcess,
+							extensibilityElement, fragment, getProcess(),
 							extensionRegistry);
 			return (Element) fragment.getFirstChild();
 		} catch (WSDLException e) {
@@ -2350,7 +2354,7 @@ public class BPELWriter {
 
 		if (namespaceURI != null) {
 			List<String> prefixes = BPELUtils.getNamespaceMap(
-					fBPELResource.getProcess()).getReverse(namespaceURI);
+					getProcess()).getReverse(namespaceURI);
 			if (!prefixes.isEmpty() && !prefixes.get(0).equals("")) {
 				return document.createElementNS(namespaceURI, prefixes.get(0)
 						+ ":" + tagName);
@@ -2387,7 +2391,7 @@ public class BPELWriter {
 
 	private String addNewRootPrefix(String basePrefix, String namespace) {
 		INamespaceMap<String, String> nsMap = BPELUtils
-				.getNamespaceMap(fBPELResource.getProcess());
+				.getNamespaceMap(getProcess());
 
 		List<String> prefixes = nsMap.getReverse(namespace);
 		if (prefixes.isEmpty()) {
