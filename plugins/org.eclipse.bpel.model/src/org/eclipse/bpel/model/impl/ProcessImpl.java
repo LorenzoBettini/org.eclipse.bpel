@@ -9,29 +9,22 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  * </copyright>
- *
- * $Id: ProcessImpl.java,v 1.16 2008/03/12 17:19:20 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSets;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
-import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLinks;
-import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
@@ -41,13 +34,10 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.xsd.util.XSDConstants;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

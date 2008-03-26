@@ -9,8 +9,6 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  * </copyright>
- *
- * $Id: Process.java,v 1.11 2008/03/12 17:19:20 odanilov Exp $
  */
 package org.eclipse.bpel.model;
 
