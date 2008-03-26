@@ -27,6 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.xerces.dom.AttrImpl;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
@@ -885,6 +886,34 @@ public class BPELUtils {
 		return (child instanceof FaultHandler && parent instanceof Invoke)
 				|| (child instanceof Expression && parent instanceof From)
 				|| (child instanceof Expression && parent instanceof To);
+	}
+	
+	public static boolean isActivityNode(Node node) {
+		String name = node.getLocalName();
+		return isBPELElement(node) && 
+			   (BPELConstants.ND_INVOKE.equals(name) ||
+			   BPELConstants.ND_ASSIGN.equals(name) ||
+			   BPELConstants.ND_WHILE.equals(name) ||
+			   BPELConstants.ND_REPEAT_UNTIL.equals(name) ||
+			   BPELConstants.ND_RECEIVE.equals(name) ||
+			   BPELConstants.ND_REPLY.equals(name) ||
+			   BPELConstants.ND_THROW.equals(name) ||
+			   BPELConstants.ND_WAIT.equals(name) ||
+			   BPELConstants.ND_SEQUENCE.equals(name) ||
+			   BPELConstants.ND_PICK.equals(name) ||
+			   BPELConstants.ND_FLOW.equals(name) ||
+			   BPELConstants.ND_SCOPE.equals(name) ||
+			   BPELConstants.ND_COMPENSATE.equals(name) ||
+			   BPELConstants.ND_RETHROW.equals(name) ||
+			   BPELConstants.ND_EXIT.equals(name) ||
+			   BPELConstants.ND_EXTENSION_ACTIVITY.equals(name) ||
+			   BPELConstants.ND_INVOKE.equals(name) ||
+			   BPELConstants.ND_FOR_EACH.equals(name) ||
+			   BPELConstants.ND_IF.equals(name) ||
+			   BPELConstants.ND_VALIDATE.equals(name) ||
+			   BPELConstants.ND_COMPENSATE_SCOPE.equals(name) ||
+			   BPELConstants.ND_EMPTY.equals(name));
+			
 	}
 
 	// TODO: (DU) This is here due to

@@ -40,6 +40,7 @@ import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
+import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.ForEach;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.FromPart;
@@ -60,6 +61,7 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Scope;
+import org.eclipse.bpel.model.Sequence;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Sources;
@@ -420,6 +422,7 @@ public class ReconciliationHelper {
 	    		((ExtensibleElement)child).setElement(childElement);
 	    	}
 			if (childElement.getParentNode() != parentElement) {
+				System.err.println("Non-reconciling element:" + parent.getClass());
 				parentElement.insertBefore(childElement, beforeElement);
 			}
 	    } else if (child instanceof FaultHandler){
@@ -513,6 +516,26 @@ public class ReconciliationHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * Returns a list of child activity nodes of <code>parentElement</code>
+	 * Returns an empty list if no matching elements are found.
+	 * 
+	 * @param parentElement
+	 *            the element to find the children of	 
+	 * @return a node list of the matching children of parentElement
+	 */
+	public static List<Element> getActivities(Element parentElement) {
+		List<Element> list = new ArrayList<Element>();
+		NodeList children = parentElement.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node node = children.item(i);
+			if (BPELUtils.isActivityNode(node)) {
+				list.add((Element) node);
+			}
+		}
+		return list;
+	}
 
 	/**
 	 * Returns a list of child nodes of <code>parentElement</code> that are
@@ -561,7 +584,12 @@ public class ReconciliationHelper {
 			return;
 		}
 		int index = children.indexOf(newChild);
-		List<Element> domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
+		List<Element> domChildren;
+		if (parent instanceof Sequence || parent instanceof Flow) {
+			domChildren = getActivities(parent.getElement());
+		} else {
+			domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
+		}
 		if (index >= domChildren.size()) {
 			ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
 		} else {
@@ -739,6 +767,7 @@ public class ReconciliationHelper {
         if (context instanceof While)  return true;
         if (context instanceof RepeatUntil)  return true;
         if (context instanceof CompensationHandler) return true;
+        if (context instanceof Scope) return true;
         return false;
     }
 //
