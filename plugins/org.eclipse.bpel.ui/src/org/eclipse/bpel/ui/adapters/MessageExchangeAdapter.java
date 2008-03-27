@@ -108,14 +108,14 @@ public class MessageExchangeAdapter extends AbstractStatefulAdapter implements I
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getSmallImage(java.lang.Object)
 	 */
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EXIT_16);//TODO - replace holder with the right image
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_MESSAGEEXCHANGE_16);
 	}
 	
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.ILabeledElement#getLargeImage(java.lang.Object)
 	 */
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EXIT_32);//TODO - replace holder with the right image
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_MESSAGEEXCHANGE_32);
 	}
 	
 	/**

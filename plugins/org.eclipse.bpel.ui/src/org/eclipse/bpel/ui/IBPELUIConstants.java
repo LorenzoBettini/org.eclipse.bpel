@@ -123,7 +123,9 @@ public interface IBPELUIConstants {
 	public final String ICON_LINK_16 = "obj16/link.gif"; //$NON-NLS-1$
 	public final String ICON_LINK_32 = "obj20/link.png"; //$NON-NLS-1$
 	public final String ICON_STARTNODE_16_GIF = "dgm/startnode.gif"; //$NON-NLS-1$
-	public final String ICON_ENDNODE_16_GIF = "dgm/endnode.gif"; //$NON-NLS-1$
+	public final String ICON_ENDNODE_16_GIF = "dgm/endnode.gif"; //$NON-NLS-1$	
+	public final String ICON_MESSAGEEXCHANGE_16 = "obj16/messageexchange.gif"; //$NON-NLS-1$
+	public final String ICON_MESSAGEEXCHANGE_32 = "obj20/messageexchange.png"; //$NON-NLS-1$
 
 	// More model objects that appear in the details area
 	public final String ICON_CASE_16 = "obj16/case.gif"; //$NON-NLS-1$

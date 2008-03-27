@@ -64,11 +64,11 @@ public class MessageExchangesAdapter extends ContainerAdapter implements EditPar
 	/* ILabeledElement */
 	
 	public Image getSmallImage(Object object) {
-		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EXIT_16); //TODO - replace holder with the right image
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_MESSAGEEXCHANGE_16); 
 	}
 	
 	public Image getLargeImage(Object object) {
-		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_EXIT_32); //TODO - replace holder with the right image
+		return BPELUIPlugin.INSTANCE.getImage(IBPELUIConstants.ICON_MESSAGEEXCHANGE_32); 
 	}	
 	
 	public String getTypeLabel(Object object) {
