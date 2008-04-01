@@ -14,7 +14,11 @@ import java.util.List;
 
 import org.eclipse.bpel.common.ui.tray.AddChildInTrayAction;
 import org.eclipse.bpel.ui.actions.AutoArrangeFlowsAction;
+import org.eclipse.bpel.ui.actions.BPELCopyAction;
+import org.eclipse.bpel.ui.actions.BPELCutAction;
+import org.eclipse.bpel.ui.actions.BPELDeleteAction;
 import org.eclipse.bpel.ui.actions.BPELDuplicateAction;
+import org.eclipse.bpel.ui.actions.BPELPasteAction;
 import org.eclipse.bpel.ui.actions.EditPartContextAction;
 import org.eclipse.bpel.ui.actions.MakePartner2WayAction;
 import org.eclipse.bpel.ui.actions.ShowPaletteInPaletteViewAction;
@@ -106,9 +110,9 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		if (action.isEnabled()) menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
 		// Cut, Copy, Paste (always shown)
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.CUT.getId()));
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.COPY.getId()));
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(ActionFactory.PASTE.getId()));	
+		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(BPELCutAction.ID));
+		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(BPELCopyAction.ID));
+		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(BPELPasteAction.ID));	
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, actionRegistry.getAction(BPELDuplicateAction.ACTION_ID));
 
 		// Frequently-used actions
@@ -209,7 +213,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		}
 		
 		// Delete (always shown) and Rename (if appropriate)
-		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, actionRegistry.getAction(ActionFactory.DELETE.getId()));
+		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, actionRegistry.getAction(BPELDeleteAction.ID));
 		action = actionRegistry.getAction(ActionFactory.RENAME.getId());
 		
 		if (action != null && action.isEnabled()) {

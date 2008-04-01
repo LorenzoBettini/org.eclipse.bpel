@@ -21,8 +21,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
-
 
 /**
  * @author IBM, Original Contribution.
@@ -32,6 +30,8 @@ import org.eclipse.ui.actions.ActionFactory;
  *
  */
 public class BPELPasteAction extends EditAction {
+	
+	public final static String ID = "BPELPasteAction";  //$NON-NLS-1$
 	
 	Command command;
 	
@@ -49,7 +49,7 @@ public class BPELPasteAction extends EditAction {
 		super.init();
 		setText(Messages.BPELPasteAction_Paste_1); 
 		setToolTipText(Messages.BPELPasteAction_Paste_2); 
-		setId(ActionFactory.PASTE.getId());
+		setId(ID);
 		setImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
 			ISharedImages.IMG_TOOL_PASTE));
 		setDisabledImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
@@ -74,7 +74,7 @@ public class BPELPasteAction extends EditAction {
 
 		// 2. Paste Command
 		BPELPasteCommand cmdPaste = new BPELPasteCommand(bpelEditor);
-		cmdPaste.setTargetObject( fSelection.get(0) , false );		
+		cmdPaste.setTargetObject( fSelection.get(0) , false );
 		cmd.add(cmdPaste);
 		
 		// 3. Add the command to select the pasted elements		

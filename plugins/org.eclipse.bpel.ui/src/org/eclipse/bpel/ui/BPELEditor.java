@@ -101,6 +101,12 @@ import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.DeleteAction;
+import org.eclipse.gef.ui.actions.PrintAction;
+import org.eclipse.gef.ui.actions.RedoAction;
+import org.eclipse.gef.ui.actions.SaveAction;
+import org.eclipse.gef.ui.actions.SelectAllAction;
+import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.jface.action.Action;
@@ -111,10 +117,13 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IURIEditorInput;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -762,22 +771,46 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	 */
 	@Override
 	protected void createActions() {
-		super.createActions();	
+//		super.createActions();	
 		ActionRegistry registry = getActionRegistry();
+		IAction action;
+
+		// Oleg: These actions were copy-pasted from GraphicalEditor
+		// Probably we need to remove some of them
+		action = new UndoAction(this);
+		registry.registerAction(action);
+		getStackActions().add(action.getId());
+		
+		action = new RedoAction(this);
+		registry.registerAction(action);
+		getStackActions().add(action.getId());
+		
+		action = new SelectAllAction(this);
+		registry.registerAction(action);
+		
+		action = new SaveAction(this);
+		registry.registerAction(action);
+		getPropertyActions().add(action.getId());
+		
+		registry.registerAction(new PrintAction(this));
 		
 		// hook up some custom actions that are specialized versions of 
 		// the default actions.
-		IAction action = new BPELDeleteAction(this);
-		replaceSelectionAction(registry, action);
-
+		action = new BPELDeleteAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
 		action = new BPELCutAction(this);
-		replaceSelectionAction(registry, action);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 	
 		action = new BPELCopyAction(this);
-		replaceSelectionAction(registry, action);
-		
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+
 		action = new BPELPasteAction(this);
-		replaceSelectionAction(registry, action);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 		
 		action = new BPELDuplicateAction(this);
 		registry.registerAction(action);
@@ -1150,7 +1183,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 		super.createPartControl(parent);
 		getTrayComposite().setState(TrayComposite.STATE_EXPANDED);
 		getTrayComposite().setTrayWidth(150);
-
+		getEditorSite().getKeyBindingService();
 		selectModelObject(getProcess());
 	}
 

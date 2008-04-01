@@ -38,13 +38,13 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
-
 
 /**
  * An action to delete selected objects.
  */
 public class BPELDeleteAction extends EditAction {
+	
+	public final static String ID = "BPELDeleteAction";  //$NON-NLS-1$
 	
 	/**
 	 * Brand new Delete Action.
@@ -72,7 +72,7 @@ public class BPELDeleteAction extends EditAction {
 		super.init();
 		setText(Messages.DeleteSelectedAction_Delete_1); 
 		setToolTipText(Messages.DeleteSelectedAction_Delete_2); 
-		setId(ActionFactory.DELETE.getId());
+		setId(ID);
 		setImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
 			ISharedImages.IMG_TOOL_DELETE));
 		setDisabledImageDescriptor(SharedImages.getWorkbenchImageDescriptor(

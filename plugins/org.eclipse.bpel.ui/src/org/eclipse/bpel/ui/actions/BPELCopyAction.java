@@ -22,7 +22,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
 
 
 /**
@@ -32,6 +31,8 @@ import org.eclipse.ui.actions.ActionFactory;
  *
  */
 public class BPELCopyAction extends EditAction {
+	
+	public final static String ID = "BPELCopyAction";  //$NON-NLS-1$
 	
 	/**
 	 * Brand new shiny copy action.
@@ -48,7 +49,7 @@ public class BPELCopyAction extends EditAction {
 		super.init();
 		setText(Messages.BPELCopyAction_Copy_1); 
 		setToolTipText(Messages.BPELCopyAction_Copy_2); 
-		setId(ActionFactory.COPY.getId());
+		setId(ID);
 		setImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
 			ISharedImages.IMG_TOOL_COPY));
 		setDisabledImageDescriptor(SharedImages.getWorkbenchImageDescriptor(

@@ -25,7 +25,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
 
 
 /**
@@ -34,7 +33,8 @@ import org.eclipse.ui.actions.ActionFactory;
  *
  */
 public class BPELCutAction extends BPELDeleteAction {
-		
+	
+	public final static String ID = "BPELCutAction";  //$NON-NLS-1$
 	
 	/**
 	 * @param editorPart
@@ -49,7 +49,7 @@ public class BPELCutAction extends BPELDeleteAction {
 
 		setText(Messages.BPELCutAction_Cut_1); 
 		setToolTipText(Messages.BPELCutAction_Cut_2); 
-		setId(ActionFactory.CUT.getId());
+		setId(ID);
 		setImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
 			ISharedImages.IMG_TOOL_CUT));
 		setDisabledImageDescriptor(SharedImages.getWorkbenchImageDescriptor(
