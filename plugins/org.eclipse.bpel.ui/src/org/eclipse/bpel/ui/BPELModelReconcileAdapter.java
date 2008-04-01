@@ -69,26 +69,27 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		} else if (node instanceof Document) {
 			Document document = (Document) node;
 			Element processElement = getProcessElement(document);
+
+			process.setPartnerLinks(null);
+			process.setVariables(null);
+			process.setCorrelationSets(null);
+			process.setActivity(null);
+			process.setDocumentation(null);
+			process.setName(null);
+			process.setTargetNamespace(null);
+			process.unsetQueryLanguage();
+			process.unsetExpressionLanguage();
+			process.unsetSuppressJoinFailure();
+			process.unsetVariableAccessSerializable();
+			process.setFaultHandlers(null);
+			process.setExtensions(null);
+			process.setExitOnStandardFault(false);
+			process.setMessageExchanges(null);
+			process.setEventHandlers(null);		
+
 			if (processElement != null) {
 				process.setElement(processElement);
 				reconcileModelObjectForElement(processElement);
-			} else {				
-				process.setPartnerLinks(null);
-				process.setVariables(null);
-				process.setCorrelationSets(null);
-				process.setActivity(null);
-				process.setDocumentation(null);
-				process.setName(null);
-				process.setTargetNamespace(null);
-				process.unsetQueryLanguage();
-				process.unsetExpressionLanguage();
-				process.unsetSuppressJoinFailure();
-				process.unsetVariableAccessSerializable();
-				process.setFaultHandlers(null);
-				process.setExtensions(null);
-				process.setExitOnStandardFault(false);
-				process.setMessageExchanges(null);
-				process.setEventHandlers(null);		
 			}
 		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE
 				|| BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
