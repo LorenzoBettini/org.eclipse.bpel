@@ -695,6 +695,8 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			}
 		}
 		
+		gotoText(marker);				
+		
 		if (modelObject == null) {
 			return;
 		}
@@ -702,6 +704,23 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		gotoMarker ( marker, modelObject );
 	}
 
+	private void gotoText(IMarker marker) {
+		Integer charStart = null;
+		Integer charEnd = null;
+		try {
+			charStart = (Integer) marker.getAttribute( "charStart" );
+			charEnd = (Integer) marker.getAttribute( "charEnd" );
+		} catch (CoreException ex) {
+			BPELUIPlugin.log(ex);
+		}
+		charStart = charStart == null ? 0 : charStart;
+		charEnd = charEnd == null ? charStart : charEnd;
+		try {
+			fTextEditor.setHighlightRange(charStart, charEnd - charStart, true);
+		} catch (Throwable t) {
+			BPELUIPlugin.log(t);
+		}
+	}
 	
 	void gotoMarker ( IMarker marker, EObject modelObject ) {
 		
