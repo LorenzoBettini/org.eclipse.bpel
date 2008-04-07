@@ -74,6 +74,11 @@ import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
+import org.eclipse.bpel.model.impl.CorrelationSetsImpl;
+import org.eclipse.bpel.model.impl.MessageExchangesImpl;
+import org.eclipse.bpel.model.impl.PartnerLinkImpl;
+import org.eclipse.bpel.model.impl.PartnerLinksImpl;
+import org.eclipse.bpel.model.impl.VariablesImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -605,8 +610,13 @@ public class ReconciliationHelper {
 				&& child.getElement().getParentNode() == parent.getElement()) {
 			parent.getElement().removeChild(child.getElement());
 		}
+		
+		// We should delete enclosing element only if child has been 
+		// deleted from GUI (parent.isReconciling == false)
+		// If we delete child in source tab then parent should be kept intact 
+
 		// Remove <variables> if there are no children
-		if ((child instanceof Variable) && (((Variables) parent).getChildren().size() == 0)) {
+		if ((child instanceof Variable) && (((Variables) parent).getChildren().size() == 0) && !((VariablesImpl)parent).isReconciling()){
 			if (parent.getContainer() instanceof Process)
 				((Process) parent.getContainer()).setVariables(null);
 			else if (parent.getContainer() instanceof Scope)
@@ -615,7 +625,7 @@ public class ReconciliationHelper {
 				throw new IllegalStateException();
 		}
 		// Remove <partnerlinks> if there are no children
-		if ((child instanceof PartnerLinks) && (((PartnerLinks) parent).getChildren().size() == 0)) {
+		if ((child instanceof PartnerLink) && (((PartnerLinks) parent).getChildren().size() == 0) && !((PartnerLinksImpl)parent).isReconciling()){
 			if (parent.getContainer() instanceof Process)
 				((Process) parent.getContainer()).setPartnerLinks(null);
 			else if (parent.getContainer() instanceof Scope)
@@ -624,7 +634,7 @@ public class ReconciliationHelper {
 				throw new IllegalStateException();
 		}
 		// Remove <correlationsets> if there are no children
-		if ((child instanceof CorrelationSets) && (((CorrelationSets) parent).getChildren().size() == 0)) {
+		if ((child instanceof CorrelationSet) && (((CorrelationSets) parent).getChildren().size() == 0) && !((CorrelationSetsImpl)parent).isReconciling()){
 			if (parent.getContainer() instanceof Process)
 				((Process) parent.getContainer()).setCorrelationSets(null);
 			else if (parent.getContainer() instanceof Scope)
@@ -633,7 +643,7 @@ public class ReconciliationHelper {
 				throw new IllegalStateException();
 		}
 		// Remove <messageExchanges> if there are no children
-		if ((child instanceof MessageExchanges) && (((MessageExchanges) parent).getChildren().size() == 0)) {
+		if ((child instanceof MessageExchange) && (((MessageExchanges) parent).getChildren().size() == 0) && !((MessageExchangesImpl)parent).isReconciling()) {
 			if (parent.getContainer() instanceof Process)
 				((Process) parent.getContainer()).setMessageExchanges(null);
 			else if (parent.getContainer() instanceof Scope)
