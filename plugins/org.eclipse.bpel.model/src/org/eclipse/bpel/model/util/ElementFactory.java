@@ -28,6 +28,7 @@ import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.model.Correlations;
+import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.EventHandler;
@@ -332,6 +333,11 @@ public class ElementFactory {
 		protected Node serviceRefValue2XML(ServiceRef serviceRef) {
 			return super.serviceRefValue2XML(serviceRef);
 		}
+		
+		@Override
+		protected Element documentation2XML(Documentation documentation) {
+			return super.documentation2XML(documentation);
+		}
 	}
 
 	private static ElementFactory factory;
@@ -492,10 +498,10 @@ public class ElementFactory {
 			return writer
 					.extensibilityElement2XML((ExtensibilityElement) element);
 		}
-		System.err.println("Cannot create: " + element.toString());
-		return writer.createBPELElement("error");
-		// throw new IllegalArgumentException("Unhandled type: " +
-		// element.toString());
+		if (element instanceof Documentation) {
+			return writer.documentation2XML((Documentation) element);
+		}
+		throw new IllegalArgumentException("Cannot create element for type: " + element.getClass().getName());
 	}
 
 	public Node createLiteral(From from, String text) {
@@ -519,7 +525,7 @@ public class ElementFactory {
 		} else {
 			CDATASection cdata = BPELUtils.createCDATASection(from.getElement()
 					.getOwnerDocument(), text);
-			return cdata;
+			BPELUtils.copyInto(cdata, literal);
 		}
 
 		return literal;
