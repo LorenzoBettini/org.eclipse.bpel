@@ -205,7 +205,7 @@ public class ReconciliationHelper {
 		}
 	}
 
-	private static boolean isLoading(WSDLElement element) {
+	public static boolean isLoading(WSDLElement element) {
 		Process process = BPELUtils.getProcess(element);
 		return process == null || process.eResource() == null || !process.eResource().isLoaded();
 	}

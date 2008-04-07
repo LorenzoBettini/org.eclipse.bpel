@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.8 2007/12/06 20:01:24 smoser Exp $
+ * $Id: CorrelationSetImpl.java,v 1.9 2008/04/07 15:43:23 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -227,7 +227,7 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	}
 
 	protected void changeReference(EReference reference) {
-		if (reference.getFeatureID() == BPELPackage.CORRELATION_SET__PROPERTIES) {
+		if (reference.getFeatureID() == BPELPackage.CORRELATION_SET__PROPERTIES && !ReconciliationHelper.isLoading(this)) {
 			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTIES, ElementFactory.getInstance().createPropertiesString(this));
 		}
 
