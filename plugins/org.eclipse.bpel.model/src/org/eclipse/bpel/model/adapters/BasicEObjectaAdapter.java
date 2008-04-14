@@ -204,6 +204,14 @@ implements IProperty<String, Object>, INamespaceMap<String, String> {
 		// the reverse mapping must exist in this case.
 		fNamespace2Prefix.get(value).remove(key);
 
+		if (getTarget() instanceof WSDLElement) {
+			Element element = ((WSDLElement) getTarget()).getElement();
+			// Element could be null (for instance, on load)
+			if (element != null) {
+				element.removeAttributeNS(XSDConstants.XMLNS_URI_2000, key.toString());
+			}
+		}
+		
 		return value;
 	}
 

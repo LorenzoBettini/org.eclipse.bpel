@@ -598,7 +598,7 @@ public class ReconciliationHelper {
 		if (index >= domChildren.size()) {
 			ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
 		} else {
-			parent.getElement().insertBefore(newChild.getElement(), domChildren.get(index));
+			ElementPlacer.niceInsertBefore(parent.getElement(), newChild.getElement(), domChildren.get(index));
 		}
 	}
 
