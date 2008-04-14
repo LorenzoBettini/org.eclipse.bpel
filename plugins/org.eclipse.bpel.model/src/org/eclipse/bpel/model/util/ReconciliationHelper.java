@@ -75,6 +75,8 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.impl.CorrelationSetsImpl;
+import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
+import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
 import org.eclipse.bpel.model.impl.MessageExchangesImpl;
 import org.eclipse.bpel.model.impl.PartnerLinkImpl;
 import org.eclipse.bpel.model.impl.PartnerLinksImpl;
@@ -212,58 +214,72 @@ public class ReconciliationHelper {
 	
 	public static void replaceChild(WSDLElement parent, WSDLElement oldElement,
 			WSDLElement newElement) {
-		if (isLoading(parent)) {
-			return;
-		}
-		if (parent.getElement() == null) {
-			System.err.println("trying to replace child on null element: "
-					+ parent.getClass());
-			return;
-		}
-		if (oldElement == newElement) {
-			return;
-		}
-		if (newElement != null) {
-			if (newElement.getElement() == null) {
-				Element newDomElement = ElementFactory.getInstance()
-						.createElement(newElement, parent);
-				if (newDomElement == null) {
-					return;
-				}
-				newElement.setElement(newDomElement);
+		boolean oldUpdatingDom = isUpdatingDom(parent);
+		try {
+			setUpdatingDom(parent, true);		
+			
+			if (isLoading(parent)) {
+				return;
 			}
-			if (oldElement != null
+			if (parent.getElement() == null) {
+				System.err.println("trying to replace child on null element: "
+						+ parent.getClass());
+				return;
+			}
+			if (oldElement == newElement) {
+				return;
+			}
+			if (newElement != null) {
+				if (newElement.getElement() == null) {
+					Element newDomElement = ElementFactory.getInstance()
+							.createElement(newElement, parent);
+					if (newDomElement == null) {
+						return;
+					}
+					newElement.setElement(newDomElement);
+				}
+				if (oldElement != null
+						&& oldElement.getElement() != null
+						&& parent.getElement() == oldElement.getElement()
+								.getParentNode()) {
+					parent.getElement().replaceChild(newElement.getElement(),
+							oldElement.getElement());
+				} else {
+					ElementPlacer.placeChild(parent.getElement(), newElement
+							.getElement());
+				}
+			} else if (oldElement != null
 					&& oldElement.getElement() != null
 					&& parent.getElement() == oldElement.getElement()
 							.getParentNode()) {
-				parent.getElement().replaceChild(newElement.getElement(),
-						oldElement.getElement());
-			} else {
-				ElementPlacer.placeChild(parent.getElement(), newElement
-						.getElement());
+				parent.getElement().removeChild(oldElement.getElement());
 			}
-		} else if (oldElement != null
-				&& oldElement.getElement() != null
-				&& parent.getElement() == oldElement.getElement()
-						.getParentNode()) {
-			parent.getElement().removeChild(oldElement.getElement());
+		} finally {
+			setUpdatingDom(parent, oldUpdatingDom);
 		}
 	}
 	
 	
 	public static void replaceAttribute(WSDLElement element, String attributeName, String attributeValue) {
-		if (isLoading(element)) {
-			return;
+		boolean oldUpdatingDom = isUpdatingDom(element);
+		try {
+			setUpdatingDom(element, true);		
+			
+			if (isLoading(element)) {
+				return;
+			}
+			if (element.getElement() == null) {
+				System.err.println("trying to replace attribute on null element:" + element.getClass());
+				return;
+			}
+			if (attributeValue != null) {
+				element.getElement().setAttribute(attributeName, attributeValue);
+			} else {
+				element.getElement().removeAttribute(attributeName);
+			}
+		} finally {
+			setUpdatingDom(element, oldUpdatingDom);
 		}
-		if (element.getElement() == null) {
-			System.err.println("trying to replace attribute on null element:" + element.getClass());
-			return;
-		}
-		if (attributeValue != null) {
-			element.getElement().setAttribute(attributeName, attributeValue);
-		} else {
-			element.getElement().removeAttribute(attributeName);
-		}	
 	}
 	
 	public static void replaceAttribute(WSDLElement element, String attributeName, QName attributeValue) {
@@ -278,48 +294,61 @@ public class ReconciliationHelper {
 	}
 		
 	public static void replaceLiteral(From from, String literal) {
-		Element parentElement = from.getElement();
-		if (parentElement == null || isLoading(from)) {
-			return;
-		}
-		Element oldLiteral = ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_LITERAL);
-		Node newLiteral = literal == null ? null : ElementFactory.getInstance().createLiteral(from, literal);
-		if (oldLiteral == null) {
-			if (newLiteral != null) {
-				ElementPlacer.placeChild(parentElement, newLiteral);
+		boolean oldUpdatingDom = isUpdatingDom(from);
+		try {
+			setUpdatingDom(from, true);		
+			
+			Element parentElement = from.getElement();
+			if (parentElement == null || isLoading(from)) {
+				return;
 			}
-		} else {
-			if (newLiteral != null) {
-				parentElement.replaceChild(newLiteral, oldLiteral);
+			Element oldLiteral = ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_LITERAL);
+			Node newLiteral = literal == null ? null : ElementFactory.getInstance().createLiteral(from, literal);
+			if (oldLiteral == null) {
+				if (newLiteral != null) {
+					ElementPlacer.placeChild(parentElement, newLiteral);
+				}
 			} else {
-				parentElement.removeChild(oldLiteral);
+				if (newLiteral != null) {
+					parentElement.replaceChild(newLiteral, oldLiteral);
+				} else {
+					parentElement.removeChild(oldLiteral);
+				}
 			}
+		} finally {
+			setUpdatingDom(from, oldUpdatingDom);
 		}
 	}
 	
 	public static void replaceText(WSDLElement parent, Object newText) {
-		if (isLoading(parent)) {
-			return;
+		boolean oldUpdatingDom = isUpdatingDom(parent);
+		try {
+			setUpdatingDom(parent, true);
+			
+			if (isLoading(parent)) {
+				return;
+			}
+	
+			Element element = parent.getElement();
+			if (element == null) {
+				System.err.println("trying to replace text on null element");
+				return;
+			}
+	
+			ArrayList<Node> nodesToRemove = getTextNodes(element);
+			for (Node n : nodesToRemove) {
+				element.removeChild(n);
+			}
+	
+			// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
+			if (newText != null && !newText.toString().equals("")) {
+				CDATASection cdata = BPELUtils.createCDATASection(element
+						.getOwnerDocument(), newText.toString());
+				ElementPlacer.placeChild(element, cdata);
+			}
+		} finally {
+			setUpdatingDom(parent, oldUpdatingDom);
 		}
-
-		Element element = parent.getElement();
-		if (element == null) {
-			System.err.println("trying to replace text on null element");
-			return;
-		}
-
-		ArrayList<Node> nodesToRemove = getTextNodes(element);
-		for (Node n : nodesToRemove) {
-			element.removeChild(n);
-		}
-
-		// TODO: (DU) Here must be some method like in BPELWriter.expression2XML
-		if (newText != null && !newText.toString().equals("")) {
-			CDATASection cdata = BPELUtils.createCDATASection(element
-					.getOwnerDocument(), newText.toString());
-			ElementPlacer.placeChild(element, cdata);
-		}
-
 	}
 
 	private static ArrayList<Node> getTextNodes(Element element) {
@@ -348,55 +377,92 @@ public class ReconciliationHelper {
 	}
 	
 	public static void replaceExpression(WSDLElement parent, Expression newExpression) {
-		if (isLoading(parent)) {
-			return;
-		}
-		if (parent.getElement() == null) {
-			System.err.println("trying to replace expression on null element:" + parent.getClass());
-			return;
-		}
-		Element element = parent.getElement();
-		if (newExpression != null) {
-			if (newExpression.getExpressionLanguage() != null) {
-				element.setAttribute("expressionLanguage", newExpression.getExpressionLanguage());
+		boolean oldUpdatingDom = isUpdatingDom(parent);
+		try {
+			setUpdatingDom(parent, true);
+			
+				if (isLoading(parent)) {
+				return;
 			}
-			replaceText(parent, newExpression.getBody());			
-		} else {
-			replaceText(parent, null);
+			if (parent.getElement() == null) {
+				System.err.println("trying to replace expression on null element:" + parent.getClass());
+				return;
+			}
+			Element element = parent.getElement();
+			if (newExpression != null) {
+				if (newExpression.getExpressionLanguage() != null) {
+					element.setAttribute("expressionLanguage", newExpression.getExpressionLanguage());
+				}
+				replaceText(parent, newExpression.getBody());			
+			} else {
+				replaceText(parent, null);
+			}
+		} finally {
+			setUpdatingDom(parent, oldUpdatingDom);
 		}
-		
 	}
 	
 	public static void replaceFaultHandler(WSDLElement parent, FaultHandler newFaultHandler) {
-		if (isLoading(parent)) {
-			return;
-		}
-		if (parent.getElement() == null) {
-			System.err.println("trying to replace faultHandler on null element:" + parent.getClass());
-			return;
-		}
-		Element parentElement = parent.getElement();
-		for (Element node : ReconciliationHelper.getBPELChildElementsByLocalName(parentElement, BPELConstants.ND_CATCH)) {
-			parentElement.removeChild(node);
-		}
-		parentElement.removeChild(ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH_ALL));
-		if (newFaultHandler != null) {
-			ElementFactory.getInstance().writeFaultHandler(newFaultHandler, parent);
+		boolean oldUpdatingDom = isUpdatingDom(parent);
+		try {
+			setUpdatingDom(parent, true);
+			
+			if (isLoading(parent)) {
+				return;
+			}
+			if (parent.getElement() == null) {
+				System.err.println("trying to replace faultHandler on null element:" + parent.getClass());
+				return;
+			}
+			Element parentElement = parent.getElement();
+			for (Element node : ReconciliationHelper.getBPELChildElementsByLocalName(parentElement, BPELConstants.ND_CATCH)) {
+				parentElement.removeChild(node);
+			}
+			parentElement.removeChild(ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH_ALL));
+			if (newFaultHandler != null) {
+				ElementFactory.getInstance().writeFaultHandler(newFaultHandler, parent);
+			}
+		} finally {
+			setUpdatingDom(parent, oldUpdatingDom);
 		}
 	}
 	
 	public static void replaceValue(ServiceRef serviceRef, Node oldValueNode, Node newValueNode) {
-		if (isLoading(serviceRef)) {
-			return;
+		boolean oldUpdatingDom = isUpdatingDom(serviceRef);
+		try {
+			setUpdatingDom(serviceRef, true);
+			
+			if (isLoading(serviceRef)) {
+				return;
+			}
+			if (serviceRef.getElement() == null) {
+				return;
+			}
+			if (oldValueNode == null && newValueNode != null) {
+				ElementPlacer.placeChild(serviceRef.getElement(), newValueNode);
+			} else if (oldValueNode != null && newValueNode != null) {
+				serviceRef.getElement().replaceChild(newValueNode, oldValueNode);
+			}
+		} finally {
+			setUpdatingDom(serviceRef, oldUpdatingDom);
 		}
-		if (serviceRef.getElement() == null) {
-			return;
-		}
-		if (oldValueNode == null && newValueNode != null) {
-			ElementPlacer.placeChild(serviceRef.getElement(), newValueNode);
-		} else if (oldValueNode != null && newValueNode != null) {
-			serviceRef.getElement().replaceChild(newValueNode, oldValueNode);
-		}
+	}
+	
+	static boolean isUpdatingDom(WSDLElement element) {
+		if (element instanceof ExtensibleElementImpl) {
+			return ((ExtensibleElementImpl) element).isUpdatingDOM();			
+		} else if (element instanceof ExtensibilityElementImpl) {
+			return ((ExtensibilityElementImpl) element).isUpdatingDOM();			
+		} 
+		return false;
+	}
+	
+	static void setUpdatingDom(WSDLElement element, boolean updatingDOM) {
+		if (element instanceof ExtensibleElementImpl) {
+			((ExtensibleElementImpl) element).setUpdatingDOM(updatingDOM);			
+		} else if (element instanceof ExtensibilityElementImpl) {
+			((ExtensibilityElementImpl) element).setUpdatingDOM(updatingDOM);			
+		} 
 	}
 	
 	private ReconciliationBPELReader getReader(WSDLElement element, Element changedElement) {
@@ -578,80 +644,92 @@ public class ReconciliationHelper {
 	}
 	
 	public static void adoptChild(WSDLElement parent, List<? extends WSDLElement> children, WSDLElement newChild, String nodeName) {
-		if (isLoading(parent) || parent.getElement() == null) {
-			return;
-		}
-		if (newChild.getElement() == null) {
-			newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
-		}
-		if (newChild.getElement().getParentNode() == parent.getElement()) {
-			// already in the dom tree
-			return;
-		}
-		int index = children.indexOf(newChild);
-		List<Element> domChildren;
-		if (parent instanceof Sequence || parent instanceof Flow) {
-			domChildren = getActivities(parent.getElement());
-		} else {
-			domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
-		}
-		if (index >= domChildren.size()) {
-			ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
-		} else {
-			ElementPlacer.niceInsertBefore(parent.getElement(), newChild.getElement(), domChildren.get(index));
+		boolean oldUpdatingDom = isUpdatingDom(parent);
+		try {
+			setUpdatingDom(parent, true);
+			
+			if (isLoading(parent) || parent.getElement() == null) {
+				return;
+			}
+			if (newChild.getElement() == null) {
+				newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
+			}
+			if (newChild.getElement().getParentNode() == parent.getElement()) {
+				// already in the dom tree
+				return;
+			}
+			int index = children.indexOf(newChild);
+			List<Element> domChildren;
+			if (parent instanceof Sequence || parent instanceof Flow) {
+				domChildren = getActivities(parent.getElement());
+			} else {
+				domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
+			}
+			if (index >= domChildren.size()) {
+				ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
+			} else {
+				ElementPlacer.niceInsertBefore(parent.getElement(), newChild.getElement(), domChildren.get(index));
+			}
+		} finally {
+			setUpdatingDom(parent, oldUpdatingDom);
 		}
 	}
 
 	public static void orphanChild(WSDLElement parent, WSDLElement child) {
-		if (isLoading(parent) || parent.getElement() == null) {
-			return;
-		}
-		if (parent.getElement() != null && child.getElement() != null
-				&& child.getElement().getParentNode() == parent.getElement()) {
-			parent.getElement().removeChild(child.getElement());
-		}
-		
-		// We should delete enclosing element only if child has been 
-		// deleted from GUI (parent.isReconciling == false)
-		// If we delete child in source tab then parent should be kept intact 
-
-		// Remove <variables> if there are no children
-		if ((child instanceof Variable) && (((Variables) parent).getChildren().size() == 0) && !((VariablesImpl)parent).isReconciling()){
-			if (parent.getContainer() instanceof Process)
-				((Process) parent.getContainer()).setVariables(null);
-			else if (parent.getContainer() instanceof Scope)
-				((Scope) parent.getContainer()).setVariables(null);
-			else
-				throw new IllegalStateException();
-		}
-		// Remove <partnerlinks> if there are no children
-		if ((child instanceof PartnerLink) && (((PartnerLinks) parent).getChildren().size() == 0) && !((PartnerLinksImpl)parent).isReconciling()){
-			if (parent.getContainer() instanceof Process)
-				((Process) parent.getContainer()).setPartnerLinks(null);
-			else if (parent.getContainer() instanceof Scope)
-				((Scope) parent.getContainer()).setPartnerLinks(null);
-			else
-				throw new IllegalStateException();
-		}
-		// Remove <correlationsets> if there are no children
-		if ((child instanceof CorrelationSet) && (((CorrelationSets) parent).getChildren().size() == 0) && !((CorrelationSetsImpl)parent).isReconciling()){
-			if (parent.getContainer() instanceof Process)
-				((Process) parent.getContainer()).setCorrelationSets(null);
-			else if (parent.getContainer() instanceof Scope)
-				((Scope) parent.getContainer()).setCorrelationSets(null);
-			else
-				throw new IllegalStateException();
-		}
-		// Remove <messageExchanges> if there are no children
-		if ((child instanceof MessageExchange) && (((MessageExchanges) parent).getChildren().size() == 0) && !((MessageExchangesImpl)parent).isReconciling()) {
-			if (parent.getContainer() instanceof Process)
-				((Process) parent.getContainer()).setMessageExchanges(null);
-			else if (parent.getContainer() instanceof Scope)
-				((Scope) parent.getContainer()).setMessageExchanges(null);
-			else
-				throw new IllegalStateException();
-		}
+		boolean oldUpdatingDom = isUpdatingDom(parent);
+		try {
+			setUpdatingDom(parent, true);
+			if (isLoading(parent) || parent.getElement() == null) {
+				return;
+			}
+			if (parent.getElement() != null && child.getElement() != null
+					&& child.getElement().getParentNode() == parent.getElement()) {
+				parent.getElement().removeChild(child.getElement());
+			}
+			
+			// We should delete enclosing element only if child has been 
+			// deleted from GUI (parent.isReconciling == false)
+			// If we delete child in source tab then parent should be kept intact 
 	
+			// Remove <variables> if there are no children
+			if ((child instanceof Variable) && (((Variables) parent).getChildren().size() == 0) && !((VariablesImpl)parent).isReconciling()){
+				if (parent.getContainer() instanceof Process)
+					((Process) parent.getContainer()).setVariables(null);
+				else if (parent.getContainer() instanceof Scope)
+					((Scope) parent.getContainer()).setVariables(null);
+				else
+					throw new IllegalStateException();
+			}
+			// Remove <partnerlinks> if there are no children
+			if ((child instanceof PartnerLink) && (((PartnerLinks) parent).getChildren().size() == 0) && !((PartnerLinksImpl)parent).isReconciling()){
+				if (parent.getContainer() instanceof Process)
+					((Process) parent.getContainer()).setPartnerLinks(null);
+				else if (parent.getContainer() instanceof Scope)
+					((Scope) parent.getContainer()).setPartnerLinks(null);
+				else
+					throw new IllegalStateException();
+			}
+			// Remove <correlationsets> if there are no children
+			if ((child instanceof CorrelationSet) && (((CorrelationSets) parent).getChildren().size() == 0) && !((CorrelationSetsImpl)parent).isReconciling()){
+				if (parent.getContainer() instanceof Process)
+					((Process) parent.getContainer()).setCorrelationSets(null);
+				else if (parent.getContainer() instanceof Scope)
+					((Scope) parent.getContainer()).setCorrelationSets(null);
+				else
+					throw new IllegalStateException();
+			}
+			// Remove <messageExchanges> if there are no children
+			if ((child instanceof MessageExchange) && (((MessageExchanges) parent).getChildren().size() == 0) && !((MessageExchangesImpl)parent).isReconciling()) {
+				if (parent.getContainer() instanceof Process)
+					((Process) parent.getContainer()).setMessageExchanges(null);
+				else if (parent.getContainer() instanceof Scope)
+					((Scope) parent.getContainer()).setMessageExchanges(null);
+				else
+					throw new IllegalStateException();
+			}
+		} finally {
+			setUpdatingDom(parent, oldUpdatingDom);
+		}
 	}		
 //    public static Collection<Element> getContentNodes(WSDLElement element, Element changedElement) {
 //        Collection<Element> result = new ArrayList<Element>();

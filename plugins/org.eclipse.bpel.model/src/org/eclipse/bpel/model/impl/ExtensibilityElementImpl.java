@@ -44,4 +44,12 @@ public class ExtensibilityElementImpl extends org.eclipse.wst.wsdl.internal.impl
 			} 
 	    } 
 	}
+	
+	public boolean isUpdatingDOM() {
+		return super.isUpdatingDOM();
+	}
+	
+	public void setUpdatingDOM(boolean updatingDOM) {
+		this.updatingDOM = updatingDOM;
+	}
 }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.11 2008/04/07 10:16:54 odanilov Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.12 2008/04/14 14:41:05 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -421,5 +421,13 @@ public class ExtensibleElementImpl extends
 	
 	public boolean isReconciling() {
 		return isReconciling;
+	}
+	
+	public boolean isUpdatingDOM() {
+		return super.isUpdatingDOM();
+	}
+	
+	public void setUpdatingDOM(boolean updatingDOM) {
+		this.updatingDOM = updatingDOM;
 	}
 } //ExtensibleElementImpl
