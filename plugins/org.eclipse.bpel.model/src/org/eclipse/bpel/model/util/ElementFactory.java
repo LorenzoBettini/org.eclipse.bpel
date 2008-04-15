@@ -11,7 +11,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.util;
 
-import java.util.HashMap;
+import java.lang.ref.WeakReference;
+import java.util.WeakHashMap;
 
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.namespace.QName;
@@ -73,7 +74,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class ElementFactory {
-	private HashMap<Document, MyBPELWriter> document2Writers = new HashMap<Document, MyBPELWriter>();
+	private WeakHashMap<Document, WeakReference<MyBPELWriter>> document2Writers = new WeakHashMap<Document, WeakReference<MyBPELWriter>>();
 
 	static class MyBPELWriter extends
 			org.eclipse.bpel.model.resource.BPELWriter {
@@ -342,6 +343,10 @@ public class ElementFactory {
 
 	private static ElementFactory factory;
 
+	private ElementFactory() {
+		super();
+	}
+
 	public static ElementFactory getInstance() {
 		if (factory == null) {
 			factory = new ElementFactory();
@@ -555,7 +560,7 @@ public class ElementFactory {
 
 	private MyBPELWriter getWriter(Object parent) {
 		Document ownerDocument = getOwnerDocument(parent);
-		MyBPELWriter writer = document2Writers.get(ownerDocument);
+		MyBPELWriter writer = document2Writers.get(ownerDocument) != null ? document2Writers.get(ownerDocument).get() : null;
 		if (writer == null) {
 			BPELResource resource = (BPELResource) ((EObject) parent)
 					.eResource();
@@ -570,11 +575,11 @@ public class ElementFactory {
 				nsMap.put("", resource.getNamespaceURI());
 			}
 			writer = new MyBPELWriter(resource, ownerDocument);
-			document2Writers.put(ownerDocument, writer);
+			document2Writers.put(ownerDocument, new WeakReference<MyBPELWriter>(writer));
 		}
 		return writer;
 	}
-
+	
 	private static Document getOwnerDocument(Object parent) {
 		Document ownerDocument = null;
 		// if (!BPELUtils.isTransparentObject(parent)) {
@@ -587,7 +592,7 @@ public class ElementFactory {
 		// }
 		return ownerDocument;
 	}
-
+	
 	void writeFaultHandler(FaultHandler faultHandler, WSDLElement parent) {
 		getWriter(parent).faultHandler2XML(parent.getElement(), faultHandler);
 	}
