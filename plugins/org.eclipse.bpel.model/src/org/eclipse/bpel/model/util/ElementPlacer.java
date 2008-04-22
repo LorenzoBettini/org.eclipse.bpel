@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
@@ -68,13 +69,14 @@ public class ElementPlacer {
 		mapper.put(BPELConstants.ND_ELSEIF, Arrays.asList(elseIfElements));
 	}
 
-	public static void placeChild(Element parent, Node child) {
-		List<String> nodeTypeList = mapper.get(parent.getLocalName());
+	public static void placeChild(WSDLElement parent, Node child) {
+		Element parentElement = parent.getElement();
+		List<String> nodeTypeList = mapper.get(parentElement.getLocalName());
 		if (nodeTypeList != null) {
 			String nodeName = child.getLocalName();
 			String nodeType = findType(nodeName, nodeTypeList);
 			if (nodeType != null) {
-				Node beforeElement = parent.getFirstChild();
+				Node beforeElement = parentElement.getFirstChild();
 				while (beforeElement != null
 						&& (!isPreviousType(nodeType, findType(beforeElement
 								.getLocalName(), nodeTypeList), nodeTypeList) || beforeElement
@@ -96,8 +98,6 @@ public class ElementPlacer {
 	private static String findType(String nodeName, List<String> nodeTypeList) {
 		for (String nodeType : nodeTypeList) {
 			if (isType(nodeName, nodeType)) {
-				// System.err.println("name: " + nodeName + ", found type: " +
-				// nodeType);
 				return nodeType;
 			}
 		}
@@ -140,28 +140,15 @@ public class ElementPlacer {
 				|| BPELConstants.ND_WHILE.equals(nodeName);
 	}
 
-	public static void niceInsertBefore(Node parent, Node newChild,
+	public static void niceInsertBefore(WSDLElement parent, Node newChild,
 			Node referenceChild) {
-		Node child = (referenceChild == null) ? parent.getLastChild()
+		boolean was = ReconciliationHelper.isUpdatingDom(parent);
+		Element parentElement = parent.getElement();
+		ReconciliationHelper.setUpdatingDom(parent, true);
+		Node child = (referenceChild == null) ? parentElement.getLastChild()
 				: referenceChild.getPreviousSibling();
 
-		if (child == null) {
-			StringBuffer indent = new StringBuffer();
-			for (Node ancestor = parent.getParentNode(); ancestor != null
-					&& ancestor.getNodeType() != Node.DOCUMENT_NODE; ancestor = ancestor
-					.getParentNode()) {
-				indent.append("    ");
-			}
-			Text newText = parent.getOwnerDocument().createTextNode(
-					"\n" + indent + "    ");
-			parent.insertBefore(newText, referenceChild);
-			newText = parent.getOwnerDocument().createTextNode("\n" + indent);
-			referenceChild = parent.insertBefore(newText, referenceChild);
-			parent.insertBefore(newChild, referenceChild);
-			return;
-		}
-
-		for (; child != null; child = child.getPreviousSibling()) {
+		while (child != null) {
 			short nodeType = child.getNodeType();
 			if (nodeType == Node.ELEMENT_NODE)
 				break;
@@ -171,7 +158,7 @@ public class ElementPlacer {
 				int index = data.lastIndexOf('\n');
 				if (index != -1) {
 					StringBuffer indent = new StringBuffer();
-					for (Node ancestor = parent.getParentNode(); ancestor != null
+					for (Node ancestor = parentElement.getParentNode(); ancestor != null
 							&& ancestor.getNodeType() != Node.DOCUMENT_NODE; ancestor = ancestor
 							.getParentNode()) {
 						indent.append("    ");
@@ -182,22 +169,44 @@ public class ElementPlacer {
 					}
 					text.replaceData(index + 1, data.length() - index - 1,
 							indent + "    ");
+
+					// DO:
+					// Format children of the newChild.
+					// In this case we suppose that they were not indented
+					// before.
+					Node innerChild = newChild.getFirstChild();
+					if (innerChild != null) {
+						// \n + indent before every child
+						while (innerChild != null) {
+							newChild.insertBefore(
+									newChild.getOwnerDocument().createTextNode(
+											"\n" + indent + "        "),
+									innerChild);
+							innerChild = innerChild.getNextSibling();
+						}
+						// \n after the last child
+						newChild.appendChild(newChild.getOwnerDocument()
+								.createTextNode("\n" + indent + "    "));
+					}
+
 					if (referenceChild != null) {
 						indent.append("    ");
 					}
-					Text newText = parent.getOwnerDocument().createTextNode(
+					text = parentElement.getOwnerDocument().createTextNode(
 							"\n" + indent);
-					parent.insertBefore(newText, referenceChild);
-					referenceChild = newText;
+					parentElement.insertBefore(text, referenceChild);
+					referenceChild = text;
 					break;
 				}
 			}
+			child = child.getPreviousSibling();
 		}
 
-		parent.insertBefore(newChild, referenceChild);
+		parentElement.insertBefore(newChild, referenceChild);
+		ReconciliationHelper.setUpdatingDom(parent, was);
 	}
 
-	public static void niceAppend(Node parent, Node child) {
+	public static void niceAppend(WSDLElement parent, Node child) {
 		niceInsertBefore(parent, child, null);
 	}
 }

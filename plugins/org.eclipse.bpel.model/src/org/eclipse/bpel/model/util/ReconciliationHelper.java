@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Dennis Ushakov, Intel - Initial API and Implementation
+ *    Oleg Danilov, Intel
  *
  *******************************************************************************/
 
@@ -78,7 +79,6 @@ import org.eclipse.bpel.model.impl.CorrelationSetsImpl;
 import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
 import org.eclipse.bpel.model.impl.MessageExchangesImpl;
-import org.eclipse.bpel.model.impl.PartnerLinkImpl;
 import org.eclipse.bpel.model.impl.PartnerLinksImpl;
 import org.eclipse.bpel.model.impl.VariablesImpl;
 import org.eclipse.emf.common.util.EList;
@@ -245,7 +245,7 @@ public class ReconciliationHelper {
 					parent.getElement().replaceChild(newElement.getElement(),
 							oldElement.getElement());
 				} else {
-					ElementPlacer.placeChild(parent.getElement(), newElement
+					ElementPlacer.placeChild(parent, newElement
 							.getElement());
 				}
 			} else if (oldElement != null
@@ -306,7 +306,7 @@ public class ReconciliationHelper {
 			Node newLiteral = literal == null ? null : ElementFactory.getInstance().createLiteral(from, literal);
 			if (oldLiteral == null) {
 				if (newLiteral != null) {
-					ElementPlacer.placeChild(parentElement, newLiteral);
+					ElementPlacer.placeChild(from, newLiteral);
 				}
 			} else {
 				if (newLiteral != null) {
@@ -344,7 +344,7 @@ public class ReconciliationHelper {
 			if (newText != null && !newText.toString().equals("")) {
 				CDATASection cdata = BPELUtils.createCDATASection(element
 						.getOwnerDocument(), newText.toString());
-				ElementPlacer.placeChild(element, cdata);
+				ElementPlacer.placeChild(parent, cdata);
 			}
 		} finally {
 			setUpdatingDom(parent, oldUpdatingDom);
@@ -439,7 +439,7 @@ public class ReconciliationHelper {
 				return;
 			}
 			if (oldValueNode == null && newValueNode != null) {
-				ElementPlacer.placeChild(serviceRef.getElement(), newValueNode);
+				ElementPlacer.placeChild(serviceRef, newValueNode);
 			} else if (oldValueNode != null && newValueNode != null) {
 				serviceRef.getElement().replaceChild(newValueNode, oldValueNode);
 			}
@@ -553,10 +553,11 @@ public class ReconciliationHelper {
 			variables.setElement(parentElement != null ? (Element)parentElement : ElementFactory.getInstance().createElement(variables, container));
 			var.setElement(ReconciliationHelper.getBPELChildElementByLocalName(variables.getElement(), nodeName));
 			if (parentElement == null) {
-				ElementPlacer.placeChild(container.getElement(), variables.getElement());
+				ElementPlacer.placeChild(container, variables.getElement());
 				parentElement = variables.getElement();
 			}
 		}
+		
 		return parentElement;
 	}
 	
@@ -666,9 +667,9 @@ public class ReconciliationHelper {
 				domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
 			}
 			if (index >= domChildren.size()) {
-				ElementPlacer.placeChild(parent.getElement(), newChild.getElement());
+				ElementPlacer.placeChild(parent, newChild.getElement());
 			} else {
-				ElementPlacer.niceInsertBefore(parent.getElement(), newChild.getElement(), domChildren.get(index));
+				ElementPlacer.niceInsertBefore(parent, newChild.getElement(), domChildren.get(index));
 			}
 		} finally {
 			setUpdatingDom(parent, oldUpdatingDom);
