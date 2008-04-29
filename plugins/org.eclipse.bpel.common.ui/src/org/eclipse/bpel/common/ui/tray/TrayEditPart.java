@@ -114,7 +114,7 @@ public abstract class TrayEditPart extends AbstractGraphicalEditPart {
 							Label label = getDirectEditLabel();
 							Rectangle rect = label.getTextBounds().getCopy();
 							label.translateToAbsolute(rect);
-							text.setBounds(rect.x - 4, rect.y - 1, pref.x + 1, pref.y + 1);
+							text.setBounds(rect.x - 4, rect.y - 1, Math.min(pref.x + 1, text.getParent().getSize().x - 20), pref.y + 1);
 							text.setSelection(0);
 							text.setSelection(sel);
 						}
