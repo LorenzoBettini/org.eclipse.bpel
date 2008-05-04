@@ -71,6 +71,7 @@ public class ExtensionImpl extends EObjectImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ExtensionmodelPackage.eINSTANCE.getExtension();
 	}
@@ -161,6 +162,7 @@ public class ExtensionImpl extends EObjectImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -178,6 +180,7 @@ public class ExtensionImpl extends EObjectImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION__EXTENDED_OBJECT:
@@ -194,6 +197,7 @@ public class ExtensionImpl extends EObjectImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION__EXTENDED_OBJECT:
@@ -211,6 +215,7 @@ public class ExtensionImpl extends EObjectImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION__EXTENDED_OBJECT:
@@ -228,6 +233,7 @@ public class ExtensionImpl extends EObjectImpl implements Extension {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION__EXTENDED_OBJECT:

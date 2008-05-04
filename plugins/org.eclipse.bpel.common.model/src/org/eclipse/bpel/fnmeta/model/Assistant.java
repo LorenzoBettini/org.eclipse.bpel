@@ -8,8 +8,6 @@ package org.eclipse.bpel.fnmeta.model;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Assistant</b></em>'.

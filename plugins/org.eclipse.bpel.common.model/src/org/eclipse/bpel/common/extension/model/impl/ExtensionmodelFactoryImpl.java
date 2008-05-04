@@ -49,6 +49,7 @@ public class ExtensionmodelFactoryImpl extends EFactoryImpl implements Extension
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ExtensionmodelPackage.EXTENSION_MAP: return createExtensionMap();
@@ -93,6 +94,7 @@ public class ExtensionmodelFactoryImpl extends EFactoryImpl implements Extension
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static ExtensionmodelPackage getPackage() {
 		return ExtensionmodelPackage.eINSTANCE;
 	}

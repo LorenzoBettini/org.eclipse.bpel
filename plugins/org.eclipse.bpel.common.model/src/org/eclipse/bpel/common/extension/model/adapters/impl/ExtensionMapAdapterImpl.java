@@ -44,6 +44,7 @@ public class ExtensionMapAdapterImpl extends AdapterImpl {
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
+	@Override
 	public void notifyChanged(Notification notification) {
 
 		if(notification.getFeatureID(null) == ExtensionmodelPackage.EXTENSION_MAP__EXTENSIONS){
@@ -52,25 +53,25 @@ public class ExtensionMapAdapterImpl extends AdapterImpl {
 				case Notification.REMOVE : // an Extension has been removed
 				case Notification.REMOVE_MANY : // an Extension has been removed
 					
-					List extensionList = null;
+					List<Extension> extensionList = null;
 					if(notification.getEventType() == Notification.REMOVE_MANY)
-						extensionList = (List) notification.getOldValue();
+						extensionList = (List<Extension>) notification.getOldValue();
 					else{
 						extensionList = new BasicEList();
-						extensionList.add(notification.getOldValue());
+						extensionList.add((Extension)notification.getOldValue());
 					}
 						
-					for (Iterator iter = extensionList.iterator(); iter.hasNext();) {
-						Extension extension = (Extension) iter.next();
+					for (Iterator<Extension> iter = extensionList.iterator(); iter.hasNext();) {
+						Extension extension = iter.next();
 						
 						EObject extendedObject = extension.getExtendedObject();
 						
 						// if the exended EObject had an adapter, remove it.
 						if(extendedObject != null){
-							EList adapters = extendedObject.eAdapters();
-							EList removeAdapterList = new BasicEList();							
-							for (Iterator iter2 = adapters.iterator();iter2.hasNext();) {
-								Adapter adapter = (Adapter) iter2.next();
+							EList<Adapter> adapters = extendedObject.eAdapters();
+							EList<Adapter> removeAdapterList = new BasicEList<Adapter>();							
+							for (Iterator<Adapter> iter2 = adapters.iterator();iter2.hasNext();) {
+								Adapter adapter = iter2.next();
 								
 								if((adapter instanceof ExtendedObjectUserAdapter && ((ExtendedObjectUserAdapter)adapter).getNamespace().equals(((ExtensionMap)getTarget()).getNamespace()))||
 										adapter instanceof ExtendedObjectAdapter && ((ExtendedObjectAdapter)adapter).getNamespace().equals(((ExtensionMap)getTarget()).getNamespace())){
@@ -78,8 +79,8 @@ public class ExtensionMapAdapterImpl extends AdapterImpl {
 								}
 							}	
 						   	
-						   	for (Iterator iter2 = removeAdapterList.iterator(); iter2.hasNext();) {
-						   		Adapter adapter = (Adapter) iter2.next();
+						   	for (Iterator<Adapter> iter2 = removeAdapterList.iterator(); iter2.hasNext();) {
+						   		Adapter adapter = iter2.next();
 						   		try{
 						   			((ExtendedObjectAdapter)adapter).setExtension(null);
 						   		}catch(ClassCastException e){}
@@ -104,12 +105,12 @@ public class ExtensionMapAdapterImpl extends AdapterImpl {
 					ExtensionMap map = (ExtensionMap) notification.getNotifier();		
 					Set extendedObjects = map.keySet();
 					
-					for (Iterator iter = extendedObjects.iterator(); iter.hasNext();) {
-						EObject element = (EObject) iter.next();
+					for (Iterator<EObject> iter = extendedObjects.iterator(); iter.hasNext();) {
+						EObject element = iter.next();
 						
-						List remove = new BasicEList();
-						for (Iterator iterator = element.eAdapters().iterator(); iterator.hasNext();) {
-							Adapter adapter = (Adapter) iterator.next();
+						List<Adapter> remove = new BasicEList<Adapter>();
+						for (Iterator<Adapter> iterator = element.eAdapters().iterator(); iterator.hasNext();) {
+							Adapter adapter = iterator.next();
 							if(adapter instanceof ExtendedObjectUserAdapter ||
 									adapter instanceof ExtendedObjectAdapter)
 								remove.add(adapter);
@@ -128,6 +129,7 @@ public class ExtensionMapAdapterImpl extends AdapterImpl {
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
 	 */
+	@Override
 	public boolean isAdapterForType(Object type) {
 		return ExtensionMapImpl.class.equals(type);
 	}

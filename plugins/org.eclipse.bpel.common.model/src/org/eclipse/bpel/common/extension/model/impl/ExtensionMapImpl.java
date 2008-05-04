@@ -113,6 +113,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ExtensionmodelPackage.eINSTANCE.getExtensionMap();
 	}
@@ -162,10 +163,10 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 		
 		userAdapter.setExtensionMap(this);
 		
-		Set extendedObjects = this.keySet();
+		Set<EObject> extendedObjects = this.keySet();
 		
-		for (Iterator iter = extendedObjects.iterator(); iter.hasNext();) {
-			EObject element = (EObject) iter.next();
+		for (Iterator<EObject> iter = extendedObjects.iterator(); iter.hasNext();) {
+			EObject element = iter.next();
 			adaptEObject(element,userAdapter);
 		}
 	}
@@ -175,6 +176,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -192,6 +194,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION_MAP__NAMESPACE:
@@ -207,6 +210,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION_MAP__NAMESPACE:
@@ -225,6 +229,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION_MAP__NAMESPACE:
@@ -242,6 +247,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case ExtensionmodelPackage.EXTENSION_MAP__NAMESPACE:
@@ -257,6 +263,7 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
