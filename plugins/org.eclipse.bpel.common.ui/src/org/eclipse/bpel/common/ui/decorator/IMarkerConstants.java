@@ -19,6 +19,7 @@ public interface IMarkerConstants {
 	/**
 	 * @deprecated use IModelMarkerConstants.DECORATION_GRAPHICAL_MARKER_ANCHOR_POINT_ATTR
 	 */
+	@Deprecated
 	public final String MARKER_ANCHORPOINT = "anchorPoint"; //$NON-NLS-1$
 
 	// The following anchor point values should be used for the 

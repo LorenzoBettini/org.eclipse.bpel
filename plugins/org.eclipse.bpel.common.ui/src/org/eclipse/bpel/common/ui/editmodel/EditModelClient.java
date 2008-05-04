@@ -17,7 +17,6 @@ import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 
 public class EditModelClient {

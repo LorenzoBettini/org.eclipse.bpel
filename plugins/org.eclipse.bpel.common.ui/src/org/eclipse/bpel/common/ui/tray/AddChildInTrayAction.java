@@ -37,6 +37,7 @@ public class AddChildInTrayAction extends SelectionAction {
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		List selected = getSelectedObjects();
 		target = null;
@@ -60,6 +61,7 @@ public class AddChildInTrayAction extends SelectionAction {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	@Override
 	public void run() {
 		if (target!= null && target instanceof TrayCategoryEditPart) 
 			target.publicAddEntry();
@@ -68,6 +70,7 @@ public class AddChildInTrayAction extends SelectionAction {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.action.IAction#getId()
 	 */
+	@Override
 	public String getId() {
 		return ID + "." + clazz; //$NON-NLS-1$
 	}

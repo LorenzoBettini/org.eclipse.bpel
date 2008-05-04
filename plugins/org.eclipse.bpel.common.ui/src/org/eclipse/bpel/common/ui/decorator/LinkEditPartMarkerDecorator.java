@@ -119,7 +119,7 @@ public class LinkEditPartMarkerDecorator extends EditPartMarkerDecorator {
 		 if(getConnection() != null) {
 		 	 removeAllMarkerFigures();
 	
-		 	 Map constraintToMarkerMap = getMarkerMap();
+		 	 Map<Object, IMarker> constraintToMarkerMap = getMarkerMap();
 			 for(Iterator iter = constraintToMarkerMap.entrySet().iterator(); iter.hasNext(); ) {
 			 	Map.Entry entry = (Map.Entry) iter.next();
 			 	Object constraint = entry.getKey();

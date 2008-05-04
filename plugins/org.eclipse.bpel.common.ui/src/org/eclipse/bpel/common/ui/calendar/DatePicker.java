@@ -73,6 +73,7 @@ public class DatePicker extends Composite {
 	
 	private void hookControlListeners() {
 		showCalendarButton.addSelectionListener(new SelectionAdapter() { 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setDate(CalendarPopup.openCalendarPopup(dateDisplayField, getDate()));
 			}
@@ -140,6 +141,7 @@ public class DatePicker extends Composite {
 	/* (non-Javadoc)
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
+	@Override
 	public void dispose() {	
 		super.dispose();
 	}

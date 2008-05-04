@@ -62,6 +62,7 @@ public abstract class TrayContainerEditPart extends TrayEditPart {
 		super();
 	}
 
+	@Override
 	protected IFigure createFigure() {
 		mainFigure = createMainFigure();
 		mainFigure.setTitleFigure(createTitleFigure());
@@ -103,6 +104,7 @@ public abstract class TrayContainerEditPart extends TrayEditPart {
 	}
 	
 	// where children will be added
+	@Override
 	public IFigure getContentPane() {
 		return mainFigure.getChildrenFigure();
 	}

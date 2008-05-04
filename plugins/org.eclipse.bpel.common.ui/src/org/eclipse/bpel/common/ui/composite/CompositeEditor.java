@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.osgi.util.NLS;
@@ -271,6 +270,7 @@ public abstract class CompositeEditor extends EditorPart {
 	 * Disconects all of the embedded editors. Subclasses should implement
 	 * internalDispose() instead of dispose();
 	 */
+	@Override
 	public final void dispose() {
 		embeddedEditors.setActiveEditor(null);
 		internalDispose();
@@ -297,6 +297,7 @@ public abstract class CompositeEditor extends EditorPart {
 	protected void internalDispose() {
 	}
 
+	@Override
 	public boolean isDirty() {
 		IEditorPart[] editors = embeddedEditors.getEmbeddedEditors();
 		for (int i = 0; i < editors.length; i++) {
@@ -311,6 +312,7 @@ public abstract class CompositeEditor extends EditorPart {
 	 * Default implementation saves all of the embedded editors but
 	 * it can be overwritten by subclasses.
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		monitor = Policy.monitorFor(monitor);
 		try {
@@ -347,6 +349,7 @@ public abstract class CompositeEditor extends EditorPart {
 	/**
 	 * Default implementation. It can be overwritten by subclasses.
 	 */
+	@Override
 	public void setFocus() {
 		IEditorPart active = embeddedEditors.getActiveEditor();
 		if (active != null) {
@@ -387,6 +390,7 @@ public abstract class CompositeEditor extends EditorPart {
 		return embeddedEditors.getActiveEditor();
 	}
 
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
 		setInput(input);

@@ -11,7 +11,6 @@
 package org.eclipse.bpel.common.ui.composite;
 
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.util.SafeRunnable;
@@ -63,6 +62,7 @@ public void fireSelectionChanged(final SelectionChangedEvent event) {
 			public void run() {
 				l.selectionChanged(event);
 			}
+			@Override
 			public void handleException(Throwable e) {
 				super.handleException(e);
 				//If an unexpected exception happens, remove it

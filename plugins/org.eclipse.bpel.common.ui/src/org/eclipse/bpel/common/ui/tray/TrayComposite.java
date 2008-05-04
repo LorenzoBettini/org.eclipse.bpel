@@ -46,6 +46,7 @@ public class TrayComposite extends SashForm {
 		protected boolean correctState = false;
 		protected int origX;
 		
+		@Override
 		public void mouseDown(MouseEvent me) {
 			if (me.button != 1)
 				return;
@@ -64,6 +65,7 @@ public class TrayComposite extends SashForm {
 				}
 			}
 		}
+		@Override
 		public void mouseUp(MouseEvent me) {
 			dragging = false;
 			correctState = false;
@@ -131,6 +133,7 @@ public class TrayComposite extends SashForm {
 		}
 	}
 
+	@Override
 	public void layout(boolean changed) {
 		if (editorControl == null || editorControl.isDisposed() || trayControl == null || trayControl.isDisposed())
 			return;
@@ -175,7 +178,8 @@ public class TrayComposite extends SashForm {
 	/* (non-Javadoc)
      * @see org.eclipse.swt.widgets.Scrollable#getClientArea()
      */
-    public Rectangle getClientArea() {
+    @Override
+	public Rectangle getClientArea() {
         Rectangle rect = super.getClientArea();
         rect.x += marginWidth;
         rect.y += marginHeight;

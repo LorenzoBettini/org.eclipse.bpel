@@ -51,6 +51,7 @@ public class CompositeEditorActionBars extends EditorActionBars {
 	 * We are implementing this method only to avoid a ClassCastException.
 	 * This implementation is similar to the one in SubActionBars.
 	 */
+	@Override
 	public IToolBarManager getToolBarManager() {
 		if (toolBarMgr == null) {
 			// TODO: The code below does not work anymore in Eclipse 3.2M5.
@@ -67,6 +68,7 @@ public class CompositeEditorActionBars extends EditorActionBars {
 	 * We have to add to the parent (CompositeEditor action bars)
 	 * global action handlers contributed to this instance.
 	 */
+	@Override
 	public void activate(boolean forceVisibility) {
 		Map globalActionHandlers = getGlobalActionHandlers();
 		if (globalActionHandlers != null) {
@@ -85,6 +87,7 @@ public class CompositeEditorActionBars extends EditorActionBars {
 	 * We have to remove from the parent (CompositeEditor action bars)
 	 * global action handlers contributed to this instance.
 	 */
+	@Override
 	public void deactivate(boolean forceVisibility) {
 		Map globalActionHandlers = getGlobalActionHandlers();
 		if (globalActionHandlers != null) {
@@ -101,6 +104,7 @@ public class CompositeEditorActionBars extends EditorActionBars {
 	 * Same implementation as in SubActionBars. The EditorActionBars
 	 * implementation simply returns null.
 	 */
+	@Override
 	protected SubToolBarManager createSubToolBarManager(IToolBarManager parent) {
 		return new SubToolBarManager(parent);
 	}

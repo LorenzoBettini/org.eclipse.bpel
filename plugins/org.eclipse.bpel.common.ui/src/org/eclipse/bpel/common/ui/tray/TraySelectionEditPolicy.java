@@ -23,8 +23,9 @@ import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
  */
 public class TraySelectionEditPolicy extends NonResizableEditPolicy {
 	
-	protected List createSelectionHandles() {
-		List result = new ArrayList();
+	@Override
+	protected List<Handle> createSelectionHandles() {
+		List<Handle> result = new ArrayList<Handle>();
 		GraphicalEditPart owner = (GraphicalEditPart)getHost();
 		result.add(createHandle(owner));
 		return result;

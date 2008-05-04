@@ -22,7 +22,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.gef.SharedCursors;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -101,6 +100,7 @@ public class TraySash extends Composite {
 				}
 			});
 		}
+		@Override
 		public Point computeSize(int wHint, int hHint, boolean changed) {
 			return TEXTURE_SIZE;
 		}
@@ -128,6 +128,7 @@ public class TraySash extends Composite {
 					}
 				});
 			}
+			@Override
 			protected void paintBorder(Graphics graphics) {
 				if (hasFocus()) {
 					graphics.setForegroundColor(ColorConstants.black);
@@ -142,11 +143,12 @@ public class TraySash extends Composite {
 		protected LightweightSystem lws;
 		public TrayButtonCanvas(Composite parent) {
 			super(parent, SWT.NO_REDRAW_RESIZE);
-			setCursor(SharedCursors.ARROW);
+			setCursor(Cursors.ARROW);
 			lws = new LightweightSystem();
 			lws.setControl(this);
 			lws.setContents(new TrayArrowButton());
 		}
+		@Override
 		public Point computeSize(int wHint, int hHint, boolean changed) {
 			Dimension size = lws.getRootFigure().getPreferredSize(wHint, hHint);
 			size.union(new Dimension(wHint, hHint));
@@ -181,10 +183,12 @@ public class TraySash extends Composite {
 
 		// add listeners
 		MouseTrackListener listener = new MouseTrackAdapter() {
+			@Override
 			public void mouseEnter(MouseEvent e) {
 				if (TraySash.this.trayComposite.isInState(TrayComposite.STATE_EXPANDED))
 					setCursor(Cursors.SIZEWE);
 			}
+			@Override
 			public void mouseExit(MouseEvent e) {
 				if (TraySash.this.trayComposite.isInState(TrayComposite.STATE_EXPANDED))
 					setCursor(Cursors.ARROW);

@@ -52,6 +52,7 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 	protected SelectionBorderFigure titleFigure;
 	
 	protected class TrayCategoryEntrySelectionEditPolicy extends TraySelectionEditPolicy {
+		@Override
 		protected Handle createHandle(GraphicalEditPart owner) {
 			return new TraySelectionHandle(owner, titleFigure);
 		}
@@ -94,10 +95,11 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 			bounds = new Rectangle(x, y, width, height);
 			text.setBounds(bounds);
 		}
+		@Override
 		protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 			Dimension result = new Dimension(0, hHint);
-			for (Iterator iter = container.getChildren().iterator(); iter.hasNext();) {
-				IFigure	child = (IFigure) iter.next();
+			for (Iterator<IFigure> iter = container.getChildren().iterator(); iter.hasNext();) {
+				IFigure	child = iter.next();
 				Dimension size = (child instanceof Label) ? child.getMinimumSize() : child.getPreferredSize();
 				result.height = Math.max(result.height, size.height);
 				result.width += size.width;
@@ -125,9 +127,11 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 			add(textLabel);
 			
 			removeButton = new NoBorderButton(CommonUIPlugin.getDefault().getImageRegistry().get(ICommonUIConstants.ICON_TRAY_CATEGORY_REMOVE_BUTTON)) {
+				@Override
 				public void handleKeyPressed(KeyEvent event) {
 					// Do nothing - the button can only be pressed with a mouse
 				}
+				@Override
 				public void handleKeyReleased(KeyEvent event) {
 					// Do nothing - the button can only be pressed with a mouse
 				}
@@ -141,9 +145,11 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 			});
 			
 			addButton = new NoBorderButton(CommonUIPlugin.getDefault().getImageRegistry().get(ICommonUIConstants.ICON_TRAY_CATEGORY_ADD_BUTTON)) {
+				@Override
 				public void handleKeyPressed(KeyEvent event) {
 					// Do nothing - the button can only be pressed with a mouse
 				}
+				@Override
 				public void handleKeyReleased(KeyEvent event) {
 					// Do nothing - the button can only be pressed with a mouse
 				}
@@ -194,9 +200,9 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 		if (selectedParts.size() == 0) return; // nothing to be done
 		
 		// we can only delete edit parts that are children of this edit part
-		List condemned = new ArrayList();
-		for (Iterator iter = selectedParts.iterator(); iter.hasNext();) {
-			EditPart part = (EditPart) iter.next();
+		List<EditPart> condemned = new ArrayList<EditPart>();
+		for (Iterator<EditPart> iter = selectedParts.iterator(); iter.hasNext();) {
+			EditPart part = iter.next();
 			if (part.getParent() == TrayCategoryEditPart.this) {
 				condemned.add(part);
 			}
@@ -204,14 +210,14 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 		if (condemned.isEmpty()) return; // nothing to be done
 
 		// gets the index to be used in the post-deletion selection
-		EditPart indexPart = (EditPart)condemned.get(0);
+		EditPart indexPart = condemned.get(0);
 		int index = getModelChildren().indexOf(indexPart.getModel());
 		
 		// remove all the valid selected edit parts
 		GroupRequest request = new GroupRequest(RequestConstants.REQ_DELETE);
 		CompoundCommand deletions = new CompoundCommand();
-		for (Iterator iter = condemned.iterator(); iter.hasNext();) {
-			EditPart part = (EditPart) iter.next();
+		for (Iterator<EditPart> iter = condemned.iterator(); iter.hasNext();) {
+			EditPart part = iter.next();
 			deletions.add(part.getCommand(request));
 		}
 		getCommandStack().execute(deletions);
@@ -230,8 +236,10 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 		super();
 	}
 
+	@Override
 	protected TrayContainerFigure createMainFigure() {
 		return new TrayContainerFigure() {
+			@Override
 			protected void paintBorder(Graphics graphics) {
 				graphics.setForegroundColor(CommonUIPlugin.getDefault().getColorRegistry().get(IDetailsColors.COLOR_DARK_SHADOW));
 				Rectangle area = getClientArea().getCopy();
@@ -241,6 +249,7 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 		};
 	}
 	
+	@Override
 	protected IFigure createTitleFigure() {
 		return titleFigure = new TitleFigure();
 	}
@@ -254,6 +263,7 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 		return ((TitleFigure)getTitleFigure()).getTextLabel();
 	}
 	
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new TrayCategoryEntrySelectionEditPolicy());
 	}
@@ -266,10 +276,12 @@ public abstract class TrayCategoryEditPart extends TrayContainerEditPart {
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
+	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new SelectEditPartTracker(this);
 	}
 	
+	@Override
 	public Label getDirectEditLabel() {
 		return null;
 	}

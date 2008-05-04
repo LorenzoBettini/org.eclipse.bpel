@@ -40,6 +40,7 @@ public class CompositeEditorSite extends EditorSite {
 	/**
 	 * Returns a CompositeEditorKeybinding for an embedded editor.
 	 */
+	@Override
 	public IKeyBindingService getKeyBindingService() {
 		if (keyBindingService == null) {
 			keyBindingService = new CompositeEditorKeyBindingService(parent.getKeyBindingService());
@@ -81,6 +82,7 @@ public class CompositeEditorSite extends EditorSite {
 	 *
 	 * @see #handleSelectionChanged
 	 */
+	@Override
 	public void setSelectionProvider(ISelectionProvider provider) {
 		ISelectionProvider oldSelectionProvider = selectionProvider;
 		selectionProvider = provider;
@@ -129,6 +131,7 @@ public class CompositeEditorSite extends EditorSite {
 		}
 	}
 
+	@Override
 	public ISelectionProvider getSelectionProvider() {
 		return selectionProvider;
 	}

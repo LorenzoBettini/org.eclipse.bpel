@@ -486,7 +486,7 @@ public class EditModel {
 	 * Return a new ResourceSet for the specified file.
 	 */
 	private ResourceSet getResourceSet(IResource primaryFile) {
-		ResourceSet resourceSet = (ResourceSet)fileToResourceSet.get(primaryFile);
+		ResourceSet resourceSet = fileToResourceSet.get(primaryFile);
 		if(resourceSet != null)
 			return resourceSet;
 		// TODO: Extensibility
