@@ -2,21 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ToPartImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.wsdl.Fault;
-import javax.wsdl.Input;
 import javax.wsdl.Output;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.PartnerActivity;
-import org.eclipse.bpel.model.Reply;
 import org.eclipse.bpel.model.ToPart;
 import org.eclipse.bpel.model.ToParts;
 import org.eclipse.bpel.model.Variable;

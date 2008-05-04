@@ -27,18 +27,21 @@ public class MessageProxy extends MessageImpl
         proxyURI = new BPELProxyURI(WSDLPackage.eINSTANCE.getMessage(), baseURI, qname);
     }
 
-    public boolean eIsProxy()
+    @Override
+	public boolean eIsProxy()
     {
         return true;
     }
 
-    public URI eProxyURI()
+    @Override
+	public URI eProxyURI()
     {
         return proxyURI.getProxyURI();
     }
     
     // Override so you can ask a proxy for its qname
-    public QName getQName() {
+    @Override
+	public QName getQName() {
     	return proxyURI.getQName();
     }
 }

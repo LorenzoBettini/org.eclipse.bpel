@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.10 2008/03/24 10:55:08 odanilov Exp $
+ * $Id: QueryImpl.java,v 1.11 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -20,12 +20,9 @@ import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.w3c.dom.Element;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -239,6 +236,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		return result.toString();
 	}
 
+	@Override
 	protected void reconcile(Element changedElement) {
 		ReconciliationHelper.getInstance().reconcile(this, changedElement);	
 	}

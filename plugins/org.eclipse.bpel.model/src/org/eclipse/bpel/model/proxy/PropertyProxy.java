@@ -27,21 +27,25 @@ public class PropertyProxy extends PropertyImpl implements IBPELServicesProxy
         proxyURI = new BPELProxyURI(MessagepropertiesPackage.eINSTANCE.getProperty(), baseURI, qname);
     }
 
-    public boolean eIsProxy()
+    @Override
+	public boolean eIsProxy()
     {
         return true;
     }
 
-    public URI eProxyURI()
+    @Override
+	public URI eProxyURI()
     {
         return proxyURI.getProxyURI();
     }
 
-    public QName getQName()
+    @Override
+	public QName getQName()
     {
         return proxyURI.getQName();
     }
 
+	@Override
 	public String getName() {
 		return getQName().getLocalPart();
 	}

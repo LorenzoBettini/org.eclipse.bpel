@@ -10,23 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EmptyImpl.java,v 1.5 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: EmptyImpl.java,v 1.6 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Empty;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

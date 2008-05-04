@@ -29,12 +29,14 @@ public class RoleProxy extends RoleImpl
         proxyURI = new BPELProxyURI(PartnerlinktypePackage.eINSTANCE.getRole(), baseURI, plt.getQName(), name);
     }
 
-    public boolean eIsProxy()
+    @Override
+	public boolean eIsProxy()
     {
         return true;
     }
 
-    public URI eProxyURI()
+    @Override
+	public URI eProxyURI()
     {
         return proxyURI.getProxyURI();
     }
@@ -44,7 +46,8 @@ public class RoleProxy extends RoleImpl
         return proxyURI.getQName();
     }
     
-    public String getName()
+    @Override
+	public String getName()
     {
         return proxyURI.getID();
     }

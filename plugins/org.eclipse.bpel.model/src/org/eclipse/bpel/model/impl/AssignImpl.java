@@ -10,36 +10,26 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
+ * $Id: AssignImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
-import java.util.List;
-
-import org.apache.xerces.dom.ChildNode;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
-import org.eclipse.bpel.model.util.ElementFactory;
-import org.eclipse.bpel.model.util.ReconciliationBPELReader;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -246,6 +236,7 @@ public class AssignImpl extends ActivityImpl implements Assign {
 		return result.toString();
 	}
 	
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Copy) {
 			ReconciliationHelper.adoptChild(this, copy, (Copy)object, BPELConstants.ND_COPY);
@@ -253,6 +244,7 @@ public class AssignImpl extends ActivityImpl implements Assign {
 		super.adoptContent(reference, object);
 	}
 	
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Copy) {
 			ReconciliationHelper.orphanChild(this, (Copy)obj);

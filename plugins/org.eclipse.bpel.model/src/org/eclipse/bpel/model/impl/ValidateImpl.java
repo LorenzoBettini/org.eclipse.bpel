@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.6 2007/10/26 16:28:16 smoser Exp $
+ * $Id: ValidateImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -10,22 +10,14 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.Validate;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -144,6 +136,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 		return super.eIsSet(featureID);
 	}
 	
+	@Override
 	protected void changeReference(EReference reference) {
 		if (reference != null && reference.getFeatureID() == BPELPackage.VALIDATE__VARIABLES && !isReconciling) {
 			String varAttribute = element.getAttribute(BPELConstants.AT_VARIABLES);

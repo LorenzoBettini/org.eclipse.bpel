@@ -35,8 +35,8 @@ public class BPELLinkResolver implements LinkResolver {
 				if (container instanceof Flow) {
 					Links links =((Flow)container).getLinks();
 					if (links != null) {
-						for (Iterator it = links.getChildren().iterator(); it.hasNext(); ) {
-							Link candidate = (Link)it.next(); 		
+						for (Iterator<Link> it = links.getChildren().iterator(); it.hasNext(); ) {
+							Link candidate = it.next(); 		
 							if (candidate.getName().equals(linkName)) 
 								return candidate;
 						}

@@ -10,22 +10,17 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.9 2007/12/06 20:01:24 smoser Exp $
+ * $Id: PartnerActivityImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlations;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.PartnerActivity;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.OperationProxy;
 import org.eclipse.bpel.model.proxy.PortTypeProxy;
@@ -34,13 +29,10 @@ import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

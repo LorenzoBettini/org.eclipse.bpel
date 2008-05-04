@@ -10,33 +10,23 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariablesImpl.java,v 1.7 2008/02/20 15:23:28 odanilov Exp $
+ * $Id: VariablesImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Copy;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.util.BPELConstants;
-import org.eclipse.bpel.model.util.ElementFactory;
-import org.eclipse.bpel.model.util.ElementPlacer;
-import org.eclipse.bpel.model.util.ReconciliationBPELReader;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.WSDLElement;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -170,6 +160,7 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 		return super.eIsSet(featureID);
 	}
 	
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Variable) {
 			if (getElement() == null) {
@@ -181,6 +172,7 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 		super.adoptContent(reference, object);
 	}
 	
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Variable) {
 			ReconciliationHelper.orphanChild(this, (Variable)obj);

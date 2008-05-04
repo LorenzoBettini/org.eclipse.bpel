@@ -33,7 +33,7 @@ public interface BPELResource extends Resource {
 	 * 
 	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#doSave(OutputStream, Map)
 	 */
-	void doSave(OutputStream out, Map args) throws Exception;
+	void doSave(OutputStream out, Map<?, ?> args) throws Exception;
     
     /**
      * Returns the BPEL process contained by this resource or <code>null</code> if there is none.

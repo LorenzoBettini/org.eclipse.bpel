@@ -10,15 +10,11 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRef.java,v 1.4 2007/12/06 20:01:24 smoser Exp $
+ * $Id: ServiceRef.java,v 1.5 2008/05/04 11:05:46 odanilov Exp $
  */
 package org.eclipse.bpel.model;
 
 import org.eclipse.wst.wsdl.ExtensibleElement;
-
-import org.eclipse.wst.wsdl.WSDLElement;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

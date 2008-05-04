@@ -2222,8 +2222,7 @@ public class BPELWriter {
 			extensibilityElements = BPELUtils.reorderExtensibilityList(
 					extensibilityElementListHandlers, extensibleElement);
 		} else {
-			extensibilityElements = extensibleElement
-					.getExtensibilityElements();
+			extensibilityElements = extensibleElement.getExtensibilityElements();
 		}
 
 		// Loop through the extensibility elements

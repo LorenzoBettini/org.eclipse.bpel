@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.6 2007/10/01 17:05:14 mchmielewski Exp $
+ * $Id: PropertyAliasImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -30,7 +30,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.wst.wsdl.Definition;
@@ -221,7 +220,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		if (messageType instanceof Message
 				&& ((Message) messageType).eIsProxy()) {
 			Message oldMessageType = (Message) messageType;
-			messageType = (Message) eResolveProxy((InternalEObject) messageType);
+			messageType = eResolveProxy((InternalEObject) messageType);
 			if (messageType != oldMessageType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(
@@ -414,7 +413,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		if (type instanceof XSDTypeDefinition
 				&& ((XSDTypeDefinition) type).eIsProxy()) {
 			XSDTypeDefinition oldType = (XSDTypeDefinition) type;
-			type = (XSDTypeDefinition) eResolveProxy((InternalEObject) type);
+			type = eResolveProxy((InternalEObject) type);
 			if (type != oldType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
@@ -446,7 +445,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		if (xsdElement instanceof XSDElementDeclaration
 				&& ((XSDElementDeclaration) xsdElement).eIsProxy()) {
 			XSDElementDeclaration oldElement = (XSDElementDeclaration) xsdElement;
-			xsdElement = (XSDElementDeclaration) eResolveProxy((InternalEObject) xsdElement);
+			xsdElement = eResolveProxy((InternalEObject) xsdElement);
 			if (xsdElement != oldElement) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(
@@ -646,6 +645,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	/**
 	 * Override the XML element token.
 	 */
+	@Override
 	public QName getElementType() {
 		if (elementType == null)
 			elementType = new QName(MessagepropertiesConstants.NAMESPACE,
@@ -657,6 +657,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	// Reconcile methods: DOM -> Model
 	//
 
+	@Override
 	public void reconcileAttributes(Element changedElement) {
 		super.reconcileAttributes(changedElement);
 
@@ -666,6 +667,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		reconcileReferences(false);
 	}
 
+	@Override
 	public void reconcileReferences(boolean deep) {
 		Definition definition = getEnclosingDefinition();
 		Element element = getElement();
@@ -752,6 +754,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		super.reconcileReferences(deep);
 	}
 
+	@Override
 	public void handleUnreconciledElement(Element child,
 			Collection remainingModelObjects) {
 		//System.out.println("PropertyAliasImpl.handleUnreconciledElement()");
@@ -768,6 +771,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	// For reconciliation: Model -> DOM
 	//
 
+	@Override
 	protected void changeAttribute(EAttribute eAttribute) {
 		if (isReconciling)
 			return;
@@ -812,6 +816,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		}
 	}
 
+	@Override
 	public Element createElement() {
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.

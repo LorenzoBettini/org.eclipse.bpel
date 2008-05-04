@@ -27,7 +27,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.xerces.dom.AttrImpl;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
-import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;

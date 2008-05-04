@@ -2,15 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.12 2008/04/14 14:41:05 odanilov Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.13 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.bpel.model.BPELPackage;
@@ -353,6 +349,7 @@ public class ExtensibleElementImpl extends
 
 	// Reconciliation stuff. Has copy in ExtensibilityElement
 	// TODO: (DU) remove duplication					
+	@Override
 	protected void reconcile(Element changedElement) {
 //	    reconcileAttributes(changedElement);
 //	    reconcileContents(changedElement);
@@ -400,6 +397,7 @@ public class ExtensibleElementImpl extends
 //	    handleReconciliation(remainingModelObjects);
 //	}
 	
+	@Override
 	public void elementChanged(Element changedElement) {
 		if (!isUpdatingDOM()) {
 			if (!isReconciling) {
@@ -423,6 +421,7 @@ public class ExtensibleElementImpl extends
 		return isReconciling;
 	}
 	
+	@Override
 	public boolean isUpdatingDOM() {
 		return super.isUpdatingDOM();
 	}

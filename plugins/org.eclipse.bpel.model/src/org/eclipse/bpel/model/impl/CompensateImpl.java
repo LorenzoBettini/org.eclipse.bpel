@@ -10,34 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CompensateImpl.java,v 1.7 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: CompensateImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Catch;
-import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.Compensate;
-import org.eclipse.bpel.model.CompensationHandler;
-import org.eclipse.bpel.model.Documentation;
-import org.eclipse.bpel.model.Invoke;
-import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
-import org.eclipse.bpel.model.proxy.ScopeProxy;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

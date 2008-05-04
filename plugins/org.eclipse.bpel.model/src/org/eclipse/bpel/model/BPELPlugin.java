@@ -10,10 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.model;
 
-import org.eclipse.bpel.model.adapters.AdapterProvider;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.model.adapters.BasicBPELAdapterFactory;
-import org.eclipse.bpel.model.util.BPELAdapterFactory;
 import org.eclipse.core.internal.runtime.RuntimeLog;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -22,8 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
 

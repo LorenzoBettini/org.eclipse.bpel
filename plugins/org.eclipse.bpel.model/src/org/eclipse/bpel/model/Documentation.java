@@ -2,11 +2,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Documentation.java,v 1.3 2007/12/06 20:01:24 smoser Exp $
+ * $Id: Documentation.java,v 1.4 2008/05/04 11:05:46 odanilov Exp $
  */
 package org.eclipse.bpel.model;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
 
 /**

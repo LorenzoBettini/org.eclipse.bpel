@@ -10,23 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UnknownExtensibilityAttributeImpl.java,v 1.4 2007/08/01 21:02:31 mchmielewski Exp $
+ * $Id: UnknownExtensibilityAttributeImpl.java,v 1.5 2008/05/04 11:05:46 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
-import javax.xml.namespace.QName;
-
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.internal.impl.UnknownExtensibilityElementImpl;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

@@ -10,14 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.13 2008/02/28 17:33:20 smoser Exp $
+ * $Id: ReceiveImpl.java,v 1.14 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.MessageExchange;
-import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;

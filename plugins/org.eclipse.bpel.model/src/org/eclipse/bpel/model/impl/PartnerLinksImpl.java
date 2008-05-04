@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinksImpl.java,v 1.8 2008/02/28 17:33:20 smoser Exp $
+ * $Id: PartnerLinksImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -164,6 +164,7 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 		return super.eIsSet(featureID);
 	}
 	
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof PartnerLink) {
 			if (getElement() == null) {
@@ -175,6 +176,7 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 		super.adoptContent(reference, object);
 	}
 	
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof PartnerLink) {
 			ReconciliationHelper.orphanChild(this, (PartnerLink)obj);

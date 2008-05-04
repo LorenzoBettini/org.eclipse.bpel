@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.7 2007/10/01 17:05:11 mchmielewski Exp $
+ * $Id: RoleImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -21,13 +21,11 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.partnerlinktype.util.PartnerlinktypeConstants;
-import org.eclipse.bpel.model.proxy.PortTypeProxy;
 import org.eclipse.bpel.model.util.BPELServicesUtility;
 import org.eclipse.bpel.model.util.WSDLUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.wst.wsdl.Definition;
@@ -162,7 +160,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	public Object getPortType() {
 		if (portType instanceof PortType && ((PortType) portType).eIsProxy()) {
 			PortType oldPortType = (PortType) portType;
-			portType = (PortType) eResolveProxy((InternalEObject) portType);
+			portType = eResolveProxy((InternalEObject) portType);
 			if (portType != oldPortType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
@@ -284,6 +282,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	/**
 	 * Override the XML element token.
 	 */
+	@Override
 	public QName getElementType() {
 		if (elementType == null)
 			elementType = new QName(PartnerlinktypeConstants.NAMESPACE,
@@ -295,6 +294,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	// Reconcile methods: DOM -> Model
 	//
 
+	@Override
 	public void reconcileAttributes(Element changedElement) {
 		super.reconcileAttributes(changedElement);
 
@@ -304,6 +304,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 		reconcileReferences(false);
 	}
 
+	@Override
 	public void reconcileReferences(boolean deep) {
 
 		if (deep == false) {
@@ -341,6 +342,7 @@ public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	// For reconciliation: Model -> DOM
 	//
 
+	@Override
 	protected void changeAttribute(EAttribute eAttribute) {
 		//System.out.println("RoleImpl.changeAttribute("+eAttribute+")");
 		if (isReconciling)

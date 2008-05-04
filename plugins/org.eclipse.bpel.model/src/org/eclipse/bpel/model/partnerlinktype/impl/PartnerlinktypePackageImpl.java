@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerlinktypePackageImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: PartnerlinktypePackageImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -30,14 +30,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.wst.wsdl.WSDLPackage;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
-import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;
 import org.eclipse.wst.wsdl.util.ExtensibilityElementFactory;
 import org.eclipse.wst.wsdl.util.ExtensibilityElementFactoryRegistry;
-import org.eclipse.xsd.impl.XSDPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -158,7 +155,7 @@ public class PartnerlinktypePackageImpl extends EPackageImpl implements
 	 */
 	public static PartnerlinktypePackage init() {
 		boolean inited = isInited;
-		PartnerlinktypePackage thePartnerlinktypePackage = (PartnerlinktypePackage) initGen();
+		PartnerlinktypePackage thePartnerlinktypePackage = initGen();
 
 		if (inited)
 			return thePartnerlinktypePackage;

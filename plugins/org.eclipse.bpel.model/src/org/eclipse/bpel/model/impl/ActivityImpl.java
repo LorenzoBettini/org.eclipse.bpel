@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ActivityImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -26,9 +26,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.wst.wsdl.WSDLElement;
-import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**

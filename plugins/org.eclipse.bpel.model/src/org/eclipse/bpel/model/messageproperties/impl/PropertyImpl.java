@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.6 2007/10/01 17:05:13 mchmielewski Exp $
+ * $Id: PropertyImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -28,8 +28,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.wst.wsdl.Definition;
@@ -331,6 +329,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	/**
 	 * Override the XML element token.
 	 */
+	@Override
 	public QName getElementType() {
 		if (elementType == null)
 			elementType = new QName(MessagepropertiesConstants.NAMESPACE,
@@ -342,6 +341,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	// Reconcile methods: DOM -> Model
 	//
 
+	@Override
 	public void reconcileAttributes(Element changedElement) {
 		super.reconcileAttributes(changedElement);
 
@@ -351,6 +351,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		reconcileReferences(false);
 	}
 
+	@Override
 	public void reconcileReferences(boolean deep) {
 		if (element != null
 				&& element
@@ -372,6 +373,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		super.reconcileReferences(deep);
 	}
 
+	@Override
 	public void handleUnreconciledElement(Element child,
 			Collection remainingModelObjects) {
 	}
@@ -380,6 +382,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 	// For reconciliation: Model -> DOM
 	//
 
+	@Override
 	protected void changeAttribute(EAttribute eAttribute) {
 		if (isReconciling)
 			return;
@@ -408,6 +411,7 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		}
 	}
 
+	@Override
 	public Element createElement() {
 		// Register a prefix for the namespace.  
 		// If we don't do this, the WSDL model will deserialize our elements as UnknownExtensibilityElements.

@@ -6,37 +6,26 @@
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.CompensateScope;
 import org.eclipse.bpel.model.CompensationHandler;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.proxy.ScopeProxy;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.TreeIterator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

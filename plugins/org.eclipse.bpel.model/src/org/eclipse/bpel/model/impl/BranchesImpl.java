@@ -2,11 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BranchesImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
+ * $Id: BranchesImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
@@ -15,9 +13,7 @@ import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

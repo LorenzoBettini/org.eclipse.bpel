@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkTypeImpl.java,v 1.5 2007/10/01 17:05:10 mchmielewski Exp $
+ * $Id: PartnerLinkTypeImpl.java,v 1.6 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -35,7 +35,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -280,6 +279,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 	/**
 	 * Override the XML element token.
 	 */
+	@Override
 	public QName getElementType() {
 		if (elementType == null)
 			elementType = new QName(PartnerlinktypeConstants.NAMESPACE,
@@ -291,6 +291,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 	// Reconcile methods: DOM -> Model
 	//
 
+	@Override
 	public void reconcileAttributes(Element changedElement) {
 		//System.out.println("PartnerLinkTypeImpl.reconcileAttributes()");
 		super.reconcileAttributes(changedElement);
@@ -301,11 +302,13 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 		reconcileReferences(false); // TODO true?
 	}
 
+	@Override
 	public void reconcileReferences(boolean deep) {
 		//System.out.println("PartnerLinkTypeImpl.reconcileReferences("+deep+")");
 		super.reconcileReferences(deep);
 	}
 
+	@Override
 	public void handleUnreconciledElement(Element child,
 			Collection remainingModelObjects) {
 		//System.out.println("PartnerLinkTypeImpl.handleUnreconciledElement()");
@@ -318,6 +321,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 		}
 	}
 
+	@Override
 	protected void handleReconciliation(Collection remainingModelObjects) {
 		//System.out.println("PartnerLinkTypeImpl.handleReconciliation("+remainingModelObjects+")");
 		for (Iterator i = remainingModelObjects.iterator(); i.hasNext();) {
@@ -337,6 +341,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 	// For reconciliation: Model -> DOM
 	//
 
+	@Override
 	protected void changeAttribute(EAttribute eAttribute) {
 		//System.out.println("PartnerLinkTypeImpl.changeAttribute("+eAttribute+")");
 
@@ -354,6 +359,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 		}
 	}
 
+	@Override
 	protected void changeReference(EReference eReference) {
 		//System.out.println("PartnerLinkTypeImpl.changeReference("+eReference+")");
 
@@ -376,6 +382,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 		}
 	}
 
+	@Override
 	public Element createElement() {
 		//System.out.println("PartnerLinkTypeImpl.createElement()");
 
@@ -389,7 +396,7 @@ public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 
 		Element newElement = super.createElement();
 
-		for (Iterator i = getRole().iterator(); i.hasNext();) {
+		for (Iterator<Role> i = getRole().iterator(); i.hasNext();) {
 			Object obj = i.next();
 			if (obj instanceof Role) {
 				Role role = (Role) obj;

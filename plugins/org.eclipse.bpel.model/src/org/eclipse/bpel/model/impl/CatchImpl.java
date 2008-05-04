@@ -10,32 +10,25 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.8 2007/12/06 20:01:23 smoser Exp $
+ * $Id: CatchImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
-import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.xsd.XSDElementDeclaration;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -278,7 +271,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public Message getFaultMessageType() {
 		if (faultVariable != null && faultVariable instanceof Variable) {
-			return ((Variable) faultVariable).getMessageType();
+			return (faultVariable).getMessageType();
 		}
 		if (faultMessageType != null && faultMessageType.eIsProxy()) {
 			Message oldFaultMessageType = faultMessageType;
@@ -310,7 +303,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public void setFaultMessageType(Message newFaultMessageType) {
 		Variable variable = getFaultVariable();
 		if (variable != null && variable instanceof Variable) {
-			((Variable) variable).setMessageType(newFaultMessageType);
+			(variable).setMessageType(newFaultMessageType);
 		}
 		Message oldFaultMessageType = faultMessageType;
 		if (!isReconciling) {
@@ -330,7 +323,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public XSDElementDeclaration getFaultElement() {
 		if (faultVariable != null && faultVariable instanceof Variable) {
-			return ((Variable) faultVariable).getXSDElement();
+			return (faultVariable).getXSDElement();
 		}
 		if (faultElement != null && faultElement.eIsProxy()) {
 			XSDElementDeclaration oldFaultElement = faultElement;
@@ -362,7 +355,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public void setFaultElement(XSDElementDeclaration newFaultElement) {
 		Variable variable = getFaultVariable();
 		if (variable != null && variable instanceof Variable) {
-			((Variable) variable).setXSDElement(newFaultElement);
+			(variable).setXSDElement(newFaultElement);
 		}
 		XSDElementDeclaration oldFaultElement = faultElement;
 		if (!isReconciling) {

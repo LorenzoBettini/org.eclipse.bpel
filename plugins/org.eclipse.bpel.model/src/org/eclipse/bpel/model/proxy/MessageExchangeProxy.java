@@ -31,15 +31,18 @@ public class MessageExchangeProxy extends MessageExchangeImpl {
         proxyURI = new BPELProxyURI(BPELPackage.eINSTANCE.getMessageExchange(), baseURI, new QName("process", name));//TODO think about
     }
 
-    public boolean eIsProxy() {
+    @Override
+	public boolean eIsProxy() {
         return true;
     }
 
-    public URI eProxyURI() {
+    @Override
+	public URI eProxyURI() {
         return proxyURI.getProxyURI();
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return proxyURI.getQName().getLocalPart();
     }
 }

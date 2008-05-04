@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.model.impl;
 
-import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.wst.wsdl.ExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
@@ -20,12 +19,14 @@ import org.w3c.dom.Element;
 @SuppressWarnings("restriction")
 public class ExtensibilityElementImpl extends org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl implements ExtensibilityElement {
 
+	@Override
 	protected void reconcile(Element changedElement) {
 	    reconcileAttributes(changedElement);
 	    reconcileContents(changedElement);
 //		ReconciliationHelper.getInstance().reconcile(this, changedElement);
 	}
 	
+	@Override
 	public void elementChanged(Element changedElement) {
 		if (!isUpdatingDOM()) {
 			if (!isReconciling) {
@@ -45,6 +46,7 @@ public class ExtensibilityElementImpl extends org.eclipse.wst.wsdl.internal.impl
 	    } 
 	}
 	
+	@Override
 	public boolean isUpdatingDOM() {
 		return super.isUpdatingDOM();
 	}

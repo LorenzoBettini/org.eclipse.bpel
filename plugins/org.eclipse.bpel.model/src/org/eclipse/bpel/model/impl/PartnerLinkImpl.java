@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
+ * $Id: PartnerLinkImpl.java,v 1.11 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,7 +18,6 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.proxy.IBPELServicesProxy;

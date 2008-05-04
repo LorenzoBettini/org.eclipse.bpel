@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FaultHandlerImpl.java,v 1.7 2007/12/06 20:01:23 smoser Exp $
+ * $Id: FaultHandlerImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -19,9 +19,7 @@ import java.util.Collection;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.FaultHandler;
-import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
@@ -29,13 +27,11 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.WSDLElement;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -324,6 +320,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements
 		return super.eIsSet(featureID);
 	}
 
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Catch) {
 			ReconciliationHelper.adoptChild(element == null ? (WSDLElement)eContainer() : this, catch_, (Catch)object, BPELConstants.ND_CATCH);
@@ -331,6 +328,7 @@ public class FaultHandlerImpl extends ExtensibleElementImpl implements
 		super.adoptContent(reference, object);
 	}
 	
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Catch) {
 			ReconciliationHelper.orphanChild(element == null ? (WSDLElement)eContainer() : this, (Catch)obj);

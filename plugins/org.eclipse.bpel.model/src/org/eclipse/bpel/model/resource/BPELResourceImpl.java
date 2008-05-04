@@ -14,12 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
-
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -40,14 +37,11 @@ import org.eclipse.bpel.model.util.BPELProxyURI;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.model.util.ImportResolver;
 import org.eclipse.bpel.model.util.ImportResolverRegistry;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
 import org.eclipse.xsd.util.XSDConstants;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -86,7 +80,8 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
 	 * Convert the BPEL model to an XML DOM model and then write the DOM model
 	 * to the output stream.
 	 */
-	public void doSave(OutputStream out, Map args) throws IOException
+	@Override
+	public void doSave(OutputStream out, Map<?, ?> args) throws IOException
     {
         INamespaceMap<String, String> nsMap = BPELUtils.getNamespaceMap(this.getProcess());
         if (getOptionUseNSPrefix()) {
@@ -109,7 +104,8 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
 	 * Convert a BPEL XML document into the BPEL EMF model.
      * After loading, the process' namespace URI is reset to the current namespace URI.
 	 */
-	public void doLoad(InputStream inputStream, Map options) throws IOException
+	@Override
+	public void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
     {
 //        getPrefixToNamespaceMap().put("", BPELConstants.NAMESPACE);
     
@@ -141,7 +137,8 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
     /*
      * TODO Implement getURIFragment to return our encoding.
      */
-    public String getURIFragment(EObject eObject)
+    @Override
+	public String getURIFragment(EObject eObject)
     {
         return super.getURIFragment(eObject);
     }
@@ -151,7 +148,8 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
      *
      * @return the resolved EObject or null if none could be found.
      */
-    public EObject getEObject(String uriFragment) {
+    @Override
+	public EObject getEObject(String uriFragment) {
 	    if (uriFragment == null) return null;
 	    try {
 	    	// Consult the superclass
@@ -246,10 +244,10 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         	return al;
         }
         
-        Iterator it = process.getImports().iterator();
+        Iterator<Import> it = process.getImports().iterator();
         while ( it.hasNext() )
         {
-            Import imp = (Import) it.next();                                    
+            Import imp = it.next();                                    
             if (imp.getLocation() == null ) {
             	continue;
             }                	   
@@ -282,10 +280,10 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         	return al;
         }
                 
-        Iterator it = process.getImports().iterator();
+        Iterator<Import> it = process.getImports().iterator();
         while ( it.hasNext() )
         {
-            Import imp = (Import) it.next();                                    
+            Import imp = it.next();                                    
             if (imp.getLocation() == null ) {
             	continue;
             }                	    

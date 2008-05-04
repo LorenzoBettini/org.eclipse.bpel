@@ -10,19 +10,15 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: MessagepropertiesPackageImpl.java,v 1.6 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: MessagepropertiesPackageImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
-import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.impl.BPELPackageImpl;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesFactory;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.messageproperties.Query;
-import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
-import org.eclipse.bpel.model.partnerlinktype.impl.PartnerlinktypePackageImpl;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesExtensibilityElementFactory;
 
@@ -36,7 +32,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 
 import org.eclipse.wst.wsdl.WSDLPackage;
-import org.eclipse.xsd.XSDPackage;
 import org.eclipse.wst.wsdl.WSDLPlugin;
 
 import org.eclipse.wst.wsdl.internal.impl.WSDLPackageImpl;

@@ -13,8 +13,6 @@ package org.eclipse.bpel.model.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELPlugin;
@@ -24,10 +22,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDConstants;
-import org.eclipse.xsd.util.XSDResourceImpl;
 
 
 /**

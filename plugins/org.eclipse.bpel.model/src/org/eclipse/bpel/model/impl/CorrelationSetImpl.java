@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.9 2008/04/07 15:43:23 odanilov Exp $
+ * $Id: CorrelationSetImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -18,22 +18,16 @@ import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSet;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -226,6 +220,7 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 		return result.toString();
 	}
 
+	@Override
 	protected void changeReference(EReference reference) {
 		if (reference.getFeatureID() == BPELPackage.CORRELATION_SET__PROPERTIES && !ReconciliationHelper.isLoading(this)) {
 			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTIES, ElementFactory.getInstance().createPropertiesString(this));

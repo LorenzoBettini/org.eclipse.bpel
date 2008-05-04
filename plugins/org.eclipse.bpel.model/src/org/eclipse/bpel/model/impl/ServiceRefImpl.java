@@ -10,11 +10,9 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
+ * $Id: ServiceRefImpl.java,v 1.11 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.ServiceRef;
@@ -22,23 +20,11 @@ import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 
-import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
-
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

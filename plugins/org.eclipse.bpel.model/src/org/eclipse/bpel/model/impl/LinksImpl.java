@@ -10,28 +10,24 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinksImpl.java,v 1.5 2007/11/23 17:30:14 smoser Exp $
+ * $Id: LinksImpl.java,v 1.6 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
-import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -165,6 +161,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 		return super.eIsSet(featureID);
 	}
 	
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Link) {
 			ReconciliationHelper.adoptChild(this, children, (Link)object, BPELConstants.ND_LINK);
@@ -172,6 +169,7 @@ public class LinksImpl extends ExtensibleElementImpl implements Links {
 		super.adoptContent(reference, object);
 	}
 	
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Link) {
 			ReconciliationHelper.orphanChild(this, (Link)obj);

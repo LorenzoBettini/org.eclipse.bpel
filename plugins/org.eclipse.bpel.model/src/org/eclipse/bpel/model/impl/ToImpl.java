@@ -10,15 +10,12 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.11 2008/03/24 10:55:08 odanilov Exp $
+ * $Id: ToImpl.java,v 1.12 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Query;
 import org.eclipse.bpel.model.To;
@@ -30,13 +27,10 @@ import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

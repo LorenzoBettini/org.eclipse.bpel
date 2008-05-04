@@ -2,31 +2,24 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangesImpl.java,v 1.6 2008/02/28 17:33:20 smoser Exp $
+ * $Id: MessageExchangesImpl.java,v 1.7 2008/05/04 11:05:46 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import java.util.Collection;
 
 import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.MessageExchanges;
-import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.wst.wsdl.WSDLElement;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -163,6 +156,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 		return super.eIsSet(featureID);
 	}
 
+	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof MessageExchange) {
 			if (getElement() == null) {
@@ -173,6 +167,7 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 		super.adoptContent(reference, object);
 	}
 
+	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof MessageExchange) {
 			ReconciliationHelper.orphanChild(this, (MessageExchange) obj);

@@ -10,24 +10,19 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.12 2008/02/28 17:33:20 smoser Exp $
+ * $Id: ScopeImpl.java,v 1.13 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
-
-import java.util.Collection;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CompensationHandler;
 import org.eclipse.bpel.model.CorrelationSets;
-import org.eclipse.bpel.model.Documentation;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Scope;
-import org.eclipse.bpel.model.Sources;
-import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.model.TerminationHandler;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.util.BPELConstants;
@@ -36,11 +31,8 @@ import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->

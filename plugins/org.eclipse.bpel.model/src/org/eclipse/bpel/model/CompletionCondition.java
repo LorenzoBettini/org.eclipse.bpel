@@ -2,13 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionCondition.java,v 1.5 2007/06/22 21:56:21 mchmielewski Exp $
+ * $Id: CompletionCondition.java,v 1.6 2008/05/04 11:05:46 odanilov Exp $
  */
 package org.eclipse.bpel.model;
-
-import org.eclipse.wst.wsdl.WSDLElement;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

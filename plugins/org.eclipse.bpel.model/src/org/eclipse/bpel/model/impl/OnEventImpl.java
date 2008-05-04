@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.11 2008/02/28 17:33:20 smoser Exp $
+ * $Id: OnEventImpl.java,v 1.12 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -549,7 +549,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	public Message getMessageType() {
 		Variable variable = getVariable();
 		if (variable != null && variable instanceof Variable) {
-			return ((Variable) variable).getMessageType();
+			return (variable).getMessageType();
 		}
 		if (messageType != null && messageType.eIsProxy()) {
 			Message oldMessageType = messageType;
@@ -581,7 +581,7 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	public void setMessageType(Message newMessageType) {
 		Variable variable = getVariable();
 		if (variable != null && variable instanceof Variable) {
-			((Variable) variable).setMessageType(newMessageType);
+			(variable).setMessageType(newMessageType);
 		}
 		Message oldMessageType = messageType;
 		messageType = newMessageType;

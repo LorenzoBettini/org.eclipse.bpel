@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.3 2007/08/01 21:02:32 mchmielewski Exp $
+ * $Id: QueryImpl.java,v 1.4 2008/05/04 11:05:47 odanilov Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -26,8 +26,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
@@ -250,6 +248,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	// Reconcile methods: DOM -> Model
 	//
 
+	@Override
 	public void reconcileAttributes(Element changedElement) {
 		//System.out.println("RoleImpl.reconcileAttributes("+changedElement+")");
 		super.reconcileAttributes(changedElement);
@@ -279,6 +278,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		reconcileReferences(true); // TODO true?
 	}
 
+	@Override
 	public void handleUnreconciledElement(Element child,
 			Collection remainingModelObjects) {
 		//System.out.println("QueryImpl.handleUnreconciledElement()");
@@ -292,6 +292,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	// For reconciliation: Model -> DOM
 	//
 
+	@Override
 	protected void changeAttribute(EAttribute eAttribute) {
 		//System.out.println("RoleImpl.changeAttribute("+eAttribute+")");
 		if (isReconciling)
@@ -310,6 +311,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 		}
 	}
 
+	@Override
 	public Element createElement() {
 		//System.out.println("QueryImpl.createElement()");
 		Element newElement = super.createElement();
@@ -368,6 +370,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	/**
 	 * Override the XML element token.
 	 */
+	@Override
 	public QName getElementType() {
 		if (elementType == null)
 			elementType = new QName(MessagepropertiesConstants.NAMESPACE,
