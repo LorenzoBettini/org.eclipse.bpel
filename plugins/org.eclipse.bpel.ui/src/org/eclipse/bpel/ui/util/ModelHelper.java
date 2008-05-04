@@ -114,7 +114,6 @@ import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
 import org.eclipse.xsd.util.XSDConstants;
 
-
 /**
  * This class provides a common interface (i.e. setXX/getXX/isXXAffected) to certain
  * properties which exist across several model object types.
@@ -961,11 +960,11 @@ public class ModelHelper {
 	
 	public static Variable[] getVisibleVariables ( EObject context ) {
 					
-		List list = new LinkedList();
+		List<Variable> list = new LinkedList<Variable>();
 		
 		EObject refObj = context;		
 		while (refObj != null) {
-			List refList = null;
+			List<Variable> refList = null;
 			if (refObj instanceof Process) {
 				Process process = (Process) refObj;
 				refList = process.getVariables().getChildren();
@@ -981,10 +980,10 @@ public class ModelHelper {
 			
 			if (refList != null) {
 				
-				Iterator it = refList.iterator();
+				Iterator<Variable> it = refList.iterator();
 				
 				while (it.hasNext()) {
-					Object next =  it.next();
+					Variable next =  it.next();
 					Object elm = ListMap.findElement(list,next,
 							new Comparator() {
 								public int compare(Object o1, Object o2) {
@@ -1003,7 +1002,7 @@ public class ModelHelper {
 			refObj = refObj.eContainer();
 		}
 		
-		return (Variable[]) list.toArray( EMPTY_VARIABLE_LIST );
+		return list.toArray( EMPTY_VARIABLE_LIST );
 	}
 
 	
@@ -1012,7 +1011,7 @@ public class ModelHelper {
 		if (context instanceof Scope) return ((Scope)context).getVariables();
 		throw new IllegalArgumentException();
 	}
-	public static EList getValidateVariables(Object context)  {
+	public static EList<Variable> getValidateVariables(Object context)  {
 		if (context instanceof Validate) return ((Validate)context).getVariables();				
 		throw new IllegalArgumentException();
 	}
@@ -1061,8 +1060,8 @@ public class ModelHelper {
 		if (!operationNS.equals(ModelHelper.getFaultNamespace(context))) return null;
 		String faultName = ModelHelper.getFaultName(context);
 		if (faultName == null || "".equals(faultName)) return null;  //$NON-NLS-1$
-		for (Iterator it = operation.getEFaults().iterator(); it.hasNext(); ) {
-			Fault fault = (Fault)it.next();
+		for (Iterator<Fault> it = operation.getEFaults().iterator(); it.hasNext(); ) {
+			Fault fault = it.next();
 			if (faultName.equals(fault.getName())) return fault;
 		}
 		return null;
@@ -1090,9 +1089,9 @@ public class ModelHelper {
 	public static ExtensibilityElement getExtensibilityElement(Object input, Class clazz) {
 		if (!(input instanceof ExtensibleElement))  throw new IllegalArgumentException();
 		ExtensibleElement element = (ExtensibleElement)input;
-		for (Iterator it = element.getExtensibilityElements().iterator(); it.hasNext(); ) {
-			Object extension = it.next();
-			if (clazz.isInstance(extension))  return (ExtensibilityElement)extension;
+		for (Iterator<ExtensibilityElement> it = element.getExtensibilityElements().iterator(); it.hasNext(); ) {
+			ExtensibilityElement extension = it.next();
+			if (clazz.isInstance(extension))  return extension;
 		}
 		return null;
 	}
@@ -1104,8 +1103,8 @@ public class ModelHelper {
 	public static ExtensibilityElement getExtensibilityElement(Object input, EClass clazz) {
 		if (!(input instanceof ExtensibleElement))  throw new IllegalArgumentException();
 		ExtensibleElement element = (ExtensibleElement)input;
-		for (Iterator it = element.getExtensibilityElements().iterator(); it.hasNext(); ) {
-			ExtensibilityElement extension = (ExtensibilityElement)it.next();
+		for (Iterator<ExtensibilityElement> it = element.getExtensibilityElements().iterator(); it.hasNext(); ) {
+			ExtensibilityElement extension = it.next();
 			if (clazz.isSuperTypeOf(extension.eClass()))  return extension;
 		}
 		return null;
@@ -1136,7 +1135,7 @@ public class ModelHelper {
 		IExtensionFactory extensionFactory = BPELUtil.adapt( input, IExtensionFactory.class);
 		if (extensionFactory != null) {
 			if (Policy.DEBUG) System.out.println("creating extension for: "+input); //$NON-NLS-1$
-			EObject extension = (EObject) extensionFactory.createExtension(input);
+			EObject extension = extensionFactory.createExtension(input);
 			if (extension != null) {
 				extensionMap.put(input, extension);
 			}
@@ -1235,9 +1234,9 @@ public class ModelHelper {
 	 * Adds the given modelObject and all of its contained objects to the given collection
 	 * (where containment is determined by the IContainer heirarchy).
 	 */
-	public static void addSubtreeToCollection(Object modelObject, Collection collection) {
+	public static void addSubtreeToCollection(Object modelObject, Collection<Object> collection) {
 		collection.add(modelObject);
-		IContainer container = (IContainer)BPELUtil.adapt(modelObject, IContainer.class);
+		IContainer container = BPELUtil.adapt(modelObject, IContainer.class);
 		if (container != null) {
 			for (Iterator it = container.getChildren(modelObject).iterator(); it.hasNext(); ) {
 				addSubtreeToCollection(it.next(), collection);
@@ -1330,14 +1329,14 @@ public class ModelHelper {
 		Object result = null;
 		if (modelObject != null && name != null)
 		{
-			for (Iterator i = modelObject.eAllContents(); result == null && i.hasNext();)
+			for (Iterator<EObject> i = modelObject.eAllContents(); result == null && i.hasNext();)
 			{
-				EObject model = (EObject) i.next();
+				EObject model = i.next();
 				// Check type.
 				if (type == null || type.isInstance(model))
 				{
 					// Check name.
-					INamedElement namedElement = (INamedElement) BPELUtil.adapt(model, INamedElement.class);
+					INamedElement namedElement = BPELUtil.adapt(model, INamedElement.class);
 					if (namedElement != null && name.equals(namedElement.getName(model)))
 					{
 						result = model;
@@ -1444,25 +1443,25 @@ public class ModelHelper {
 		return cmd;
 	}
 	
-	public static Set getAvailableProperties(Process process) {
-		Set properties = new HashSet();
+	public static Set<Property> getAvailableProperties(Process process) {
+		Set<Property> properties = new HashSet<Property>();
 		 
 		// search in current process
 		// TODO: This doesn't work for Scoped correlation sets or those on OnEvents
-		List sets = process.getCorrelationSets().getChildren();
-		for (Iterator iter = sets.iterator(); iter.hasNext();) {
-			CorrelationSet set = (CorrelationSet) iter.next();
-			for (Iterator iterator = set.getProperties().iterator(); iterator.hasNext();) {
+		List<CorrelationSet> sets = process.getCorrelationSets().getChildren();
+		for (Iterator<CorrelationSet> iter = sets.iterator(); iter.hasNext();) {
+			CorrelationSet set = iter.next();
+			for (Iterator<Property> iterator = set.getProperties().iterator(); iterator.hasNext();) {
 				properties.add(iterator.next());
 			}
 		}
 		
 		// search in artifacts wsdl
 		BPELEditor bpelEditor = ModelHelper.getBPELEditor(process);
-		for (Iterator iter = bpelEditor.getArtifactsDefinition().eAllContents(); iter.hasNext();) {
-			Object element = iter.next();
+		for (Iterator<EObject> iter = bpelEditor.getArtifactsDefinition().eAllContents(); iter.hasNext();) {
+			EObject element = iter.next();
 			if (element instanceof Property) {
-				properties.add(element);
+				properties.add((Property) element);
 			}
 		}
 		
@@ -1513,10 +1512,10 @@ public class ModelHelper {
         	return al;
         }
                 
-        Iterator it = process.getImports().iterator();
+        Iterator<Import> it = process.getImports().iterator();
         while ( it.hasNext() )
         {
-            Import imp = (Import) it.next();                                    
+            Import imp = it.next();                                    
             if (imp.getLocation() == null ) {
             	continue;
             }            
@@ -1551,10 +1550,10 @@ public class ModelHelper {
         	return al;
         }
                 
-        Iterator it = process.getImports().iterator();
+        Iterator<Import> it = process.getImports().iterator();
         while ( it.hasNext() )
         {
-            Import imp = (Import) it.next();                                    
+            Import imp = it.next();                                    
             if (imp.getLocation() == null ) {
             	continue;
             }            
@@ -1588,17 +1587,17 @@ public class ModelHelper {
 		if (process == null) {
 			return false;
 		}
-		EList imports = process.getImports();
+		EList<Import> imports = process.getImports();
 		// this checks for identity
 		if (imports.contains( imp )) {
 			return true;
 		}
 
 		// Don't add the import if it already exists ...
-		Iterator i = imports.iterator();
+		Iterator<Import> i = imports.iterator();
 		boolean bExists = false;
 		while (i.hasNext() && !bExists) {
-			Import n = (Import) i.next();			
+			Import n = i.next();			
 			bExists = 	isEqual ( n.getImportType(), imp.getImportType() ) &&
 						isEqual ( n.getLocation(),   imp.getLocation() )  &&
 						isEqual ( n.getNamespace(),  imp.getNamespace() ) ;

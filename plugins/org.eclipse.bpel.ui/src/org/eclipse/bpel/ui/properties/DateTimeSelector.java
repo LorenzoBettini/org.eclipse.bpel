@@ -21,7 +21,6 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormLayout;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.Policy;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -389,6 +388,7 @@ public class DateTimeSelector extends Composite {
 		}		
 	}
 	
+	@Override
 	public void setEnabled (boolean enabled) {
 		super.setEnabled(enabled);
 		for (int i = 0; i < combo.length; i++) {

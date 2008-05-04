@@ -52,6 +52,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DragTracker;
@@ -99,6 +100,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	
 	public class ScopeOrderedLayoutEditPolicy extends BPELOrderedLayoutEditPolicy {
 		// return list of children to create vertical connections for.
+		@Override
 		protected List getConnectionChildren(BPELEditPart editPart) {
 			List originalChildren = getChildren();
 			List newChildren = new ArrayList();
@@ -136,8 +138,8 @@ public class ScopeEditPart extends CollapsableEditPart {
 	
 	private class ScopeOrderedHorizontalLayoutEditPolicy extends ScopeEditPart.ScopeOrderedLayoutEditPolicy{
 		@Override
-		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
-			ArrayList connections = new ArrayList();
+		protected ArrayList<PolylineConnection> createHorizontalConnections(BPELEditPart parent) {
+			ArrayList<PolylineConnection> connections = new ArrayList<PolylineConnection>();
 			List children = getConnectionChildren(parent);
 			BPELEditPart sourcePart, targetPart;
 			ConnectionAnchor sourceAnchor = null, targetAnchor = null;
@@ -208,6 +210,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedLayoutEditPolicy());
 	}
 
+	@Override
 	protected DrawerBorder getDrawerBorder() {
 		Border border = getContentPane().getBorder();
 		if (border instanceof DrawerBorder) return (DrawerBorder)border;
@@ -218,16 +221,18 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * The label figure to return for direct editing
 	 * TODO: Enable this
 	 */
+	@Override
 	public Label getLabelFigure() {
 		return null;
 	}
 
+	@Override
 	protected IFigure createFigure() {
 		// TODO: Shouldn't have to initialize labels in each subclass.
 		initializeLabels();
 		if (collapsedImage == null) {
 			// Create the actual figure for the collapsed edit part
-			ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getActivity(), ILabeledElement.class);
+			ILabeledElement element = BPELUtil.adapt(getActivity(), ILabeledElement.class);
 			collapsedImage = element.getSmallImage(getActivity());
 		}
 		this.collapsedImageLabel = new Label(collapsedImage);
@@ -277,10 +282,12 @@ public class ScopeEditPart extends CollapsableEditPart {
 		return editPartMarkerDecorator.createFigure(parentFigure);
 	}
 		
+	@Override
 	protected CollapsableContainerFigure getContentFigure() {
 		return this.contentFigure;
 	}
 	
+	@Override
 	protected void unregisterVisuals() {
 		super.unregisterVisuals();
 		this.editPartMarkerDecorator = null;
@@ -288,6 +295,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		this.bottomImage = null;
 	}
 
+	@Override
 	protected List getModelChildren() {
 		return getModelChildren(!isCollapsed());
 	}
@@ -295,6 +303,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
+	@Override
 	public void refreshVisuals() {
 		refreshDrawerImages();
 		super.refreshVisuals();
@@ -315,8 +324,9 @@ public class ScopeEditPart extends CollapsableEditPart {
 	/**
 	 * Return a string which should be displayed in this node while collapsed.
 	 */
+	@Override
 	protected String getLabel() {
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getActivity(), ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(getActivity(), ILabeledElement.class);
 		if (element != null) {
 			return element.getLabel(getActivity());
 		}
@@ -327,6 +337,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * Make sure the images in the drawers are up to date. Recalculate them and
 	 * inform the border of any changes.
 	 */
+	@Override
 	protected void refreshDrawerImages() {
 		ScopeBorder border = getScopeBorder();
 		
@@ -338,7 +349,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 			bottomImage.dispose();
 			bottomImage = null;
 		}
-		IMarkerHolder holder = (IMarkerHolder)BPELUtil.adapt(getActivity(), IMarkerHolder.class);
+		IMarkerHolder holder = BPELUtil.adapt(getActivity(), IMarkerHolder.class);
 		IMarker[] markers = holder.getMarkers(getActivity());
 		int topMarkerPriority = Integer.MIN_VALUE;
 		int bottomMarkerPriority = Integer.MIN_VALUE;
@@ -378,13 +389,13 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * This includes activities (if includeActivity is true), fault handlers,
 	 * compensation handlers and event handlers.
 	 */
-	protected List getModelChildren(boolean includeActivity) {
-    	ArrayList children = new ArrayList();
+	protected List<EObject> getModelChildren(boolean includeActivity) {
+    	ArrayList<EObject> children = new ArrayList<EObject>();
     	if (includeActivity) {
 	    	// Use IContainer here for implicit sequence handling
-			IContainer container = (IContainer)BPELUtil.adapt(getModel(), IContainer.class);
-			for (Iterator it = container.getChildren(getModel()).iterator(); it.hasNext(); ) {
-				EObject child = (EObject)it.next();
+			IContainer container = BPELUtil.adapt(getModel(), IContainer.class);
+			for (Iterator<EObject> it = container.getChildren(getModel()).iterator(); it.hasNext(); ) {
+				EObject child = it.next();
 				if (child instanceof Activity) children.add(child);
 			}
     	}
@@ -417,6 +428,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * the expansion icon. All other connections are centered on the contentFigure
 	 * with an offset of 0.
 	 */
+	@Override
 	public ConnectionAnchor getConnectionAnchor(int location) {
 		switch(location){
 		case CenteredConnectionAnchor.TOP_INNER:
@@ -434,6 +446,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * Override addChildVisual so that it adds the childEditPart to the correct
 	 * figure. FH/EH/CH go in a different figure than the activity does.
 	 */
+	@Override
 	protected void addChildVisual(EditPart childEditPart, int index) {
 		IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
 		IFigure content = getContentPane(childEditPart);
@@ -483,6 +496,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	 * the correct figure. FH/EH/CH live in a different figure than the
 	 * activity does.
 	 */
+	@Override
 	protected void removeChildVisual(EditPart childEditPart) {
 		IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
 		getContentPane(childEditPart).remove(child);
@@ -491,6 +505,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	/**
 	 * Also overridden to call getContentPane(child) in the appropriate place.
 	 */
+	@Override
 	protected void reorderChild(EditPart child, int index) {
 		// Save the constraint of the child so that it does not
 		// get lost during the remove and re-add.
@@ -512,6 +527,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	/**
 	 * Yet Another Overridden Method.
 	 */
+	@Override
 	public void setLayoutConstraint(EditPart child, IFigure childFigure, Object constraint) {
 		getContentPane(child).setConstraint(childFigure, constraint);
 	}
@@ -519,6 +535,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	/**
 	 * This method hopefully shouldn't be called, in favour of getContentPane(EditPart).
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return contentFigure;
 	}
@@ -547,14 +564,17 @@ public class ScopeEditPart extends CollapsableEditPart {
 	
 	// Support for collapsability
 	
+	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new BPELDragEditPartsTracker(this) {
+			@Override
 			protected boolean handleDoubleClick(int button) {
 				//if (isCollapsed()) setCollapsed(false);
 				setCollapsed(!isCollapsed());
 				return true;
 			}
 			
+			@Override
 			protected boolean handleButtonDown(int button) {
 				Point point = getLocation();
 				ScopeBorder border = getScopeBorder();
@@ -583,14 +603,17 @@ public class ScopeEditPart extends CollapsableEditPart {
 		};	
 	}
 
+	@Override
 	protected boolean isPointInCollapseIcon(Point point) {
 		return getContentFigure().isPointInCollapseImage(point.x, point.y);
 	}
 
+	@Override
 	public boolean isCollapsed() {
 		return getContentFigure().isCollapsed();
 	}
 	
+	@Override
 	public void setCollapsed(boolean collapsed) {
 		if (isCollapsed() == collapsed) return;
 		getContentFigure().setCollapsed(collapsed);
@@ -646,6 +669,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	/**
 	 * Set the layout of the figure for expanded state.
 	 */
+	@Override
 	protected void configureExpandedFigure(IFigure figure) {
 		FlowLayout layout = new FlowLayout();
 		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
@@ -701,7 +725,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	}
 
 	public FaultHandler getFaultHandler() {
-		IFaultHandlerHolder holder = (IFaultHandlerHolder)BPELUtil.adapt(getActivity(), IFaultHandlerHolder.class);
+		IFaultHandlerHolder holder = BPELUtil.adapt(getActivity(), IFaultHandlerHolder.class);
 		if (holder != null) {
 			return holder.getFaultHandler(getActivity());
 		}
@@ -709,7 +733,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	}
 	
 	public CompensationHandler getCompensationHandler() {
-		ICompensationHandlerHolder holder = (ICompensationHandlerHolder)BPELUtil.adapt(getActivity(), ICompensationHandlerHolder.class);
+		ICompensationHandlerHolder holder = BPELUtil.adapt(getActivity(), ICompensationHandlerHolder.class);
 		if (holder != null) {
 			return holder.getCompensationHandler(getActivity());
 		}
@@ -717,7 +741,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 	}
 
 	public TerminationHandler getTerminationHandler() {
-		ITerminationHandlerHolder holder = (ITerminationHandlerHolder)BPELUtil.adapt(getActivity(), ITerminationHandlerHolder.class);
+		ITerminationHandlerHolder holder = BPELUtil.adapt(getActivity(), ITerminationHandlerHolder.class);
 		if (holder != null) {
 			return holder.getTerminationHandler(getActivity());
 		}
@@ -725,13 +749,14 @@ public class ScopeEditPart extends CollapsableEditPart {
 	}
 
 	public EventHandler getEventHandler() {
-		IEventHandlerHolder holder = (IEventHandlerHolder)BPELUtil.adapt(getActivity(), IEventHandlerHolder.class);
+		IEventHandlerHolder holder = BPELUtil.adapt(getActivity(), IEventHandlerHolder.class);
 		if (holder != null) {
 			return holder.getEventHandler(getActivity());
 		}
 		return null;
 	}
 	
+	@Override
 	public IFigure getMainActivityFigure() {
 		return contentFigure;
 	}

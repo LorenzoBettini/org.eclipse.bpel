@@ -20,7 +20,6 @@ import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.wst.wsdl.Fault;
 import org.eclipse.wst.wsdl.Input;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Output;
@@ -64,6 +63,7 @@ public class MessageTypeTreeNode extends TreeNode {
 
 	/* ITreeNode */
 
+	@Override
 	public Object[] getChildren() {
 		
 		Message msg = getMessage();
@@ -74,11 +74,11 @@ public class MessageTypeTreeNode extends TreeNode {
 		
 		if (isPropertyTree) {
 			// Find propertyAliases that refer to this message.
-			List aliases = BPELUtil.getPropertyAliasesForMessageType(msg);
-			List properties = getPropertiesFromPropertyAliases(aliases);
-			List list = new ArrayList();
-			for (Iterator it = properties.iterator(); it.hasNext(); ) {
-				list.add(new PropertyTreeNode((Property)it.next(), isCondensed));
+			List<PropertyAlias> aliases = BPELUtil.getPropertyAliasesForMessageType(msg);
+			List<Property> properties = getPropertiesFromPropertyAliases(aliases);
+			List<PropertyTreeNode> list = new ArrayList<PropertyTreeNode>();
+			for (Iterator<Property> it = properties.iterator(); it.hasNext(); ) {
+				list.add(new PropertyTreeNode(it.next(), isCondensed));
 			}
 			return list.toArray();
 		}
@@ -87,13 +87,14 @@ public class MessageTypeTreeNode extends TreeNode {
 			return EMPTY_ARRAY;
 		}
 		
-		List list = new ArrayList();
-		for (Iterator it = msg.getParts().values().iterator(); it.hasNext(); ) {
-			list.add(new PartTreeNode((Part)it.next(), isCondensed, displayParticles));
+		List<PartTreeNode> list = new ArrayList<PartTreeNode>();
+		for (Iterator<Part> it = msg.getParts().values().iterator(); it.hasNext(); ) {
+			list.add(new PartTreeNode(it.next(), isCondensed, displayParticles));
 		}
 		return list.toArray();
 	}
 
+	@Override
 	public boolean hasChildren() {
 		if (isPropertyTree) {
 			// TODO: we need some sort of property map maintained by the same
@@ -111,11 +112,11 @@ public class MessageTypeTreeNode extends TreeNode {
 
 	/* other methods */
 	
-	protected List getPropertiesFromPropertyAliases(List aliases) {
-		List properties = new ArrayList();
-		Set propertySet = new HashSet();
-		for (Iterator it = aliases.iterator(); it.hasNext(); ) {
-			PropertyAlias alias = (PropertyAlias)it.next();
+	protected List<Property> getPropertiesFromPropertyAliases(List<PropertyAlias> aliases) {
+		List<Property> properties = new ArrayList<Property>();
+		Set<Property> propertySet = new HashSet<Property>();
+		for (Iterator<PropertyAlias> it = aliases.iterator(); it.hasNext(); ) {
+			PropertyAlias alias = it.next();
 			Property property = (Property)alias.getPropertyName();
 			if (!propertySet.contains(property)) {
 				properties.add(property);

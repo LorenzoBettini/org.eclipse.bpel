@@ -28,9 +28,10 @@ public class OperationTreeNode extends TreeNode {
 
 	/* ITreeNode */
 
+	@Override
 	public Object[] getChildren() {		
 		Operation op = (Operation)modelObject;
-		List list = new ArrayList();
+		List<MessageTypeTreeNode> list = new ArrayList<MessageTypeTreeNode>();
 		if (op.getInput() != null ) {
 			
 			list.add(new MessageTypeTreeNode((Input)op.getInput(),isCondensed, false));
@@ -42,6 +43,7 @@ public class OperationTreeNode extends TreeNode {
 		return list.toArray();
 	}
 
+	@Override
 	public boolean hasChildren() {
 		Operation op = (Operation) modelObject;
 		if (op.getInput() != null) {

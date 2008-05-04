@@ -158,19 +158,19 @@ public abstract class ActivityAdapter extends AbstractStatefulAdapter implements
 		List actions = new ArrayList();
 		Object modelObject = editPart.getModel();
 		
-		IFaultHandlerHolder ifh =  (IFaultHandlerHolder)BPELUtil.adapt(modelObject, IFaultHandlerHolder.class);
+		IFaultHandlerHolder ifh =  BPELUtil.adapt(modelObject, IFaultHandlerHolder.class);
 		if (ifh != null && ifh.getFaultHandler(modelObject) == null) {
 			actions.add(new CreateFaultHandlerAction(editPart));
 		}			
-		ICompensationHandlerHolder ich = (ICompensationHandlerHolder)BPELUtil.adapt(modelObject, ICompensationHandlerHolder.class);
+		ICompensationHandlerHolder ich = BPELUtil.adapt(modelObject, ICompensationHandlerHolder.class);
 		if (ich != null && ich.getCompensationHandler(modelObject) == null) {
     		actions.add(new CreateCompensationHandlerAction(editPart));
 		}
-		ITerminationHandlerHolder ith = (ITerminationHandlerHolder)BPELUtil.adapt(modelObject, ITerminationHandlerHolder.class);
+		ITerminationHandlerHolder ith = BPELUtil.adapt(modelObject, ITerminationHandlerHolder.class);
 		if (ith != null && ith.getTerminationHandler(modelObject) == null) {
     		actions.add(new CreateTerminationHandlerAction(editPart));
 		}
-		IEventHandlerHolder ieh = (IEventHandlerHolder)BPELUtil.adapt(modelObject, IEventHandlerHolder.class);
+		IEventHandlerHolder ieh = BPELUtil.adapt(modelObject, IEventHandlerHolder.class);
 		if (ieh != null && ieh.getEventHandler(modelObject) == null) {
 	    	actions.add(new CreateEventHandlerAction(editPart));
 		}

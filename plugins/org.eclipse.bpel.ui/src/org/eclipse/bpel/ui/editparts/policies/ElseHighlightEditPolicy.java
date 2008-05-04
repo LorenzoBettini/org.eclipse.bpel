@@ -16,11 +16,11 @@ import java.util.List;
 
 import org.eclipse.bpel.ui.figures.ElseResizeHandle;
 import org.eclipse.bpel.ui.util.BPELDragEditPartsTracker;
+import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Handle;
-import org.eclipse.gef.SharedCursors;
 
 
 public class ElseHighlightEditPolicy extends ContainerHighlightEditPolicy {
@@ -29,6 +29,7 @@ public class ElseHighlightEditPolicy extends ContainerHighlightEditPolicy {
 		super(resizable, movable);
 	}
 	
+	@Override
 	protected List createSelectionHandles() {
 		// HACK: Avoid creating selection handles for objects that have already been deleted
 		// (this can occur in some tricky notification scenarios)
@@ -46,7 +47,7 @@ public class ElseHighlightEditPolicy extends ContainerHighlightEditPolicy {
 	}
 	static Handle createCaseHandle(GraphicalEditPart owner, int direction) {
 		ElseResizeHandle handle = new ElseResizeHandle(owner, direction);
-		handle.setCursor(SharedCursors.SIZEALL);
+		handle.setCursor(Cursors.SIZEALL);
 		handle.setDragTracker(new BPELDragEditPartsTracker(owner));
 		return handle;
 	}

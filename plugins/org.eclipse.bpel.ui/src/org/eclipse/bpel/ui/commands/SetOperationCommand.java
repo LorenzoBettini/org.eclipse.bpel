@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.ecore.EObject;
@@ -32,9 +31,11 @@ public class SetOperationCommand extends SetCommand {
 		super(target, newOperation);
 	}
 
+	@Override
 	public Object get() {
 		return ModelHelper.getOperation(fTarget);
 	}
+	@Override
 	public void set(Object o) {
 		Operation op = (Operation) o;
 		ModelHelper.setOperation(fTarget, op);

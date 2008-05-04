@@ -59,7 +59,8 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 	private String theFilter = ""; //$NON-NLS-1$
 	
 	public class TreeFilter extends ViewerFilter {
-	    public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
+	    @Override
+		public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
 	        int size = elements.length;
 	        ArrayList out = new ArrayList(size);
 	        for (int i = 0; i < size; ++i) {
@@ -71,6 +72,7 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 	        return out.toArray();
 	    }
 	    
+		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			if (element instanceof BPELVariableTreeNode) {
 				Variable var = (Variable)((BPELVariableTreeNode)element).getModelObject();
@@ -78,12 +80,12 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 					return true;
 			}			
 			else if (element instanceof XSDElementDeclarationTreeNode) {
-				XSDElementDeclaration xsdelem = (XSDElementDeclaration)((XSDElementDeclarationTreeNode)element).getResolvedModelObject();
+				XSDElementDeclaration xsdelem = ((XSDElementDeclarationTreeNode)element).getResolvedModelObject();
 				if (xsdelem.getName().indexOf(theFilter) > -1)
 					return true;
 				}
 			else if (element instanceof XSDAttributeDeclarationTreeNode) {
-				XSDAttributeDeclaration xsdattribute = (XSDAttributeDeclaration)((XSDAttributeDeclarationTreeNode)element).getResolvedModelObject();
+				XSDAttributeDeclaration xsdattribute = ((XSDAttributeDeclarationTreeNode)element).getResolvedModelObject();
 				if (xsdattribute.getName().indexOf(theFilter) > -1)
 					return true;
 			}
@@ -183,7 +185,8 @@ public class ElementTreePreviewSelectionDialog extends ElementTreeSelectionDialo
 		}
     }
     
-    protected Control createDialogArea(Composite parent) {
+    @Override
+	protected Control createDialogArea(Composite parent) {
     	Composite filter = new Composite(parent, SWT.NONE);
     	GridData data1 = new GridData(GridData.FILL_BOTH);
     	filter.setLayoutData(data1);

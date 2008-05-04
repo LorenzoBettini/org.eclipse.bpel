@@ -12,8 +12,6 @@ package org.eclipse.bpel.ui.commands.util;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-
 public interface IAutoUndoRecorder {
 
 	// These methods are used by AutoUndoCommandStack and AutoUndoCompoundCommand.

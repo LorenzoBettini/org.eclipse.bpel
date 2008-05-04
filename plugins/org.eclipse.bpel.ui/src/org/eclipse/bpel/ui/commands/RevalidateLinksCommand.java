@@ -40,7 +40,7 @@ import org.eclipse.gef.commands.CompoundCommand;
  */
 public class RevalidateLinksCommand extends AutoUndoCommand {
 
-	List activities;
+	List<Activity> activities;
 	CompoundCommand deleteLinksCmd;
 	
 	public RevalidateLinksCommand(Collection activityCollection) {
@@ -87,29 +87,29 @@ public class RevalidateLinksCommand extends AutoUndoCommand {
 		}
 	}
 	
+	@Override
 	public void doExecute() {
 		deleteLinksCmd = new CompoundCommand();
 		
 		// Figure out which model objects are being moved.
 		HashSet revalidatingSet = new HashSet();
-		for (Iterator it = activities.iterator(); it.hasNext(); ) {
-			Activity activity = (Activity)it.next();
+		for (Iterator<Activity> it = activities.iterator(); it.hasNext(); ) {
+			Activity activity = it.next();
 			ModelHelper.addSubtreeToCollection(activity, revalidatingSet);
 		}
 		for (Iterator it = revalidatingSet.iterator(); it.hasNext(); ) {
 			Object object = it.next();
 			if (object instanceof Activity) { 
 				Activity activity = (Activity)object;
-				Iterator it2;
 				Sources sources = activity.getSources();
 				if (sources != null) {
-					it2 = sources.getChildren().iterator();
-					while (it2.hasNext()) revalidateLink(((Source)it2.next()).getLink());
+					Iterator<Source> it2 = sources.getChildren().iterator();
+					while (it2.hasNext()) revalidateLink((it2.next()).getLink());
 				}
 				Targets targets = activity.getTargets();
 				if (targets != null) {
-					it2 = targets.getChildren().iterator();
-					while (it2.hasNext()) revalidateLink(((Target)it2.next()).getLink());
+					Iterator<Target> it2 = targets.getChildren().iterator();
+					while (it2.hasNext()) revalidateLink((it2.next()).getLink());
 				}
 			}
 		}

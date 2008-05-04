@@ -136,7 +136,7 @@ public class FlowLinkUtil {
 	 */
 	public static Activity getLinkSource(Link link) {
 		if (link.getSources().isEmpty()) return null;
-		return ((Source)(link.getSources().get(0))).getActivity(); 
+		return ((link.getSources().get(0))).getActivity(); 
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public class FlowLinkUtil {
 	 */
 	public static Activity getLinkTarget(Link link) {
 		if (link.getTargets().isEmpty()) return null;
-		return ((Target)(link.getTargets().get(0))).getActivity(); 
+		return ((link.getTargets().get(0))).getActivity(); 
 	}
 	
 	/**
@@ -159,7 +159,7 @@ public class FlowLinkUtil {
 				source.setActivity(activity);
 			}
 		} else {
-			Source source = (Source)(link.getSources().get(0));
+			Source source = (link.getSources().get(0));
 			Activity oldActivity = source.getActivity();
 			if (activity != null) {
 				// Re-target existing Source.  TODO: is this safe?
@@ -190,7 +190,7 @@ public class FlowLinkUtil {
 				target.setActivity(activity);
 			}
 		} else {
-			Target target = (Target)(link.getTargets().get(0));
+			Target target = (link.getTargets().get(0));
 			Activity oldActivity = target.getActivity();
 			if (activity != null) {
 				// Re-target existing Target.  TODO: is this safe?

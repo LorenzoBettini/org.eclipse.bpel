@@ -52,6 +52,7 @@ public abstract class WsdlSelectionDialog extends FileAndComboSelectionDialog {
 	protected abstract Object getModelObjectFromId(Definition definition, Object objectId);
 
 
+	@Override
 	protected void okPressed() {
 		Object comboSelection = getComboSelection();
 		super.okPressed();
@@ -68,6 +69,7 @@ public abstract class WsdlSelectionDialog extends FileAndComboSelectionDialog {
 		
 	}
 
+	@Override
 	protected Object readModelFromSelectedFile() {
 		IPath path = getFullPath();
 		if (path != null) {

@@ -22,7 +22,6 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.NamespaceUtils;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;

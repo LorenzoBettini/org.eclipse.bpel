@@ -38,7 +38,7 @@ public abstract class TreeNode implements ITreeNode {
 
 	// May need to override this default getLabel() for some objects!
 	public String getLabel() {
-		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(modelObject, ILabeledElement.class);
+		ILabeledElement label = BPELUtil.adapt(modelObject, ILabeledElement.class);
 		if (label == null)  return null;
 		return label.getLabel(modelObject);
 	}
@@ -49,7 +49,7 @@ public abstract class TreeNode implements ITreeNode {
 	public Object getModelObject() { return modelObject; }
 	
 	public Image getImage() {
-		ILabeledElement label = (ILabeledElement)BPELUtil.adapt(modelObject, ILabeledElement.class);
+		ILabeledElement label = BPELUtil.adapt(modelObject, ILabeledElement.class);
 		if (label == null)  return null;
 		return label.getSmallImage(modelObject);		
 	}

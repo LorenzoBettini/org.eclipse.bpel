@@ -138,6 +138,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 
 
 
+	@Override
 	protected void saveSettings() {
 		
 		IDialogSettings settings = getDialogSettings();
@@ -147,6 +148,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 	
 
+	@Override
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == BID_ADD_IMPORT) {
 			handleAddImport();
@@ -158,6 +160,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	/**
 	 * Check to make sure that the mappings for the XML namespace exist
 	 */
+	@Override
 	protected void okPressed() {
 		computeResult();
 		Object obj[] = getResult();
@@ -310,6 +313,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {
+			@Override
 			public void widgetSelected (SelectionEvent event) {
 				Button b = (Button) event.widget;
 				int val = ((Integer) b.getData()).intValue();
@@ -331,6 +335,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {
+			@Override
 			public void widgetSelected (SelectionEvent event) {
 				Button b = (Button) event.widget;
 				int val = ((Integer) b.getData()).intValue();
@@ -343,6 +348,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	
 	}
 
+	@Override
 	protected Text createFilterText(Composite parent) {
 		filterText = super.createFilterText(parent);
 		
@@ -353,6 +359,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 
 	
+	@Override
 	protected Label createMessageArea(Composite composite) {
 		filterLabel = super.createMessageArea(composite);
 		return filterLabel;
@@ -431,6 +438,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 
 		
+	@Override
 	protected Object createLowerView(Composite parent) {
 		//	Tree viewer for variable structure ...
 		fTree = new Tree(parent, SWT.BORDER );
@@ -458,6 +466,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 	
 	
+	@Override
 	protected void updateLowerViewWidget(Object[] elements) {
 				
 		if (elements == null || elements.length < 1) {
@@ -625,6 +634,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		buttonPressed(BID_FROM_IMPORTS_ONLY, true, false);
 	}
 
+	@Override
 	protected void handleEmptyList() {
 		fTreeViewer.setInput ( null );		
 		super.handleEmptyList();

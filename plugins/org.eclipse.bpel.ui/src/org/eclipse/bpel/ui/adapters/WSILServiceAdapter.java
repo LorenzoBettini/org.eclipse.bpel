@@ -53,7 +53,7 @@ public class WSILServiceAdapter extends AbstractAdapter
 	
 	public String getLabel ( Object obj  )
 	{	
-		Service service = (Service) getTarget(obj, Service.class);		
+		Service service = getTarget(obj, Service.class);		
 		if (service == null) {
 			return getTypeLabel(obj);
 		}
@@ -63,13 +63,13 @@ public class WSILServiceAdapter extends AbstractAdapter
 		TypeOfAbstract abs = null;
 		
 		if (service.getName().size() > 0) {
-			name = (Name)service.getName().get(0);
+			name = service.getName().get(0);
 			label += name.getValue();
 			label += " - "; //$NON-NLS-1$
 		}
 			
 		if  (service.getAbstract().size() > 0) {
-			abs = (TypeOfAbstract)service.getAbstract().get(0);
+			abs = service.getAbstract().get(0);
 			label += abs.getValue();
 		}			
 		return label;

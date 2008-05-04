@@ -23,10 +23,11 @@ public class BPELTrayAccessibleEditPart extends TrayAccessibleEditPart {
 		super(part);
 	}
 
+	@Override
 	public void getName(AccessibleEvent e) {
 		String childType = null;
 		String displayName = null;
-		ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(part.getModel(), ILabeledElement.class);
+		ILabeledElement labeledElement = BPELUtil.adapt(part.getModel(), ILabeledElement.class);
 		if (labeledElement != null) {
 			childType = labeledElement.getTypeLabel(part.getModel());
 			displayName = labeledElement.getLabel(part.getModel());

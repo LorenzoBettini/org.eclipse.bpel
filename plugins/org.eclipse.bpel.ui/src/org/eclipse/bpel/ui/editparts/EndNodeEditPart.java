@@ -26,14 +26,16 @@ import org.eclipse.swt.graphics.Image;
 public class EndNodeEditPart extends BPELEditPart implements NodeEditPart {
 	Image image;
 
+	@Override
 	protected IFigure createFigure() {
 		if (image == null) {
-			ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getEndNode(), ILabeledElement.class);
+			ILabeledElement element = BPELUtil.adapt(getEndNode(), ILabeledElement.class);
 			image = element.getSmallImage(getEndNode());
 		}
 		ImageFigure imageFigure = new ImageFigure(image);
 		return imageFigure;
 	}	
+	@Override
 	public boolean isSelectable() {
 		return false;
 	}

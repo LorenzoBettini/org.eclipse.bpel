@@ -31,7 +31,7 @@ public class SetUniqueNameCommand extends CompoundCommand {
 	public SetUniqueNameCommand(Process process, Object model) {
 		this.model = model;
 		this.process = process;
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(model, ILabeledElement.class);
 		String name = (element != null) ? element.getTypeLabel(model) : ""; //$NON-NLS-1$
 		String uniqueModelName = BPELUtil.getUniqueModelName(process, name, Collections.singletonList(model));
 		if (BPELUtil.adapt(model, INamedElement.class) != null) {

@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.emf.common.util.EList;
 
 
 /**
@@ -26,7 +25,8 @@ public class RemoveRoleCommand extends RemoveFromListCommand {
 		super(target, oldRole, IBPELUIConstants.CMD_DELETE_ROLE);
 	}
 
-	protected List getList() {
+	@Override
+	protected EList<Role> getList() {
 		return ((PartnerLinkType)target).getRole();
 	}
 }

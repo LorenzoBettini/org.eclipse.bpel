@@ -36,8 +36,8 @@ public class SequenceEditPart extends CollapsableEditPart {
 	
 	private class SequenceHorizontalBPELOrderedLayoutPolicy extends BPELOrderedLayoutEditPolicy{
 		@Override
-		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
-			ArrayList connections = new ArrayList();
+		protected ArrayList<PolylineConnection> createHorizontalConnections(BPELEditPart parent) {
+			ArrayList<PolylineConnection> connections = new ArrayList<PolylineConnection>();
 			List children = getConnectionChildren(parent);
 			BPELEditPart sourcePart, targetPart;
 			ConnectionAnchor sourceAnchor = null, targetAnchor = null;

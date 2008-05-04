@@ -40,8 +40,8 @@ public class ReferenceContainer extends AbstractContainer {
 		return fFeature.isMany();
 	}
 
-	protected List<EObject> getChildList(Object object) {
-		return (List)((EObject)object).eGet(fFeature);
+	protected List<EObject> getChildList(EObject object) {
+		return (List<EObject>) object.eGet(fFeature);
 	}
 	
 	/**

@@ -33,6 +33,7 @@ public class GradientFigure extends Figure {
 		super();
 		this.modelObject = modelObject;
 	}
+	@Override
 	protected void paintClientArea(Graphics graphics) {
 		Border b = getBorder();
 		if (b != null && b instanceof GradientBorder) 
@@ -53,7 +54,7 @@ public class GradientFigure extends Figure {
 	}
 	
 	public String getNameString() {
-		ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(modelObject, ILabeledElement.class);
+		ILabeledElement labeledElement = BPELUtil.adapt(modelObject, ILabeledElement.class);
 		if (labeledElement == null) return null;
 		return labeledElement.getLabel(modelObject);
 	}

@@ -30,12 +30,14 @@ public class PropertiesLabelProvider extends DetailsLabelProvider {
     	return instance;
     }
     
-    public Image getImage(Object model) {
+    @Override
+	public Image getImage(Object model) {
         model = remap(model);
         return super.getImage(model);
     }
 
-    public String getText(Object model) {
+    @Override
+	public String getText(Object model) {
         model = remap(model);
         return super.getText(model);
     }

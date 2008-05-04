@@ -26,6 +26,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
@@ -40,6 +41,7 @@ public class RenameAction extends SelectionAction {
 		this.editor = (BPELEditor)editor;
 	}
 
+	@Override
 	protected void init() {
 		super.init();
 		setText(Messages.RenameAction_Rename_0); 
@@ -54,6 +56,7 @@ public class RenameAction extends SelectionAction {
 	 * no objects selected or the selected objects are not
 	 * {@link EditPart}s.
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		if (getSelectedObjects().size() != 1) return false;
 		Object o = getSelectedObjects().get(0);
@@ -62,6 +65,7 @@ public class RenameAction extends SelectionAction {
 		return part.understandsRequest(request);
 	}
 
+	@Override
 	public void run() {
 		Object o = getSelectedObjects().get(0);
 		GraphicalEditPart part = (GraphicalEditPart)editor.getGraphicalViewer().getEditPartRegistry().get(o);
@@ -69,8 +73,8 @@ public class RenameAction extends SelectionAction {
 			Object model = part.getModel();
 			// This assumes that if model implements both INamedElement and ILabeledElement, then it
 			// can be renamed using labeledElement.getLabel() and SetDisplayNameCommand().
-			INamedElement namedElement = (INamedElement)BPELUtil.adapt(model, INamedElement.class);
-			ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
+			INamedElement namedElement = BPELUtil.adapt(model, INamedElement.class);
+			ILabeledElement labeledElement = BPELUtil.adapt(model, ILabeledElement.class);
 			
 			boolean canSetName = (namedElement != null);
 			
@@ -78,7 +82,7 @@ public class RenameAction extends SelectionAction {
 				String name = labeledElement.getLabel(model);
 				NameDialog nameDialog = new NameDialog(part.getViewer().getControl().getShell(),
 					Messages.BPELEditPart_Rename_2, Messages.BPELEditPart_Enter_a_new_name_3, name, null); 
-				if (nameDialog.open() == NameDialog.OK) {
+				if (nameDialog.open() == Window.OK) {
 					Command cmd = BPELDirectEditPolicy.getFinalizeCommand(model, nameDialog.getValue());
 					part.getViewer().getEditDomain().getCommandStack().execute(cmd);
 				}

@@ -19,19 +19,23 @@ import org.eclipse.emf.ecore.EClass;
 
 public class InvokeAction extends AbstractBPELAction {
 
-    public EClass getModelType() {
+    @Override
+	public EClass getModelType() {
         return BPELPackage.eINSTANCE.getInvoke();
     }
 
-    public String getLabel() {
+    @Override
+	public String getLabel() {
     	return BPELTerms.getString("Invoke"); //$NON-NLS-1$
     }
     
-    public String getDescription() {
+    @Override
+	public String getDescription() {
         return Messages.InvokeAction_Invoke_HTML_Description_1; 
     }
 
-    public AdapterFactory getAdapterFactory() {
+    @Override
+	public AdapterFactory getAdapterFactory() {
         return BPELUIAdapterFactory.getInstance();
 	}
 }

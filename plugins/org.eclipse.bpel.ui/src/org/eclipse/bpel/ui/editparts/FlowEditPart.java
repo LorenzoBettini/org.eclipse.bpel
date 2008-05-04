@@ -26,7 +26,6 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.commands.SetConstraintCommand;
 import org.eclipse.bpel.ui.editparts.borders.DrawerBorder;
 import org.eclipse.bpel.ui.editparts.borders.FlowBorder;
-import org.eclipse.bpel.ui.editparts.borders.LeafBorder;
 import org.eclipse.bpel.ui.editparts.figures.GradientFigure;
 import org.eclipse.bpel.ui.editparts.policies.FlowHighlightEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.FlowResizeEditPolicy;
@@ -75,6 +74,7 @@ public class FlowEditPart extends CollapsableEditPart {
 
 	protected FlowHighlightEditPolicy flowHighlightEditPolicy;
 
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		Links links = ((Flow) getActivity()).getLinks();
@@ -102,6 +102,7 @@ public class FlowEditPart extends CollapsableEditPart {
 	};
 
 	class FlowDecorationLayout extends BPELDecorationLayout {
+		@Override
 		protected Point calculateLocation(int locationHint, IFigure container,
 				Dimension childDimension) {
 			Rectangle area = container.getClientArea();
@@ -191,6 +192,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		// basically delegate the notifications to a real
 		// batched adapter
 		flowContentAdapter = new EContentAdapter() {
+			@Override
 			public void notifyChanged(Notification n) {
 				switch (n.getEventType()) {
 					case Notification.ADD_MANY:
@@ -210,6 +212,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		flowBatchedAdapter = new BatchedMultiObjectAdapter() {
 			protected boolean refreshLayout = false;
 
+			@Override
 			public void finish() {
 				if (refreshLayout) {
 					if (getAutoLayout())
@@ -218,6 +221,7 @@ public class FlowEditPart extends CollapsableEditPart {
 				refreshLayout = false;
 			}
 
+			@Override
 			public void notify(Notification n) {
 				if (isActive()) {
 					refreshLayout = true;
@@ -226,6 +230,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		};
 	}
 
+	@Override
 	protected void addChildVisual(EditPart childEditPart, int index) {
 		IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
 		getContentPane().add(child,
@@ -235,10 +240,12 @@ public class FlowEditPart extends CollapsableEditPart {
 	protected void setFlowEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new FlowXYLayoutEditPolicy());
 		flowHighlightEditPolicy = new FlowHighlightEditPolicy(!collapsed) {
+			@Override
 			protected int getDrawerInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH;
 			}
 
+			@Override
 			protected int getNorthInset() {
 				if (isCollapsed()) {
 					return 2;
@@ -247,22 +254,26 @@ public class FlowEditPart extends CollapsableEditPart {
 				}
 			}
 
+			@Override
 			protected int getSouthInset() {
 				return 0;
 			}
 
+			@Override
 			protected int getEastInset() {
-				return LeafBorder.DRAWER_WIDTH;
+				return DrawerBorder.DRAWER_WIDTH;
 			}
 
+			@Override
 			protected int getWestInset() {
-				return LeafBorder.DRAWER_WIDTH + 2;
+				return DrawerBorder.DRAWER_WIDTH + 2;
 			}
 		};
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
 				flowHighlightEditPolicy);
 	}
 
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		// installEditPolicy(EditPolicy.NODE_ROLE, null);
@@ -270,12 +281,14 @@ public class FlowEditPart extends CollapsableEditPart {
 		installEditPolicy("childFlowResize", new FlowResizeEditPolicy()); //$NON-NLS-1$
 	}
 
+	@Override
 	public Label getLabelFigure() {
 		if (isCollapsed())
 			return super.getLabelFigure();
 		return null;
 	}
 
+	@Override
 	public void setCollapsed(boolean collapsed) {
 		if (collapsed != this.collapsed) {
 			if (flowHighlightEditPolicy != null) {
@@ -285,6 +298,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		super.setCollapsed(collapsed);
 	}
 
+	@Override
 	protected IFigure createFigure() {
 		createEditPolicies(); // reset the edit policies based on flow display
 								// mode
@@ -306,6 +320,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		return editPartMarkerDecorator.createFigure(figure);
 	}
 
+	@Override
 	protected void configureExpandedFigure(IFigure figure) {
 		LayoutManager layout;
 
@@ -334,10 +349,12 @@ public class FlowEditPart extends CollapsableEditPart {
 		return (Flow) getModel();
 	}
 
+	@Override
 	protected boolean isCollapsable() {
 		return true;
 	}
 
+	@Override
 	public void deactivate() {
 		if (!isActive())
 			return;
@@ -358,6 +375,7 @@ public class FlowEditPart extends CollapsableEditPart {
 				IBPELUIConstants.PREF_AUTO_FLOW_LAYOUT);
 	}
 
+	@Override
 	public IFigure getContentPane() {
 		return contentFigure;
 	}
@@ -366,6 +384,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		return (getContentPane().getLayoutManager() instanceof NonclippingXYLayout);
 	}
 
+	@Override
 	public void regenerateVisuals() {
 		if (collapsed) {
 			addCollapsedContents(this.contentFigure);
@@ -438,7 +457,7 @@ public class FlowEditPart extends CollapsableEditPart {
 	}
 
 	public void doImmediateAutoLayout() {
-		Map partsToNodes = new HashMap();
+		Map<BPELEditPart, Node> partsToNodes = new HashMap<BPELEditPart, Node>();
 		if (BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(
 				IBPELUIConstants.PREF_USE_ANIMATION)) {
 			setSmoothLayout(true);
@@ -450,7 +469,7 @@ public class FlowEditPart extends CollapsableEditPart {
 			if (object instanceof BPELEditPart) {
 				BPELEditPart editPart = (BPELEditPart) object;
 
-				Node n = (Node) partsToNodes.get(editPart);
+				Node n = partsToNodes.get(editPart);
 				Point loc = new Point(n.x, n.y);
 				// TODO: I think this is wrong
 				// getFigure().translateToRelative(loc);
@@ -465,7 +484,7 @@ public class FlowEditPart extends CollapsableEditPart {
 	}
 
 	public void doAutoLayout(boolean withCommand) {
-		Map partsToNodes = new HashMap();
+		Map<BPELEditPart, Node> partsToNodes = new HashMap<BPELEditPart, Node>();
 		this.getFigure().invalidateTree();
 		if (BPELUIPlugin.INSTANCE.getPreferenceStore().getBoolean(
 				IBPELUIConstants.PREF_USE_ANIMATION)) {
@@ -483,7 +502,7 @@ public class FlowEditPart extends CollapsableEditPart {
 			if (object instanceof BPELEditPart) {
 				BPELEditPart editPart = (BPELEditPart) object;
 
-				Node n = (Node) partsToNodes.get(editPart);
+				Node n = partsToNodes.get(editPart);
 				Point loc = new Point(n.x, n.y);
 				// TODO: I think this is wrong
 				// getFigure().translateToRelative(loc);
@@ -503,6 +522,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		}
 	}
 
+	@Override
 	protected void handleModelChanged() {
 		// The size of the flow may have changed. Rebuild the edit part.
 
@@ -515,6 +535,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		regenerateVisuals();
 	}
 
+	@Override
 	public void activate() {
 		super.activate();
 		((Notifier) getModel()).eAdapters().add(flowContentAdapter);
@@ -609,9 +630,9 @@ public class FlowEditPart extends CollapsableEditPart {
 
 	public boolean detectImpendingCycle(EditPart sourceNode,
 			EditPart potentialDest) {
-		List nodes = new ArrayList();
+		List<EditPartNode> nodes = new ArrayList<EditPartNode>();
 
-		Map partsToNodes = new HashMap();
+		Map<BPELEditPart, EditPartNode> partsToNodes = new HashMap<BPELEditPart, EditPartNode>();
 
 		// strategy: we'll build up a separate parallel graph that we can
 		// traverse to detect cycles.
@@ -635,7 +656,7 @@ public class FlowEditPart extends CollapsableEditPart {
 		for (Iterator it = getChildren().iterator(); it.hasNext();) {
 			Object object = it.next();
 			if (object instanceof BPELEditPart) {
-				EditPartNode source = (EditPartNode) partsToNodes.get(object);
+				EditPartNode source = partsToNodes.get(object);
 				if (source == null)
 					continue;
 
@@ -644,7 +665,7 @@ public class FlowEditPart extends CollapsableEditPart {
 					Object targetObject = it2.next();
 					if (targetObject instanceof LinkEditPart) {
 						LinkEditPart linkEditPart = (LinkEditPart) targetObject;
-						EditPartNode target = (EditPartNode) partsToNodes
+						EditPartNode target = partsToNodes
 								.get(linkEditPart.getTarget());
 						if (target != null) {
 							source.addEdge(new EditPartEdge(source, target));
@@ -655,9 +676,9 @@ public class FlowEditPart extends CollapsableEditPart {
 		}
 
 		// add the proposed edge
-		EditPartNode source = (EditPartNode) partsToNodes.get(sourceNode);
+		EditPartNode source = partsToNodes.get(sourceNode);
 		if (source != null) {
-			EditPartNode target = (EditPartNode) partsToNodes
+			EditPartNode target = partsToNodes
 					.get(potentialDest);
 			if (target != null) {
 				source.addEdge(new EditPartEdge(source, target));
@@ -665,8 +686,8 @@ public class FlowEditPart extends CollapsableEditPart {
 		}
 
 		/* visit each node checking if a cycle will result */
-		for (Iterator it = nodes.iterator(); it.hasNext();) {
-			EditPartNode v = (EditPartNode) it.next();
+		for (Iterator<EditPartNode> it = nodes.iterator(); it.hasNext();) {
+			EditPartNode v = it.next();
 			if (v.getVisited() == EditPartNode.NOTVISITED)
 				if (v.visit() == false)
 					return false;

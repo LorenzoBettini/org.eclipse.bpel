@@ -81,10 +81,12 @@ public class FaultThrowNameSection extends BPELPropertySection {
 	protected ChangeTracker faultNameTracker, faultNamespaceTracker, 
 		faultUserDefNameTracker, variableNameTracker;
 	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] {
 			/* model object */
 			new MultiObjectAdapter() {
+				@Override
 				public void notify(Notification n) {
 					if (ModelHelper.isFaultNameAffected(getInput(), n) && builtinRadio.getSelection()) {
 						updateFaultNameWidgets();
@@ -109,6 +111,7 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		return isFaultTypeEnabled && userdefRadio.getSelection();
 	}
 
+	@Override
 	public boolean shouldUseExtraSpace() {
 		return true;
 	}
@@ -139,6 +142,7 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		parentComposite.layout(true);
 	}
 
+	@Override
 	protected void basicSetInput(EObject input) {
 		super.basicSetInput(input);
 		rearrangeWidgets();
@@ -435,6 +439,7 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		});
 	}
 
+	@Override
 	protected void createClient(Composite parent) {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 		createFaultTypeWidgets(composite);
@@ -519,12 +524,13 @@ public class FaultThrowNameSection extends BPELPropertySection {
 			variableName.setText(Messages.FaultThrowNameSection_None_3); 
 			variableName.setEnabled(false);
 		} else {
-			ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(variable, ILabeledElement.class);
+			ILabeledElement labeledElement = BPELUtil.adapt(variable, ILabeledElement.class);
 			variableName.setText(labeledElement.getLabel(variable));
 			variableName.setEnabled(true);
 		}
 	}
 
+	@Override
 	public void refresh() {
 		super.refresh();
 		updateFaultTypeWidgets();
@@ -535,9 +541,11 @@ public class FaultThrowNameSection extends BPELPropertySection {
 		updateVariableWidgets();
 	}
 
+	@Override
 	public Object getUserContext() {
 		return new Integer(lastChangeContext);
 	}
+	@Override
 	public void restoreUserContext(Object userContext) {
 		int i = ((Integer)userContext).intValue();
 		switch (i) {

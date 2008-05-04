@@ -72,7 +72,7 @@ public class BPELReader {
 
 		try {
 			processResource.load(Collections.EMPTY_MAP);
-			EList contents = processResource.getContents();
+			EList<EObject> contents = processResource.getContents();
 			if (!contents.isEmpty())
 				process = (Process) contents.get(0);
 		} catch (Exception e) {
@@ -124,8 +124,8 @@ public class BPELReader {
 		// Make sure scopes have Variables.
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
-		for (Iterator iter = process.eAllContents(); iter.hasNext();) {
-			Object object = iter.next();
+		for (Iterator<EObject> iter = process.eAllContents(); iter.hasNext();) {
+			EObject object = iter.next();
 			if (object instanceof Scope) {
 				Scope scope = (Scope)object;
 				if (scope.getVariables() == null) {
@@ -144,11 +144,11 @@ public class BPELReader {
 		}
 		
 		// Make sure each model object has the necessary extensions!
-		TreeIterator it = process.eAllContents();
+		TreeIterator<EObject> it = process.eAllContents();
 		while (it.hasNext()) {
-			Object modelObject = it.next();
+			EObject modelObject = it.next();
 			if (modelObject instanceof EObject) {
-				ModelHelper.createExtensionIfNecessary(extensionMap, (EObject)modelObject);
+				ModelHelper.createExtensionIfNecessary(extensionMap, modelObject);
 			}
 		}
 		
@@ -176,7 +176,7 @@ public class BPELReader {
 
 		try {
 			processResource.load(Collections.EMPTY_MAP);
-			EList contents = processResource.getContents();
+			EList<EObject> contents = processResource.getContents();
 			if (!contents.isEmpty())
 				process = (Process) contents.get(0);
 		} catch (Exception e) {
@@ -227,8 +227,8 @@ public class BPELReader {
 		// Make sure scopes have Variables.
 		// They aren't strictly necessary according to the spec but make we need those in
 		// order for the editor tray to work.
-		for (Iterator iter = process.eAllContents(); iter.hasNext();) {
-			Object object = iter.next();
+		for (Iterator<EObject> iter = process.eAllContents(); iter.hasNext();) {
+			EObject object = iter.next();
 			if (object instanceof Scope) {
 				Scope scope = (Scope)object;
 				if (scope.getVariables() == null) {
@@ -247,11 +247,11 @@ public class BPELReader {
 		}
 		
 		// Make sure each model object has the necessary extensions!
-		TreeIterator it = process.eAllContents();
+		TreeIterator<EObject> it = process.eAllContents();
 		while (it.hasNext()) {
-			Object modelObject = it.next();
+			EObject modelObject = it.next();
 			if (modelObject instanceof EObject) {
-				ModelHelper.createExtensionIfNecessary(extensionMap, (EObject)modelObject);
+				ModelHelper.createExtensionIfNecessary(extensionMap, modelObject);
 			}
 		}
 		

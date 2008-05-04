@@ -25,25 +25,29 @@ public class XSDSchemaTreeNode extends XSDTreeNode {
 		super(schema, isCondensed);
 	}
 
+	@Override
 	public boolean isNodeFlattenable() { 
 		return true; 
 	}
 	
+	@Override
 	public Object[] getChildren() {
 		XSDSchema schema = (XSDSchema)modelObject;
-		ArrayList list = new ArrayList();
+		ArrayList<TreeNode> list = new ArrayList<TreeNode>();
 		// addNodes(list, schema.getAttributeDeclarations());
 		addNodes(list, schema.getElementDeclarations());
 		addNodes(list, schema.getTypeDefinitions());
 		return list.toArray();
 	}
 
+	@Override
 	public boolean hasChildren() {
 		XSDSchema schema = (XSDSchema)modelObject;
 		return schema.getElementDeclarations().size() > 0 ||
 		 schema.getTypeDefinitions().size() > 0;
 	}
 	
+	@Override
 	public String getLabel() {
 		XSDSchema schema = (XSDSchema)modelObject;
 		schema.getTargetNamespace();
@@ -56,6 +60,7 @@ public class XSDSchemaTreeNode extends XSDTreeNode {
 							new Object[]{ tns });		
 	}
 	
+	@Override
 	public String getLabelSuffix() {
 		return super.getLabelSuffix();
 	}

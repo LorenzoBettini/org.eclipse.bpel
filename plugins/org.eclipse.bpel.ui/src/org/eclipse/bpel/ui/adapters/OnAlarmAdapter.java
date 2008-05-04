@@ -18,9 +18,7 @@ import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.ElseIfEditPart;
 import org.eclipse.bpel.ui.editparts.OutlineTreeEditPart;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
-import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -33,6 +31,7 @@ public class OnAlarmAdapter extends ContainerAdapter implements ILabeledElement,
 
 	/* IContainer delegate */
 	
+	@Override
 	public IContainer createContainerDelegate() {
 		return new ActivityContainer(BPELPackage.eINSTANCE.getOnAlarm_Activity());
 	}

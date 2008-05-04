@@ -71,6 +71,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	
 	public LinkEditPart() {
 		adapter = new MultiObjectAdapter() {
+			@Override
 			public void notify(Notification n) {
 				// TODO: check if we care about this notification
 				if (isActive()) handleModelChanged();
@@ -168,6 +169,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	}
 	
 
+	@Override
 	protected IFigure createFigure() {
 		if (getLink() == null) return null;
 		BPELUIPlugin plugin = BPELUIPlugin.INSTANCE;
@@ -192,12 +194,14 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 		map.put(this, e);
 	}
 
+	@Override
 	public void activate() {
 		if (isActive()) return;
 		super.activate();
 		addAllAdapters();
 	}
 
+	@Override
 	public void deactivate() {
 		if (!isActive()) return;
 		removeAllAdapters();
@@ -205,11 +209,13 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 
 	}
 
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new LinkConnectionEditPolicy());
 	}
 
+	@Override
 	protected void unregisterVisuals() {
 		if (decorationImage != null) {
 			decorationImage.dispose();
@@ -226,6 +232,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	 * Override to be sure we put the figure in the right layer
 	 * TODO: yuck..
 	 */
+	@Override
 	protected void activateFigure() {
 		this.layer = getLayer(CONNECTION_LAYER);
 		this.layer.add(getFigure());
@@ -233,12 +240,14 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	/**
 	 * Override to be sure we remove the figure from the right layer
 	 */
+	@Override
 	protected void deactivateFigure() {
 		this.layer.remove(getFigure());
 		getConnectionFigure().setSourceAnchor(null);
 		getConnectionFigure().setTargetAnchor(null);
 	}
 	
+	@Override
 	protected void refreshVisuals() {
 		super.refreshVisuals();
 		refreshDecorations();
@@ -311,9 +320,9 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 
 	protected boolean hasCondition() {
 		Link link = getLink();
-		List sourcesList = link.getSources();
+		List<Source> sourcesList = link.getSources();
 		if (!sourcesList.isEmpty()) {
-			Source source = (Source)sourcesList.get(0);
+			Source source = sourcesList.get(0);
 			return source.getTransitionCondition() != null;
 		}
 		return false;
@@ -356,6 +365,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 		return desc.getImageData();
 	}	
 	
+	@Override
 	protected AccessibleEditPart getAccessibleEditPart() {
 		if (acc == null) acc = createAccessible();
 		return acc;
@@ -366,11 +376,12 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 
 		// kind of similar but not the same as GEF's AccessibleGraphicalEditPart class
 		return new AccessibleGraphicalEditPart() {
+			@Override
 			public void getName(AccessibleEvent e) {
 				String childType = null;
 				String displayName = null;
 				ILabeledElement labeledElement =
-					(ILabeledElement)BPELUtil.adapt(thisPart.getModel(), ILabeledElement.class);
+					BPELUtil.adapt(thisPart.getModel(), ILabeledElement.class);
 				if (labeledElement != null) {
 					childType = labeledElement.getTypeLabel(thisPart.getModel());
 					displayName = labeledElement.getLabel(thisPart.getModel());
@@ -398,15 +409,16 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 					e.result = null;
 				return;
 			}
+			@Override
 			public void getValue(AccessibleControlEvent e) {
 				Link link = (Link)thisPart.getModel();
 				Activity source = FlowLinkUtil.getLinkSource(link);
 				Activity target = FlowLinkUtil.getLinkTarget(link);
 				if (source != null && target != null) {
 					ILabeledElement labeledElement1 =
-						(ILabeledElement)BPELUtil.adapt(source, ILabeledElement.class);
+						BPELUtil.adapt(source, ILabeledElement.class);
 					ILabeledElement labeledElement2 =
-						(ILabeledElement)BPELUtil.adapt(target, ILabeledElement.class);
+						BPELUtil.adapt(target, ILabeledElement.class);
 					if (labeledElement1 != null && labeledElement2 != null) {
 						e.result = labeledElement1.getLabel(source) + "-" + labeledElement2.getLabel(target); //$NON-NLS-1$
 					}

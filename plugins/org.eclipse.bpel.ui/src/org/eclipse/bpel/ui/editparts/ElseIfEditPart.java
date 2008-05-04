@@ -27,7 +27,6 @@ import org.eclipse.bpel.ui.figures.ILayoutAware;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
@@ -84,6 +83,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		}
 	}
 	
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		
@@ -104,18 +104,21 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		return nameLabel;
 	}
 	
+	@Override
 	public Label getLabelFigure() {
 		return null;
 	}
 	
+	@Override
 	public String getLabelContent() {
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getModel(), ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(getModel(), ILabeledElement.class);
 		return element.getLabel(getModel());
 	}
 
 	
+	@Override
 	protected IFigure createFigure() {
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getModel(), ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(getModel(), ILabeledElement.class);
 		if (element == null) return null;
 		
 		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
@@ -157,6 +160,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		return figure;
 	}
 
+	@Override
 	protected void unregisterVisuals() {
 		if (this.image != null) {
 			this.image.dispose();
@@ -165,8 +169,9 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		super.unregisterVisuals();
 	}
 	
+	@Override
 	protected void handleModelChanged() {
-		ILabeledElement element = (ILabeledElement)BPELUtil.adapt(getModel(), ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(getModel(), ILabeledElement.class);
 		nameLabel.setText(element.getLabel(getModel()));
 		
 		super.handleModelChanged();
@@ -198,6 +203,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		return new CenteredConnectionAnchor(getFigure(), CenteredConnectionAnchor.BOTTOM, /*HACK*/6);
 	}
 
+	@Override
 	public ConnectionAnchor getConnectionAnchor(int location) {
 		//hack to ensure case connection anchors appear properly
 		if (location == CenteredConnectionAnchor.TOP_INNER){
@@ -256,10 +262,12 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 	 * We override this method to tell the edit part in which figure to
 	 * place its children.
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return childFigure;
 	}
 	
+	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
 		refreshMarkerImages();
@@ -272,7 +280,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 			image.dispose();
 			image = null;
 		}
-		IMarkerHolder holder = (IMarkerHolder)BPELUtil.adapt(getModel(), IMarkerHolder.class);
+		IMarkerHolder holder = BPELUtil.adapt(getModel(), IMarkerHolder.class);
 		if (holder != null) {
 			IMarker[] markers = holder.getMarkers(getModel());
 			int markerPriority = Integer.MIN_VALUE;

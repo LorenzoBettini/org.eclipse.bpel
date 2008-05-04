@@ -61,6 +61,7 @@ public class BPELSelectionTool extends SelectionTool {
 	 * This workaround is similar to the one in handleFocusLost(). In this particular case
 	 * there was also a timing issue related to when we received the button up event. 
 	 */
+	@Override
 	protected boolean handleButtonUp(int button) {
 		if (isSelectionChangeBeingBroadcasted()) return true;
 		return super.handleButtonUp(button);
@@ -70,6 +71,7 @@ public class BPELSelectionTool extends SelectionTool {
 	 * This workaround is similar to the one in handleFocusLost(). In this particular case
 	 * there was also a timing issue related to when we received the button exit event. 
 	 */
+	@Override
 	protected boolean handleViewerExited() {
 		if (isSelectionChangeBeingBroadcasted()) return true;
 		return super.handleViewerExited();

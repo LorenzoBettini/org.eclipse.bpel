@@ -1,12 +1,22 @@
-package org.eclipse.bpel.ui;
+/*******************************************************************************
+ * Copyright (c) 2008 Intel Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Dennis Ushakov, Intel
+ *    Oleg Danilov, Intel
+ *
+ *******************************************************************************/
 
-import java.util.Map;
+package org.eclipse.bpel.ui;
 
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.adapters.INamespaceMap;
 import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
 import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
-import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.commands.util.UpdateModelCommand;
@@ -42,10 +52,6 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 	// This method is clever enough to deal with 'bad' documents that happen
 	// to have more than one root element. It picks of the first 'matching'
 	// element.
-	//
-	// TODO (cs) why aren't we calling this from the WSDLModelAdapter when the
-	// model is initialized?
-	//
 	private Element getProcessElement(Document document) {
 		Element processElement = null;
 		for (Node node = document.getFirstChild(); node != null; node = node
@@ -62,6 +68,7 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		return processElement;
 	}
 
+	@Override
 	protected void handleNodeChanged(Node node) {
 		if (node instanceof Element
 				&& !BPELConstants.ND_LITERAL.equals(node.getLocalName())) {
@@ -69,7 +76,12 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		} else if (node instanceof Document) {
 			Document document = (Document) node;
 			Element processElement = getProcessElement(document);
-			if (process.getElement() != processElement){
+			if (processElement != null
+					&& process.getElement() != processElement) {
+				process.setElement(processElement);
+			} else if (processElement != null) {
+				process.elementChanged(processElement);
+			} else {
 				process.setPartnerLinks(null);
 				process.setVariables(null);
 				process.setCorrelationSets(null);
@@ -100,42 +112,49 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 	private void reconcileModelObjectForElement(Element elementCandidate) {
 		Object modelObjectCandidate = BPELEditorUtil.getInstance()
 				.findModelObjectForElement(process, elementCandidate);
-		
+
 		// Get out of possible nested XML within the literal
-		while (modelObjectCandidate == null && elementCandidate.getParentNode() != null) {
-			elementCandidate = (Element)elementCandidate.getParentNode();
-			modelObjectCandidate = BPELEditorUtil.getInstance().findModelObjectForElement(process, elementCandidate);
+		while (modelObjectCandidate == null
+				&& elementCandidate.getParentNode() != null) {
+			elementCandidate = (Element) elementCandidate.getParentNode();
+			modelObjectCandidate = BPELEditorUtil.getInstance()
+					.findModelObjectForElement(process, elementCandidate);
 		}
-		
+
 		// Wrap changes in source tab to the Command
 		if (modelObjectCandidate != null) {
 			final Object modelObject = modelObjectCandidate;
-			final Element element = elementCandidate; 
-			UpdateModelCommand cmd = new UpdateModelCommand((EObject) modelObject, "Change text"){
+			final Element element = elementCandidate;
+			UpdateModelCommand cmd = new UpdateModelCommand(
+					(EObject) modelObject, "Change text") {
 				@SuppressWarnings("restriction")
 				@Override
 				public void doExecute() {
 					if (modelObject instanceof ExtensibleElementImpl) {
-						((ExtensibleElementImpl) modelObject).elementChanged(element);
+						((ExtensibleElementImpl) modelObject)
+								.elementChanged(element);
 					} else if (modelObject instanceof ExtensibilityElementImpl) {
 						((ExtensibilityElementImpl) modelObject)
 								.elementChanged(element);
 					} else if (modelObject instanceof XSDSchemaExtensibilityElementImpl) {
 						XSDSchemaExtensibilityElementImpl ee = (XSDSchemaExtensibilityElementImpl) modelObject;
-						((XSDSchemaImpl) ee.getSchema()).elementChanged(element);
+						((XSDSchemaImpl) ee.getSchema())
+								.elementChanged(element);
 						ee.elementChanged(element);
 					} else if (modelObject instanceof WSDLElementImpl) {
 						((WSDLElementImpl) modelObject).elementChanged(element);
 					} else if (modelObject instanceof XSDConcreteComponent) {
-						((XSDConcreteComponent) modelObject).elementChanged(element);
+						((XSDConcreteComponent) modelObject)
+								.elementChanged(element);
 					}
 				}
 			};
-			
+
 			fEditor.getCommandFramework().execute(cmd);
 		}
 	}
 
+	@Override
 	public void modelDirtyStateChanged(IStructuredModel model, boolean isDirty) {
 		if (!isDirty) {
 			// cs : At this time (when a save occurs) it's a good opportunity
@@ -151,8 +170,10 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		}
 	}
 
+	@Override
 	public void handleNotifyChange(INodeNotifier notifier, int eventType,
-			final Object feature, final Object oldValue, final Object newValue, int index) {
+			final Object feature, final Object oldValue, final Object newValue,
+			int index) {
 		final Node node = (Node) notifier;
 		switch (eventType) {
 		case INodeNotifier.ADD: {
@@ -167,25 +188,34 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		}
 		case INodeNotifier.CHANGE:
 		case INodeNotifier.STRUCTURE_CHANGED: {
-			if (feature instanceof Attr && XSDConstants.XMLNS_URI_2000.equals(((Attr)feature).getNamespaceURI())) {
-				final Attr attr = (Attr)feature;												
-				final EObject modelObject = (EObject)BPELEditorUtil.getInstance().findModelObjectForElement(process, (Element)node);
-				final INamespaceMap<String, String> objectMap = BPELUtils.getNamespaceMap(modelObject);
-				UpdateModelCommand cmd = new UpdateModelCommand(modelObject, "Change text"){
+			if (feature instanceof Attr
+					&& XSDConstants.XMLNS_URI_2000.equals(((Attr) feature)
+							.getNamespaceURI())) {
+				final Attr attr = (Attr) feature;
+				final EObject modelObject = (EObject) BPELEditorUtil
+						.getInstance().findModelObjectForElement(process,
+								(Element) node);
+				final INamespaceMap<String, String> objectMap = BPELUtils
+						.getNamespaceMap(modelObject);
+				UpdateModelCommand cmd = new UpdateModelCommand(modelObject,
+						"Change text") {
 					@SuppressWarnings("restriction")
 					@Override
 					public void doExecute() {
 						if (newValue == null) {
-							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr.getLocalName()));
+							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr
+									.getLocalName()));
 						} else {
-							objectMap.put(BPELUtils.getNSPrefixMapKey(attr.getLocalName()), attr.getValue());
+							objectMap.put(BPELUtils.getNSPrefixMapKey(attr
+									.getLocalName()), attr.getValue());
 						}
 					}
 				};
 				if (fEditor != null) {
 					fEditor.getCommandFramework().execute(cmd);
 				}
-				// We should continue reconciling only if BPEL namespace has been changed
+				// We should continue reconciling only if BPEL namespace has
+				// been changed
 				// otherwise we should not update children
 				if (!BPELConstants.NAMESPACE.equals(attr.getValue()))
 					break;

@@ -40,6 +40,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -95,8 +96,11 @@ public class EditMessagePropertyDialog extends Dialog {
 	/** inner classes **/
 
 	public class MessageTypeColumn extends ColumnTableProvider.Column implements ILabelProvider {
+		@Override
 		public String getHeaderText() { return Messages.EditMessagePropertyDialog_1; } 
+		@Override
 		public String getProperty() { return "aliasMsgType"; } //$NON-NLS-1$
+		@Override
 		public int getInitialWeight() { return 30; }
 
 		ModelLabelProvider labelProvider = new ModelLabelProvider();
@@ -107,8 +111,11 @@ public class EditMessagePropertyDialog extends Dialog {
 	}
 
 	public class MessagePartColumn extends ColumnTableProvider.Column implements ILabelProvider {
+		@Override
 		public String getHeaderText() { return Messages.EditMessagePropertyDialog_2; } 
+		@Override
 		public String getProperty() { return "aliasMsgPart"; } //$NON-NLS-1$
+		@Override
 		public int getInitialWeight() { return 70; }
 
 		public String getText(Object element) {
@@ -151,6 +158,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		return property;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout layout = (GridLayout) composite.getLayout();
@@ -238,6 +246,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		aliasesTableViewer.setLabelProvider(aliasesTableProvider);
 		// Content provider that combines aliases from the actual model and newAliasesList.
 		aliasesTableViewer.setContentProvider(new PropertyAliasContentProvider() {
+			@Override
 			public Object[] getElements(Object input) {
 				Object[] superResult = super.getElements(input);
 				Object[] result = new Object[superResult.length + newAliasesList.size()];
@@ -337,6 +346,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		}
 	}
 
+	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		if (isNew) {
@@ -346,6 +356,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		}
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control result = super.createContents(parent);
 		updateEnablement();
@@ -423,6 +434,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		return property.eResource().getURI();
 	}
 	
+	@Override
 	protected void okPressed() {
 		createProperty();
 		super.okPressed();
@@ -437,6 +449,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		final Definition definition = (Definition) resource.getContents().get(0);
 
 		bpelEditor.getCommandFramework().execute(new AutoUndoCommand(definition) {
+			@Override
 			public void doExecute() {
 				if (isNew) {
 					definition.getEExtensibilityElements().add(property);
@@ -468,13 +481,14 @@ public class EditMessagePropertyDialog extends Dialog {
 	 */
 	protected void createAlias() {
 		EditPropertyAliasDialog dialog = new EditPropertyAliasDialog(getShell(), property, null, bpelEditor, wf);
-		if (dialog.open() == Dialog.OK) {
+		if (dialog.open() == Window.OK) {
 			final PropertyAlias alias = dialog.getPropertyAlias();
 			if (alias != null) {
 				URI uri = getTargetFileURI();
 				Resource resource = bpelEditor.getResourceSet().getResource(uri, true);
 				final Definition definition = (Definition) resource.getContents().get(0);
 				bpelEditor.getCommandFramework().execute(new AutoUndoCommand(definition) {
+					@Override
 					public void doExecute() {
 						if (isNew) {
 							// save the alias and add them later
@@ -507,7 +521,7 @@ public class EditMessagePropertyDialog extends Dialog {
 	protected void editAlias(PropertyAlias alias) {
 		if (alias != null) {
 			EditPropertyAliasDialog dialog = new EditPropertyAliasDialog(getShell(), property, alias, bpelEditor, wf);
-			if (dialog.open() == Dialog.OK) {
+			if (dialog.open() == Window.OK) {
 				updatePropertyAliasTable();
 			}
 		}

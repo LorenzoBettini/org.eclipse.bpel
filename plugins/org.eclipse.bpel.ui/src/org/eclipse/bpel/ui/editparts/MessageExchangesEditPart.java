@@ -13,9 +13,8 @@
  
 package org.eclipse.bpel.ui.editparts;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.MessageExchanges;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
@@ -26,6 +25,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -41,7 +41,8 @@ public class MessageExchangesEditPart extends BPELTrayCategoryEditPart {
 	}
 	
 
-	protected List getModelChildren() {
+	@Override
+	protected EList<MessageExchange> getModelChildren() {
 		return getMessageExchanges().getChildren();
 	}
 
@@ -57,20 +58,25 @@ public class MessageExchangesEditPart extends BPELTrayCategoryEditPart {
 		return ModelHelper.getBPELEditor(getContainer());
 	}
 
+	@Override
 	protected IFigure getAddToolTip() {
 	    return new Label(Messages.MessageExchangesEditPart_Add_Message_Exchange_1); 
 	}
 	
+	@Override
 	protected IFigure getRemoveToolTip() {
 	    return new Label(Messages.MessageExchangesEditPart_Remove_Message_Exchange_1); 
 	}	
 
 
+	@Override
 	protected Adapter createAdapter() {
 		return new BatchedMultiObjectAdapter() {
+			@Override
 			public void finish() {
 				refresh();
 			}
+			@Override
 			public void notify(Notification n) {
 			}
 		};

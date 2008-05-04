@@ -123,7 +123,7 @@ public class AssignImplSection extends BPELPropertySection {
 							Assign assign = getModel();
 							int sz = assign.getCopy().size();
 							if (sz > 0) {
-								copy = (Copy) assign.getCopy().get(sz-1);
+								copy = assign.getCopy().get(sz-1);
 							}
 						}
 						
@@ -197,7 +197,7 @@ public class AssignImplSection extends BPELPropertySection {
 						new RemoveCopyCommand((Assign)getInput(), fCurrentCopy)));
 				fCopyList.select(index);
 				Assign assign = getModel();
-				Copy copy = (Copy) assign.getCopy().get( index );
+				Copy copy = assign.getCopy().get( index );
 				selectCategoriesForInput( copy );				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -211,7 +211,7 @@ public class AssignImplSection extends BPELPropertySection {
 				int index = fCopyList.getSelectionIndex();
 				fCopyList.select(index);
 				Assign assign = getModel();
-				Copy copy = (Copy) assign.getCopy().get( index );
+				Copy copy = assign.getCopy().get( index );
 				selectCategoriesForInput( copy );				
 				
 			}
@@ -556,9 +556,9 @@ public class AssignImplSection extends BPELPropertySection {
 		Copy copy = null;
 		if (sz > 0) {					
 			if (idx < sz && idx >= 0) {
-				copy = (Copy) assign.getCopy().get(idx);
+				copy = assign.getCopy().get(idx);
 			} else {
-				copy = (Copy) assign.getCopy().get(0);
+				copy = assign.getCopy().get(0);
 			}
 		}
 		selectCategoriesForInput(copy);

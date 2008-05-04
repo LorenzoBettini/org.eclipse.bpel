@@ -11,8 +11,6 @@
 package org.eclipse.bpel.ui.commands;
 
 import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.emf.common.util.EList;
@@ -62,6 +60,7 @@ public class AddWSDLImportCommand extends AutoUndoCommand {
 	}
 		
 
+	@Override
 	public void doExecute() {
 		
 		if (fImport == null) {

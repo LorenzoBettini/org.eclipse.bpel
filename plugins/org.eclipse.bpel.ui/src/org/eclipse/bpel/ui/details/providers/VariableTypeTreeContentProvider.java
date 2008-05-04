@@ -42,6 +42,7 @@ public class VariableTypeTreeContentProvider extends ModelTreeContentProvider {
 
 	public boolean isPropertyTree() { return isPropertyTree; }
 
+	@Override
 	public Object[] primGetElements (Object inputElement) {
 		
 		Object [] list = new Object[1];

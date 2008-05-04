@@ -44,6 +44,7 @@ public class BPELVariableTreeNode extends TreeNode {
 
 	/* ITreeNode */
 
+	@Override
 	public String getLabelSuffix() {
 		if (isCondensed && fNode != null) {
 			return fNode.getLabel();
@@ -51,6 +52,7 @@ public class BPELVariableTreeNode extends TreeNode {
 		return null;
 	}
 
+	@Override
 	public Object[] getChildren() {
 		if (isCondensed) {
 			return fNode != null ? fNode.getChildren() : EMPTY_ARRAY;
@@ -75,6 +77,7 @@ public class BPELVariableTreeNode extends TreeNode {
 		return EMPTY_ARRAY;
 	}
 
+	@Override
 	public boolean hasChildren() {
 		if (isCondensed) {
 			return fNode != null ? fNode.hasChildren() : false;

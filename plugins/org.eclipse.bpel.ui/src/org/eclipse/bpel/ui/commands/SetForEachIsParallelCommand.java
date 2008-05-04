@@ -26,10 +26,12 @@ public class SetForEachIsParallelCommand extends SetCommand {
 		super(forEach, new Boolean(isParallel));
 	}
 
+	@Override
 	public Object get() {
 		return ((ForEach)fTarget).getParallel();
 	}
 	
+	@Override
 	public void set(Object o) {
 		((ForEach)fTarget).setParallel(((Boolean)o).booleanValue());
 	}

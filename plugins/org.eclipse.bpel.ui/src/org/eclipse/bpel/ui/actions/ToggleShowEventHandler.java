@@ -39,6 +39,7 @@ public class ToggleShowEventHandler extends SelectionAction {
 		setToolTipText(Messages.ToggleShowEventHandler_Shows_event_handler_activities_3); 
 	}
 
+	@Override
 	public void run() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {
@@ -51,13 +52,14 @@ public class ToggleShowEventHandler extends SelectionAction {
 		}
 	}
 
+	@Override
 	protected boolean calculateEnabled() {
 		List selList = getSelectedObjects();
 		if (selList.size() != 1)
 			return false;
 		Object o = selList.get(0);
 		if (o instanceof Scope) {
-			IEventHandlerHolder holder = (IEventHandlerHolder)BPELUtil.adapt(o, IEventHandlerHolder.class);
+			IEventHandlerHolder holder = BPELUtil.adapt(o, IEventHandlerHolder.class);
 			if (holder != null) {
 				if (holder.getEventHandler(o) != null)
 					return true;
@@ -66,6 +68,7 @@ public class ToggleShowEventHandler extends SelectionAction {
 		return false;
 	}
 
+	@Override
 	public boolean isChecked() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {

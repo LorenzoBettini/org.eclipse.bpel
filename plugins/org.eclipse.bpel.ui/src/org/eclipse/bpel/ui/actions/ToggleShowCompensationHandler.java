@@ -39,6 +39,7 @@ public class ToggleShowCompensationHandler extends SelectionAction {
 		setToolTipText(Messages.ToggleShowCompensationHandler_Shows_compensation_handler_activities_3); 
 	}
 
+	@Override
 	public void run() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {
@@ -51,13 +52,14 @@ public class ToggleShowCompensationHandler extends SelectionAction {
 		}
 	}
 
+	@Override
 	protected boolean calculateEnabled() {
 		List selList = getSelectedObjects();
 		if (selList.size() != 1)
 			return false;
 		Object o = selList.get(0);
 		if (o instanceof Scope) {
-			ICompensationHandlerHolder holder = (ICompensationHandlerHolder)BPELUtil.adapt(o, ICompensationHandlerHolder.class);
+			ICompensationHandlerHolder holder = BPELUtil.adapt(o, ICompensationHandlerHolder.class);
 			if (holder != null) {
 				if (holder.getCompensationHandler(o) != null)
 					return true;
@@ -66,6 +68,7 @@ public class ToggleShowCompensationHandler extends SelectionAction {
 		return false;
 	}
 
+	@Override
 	public boolean isChecked() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {

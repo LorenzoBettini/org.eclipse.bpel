@@ -29,10 +29,12 @@ public class SetCountSuccessfulBranchesOnlyCommand extends SetCommand {
 		super(branches, new Boolean(successfulBranchesOnly));
 	}
 
+	@Override
 	public Object get() {
 		return ((Branches) fTarget).isSetCountCompletedBranchesOnly();
 	}
 
+	@Override
 	public void set(Object o) {
 		((Branches) fTarget).setCountCompletedBranchesOnly(((Boolean) o)
 				.booleanValue());

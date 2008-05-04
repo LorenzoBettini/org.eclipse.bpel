@@ -233,6 +233,7 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	/**
 	 * Override to handle direct edit requests
 	 */
+	@Override
 	public void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
 			performDirectEdit();
@@ -309,6 +310,7 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		refreshHoverHelp();
 	}
 	
+	@Override
 	protected void refreshChildren() {		
 		super.refreshChildren();
 		
@@ -333,6 +335,7 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		}
 	}
 	
+	@Override
 	public Object getAdapter(Class key) {
 		if (key.isInstance(getModel())) {
 			return getModel();
@@ -340,8 +343,8 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		
 		if (key == AccessibleAnchorProvider.class) {
 			return new DefaultAccessibleAnchorProvider() {
-				private List getDefaultLocations() {
-					List list = new ArrayList();
+				private List<Point> getDefaultLocations() {
+					List<Point> list = new ArrayList<Point>();
 					Rectangle r = getFigure().getBounds();
 					
 					// when calculating the target in connection tools, it was targettig
@@ -355,13 +358,15 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 				/**
 				 * @see AccessibleAnchorProvider#getSourceAnchorLocations()
 				 */
-				public List getSourceAnchorLocations() {
+				@Override
+				public List<Point> getSourceAnchorLocations() {
 					return getDefaultLocations();
 				}
 				/**
 				 * @see AccessibleAnchorProvider#getTargetAnchorLocations()
 				 */
-				public List getTargetAnchorLocations() {
+				@Override
+				public List<Point> getTargetAnchorLocations() {
 					return getDefaultLocations();
 				}
 			};
@@ -373,7 +378,9 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 	}
 	
 	// increase visibility!
+	@Override
 	public void refreshSourceConnections() { super.refreshSourceConnections(); }
+	@Override
 	public void refreshTargetConnections() { super.refreshTargetConnections(); }
 	
 	public void refreshHoverHelp() {
@@ -390,10 +397,12 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		}		
 	}
 	
+	@Override
 	protected IFigure createFigure() {
 		return null;
 	}
 
+	@Override
 	protected AccessibleEditPart getAccessibleEditPart() {
 		if (acc == null) acc = createAccessible();
 		return acc;
@@ -413,6 +422,7 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		};	
 	}
 	
+	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new BPELDragEditPartsTracker(this);
 	}

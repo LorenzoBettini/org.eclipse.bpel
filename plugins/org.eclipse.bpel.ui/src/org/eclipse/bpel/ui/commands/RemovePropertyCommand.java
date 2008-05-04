@@ -29,6 +29,7 @@ public class RemovePropertyCommand extends RemoveFromListCommand {
 		super(target, oldProperty, IBPELUIConstants.CMD_REMOVE_PROPERTY);
 	}
 
+	@Override
 	protected List getList() {
 		return ((CorrelationSet)target).getProperties();
 	}

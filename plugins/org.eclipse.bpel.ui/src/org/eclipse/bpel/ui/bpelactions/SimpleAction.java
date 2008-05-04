@@ -19,19 +19,23 @@ import org.eclipse.emf.ecore.EClass;
 
 public class SimpleAction extends AbstractBPELAction {
 
-    public EClass getModelType() {
+    @Override
+	public EClass getModelType() {
         return BPELPackage.eINSTANCE.getEmpty();
     }
 
-    public String getLabel() {
+    @Override
+	public String getLabel() {
         return BPELTerms.getString("Empty"); //$NON-NLS-1$
     }
 
-    public String getDescription() {
+    @Override
+	public String getDescription() {
         return Messages.SimpleAction_Simple_Action_0; 
     }
 
-    public AdapterFactory getAdapterFactory() {
+    @Override
+	public AdapterFactory getAdapterFactory() {
         return BPELUIAdapterFactory.getInstance();
 	}
 }

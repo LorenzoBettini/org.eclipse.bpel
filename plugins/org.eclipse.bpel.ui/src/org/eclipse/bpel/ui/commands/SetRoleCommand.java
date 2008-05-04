@@ -36,6 +36,7 @@ public class SetRoleCommand extends SetCommand {
 		this.roleNum = roleNum;		
 	}
 
+	@Override
 	public Object get() {
 		switch (roleNum) {
 			case ModelHelper.MY_ROLE:
@@ -45,6 +46,7 @@ public class SetRoleCommand extends SetCommand {
 		}
 		return null;
 	}
+	@Override
 	public void set(Object o) {
 		switch (roleNum) {
 			case ModelHelper.MY_ROLE:

@@ -135,6 +135,7 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 	 * 
 	 */
 	
+	@Override
 	protected Control createContents(Composite parent) {
 		
 		Control control = super.createContents(parent);
@@ -149,6 +150,7 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 
 
 	
+	@Override
 	protected void saveSettings () {
 		super.saveSettings();		
 		IDialogSettings settings = getDialogSettings();		
@@ -163,6 +165,7 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 	 * @param checked
 	 */
 	
+	@Override
 	protected void buttonPressed (int id, boolean checked, boolean bRefresh) {
 		
 		int bits = 0;
@@ -210,6 +213,7 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 		}
 	}
 		
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, 
 				BID_ADD_IMPORT,
@@ -218,6 +222,7 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 		super.createButtonsForButtonBar(parent);
 	}
 	
+	@Override
 	protected void createBrowseFilterGroupButtons ( Group  group ) {
         
 		createCheckButton(group,Messages.TypeSelectorDialog_14, BID_XSD_PRIMITIVES, 
@@ -236,6 +241,7 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 	
 	
 	
+	@Override
 	protected List collectItemsFromImports() {
 		
 		List list = ModelHelper.getSchemas(modelObject,true);

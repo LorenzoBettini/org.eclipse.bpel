@@ -19,6 +19,7 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.fieldassist.IContentProposal;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.w3c.dom.Element;
 
@@ -28,7 +29,7 @@ public class PartnerLinkTypeAdapter extends AbstractAdapter implements INamedEle
 {
 		
 	PartnerLinkType myPartnerLinkType ( Object obj ) {
-		return (PartnerLinkType) getTarget (obj,PartnerLinkType.class);
+		return getTarget (obj,PartnerLinkType.class);
 	}
 	
 	
@@ -101,7 +102,7 @@ public class PartnerLinkTypeAdapter extends AbstractAdapter implements INamedEle
 	 */
 	
 	public String getLabel() {		
-		return Messages.bind(Messages.PartnerLinkTypeAdapter_0, 
+		return NLS.bind(Messages.PartnerLinkTypeAdapter_0, 
 				Messages.PartnerLinkTypeAdapter_Partner_Link_Type_1 ,
 				getName( getTarget() ) );
 	}

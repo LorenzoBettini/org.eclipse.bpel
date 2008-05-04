@@ -1,14 +1,9 @@
 package org.eclipse.bpel.ui.util;
 
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.xml.namespace.QName;
-import javax.xml.transform.TransformerFactory;
 
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.util.BPELConstants;
@@ -22,14 +17,8 @@ import org.eclipse.wst.wsdl.Types;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.ui.internal.extensions.ExtensibleTypeSystemProvider;
 import org.eclipse.wst.wsdl.ui.internal.extensions.ITypeSystemProvider;
-import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
 
 public class BPELEditorUtil extends BPELConstants
 {

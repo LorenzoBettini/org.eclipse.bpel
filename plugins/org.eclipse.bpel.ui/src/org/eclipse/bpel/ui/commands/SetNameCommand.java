@@ -10,17 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.INamedElement;
-import org.eclipse.bpel.ui.uiextensionmodel.StartNode;
-import org.eclipse.bpel.ui.util.BPELEditorUtil;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.w3c.dom.Element;
 
 
 /** 
@@ -30,26 +23,26 @@ import org.w3c.dom.Element;
  */
 public class SetNameCommand extends SetCommand {
 	
-	private class MyBPELWriter extends  org.eclipse.bpel.model.resource.BPELWriter {
-	}
-
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_NAME; }
 
 	public SetNameCommand(EObject target, String newName)  {
 		super(target, newName);
 	}
 
+	@Override
 	public boolean canDoExecute() {
 		if (BPELUtil.adapt(fTarget, INamedElement.class) == null) return false;
 		return super.canDoExecute();
 	}
 
+	@Override
 	public Object get() {
-		INamedElement namedElement = (INamedElement)BPELUtil.adapt(fTarget, INamedElement.class);
+		INamedElement namedElement = BPELUtil.adapt(fTarget, INamedElement.class);
 		return namedElement.getName(fTarget);
 	}
+	@Override
 	public void set(Object o) {
-		INamedElement namedElement = (INamedElement)BPELUtil.adapt(fTarget, INamedElement.class);
+		INamedElement namedElement = BPELUtil.adapt(fTarget, INamedElement.class);
 		namedElement.setName(fTarget, (String)o);
 	}
 }

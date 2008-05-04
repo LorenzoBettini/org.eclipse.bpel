@@ -50,6 +50,7 @@ import org.eclipse.wst.wsdl.PortType;
 public class PartnerLinkSelectorDialog extends SelectionAndCreationDialog {
 
 	protected static class PortTypeLabelProvider extends LabelProvider {
+		@Override
 		public String getText(Object element) {
 			if (element instanceof PartnerLink) {
 				PartnerLink partner = (PartnerLink)element;
@@ -127,6 +128,7 @@ public class PartnerLinkSelectorDialog extends SelectionAndCreationDialog {
 		return null;
 	}
 
+	@Override
 	protected void handleNewButtonPushed() {
 		PartnerLink partner = BPELFactory.eINSTANCE.createPartnerLink();
 		Process process = ModelHelper.getProcess(modelObject);
@@ -155,6 +157,7 @@ public class PartnerLinkSelectorDialog extends SelectionAndCreationDialog {
 	/**
 	 * Only used to get the Text instance.
 	 */
+	@Override
 	protected Text createFilterText(Composite parent) {
 		filterText = super.createFilterText(parent);
 		return filterText;

@@ -10,20 +10,15 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.details.providers;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
 import org.eclipse.bpel.ui.details.tree.PartnerLinkTreeNode;
 import org.eclipse.bpel.ui.details.tree.PartnerLinkTypeTreeNode;
 import org.eclipse.bpel.ui.details.tree.PortTypeTreeNode;
-import org.eclipse.bpel.ui.details.tree.XSDSchemaTreeNode;
 import org.eclipse.bpel.ui.util.ListMap;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.xsd.XSDSchema;
 
 
 /**
@@ -49,6 +44,7 @@ public class PartnerLinkTypeTreeContentProvider extends ModelTreeContentProvider
 
 	
 	
+	@Override
 	public Object[] primGetElements (Object inputElement) {
 		
 		ITreeNode result = getTreeNode ( inputElement );

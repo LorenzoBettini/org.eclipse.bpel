@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.emf.common.util.EList;
 
 
 /**
@@ -25,7 +24,8 @@ public class AddCopyCommand extends AddToListCommand {
 		super(target, newCopy, IBPELUIConstants.CMD_ADD_COPY);
 	}
 
-	protected List getList() {
+	@Override
+	protected EList<Copy> getList() {
 		return ((Assign)target).getCopy();
 	}
 }

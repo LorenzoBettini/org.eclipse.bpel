@@ -50,6 +50,7 @@ public class DeleteLinkCommand extends AutoUndoCommand {
 	ModelAutoUndoRecorder modelAutoUndoRecorder;
 
 	// TODO: hack: necessary for multi-delete to work properly
+	@Override
 	protected ModelAutoUndoRecorder getRecorder() {
 		if (modelAutoUndoRecorder != null) return modelAutoUndoRecorder;
 		return super.getRecorder();
@@ -61,16 +62,18 @@ public class DeleteLinkCommand extends AutoUndoCommand {
 	// our canExecute() and canUndo() methods check if the link is actually in
 	// the model.
 
+	@Override
 	public boolean canDoExecute() {
 		if (link == null || flow == null) return false;
 		// see comment above
 		return FlowLinkUtil.getFlowLinks(flow).contains(link);
 	}
 	
+	@Override
 	public void doExecute() {
 		// remove any markers associated with the child.
 		// TODO: We need an undo/redo story for marker removal.
-		IMarkerHolder markerHolder = (IMarkerHolder)BPELUtil.adapt(link, IMarkerHolder.class);
+		IMarkerHolder markerHolder = BPELUtil.adapt(link, IMarkerHolder.class);
 		if (markerHolder != null) {
 			IMarker[] markers = markerHolder.getMarkers(link);
 			for (int i = 0; i < markers.length; i++) {

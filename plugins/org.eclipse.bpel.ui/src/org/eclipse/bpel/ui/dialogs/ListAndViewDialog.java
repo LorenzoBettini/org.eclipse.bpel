@@ -71,7 +71,8 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	    
 	    
 	    
-	    public boolean close () {
+	    @Override
+		public boolean close () {
 	    	saveSettings ();	    
 	    	return super.close();
 	    }
@@ -115,7 +116,8 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	    /*
 	     * @see Dialog#createDialogArea(Composite)
 	     */
-	    public Control createDialogArea(Composite parent) {
+	    @Override
+		public Control createDialogArea(Composite parent) {
 	    	
 	        Composite contents = (Composite) super.createDialogArea(parent);
 	        createMessageArea(contents);
@@ -168,14 +170,16 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	    /**
 	     * @see SelectionStatusDialog#computeResult()
 	     */
-	    protected void computeResult() {
+	    @Override
+		protected void computeResult() {
 	    	setResult(Arrays.asList(getSelectedElements()));
 	    }
 
 	    /**
 	     * @see AbstractElementListSelectionDialog#handleDefaultSelected()
 	     */
-	    protected void handleDefaultSelected() {
+	    @Override
+		protected void handleDefaultSelected() {
 	        if ( validateCurrentSelection() ) {
 				buttonPressed(IDialogConstants.OK_ID);
 			}
@@ -184,7 +188,8 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	    /**
 	     * @see AbstractElementListSelectionDialog#handleSelectionChanged()
 	     */
-	    protected void handleSelectionChanged() {
+	    @Override
+		protected void handleSelectionChanged() {
 	        handleUpperSelectionChanged();
 	    }
 

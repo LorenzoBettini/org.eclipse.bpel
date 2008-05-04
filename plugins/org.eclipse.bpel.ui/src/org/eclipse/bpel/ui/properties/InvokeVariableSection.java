@@ -78,7 +78,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Part;
-import org.eclipse.wst.wsdl.internal.util.WSDLUtil;
+import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.eclipse.xsd.XSDElementDeclaration;
 
 public class InvokeVariableSection extends BPELPropertySection {
@@ -103,6 +103,7 @@ public class InvokeVariableSection extends BPELPropertySection {
 			}
 			// Null out the fromParts and toParts
 			ccmd.add(new AutoUndoCommand(getInput()) {
+				@Override
 				public void doExecute() {
 					try {
 						ModelHelper.setToParts(getInput(), null);
@@ -1085,12 +1086,12 @@ public class InvokeVariableSection extends BPELPropertySection {
 			List<Part> inputParts = Collections.emptyList();
 			if (showInputs) {
 				inputParts = PartMappingUtil
-						.getPartsForPartMapping(operation, WSDLUtil.INPUT, null);
+						.getPartsForPartMapping(operation, WSDLConstants.INPUT, null);
 			}
 
 			List<Part> outputParts = Collections.emptyList();
 			if (showOutputs) {
-				outputParts = PartMappingUtil.getPartsForPartMapping(operation, WSDLUtil.OUTPUT,
+				outputParts = PartMappingUtil.getPartsForPartMapping(operation, WSDLConstants.OUTPUT,
 						null);
 			}
 
@@ -1098,7 +1099,7 @@ public class InvokeVariableSection extends BPELPropertySection {
 			if (showFaults) {
 				String faultName = ModelHelper.getFaultName(model);
 				if (faultName != null) {
-					faultParts = PartMappingUtil.getPartsForPartMapping(operation, WSDLUtil.FAULT,
+					faultParts = PartMappingUtil.getPartsForPartMapping(operation, WSDLConstants.FAULT,
 							faultName);
 				}
 			}

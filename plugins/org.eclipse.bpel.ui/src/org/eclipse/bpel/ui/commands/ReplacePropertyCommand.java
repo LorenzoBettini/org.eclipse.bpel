@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.emf.common.util.EList;
 
 
 public class ReplacePropertyCommand extends ReplaceInListCommand {
@@ -25,7 +24,8 @@ public class ReplacePropertyCommand extends ReplaceInListCommand {
 		super(target, oldProperty, newProperty, IBPELUIConstants.CMD_EDIT_PROPERTY);
 	}
 
-	protected List getList() {
+	@Override
+	protected EList<Property> getList() {
 		return ((CorrelationSet)target).getProperties();
 	}
 }

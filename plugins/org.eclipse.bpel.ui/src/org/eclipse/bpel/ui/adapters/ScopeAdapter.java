@@ -31,6 +31,7 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 
 	/* IContainer delegate */
 	
+	@Override
 	public IContainer createContainerDelegate() {
 		MultiContainer omc = new MultiContainer();
 		omc.add(new ActivityContainer(BPELPackage.eINSTANCE.getScope_Activity()));
@@ -93,6 +94,7 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 
 	/* EditPartFactory */
 	
+	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart result = new ScopeEditPart();
 		result.setModel(model);
@@ -101,6 +103,7 @@ public class ScopeAdapter extends ContainerActivityAdapter implements IFaultHand
 
 	/* IOutlineEditPartFactory */
 	
+	@Override
 	public EditPart createOutlineEditPart(EditPart context, Object model) {
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);

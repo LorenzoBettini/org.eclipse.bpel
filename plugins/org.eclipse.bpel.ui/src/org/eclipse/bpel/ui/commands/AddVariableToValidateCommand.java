@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.util.ModelHelper;
@@ -28,13 +26,15 @@ public class AddVariableToValidateCommand extends AddToListCommand {
 		super(target, newVariable, IBPELUIConstants.CMD_ADD_VALIDATE_VARIABLE);
 	}
 
-	protected List getList() {
-		EList l = ModelHelper.getValidateVariables(target);
+	@Override
+	protected EList<Variable> getList() {
+		EList<Variable> l = ModelHelper.getValidateVariables(target);
 		return (l == null)? null : l;
 	}
 
+	@Override
 	protected void deleteList() {
-		EList l = ModelHelper.getValidateVariables(target);
+		EList<Variable> l = ModelHelper.getValidateVariables(target);
 		if (l != null)
 			l.clear();
 	}

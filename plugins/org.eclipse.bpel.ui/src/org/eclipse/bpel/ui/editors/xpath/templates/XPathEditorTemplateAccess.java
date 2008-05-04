@@ -3,8 +3,6 @@ package org.eclipse.bpel.ui.editors.xpath.templates;
 import java.io.IOException;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
-import org.eclipse.jface.text.templates.ContextTypeRegistry;
-import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.editors.text.templates.ContributionTemplateStore;
 

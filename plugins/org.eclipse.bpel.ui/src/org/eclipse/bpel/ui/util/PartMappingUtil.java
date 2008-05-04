@@ -21,7 +21,7 @@ import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.Output;
 import org.eclipse.wst.wsdl.Part;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.wst.wsdl.internal.util.WSDLUtil;
+import org.eclipse.wst.wsdl.util.WSDLConstants;
 
 public class PartMappingUtil {
 
@@ -51,17 +51,17 @@ public class PartMappingUtil {
 
 		Message message = null;
 
-		if (type == WSDLUtil.INPUT) {
+		if (type == WSDLConstants.INPUT) {
 			Input input = operation.getEInput();
 			if (input != null) {
 				message = input.getEMessage();
 			}
-		} else if (type == WSDLUtil.OUTPUT) {
+		} else if (type == WSDLConstants.OUTPUT) {
 			Output output = operation.getEOutput();
 			if (output != null) {
 				message = output.getEMessage();
 			}
-		} else if (type == WSDLUtil.FAULT) {
+		} else if (type == WSDLConstants.FAULT) {
 			Fault fault = (Fault) operation.getFault(faultName);
 			if (fault != null) {
 				message = fault.getEMessage();

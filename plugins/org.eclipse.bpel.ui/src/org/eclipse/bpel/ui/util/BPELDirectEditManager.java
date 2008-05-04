@@ -34,6 +34,7 @@ public class BPELDirectEditManager extends DirectEditManager {
 		this.validator = validator;
 	}
 
+	@Override
 	protected void commit() {
 		if (validator != null) {
 			Text text = (Text) getCellEditor().getControl();
@@ -53,10 +54,11 @@ public class BPELDirectEditManager extends DirectEditManager {
 		super.commit();
 	}
 
+	@Override
 	protected void initCellEditor() {
 		getEditPart().getFigure().validate();
 		Object model = getEditPart().getModel();
-		ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(model, ILabeledElement.class);
+		ILabeledElement labeledElement = BPELUtil.adapt(model, ILabeledElement.class);
 		String initialLabelText = labeledElement.getLabel(model);
 		getCellEditor().setValue(initialLabelText);
 		Text text = (Text) getCellEditor().getControl();

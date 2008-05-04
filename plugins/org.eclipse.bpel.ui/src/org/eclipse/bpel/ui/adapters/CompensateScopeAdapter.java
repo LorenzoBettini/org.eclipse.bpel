@@ -20,6 +20,7 @@ public class CompensateScopeAdapter extends ActivityAdapter {
 
 	/* IEditPartActionContributor */
 	
+	@Override
 	public List getEditPartActions(final EditPart editPart) {
 		List actions = super.getEditPartActions(editPart);
 		actions.add(new SetCompensateLinkAction(editPart));

@@ -11,10 +11,7 @@
 package org.eclipse.bpel.ui.commands;
 
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.ExtensibleElement;
-import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.model.util.BPELUtils;
-import org.eclipse.bpel.model.util.ElementFactory;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IContainer;
@@ -24,12 +21,8 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.wst.wsdl.WSDLElement;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.w3c.dom.Element;
 
 
 /** 
@@ -42,6 +35,7 @@ public class InsertInContainerCommand extends AutoUndoCommand {
 			super(bpelResource, document);
 		}
 		
+		@Override
 		public Element activity2XML(org.eclipse.bpel.model.Activity activity) {
 			//just make the method public
 			return super.activity2XML(activity);

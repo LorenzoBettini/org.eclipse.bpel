@@ -94,6 +94,7 @@ public class EditPropertyAliasDialog extends Dialog {
 		}
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout layout = (GridLayout) composite.getLayout();
@@ -172,6 +173,7 @@ public class EditPropertyAliasDialog extends Dialog {
 		updateEnablement();
 	}
 
+	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		if (createAlias) {
@@ -188,6 +190,7 @@ public class EditPropertyAliasDialog extends Dialog {
 		return alias;
 	}
 
+	@Override
 	protected void okPressed() {
 		if (alias == null) {
 			alias = MessagepropertiesFactory.eINSTANCE.createPropertyAlias();
@@ -227,6 +230,7 @@ public class EditPropertyAliasDialog extends Dialog {
 		super.okPressed();
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control result = super.createContents(parent);
 		updateEnablement();

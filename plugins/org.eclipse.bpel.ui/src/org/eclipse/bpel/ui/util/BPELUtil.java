@@ -114,12 +114,12 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Tool;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
@@ -569,7 +569,7 @@ public class BPELUtil {
 	 */
 	public static void visitModelDepthFirst(Object modelObject, IModelVisitor visitor) {
 		if (visitor.visit(modelObject)) {
-			IContainer container = (IContainer)BPELUtil.adapt(modelObject, IContainer.class);
+			IContainer container = BPELUtil.adapt(modelObject, IContainer.class);
 			if (container != null) {
 				for (Iterator it = container.getChildren(modelObject).iterator(); it.hasNext(); ) {
 					visitModelDepthFirst(it.next(), visitor);
@@ -599,7 +599,7 @@ public class BPELUtil {
 		
 		public boolean visit(Object child) {
 			if (!ignoreObjects.contains(child)) {
-			INamedElement namedElement = (INamedElement)BPELUtil.adapt(child, INamedElement.class);
+			INamedElement namedElement = BPELUtil.adapt(child, INamedElement.class);
 				if (namedElement != null) {
 					String name = namedElement.getName(child);
 					if ((name != null) && (name.compareToIgnoreCase(candidateName) == 0))
@@ -620,9 +620,8 @@ public class BPELUtil {
 	 */
 	public static boolean isNameUnused(EObject modelRoot, String candidateName, Collection ignoreObjects) {
 		NameUnusedVisitor visitor = new NameUnusedVisitor(candidateName, ignoreObjects);
-		for (TreeIterator it = modelRoot.eAllContents(); it.hasNext(); ) {
-			Object n = it.next();
-			visitor.visit(n);
+		for (TreeIterator<EObject> it = modelRoot.eAllContents(); it.hasNext(); ) {
+			visitor.visit(it.next());
 			if (visitor.isUnused() == false) return false;
 		}
 		return true;
@@ -709,22 +708,23 @@ public class BPELUtil {
 	 * Returns all of the PropertyAlias objects from WSDL files in the same ResourceSet as
 	 * the resource containing messageType, which are aliases for messageType.
 	 */
-	public static List getPropertyAliasesForMessageType(Message messageType) {
-		List aliases = new ArrayList();
+	public static List<PropertyAlias> getPropertyAliasesForMessageType(Message messageType) {
+		List<PropertyAlias> aliases = new ArrayList<PropertyAlias>();
 		Resource resource = messageType.eResource();
 		if (resource == null) {
 			return aliases;
 		}
 		ResourceSet resourceSet = resource.getResourceSet();
-		for (Iterator it = resourceSet.getResources().iterator(); it.hasNext(); ) {
-			resource = (Resource)it.next();
+		for (Iterator<Resource> it = resourceSet.getResources().iterator(); it.hasNext(); ) {
+			resource = it.next();
 			// TODO: this is a hack.  Why is there no WSDLResource interface??
 			if (resource instanceof WSDLResourceImpl) {
-				for (TreeIterator treeIt = resource.getAllContents(); treeIt.hasNext(); ) {
-					Object object = treeIt.next();
+				for (TreeIterator<EObject> treeIt = resource.getAllContents(); treeIt.hasNext(); ) {
+					EObject object = treeIt.next();
 					if (object instanceof PropertyAlias) {
 						PropertyAlias alias = (PropertyAlias)object;
-						if (messageType.equals(alias.getMessageType()))  aliases.add(alias);
+						if (messageType.equals(alias.getMessageType()))
+							aliases.add(alias);
 					}
 				}
 			}
@@ -750,7 +750,7 @@ public class BPELUtil {
 	}
 
 	public static TreeIterator nodeAndAllContents(final EObject node) {
-		final TreeIterator allContents = node.eAllContents();
+		final TreeIterator<EObject> allContents = node.eAllContents();
 		return new TreeIterator() {
 			boolean didNode = false;
 			public void prune() {
@@ -1137,7 +1137,7 @@ public class BPELUtil {
 	public static Process getProcess(IResource bpelFile, ResourceSet resourceSet) throws IOException {
 		URI uri = URI.createPlatformResourceURI(bpelFile.getFullPath().toString());
 		Resource processResource = resourceSet.getResource(uri, true);
-		EList contents = processResource.getContents();
+		EList<EObject> contents = processResource.getContents();
 		if (!contents.isEmpty()) {
 			return (Process) contents.get(0);
 		}
@@ -1148,10 +1148,11 @@ public class BPELUtil {
 		final GraphicalEditPart thisPart = part;
 		
 		return new AccessibleEditPart() {
+				@Override
 				public void getName(AccessibleEvent e) {
 					String childType = null;
 					String displayName = null;
-					ILabeledElement labeledElement = (ILabeledElement)BPELUtil.adapt(thisPart.getModel(), ILabeledElement.class);
+					ILabeledElement labeledElement = BPELUtil.adapt(thisPart.getModel(), ILabeledElement.class);
 					if (labeledElement != null) {
 						childType = labeledElement.getTypeLabel(thisPart.getModel());
 						displayName = labeledElement.getLabel(thisPart.getModel());
@@ -1180,6 +1181,7 @@ public class BPELUtil {
 					return;
 				}
 
+				@Override
 				public void getChildCount(AccessibleControlEvent e) {
 					List list = thisPart.getChildren();
 					int count = 0;
@@ -1193,9 +1195,10 @@ public class BPELUtil {
 					e.detail = count;
 				}
 
+				@Override
 				public void getChildren(AccessibleControlEvent e) {
 					List list = thisPart.getChildren();
-					Vector childList = new Vector();
+					Vector<Integer> childList = new Vector<Integer>();
 					for (int i = 0; i < list.size(); i++) {
 						EditPart part = (EditPart)list.get(i);
 						AccessibleEditPart access = (AccessibleEditPart)part.getAdapter(AccessibleEditPart.class);
@@ -1206,6 +1209,7 @@ public class BPELUtil {
 					e.children = childList.toArray();
 				}
 				
+				@Override
 				public void getLocation(AccessibleControlEvent e) {
 					Rectangle bounds = thisPart.getFigure().getBounds().getCopy();
 					thisPart.getFigure().translateToAbsolute(bounds);
@@ -1220,6 +1224,7 @@ public class BPELUtil {
 				/**
 				 * @see AccessibleEditPart#getState(AccessibleControlEvent)
 				 */
+				@Override
 				public void getState(AccessibleControlEvent e) {
 					e.detail = ACC.STATE_SELECTABLE | ACC.STATE_FOCUSABLE;
 					if (thisPart.getSelected() != EditPart.SELECTED_NONE)
@@ -1238,11 +1243,13 @@ public class BPELUtil {
 		final TableCursor cursor = new TableCursor(table, SWT.NONE);
 		cursor.addSelectionListener(new SelectionAdapter() {
 			// when the TableEditor is over a cell, select the corresponding row in the table
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (cursor.getRow() != null)
 					table.setSelection(new TableItem[] {cursor.getRow()});
 			}
 			// when the user hits "ENTER" in the TableCursor, pop up an editor
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				TableItem row = cursor.getRow();
 				if (row != null) {
@@ -1257,6 +1264,7 @@ public class BPELUtil {
 		// Hide the TableCursor when the user hits the "CTRL" or "SHIFT" key.
 		// This alows the user to select multiple items in the table.
 		cursor.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if ((e.keyCode == SWT.CTRL) || (e.keyCode == SWT.SHIFT)	|| 
 					(e.stateMask & SWT.CONTROL) != 0	|| (e.stateMask & SWT.SHIFT) != 0) {
@@ -1283,6 +1291,7 @@ public class BPELUtil {
 		// Show the TableCursor when the user releases the "SHIFT" or "CTRL" key.
 		// This signals the end of the multiple selection task.
 		table.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.CONTROL && (e.stateMask & SWT.SHIFT) != 0)
 					return;
@@ -1428,7 +1437,7 @@ public class BPELUtil {
 		boolean isEObject = (object instanceof EObject);
 		INamedElement namedElement = null;
 		if (isEObject) {
-			namedElement = (INamedElement)BPELUtil.adapt(object, INamedElement.class);
+			namedElement = BPELUtil.adapt(object, INamedElement.class);
 			if (namedElement != null) {
 				try {
 					String s = namedElement.getName(object);
@@ -1586,14 +1595,14 @@ public class BPELUtil {
 		}
 	}
 	
-	private static void addCorrelationSetsToMap(Map targetMap, CorrelationSets csets) {
+	private static void addCorrelationSetsToMap(Map<String, CorrelationSet> targetMap, CorrelationSets csets) {
 		if (csets == null) return;
-		for (Iterator it = csets.getChildren().iterator(); it.hasNext(); ) {
-			CorrelationSet c = (CorrelationSet)it.next();
+		for (Iterator<CorrelationSet> it = csets.getChildren().iterator(); it.hasNext(); ) {
+			CorrelationSet c = it.next();
 			if (c.getName() != null) targetMap.put(c.getName(), c);
 		}
 	}
-	private static void addVisibleCorrelationSets(Map targetMap, EObject target) {
+	private static void addVisibleCorrelationSets(Map<String, CorrelationSet> targetMap, EObject target) {
 		if (target == null) return;
 		if (target instanceof Resource) return;
 		if (target instanceof Process) {
@@ -1677,12 +1686,12 @@ public class BPELUtil {
 		if (message == null) return null;
 		Definition def = message.getEnclosingDefinition();
 		if (def == null) return null;
-		Iterator ptIt = def.getEPortTypes().iterator();
+		Iterator<PortType> ptIt = def.getEPortTypes().iterator();
 		while (ptIt.hasNext()) {
-			PortType pt = (PortType)ptIt.next();
-			Iterator it = pt.getOperations().iterator();
+			PortType pt = ptIt.next();
+			Iterator<Operation> it = pt.getOperations().iterator();
 			while (it.hasNext()) {
-				Operation op = (Operation)it.next();
+				Operation op = it.next();
 				Input input = op.getEInput();
 				if (input != null) {
 					if (input.getMessage().getQName().equals(message.getQName())) {
@@ -1695,9 +1704,9 @@ public class BPELUtil {
 						return op;
 					}
 				}
-				Iterator faultIterator = op.getEFaults().iterator();
+				Iterator<Fault> faultIterator = op.getEFaults().iterator();
 				while (faultIterator.hasNext()) {
-					Fault fault = (Fault)faultIterator.next();
+					Fault fault = faultIterator.next();
 					Message faultMessage = fault.getEMessage();
 					if (faultMessage != null) {
 						if (faultMessage.getQName() != null) {
@@ -1745,7 +1754,7 @@ public class BPELUtil {
 			dialog.setPrefix(prefix);
 		}
 		
-		if (dialog.open() == Dialog.CANCEL) {
+		if (dialog.open() == Window.CANCEL) {
 			return nsPrefix;
 		}
 		
@@ -1761,8 +1770,8 @@ public class BPELUtil {
 	 */
 	public static List getAllEObjectsOfType(EObject root, EClass eClass) {
 		List allElems = new ArrayList();
-		for (TreeIterator iter = root.eAllContents(); iter.hasNext();) {
-			EObject element = (EObject) iter.next();
+		for (TreeIterator<EObject> iter = root.eAllContents(); iter.hasNext();) {
+			EObject element = iter.next();
 			if (eClass.isSuperTypeOf(element.eClass()) ||
 				element.eClass() == eClass) {
 				allElems.add(element);

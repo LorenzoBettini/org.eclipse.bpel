@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.actions;
 
 import java.util.ArrayList;
 
-import org.eclipse.bpel.model.BPELPlugin;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -21,8 +20,6 @@ import org.eclipse.bpel.ui.commands.BPELCopyCommand;
 import org.eclipse.bpel.ui.commands.BPELPasteCommand;
 import org.eclipse.bpel.ui.commands.RestoreSelectionCommand;
 import org.eclipse.bpel.ui.commands.SetSelectionCommand;
-import org.eclipse.bpel.ui.editparts.ActivityEditPart;
-import org.eclipse.bpel.ui.util.SharedImages;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -30,7 +27,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 
 

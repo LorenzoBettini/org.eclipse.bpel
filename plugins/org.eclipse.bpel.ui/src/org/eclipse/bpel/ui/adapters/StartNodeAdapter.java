@@ -65,11 +65,11 @@ public class StartNodeAdapter extends AbstractAdapter implements EditPartFactory
 		StartNode startNode = (StartNode)editPart.getModel();
 	    Process process = startNode.getProcess();
 		
-		IFaultHandlerHolder ifh =  (IFaultHandlerHolder)BPELUtil.adapt(process, IFaultHandlerHolder.class);
+		IFaultHandlerHolder ifh =  BPELUtil.adapt(process, IFaultHandlerHolder.class);
 		if (ifh != null && ifh.getFaultHandler(process) == null) {
 			actions.add(new CreateProcessFaultHandlerAction(editPart));
 		}			
-		IEventHandlerHolder ieh = (IEventHandlerHolder)BPELUtil.adapt(process, IEventHandlerHolder.class);
+		IEventHandlerHolder ieh = BPELUtil.adapt(process, IEventHandlerHolder.class);
 		if (ieh != null && ieh.getEventHandler(process) == null) {
 	    	actions.add(new CreateProcessEventHandlerAction(editPart));
 		}

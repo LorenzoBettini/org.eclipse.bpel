@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.Correlation;
 import org.eclipse.bpel.model.Correlations;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 
@@ -29,15 +28,18 @@ public class AddCorrelationCommand extends AddToListCommand {
 		super(target, newCorrelation, IBPELUIConstants.CMD_ADD_CORRELATION);
 	}
 
-	protected List getList() {
+	@Override
+	protected EList<Correlation> getList() {
 		Correlations c = ModelHelper.getCorrelations(target);
 		return (c == null)? null : c.getChildren();
 	}
 
+	@Override
 	protected void createList() {
 		ModelHelper.setCorrelations(target, BPELFactory.eINSTANCE.createCorrelations());
 	}
 	
+	@Override
 	protected void deleteList() {
 		ModelHelper.setCorrelations(target, null);
 	}

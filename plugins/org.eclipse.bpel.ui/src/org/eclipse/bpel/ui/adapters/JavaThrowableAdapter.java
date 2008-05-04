@@ -31,7 +31,7 @@ public class JavaThrowableAdapter extends AbstractAdapter implements
 	 */
 	public String getLabel (Object object) {
 		
-		for(Throwable t = (Throwable) getTarget(object,Throwable.class); t != null; t = t.getCause() ) {
+		for(Throwable t = getTarget(object,Throwable.class); t != null; t = t.getCause() ) {
 			String result = t.getLocalizedMessage();
 			if (result != null && result.length() > 0) {
 				return result;

@@ -50,8 +50,9 @@ public class DetailsLabelProvider extends LabelProvider {
 //		};
 	}
 
+	@Override
 	public Image getImage(Object model) {
-		ILabeledElement element = (ILabeledElement) BPELUtil.adapt(model, ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(model, ILabeledElement.class);
 		if (currentImage != null) {
 			//currentImage.dispose();
 		}
@@ -62,15 +63,16 @@ public class DetailsLabelProvider extends LabelProvider {
 	/**
 	 * Parameter model has to be an EObject.
 	 */
+	@Override
 	public String getText(Object model) {
 		if (!(model instanceof EObject)) {
 			return null;
 		}
 		hookListener((EObject) model);
-		ILabeledElement element = (ILabeledElement) BPELUtil.adapt(model, ILabeledElement.class);
+		ILabeledElement element = BPELUtil.adapt(model, ILabeledElement.class);
 		if (element != null) return element.getLabel(model);
 
-		INamedElement namedElement = (INamedElement) BPELUtil.adapt(model, INamedElement.class);
+		INamedElement namedElement = BPELUtil.adapt(model, INamedElement.class);
 		return (namedElement != null) ? namedElement.getName(model) : null;
 	}
 

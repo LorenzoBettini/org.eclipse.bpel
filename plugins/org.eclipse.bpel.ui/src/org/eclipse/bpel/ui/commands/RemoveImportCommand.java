@@ -36,6 +36,7 @@ public class RemoveImportCommand extends RemoveFromListCommand {
 	/* (non-Javadoc)
 	 * @see org.eclipse.bpel.ui.commands.RemoveFromListCommand#getList()
 	 */
+	@Override
 	protected List getList() {
 		return ModelHelper.getProcess( target ).getImports();
 	}

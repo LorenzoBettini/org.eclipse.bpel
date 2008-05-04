@@ -28,7 +28,7 @@ import org.eclipse.gef.GraphicalEditPart;
  */
 public class RowColumnLayout extends AbstractLayout {
 
-	protected Map constraints = new HashMap();
+	protected Map<IFigure, Object> constraints = new HashMap<IFigure, Object>();
 
 	private final int minWidthHeight = 30;
 	private int totalHeight, totalWidth;
@@ -73,9 +73,9 @@ public class RowColumnLayout extends AbstractLayout {
 		initVars();
 		region = new Rectangle(0, 0, -1, -1);
 		int unresolved = 0;
-		ListIterator children = f.getChildren().listIterator();
+		ListIterator<IFigure> children = f.getChildren().listIterator();
 		while (children.hasNext()) {
-			IFigure child = (IFigure) children.next();
+			IFigure child = children.next();
 			Rectangle r = (Rectangle) constraints.get(child);
 			if (r == null || r.width < 0 || r.height < 0) {
 				unresolved++;
@@ -103,7 +103,7 @@ public class RowColumnLayout extends AbstractLayout {
 		if (unresolved > 0) {
 			children = f.getChildren().listIterator();
 			while (children.hasNext()) {
-				IFigure child = (IFigure) children.next();
+				IFigure child = children.next();
 				Rectangle r = (Rectangle) constraints.get(child);
 				if (r == null || r.width < 0 || r.height < 0) {
 					if (debugThis) System.out.println("trying to resolve figure at " + child); //$NON-NLS-1$
@@ -151,7 +151,7 @@ public class RowColumnLayout extends AbstractLayout {
 		if (!isSpanned()) {
 			children = f.getChildren().listIterator();
 			while (children.hasNext()) {
-				IFigure child = (IFigure) children.next();
+				IFigure child = children.next();
 				Rectangle rowcol = (Rectangle) constraints.get(child);
 				
 				if (debugThis)	{
@@ -193,8 +193,9 @@ public class RowColumnLayout extends AbstractLayout {
 		return child.getPreferredSize(wHint, hHint);
 	}
 
+	@Override
 	public Object getConstraint(IFigure figure) {
-		return (Rectangle) constraints.get(figure);
+		return constraints.get(figure);
 	}
 	
 	public Point getOrigin(IFigure parent) {
@@ -214,6 +215,7 @@ public class RowColumnLayout extends AbstractLayout {
 		cols = 0;
 	}
 
+	@Override
 	public void remove(IFigure figure) {
 		super.remove(figure);
 		constraints.remove(figure);
@@ -241,6 +243,7 @@ public class RowColumnLayout extends AbstractLayout {
 	 * @see  #getConstraint(IFigure)
 	 * @since 2.0
 	 */
+	@Override
 	public void setConstraint(IFigure figure, Object newConstraint) {
 		super.setConstraint(figure, newConstraint);
 		if (newConstraint != null)
@@ -251,6 +254,7 @@ public class RowColumnLayout extends AbstractLayout {
 		}
 	}
 
+	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		// Subtract out the insets from the hints
 		if (wHint > -1)
@@ -281,10 +285,10 @@ public class RowColumnLayout extends AbstractLayout {
 		Point centeringOffset = new Point();
 		IFigure f;
 
-		Iterator children;
+		Iterator<IFigure> children;
 		children = parent.getChildren().iterator();
 		while (children.hasNext()) {
-			f = (IFigure) children.next();
+			f = children.next();
 			Rectangle bounds = (Rectangle) getConstraint(f);
 			if (bounds == null)
 				continue;
@@ -340,9 +344,9 @@ public class RowColumnLayout extends AbstractLayout {
 	
 	public boolean isDroppableAt(EditPart parentPart, EditPart test, Rectangle gridInfo) {
 		IFigure f = ((GraphicalEditPart)parentPart).getContentPane();
-		ListIterator children = f.getChildren().listIterator();
+		ListIterator<IFigure> children = f.getChildren().listIterator();
 		while (children.hasNext()) {
-			IFigure child = (IFigure) children.next();
+			IFigure child = children.next();
 			Rectangle r = (Rectangle) constraints.get(child);
 			if (r.getLocation().equals(gridInfo.getLocation())) {
 				return false;

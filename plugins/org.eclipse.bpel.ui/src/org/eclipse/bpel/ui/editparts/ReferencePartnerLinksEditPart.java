@@ -28,10 +28,11 @@ public class ReferencePartnerLinksEditPart extends PartnerLinksEditPart {
 	/**
 	 * Only add outbound partners.
 	 */
-	protected List getModelChildren() {
-		List result = new ArrayList();
-		for (Iterator iter = getPartnerLinks().getChildren().iterator(); iter.hasNext();) {
-			PartnerLink	partner = (PartnerLink) iter.next();
+	@Override
+	protected List<PartnerLink> getModelChildren() {
+		List<PartnerLink> result = new ArrayList<PartnerLink>();
+		for (Iterator<PartnerLink> iter = getPartnerLinks().getChildren().iterator(); iter.hasNext();) {
+			PartnerLink	partner = iter.next();
 			if (ModelHelper.isReferencePartnerLink(partner) && !ModelHelper.isInterfacePartnerLink(partner)) {
 				result.add(partner);
 			}
@@ -39,28 +40,34 @@ public class ReferencePartnerLinksEditPart extends PartnerLinksEditPart {
 		return result;
 	}
 
+	@Override
 	protected int getRoleKind() {
 		return ModelHelper.PARTNER_ROLE;
 	}
 	
+	@Override
 	protected PartnerLinks getPartnerLinks() {
 		return ((ReferencePartnerLinks)getModel()).getPartnerLinks();
 	}
 
+	@Override
 	public void activate() {
 		super.activate();
 		getPartnerLinks().eAdapters().add(adapter);
 	}
 
+	@Override
 	public void deactivate() {
 		super.deactivate();
 		getPartnerLinks().eAdapters().remove(adapter);
 	}
 
+	@Override
 	protected IFigure getAddToolTip() {
 	    return new Label(Messages.ReferencePartnerLinksEditPart_0); 
 	}
 	
+	@Override
 	protected IFigure getRemoveToolTip() {
 	    return new Label(Messages.ReferencePartnerLinksEditPart_1); 
 	}

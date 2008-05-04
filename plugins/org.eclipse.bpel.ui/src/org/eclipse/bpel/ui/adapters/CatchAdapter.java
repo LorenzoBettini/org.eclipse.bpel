@@ -31,6 +31,7 @@ public class CatchAdapter extends ContainerAdapter implements ILabeledElement,
 
 	/* IContainer delegate */
 	
+	@Override
 	public IContainer createContainerDelegate() {
 		return new ActivityContainer(BPELPackage.eINSTANCE.getCatch_Activity());
 	}

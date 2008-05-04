@@ -13,7 +13,6 @@ package org.eclipse.bpel.ui.details.tree;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 
@@ -49,16 +48,18 @@ public class PortTypeTreeNode extends TreeNode {
 		fDerivedFromPartnerRole = derivedFromPartnerRole;
 	}
 
+	@Override
 	public Object[] getChildren() {
 		PortType pt = (PortType)modelObject;
 		if (pt.getOperations() == null)  return EMPTY_ARRAY;
-		Vector v = new Vector();
-		for (Iterator it = pt.getOperations().iterator(); it.hasNext(); ) {
-			v.add(new OperationTreeNode((Operation)it.next(), isCondensed));
+		Vector<OperationTreeNode> v = new Vector<OperationTreeNode>();
+		for (Iterator<Operation> it = pt.getOperations().iterator(); it.hasNext(); ) {
+			v.add(new OperationTreeNode(it.next(), isCondensed));
 		}
 		return v.toArray();
 	}
 
+	@Override
 	public boolean hasChildren() {
 		PortType pt = (PortType)modelObject;
 		if (pt.getOperations() == null)  return false;

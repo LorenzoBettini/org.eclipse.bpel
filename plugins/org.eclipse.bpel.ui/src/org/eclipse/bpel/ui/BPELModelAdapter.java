@@ -1,30 +1,10 @@
 package org.eclipse.bpel.ui;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
-import org.eclipse.wst.wsdl.Definition;
-import org.eclipse.wst.wsdl.WSDLFactory;
-import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
-import org.eclipse.wst.wsdl.internal.util.WSDLResourceFactoryImpl;
-import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xsd.ui.internal.util.ModelReconcileAdapter;
-import org.eclipse.wst.xsd.ui.internal.util.XSDSchemaLocationResolverAdapterFactory;
-import org.eclipse.xsd.util.XSDResourceImpl;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class BPELModelAdapter implements INodeAdapter
 {

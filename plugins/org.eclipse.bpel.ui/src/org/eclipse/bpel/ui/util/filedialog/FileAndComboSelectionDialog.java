@@ -110,6 +110,7 @@ public abstract class FileAndComboSelectionDialog extends SelectionDialog {
 		this.filterPatterns = filterPatterns;
 	}
 
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(title);
@@ -119,6 +120,7 @@ public abstract class FileAndComboSelectionDialog extends SelectionDialog {
 		return fileValid && comboValid;
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		okButton =
 			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -156,6 +158,7 @@ public abstract class FileAndComboSelectionDialog extends SelectionDialog {
 	
 	protected abstract void configureComboViewer(ComboViewer comboViewer);
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		// create composite 
@@ -276,6 +279,7 @@ public abstract class FileAndComboSelectionDialog extends SelectionDialog {
 	/**
 	 * Closes this dialog.
 	 */
+	@Override
 	protected void okPressed() {
 		resultPath = resourceGroup.getResourceFullPath();
 

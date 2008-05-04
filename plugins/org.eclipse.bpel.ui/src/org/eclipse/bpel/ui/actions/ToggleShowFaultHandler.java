@@ -41,6 +41,7 @@ public class ToggleShowFaultHandler extends SelectionAction {
 		setToolTipText(Messages.ToggleShowFaultHandler_Shows_fault_handler_activities_3); 
 	}
 
+	@Override
 	public void run() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {
@@ -53,13 +54,14 @@ public class ToggleShowFaultHandler extends SelectionAction {
 		}
 	}
 
+	@Override
 	protected boolean calculateEnabled() {
 		List selList = getSelectedObjects();
 		if (selList.size() != 1)
 			return false;
 		Object o = selList.get(0);
 		if (o instanceof Scope) {
-			IFaultHandlerHolder holder = (IFaultHandlerHolder)BPELUtil.adapt(o, IFaultHandlerHolder.class);
+			IFaultHandlerHolder holder = BPELUtil.adapt(o, IFaultHandlerHolder.class);
 			if (holder != null) {
 				if (holder.getFaultHandler(o) != null)
 					return true;
@@ -68,6 +70,7 @@ public class ToggleShowFaultHandler extends SelectionAction {
 		return false;
 	}
 
+	@Override
 	public boolean isChecked() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {

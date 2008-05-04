@@ -19,19 +19,23 @@ import org.eclipse.emf.ecore.EClass;
 
 public class ReplyAction extends AbstractBPELAction {
 
-    public EClass getModelType() {
+    @Override
+	public EClass getModelType() {
         return BPELPackage.eINSTANCE.getReply();
     }
 
-    public String getLabel() {
+    @Override
+	public String getLabel() {
     	return BPELTerms.getString("Reply"); //$NON-NLS-1$
     }
 
-    public String getDescription() {
+    @Override
+	public String getDescription() {
         return Messages.ReplyAction_Reply_HTML_Description_1; 
     }
 
-    public AdapterFactory getAdapterFactory() {
+    @Override
+	public AdapterFactory getAdapterFactory() {
         return BPELUIAdapterFactory.getInstance();
 	}
 }

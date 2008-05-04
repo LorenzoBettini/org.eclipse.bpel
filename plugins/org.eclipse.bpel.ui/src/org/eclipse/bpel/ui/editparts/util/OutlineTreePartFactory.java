@@ -30,7 +30,7 @@ import org.eclipse.gef.EditPartFactory;
 public class OutlineTreePartFactory implements EditPartFactory {
 	
 	public EditPart createEditPart(EditPart context, Object model) {
-		IOutlineEditPartFactory factory = (IOutlineEditPartFactory)BPELUtil.adapt(model, IOutlineEditPartFactory.class);
+		IOutlineEditPartFactory factory = BPELUtil.adapt(model, IOutlineEditPartFactory.class);
 		if (factory != null) {
 			return factory.createOutlineEditPart(context, model);
 		}
@@ -53,7 +53,7 @@ public class OutlineTreePartFactory implements EditPartFactory {
 					result.add(rootItems[i]);
 				}
 			}
-			IContainer container = (IContainer)BPELUtil.adapt(model, IContainer.class);
+			IContainer container = BPELUtil.adapt(model, IContainer.class);
 			List children = container.getChildren(model);
 			for (Iterator iter = children.iterator(); iter.hasNext();) {
 				Object element = iter.next();
@@ -63,7 +63,7 @@ public class OutlineTreePartFactory implements EditPartFactory {
 			}
 			return result;
 		}
-		IContainer container = (IContainer)BPELUtil.adapt(model, IContainer.class);
+		IContainer container = BPELUtil.adapt(model, IContainer.class);
 		if (container == null)  return Collections.EMPTY_LIST;
 		return container.getChildren(model);
 	}

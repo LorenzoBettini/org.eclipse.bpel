@@ -25,9 +25,11 @@ public class SetVariableKindCommand extends SetCommand {
 		super(target, new Integer(newKind));
 	}
 
+	@Override
 	public Object get() {
 		return new Integer(((VariableExtension)fTarget).getVariableKind());
 	}
+	@Override
 	public void set(Object o) {
 		((VariableExtension)fTarget).setVariableKind(((Integer)o).intValue());
 	}

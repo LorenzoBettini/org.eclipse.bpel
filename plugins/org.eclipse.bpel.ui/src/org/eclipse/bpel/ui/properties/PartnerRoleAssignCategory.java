@@ -67,6 +67,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
 	 */
+	@Override
 	public String getName() {
 		return Messages.PartnerRoleAssignCategory_Partner_Reference_1;
 	}
@@ -184,6 +185,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
 
+	@Override
 	public boolean isCategoryForModel(EObject aModel) {
 		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel,
 				IVirtualCopyRuleSide.class);

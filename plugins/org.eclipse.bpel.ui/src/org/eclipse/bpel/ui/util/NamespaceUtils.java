@@ -20,8 +20,8 @@ import java.util.Iterator;
  */
 public class NamespaceUtils
 {
-    protected static char NS_SEPARATOR = '/'; //$NON-NLS-1$
-    protected static char PACKAGE_SEPARATOR = '.'; //$NON-NLS-1$
+    protected static char NS_SEPARATOR = '/'; 
+    protected static char PACKAGE_SEPARATOR = '.'; 
     protected static String HEX_PREFIX = "%"; //$NON-NLS-1$
     protected static String CHARSET_UTF8 = "UTF-8"; //$NON-NLS-1$
     

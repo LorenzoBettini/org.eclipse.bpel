@@ -42,7 +42,7 @@ public abstract class XSDTreeNode extends TreeNode {
 		return result;
 	}
 
-	protected void addComplexTypeContent(XSDComplexTypeDefinition complexType, Vector v) {
+	protected void addComplexTypeContent(XSDComplexTypeDefinition complexType, Vector<TreeNode> v) {
 		List attrs = getInheritedXSDElementsAndAttributes(complexType);
 		attrs.addAll(XSDUtils.getXSDElementsAndAttributes(complexType));
 		for (Iterator it = attrs.iterator(); it.hasNext(); ) {
@@ -63,7 +63,7 @@ public abstract class XSDTreeNode extends TreeNode {
 		return false;
 	}
 	
-	protected void addNodes ( List dstList, List srcList ) {
+	protected void addNodes ( List<TreeNode> dstList, List srcList ) {
 		Iterator i = srcList.iterator();
 		while (i.hasNext()) {
 			Object obj = i.next();

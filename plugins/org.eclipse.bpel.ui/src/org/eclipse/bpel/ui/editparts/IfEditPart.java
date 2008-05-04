@@ -309,6 +309,7 @@ public class IfEditPart extends PickEditPart {
 		}
 	}
 
+	@Override
 	protected void configureExpandedFigure(IFigure figure) {
 		super.configureExpandedFigure(figure);
 

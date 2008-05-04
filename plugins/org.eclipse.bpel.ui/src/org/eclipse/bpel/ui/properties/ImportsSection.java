@@ -78,8 +78,10 @@ public class ImportsSection extends BPELPropertySection {
 	
 	
 	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {		
 		return new MultiObjectAdapter[] { new MultiObjectAdapter() {
+			@Override
 			public void notify(Notification n) {
 				importViewer.setInput(getInput());				
 			}
@@ -195,14 +197,17 @@ public class ImportsSection extends BPELPropertySection {
 
 	public class NamespaceColumn extends ColumnTableProvider.Column implements
 			ILabelProvider {
+		@Override
 		public String getHeaderText() {
 			return Messages.ImportDetails_Import_Namespace_12;
 		}
 
+		@Override
 		public String getProperty() {
 			return "Namespace"; //$NON-NLS-1$
 		} 
 
+		@Override
 		public int getInitialWeight() {
 			return 30;
 		}
@@ -215,14 +220,17 @@ public class ImportsSection extends BPELPropertySection {
 
 	public class LocationColumn extends ColumnTableProvider.Column implements
 			ILabelProvider {
+		@Override
 		public String getHeaderText() {
 			return Messages.ImportDetails_Import_Location_12;
 		}
 
+		@Override
 		public String getProperty() {
 			return "Location"; //$NON-NLS-1$
 		}
 
+		@Override
 		public int getInitialWeight() {
 			return 30;
 		}
@@ -235,14 +243,17 @@ public class ImportsSection extends BPELPropertySection {
 
 	public class ImportTypeColumn extends ColumnTableProvider.Column implements
 			ILabelProvider {
+		@Override
 		public String getHeaderText() {
 			return Messages.ImportsSection_3;
 		}
 
+		@Override
 		public String getProperty() {
 			return "ImportType"; //$NON-NLS-1$
 		}
 
+		@Override
 		public int getInitialWeight() {
 			return 30;
 		}
@@ -265,6 +276,7 @@ public class ImportsSection extends BPELPropertySection {
 	}
 	
 
+	@Override
 	protected void createClient(Composite parent) {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 
@@ -273,11 +285,13 @@ public class ImportsSection extends BPELPropertySection {
 				IHelpContextIds.PROPERTY_PAGE_BPEL_IMPORTS);
 	}
 
+	@Override
 	public Object getUserContext() {
 		return ((StructuredSelection) importViewer.getSelection())
 				.getFirstElement();
 	}
 
+	@Override
 	public void restoreUserContext(Object userContext) {
 		importTable.setFocus();
 		if (userContext != null) {

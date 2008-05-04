@@ -125,6 +125,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 * 
 	 * @return true if canceled
 	 */
+	@Override
 	public boolean performCancel() {
 		return super.performCancel();
 	}
@@ -154,6 +155,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 * @see Wizard#performFinish
 	 */
 
+	@Override
 	public boolean performFinish() {
 
 		BPELCreateOperation runnable = new BPELCreateOperation();

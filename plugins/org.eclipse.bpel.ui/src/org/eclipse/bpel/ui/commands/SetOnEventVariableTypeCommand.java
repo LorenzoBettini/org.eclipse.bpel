@@ -25,6 +25,7 @@ public class SetOnEventVariableTypeCommand extends AutoUndoCommand {
 		this.onEvent = onEvent;
 	}
 	
+	@Override
 	public void doExecute() {
 		if (onEvent.getVariable() == null) {
 			onEvent.setMessageType(null);

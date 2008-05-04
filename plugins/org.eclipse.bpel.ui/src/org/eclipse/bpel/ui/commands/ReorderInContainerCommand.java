@@ -31,8 +31,9 @@ public class ReorderInContainerCommand extends AutoUndoCommand {
 		this.before = before;
 	}
 	
+	@Override
 	public void doExecute() {
-		IContainer container = (IContainer)BPELUtil.adapt(parent, IContainer.class);
+		IContainer container = BPELUtil.adapt(parent, IContainer.class);
 		container.removeChild(parent, child); 
 		container.addChild(parent, child, before);
 	}

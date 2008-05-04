@@ -32,9 +32,11 @@ public class SetPartnerLinkCommand extends SetCommand {
 		super(target, newPartnerLink);
 	}
 
+	@Override
 	public Object get() {
 		return ModelHelper.getPartnerLink(fTarget);
 	}
+	@Override
 	public void set(Object o) {
 	    PartnerLink pl = (PartnerLink)o;
 		ModelHelper.setPartnerLink(fTarget, pl);
@@ -50,8 +52,8 @@ public class SetPartnerLinkCommand extends SetCommand {
 		    }
 		    
 		    if (pt != null){
-		        List ops = pt.getOperations();
-		        if (ops.size() > 0) operation = (Operation)ops.get(0);
+		        List<Operation> ops = pt.getOperations();
+		        if (ops.size() > 0) operation = ops.get(0);
 		    }
 		}
 		// Not sure why we set an operation here.

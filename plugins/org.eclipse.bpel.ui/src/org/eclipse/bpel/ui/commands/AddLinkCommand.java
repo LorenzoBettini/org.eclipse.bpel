@@ -39,6 +39,7 @@ public class AddLinkCommand extends AutoUndoCommand {
 		this.setNameCmd = setNameCmd;
 	}
 	
+	@Override
 	public boolean canDoExecute() {
 		if (link == null || source == null || target == null)  
 			return false;
@@ -48,6 +49,7 @@ public class AddLinkCommand extends AutoUndoCommand {
 		return true;
 	}
 	
+	@Override
 	public void doExecute() {
 		if (setNameCmd != null) {
 			// This is a hack.

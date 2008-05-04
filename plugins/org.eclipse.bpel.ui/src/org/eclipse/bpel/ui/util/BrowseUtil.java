@@ -14,10 +14,9 @@ import org.eclipse.bpel.ui.dialogs.PartnerLinkTypeSelectorDialog;
 import org.eclipse.bpel.ui.dialogs.TypeSelectorDialog;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wst.wsdl.PortType;
-import org.eclipse.xsd.XSDTypeDefinition;
 
 
 public class BrowseUtil {
@@ -29,7 +28,7 @@ public class BrowseUtil {
 	
 	public static Object browseForXSDTypeOrElement(EObject eObject, Shell parent) {		
 		TypeSelectorDialog dialog = new TypeSelectorDialog (parent,eObject);		
-		if (dialog.open() != Dialog.OK) {
+		if (dialog.open() != Window.OK) {
 			return null;
 		}
 		Object obj[] = dialog.getResult();
@@ -48,7 +47,7 @@ public class BrowseUtil {
 	
 	public static Object browseForPartnerLinkType (EObject eObject, Shell parent) {
 		PartnerLinkTypeSelectorDialog dialog = new PartnerLinkTypeSelectorDialog (parent,eObject);		
-		if (dialog.open() != Dialog.OK) {
+		if (dialog.open() != Window.OK) {
 			return null;
 		}
 		Object obj[] = dialog.getResult();

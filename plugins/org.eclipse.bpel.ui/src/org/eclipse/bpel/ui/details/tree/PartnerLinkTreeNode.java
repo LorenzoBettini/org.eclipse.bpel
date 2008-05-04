@@ -27,6 +27,7 @@ public class PartnerLinkTreeNode extends TreeNode {
 
 	/* ITreeNode */
 
+	@Override
 	public Object[] getChildren() {
 		
 		PartnerLink partnerLink = (PartnerLink)modelObject;
@@ -35,7 +36,7 @@ public class PartnerLinkTreeNode extends TreeNode {
 			return EMPTY_ARRAY;
 		}
 		
-		List list = new ArrayList(2);
+		List<PortTypeTreeNode> list = new ArrayList<PortTypeTreeNode>(2);
 		
 		Role role = partnerLink.getMyRole();
 		PortTypeTreeNode node = null;
@@ -64,6 +65,7 @@ public class PartnerLinkTreeNode extends TreeNode {
 		return list.toArray();
 	}
 
+	@Override
 	public boolean hasChildren() {
 		PartnerLink partnerLink = (PartnerLink)modelObject;
 		

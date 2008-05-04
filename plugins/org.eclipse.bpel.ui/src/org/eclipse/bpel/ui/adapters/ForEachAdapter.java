@@ -22,12 +22,14 @@ public class ForEachAdapter extends ContainerActivityAdapter implements IAnnotat
 
 	/* IContainer delegate */
 	
+	@Override
 	public IContainer createContainerDelegate() {
 		return new ActivityContainer(BPELPackage.eINSTANCE.getForEach_Activity());
 	}
 
 	/* EditPartFactory */
 	
+	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart result = new SequenceEditPart();
 		result.setModel(model);
@@ -36,6 +38,7 @@ public class ForEachAdapter extends ContainerActivityAdapter implements IAnnotat
 
 	/* IOutlineEditPartFactory */
 	
+	@Override
 	public EditPart createOutlineEditPart(EditPart context, Object model) {
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);

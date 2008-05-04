@@ -25,18 +25,14 @@ import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.ui.BPELEditor;
-import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
-import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.FlowLinkUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -67,6 +63,7 @@ public class DeleteChildCommand extends AutoUndoCommand {
 	ModelAutoUndoRecorder modelAutoUndoRecorder;
 
 	// TODO: hack: necessary for multi-delete to work properly
+	@Override
 	protected ModelAutoUndoRecorder getRecorder() {
 		if (modelAutoUndoRecorder != null) return modelAutoUndoRecorder;
 		return super.getRecorder();
@@ -122,22 +119,23 @@ public class DeleteChildCommand extends AutoUndoCommand {
 	}
 
 	// TODO: this is a hack.
+	@Override
 	public Resource[] getResources() {
 		if (resourcesToModify == null) {
 			Process process = ModelHelper.getProcess(fParent);
 			if (process == null) return EMPTY_RESOURCE_ARRAY;
 			BPELEditor bpelEditor = ModelHelper.getBPELEditor(process);
 			
-			Set resultSet = new HashSet();
+			Set<Resource> resultSet = new HashSet<Resource>();
 			resultSet.add(fParent.eResource());
 			
 			// Figure out which model objects are being deleted.
-			HashSet deletingSet = new HashSet();
+			HashSet<Object> deletingSet = new HashSet<Object>();
 			ModelHelper.addSubtreeToCollection(fChild, deletingSet);
 		
 			// If we are deleting any PartnerLinks which reference PLTs in the Artifacts WSDL
 			// file, also delete the referenced PLTs.
-			Set partnerLinkTypes = null;
+			Set<PartnerLinkType> partnerLinkTypes = null;
 			Definition artifactsDefinition = bpelEditor.getArtifactsDefinition();
 	
 			for (Iterator it = deletingSet.iterator(); it.hasNext(); ) {
@@ -145,14 +143,14 @@ public class DeleteChildCommand extends AutoUndoCommand {
 				if (object instanceof PartnerLink) {
 					PartnerLinkType plt = ((PartnerLink)object).getPartnerLinkType();
 					if ((plt != null) && (plt.getEnclosingDefinition() == artifactsDefinition)) {
-						if (partnerLinkTypes == null) partnerLinkTypes = new HashSet();
+						if (partnerLinkTypes == null) partnerLinkTypes = new HashSet<PartnerLinkType>();
 						if (partnerLinkTypes.add(plt)) {
 							resultSet.add(plt.eResource());
 						}
 					}
 				}
 			}
-			resourcesToModify = (Resource[])resultSet.toArray(new Resource[resultSet.size()]); 
+			resourcesToModify = resultSet.toArray(new Resource[resultSet.size()]); 
 		}
 		return resourcesToModify;
 	}
@@ -185,7 +183,7 @@ public class DeleteChildCommand extends AutoUndoCommand {
 	
 		// If we are deleting any PartnerLinks which reference PLTs in the Artifacts WSDL
 		// file, also delete the referenced PLTs.
-		Set partnerLinkTypes = null;
+		Set<PartnerLinkType> partnerLinkTypes = null;
 		Definition artifactsDefinition = bpelEditor.getArtifactsDefinition();
 
 		for (Iterator it = deletingSet.iterator(); it.hasNext(); ) {
@@ -193,7 +191,7 @@ public class DeleteChildCommand extends AutoUndoCommand {
 			if (object instanceof PartnerLink) {
 				PartnerLinkType plt = ((PartnerLink)object).getPartnerLinkType();
 				if ((plt != null) && (plt.getEnclosingDefinition() == artifactsDefinition)) {
-					if (partnerLinkTypes == null) partnerLinkTypes = new HashSet();
+					if (partnerLinkTypes == null) partnerLinkTypes = new HashSet<PartnerLinkType>();
 					if (partnerLinkTypes.add(plt)) {
 						if (fDeletePLTsCmd == null) fDeletePLTsCmd = new CompoundCommand();
 						fDeletePLTsCmd.add(new DeletePartnerLinkTypeCommand(plt));
@@ -211,9 +209,9 @@ public class DeleteChildCommand extends AutoUndoCommand {
 		// This is a hack, but it could be worse..
 
 		// step 1: find all the flows which contain deleted objects
-		HashSet flowSet = new HashSet();
-		for (Iterator it = deletingSet.iterator(); it.hasNext(); ) {
-			Flow [] flws = FlowLinkUtil.getParentFlows((EObject)it.next());
+		HashSet<Flow> flowSet = new HashSet<Flow>();
+		for (Iterator<EObject> it = deletingSet.iterator(); it.hasNext(); ) {
+			Flow [] flws = FlowLinkUtil.getParentFlows(it.next());
 			flowSet.addAll(Arrays.asList(flws));
 		}
 		// step 2: if any of the flows is being deleted, we can ignore it
@@ -224,10 +222,10 @@ public class DeleteChildCommand extends AutoUndoCommand {
 		// deleted object.  Even if both source and target are being deleted, we should still
 		// delete the link, since it is a child of the Flow which is not being deleted.
 		fDeleteLinksCmd = new CompoundCommand();
-		for (Iterator flowIt = flowSet.iterator(); flowIt.hasNext(); ) {
-			Flow flow = (Flow)flowIt.next();
-			for (Iterator it = FlowLinkUtil.getFlowLinks(flow).iterator(); it.hasNext(); ) {
-				Link link = (Link)it.next();
+		for (Iterator<Flow> flowIt = flowSet.iterator(); flowIt.hasNext(); ) {
+			Flow flow = flowIt.next();
+			for (Iterator<Link> it = FlowLinkUtil.getFlowLinks(flow).iterator(); it.hasNext(); ) {
+				Link link = it.next();
 				if (deletingSet.contains(FlowLinkUtil.getLinkSource(link)) || deletingSet.contains(FlowLinkUtil.getLinkTarget(link))) {
 					// NOTE: this is safe even if the link is scheduled for deletion by
 					// a GEF DeleteAction, see comment in DeleteLinkCommand.

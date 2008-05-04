@@ -69,6 +69,7 @@ public class PartnerLinkRoleSelectorDialog extends StatusDialog {
 
 		button.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Button b = (Button) event.widget;
 				fSelectedRole = ((Integer) b.getData()).intValue();

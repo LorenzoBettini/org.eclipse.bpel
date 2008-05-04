@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 
 
 public class WeakMultiViewerSelectionProvider extends MultiViewerSelectionProvider {
+	@Override
 	public void setSelection(ISelection selection) {
 	}
 }

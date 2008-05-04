@@ -22,6 +22,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Layer;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPolicy;
 
 public class PickEditPart extends SequenceEditPart {
@@ -29,7 +30,7 @@ public class PickEditPart extends SequenceEditPart {
 	private class PickOrderedLayoutEditPolicy extends BPELOrderedLayoutEditPolicy{
 		@Override
 		protected ArrayList createVerticalConnections(BPELEditPart parent) {
-			ArrayList connections = new ArrayList();
+			ArrayList<PolylineConnection> connections = new ArrayList<PolylineConnection>();
 			List children = getConnectionChildren(parent);
 			BPELEditPart sourcePart, targetPart;
 			ConnectionAnchor sourceAnchor, targetAnchor;
@@ -56,6 +57,7 @@ public class PickEditPart extends SequenceEditPart {
 			super.createEditPolicies();
 	}
 	
+	@Override
 	protected void configureExpandedFigure(IFigure figure) {
 		super.configureExpandedFigure(figure);
 		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();

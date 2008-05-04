@@ -116,7 +116,7 @@ public class XSDUtils {
 		supportedPrimitives.add("NCName"); //$NON-NLS-1$
 		supportedPrimitives.add("negativeInteger"); //$NON-NLS-1$
 		supportedPrimitives.add("NMTOKEN"); //$NON-NLS-1$
-		supportedPrimitives.add("NMTOKENS"); //$NON-NLS-1$, "NMTOKENS"); //$NON-NLS-1$ //$NON-NLS-2$
+		supportedPrimitives.add("NMTOKENS"); //$NON-NLS-1$, "NMTOKENS"); 
 		supportedPrimitives.add("nonNegativeInteger"); //$NON-NLS-1$
 		supportedPrimitives.add("nonPositiveInteger"); //$NON-NLS-1$
 		supportedPrimitives.add("normalizedString"); //$NON-NLS-1$
@@ -866,7 +866,7 @@ public class XSDUtils {
 		for(Iterator i = getChildElements(source).iterator(); i.hasNext(); ) {
 			element = (XSDFeature) i.next();
 			elementType = getResolvedComplexType(element); 
-			if(elementType != null && !results.contains(elementType) && !XSDUtil.isSchemaForSchemaNamespace(elementType.getTargetNamespace()))
+			if(elementType != null && !results.contains(elementType) && !XSDConstants.isSchemaForSchemaNamespace(elementType.getTargetNamespace()))
 				results.add(elementType);
 		}
 		return results;
@@ -912,7 +912,7 @@ public class XSDUtils {
 			// anonymous types should be filtered out as well
 			if(	elementType != null && 
 				!results.contains(elementType) && 
-				!XSDUtil.isSchemaForSchemaNamespace(elementType.getTargetNamespace()) &&
+				!XSDConstants.isSchemaForSchemaNamespace(elementType.getTargetNamespace()) &&
 				(includeAnonymous || elementType.eContainer() != next) )
 				results.add(elementType);
 		}
@@ -991,7 +991,7 @@ public class XSDUtils {
 			return null;
 		
 		XSDTypeDefinition baseType = type.getBaseType();
-		while(baseType != null && !XSDUtil.isAnySimpleType(baseType) && !XSDUtil.isAnyType(baseType)) {
+		while(baseType != null && !XSDConstants.isAnySimpleType(baseType) && !XSDConstants.isAnyType(baseType)) {
 			// walk one more step up the hierarchy
 			type = baseType;
 			baseType = type.getBaseType();

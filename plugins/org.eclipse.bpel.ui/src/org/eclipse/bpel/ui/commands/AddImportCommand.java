@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.common.ui.editmodel.ResourceInfo;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.Import;
@@ -19,6 +17,7 @@ import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -67,18 +66,15 @@ public class AddImportCommand extends AutoUndoCommand {
 		}		
 	}
 	
-	
 	public AddImportCommand ( Process process, Object object) {
 		this(process,object,null);
 	}	
 	
-	
-	protected List getList() {	
+	protected EList<Import> getList() {	
 		return fProcess.getImports();		
 	}
 	
-	
-	
+	@Override
 	public void doExecute() {
 		if (bNoop) {
 			return ;

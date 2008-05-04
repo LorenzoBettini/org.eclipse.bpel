@@ -49,7 +49,7 @@ public class WSILInspectionAdapter extends AbstractAdapter
 	 */
 	public String getLabel ( Object obj  )
 	{	
-		Inspection inspection = (Inspection) getTarget(obj, Inspection.class);		
+		Inspection inspection = getTarget(obj, Inspection.class);		
 		if (inspection == null) {
 			return getTypeLabel(obj);
 		}

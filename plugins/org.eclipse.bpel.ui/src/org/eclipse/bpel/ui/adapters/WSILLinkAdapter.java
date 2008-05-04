@@ -46,7 +46,7 @@ public class WSILLinkAdapter extends AbstractAdapter
 	 */
 	public String getLabel ( Object obj  )
 	{	
-		Link link = (Link) getTarget(obj, Link.class);		
+		Link link = getTarget(obj, Link.class);		
 		if (link == null) {
 			return getTypeLabel(obj);
 		}

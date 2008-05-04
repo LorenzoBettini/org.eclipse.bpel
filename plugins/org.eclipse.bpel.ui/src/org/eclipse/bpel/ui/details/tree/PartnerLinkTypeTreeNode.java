@@ -29,6 +29,7 @@ public class PartnerLinkTypeTreeNode extends TreeNode {
 
 	/* ITreeNode */
 
+	@Override
 	public Object[] getChildren() {
 		
 		PartnerLinkType plt = (PartnerLinkType) modelObject;
@@ -37,16 +38,17 @@ public class PartnerLinkTypeTreeNode extends TreeNode {
 		}
 
 		// There is at most, 2 roles
-		List v = new ArrayList(2);
-		Iterator i = plt.getRole().iterator();
+		List<RoleTreeNode> v = new ArrayList<RoleTreeNode>(2);
+		Iterator<Role> i = plt.getRole().iterator();
 		while (i.hasNext()) {
-			Role role = (Role) i.next();
+			Role role = i.next();
 			v.add( new RoleTreeNode ( role ,isCondensed));
 		}
 		return v.toArray();
 	}
 
 	
+	@Override
 	public boolean hasChildren() {
 		PartnerLinkType plt = (PartnerLinkType) modelObject;
 		if (plt == null)  {

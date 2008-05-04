@@ -10,20 +10,21 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.requests.CreationFactory;
 
 
 public class VariablesEditPart extends BPELTrayCategoryEditPart {
 
-	protected List getModelChildren() {
+	@Override
+	protected EList<Variable> getModelChildren() {
 		return getVariables().getChildren();
 	}
 
@@ -31,14 +32,17 @@ public class VariablesEditPart extends BPELTrayCategoryEditPart {
 		return (Variables)getModel();
 	}
 
+	@Override
 	protected CreationFactory getCreationFactory() {
 		return UIObjectFactoryProvider.getInstance().getFactoryFor(BPELPackage.eINSTANCE.getVariable());
 	}
 	
+	@Override
 	protected IFigure getAddToolTip() {
 	    return new Label(Messages.VariablesEditPart_Add_Variable_1); 
 	}
 	
+	@Override
 	protected IFigure getRemoveToolTip() {
 	    return new Label(Messages.VariablesEditPart_Remove_Variable_1); 
 	}

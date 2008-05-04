@@ -181,6 +181,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 		return colorRegistry;
 	}
 	
+	@Override
 	public ImageRegistry getImageRegistry() {
 		ImageRegistry result = super.getImageRegistry();
 		initialize();
@@ -217,6 +218,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	/**
 	 * @see org.eclipse.core.runtime.Plugin#start(BundleContext)
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		initializePreferences();
@@ -319,6 +321,7 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	/**
 	 * @see org.eclipse.core.runtime.Plugin#stop(BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 		disposeColors();

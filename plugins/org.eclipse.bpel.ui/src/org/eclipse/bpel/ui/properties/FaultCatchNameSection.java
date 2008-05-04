@@ -126,6 +126,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		super();
 	}
 	
+	@Override
 	protected MultiObjectAdapter[] createAdapters() {
 		return new BatchedMultiObjectAdapter[] {
 			/* model object */
@@ -135,6 +136,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				boolean refreshFaultNamespace = false;
 				boolean refreshVariable = false;
 
+				@Override
 				public void notify(Notification n) {
 					if (ModelHelper.isFaultNameAffected(getInput(), n) && builtinRadio.getSelection()) {
 						refreshFaultName = true;
@@ -152,6 +154,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 						refreshVariable = true;
 					}
 				}
+				@Override
 				public void finish() {
 					if (refreshFaultName) updateFaultNameWidgets();
 					if (refreshFaultNamespace) updateFaultNamespaceWidgets();
@@ -205,10 +208,12 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		parentComposite.getParent().layout(true);
 	}
 
+	@Override
 	public boolean shouldUseExtraSpace() {
 		return true;
 	}
 	
+	@Override
 	protected void basicSetInput(EObject input) {
 		super.basicSetInput(input);
 		rearrangeWidgets();
@@ -455,7 +460,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(faultTypeComposite, IDetailsAreaConstants.VSPACE);
 		composite.setLayoutData(data);
 		
-		faultNamespaceCombo = fWidgetFactory.createCCombo(composite); //$NON-NLS-1$
+		faultNamespaceCombo = fWidgetFactory.createCCombo(composite); 
 		
 		Label faultNamespaceLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameDetails_Namespace__21); 
 		data = new FlatFormData();
@@ -488,7 +493,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		composite.setLayoutData(data);
 
 		Label faultUserDefNameLabel = fWidgetFactory.createLabel(composite, Messages.FaultCatchNameDetails_Fault_Name__24); 
-		faultUserDefCombo = fWidgetFactory.createCCombo(composite, SWT.FLAT | SWT.READ_ONLY); //$NON-NLS-1$
+		faultUserDefCombo = fWidgetFactory.createCCombo(composite, SWT.FLAT | SWT.READ_ONLY); 
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(faultUserDefNameLabel, STANDARD_LABEL_WIDTH_SM));
@@ -508,8 +513,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			final Catch _catch = (Catch)getInput();
 			CompoundCommand command = new CompoundCommand();
 			command.add(new AutoUndoCommand(getProcess()) {
+				@Override
 				public void doExecute() {
-					Variable variable = (Variable)_catch.getFaultVariable();
+					Variable variable = _catch.getFaultVariable();
 					if (variable == null) {
 						variable = BPELFactory.eINSTANCE.createVariable();
 					    _catch.setFaultVariable(variable);
@@ -526,13 +532,14 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		}
 		public void selectRadioButton(final int index) {
 			final Catch _catch = (Catch)getInput();
-			Variable variable = (Variable)_catch.getFaultVariable();
+			Variable variable = _catch.getFaultVariable();
 			if (variable == null) {
 				variable = BPELFactory.eINSTANCE.createVariable();
 			}
 			final Variable variable2 = variable;
 			CompoundCommand command = new CompoundCommand();
 			command.add(new AutoUndoCommand(getProcess()) {
+				@Override
 				public void doExecute() {
 					if (_catch.getFaultVariable() != variable2) {
 						_catch.setFaultVariable(variable2);
@@ -592,6 +599,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		variableTypeSelector.setLayoutData(data);
 	}
 
+	@Override
 	protected void createClient(Composite parent) {
 		parentComposite = createFlatFormComposite(parent);
 		createFaultTypeWidgets(parentComposite);
@@ -707,6 +715,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		}
 	}
 	
+	@Override
 	public void refresh() {
 		super.refresh();
 		updateFaultTypeWidgets();
@@ -880,6 +889,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		FaultCatchContext(int context) { this.context = context; }
 	}
 	
+	@Override
 	public Object getUserContext() {
 		FaultCatchContext result = new FaultCatchContext(lastChangeContext);
 		if (lastChangeContext == FAULT_VARIABLE_TYPE_CONTEXT) {
@@ -887,6 +897,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		}
 		return result;
 	}
+	@Override
 	public void restoreUserContext(Object userContext) {
 		FaultCatchContext c = (FaultCatchContext)userContext; 
 		switch (c.context) {
@@ -904,6 +915,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 
 	private Command getCreateNewVariableCommand() {
 		return new AutoUndoCommand(getProcess()) {
+			@Override
 			public void doExecute() {
 				CompoundCommand result = new CompoundCommand();
 				// if the variable does not exist or does not have a type,
@@ -982,7 +994,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			if (element instanceof Throw) {
 				Throw t = (Throw) element;
 				if (faultQName.equals(t.getFaultName()) && (t.getFaultVariable() != null)) {
-					return ((Variable)t.getFaultVariable()).getMessageType();
+					return (t.getFaultVariable()).getMessageType();
 				}
 			}
 		}

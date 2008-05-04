@@ -86,6 +86,7 @@ public class BPELEditModelClient extends EditModelClient {
 		}
 	}
 	
+	@Override
 	protected EditModelCommandStack createCommandStack() {
 		EditModelCommandStack commandStack = super.createCommandStack();
 		commandStack.setUndoLimit(50);
@@ -93,6 +94,7 @@ public class BPELEditModelClient extends EditModelClient {
 		return commandStack;
 	}
 	
+	@Override
 	public void dispose() {
 		if (artifactsResourceInfo != null) {
 			bpelEditModel.releaseReference(artifactsResourceInfo);
@@ -103,6 +105,7 @@ public class BPELEditModelClient extends EditModelClient {
 		super.dispose();
 	}
 
+	@Override
 	protected EditModel getSharedResourceSet(IFile file) {
 		return BPELEditModel.getEditModel(file);
 	}

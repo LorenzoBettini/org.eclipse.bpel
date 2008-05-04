@@ -41,6 +41,7 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 	
 	public static final int LEFT_MARGIN = 30;
 		
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		
@@ -52,6 +53,7 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
 	}
 
+	@Override
 	protected IFigure createFigure() {
 		IFigure figure = new Figure();
 		FlowLayout layout = new FlowLayout();
@@ -90,6 +92,7 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 		return container;
 	}
 
+	@Override
 	public void deactivate() {
 		if (!isActive()) return;
 		super.deactivate();

@@ -289,7 +289,7 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 				if (n.getFeatureID(ExtensionMap.class) == ExtensionModelNotification.EXTENSION_MAP_PUT) {
 					EObject object = (EObject)emn.getArg1();
 					EObject oldExt = (EObject)emn.getArg2();
-					EObject newExt = (EObject)extensionMap.get(object);
+					EObject newExt = extensionMap.get(object);
 					if (DEBUG) System.out.println("record PUT: "+BPELUtil.debugObject(object)+": "+ //$NON-NLS-1$ //$NON-NLS-2$
 						BPELUtil.debugObject(oldExt)+" ==> "+BPELUtil.debugObject(newExt)); //$NON-NLS-1$
 					currentChangeList.add(new EMapSingleChangeHandler(extensionMap, object, oldExt, newExt));

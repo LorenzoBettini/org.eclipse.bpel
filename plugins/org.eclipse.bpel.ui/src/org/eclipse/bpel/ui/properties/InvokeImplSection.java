@@ -22,7 +22,6 @@ import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Reply;
@@ -342,6 +341,7 @@ public class InvokeImplSection extends BPELPropertySection {
 		PartnerLinkContentProvider provider = new PartnerLinkContentProvider();
 		ModelContentProposalProvider proposalProvider;
 		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+			@Override
 			public Object value() {
 				return getInput();
 			}			

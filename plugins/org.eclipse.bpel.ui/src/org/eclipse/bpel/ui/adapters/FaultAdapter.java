@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;

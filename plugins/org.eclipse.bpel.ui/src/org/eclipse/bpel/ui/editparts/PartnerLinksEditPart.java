@@ -10,19 +10,13 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
-import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
-import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypeFactory;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
-import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
 import org.eclipse.bpel.ui.util.BatchedMultiObjectAdapter;
 import org.eclipse.bpel.ui.util.ModelHelper;
@@ -31,11 +25,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.requests.DirectEditRequest;
-import org.eclipse.wst.wsdl.Definition;
 
 /**
  * Interface Partners.
@@ -45,7 +35,8 @@ public class PartnerLinksEditPart extends BPELTrayCategoryEditPart {
 	/**
 	 * Only add inbound partners.
 	 */
-	protected List getModelChildren() {
+	@Override
+	protected List<PartnerLink> getModelChildren() {
 		return getPartnerLinks().getChildren();
 //		
 //		List result = new ArrayList();
@@ -94,23 +85,29 @@ public class PartnerLinksEditPart extends BPELTrayCategoryEditPart {
 		return ModelHelper.getBPELEditor(getContainer());
 	}
 	
+	@Override
 	protected CreationFactory getCreationFactory() {
 		return UIObjectFactoryProvider.getInstance().getFactoryFor(BPELPackage.eINSTANCE.getPartnerLink());
 	}
 	
+	@Override
 	protected IFigure getAddToolTip() {
 	    return new Label(Messages.PartnerLinksEditPart_0); 
 	}
 	
+	@Override
 	protected IFigure getRemoveToolTip() {
 	    return new Label(Messages.PartnerLinksEditPart_1); 
 	}
 
+	@Override
 	protected Adapter createAdapter() {
 		return new BatchedMultiObjectAdapter() {
+			@Override
 			public void finish() {
 				refresh();
 			}
+			@Override
 			public void notify(Notification n) {
 			}
 		};

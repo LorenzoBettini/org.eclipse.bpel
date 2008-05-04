@@ -37,7 +37,7 @@ public class ModelListenerAdapter extends EContentAdapter implements CommandStac
 	
 	Adapter linkNotificationAdapter;
 	
-	boolean inExecute = false;
+	int executionStackLevel = 0;
 	boolean ignoreChanges = true;
 	
 	/**
@@ -74,7 +74,7 @@ public class ModelListenerAdapter extends EContentAdapter implements CommandStac
 	public void setTarget(Notifier notifier) {
 		super.setTarget(notifier);
 		if ((notifier instanceof EObject) && (fxtensionMap != null)) {
-			if (inExecute) {
+			if (executionStackLevel > 0) {
 				ModelHelper.createExtensionIfNecessary(fxtensionMap, (EObject)notifier);
 			}
 		}
@@ -96,14 +96,15 @@ public class ModelListenerAdapter extends EContentAdapter implements CommandStac
 		if (e instanceof EditModelCommandStack.SharedCommandStackChangedEvent) {
 			switch (((EditModelCommandStack.SharedCommandStackChangedEvent)e).getProperty()) {
 			case SharedCommandStackListener.EVENT_START_EXECUTE:
-				inExecute = true; ignoreChanges = false; break;
+				executionStackLevel++; ignoreChanges = false; break;
 			case SharedCommandStackListener.EVENT_START_UNDO:
 			case SharedCommandStackListener.EVENT_START_REDO:
-				inExecute = ignoreChanges = false; break;
+				ignoreChanges = false; break;
 			case SharedCommandStackListener.EVENT_FINISH_EXECUTE:
+				executionStackLevel--; ignoreChanges = true; break;
 			case SharedCommandStackListener.EVENT_FINISH_UNDO:
 			case SharedCommandStackListener.EVENT_FINISH_REDO:
-				inExecute = false; ignoreChanges = true; break;
+				ignoreChanges = true; break;
 			}
 		}
 	}

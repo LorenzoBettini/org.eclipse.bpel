@@ -41,6 +41,7 @@ public class ProcessAdapter extends ContainerAdapter implements INamedElement,
 	
 	/* IContainer delegate */
 
+	@Override
 	public IContainer createContainerDelegate() {
 		MultiContainer omc = new MultiContainer();
 		omc.add(new ActivityContainer(BPELPackage.eINSTANCE.getProcess_Activity()));

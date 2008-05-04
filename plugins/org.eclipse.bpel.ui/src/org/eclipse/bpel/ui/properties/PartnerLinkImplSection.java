@@ -29,7 +29,6 @@ import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.commands.SetCommand;
-import org.eclipse.bpel.ui.commands.SetRoleCommand;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.details.providers.AddSelectedObjectFilter;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
@@ -473,7 +472,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		PartnerLinkType plt = pl.getPartnerLinkType();
 		fRoles = NO_ROLES ;
 		if (plt != null) {
-			fRoles = (Role[]) plt.getRole().toArray( NO_ROLES );			
+			fRoles = plt.getRole().toArray( NO_ROLES );			
 		}
 		
 		Role myRole = pl.getMyRole();

@@ -21,12 +21,14 @@ public class SequenceAdapter extends ContainerActivityAdapter {
 
 	/* IContainer delegate */
 	
+	@Override
 	public IContainer createContainerDelegate() {
 		return new ReferenceContainer(BPELPackage.eINSTANCE.getSequence_Activities());
 	}
 
 	/* EditPartFactory */
 	
+	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart result = new SequenceEditPart();
 		result.setModel(model);
@@ -35,6 +37,7 @@ public class SequenceAdapter extends ContainerActivityAdapter {
 
 	/* IOutlineEditPartFactory */
 	
+	@Override
 	public EditPart createOutlineEditPart(EditPart context, Object model) {
 		EditPart result = new OutlineTreeEditPart();
 		result.setModel(model);

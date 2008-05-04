@@ -20,6 +20,7 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 public class DeletePartnerLinkTypeCommand extends DeleteWSDLExtensibilityElementCommand {
 
 	// TODO: wrong label?
+	@Override
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_DELETE_ROLE; }
 
 	public DeletePartnerLinkTypeCommand(PartnerLinkType plt) {

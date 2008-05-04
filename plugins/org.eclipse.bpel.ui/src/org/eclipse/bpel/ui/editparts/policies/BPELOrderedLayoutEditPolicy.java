@@ -62,16 +62,19 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	// colour of the connection lines
 	protected Color arrowColor = BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
 	
+	@Override
 	protected Command createAddCommand(EditPart child, EditPart before) {
 		return new InsertInContainerCommand((EObject)getHost().getModel(), (EObject)child.getModel(), 
 			(before == null)? null : (EObject)before.getModel());
 	}
 
+	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart before) {
 		return new ReorderInContainerCommand((EObject)getHost().getModel(), (EObject)child.getModel(),
 				(before == null)? null : (EObject)before.getModel());
 	}
 	
+	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		EditPart before = getInsertionReference(request);
 		EObject parent = (EObject) getHost().getModel();
@@ -85,6 +88,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 		return command;
 	}
 
+	@Override
 	protected Command getDeleteDependantCommand(Request request) {
 		return null;
 	}
@@ -93,6 +97,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	 * Returns the part that we should insert before.
 	 * If request is null insert at the end of the list.
 	 */
+	@Override
 	protected EditPart getInsertionReference(Request request) {
 		// TODO: what is this for?
 		if (request instanceof DropRequest) {
@@ -239,12 +244,14 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 		return false;
 	}
 
+	@Override
 	protected void showLayoutTargetFeedback(Request request) {
 		if (!canShowFeedback()) return;
 
 		super.showLayoutTargetFeedback(request);
 	}
 
+	@Override
 	public EditPart getTargetEditPart(Request request) {
 		// this policy only works for the BPEL Editor itself, not the outline
 		// TODO: we shouldn't even install this for the outline!! (oops)
@@ -259,10 +266,12 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	 * 
 	 * TODO: re-think this.
 	 */
+	@Override
 	protected EditPolicy createChildEditPolicy(EditPart child) {		
 		return null;
 	}
 
+	@Override
 	protected boolean isHorizontal() {
 		LayoutManager layout = getLayoutManager();
 		if (layout instanceof FlowLayout) return ((FlowLayout)layout).isHorizontal();
@@ -293,6 +302,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 		return connection;
 	}
 
+	@Override
 	public void showTargetFeedback(Request request) {
         // don't bother if request can't be executed
         if (getHost() instanceof BPELEditPart) {

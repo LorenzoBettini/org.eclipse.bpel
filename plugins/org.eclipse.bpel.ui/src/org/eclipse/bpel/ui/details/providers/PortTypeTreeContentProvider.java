@@ -13,8 +13,6 @@ package org.eclipse.bpel.ui.details.providers;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
-
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.ui.details.tree.PortTypeTreeNode;
 import org.eclipse.wst.wsdl.Definition;
@@ -30,6 +28,7 @@ public class PortTypeTreeContentProvider extends ModelTreeContentProvider {
 		super(isCondensed);
 	}
 
+	@Override
 	public Object[] primGetElements (Object inputElement) {
 		
 		List list = new LinkedList();

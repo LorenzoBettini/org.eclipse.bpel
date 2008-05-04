@@ -49,12 +49,14 @@ public class SetExtensibilityElementCommand extends AutoUndoCommand {
 		initialized = true;
 	}
 
+	@Override
 	public boolean canDoExecute() {
 		initValues();
 		return true;
 		//return (oldExtension != newExtension);
 	}
 
+	@Override
 	public void doExecute() {
 		initValues();
 		if (oldExtension != null) {

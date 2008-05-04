@@ -231,7 +231,7 @@ public class OutlineTreeEditPart extends AbstractTreeEditPart {
 		}
 		
 		removeChildVisual(editpart);
-		List children = getChildren();
+		List<EditPart> children = getChildren();
 		children.remove(editpart);
 		children.add(index, editpart);
 		addChildVisual(editpart, index);

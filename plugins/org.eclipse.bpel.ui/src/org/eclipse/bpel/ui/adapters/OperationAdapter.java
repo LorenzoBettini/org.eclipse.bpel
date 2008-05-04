@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.adapters;
 
-import org.eclipse.bpel.model.BPELPackage;
-import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.model.adapters.IStatefullAdapter;
 import org.eclipse.bpel.ui.BPELUIPlugin;
@@ -19,6 +17,7 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.fieldassist.IContentProposal;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.WSDLPackage;
@@ -42,7 +41,7 @@ public class OperationAdapter extends AbstractAdapter
 		return Messages.OperationAdapter_Operation_1; 
 	}
 	public String getLabel(Object object) {
-		Operation op = (Operation) getTarget( object ,Operation.class );
+		Operation op = getTarget( object ,Operation.class );
 		String name = op.getName();
 		if (name != null)  {
 			return name;
@@ -69,7 +68,7 @@ public class OperationAdapter extends AbstractAdapter
 	 * @see org.eclipse.jface.fieldassist.IContentProposal#getDescription()
 	 */
 	public String getDescription() {
-		Operation op = (Operation) getTarget(null, Operation.class );
+		Operation op = getTarget(null, Operation.class );
 		Element elm = op.getDocumentationElement();
 		return (elm != null ? elm.getNodeValue() : null);
 	}
@@ -79,7 +78,7 @@ public class OperationAdapter extends AbstractAdapter
 	 */
 
 	public String getLabel() {
-		return Messages.bind(Messages.OperationAdapter_0, 
+		return NLS.bind(Messages.OperationAdapter_0, 
 				getLabel( getTarget() ),
 				getLabel ( getTarget() ) );
 	}
@@ -87,7 +86,7 @@ public class OperationAdapter extends AbstractAdapter
 	/* INamedElement */
 
 	public String getName(Object modelObject) {
-		Operation op = (Operation) getTarget( modelObject ,Operation.class );
+		Operation op = getTarget( modelObject ,Operation.class );
 		return op.getName();
 	}
 
@@ -103,7 +102,7 @@ public class OperationAdapter extends AbstractAdapter
 	 * @see org.eclipse.bpel.ui.adapters.INamedElement#setName(java.lang.Object, java.lang.String)
 	 */
 	public void setName(Object modelObject, String name) {
-		Operation op = (Operation) getTarget( modelObject ,Operation.class );
+		Operation op = getTarget( modelObject ,Operation.class );
 		op.setName( name );		
 	}
 }

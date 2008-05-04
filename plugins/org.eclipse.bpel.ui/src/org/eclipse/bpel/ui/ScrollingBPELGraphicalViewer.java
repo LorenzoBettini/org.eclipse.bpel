@@ -50,6 +50,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	protected boolean hasFocus;
 	protected boolean notifyingOfSelectionChange;
 
+	@Override
 	protected void createDefaultRoot() {
 		setRootEditPart(new GraphicalBPELRootEditPart());
 	}
@@ -107,6 +108,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 	/**
 	 * @see org.eclipse.gef.EditPartViewer#createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public final Control createControl(Composite parent) {
 		final FigureCanvas canvas = new FigureCanvas(parent, getLightweightSystem());
 		canvas.addFocusListener(new FocusListener() {

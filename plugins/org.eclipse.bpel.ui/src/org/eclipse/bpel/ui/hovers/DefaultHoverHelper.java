@@ -20,6 +20,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -41,7 +42,7 @@ public class DefaultHoverHelper implements IHoverHelper {
 
 		Label title = new BoldLabel();
 		title.setIcon(e.getSmallImage(modelObject));
-		title.setIconAlignment(Label.TOP);
+		title.setIconAlignment(PositionConstants.TOP);
 		title.setText(type);
 		
 		panel.add(title);

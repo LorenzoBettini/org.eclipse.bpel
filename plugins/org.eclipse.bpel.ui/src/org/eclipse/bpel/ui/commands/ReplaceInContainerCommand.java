@@ -49,7 +49,7 @@ public class ReplaceInContainerCommand extends AutoUndoCommand {
 		
 		//The container of the objects
 		this.parent = parent;
-		container = (IContainer)BPELUtil.adapt(parent, IContainer.class);
+		container = BPELUtil.adapt(parent, IContainer.class);
 		
 		this.oldActivity = (Activity)oldElement;
 		this.newActivity = (Activity)newElement;
@@ -80,6 +80,7 @@ public class ReplaceInContainerCommand extends AutoUndoCommand {
 		}
 	}
 
+	@Override
 	public void doExecute() {
 		if (!canExecute()) throw new IllegalStateException();
 		isExecuted = true;
@@ -90,14 +91,14 @@ public class ReplaceInContainerCommand extends AutoUndoCommand {
 		// Move any links from old to new
 		Sources s = oldActivity.getSources();
 		if (s != null) {
-			Source[] sources = (Source[])s.getChildren().toArray(new Source[0]);
+			Source[] sources = s.getChildren().toArray(new Source[0]);
 			for (int i = 0; i < sources.length; i++) {
 				sources[i].setActivity(newActivity);
 			}
 		}
 		Targets t = oldActivity.getTargets();
 		if (t != null) {
-			Target[] targets = (Target[])t.getChildren().toArray(new Target[0]);
+			Target[] targets = t.getChildren().toArray(new Target[0]);
 			for (int i = 0; i < targets.length; i++) {
 				targets[i].setActivity(newActivity);
 			}

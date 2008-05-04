@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.uiextensionmodel.PartnerLinkExtension;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 
@@ -49,7 +48,8 @@ public class AddPartnerLinkCommand extends AddToListCommand {
 		this(eObj,partnerLink,null);				
 	}
 
-	protected List getList() {
+	@Override
+	protected EList<PartnerLink> getList() {
 		if (process != null) {
 			return process.getPartnerLinks().getChildren();
 		} else if (scope != null) {
@@ -59,6 +59,7 @@ public class AddPartnerLinkCommand extends AddToListCommand {
 	}
 
 	
+	@Override
 	public void doExecute() {
 		if (extension != null) {
 			ModelHelper.getBPELEditor(process).getExtensionMap().put(partnerLink, extension);

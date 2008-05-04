@@ -17,7 +17,6 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.ToolbarLayout;
@@ -121,7 +120,6 @@ public abstract class BPELTrayCategoryEntryEditPart extends TrayCategoryEntryEdi
 	}
 	
 	@Override
-	
 	protected IFigure createFigure() {
 		IFigure fig =  super.createFigure();
 		fig.addMouseMotionListener(getMouseMotionListener());
@@ -149,10 +147,9 @@ public abstract class BPELTrayCategoryEntryEditPart extends TrayCategoryEntryEdi
 		if (hasFocus())
 			getViewer().setFocus(null);
 
-		List children = getChildren();
+		List<EditPart> children = getChildren();
 		for (int i = 0; i < children.size(); i++)
-			((EditPart)children.get(i))
-				.removeNotify();
+			children.get(i).removeNotify();
 		unregister();
 	}
 }

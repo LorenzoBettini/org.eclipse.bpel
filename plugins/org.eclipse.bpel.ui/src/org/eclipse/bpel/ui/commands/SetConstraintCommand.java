@@ -41,6 +41,7 @@ public class SetConstraintCommand extends AutoUndoCommand {
 		addModelRoot(activity);
 	}
 
+	@Override
 	public void doExecute() {
 		// TODO: HACK!
 		addModelRoot(ModelHelper.getExtension(activity));
@@ -50,6 +51,7 @@ public class SetConstraintCommand extends AutoUndoCommand {
 		if (newSize != null)  ModelHelper.setSize(activity, newSize);
 	}
 
+	@Override
 	public String getLabel() {
 		if (newSize == null || oldSize.equals(newSize))
 			return IBPELUIConstants.CMD_REPOSITION_NODE;

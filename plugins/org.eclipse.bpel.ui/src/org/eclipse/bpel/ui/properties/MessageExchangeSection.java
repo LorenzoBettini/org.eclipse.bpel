@@ -35,7 +35,6 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NameDialog;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -139,6 +138,7 @@ public class MessageExchangeSection extends BPELPropertySection {
 		};
 
 		RunnableProposal proposal2 = new RunnableProposal() {
+			@Override
 			public String getLabel() {
 				return Messages.MessageExchangeImplSection_Create_Local;
 			}
@@ -162,6 +162,7 @@ public class MessageExchangeSection extends BPELPropertySection {
 		MessageExchangeContentProvider provider = new MessageExchangeContentProvider();
 		ModelContentProposalProvider proposalProvider;
 		proposalProvider = new ModelContentProposalProvider( new ModelContentProposalProvider.ValueProvider () {
+			@Override
 			public Object value() {
 				return getInput();
 			}			

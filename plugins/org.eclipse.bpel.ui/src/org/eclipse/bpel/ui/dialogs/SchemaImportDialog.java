@@ -544,7 +544,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 				IStructuredSelection sel = (IStructuredSelection)event.getSelection();
 				if (sel.getFirstElement() instanceof Service) {
 					Service serv = (Service)sel.getFirstElement();
-					Description descr = (Description)serv.getDescription().get(0);
+					Description descr = serv.getDescription().get(0);
 					attemptLoad(descr.getLocation() );
 				} else {
 					markEmptySelection();
@@ -805,11 +805,11 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 				String text = ""; //$NON-NLS-1$
 				Service service = (Service)element;
 				if (service.getName().size() > 0) {
-					Name name = (Name)service.getName().get(0);
+					Name name = service.getName().get(0);
 					text += name.getValue();
 				}				
 				if (service.getAbstract().size() > 0) {
-					TypeOfAbstract abst = (TypeOfAbstract)service.getAbstract().get(0);
+					TypeOfAbstract abst = service.getAbstract().get(0);
 					text += abst.getValue();
 				}
 				return (text.toLowerCase().indexOf(fFilter) > -1);

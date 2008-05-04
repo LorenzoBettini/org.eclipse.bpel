@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: UiextensionmodelPackageImpl.java,v 1.2 2007/08/09 02:02:13 mchmielewski Exp $
+ * $Id: UiextensionmodelPackageImpl.java,v 1.3 2008/05/04 11:05:28 odanilov Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
@@ -38,11 +38,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
-
-import org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl;
-
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 /**
  * <!-- begin-user-doc -->

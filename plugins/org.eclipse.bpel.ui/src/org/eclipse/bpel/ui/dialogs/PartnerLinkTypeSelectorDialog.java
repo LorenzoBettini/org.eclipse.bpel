@@ -113,6 +113,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	}
 	
 
+	@Override
 	protected Control createContents(Composite parent) {
 		
 		Control control = super.createContents(parent);
@@ -123,6 +124,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	}
 
 
+	@Override
 	protected void saveSettings () {
 		super.saveSettings();		
 		IDialogSettings settings = getDialogSettings();				
@@ -137,6 +139,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	 * @param bRefresh perform refresh at the end 
 	 */
 	
+	@Override
 	protected void buttonPressed (int id, boolean checked, boolean bRefresh ) {
 		
 		switch (id) {
@@ -158,6 +161,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	}
 		
 	
+	@Override
 	protected void computeResult() {
 		
 		if (fPartnerLinkType != null) {
@@ -168,6 +172,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
     }
 	  
 	
+	@Override
 	protected void okPressed() {
 		
 		computeResult();
@@ -188,7 +193,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 			}
 			
 			fPartnerLinkType = wizard.getPartnerLinkType();
-			if (!checkNamespace((PartnerLinkType)fPartnerLinkType)){
+			if (!checkNamespace(fPartnerLinkType)){
 				return;
 			}
 			
@@ -237,6 +242,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	}
 
 
+	@Override
 	protected void createBrowseFilterGroupButtons ( Group  group ) {
         
 		fShowPortTypes = createCheckButton(group,Messages.PartnerLinkTypeSelectorDialog_5, 
@@ -253,6 +259,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	 * We safeguard against adding duplicate types to the BPEL model here as well.
 	 * 
 	 */
+	@Override
 	protected void handleAddImport() {
 	
 		SchemaImportDialog dialog = new SchemaImportDialog(getShell(),modelObject);
@@ -271,12 +278,14 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 		}
 	}
 	
+	@Override
 	protected void showImportedTypes () {	
 		fShowPortTypes.setSelection(true);
 		buttonPressed(BID_SHOW_PORT_TYPES,true, false);		
 		super.showImportedTypes();
 	}
 	
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, 
 				BID_ADD_IMPORT,
@@ -290,12 +299,14 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	 *  
 	 */
 	
+	@Override
 	protected int getAutoExpandLevel () {
 		return 5;
 	}
 	
 	
 	
+	@Override
 	protected List collectItemsFromImports ( ) {
 		return ModelHelper.getDefinitions(modelObject);
 	}

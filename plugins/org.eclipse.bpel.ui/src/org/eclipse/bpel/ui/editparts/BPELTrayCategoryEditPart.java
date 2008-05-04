@@ -13,12 +13,14 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public abstract class BPELTrayCategoryEditPart extends TrayCategoryEditPart{
 	
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		// handles creations
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new TrayContainerEditPolicy());
 	}
 	
+	@Override
 	protected AccessibleEditPart createAccessible() {
 		return new BPELTrayAccessibleEditPart(this);
 	}

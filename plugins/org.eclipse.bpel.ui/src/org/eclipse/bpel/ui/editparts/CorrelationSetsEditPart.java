@@ -10,24 +10,26 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.CorrelationSets;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.requests.CreationFactory;
 
 
 public class CorrelationSetsEditPart extends BPELTrayCategoryEditPart {
 
+	@Override
 	protected CreationFactory getCreationFactory() {
 		return UIObjectFactoryProvider.getInstance().getFactoryFor(BPELPackage.eINSTANCE.getCorrelationSet());
 	}
 
-	protected List getModelChildren() {
+	@Override
+	protected EList<CorrelationSet> getModelChildren() {
 		return getCorrelationSets().getChildren();
 	}
 
@@ -35,10 +37,12 @@ public class CorrelationSetsEditPart extends BPELTrayCategoryEditPart {
 		return (CorrelationSets)getModel();
 	}
 
+	@Override
 	protected IFigure getAddToolTip() {
 	    return new Label(Messages.CorrelationSetsEditPart_Add_Correlation_Set_1); 
 	}
 	
+	@Override
 	protected IFigure getRemoveToolTip() {
 	    return new Label(Messages.CorrelationSetsEditPart_Remove_Correlation_Set_1); 
 	}	

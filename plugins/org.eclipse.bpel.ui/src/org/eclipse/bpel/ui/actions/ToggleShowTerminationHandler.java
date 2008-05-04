@@ -39,6 +39,7 @@ public class ToggleShowTerminationHandler extends SelectionAction {
 		setToolTipText(Messages.ToggleShowTerminationHandler_Shows_termination_handler_activities_3);
 	}
 
+	@Override
 	public void run() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {
@@ -51,13 +52,14 @@ public class ToggleShowTerminationHandler extends SelectionAction {
 		}
 	}
 
+	@Override
 	protected boolean calculateEnabled() {
 		List selList = getSelectedObjects();
 		if (selList.size() != 1)
 			return false;
 		Object o = selList.get(0);
 		if (o instanceof Scope) {
-			ITerminationHandlerHolder holder = (ITerminationHandlerHolder)BPELUtil.adapt(o, ITerminationHandlerHolder.class);
+			ITerminationHandlerHolder holder = BPELUtil.adapt(o, ITerminationHandlerHolder.class);
 			if (holder != null) {
 				if (holder.getTerminationHandler(o) != null)
 					return true;
@@ -66,6 +68,7 @@ public class ToggleShowTerminationHandler extends SelectionAction {
 		return false;
 	}
 
+	@Override
 	public boolean isChecked() {
 		List selList = getSelectedObjects();
 		if (selList.size() == 1) {

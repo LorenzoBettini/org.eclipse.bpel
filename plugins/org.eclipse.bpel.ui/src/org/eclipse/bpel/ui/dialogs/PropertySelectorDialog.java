@@ -20,8 +20,8 @@ import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.properties.PropertiesLabelProvider;
 import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -37,6 +37,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
 public class PropertySelectorDialog extends SelectionAndCreationDialog {
 
 	protected static class TypeLabelProvider extends LabelProvider {
+		@Override
 		public String getText(Object element) {
 			if (element instanceof Property) {
 				Property property = (Property)element;
@@ -100,12 +101,13 @@ public class PropertySelectorDialog extends SelectionAndCreationDialog {
 		}
 	}
 	
+	@Override
 	protected void handleNewButtonPushed() {
 		Process process = ModelHelper.getProcess(correlationSet);
 		BPELEditor bpelEditor = ModelHelper.getBPELEditor(process);
 		String newName = filterText.getText();
 		EditMessagePropertyDialog dialog = new EditMessagePropertyDialog(getShell(), null, newName, bpelEditor, wf);
-		if (dialog.open() == Dialog.OK) {
+		if (dialog.open() == Window.OK) {
 			Property property = dialog.getProperty();
 			if (property != null) {
 				refreshProperties();
@@ -131,6 +133,7 @@ public class PropertySelectorDialog extends SelectionAndCreationDialog {
 	/**
 	 * Only used to get the Text instance.
 	 */
+	@Override
 	protected Text createFilterText(Composite parent) {
 		filterText = super.createFilterText(parent);
 		return filterText;
@@ -139,6 +142,7 @@ public class PropertySelectorDialog extends SelectionAndCreationDialog {
 	/**
 	 * Only used to get the Table instance.
 	 */
+	@Override
 	protected Table createLowerList(Composite parent) {
 		lowerList = super.createLowerList(parent);
 		return lowerList;

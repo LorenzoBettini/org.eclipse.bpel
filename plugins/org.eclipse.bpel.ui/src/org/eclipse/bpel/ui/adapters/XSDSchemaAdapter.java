@@ -19,6 +19,7 @@ import org.eclipse.xsd.XSDSchema;
 public class XSDSchemaAdapter extends XSDAbstractAdapter  {
 
 		
+	@Override
 	public String getLabel(Object obj) {
 		XSDSchema schema = (XSDSchema) obj;
 		String tns = schema.getTargetNamespace();
@@ -30,6 +31,7 @@ public class XSDSchemaAdapter extends XSDAbstractAdapter  {
 										new Object[] { tns } );
 	}
 
+	@Override
 	public String getTypeLabel(Object object) {
 		return Messages.XSDTypeDefinitionAdapter_XSD_Type_1; 
 	}

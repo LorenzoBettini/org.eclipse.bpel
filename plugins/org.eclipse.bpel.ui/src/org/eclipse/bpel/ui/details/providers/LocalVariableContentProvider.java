@@ -12,8 +12,6 @@ package org.eclipse.bpel.ui.details.providers;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Variable;
@@ -39,6 +37,7 @@ public class LocalVariableContentProvider extends AbstractContentProvider  {
 		this.needValidMessage = false;
 	}
 	
+	@Override
 	public void collectElements(Object input, List list)  {
 		
 		if (input instanceof Process) {			

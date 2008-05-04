@@ -27,10 +27,12 @@ public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 
 	// protected ReferencePartnerLinks referencePartners = UiextensionmodelFactory.eINSTANCE.createReferencePartnerLinks();
 
+	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessLayoutEditPolicy());
 	}
+	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
 		if (getModel() instanceof Process) {
@@ -42,6 +44,7 @@ public class ProcessOutlineEditPart extends OutlineTreeEditPart {
 		}
 	}
 
+	@Override
 	protected List getModelChildren() {
 		Process process = (Process)getModel();
 		List list = new ArrayList();

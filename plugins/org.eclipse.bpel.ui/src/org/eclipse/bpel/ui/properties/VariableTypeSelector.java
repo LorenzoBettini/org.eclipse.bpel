@@ -613,6 +613,7 @@ public class VariableTypeSelector extends Composite {
 		dataTypeNameText = createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
 		dataTypeNameText.setToolTipText(Messages.VariableTypeSelector_3);
 		dataTypeNameText.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				BPELUtil.openEditor(getVariableType(), bpelEditor);
 			}
@@ -713,6 +714,7 @@ public class VariableTypeSelector extends Composite {
 		throw new IllegalStateException();
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) {	
 		setEnabled(enabled, this,0);
 	}

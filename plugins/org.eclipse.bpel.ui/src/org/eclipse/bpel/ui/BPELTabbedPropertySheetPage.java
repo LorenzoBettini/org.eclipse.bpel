@@ -24,7 +24,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabDescriptor;
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegistry;
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.part.IPageSite;
@@ -81,12 +80,14 @@ public class BPELTabbedPropertySheetPage extends TabbedPropertySheetPage {
 		actionBars.updateActionBars();
 	}
 		
+	@Override
 	public void init(IPageSite pageSite) {
 		super.init(pageSite);
 		// add some actions to the properties view
 		setBPELEditorActions();
 	}
 	
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		// TODO: (DO) If we change selection in the Designer then it causes
 		// changing selection in the SourceTab too. We are not going to create

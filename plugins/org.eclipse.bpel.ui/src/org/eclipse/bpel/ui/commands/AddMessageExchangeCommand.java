@@ -13,14 +13,13 @@
 
 package org.eclipse.bpel.ui.commands;
 
-import java.util.List;
-
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -46,7 +45,7 @@ public class AddMessageExchangeCommand extends AddToListCommand {
 	 * List in which to insert new element
 	 */
 	@Override
-	protected List getList() {
+	protected EList<MessageExchange> getList() {
 		if (process != null) {
 			if (process.getMessageExchanges() != null)
 				return process.getMessageExchanges().getChildren();

@@ -40,6 +40,7 @@ public class FlowHighlightEditPolicy extends ContainerHighlightEditPolicy {
 		return newpt;
 	}
 	
+	@Override
 	public void eraseTargetFeedback(Request request) {
 		super.eraseTargetFeedback(request);
 		if (insertionLine != null) {
@@ -57,6 +58,7 @@ public class FlowHighlightEditPolicy extends ContainerHighlightEditPolicy {
 		
 	}
 
+	@Override
 	public void showTargetFeedback(Request request) {
 		super.showTargetFeedback(request);
 		if (request.getType().equals(RequestConstants.REQ_ADD)
@@ -135,6 +137,7 @@ public class FlowHighlightEditPolicy extends ContainerHighlightEditPolicy {
 	
 	protected int selectedState = -1;
 	
+	@Override
 	protected void setSelectedState(int type) {
 		selectedState = type;
 		super.setSelectedState(type);

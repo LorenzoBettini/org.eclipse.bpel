@@ -22,6 +22,7 @@ public class ElseElseIfBorder extends LineBorder {
 	public static final int MARKER_WIDTH = 15;
 	private Image image;
 	
+	@Override
 	public Insets getInsets(IFigure figure) {
 		Insets result = super.getInsets(figure);
 		result.left += MARKER_WIDTH;
@@ -30,6 +31,7 @@ public class ElseElseIfBorder extends LineBorder {
 		result.bottom += 1;
 		return result;
 	}
+	@Override
 	public void paint(IFigure figure, Graphics graphics, Insets insets) {
 		super.paint(figure, graphics, insets);
 		Rectangle bounds = figure.getBounds();

@@ -19,19 +19,23 @@ import org.eclipse.emf.ecore.EClass;
 
 public class ReceiveAction extends AbstractBPELAction {
 
-    public EClass getModelType() {
+    @Override
+	public EClass getModelType() {
         return BPELPackage.eINSTANCE.getReceive();
     }
 
-    public String getLabel() {
+    @Override
+	public String getLabel() {
     	return BPELTerms.getString("Receive"); //$NON-NLS-1$
     }
 
-    public String getDescription() {
+    @Override
+	public String getDescription() {
         return Messages.ReceiveAction_Receive_HTML_Description_1; 
     }
 
-    public AdapterFactory getAdapterFactory() {
+    @Override
+	public AdapterFactory getAdapterFactory() {
         return BPELUIAdapterFactory.getInstance();
 	}
 }

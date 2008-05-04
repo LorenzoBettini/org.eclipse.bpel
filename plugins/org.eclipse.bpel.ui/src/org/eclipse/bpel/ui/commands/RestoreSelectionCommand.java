@@ -44,6 +44,7 @@ public class RestoreSelectionCommand extends AbstractEditModelCommand {
 		storedSelection = selectionProvider.getSelection();
 	}
 
+	@Override
 	public void execute() {
 		if (storedSelection == null)  captureSelection();
 	}
@@ -52,9 +53,13 @@ public class RestoreSelectionCommand extends AbstractEditModelCommand {
 		selectionProvider.setSelection(storedSelection);
 	}
 
+	@Override
 	public void undo() { if (restoreOnUndo)  restoreSelection(); }
+	@Override
 	public void redo() { if (restoreOnRedo)  restoreSelection(); }
 
+	@Override
 	public Resource[] getResources() { return EMPTY_RESOURCE_ARRAY; }
+	@Override
 	public Resource[] getModifiedResources() { return EMPTY_RESOURCE_ARRAY; }
 }

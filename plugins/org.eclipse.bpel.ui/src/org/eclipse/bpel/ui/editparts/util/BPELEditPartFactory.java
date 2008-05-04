@@ -21,7 +21,7 @@ import org.eclipse.osgi.util.NLS;
 public class BPELEditPartFactory implements EditPartFactory {
 
 	public EditPart createEditPart(EditPart context, Object model) {
-		EditPartFactory adapter = (EditPartFactory)BPELUtil.adapt(model, EditPartFactory.class);
+		EditPartFactory adapter = BPELUtil.adapt(model, EditPartFactory.class);
 		if (adapter != null) return adapter.createEditPart(context, model);
 		if (Policy.DEBUG) System.out.println(NLS.bind(Messages.BPELEditPartFactory_Could_not_create_edit_part_for, (new Object[] { model }))); 
 		return null;

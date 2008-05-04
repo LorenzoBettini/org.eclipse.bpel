@@ -30,11 +30,13 @@ public class SetNameAndDirectEditCommand extends SetUniqueNameCommand {
 		this.viewer = viewer;
 	}
 	
+	@Override
 	public void execute() {
 		// we should only do direct edit if we were able to set a name or label
 		if (!getCommands().isEmpty()) {
 			// direct edit
 			add(new AbstractEditModelCommand() {
+				@Override
 				public void execute() {
 					
 					// Before calling direct edit the figure and its border have to layout properly
@@ -52,7 +54,9 @@ public class SetNameAndDirectEditCommand extends SetUniqueNameCommand {
 						}
 					});
 				}
+				@Override
 				public Resource[] getResources() { return EMPTY_RESOURCE_ARRAY; }
+				@Override
 				public Resource[] getModifiedResources() { return EMPTY_RESOURCE_ARRAY; }
 			});
 		}
@@ -61,6 +65,7 @@ public class SetNameAndDirectEditCommand extends SetUniqueNameCommand {
 		super.execute();
 	}
 	
+	@Override
 	public boolean canExecute() {
 		if (getCommands().isEmpty()) {
 			// it will be a no-op but it is harmless since this command is always
@@ -70,6 +75,7 @@ public class SetNameAndDirectEditCommand extends SetUniqueNameCommand {
 		return super.canExecute();
 	}
 	
+	@Override
 	public boolean canUndo() {
 		if (getCommands().isEmpty()) {
 			// it will be a no-op but it is harmless since this command is always

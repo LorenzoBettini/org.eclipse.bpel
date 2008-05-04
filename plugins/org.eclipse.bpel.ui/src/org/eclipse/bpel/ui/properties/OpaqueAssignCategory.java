@@ -35,6 +35,7 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
 	 */
+	@Override
 	public String getName() { 
 		return Messages.OpaqueAssignCategory_Opaque_1;
 	} 
@@ -54,6 +55,7 @@ public class OpaqueAssignCategory extends AssignCategoryBase {
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
+	@Override
 	public boolean isCategoryForModel (EObject aModel) {
 		
 		From from = BPELUtil.adapt(aModel, From.class);
