@@ -12,10 +12,7 @@ package org.eclipse.bpel.validator.factory;
 
 import org.eclipse.bpel.fnmeta.model.util.FMAdapterFactory;
 import org.eclipse.bpel.model.adapters.AdapterProvider;
-import org.eclipse.bpel.model.util.BPELAdapterFactory;
-import org.eclipse.bpel.validator.adapters.BasicAdapter;
 import org.eclipse.bpel.validator.adapters.FunctionAdapter;
-import org.eclipse.bpel.validator.adapters.PartnerActivityAdapter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 

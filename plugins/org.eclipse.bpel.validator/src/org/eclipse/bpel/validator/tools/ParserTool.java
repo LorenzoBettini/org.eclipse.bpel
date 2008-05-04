@@ -51,7 +51,7 @@ public class ParserTool {
 		// 2005-04-04T14:59:11.302-08:00
 		SimpleDateFormat xmlDateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss.SSSZ", INTERNAL_PARSE_LOCALE); //$NON-NLS-1$
-		Calendar cal = GregorianCalendar.getInstance(INTERNAL_CAL_LOCALE);
+		Calendar cal = Calendar.getInstance(INTERNAL_CAL_LOCALE);
 		cal.setTime(new Date(time));
 		String javaFmt = xmlDateFormat.format(cal.getTime());
 
@@ -66,7 +66,7 @@ public class ParserTool {
 	}
 
 	public static String getDateString(long time) {
-		Calendar cal = GregorianCalendar.getInstance(INTERNAL_CAL_LOCALE);
+		Calendar cal = Calendar.getInstance(INTERNAL_CAL_LOCALE);
 		cal.setTime(new Date(time));
 		SimpleDateFormat xmlDateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd", INTERNAL_PARSE_LOCALE); //$NON-NLS-1$

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
-import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.NodeNameFilter;

@@ -72,7 +72,8 @@ public class ThrowValidator extends CActivityValidator {
 	public void rule_CheckFaultVariable_12 () {
 		
 		if (fFaultVariable == null) {
-			// return
+			// DO: bugid 3282
+			return;
 		}
 		
 		IProblem problem;

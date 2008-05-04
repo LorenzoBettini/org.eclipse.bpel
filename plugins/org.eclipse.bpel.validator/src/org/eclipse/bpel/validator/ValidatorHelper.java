@@ -10,12 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.wst.validation.internal.operations.IWorkbenchContext;
 import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
-import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)

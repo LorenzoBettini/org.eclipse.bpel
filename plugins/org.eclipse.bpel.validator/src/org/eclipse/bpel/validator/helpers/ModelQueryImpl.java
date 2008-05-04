@@ -17,8 +17,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Stack;
 
-import javax.management.AttributeNotFoundException;
-import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.validator.model.Filters;
@@ -36,7 +34,6 @@ import org.eclipse.bpel.validator.model.XNotImplemented;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

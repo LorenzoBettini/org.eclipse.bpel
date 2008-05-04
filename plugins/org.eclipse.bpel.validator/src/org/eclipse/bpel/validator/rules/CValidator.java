@@ -327,7 +327,14 @@ public class CValidator extends Validator {
 				);
 				
 			}
-			
+
+			// Temporary workaround for 3369 - disable check if from/to has a part attr
+			String fromPart = fromNode.getAttribute(AT_PART);
+			String toPart = toNode.getAttribute(AT_PART);
+			if (fromPart != null || toPart != null){
+				return;
+			}
+
 			
 		} else if (bCompatible == false) {
 			

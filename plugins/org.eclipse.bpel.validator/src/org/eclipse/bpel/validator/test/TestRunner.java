@@ -16,6 +16,7 @@ import java.io.File;
 import junit.framework.Assert;
 
 import org.eclipse.bpel.validator.Main;
+import org.eclipse.bpel.validator.helpers.CmdValidator;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.junit.AfterClass;
@@ -69,7 +70,7 @@ public class TestRunner  {
 				
 		fSrc = new File (fHome + "/tests/" + testCase + "/" + testCase + ".bpel");	
 		
-		fExpectedProblems = Main.readMessages( new File ( fSrc + ".xml") );
+		fExpectedProblems = CmdValidator.readMessages( new File ( fSrc + ".xml") );
 		
 		fProblems = fValidator.validate( fSrc );
 		
