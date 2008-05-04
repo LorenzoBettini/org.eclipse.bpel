@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.runtimes.utils;
 
+import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -32,12 +33,12 @@ public class BPELModelUtils {
 	 * @return <code>EList</code> containing all <code>PartnerLink</code>s 
 	 * defined on any Scopes (or none)
 	 */
-	public static EList getScopePartnerLinks(final EObject process) {
-		TreeIterator contents = process.eAllContents();
-		EList results = new BasicEList();
+	public static EList<PartnerLink> getScopePartnerLinks(final EObject process) {
+		TreeIterator<EObject> contents = process.eAllContents();
+		EList<PartnerLink> results = new BasicEList<PartnerLink>();
 		
 		while (contents.hasNext()) {
-			EObject obj = (EObject) contents.next();
+			EObject obj = contents.next();
 			
 			if (obj instanceof Scope) {
 				results.addAll(((Scope) obj).getPartnerLinks().getChildren());

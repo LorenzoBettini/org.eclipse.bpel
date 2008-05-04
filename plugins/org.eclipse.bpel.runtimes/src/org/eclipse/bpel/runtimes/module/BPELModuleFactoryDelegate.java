@@ -108,6 +108,7 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.server.core.model.ModuleFactoryDelegate#getModuleDelegate(org.eclipse.wst.server.core.IModule)
 	 */
+	@Override
 	public ModuleDelegate getModuleDelegate(IModule module) {
 		return (ModuleDelegate) moduleDelegates.get(module);
 	}
@@ -115,6 +116,7 @@ public class BPELModuleFactoryDelegate extends ModuleFactoryDelegate {
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.server.core.model.ModuleFactoryDelegate#getModules()
 	 */
+	@Override
 	public IModule[] getModules() {
 		cacheModules();
 		
