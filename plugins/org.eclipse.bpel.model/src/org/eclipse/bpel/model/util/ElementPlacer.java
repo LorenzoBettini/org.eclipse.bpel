@@ -148,6 +148,24 @@ public class ElementPlacer {
 		Node child = (referenceChild == null) ? parentElement.getLastChild()
 				: referenceChild.getPreviousSibling();
 
+		// DO: parentElement has no children ( <tag /> )
+		if (child == null) {
+			StringBuffer indent = new StringBuffer();
+			for (Node ancestor = parentElement.getParentNode(); ancestor != null
+					&& ancestor.getNodeType() != Node.DOCUMENT_NODE; ancestor = ancestor
+					.getParentNode()) {
+				indent.append("    ");
+			}
+			Text text = parentElement.getOwnerDocument().createTextNode(
+					"\n" + indent + "    ");
+			parentElement.insertBefore(text, referenceChild);
+			text = parentElement.getOwnerDocument().createTextNode(
+					"\n" + indent);
+			referenceChild = parentElement.insertBefore(text, referenceChild);
+			parentElement.insertBefore(newChild, referenceChild);
+			return;
+		}
+
 		while (child != null) {
 			short nodeType = child.getNodeType();
 			if (nodeType == Node.ELEMENT_NODE)
