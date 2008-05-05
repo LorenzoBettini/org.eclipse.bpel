@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnAlarmImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: OnAlarmImpl.java,v 1.8 2008/05/05 07:33:18 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -176,7 +176,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			NotificationChain msgs) {
 		Expression oldFor = for_;
 		if (!isReconciling) {
-			if (newFor != null && newFor.getElement() == null) {
+			if (newFor != null && newFor.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newFor.setElement(ElementFactory.getInstance().createExpressionElement(newFor, this, BPELConstants.ND_FOR));
 			}
 			ReconciliationHelper.replaceChild(this, oldFor, newFor);
@@ -234,7 +234,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			NotificationChain msgs) {
 		Expression oldUntil = until;
 		if (!isReconciling) {
-			if (newUntil != null && newUntil.getElement() == null) {
+			if (newUntil != null && newUntil.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newUntil.setElement(ElementFactory.getInstance().createExpressionElement(newUntil, this, BPELConstants.ND_UNTIL));
 			}
 			ReconciliationHelper.replaceChild(this, oldUntil, newUntil);
@@ -293,7 +293,7 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			NotificationChain msgs) {
 		Expression oldRepeatEvery = repeatEvery;
 		if (!isReconciling) {
-			if (newRepeatEvery != null && newRepeatEvery.getElement() == null) {
+			if (newRepeatEvery != null && newRepeatEvery.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newRepeatEvery.setElement(ElementFactory.getInstance().createExpressionElement(newRepeatEvery, this, BPELConstants.ND_REPEAT_EVERY));
 			}
 			ReconciliationHelper.replaceChild(this, oldRepeatEvery, newRepeatEvery);

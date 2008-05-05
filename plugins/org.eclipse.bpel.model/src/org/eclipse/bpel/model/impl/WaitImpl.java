@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.7 2008/05/04 11:05:46 odanilov Exp $
+ * $Id: WaitImpl.java,v 1.8 2008/05/05 07:33:18 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -97,7 +97,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			NotificationChain msgs) {
 		Expression oldFor = for_;
 		if (!isReconciling) {
-			if (newFor != null && newFor.getElement() == null) {
+			if (newFor != null && newFor.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newFor.setElement(ElementFactory.getInstance().createExpressionElement(newFor, this, BPELConstants.ND_FOR));
 			}
 			ReconciliationHelper.replaceChild(this, oldFor, newFor);
@@ -155,7 +155,7 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			NotificationChain msgs) {
 		Expression oldUntil = until;
 		if (!isReconciling) {
-			if (newUntil != null && newUntil.getElement() == null) {
+			if (newUntil != null && newUntil.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newUntil.setElement(ElementFactory.getInstance().createExpressionElement(newUntil, this, BPELConstants.ND_UNTIL));
 			}
 			ReconciliationHelper.replaceChild(this, oldUntil, newUntil);

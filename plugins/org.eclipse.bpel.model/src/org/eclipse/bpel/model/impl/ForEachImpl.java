@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.12 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ForEachImpl.java,v 1.13 2008/05/05 07:33:18 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -147,7 +147,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			Expression newStartCounterValue, NotificationChain msgs) {
 		Expression oldStartCounterValue = startCounterValue;
 		if (!isReconciling) {
-			if (newStartCounterValue != null && newStartCounterValue.getElement() == null) {
+			if (newStartCounterValue != null && newStartCounterValue.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newStartCounterValue.setElement(ElementFactory.getInstance().createExpressionElement(newStartCounterValue, this, BPELConstants.ND_START_COUNTER_VALUE));
 			}
 			ReconciliationHelper.replaceChild(this, oldStartCounterValue, newStartCounterValue);
@@ -210,7 +210,7 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			Expression newFinalCounterValue, NotificationChain msgs) {
 		Expression oldFinalCounterValue = finalCounterValue;
 		if (!isReconciling) {
-			if (newFinalCounterValue != null && newFinalCounterValue.getElement() == null) {
+			if (newFinalCounterValue != null && newFinalCounterValue.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newFinalCounterValue.setElement(ElementFactory.getInstance().createExpressionElement(newFinalCounterValue, this, BPELConstants.ND_FINAL_COUNTER_VALUE));
 			}
 			ReconciliationHelper.replaceChild(this, oldFinalCounterValue, newFinalCounterValue);

@@ -520,23 +520,28 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		} else if (eObject instanceof Scope) {
 			compensationHandler = ((Scope)eObject).getCompensationHandler();
 		}
+		CompensationHandler oldCompensationHandler = compensationHandler;
 		
-		if (compensationHandlerElement != null) {
+		if (compensationHandlerElement != null && compensationHandler == null) {
 			compensationHandler = xml2CompensationHandler(compensationHandler, compensationHandlerElement);
 			xml2ExtensibleElement(compensationHandler, compensationHandlerElement);
+		} else if (compensationHandlerElement == null) {
+			compensationHandler = null;
 		}
 		
-		if (eObject instanceof Invoke)
-			((Invoke) eObject).setCompensationHandler(compensationHandler);
-		else if (eObject instanceof Scope)
-			((Scope) eObject).setCompensationHandler(compensationHandler);	
+		if (oldCompensationHandler != compensationHandler) {
+			if (eObject instanceof Invoke)
+				((Invoke) eObject).setCompensationHandler(compensationHandler);
+			else if (eObject instanceof Scope)
+				((Scope) eObject).setCompensationHandler(compensationHandler);
+		}
 	}
 
 	/**
 	 * Sets a FaultHandler element for a given extensibleElement.
 	 */
 	protected void setFaultHandler(Element element, ExtensibleElement extensibleElement) {
-		List<Element> faultHandlerElements = ReconciliationHelper.getBPELChildElementsByLocalName(
+		Element faultHandlerElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				element, "faultHandlers");
 
 		FaultHandler faultHandler = null;
@@ -545,13 +550,20 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		} else if (extensibleElement instanceof Invoke) {
 			faultHandler = ((Invoke) extensibleElement).getFaultHandler();
 		}
-		if (faultHandlerElements.size() > 0) {
-			 faultHandler = xml2FaultHandler(faultHandler, faultHandlerElements.get(0));			
+		FaultHandler oldFaultHandler = faultHandler;
+		
+		if (faultHandlerElement != null && faultHandler == null) {
+			faultHandler = xml2FaultHandler(faultHandler, faultHandlerElement);
+		} else if (faultHandlerElement == null) {
+			faultHandler = null;
 		}
-		if (extensibleElement instanceof Process) {
-			((Process) extensibleElement).setFaultHandlers(faultHandler);
-		} else if (extensibleElement instanceof Invoke) {
-			((Invoke) extensibleElement).setFaultHandler(faultHandler);
+		
+		if (oldFaultHandler != faultHandler) {
+			if (extensibleElement instanceof Process) {
+				((Process) extensibleElement).setFaultHandlers(faultHandler);
+			} else if (extensibleElement instanceof Invoke) {
+				((Invoke) extensibleElement).setFaultHandler(faultHandler);
+			}
 		}
 	}
 
@@ -566,18 +578,21 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			eventHandler = ((Process) extensibleElement).getEventHandlers();
 		else if (extensibleElement instanceof Scope)
 			eventHandler = ((Scope) extensibleElement).getEventHandlers();
+		EventHandler oldEventHandler = eventHandler;
 		
-		if (eventHandlerElement != null) {
+		
+		if (eventHandlerElement != null && eventHandler == null) {
 			 eventHandler = xml2EventHandler(eventHandler, eventHandlerElement);
-		} else {
+		} else if (eventHandlerElement == null) {
 			eventHandler = null;
 		}
 		
-		if (extensibleElement instanceof Process)
-			((Process) extensibleElement).setEventHandlers(eventHandler);
-		else if (extensibleElement instanceof Scope)
-			((Scope) extensibleElement).setEventHandlers(eventHandler);
-
+		if (oldEventHandler != eventHandler) {
+			if (extensibleElement instanceof Process)
+				((Process) extensibleElement).setEventHandlers(eventHandler);
+			else if (extensibleElement instanceof Scope)
+				((Scope) extensibleElement).setEventHandlers(eventHandler);			
+		}
 	}
 
 	/**
@@ -657,10 +672,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Set correlations
 		Element correlationsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				activityElement, "correlations");
-		if (correlationsElement != null) {
-			Correlations correlations = xml2Correlations(activity.getCorrelations(), correlationsElement);
-			activity.setCorrelations(correlations);
-		} else {
+		if (correlationsElement != null && activity.getCorrelations() == null) {			
+			activity.setCorrelations(xml2Correlations(activity.getCorrelations(), correlationsElement));
+		} else if (correlationsElement == null) {
 			activity.setCorrelations(null);
 		}
 	}
@@ -707,10 +721,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Set correlations
 		Element correlationsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				activityElement, "correlations");
-		if (correlationsElement != null) {
-			Correlations correlations = xml2Correlations(onMessage.getCorrelations(), correlationsElement);
-			onMessage.setCorrelations(correlations);
-		} else {
+		if (correlationsElement != null && onMessage.getCorrelations() == null) {
+			onMessage.setCorrelations(xml2Correlations(onMessage.getCorrelations(), correlationsElement));
+		} else if (correlationsElement == null) {
 			onMessage.setCorrelations(null);
 		}
 	}
@@ -776,10 +789,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Set correlations
 		Element correlationsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				activityElement, "correlations");
-		if (correlationsElement != null) {
-			Correlations correlations = xml2Correlations(onEvent.getCorrelations(), correlationsElement);
-			onEvent.setCorrelations(correlations);
-		} else {
+		if (correlationsElement != null && onEvent.getCorrelations() == null) {
+			onEvent.setCorrelations(xml2Correlations(onEvent.getCorrelations(), correlationsElement));
+		} else if (correlationsElement == null) {
 			onEvent.setCorrelations(null);
 		}
 	}
@@ -957,34 +969,34 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle PartnerLinks Element
 		Element partnerLinksElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				processElement, "partnerLinks");
-		if (partnerLinksElement != null) {
+		if (partnerLinksElement != null && (process.getPartnerLinks() == null || process.getPartnerLinks().getChildren().size() == 0)) {
 			process.setPartnerLinks(xml2PartnerLinks(process.getPartnerLinks(), partnerLinksElement));
-		} else {
+		} else if (partnerLinksElement == null) {
 			process.setPartnerLinks(null);
 		}
 
 		// Handle Variables Element
 		Element variablesElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				processElement, "variables");
-		if (variablesElement != null) {
+		if (variablesElement != null && (process.getVariables() == null || process.getVariables().getChildren() == null)) {
 			process.setVariables(xml2Variables(process.getVariables(), variablesElement));
-		} else {
+		} else if (variablesElement == null) {
 			process.setVariables(null);
 		}
 
 		// Handle CorrelationSets Element
 		Element correlationSetsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				processElement, "correlationSets");
-		if (correlationSetsElement != null) {
+		if (correlationSetsElement != null && (process.getCorrelationSets() == null || process.getCorrelationSets().getChildren() == null)) {
 			process.setCorrelationSets(xml2CorrelationSets(process.getCorrelationSets(), correlationSetsElement));
-		} else {
+		} else if (correlationSetsElement == null) {
 			process.setCorrelationSets(null);
 		}
 
 		// Handle MessageExchanges Element
 		Element messageExchangesElements = ReconciliationHelper.getBPELChildElementByLocalName(
 				processElement, "messageExchanges");
-		if (messageExchangesElements != null) {
+		if (messageExchangesElements != null && (process.getMessageExchanges() == null || process.getMessageExchanges().getChildren() == null)) {
 			process.setMessageExchanges(xml2MessageExchanges(process.getMessageExchanges(), messageExchangesElements));
 		} else {
 			process.setMessageExchanges(null);
@@ -993,9 +1005,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle Extensions Element
 		Element extensionsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				processElement, "extensions");
-		if (extensionsElement != null) {
+		if (extensionsElement != null && process.getExtensions() == null) {
 			process.setExtensions(xml2Extensions(process.getExtensions(), extensionsElement));
-		} else {
+		} else if (extensionsElement == null) {
 			process.setExtensions(null);
 		}
 
@@ -1009,9 +1021,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle EventHandler element
 		setEventHandler(processElement, process);
 
-		// Handle Activity elements
-		Activity activity = xml2Activity(null, processElement);
-		process.setActivity(activity);
+		process.setActivity(xml2Activity(null, processElement));
 
 		xml2ExtensibleElement(process, processElement);
 
@@ -1467,9 +1477,10 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// from-spec
 		Element fromElement = ReconciliationHelper.getBPELChildElementByLocalName(variableElement, "from");
-		if (fromElement != null) {
-			From from = variable.getFrom();			
-			variable.setFrom(xml2From(from, fromElement));
+		if (fromElement != null && variable.getFrom() == null) {
+			variable.setFrom(xml2From(variable.getFrom(), fromElement));
+		} else if(fromElement == null) {
+			variable.setFrom(null);
 		}
 
 		xml2ExtensibleElement(variable, variableElement);
@@ -1507,9 +1518,10 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		Element catchAllElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				faultHandlerElement, "catchAll");
-		if (catchAllElement != null) {
-			CatchAll catchAll = xml2CatchAll(faultHandler.getCatchAll(), catchAllElement);
-			faultHandler.setCatchAll(catchAll);
+		if (catchAllElement != null && faultHandler.getCatchAll() == null) {
+			faultHandler.setCatchAll(xml2CatchAll(faultHandler.getCatchAll(), catchAllElement));
+		} else if (catchAllElement == null){
+			faultHandler.setCatchAll(null);
 		}
 
 		// Only do this for an element named faultHandlers. If the element is
@@ -1692,15 +1704,19 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle targets
 		Element targetsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				activityElement, "targets");
-		if (targetsElement != null) {
+		if (targetsElement != null && activity.getTargets() == null) {
 			activity.setTargets(xml2Targets(activity.getTargets(), targetsElement));
+		} else if (targetsElement == null){
+			activity.setTargets(null);
 		}
 
 		// Handle sources
 		Element sourcesElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				activityElement, "sources");
-		if (sourcesElement != null) {
+		if (sourcesElement != null && activity.getSources() == null) {
 			activity.setSources(xml2Sources(activity.getSources(), sourcesElement));
+		} else if (sourcesElement == null) {
+			activity.setSources(null);
 		}
 	}
 
@@ -1720,9 +1736,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Join condition
 		Element joinConditionElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				targetsElement, "joinCondition");
-		if (joinConditionElement != null) {
+		if (joinConditionElement != null && targets.getJoinCondition() == null) {
 			targets.setJoinCondition(xml2Condition(targets.getJoinCondition(), joinConditionElement));
-		} else {
+		} else if (joinConditionElement == null) {
 			targets.setJoinCondition(null);
 		}
 		
@@ -1782,10 +1798,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Read transitionCondition element
 		Element transitionConditionElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				sourceElement, "transitionCondition");
-		if (transitionConditionElement != null) {
-			Condition transitionCondition = xml2Condition(source.getTransitionCondition(), transitionConditionElement);
-			source.setTransitionCondition(transitionCondition);
-		} else {
+		if (transitionConditionElement != null && source.getTransitionCondition() == null) {
+			source.setTransitionCondition(xml2Condition(source.getTransitionCondition(), transitionConditionElement));
+		} else if (transitionConditionElement == null ){
 			source.setTransitionCondition(null);
 		}
 
@@ -1827,50 +1842,45 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Handle Variables element
 		Element variablesElement = ReconciliationHelper.getBPELChildElementByLocalName(scopeElement, "variables");
-		if (variablesElement != null) {
-			Variables variables = xml2Variables(scope.getVariables(), variablesElement);
-			scope.setVariables(variables);
-		} else {
+		if (variablesElement != null && (scope.getVariables() == null && scope.getVariables().getChildren().size() == 0)) {
+			scope.setVariables(xml2Variables(scope.getVariables(), variablesElement));
+		} else if (variablesElement == null) {
 			scope.setVariables(null);
 		}
 
 		// Handle CorrelationSet element
 		Element correlationSetsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				scopeElement, "correlationSets");
-		if (correlationSetsElement != null) {
-			CorrelationSets correlationSets = xml2CorrelationSets(scope.getCorrelationSets(), correlationSetsElement);
-			scope.setCorrelationSets(correlationSets);
-		} else {
+		if (correlationSetsElement != null && (scope.getCorrelationSets() == null || scope.getCorrelationSets().getChildren().size() == 0)) {
+			scope.setCorrelationSets(xml2CorrelationSets(scope.getCorrelationSets(), correlationSetsElement));
+		} else if(correlationSetsElement == null) {
 			scope.setCorrelationSets(null);
 		}
 
 		// Handle PartnerLinks element
 		Element partnerLinksElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				scopeElement, "partnerLinks");
-		if (partnerLinksElement != null) {
-			PartnerLinks partnerLinks = xml2PartnerLinks(scope.getPartnerLinks(), partnerLinksElement);
-			scope.setPartnerLinks(partnerLinks);
-		} else {
+		if (partnerLinksElement != null && (scope.getPartnerLinks() == null || scope.getPartnerLinks().getChildren().size() == 0)) {
+			scope.setPartnerLinks(xml2PartnerLinks(scope.getPartnerLinks(), partnerLinksElement));
+		} else if (partnerLinksElement == null) {
 			scope.setPartnerLinks(null);
 		}
 
 		// MessageExchanges element
 		Element messageExchangesElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				scopeElement, "messageExchanges");
-		if (messageExchangesElement != null) {
-			MessageExchanges messageExchanges = xml2MessageExchanges(scope.getMessageExchanges(), messageExchangesElement);
-			scope.setMessageExchanges(messageExchanges);
-		} else {
+		if (messageExchangesElement != null && (scope.getMessageExchanges() == null || scope.getMessageExchanges().getChildren().size() == 0)) {
+			scope.setMessageExchanges(xml2MessageExchanges(scope.getMessageExchanges(), messageExchangesElement));
+		} else if (messageExchangesElement == null) {
 			scope.setMessageExchanges(null);
 		}
 
 		// Handle FaultHandler element
 		Element faultHandlerElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				scopeElement, "faultHandlers");
-		if (faultHandlerElement != null) {
-			FaultHandler faultHandler = xml2FaultHandler(scope.getFaultHandlers(), faultHandlerElement);
-			scope.setFaultHandlers(faultHandler);
-		} else {
+		if (faultHandlerElement != null && scope.getFaultHandlers() == null) {
+			scope.setFaultHandlers(xml2FaultHandler(scope.getFaultHandlers(), faultHandlerElement));
+		} else if (faultHandlerElement == null) {
 			scope.setFaultHandlers(null);
 		}
 
@@ -1879,10 +1889,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Handler TerminationHandler element
 		Element terminationHandlerElement = ReconciliationHelper.getBPELChildElementByLocalName(scopeElement, "terminationHandler");
-		if (terminationHandlerElement != null) {
-			TerminationHandler terminationHandler = xml2TerminationHandler(scope.getTerminationHandler(), terminationHandlerElement);
-			scope.setTerminationHandler(terminationHandler);
-		} else {
+		if (terminationHandlerElement != null && scope.getTerminationHandler() == null) {
+			scope.setTerminationHandler(xml2TerminationHandler(scope.getTerminationHandler(), terminationHandlerElement));
+		} else if (terminationHandlerElement == null) {
 			scope.setTerminationHandler(null);
 		}
 
@@ -1943,16 +1952,16 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		}
 				
 		Element linksElement = ReconciliationHelper.getBPELChildElementByLocalName(flowElement, "links");
-		if (linksElement != null) {
-			Links links = xml2Links(flow.getLinks(), linksElement);
-			flow.setLinks(links);
+		if (linksElement != null && flow.getLinks() == null) {
+			flow.setLinks(xml2Links(flow.getLinks(), linksElement));
+		} else if (linksElement == null) {
+			flow.setLinks(null);
 		}
 
 		Element completionConditionElement = ReconciliationHelper.getBPELChildElementByLocalName(flowElement, "completionCondition");
-		if (completionConditionElement != null) {
-			CompletionCondition completionCondition = xml2CompletionCondition(flow.getCompletionCondition(), completionConditionElement);
-			flow.setCompletionCondition(completionCondition);
-		} else {
+		if (completionConditionElement != null && flow.getCompletionCondition() == null) {
+			flow.setCompletionCondition(xml2CompletionCondition(flow.getCompletionCondition(), completionConditionElement));
+		} else if (completionConditionElement == null) {
 			flow.setCompletionCondition(null);
 		}
 
@@ -2113,10 +2122,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// set the fromParts
 		Element fromPartsElement = ReconciliationHelper.getBPELChildElementByLocalName(onMessageElement, "fromParts");
-		if (fromPartsElement != null) {
-			FromParts fromParts = xml2FromParts(onMessage.getFromParts(), fromPartsElement);
-			onMessage.setFromParts(fromParts);
-		} else {
+		if (fromPartsElement != null && onMessage.getFromParts() == null) {
+			onMessage.setFromParts(xml2FromParts(onMessage.getFromParts(), fromPartsElement));
+		} else if (fromPartsElement == null) {
 			onMessage.setFromParts(null);
 		}
 
@@ -2148,20 +2156,20 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// set the fromParts
 		Element fromPartsElement = ReconciliationHelper.getBPELChildElementByLocalName(onEventElement, "fromParts");
-		if (fromPartsElement != null) {
+		if (fromPartsElement != null && onEvent.getFromParts() == null) {
 			FromParts fromParts = xml2FromParts(onEvent.getFromParts(), fromPartsElement);
 			onEvent.setFromParts(fromParts);
-		} else {
+		} else if (fromPartsElement == null) {
 			onEvent.setFromParts(null);
 		}
 
 		// Handle CorrelationSets Element
 		Element correlationSetsElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				onEventElement, "correlationSets");
-		if (correlationSetsElement != null) {
+		if (correlationSetsElement != null && onEvent.getCorrelationSets() == null) {
 			onEvent.setCorrelationSets(xml2CorrelationSets(onEvent.getCorrelationSets(),
 															correlationSetsElement));
-		} else {
+		} else if (correlationSetsElement == null) {
 			onEvent.setCorrelationSets(null);
 		}
 		
@@ -2188,24 +2196,28 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Set for element
 		Element forElement = ReconciliationHelper.getBPELChildElementByLocalName(onAlarmElement,
 				"for");
-		if (forElement != null) {
+		if (forElement != null && onAlarm.getFor() == null) {
 			onAlarm.setFor(xml2Expression(onAlarm.getFor(), forElement));
+		} else if (forElement == null) {
+			onAlarm.setFor(null);
 		}
 
 		// Set until element
 		Element untilElement = ReconciliationHelper.getBPELChildElementByLocalName(onAlarmElement,
 				"until");
-		if (untilElement != null) {
-			Expression expression = xml2Expression(onAlarm.getUntil(), untilElement);
-			onAlarm.setUntil(expression);
+		if (untilElement != null && onAlarm.getUntil() == null) {
+			onAlarm.setUntil(xml2Expression(onAlarm.getUntil(), untilElement));
+		} else if (untilElement == null) {
+			onAlarm.setUntil(null);
 		}
 
 		// Set repeatEvery element
 		Element repeatEveryElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				onAlarmElement, "repeatEvery");
-		if (repeatEveryElement != null) {
-			Expression expression = xml2Expression(onAlarm.getRepeatEvery(), repeatEveryElement);
-			onAlarm.setRepeatEvery(expression);
+		if (repeatEveryElement != null && onAlarm.getRepeatEvery() == null) {
+			onAlarm.setRepeatEvery(xml2Expression(onAlarm.getRepeatEvery(), repeatEveryElement));
+		} else if (repeatEveryElement == null) {
+			onAlarm.setRepeatEvery(null);
 		}
 
 		// Set activity
@@ -2230,9 +2242,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Handle condition element
 		Element conditionElement = ReconciliationHelper.getBPELChildElementByLocalName(whileElement, "condition");
-		if (conditionElement != null) {
+		if (conditionElement != null && _while.getCondition() == null) {
 			_while.setCondition(xml2Condition(_while.getCondition(), conditionElement));
-		} else {
+		} else if (conditionElement == null) {
 			_while.setCondition(null);
 		}
 
@@ -2284,10 +2296,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle condition element
 		Element conditionElement = ReconciliationHelper.getBPELChildElementByLocalName(ifElement,
 				"condition");
-		if (conditionElement != null) {
-			Condition condition = xml2Condition(_if.getCondition(), conditionElement);
-			_if.setCondition(condition);
-		} else {
+		if (conditionElement != null && _if.getCondition() == null) {
+			_if.setCondition(xml2Condition(_if.getCondition(), conditionElement));
+		} else if (conditionElement == null) {
 			_if.setCondition(null);
 		}
 
@@ -2302,10 +2313,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Handle else
 		Element elseElement = ReconciliationHelper.getBPELChildElementByLocalName(ifElement, "else");
-		if (elseElement != null) {
-			Else _else = xml2Else(_if.getElse(), elseElement);
-			_if.setElse(_else);
-		} else {
+		if (elseElement != null && _if.getElse() == null) {
+			_if.setElse(xml2Else(_if.getElse(), elseElement));
+		} else if (elseElement == null) {
 			_if.setElse(null);
 		}
 
@@ -2329,14 +2339,13 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle condition element
 		Element conditionElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				elseIfElement, "condition");
-		if (conditionElement != null) {
-			Condition condition = xml2Condition(elseIf.getCondition(), conditionElement);
-			elseIf.setCondition(condition);
+		if (conditionElement != null && elseIf.getCondition() == null) {
+			elseIf.setCondition(xml2Condition(elseIf.getCondition(), conditionElement));
+		} else if (conditionElement == null) {
+			elseIf.setCondition(null);
 		}
 
-		// Set activity
-		Activity activity = getChildActivity(elseIf, elseIfElement);
-		elseIf.setActivity(activity);
+		elseIf.setActivity(getChildActivity(elseIf, elseIfElement));
 
 		return elseIf;
 	}
@@ -2583,17 +2592,19 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Set for element
 		Element forElement = ReconciliationHelper.getBPELChildElementByLocalName(waitElement, "for");
-		if (forElement != null) {
-			Expression expression = xml2Expression(wait.getFor(), forElement);
-			wait.setFor(expression);
+		if (forElement != null && wait.getFor() == null) {
+			wait.setFor(xml2Expression(wait.getFor(), forElement));
+		} else if (forElement == null) {
+			wait.setFor(null);
 		}
 
 		// Set until element
 		Element untilElement = ReconciliationHelper.getBPELChildElementByLocalName(waitElement,
 				"until");
-		if (untilElement != null) {
-			Expression expression = xml2Expression(wait.getUntil(), untilElement);
-			wait.setUntil(expression);
+		if (untilElement != null && wait.getUntil() == null) {
+			wait.setUntil(xml2Expression(wait.getUntil(), untilElement));
+		} else if (untilElement == null) {
+			wait.setUntil(null);
 		}
 
 		setStandardAttributes(waitElement, wait);
@@ -2691,16 +2702,16 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		Element fromElement = ReconciliationHelper.getBPELChildElementByLocalName(copyElement,
 				"from");
-		if (fromElement != null) {
+		if (fromElement != null && copy.getFrom() == null) {
 			copy.setFrom(xml2From(copy.getFrom(), fromElement));
-		} else {
+		} else if (fromElement == null){
 			copy.setFrom(null);
 		}
 
 		Element toElement = ReconciliationHelper.getBPELChildElementByLocalName(copyElement, "to");
-		if (toElement != null) {
+		if (toElement != null && copy.getTo() == null) {
 			copy.setTo(xml2To(copy.getTo(), toElement));
-		} else {
+		} else if (toElement == null) {
 			copy.setTo(null);
 		}
 
@@ -2719,7 +2730,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		}
 
 		xml2ExtensibleElement(copy, copyElement);
-
+		
 		return copy;
 	}
 
@@ -2834,9 +2845,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Set query element
 		Element queryElement = ReconciliationHelper.getBPELChildElementByLocalName(toElement,
 				"query");
-		if (queryElement != null) {
+		if (queryElement != null && to.getQuery() == null) {
 			to.setQuery(xml2Query(to.getQuery(), queryElement));
-		} else {			
+		} else if (queryElement == null) {			
 			if (partnerLink == null && variable == null){
 				Expression expression = to.getExpression();
 				if (expression == null) {
@@ -2902,9 +2913,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Set query element
 		Element queryElement = ReconciliationHelper.getBPELChildElementByLocalName(fromElement,
 				"query");
-		if (queryElement != null) {
+		if (queryElement != null && from.getQuery() == null) {
 			from.setQuery(xml2Query(from.getQuery(), queryElement));
-		} else {
+		} else if (queryElement == null) {
 			from.setQuery(null);
 		}
 
@@ -2918,9 +2929,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Set service-ref element
 		Element serviceRefElement = ReconciliationHelper.getBPELChildElementByLocalName(fromElement, "service-ref");
-		if (serviceRefElement != null) {
+		if (serviceRefElement != null && from.getServiceRef() == null) {
 			from.setServiceRef(xml2ServiceRef(from.getServiceRef(), serviceRefElement));
-		} else {
+		} else if (serviceRefElement == null){
 			from.setServiceRef(null);
 		}
 		
@@ -2960,7 +2971,6 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			Expression expressionObject = from.getExpression();
 			if (expressionObject == null) {
 				expressionObject = BPELFactory.eINSTANCE.createExpression();
-//				expressionObject.setElement(fromElement);
 				from.setExpression(expressionObject);
 			}
 
@@ -3169,19 +3179,17 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// set the toParts
 		Element toPartsElement = ReconciliationHelper.getBPELChildElementByLocalName(invokeElement, "toParts");
-		if (toPartsElement != null) {
-			ToParts toParts = xml2ToParts(invoke.getToParts(), toPartsElement);
-			invoke.setToParts(toParts);
-		} else {
+		if (toPartsElement != null && invoke.getToParts() == null) {
+			invoke.setToParts(xml2ToParts(invoke.getToParts(), toPartsElement));
+		} else if (toPartsElement == null) {
 			invoke.setToParts(null);
 		}
 		
 		// set the fromParts
 		Element fromPartsElement = ReconciliationHelper.getBPELChildElementByLocalName(invokeElement, "fromParts");
-		if (fromPartsElement != null) {
-			FromParts fromParts = xml2FromParts(invoke.getFromParts(), fromPartsElement);
-			invoke.setFromParts(fromParts);
-		} else {
+		if (fromPartsElement != null && invoke.getFromParts() == null) {
+			invoke.setFromParts(xml2FromParts(invoke.getFromParts(), fromPartsElement));
+		} else if (fromPartsElement == null) {
 			invoke.setFromParts(null);
 		}
 
@@ -3217,10 +3225,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// set the toParts
 		Element toPartsElement = ReconciliationHelper.getBPELChildElementByLocalName(replyElement, "toParts");
-		if (toPartsElement != null) {
-			ToParts toParts = xml2ToParts(reply.getToParts(), toPartsElement);
-			reply.setToParts(toParts);
-		} else {
+		if (toPartsElement != null && reply.getToParts() == null) {
+			reply.setToParts(xml2ToParts(reply.getToParts(), toPartsElement));
+		} else if (toPartsElement == null) {
 			reply.setToParts(null);
 		}
 
@@ -3257,10 +3264,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// set the fromParts
 		Element fromPartsElement = ReconciliationHelper.getBPELChildElementByLocalName(receiveElement, "fromParts");
-		if (fromPartsElement != null) {
-			FromParts fromParts = xml2FromParts(receive.getFromParts(), fromPartsElement);
-			receive.setFromParts(fromParts);
-		} else {
+		if (fromPartsElement != null && receive.getFromParts() == null) {
+			receive.setFromParts(xml2FromParts(receive.getFromParts(), fromPartsElement));
+		} else if (fromPartsElement == null) {
 			receive.setFromParts(null);
 		}
 		
@@ -3315,25 +3321,25 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		
 		// Set startCounterValue element
 		Element startCounterValueElement = ReconciliationHelper.getBPELChildElementByLocalName(forEachElement, "startCounterValue");
-		if (startCounterValueElement != null) {
+		if (startCounterValueElement != null && forEach.getStartCounterValue() == null) {
 			forEach.setStartCounterValue(xml2Expression(forEach.getStartCounterValue(), startCounterValueElement));
-		} else {
+		} else if (startCounterValueElement == null) {
 			forEach.setStartCounterValue(null);
 		}
 
 		// Set finalCounterValue element
 		Element finalCounterValueElement = ReconciliationHelper.getBPELChildElementByLocalName(forEachElement, "finalCounterValue");
-		if (finalCounterValueElement != null) {
+		if (finalCounterValueElement != null && forEach.getFinalCounterValue() == null) {
 			forEach.setFinalCounterValue(xml2Expression(forEach.getFinalCounterValue(), finalCounterValueElement));
-		} else {
+		} else if (finalCounterValueElement == null) {
 			forEach.setFinalCounterValue(null);
 		}
 
 		// Set completionCondition element
 		Element completionConditionElement = ReconciliationHelper.getBPELChildElementByLocalName(forEachElement, "completionCondition");
-		if (completionConditionElement != null) {
+		if (completionConditionElement != null && forEach.getCompletionCondition() == null) {
 			forEach.setCompletionCondition(xml2CompletionCondition(forEach.getCompletionCondition(), completionConditionElement));
-		} else {
+		} else if (completionConditionElement == null){
 			forEach.setCompletionCondition(null);
 		}
 
@@ -3360,9 +3366,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Set branches element
 		Element branchesElement = ReconciliationHelper.getBPELChildElementByLocalName(completionConditionElement, "branches");
-		if (branchesElement != null) {
+		if (branchesElement != null && completionCondition.getBranches() == null) {
 			completionCondition.setBranches(xml2Branches(completionCondition.getBranches(), branchesElement));
-		} else {
+		} else if (branchesElement == null) {
 			completionCondition.setBranches(null);
 		}
 
@@ -3439,9 +3445,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle condition element
 		Element conditionElement = ReconciliationHelper.getBPELChildElementByLocalName(
 				repeatUntilElement, "condition");
-		if (conditionElement != null) {
+		if (conditionElement != null && repeatUntil.getCondition() == null) {
 			repeatUntil.setCondition(xml2Condition(repeatUntil.getCondition(), conditionElement));
-		} else {
+		} else if (conditionElement == null) {
 			repeatUntil.setCondition(null);
 		}
 
@@ -3591,10 +3597,9 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		// Handle the documentation element first
 		Element documentationElement = ReconciliationHelper.getBPELChildElementByLocalName(element,
 				"documentation");
-		if (documentationElement != null) {
-			Documentation documentation = xml2Documentation(extensibleElement.getDocumentation(), documentationElement);
-			extensibleElement.setDocumentation(documentation);
-		} else {
+		if (documentationElement != null && extensibleElement.getDocumentation() == null) {
+			extensibleElement.setDocumentation(xml2Documentation(extensibleElement.getDocumentation(), documentationElement));
+		} else if (documentationElement == null){
 			extensibleElement.setDocumentation(null);
 		}
 

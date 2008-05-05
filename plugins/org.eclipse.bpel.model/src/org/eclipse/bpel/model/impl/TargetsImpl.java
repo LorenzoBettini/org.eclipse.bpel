@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetsImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: TargetsImpl.java,v 1.9 2008/05/05 07:33:18 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -117,7 +117,7 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 			NotificationChain msgs) {
 		Condition oldJoinCondition = joinCondition;
 		if (!isReconciling) {
-			if (newJoinCondition != null && newJoinCondition.getElement() == null) {
+			if (newJoinCondition != null && newJoinCondition.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newJoinCondition.setElement(ElementFactory.getInstance().createExpressionElement(newJoinCondition, this, BPELConstants.ND_JOIN_CONDITION));
 			}
 			ReconciliationHelper.replaceChild(this, oldJoinCondition, newJoinCondition);

@@ -427,22 +427,25 @@ public class ReconciliationHelper {
 		}
 	}
 	
-	public static void replaceValue(ServiceRef serviceRef, Node oldValueNode, Node newValueNode) {
+	public static Node replaceValue(ServiceRef serviceRef, Node oldValueNode, Object newValue) {
 		boolean oldUpdatingDom = isUpdatingDom(serviceRef);
 		try {
 			setUpdatingDom(serviceRef, true);
 			
 			if (isLoading(serviceRef)) {
-				return;
+				return null;
 			}
 			if (serviceRef.getElement() == null) {
-				return;
+				return null;
 			}
+
+			Node newValueNode = ElementFactory.getInstance().createValue(serviceRef);
 			if (oldValueNode == null && newValueNode != null) {
 				ElementPlacer.placeChild(serviceRef, newValueNode);
 			} else if (oldValueNode != null && newValueNode != null) {
 				serviceRef.getElement().replaceChild(newValueNode, oldValueNode);
 			}
+			return newValueNode;
 		} finally {
 			setUpdatingDom(serviceRef, oldUpdatingDom);
 		}

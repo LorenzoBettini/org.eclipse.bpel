@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourceImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: SourceImpl.java,v 1.8 2008/05/05 07:33:18 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -222,7 +222,7 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 			Condition newTransitionCondition, NotificationChain msgs) {
 		Condition oldTransitionCondition = transitionCondition;
 		if (!isReconciling) {
-			if (newTransitionCondition != null && newTransitionCondition.getElement() == null) {
+			if (newTransitionCondition != null && newTransitionCondition.getElement() == null && !ReconciliationHelper.isLoading(this)) {
 				newTransitionCondition.setElement(ElementFactory.getInstance().createExpressionElement(newTransitionCondition, this, BPELConstants.ND_TRANSITION_CONDITION));
 			}
 			ReconciliationHelper.replaceChild(this, oldTransitionCondition, newTransitionCondition);
