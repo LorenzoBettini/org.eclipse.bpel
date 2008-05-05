@@ -100,7 +100,7 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 				process.setEventHandlers(null);
 				if (processElement != null) {
 					process.setElement(processElement);
-					reconcileModelObjectForElement(processElement);
+					process.elementChanged(processElement);
 				}
 			}
 		} else if (node.getNodeType() == Node.CDATA_SECTION_NODE
