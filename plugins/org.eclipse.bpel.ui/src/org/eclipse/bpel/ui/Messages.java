@@ -44,6 +44,7 @@ public final class Messages extends NLS {
 	public static String DocumentationSection_Source_1;
 	public static String DocumentationSection_Language_1;
 	public static String DocumentationSection_Description_1;
+	public static String FaultCatchNameSection_None_0;
 	public static String ImportsSection_0;
 	public static String ImportsSection_1;
 	public static String ImportsSection_2;

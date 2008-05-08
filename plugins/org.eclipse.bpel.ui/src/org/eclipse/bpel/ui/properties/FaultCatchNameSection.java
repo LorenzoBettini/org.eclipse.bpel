@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui.properties;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.details.IOngoingChange;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
+import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Catch;
@@ -29,18 +31,17 @@ import org.eclipse.bpel.model.CatchAll;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
+import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnAlarm;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Pick;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.RepeatUntil;
 import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Sequence;
-import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Throw;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.While;
@@ -62,12 +63,12 @@ import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NamespaceUtils;
 import org.eclipse.bpel.ui.util.WSDLImportHelper;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionEvent;
@@ -120,7 +121,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	protected ChangeTracker faultNameTracker, faultNamespaceTracker, 
 		faultUserDefNameTracker, variableNameTracker;
 		
-	protected Vector faultNameQNames;
+	protected Vector<QName> faultNameQNames;
 
 	public FaultCatchNameSection()  {
 		super();
@@ -261,7 +262,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				updateUserDefFaultNameWidgets();
 				
 				CompoundCommand command = new CompoundCommand();
-				Command cmd = new SetFaultNameCommand(getInput(), faultNameCombo.getText());
+				String newName = faultNameCombo.getText();
+				Command cmd = new SetFaultNameCommand(getInput(), isEmptyMessageType(newName) ? "" : newName);
 				if (cmd.canExecute()) command.add(cmd);
 				cmd = new SetFaultNamespaceCommand(getInput(), BPELConstants.NAMESPACE);
 				if (cmd.canExecute()) command.add(cmd);
@@ -291,8 +293,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				doChildLayout();
 				// hack!
 				String s = ""; //$NON-NLS-1$
-				Vector names = getFaultNames(getProcess().getTargetNamespace());
-				if (!names.isEmpty()) s = ((QName)names.get(0)).getLocalPart();
+				Vector<QName> names = getFaultNames(getProcess().getTargetNamespace());
+				if (!names.isEmpty()) s = (names.get(0)).getLocalPart();
 				CompoundCommand command = new CompoundCommand();
 
 				Command cmd = new SetFaultNameCommand(getInput(), (s==null)? "" : s); //$NON-NLS-1$
@@ -330,7 +332,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				String name = faultNameCombo.getText();
 				CompoundCommand command = new CompoundCommand();
 				String newName = "".equals(name)? null : name; //$NON-NLS-1$
-				Command newNameCommand = new SetFaultNameCommand(getInput(), newName); 
+				Command newNameCommand = new SetFaultNameCommand(getInput(), isEmptyMessageType(newName) ? "" : newName); 
 				if (newNameCommand.canExecute())  command.add(newNameCommand);
 				Command c2 = new SetFaultNamespaceCommand(getInput(), BPELConstants.NAMESPACE);
 				if (c2.canExecute())  command.add(c2);
@@ -352,12 +354,12 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				lastChangeContext = NAMESPACE_CONTEXT;
 				CompoundCommand command = new CompoundCommand();
 				command.add(new SetFaultNamespaceCommand(getInput(), "".equals(s)? null : s)); //$NON-NLS-1$
-				Vector faultNames = getFaultNames(s);
+				Vector<QName> faultNames = getFaultNames(s);
 				String name = null;
 				if (!faultNames.isEmpty()) {
-					name = ((QName)faultNames.get(0)).getLocalPart();
+					name = (faultNames.get(0)).getLocalPart();
 				}
-				command.add(new SetFaultNameCommand(getInput(), name));
+				command.add(new SetFaultNameCommand(getInput(), isEmptyMessageType(name) ? "" : name));
 				return wrapInShowContextCommand(command);
 			}
 			public void restoreOldState() {
@@ -381,7 +383,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				faultNamespaceCombo.setText(NamespaceUtils.convertUriToNamespace(namespace));
 				CompoundCommand command = new CompoundCommand(IBPELUIConstants.CMD_EDIT_FAULTNAME);
 				command.add(new SetFaultNamespaceCommand(getInput(), "".equals(namespace) ? null : namespace)); //$NON-NLS-1$
-				command.add(new SetFaultNameCommand(getInput(), "".equals(faultName) ? null : faultName)); //$NON-NLS-1$
+				String newName = "".equals(faultName) ? null : faultName;
+				command.add(new SetFaultNameCommand(getInput(), isEmptyMessageType(newName) ? "" : newName)); //$NON-NLS-1$
 				return wrapInShowContextCommand(command);
 			}
 			public void restoreOldState() {
@@ -440,7 +443,10 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			-SHORT_BUTTON_WIDTH-IDetailsAreaConstants.HSPACE-IDetailsAreaConstants.CENTER_SPACE);
 		data.top = new FlatFormAttachment(0, 0);
 		
-		faultNameCombo.setItems(BPELConstants.standardFaults);
+		ArrayList<String> faultNames = new ArrayList<String>();
+		faultNames.add(Messages.FaultCatchNameSection_None_0);
+		faultNames.addAll(Arrays.asList(BPELConstants.standardFaults));
+		faultNameCombo.setItems(faultNames.toArray(new String[faultNames.size()]));
 		faultNameCombo.setLayoutData(data);
 		
 		data = new FlatFormData();
@@ -619,11 +625,12 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		faultNameTracker.stopTracking();
 		try {
 			String s = ModelHelper.getFaultName(getInput());
-			if (s == null)  s = ""; //$NON-NLS-1$
-			if (!s.equals(faultNameCombo.getText()))
-			{
+			if (s == null || "".equals(s)) { //$NON-NLS-1$
+				faultNameCombo.setText(Messages.FaultCatchNameSection_None_0); 
+			} else if (!s.equals(faultNameCombo.getText())) {
 				if (faultNameCombo.indexOf(s) == -1) s = ""; //$NON-NLS-1$
-				faultNameCombo.setText(s); } 
+				faultNameCombo.setText(s); 
+			} 
 		} finally {
 			faultNameTracker.startTracking();
 		}
@@ -634,15 +641,13 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		faultUserDefNameTracker.stopTracking();
 		try {
 			String namespace = ModelHelper.getFaultNamespace(getInput());
-			Vector faultNames;
+			Vector<QName> faultNames;
 			if (namespace == null)
 				faultNames = getFaultNames();
 			else faultNames = getFaultNames(namespace);
 				
 			faultUserDefCombo.removeAll();
-			for (Iterator faultIterator = faultNames.iterator(); faultIterator.hasNext();)
-			{	
-				QName faultName = (QName)faultIterator.next();
+			for (QName faultName : faultNames) {
 				if (faultUserDefCombo.indexOf(faultName.getLocalPart()) == -1) faultUserDefCombo.add(faultName.getLocalPart());
 			}
 			String s = ModelHelper.getFaultName(getInput());
@@ -664,11 +669,10 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		Assert.isNotNull(getInput());
 		faultNamespaceTracker.stopTracking();
 		try {
-			Vector namespaces = getFaultNames();
+			Vector<QName> namespaces = getFaultNames();
 
 			faultNamespaceCombo.removeAll();
-			for (Iterator nsIterator = namespaces.iterator(); nsIterator.hasNext();) {
-				QName qname = (QName) nsIterator.next();
+			for (QName qname : namespaces) {
 				String uri = NamespaceUtils.convertUriToNamespace(qname.getNamespaceURI());
 				if (faultNamespaceCombo.indexOf(uri) == -1)
 					faultNamespaceCombo.add(uri);
@@ -742,10 +746,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	}
 
 	protected String getFaultNameByNamespace(String namespace) {
-		Vector faultNames = getFaultNames();
+		Vector<QName> faultNames = getFaultNames();
 		Assert.isNotNull(faultNames);
-		for (Iterator iter = faultNames.iterator(); iter.hasNext();) {
-			QName qname = (QName) iter.next();
+		for (QName qname : faultNames) {
 			if (qname.getNamespaceURI().equals(namespace))
 				return qname.getLocalPart();
 		}
@@ -753,10 +756,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	}
 
 	protected String getNamespaceByFaultName(String faultname) {
-		Vector faultNames = getFaultNames();
+		Vector<QName> faultNames = getFaultNames();
 		Assert.isNotNull(faultNames);
-		for (Iterator iter = faultNames.iterator(); iter.hasNext();) {
-			QName qname = (QName) iter.next();
+		for (QName qname : faultNames) {
 			if (qname.getLocalPart().equals(faultname))
 				return qname.getNamespaceURI();
 		}
@@ -764,10 +766,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	}
 	
 	protected boolean validNamespaceFaultNameCombination(String namespace, String faultname) {
-		Vector faultNames = getFaultNames();
+		Vector<QName> faultNames = getFaultNames();
 		Assert.isNotNull(faultNames);
-		for (Iterator iter = faultNames.iterator(); iter.hasNext();) {
-			QName qname = (QName) iter.next();
+		for (QName qname : faultNames) {
 			if (qname.getLocalPart().equals(faultname) && qname.getNamespaceURI().equals(namespace))
 				return true;
 		}
@@ -775,7 +776,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	}
 	
 	protected void getFaultNames(Object activity) {
-		EList activities = null;
+		EList<Activity> activities = null;
 		if (activity instanceof Sequence)
 			activities = ((Sequence) activity).getActivities();
 		if (activity instanceof Flow)
@@ -785,21 +786,15 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		if (activity instanceof RepeatUntil)
 			getFaultNames(((RepeatUntil) activity).getActivity());
 		if (activity instanceof If) {
-			EList elseifs = ((If) activity).getElseIf();
-			for (Iterator elifIterator = elseifs.iterator(); elifIterator.hasNext();) {
-				ElseIf elif = (ElseIf) elifIterator.next();
+			for (ElseIf elif : ((If) activity).getElseIf()) {			
 				getFaultNames(elif.getActivity());
 			}
 		}
 		if (activity instanceof Pick) {
-			EList onMessages = ((Pick) activity).getMessages();
-			for (Iterator mIterator = onMessages.iterator(); mIterator.hasNext();) {
-				OnMessage onMessage = (OnMessage) mIterator.next();
+			for (OnMessage onMessage : ((Pick) activity).getMessages()) {
 				getFaultNames(onMessage.getActivity());
 			}
-			EList onAlarms = ((Pick) activity).getAlarm();
-			for (Iterator aIterator = onAlarms.iterator(); aIterator.hasNext();) {
-				OnAlarm onAlarm = (OnAlarm) aIterator.next();
+			for (OnAlarm onAlarm : ((Pick) activity).getAlarm()) {
 				getFaultNames(onAlarm.getActivity());
 			}
 		}
@@ -807,9 +802,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			Scope scope = (Scope) activity;
 			FaultHandler faultHandler = scope.getFaultHandlers();
 			if (faultHandler != null) {
-				EList catches = faultHandler.getCatch();
-				for (Iterator i = catches.iterator(); i.hasNext();) {
-					Catch c = (Catch) i.next();
+				for (Catch c : faultHandler.getCatch()) {
 					getFaultNames(c.getActivity());
 				}
 				CatchAll catchAll = faultHandler.getCatchAll();
@@ -821,8 +814,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		}
 
 		if (activities != null) {
-			for (Iterator activityIterator = activities.iterator(); activityIterator.hasNext();) {
-				Object subActivity = activityIterator.next();
+			for (Activity subActivity : activities) {
 				getFaultNames(subActivity);
 			}
 		}
@@ -834,19 +826,17 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		}
 	}
 	
-	protected Vector getFaultNames(String namespace) {
-		Vector source = getFaultNames();
-		Vector result = new Vector();
-		for (Iterator iter = source.iterator(); iter.hasNext();) {
-			QName qname = (QName) iter.next();
+	protected Vector<QName> getFaultNames(String namespace) {
+		Vector<QName> result = new Vector<QName>();
+		for (QName qname : getFaultNames()) {
 			if (qname.getNamespaceURI().equals(namespace))
 				result.add(qname);
 		}
 		return result;
 	}
 	
-	protected Vector getFaultNames() {
-		faultNameQNames = new Vector();
+	protected Vector<QName> getFaultNames() {
+		faultNameQNames = new Vector<QName>();
 		if (getInput() == null)
 			throw new IllegalStateException();
 		Process p = ModelHelper.getProcess(getInput());
@@ -854,11 +844,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		// get FaultNames from activities
 		getFaultNames(p.getActivity());
 
-		// get FaultNames of PartnerLinks
-		PartnerLinks pLinks = p.getPartnerLinks();
-		EList partnerLinks = pLinks.getChildren();
-		for (Iterator pLinkIterator = partnerLinks.iterator(); pLinkIterator.hasNext();) {
-			PartnerLink partnerLink = (PartnerLink) pLinkIterator.next();
+		for (PartnerLink partnerLink : p.getPartnerLinks().getChildren()) {
 			Role role = partnerLink.getMyRole();
 			if (role == null)
 				role = partnerLink.getPartnerRole();
@@ -966,11 +952,10 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	}
 	
 	protected Definition[] getDefinitions(String namespace) {
-		List result = new ArrayList();
-		List imports = getProcess().getImports();
+		List<Definition> result = new ArrayList<Definition>();
+		List<Import> imports = getProcess().getImports();
 		if (imports != null) {
-			for (Iterator iter = imports.iterator(); iter.hasNext();) {
-				Import _import = (Import) iter.next();
+			for (Import _import: imports) {
 				if (WSDLConstants.WSDL_NAMESPACE_URI.equals(_import.getImportType()))  {
 					if (namespace.equals(_import.getNamespace())) {
 						result.add(WSDLImportHelper.getDefinition(_import));
@@ -978,7 +963,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 				}
 			}
 		}
-		return (Definition[]) result.toArray(new Definition[result.size()]);
+		return result.toArray(new Definition[result.size()]);
 	}
 	
 	/**
@@ -988,8 +973,8 @@ public class FaultCatchNameSection extends BPELPropertySection {
 	protected Message getMessageFromThrow(QName faultQName) {
 		Object container = getInput().eContainer().eContainer();
 		if (!(container instanceof Scope)) return null; // it might be an invoke so return null
-		Scope scope = (Scope) container; 
-		for (Iterator iter = scope.eAllContents(); iter.hasNext();) {
+		Scope scope = (Scope) container;
+		for (Iterator<EObject> iter = scope.eAllContents(); iter.hasNext();) {
 			Object element = iter.next();
 			if (element instanceof Throw) {
 				Throw t = (Throw) element;
@@ -999,5 +984,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			}
 		}
 		return null;
+	}
+
+	private boolean isEmptyMessageType(String newName) {
+		return Messages.FaultCatchNameSection_None_0.equals(newName) && builtinRadio.getSelection();
 	}
 }
