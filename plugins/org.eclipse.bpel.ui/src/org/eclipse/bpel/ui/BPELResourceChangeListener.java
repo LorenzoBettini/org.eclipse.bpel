@@ -219,9 +219,7 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 	 */
 	protected void fileDeleted(IFile oldBPELFile, IProgressMonitor monitor) throws CoreException {
 		// notify listeners
-		Object[] temp = listeners.toArray();
-		for (int i = 0; i < temp.length; i++) {
-			IFileChangeListener listener = (IFileChangeListener) temp[i];
+		for (IFileChangeListener listener : listeners) {
 			listener.deleted(oldBPELFile);
 		}
 		// Delete bpelex file
