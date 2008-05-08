@@ -276,8 +276,7 @@ public class TransferBuffer {
 			Sources sources = activity.getSources();
 			if (sources != null) {
 				
-				for(Object n : sources.getChildren().toArray() ) {
-					Source source = (Source) n;
+				for(Source source : sources.getChildren() ) {
 					if (!targetMap.containsValue(source.getLink())) {
 						source.setLink(null);
 						sources.getChildren().remove(source);						
@@ -290,8 +289,7 @@ public class TransferBuffer {
 
 			Targets targets = activity.getTargets();
 			if (targets != null) {
-				for (Object n : targets.getChildren().toArray() ) {
-					Target target = (Target) n;
+				for (Target target : targets.getChildren() ) {
 					if (!targetMap.containsValue(target.getLink())) {
 						target.setLink(null);
 						targets.getChildren().remove(target);
@@ -378,12 +376,12 @@ public class TransferBuffer {
 
 			BPELUtil.CloneResult cloneResult = BPELUtil.cloneSubtree(source,contents.fExtensionMap, targetMap);
 						
+			anchors.fContainer.addChild(anchors.fTarget, cloneResult.targetRoot, anchors.fRefObject );
 			// Resolve name of the source activity to be unique
 			if (source instanceof Activity) {
 				Activity node = (Activity) cloneResult.targetRoot;								
 				String uniqueName = BPELUtil.generateUniqueModelName ( anchors.fTarget, node.getName(), node );				
 				node.setName(BPELUtil.upperCaseFirstLetter (uniqueName) );
-				
 			} else if (source instanceof Variable) {
 				Variable node = (Variable) cloneResult.targetRoot;								
 				String uniqueName = BPELUtil.generateUniqueModelName ( anchors.fTarget, node.getName(), node );
@@ -397,8 +395,6 @@ public class TransferBuffer {
 				String uniqueName = BPELUtil.generateUniqueModelName (anchors.fTarget, node.getName(), node );
 				node.setName(uniqueName);								
 			}
-
-			anchors.fContainer.addChild(anchors.fTarget, cloneResult.targetRoot, anchors.fRefObject );
 			newObjects.add(cloneResult.targetRoot);
 		}
 
@@ -409,9 +405,9 @@ public class TransferBuffer {
 	class Anchors {
 		EObject fTarget;
 		EObject fRefObject;
-		IContainer fContainer;
-				
+		IContainer<EObject> fContainer;
 	}
+
 	/**
 	 * Anchors just represent the anchor points for the paste operation.
 	 *  
