@@ -45,6 +45,7 @@ import org.eclipse.xsd.XSDNotationDeclaration;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSchemaCompositor;
+import org.eclipse.xsd.XSDSchemaContent;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.XSDWildcard;
@@ -62,12 +63,12 @@ public class XSDUtils {
 	
 	// singleton lists of XSD simple type definitions for supported primitives (see getPrimitives()) and
 	// all xsd primitives (see getAdvancedPrimitives()) respectively
-	private static List primitives;
-	private static List advancedPrimitives;
+	private static List<XSDSimpleTypeDefinition> primitives;
+	private static List<XSDTypeDefinition> advancedPrimitives;
 	
 	// XSD short list -- these are the types presented to the user by default, rather than inundating them with
 	// all the available types
-	private static List xsdShortList = new ArrayList();
+	private static List<String> xsdShortList = new ArrayList<String>();
 	static
 	{
 		xsdShortList.add("string"); //$NON-NLS-1$
@@ -84,7 +85,7 @@ public class XSDUtils {
 	
 	// A list of all supported XSD types.  Usually the user will not be presented with the full list, but 
 	// rather with the xsd short list
-	private static List supportedPrimitives = new ArrayList();
+	private static List<String> supportedPrimitives = new ArrayList<String>();
 	static {
 		supportedPrimitives.add("anyType"); //$NON-NLS-1$
 		supportedPrimitives.add("anyURI"); //$NON-NLS-1$
@@ -321,9 +322,9 @@ public class XSDUtils {
         }
         else
         {
-	        for (Iterator i = annotation.getUserInformation().iterator(); i.hasNext();)
+	        for (Iterator<Element> i = annotation.getUserInformation().iterator(); i.hasNext();)
 	        {
-	            userInfo = (Element) i.next();
+	            userInfo = i.next();
 	            if (userInfo.getTagName().endsWith(XSDConstants.DOCUMENTATION_ELEMENT_TAG))
 	            {
 	                break;
@@ -336,7 +337,7 @@ public class XSDUtils {
         
         // add attributes
         String key = null;
-        for (Iterator iter = attributes.keySet().iterator(); iter.hasNext();)
+        for (Iterator<String> iter = attributes.keySet().iterator(); iter.hasNext();)
         {
             key = (String)iter.next();
             userInfo.setAttribute(key, (String)attributes.get(key));
@@ -357,7 +358,7 @@ public class XSDUtils {
 	 * @return
 	 */
 	public static String createUniqueElementName(String prefix, List elements) {
-		ArrayList usedNames = new ArrayList();
+		ArrayList<String> usedNames = new ArrayList<String>();
 		for(Iterator i = elements.iterator(); i.hasNext(); ) {
 			usedNames.add( getDisplayName((XSDNamedComponent) i.next()));
 		}
@@ -385,9 +386,7 @@ public class XSDUtils {
 			XSDSchema schemaForSchemas = XSDUtil.getSchemaForSchema(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 			
 			// Start adding the simple types using the supportedPrimitives list
-			for(Iterator i = supportedPrimitives.iterator(); i.hasNext(); ) {
-				String typeName = (String) i.next();
-				
+			for (String typeName : supportedPrimitives) {
 				XSDTypeDefinition type = schemaForSchemas.resolveSimpleTypeDefinition(typeName);
 				advancedPrimitives.add(type);
 			}
@@ -412,35 +411,31 @@ public class XSDUtils {
 	 * @param schema
 	 * @return
 	 */
-	public static List getAllDataTypes(XSDSchema schema)
+	public static List<XSDTypeDefinition> getAllDataTypes(XSDSchema schema)
 	{
 		if (schema==null)
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		
-		List bos = new ArrayList();
+		List<XSDTypeDefinition> bos = new ArrayList<XSDTypeDefinition>();
 		
-        EList contents = schema.getContents();
+        EList<XSDSchemaContent> contents = schema.getContents();
         // First try the easy approach -- if this XSD contains a type definition, that's our BO, 
         // return it.  This is the recommended path, and the way our tooling does things.
-        for (Iterator i = contents.iterator(); i.hasNext();)
-		{
-			Object item = i.next();
+        for (XSDSchemaContent item : contents) {
 			if (item instanceof XSDTypeDefinition)
-				bos.add(item);
+				bos.add((XSDTypeDefinition)item);
 		}
         
 		// If we failed, we try a second pass, this time looking for an element
 		// with an anonymous complex
 		// type defined in line
-		for (Iterator i = contents.iterator(); i.hasNext();)
-		{
-			Object item = i.next();
+        for (XSDSchemaContent item : contents) {
 			if (item instanceof XSDElementDeclaration)
 			{
 				XSDElementDeclaration element = (XSDElementDeclaration) item;
 				if (element.getAnonymousTypeDefinition() instanceof XSDComplexTypeDefinition)
 				{
-					bos.add(element.getAnonymousTypeDefinition());
+					bos.add((XSDComplexTypeDefinition)element.getAnonymousTypeDefinition());
 				}
 			}
 		}
@@ -1011,15 +1006,14 @@ public class XSDUtils {
 	 * @param schema
 	 * @return
 	 */
-	public static List getUserDefinedSimpleTypes(XSDSchema schema) {
+	public static List<XSDSimpleTypeDefinition> getUserDefinedSimpleTypes(XSDSchema schema) {
 		if(schema == null)
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		
-		List result = new ArrayList();
-		for(Iterator i = schema.getContents().iterator(); i.hasNext(); ) {
-			Object next = i.next();
+		List<XSDSimpleTypeDefinition> result = new ArrayList<XSDSimpleTypeDefinition>();
+		for (XSDSchemaContent next : schema.getContents()) {
 			if(next instanceof XSDSimpleTypeDefinition)
-				result.add(next);
+				result.add((XSDSimpleTypeDefinition)next);
 		}
 		return result;
 	}
@@ -1104,11 +1098,11 @@ public class XSDUtils {
 		
 		boolean pickFirstFound = (typeName==null || typeName.length()<1);
 		
-        EList contents = schema.getContents();
+        EList<XSDSchemaContent> contents = schema.getContents();
         
         // First try the easy approach -- if this XSD contains a type definition with the right name, that's 
         // our type, return it.  This is the recommended path, and the way our tooling does things.
-        for(Iterator i = contents.iterator(); i.hasNext(); ) {
+        for(Iterator<XSDSchemaContent> i = contents.iterator(); i.hasNext(); ) {
         	Object item = i.next();
         	if(item instanceof XSDTypeDefinition)
         		if (pickFirstFound)
@@ -1119,7 +1113,7 @@ public class XSDUtils {
         
         // If we failed, we try a second pass, this time looking for an element with an anonymous 
         // type defined in line
-        for(Iterator i = contents.iterator(); i.hasNext(); ) {
+        for(Iterator<XSDSchemaContent> i = contents.iterator(); i.hasNext(); ) {
         	Object item = i.next();
         	if(item instanceof XSDFeature) {
         		XSDFeature element = (XSDFeature) item;

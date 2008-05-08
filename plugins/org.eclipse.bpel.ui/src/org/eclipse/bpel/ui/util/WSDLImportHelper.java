@@ -68,8 +68,7 @@ public class WSDLImportHelper {
 
 			if (ee instanceof PartnerLinkType) {
 				// for each <role> with a <portType>, import the file with the portType in it
-				for (Iterator it2 = ((PartnerLinkType)ee).getRole().iterator(); it2.hasNext(); ) {
-					Role role = (Role)it2.next();
+				for (Role role : ((PartnerLinkType)ee).getRole()) {
 					if (role.getPortType() != null) {
 						PortType pt = (PortType)role.getPortType();
 						if (pt != null && pt.getQName() != null) {
@@ -178,13 +177,13 @@ public class WSDLImportHelper {
 	protected static void addImport(String namespace, Definition importingDefinition,
 		URI importingUri, Definition importedDefinition, URI importedUri) {
 		WSDLFactory wsdlFactory = WSDLPackage.eINSTANCE.getWSDLFactory();
-		List imports = importingDefinition.getImports(namespace);
+		List<Import> imports = importingDefinition.getImports(namespace);
 		if (imports == null) {
-			imports = new ArrayList();
+			imports = new ArrayList<Import>();
 		}
 		boolean found = false;
 		for (int i = 0; i < imports.size() && !found; i++) {
-			Import _import = (Import)imports.get(i);
+			Import _import = imports.get(i);
 			if (_import.getEDefinition()== importedDefinition) {
 				found = true;
 			}
@@ -209,14 +208,14 @@ public class WSDLImportHelper {
 	protected static void addImport(String namespace, Definition importingDefinition,
 		URI importingUri, XSDSchema importedSchema, URI importedUri, IResource contextObject) {
 		WSDLFactory wsdlFactory = WSDLPackage.eINSTANCE.getWSDLFactory();
-		List imports = importingDefinition.getImports(namespace);
+		List<Import> imports = importingDefinition.getImports(namespace);
 		if (imports == null) {
-			imports = new ArrayList();
+			imports = new ArrayList<Import>();
 		}
 		// WDG: do we need something here for handling duplicate imports?
 		boolean found = false;
 		for (int i = 0; i < imports.size() && !found; i++) {
-			Import _import = (Import)imports.get(i);
+			Import _import = imports.get(i);
 			if (_import.getESchema()== importedSchema) {
 				found = true; continue;
 			}

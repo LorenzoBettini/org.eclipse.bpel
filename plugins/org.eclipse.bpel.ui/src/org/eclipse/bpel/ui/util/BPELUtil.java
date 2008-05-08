@@ -589,9 +589,9 @@ public class BPELUtil {
 	private static class NameUnusedVisitor implements IModelVisitor {
 		private boolean unused = true;
 		private String candidateName;
-		private Collection ignoreObjects;
+		private Collection<EObject> ignoreObjects;
 		
-		NameUnusedVisitor(String candidateName, Collection ignoreObjects) {
+		NameUnusedVisitor(String candidateName, Collection<EObject> ignoreObjects) {
 			this.candidateName = candidateName;
 			if (ignoreObjects == null)  ignoreObjects = Collections.EMPTY_SET;
 			this.ignoreObjects = ignoreObjects;
@@ -1518,12 +1518,11 @@ public class BPELUtil {
 		return result;
 	}
 
-	static void addVariablesToMap(Map targetMap, Variables vars, Variable refVar ) {
+	static void addVariablesToMap(Map<String, Variable> targetMap, Variables vars, Variable refVar ) {
 		if (vars == null) {
 			return;
 		}
-		for(Object n : vars.getChildren()) {
-			Variable v = (Variable) n;
+		for(Variable v : vars.getChildren()) {
 			// scoping for initialization (only visible from).
 			if (v == refVar) {
 				break;
@@ -1574,14 +1573,13 @@ public class BPELUtil {
 		}
 	}
 
-	private static void addPartnerLinksToMap(Map targetMap, PartnerLinks plinks) {
+	private static void addPartnerLinksToMap(Map<String, PartnerLink> targetMap, PartnerLinks plinks) {
 		if (plinks == null) return;
-		for (Iterator it = plinks.getChildren().iterator(); it.hasNext(); ) {
-			PartnerLink p = (PartnerLink)it.next();
+		for (PartnerLink p : plinks.getChildren()) {
 			if (p.getName() != null) targetMap.put(p.getName(), p);
 		}
 	}
-	private static void addVisiblePartnerLinks(Map targetMap, EObject target) {
+	private static void addVisiblePartnerLinks(Map<String, PartnerLink> targetMap, EObject target) {
 		if (target == null) return;
 		if (target instanceof Resource) return;
 		if (target instanceof Process) {
@@ -1653,7 +1651,7 @@ public class BPELUtil {
 	 * The returned PartnerLinks are in no particular order.
 	 */
 	public static PartnerLink[] getVisiblePartnerLinks(EObject target) {
-		Map name2PartnerLink = new HashMap();
+		Map<String, PartnerLink> name2PartnerLink = new HashMap<String, PartnerLink>();
 		addVisiblePartnerLinks(name2PartnerLink, target);
 		if (name2PartnerLink.isEmpty()) return EMPTY_PARTNERLINK_ARRAY;
 		PartnerLink[] result = new PartnerLink[name2PartnerLink.size()];
@@ -1669,7 +1667,7 @@ public class BPELUtil {
 	 * The returned PartnerLinks are in no particular order.
 	 */
 	public static CorrelationSet[] getVisibleCorrelationSets(EObject target) {
-		Map name2CorrelationSet = new HashMap();
+		Map<String, CorrelationSet> name2CorrelationSet = new HashMap<String, CorrelationSet>();
 		addVisibleCorrelationSets(name2CorrelationSet, target);
 		if (name2CorrelationSet.isEmpty()) return EMPTY_CORRELATIONSET_ARRAY;
 		CorrelationSet[] result = new CorrelationSet[name2CorrelationSet.size()];
@@ -1768,8 +1766,8 @@ public class BPELUtil {
 	 * Traverses the root object and returns all objects under it that are of the same 
 	 * class or subclasses of "target".
 	 */
-	public static List getAllEObjectsOfType(EObject root, EClass eClass) {
-		List allElems = new ArrayList();
+	public static List<EObject> getAllEObjectsOfType(EObject root, EClass eClass) {
+		List<EObject> allElems = new ArrayList<EObject>();
 		for (TreeIterator<EObject> iter = root.eAllContents(); iter.hasNext();) {
 			EObject element = iter.next();
 			if (eClass.isSuperTypeOf(element.eClass()) ||
