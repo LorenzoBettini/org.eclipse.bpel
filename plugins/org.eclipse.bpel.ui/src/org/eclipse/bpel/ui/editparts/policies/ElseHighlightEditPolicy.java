@@ -30,16 +30,16 @@ public class ElseHighlightEditPolicy extends ContainerHighlightEditPolicy {
 	}
 	
 	@Override
-	protected List createSelectionHandles() {
+	protected List<Handle> createSelectionHandles() {
 		// HACK: Avoid creating selection handles for objects that have already been deleted
 		// (this can occur in some tricky notification scenarios)
-		if (((EObject)getHost().getModel()).eResource() == null) { return Collections.EMPTY_LIST; }
+		if (((EObject)getHost().getModel()).eResource() == null) { return Collections.emptyList(); }
 		
-		List list = new ArrayList();
+		List<Handle> list = new ArrayList<Handle>();
 		addCaseCornerHandles((GraphicalEditPart)getHost(), list);
 		return list;
 	}
-	static void addCaseCornerHandles(GraphicalEditPart part, List handles) {
+	static void addCaseCornerHandles(GraphicalEditPart part, List<Handle> handles) {
 		handles.add(createCaseHandle(part, PositionConstants.SOUTH_EAST));
 		handles.add(createCaseHandle(part, PositionConstants.SOUTH_WEST));
 		handles.add(createCaseHandle(part, PositionConstants.NORTH_WEST));

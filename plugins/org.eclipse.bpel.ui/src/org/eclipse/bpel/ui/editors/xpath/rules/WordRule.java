@@ -14,7 +14,6 @@ package org.eclipse.bpel.ui.editors.xpath.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.text.rules.ICharacterScanner;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -81,8 +80,8 @@ public class WordRule implements IRule {
 	 */
 	public WordRule(IWordDetector detector, IToken defaultToken) {
 
-		Assert.isNotNull(detector);
-		Assert.isNotNull(defaultToken);
+		assert detector != null;
+		assert defaultToken != null;
 
 		fDetector= detector;
 		fDefaultToken= defaultToken;
@@ -95,8 +94,8 @@ public class WordRule implements IRule {
 	 * @param token the token to be returned if the word has been found, may not be <code>null</code>
 	 */
 	public void addWord(String word, IToken token) {
-		Assert.isNotNull(word);
-		Assert.isNotNull(token);
+		assert word != null;
+		assert token != null;
 
 		fWords.put(word, token);
 	}

@@ -57,7 +57,7 @@ import org.eclipse.swt.graphics.Color;
 
 public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 
-	protected ArrayList polyLineConnectionList = new ArrayList();	
+	protected ArrayList<PolylineConnection> polyLineConnectionList = new ArrayList<PolylineConnection>();	
 	
 	// colour of the connection lines
 	protected Color arrowColor = BPELUIPlugin.INSTANCE.getColorRegistry().get(IBPELUIConstants.COLOR_IMPLICIT_LINK);
@@ -123,15 +123,15 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	
 	public void clearConnections() {
 		for (int i = 0; i < polyLineConnectionList.size(); i++) {			
-			getLayer(LayerConstants.CONNECTION_LAYER).remove(((PolylineConnection)polyLineConnectionList.get(i)));
+			getLayer(LayerConstants.CONNECTION_LAYER).remove((polyLineConnectionList.get(i)));
 		}	
 		polyLineConnectionList.clear();		
 	}
 	
 	// return implicit links for a Horizontal edit part (e.g. a Switch).
-	protected ArrayList createHorizontalConnections(BPELEditPart parent) {
-		ArrayList connections = new ArrayList();
-		List children = getConnectionChildren(parent);
+	protected ArrayList<PolylineConnection> createHorizontalConnections(BPELEditPart parent) {
+		ArrayList<PolylineConnection> connections = new ArrayList<PolylineConnection>();
+		List<BPELEditPart> children = getConnectionChildren(parent);
 		BPELEditPart sourcePart, targetPart;
 		ConnectionAnchor sourceAnchor, targetAnchor;
 		
@@ -140,7 +140,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 		
 		if (children != null){
 			for (int i = 0; i < children.size(); i++) {
-				targetPart = (BPELEditPart)children.get(i);
+				targetPart = children.get(i);
 				targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.TOP);
 				connections.add(createConnection(sourceAnchor,targetAnchor,arrowColor));
 			}			
@@ -149,14 +149,14 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	}
 	
 	// return list of children to create vertical connections for.
-	protected List getConnectionChildren(BPELEditPart editPart) {
+	protected List<BPELEditPart> getConnectionChildren(BPELEditPart editPart) {
 		return editPart.getChildren();
 	}
 	
 	// return implicit links for a Vertical edit part (e.g. a Sequence).
-	protected ArrayList createVerticalConnections(BPELEditPart parent) {
-		ArrayList connections = new ArrayList();
-		List children = getConnectionChildren(parent);
+	protected ArrayList<PolylineConnection> createVerticalConnections(BPELEditPart parent) {
+		ArrayList<PolylineConnection> connections = new ArrayList<PolylineConnection>();
+		List<BPELEditPart> children = getConnectionChildren(parent);
 		BPELEditPart sourcePart = null, targetPart = null;
 		ConnectionAnchor sourceAnchor = null, targetAnchor = null;
 		
@@ -171,7 +171,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 						sourceAnchor = null;
 					}
 				} else {
-					sourcePart = (BPELEditPart)children.get(i-1);
+					sourcePart = children.get(i-1);
 					sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.BOTTOM);
 				}
 				if (i == children.size()) {
@@ -182,7 +182,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 						targetAnchor = null;
 					}
 				} else {
-					targetPart = (BPELEditPart)children.get(i);
+					targetPart = children.get(i);
 					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.TOP);
 				}
 				if (sourceAnchor != null && targetAnchor != null) {
@@ -215,14 +215,13 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	}
 	
 	protected List getSourceParts(Request request) {
-		List list = new ArrayList();
+		List<Object> list = new ArrayList<Object>();
 		if (request instanceof CreateRequest) {
 			list.add(((CreateRequest) request).getNewObject());
 		} else if (request instanceof GroupRequest) {
-			List l = ((GroupRequest) request).getEditParts();
-			for (Iterator e = l.iterator(); e.hasNext();) {
-				EditPart editPart = (EditPart) e.next();				
-				list.add(editPart.getModel());
+			List<EditPart> l = ((GroupRequest) request).getEditParts();
+			for (Iterator<EditPart> e = l.iterator(); e.hasNext();) {
+				list.add(e.next().getModel());
 			}
 		}
 		return list;

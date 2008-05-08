@@ -33,6 +33,7 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
@@ -50,9 +51,9 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 	
 	private class ElseIfOrderedHorizontalLayoutEditPolicy extends BPELOrderedLayoutEditPolicy{
 		@Override
-		protected ArrayList createHorizontalConnections(BPELEditPart parent) {
-			ArrayList connections = new ArrayList();
-			List children = getConnectionChildren(parent);
+		protected ArrayList<PolylineConnection> createHorizontalConnections(BPELEditPart parent) {
+			ArrayList<PolylineConnection> connections = new ArrayList<PolylineConnection>();
+			List<BPELEditPart> children = getConnectionChildren(parent);
 			BPELEditPart sourcePart, targetPart;
 			ConnectionAnchor sourceAnchor = null, targetAnchor = null;
 			

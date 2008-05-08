@@ -191,14 +191,14 @@ public class AssignImplSection extends BPELPropertySection {
 
 		fDeleteCopy.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				
+				Assign assign = getModel();
 				int index = fCopyList.getSelectionIndex();
+				index = (index == assign.getCopy().size() - 1) ? index - 1 : index;
+				
 				getCommandFramework().execute(wrapInShowContextCommand(
 						new RemoveCopyCommand((Assign)getInput(), fCurrentCopy)));
 				fCopyList.select(index);
-				Assign assign = getModel();
-				Copy copy = assign.getCopy().get( index );
-				selectCategoriesForInput( copy );				
+				selectCategoriesForInput((index >= 0) ? assign.getCopy().get(index) : null);
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);

@@ -1,6 +1,5 @@
 package org.eclipse.bpel.ui.editors.xpath.rules;
 
-import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.text.rules.ICharacterScanner;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -29,9 +28,9 @@ public class SingleCharRule implements IRule {
 	 */
 	
 	public SingleCharRule(IToken token, String chars) {
-		Assert.isNotNull(token);
+		assert token != null;
 		fToken = token;
-		Assert.isNotNull(chars);
+		assert chars != null;
 		fChars = chars;
 	}
 
