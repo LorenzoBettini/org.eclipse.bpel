@@ -21,6 +21,7 @@ import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 

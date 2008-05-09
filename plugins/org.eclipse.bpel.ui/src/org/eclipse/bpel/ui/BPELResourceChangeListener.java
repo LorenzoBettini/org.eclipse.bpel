@@ -84,10 +84,10 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 	}
 
 	protected IResourceDeltaVisitor visitor;
-	protected List listeners;
+	protected List<IFileChangeListener> listeners;;
 
 	public BPELResourceChangeListener() {
-		listeners = new ArrayList();
+		listeners = new ArrayList<IFileChangeListener>();
 	}
 
 	/**
