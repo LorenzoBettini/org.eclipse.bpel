@@ -194,11 +194,16 @@ public class ModelQueryImpl  implements IModelQuery {
 		
 	protected INode lookupVariable (INode context, final String name) {
 		
-		IFilter<INode> aFilter = new NodeAttributeValueFilter(IConstants.AT_NAME, name );
+		IFilter<INode> aFilterByName = new NodeAttributeValueFilter(IConstants.AT_NAME, name );
+		IFilter<INode> aFilterByFaultVariable = new NodeAttributeValueFilter(IConstants.AT_FAULT_VARIABLE, name );
 		
 		while (context != null) {				
-			if (Filters.SCOPE_OR_PROCESS.select (context) ) {				
-				INode var = mSelector.selectNode(context,IConstants.ND_VARIABLES,IConstants.ND_VARIABLE,aFilter);								
+			if (Filters.SCOPE_OR_PROCESS.select (context) ) {
+				INode var = mSelector.selectNode(context,IConstants.ND_VARIABLES,IConstants.ND_VARIABLE,aFilterByName);								
+				if (var != null) {
+					return var;
+				}
+				var = mSelector.selectNode(context,IConstants.ND_FAULT_HANDLERS,IConstants.ND_CATCH,aFilterByFaultVariable);								
 				if (var != null) {
 					return var;
 				}
