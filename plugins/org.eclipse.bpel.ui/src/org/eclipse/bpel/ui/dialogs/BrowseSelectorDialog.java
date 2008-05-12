@@ -520,7 +520,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	 */
 	protected void refreshFromImports() {
 				
-		List elements = collectItemsFromImports();				
+		List<?> elements = collectItemsFromImports();				
 				
 		if (fFilteredList != null) {
 			fFilteredList.setAllowDuplicates(showDuplicates);
@@ -530,8 +530,8 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 	}
 
 	
-	protected List collectItemsFromImports () {
-		return Collections.EMPTY_LIST;
+	protected List<?> collectItemsFromImports () {
+		return Collections.emptyList();
 	}
 	
 	/**

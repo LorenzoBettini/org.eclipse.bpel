@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
 
 
@@ -307,7 +308,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 	
 	
 	@Override
-	protected List collectItemsFromImports ( ) {
+	protected List<Definition> collectItemsFromImports ( ) {
 		return ModelHelper.getDefinitions(modelObject);
 	}
 			

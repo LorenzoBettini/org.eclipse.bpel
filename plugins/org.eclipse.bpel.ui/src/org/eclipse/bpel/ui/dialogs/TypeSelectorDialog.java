@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.dialogs;
 
 import java.util.List;
 
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.details.providers.CompositeContentProvider;
 import org.eclipse.bpel.ui.details.providers.MessageTypeContentProvider;
@@ -24,10 +25,12 @@ import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wst.wsdl.Message;
 
 
 /**
@@ -251,6 +254,38 @@ public class TypeSelectorDialog extends BrowseSelectorDialog {
 		}
 		
 		return list;
+	}
+
+	@Override
+	protected void okPressed() {
+		computeResult();
+		Object obj = getFirstResult();
+		// We need to check whether namespace prefix has been already defined
+		if (obj instanceof Message) {
+			if (!checkNamespace((Message) obj)){
+				return;
+			}
+		}
+		super.okPressed();
+	}
+
+	private boolean checkNamespace(Message message) {
+		String targetNamespace = message.getQName().getNamespaceURI();
+		String prefix = BPELUtils.getNamespacePrefix (modelObject, targetNamespace);
+		if (prefix != null) {
+			return true;
+		}
+		// We have to map the namespace to a prefix. 
+		NamespaceMappingDialog dialog = new NamespaceMappingDialog(getShell(),modelObject);
+		dialog.setNamespace( targetNamespace );
+		
+		if (dialog.open() == Window.CANCEL) {
+			return false;
+		}
+		
+		// define the prefix
+		BPELUtils.setPrefix( ModelHelper.getProcess(modelObject), targetNamespace, dialog.getPrefix()); 		
+		return true;
 	}
 			
 }
