@@ -339,7 +339,7 @@ public class XSDUtils {
         String key = null;
         for (Iterator<String> iter = attributes.keySet().iterator(); iter.hasNext();)
         {
-            key = (String)iter.next();
+            key = iter.next();
             userInfo.setAttribute(key, (String)attributes.get(key));
         }
         
@@ -435,7 +435,7 @@ public class XSDUtils {
 				XSDElementDeclaration element = (XSDElementDeclaration) item;
 				if (element.getAnonymousTypeDefinition() instanceof XSDComplexTypeDefinition)
 				{
-					bos.add((XSDComplexTypeDefinition)element.getAnonymousTypeDefinition());
+					bos.add(element.getAnonymousTypeDefinition());
 				}
 			}
 		}

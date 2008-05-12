@@ -1541,8 +1541,8 @@ public class ModelHelper {
      * @return
      */
     
-    static public List getDefinitions ( Object context ) {
-    	ArrayList al = new ArrayList(8);
+    static public List<Definition> getDefinitions ( Object context ) {
+    	ArrayList<Definition> al = new ArrayList<Definition>(8);
     	
     	// Try the BPEL imports if any exist.
         Process process = getProcess( context );
@@ -1560,7 +1560,7 @@ public class ModelHelper {
     	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
             for (int i = 0; i < resolvers.length; i++)
             {            	
-                al.addAll( resolvers[i].resolve (imp, ImportResolver.RESOLVE_DEFINITION ) );
+                al.addAll( (Collection<? extends Definition>) resolvers[i].resolve (imp, ImportResolver.RESOLVE_DEFINITION ) );
             }
             // next import
         }        

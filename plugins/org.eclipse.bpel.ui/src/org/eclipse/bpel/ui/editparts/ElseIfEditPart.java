@@ -65,15 +65,15 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 			
 			for(int i=0; i < children.size(); i++){
 				if(i==0){
-					targetPart = (BPELEditPart)children.get(i);
+					targetPart = children.get(i);
 					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
 				}
 				if(i < children.size()-1){
 					if(i>0){
-						sourcePart = (BPELEditPart)children.get(i);
+						sourcePart = children.get(i);
 						sourceAnchor = sourcePart.getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
 					}
-					targetPart = (BPELEditPart)children.get(i+1);
+					targetPart = children.get(i+1);
 					targetAnchor = targetPart.getConnectionAnchor(CenteredConnectionAnchor.LEFT);
 				}
 				if(sourceAnchor != null && targetAnchor != null)
