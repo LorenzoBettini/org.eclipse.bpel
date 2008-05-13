@@ -11,7 +11,7 @@
 package org.eclipse.bpel.common.ui.composite;
 
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.*;

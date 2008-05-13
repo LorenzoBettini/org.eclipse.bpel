@@ -77,12 +77,12 @@ public abstract class CompositeEditor extends EditorPart {
 	 * maintain the collection and the index in sync.   
 	 */
 	class EmbeddedEditorsCollection {
-		private List editors;
+		private List<IEditorPart> editors;
 		private IEditorPart[] editorsArrayCache;
 		private int activeEditorIndex;
 
 		EmbeddedEditorsCollection() {
-			editors = new ArrayList(10);
+			editors = new ArrayList<IEditorPart>(10);
 			editorsArrayCache = null;
 			activeEditorIndex = -1; // -1 means there are no active editors
 		}

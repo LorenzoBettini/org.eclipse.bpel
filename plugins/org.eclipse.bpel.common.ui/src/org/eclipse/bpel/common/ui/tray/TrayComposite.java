@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.common.ui.tray;
 
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseAdapter;
