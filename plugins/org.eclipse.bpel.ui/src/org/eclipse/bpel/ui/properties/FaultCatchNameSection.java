@@ -443,10 +443,9 @@ public class FaultCatchNameSection extends BPELPropertySection {
 			-SHORT_BUTTON_WIDTH-IDetailsAreaConstants.HSPACE-IDetailsAreaConstants.CENTER_SPACE);
 		data.top = new FlatFormAttachment(0, 0);
 		
-		ArrayList<String> faultNames = new ArrayList<String>();
-		faultNames.add(Messages.FaultCatchNameSection_None_0);
-		faultNames.addAll(Arrays.asList(BPELConstants.standardFaults));
-		faultNameCombo.setItems(faultNames.toArray(new String[faultNames.size()]));
+		List<String> faultNames = getBuiltinFaultNames();
+		String[] result = faultNames.toArray(new String[faultNames.size()]);
+		faultNameCombo.setItems(result);
 		faultNameCombo.setLayoutData(data);
 		
 		data = new FlatFormData();
@@ -695,10 +694,7 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		Assert.isNotNull(getInput());
 		String faultNamespace = ModelHelper.getFaultNamespace(getInput());
 
-		boolean isBuiltin = BPELConstants.NAMESPACE.equals(faultNamespace);
-		if (faultNamespace == null) {
-			if (ModelHelper.getFaultName(getInput()) == null)  isBuiltin = true;
-		}
+		boolean isBuiltin = isBuiltinFault(faultNamespace);
 		
 		builtinRadio.setSelection(isBuiltin);
 		userdefRadio.setSelection(!isBuiltin);
@@ -986,7 +982,24 @@ public class FaultCatchNameSection extends BPELPropertySection {
 		return null;
 	}
 
-	private boolean isEmptyMessageType(String newName) {
+	protected boolean isEmptyMessageType(String newName) {
 		return Messages.FaultCatchNameSection_None_0.equals(newName) && builtinRadio.getSelection();
 	}
+
+	protected List<String> getBuiltinFaultNames() {
+		List<String> faultNames = new ArrayList<String>();
+		faultNames.add(Messages.FaultCatchNameSection_None_0);
+		faultNames.addAll(Arrays.asList(BPELConstants.standardFaults));		
+		return faultNames;
+	}
+	
+	protected boolean isBuiltinFault(String faultNamespace) {
+		boolean isBuiltin = BPELConstants.NAMESPACE.equals(faultNamespace);
+		if (faultNamespace == null) {
+			if (ModelHelper.getFaultName(getInput()) == null)  isBuiltin = true;
+		}
+		return isBuiltin;
+	}
+
+
 }
