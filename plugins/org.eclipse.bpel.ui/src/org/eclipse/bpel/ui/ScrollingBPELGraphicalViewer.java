@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Control;
  * is the only way that we can override and modify the reveal() behaviour.
  */
 public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
-	private HashMap orderMap = null;
+	private HashMap<Object, Integer> orderMap = null;
 	protected List selectionList = null;
 	protected int indexVisit = 0;
 	protected boolean hasFocus;
@@ -71,9 +71,9 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 			Object m1 = ep1.getModel();
 			Object m2 = ep2.getModel();
 			if (orderMap.get(m1) != null)
-				val1 = ((Integer)orderMap.get(m1)).intValue();
+				val1 = (orderMap.get(m1)).intValue();
 			if (orderMap.get(m2) != null)
-				val2 = ((Integer)orderMap.get(m2)).intValue();
+				val2 = (orderMap.get(m2)).intValue();
 			if (val1 < val2)
 				return -1;
 			else
@@ -94,7 +94,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 		selectionList = primGetSelectedEditParts();
 		if (selectionList.size() > 1){
 			indexVisit = 0;
-			orderMap = new HashMap();
+			orderMap = new HashMap<Object, Integer>();
 			BPELUtil.visitModelDepthFirst(ModelHelper.getProcess(editpart.getModel()), new numeratorVisitor());
 			Comparator cmp = new OrderedSelectionComparator();
 			Collections.sort(selectionList, cmp);	

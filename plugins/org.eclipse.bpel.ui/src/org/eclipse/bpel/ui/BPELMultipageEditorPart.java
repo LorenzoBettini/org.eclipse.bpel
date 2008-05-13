@@ -256,8 +256,8 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			if (getActivePage() != DESIGN_PAGE_INDEX) {
 				ISelection selection = event.getSelection();
 				if (selection instanceof IStructuredSelection) {
-					List selections = new ArrayList();
-					for (Iterator i = ((IStructuredSelection) selection).iterator(); i.hasNext();) {
+					List<Object> selections = new ArrayList<Object>();
+					for (Iterator<Object> i = ((IStructuredSelection) selection).iterator(); i.hasNext();) {
 						Object domNode = i.next();
 						if (domNode instanceof Element) {
 							Object facade = BPELEditorUtil.getInstance().findModelObjectForElement(process, (Element)domNode);
@@ -967,9 +967,9 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			e.printStackTrace();
 		}    
 		
-		HashMap loadOptions = null; 
+		HashMap<String, Document> loadOptions = null; 
 		if (structuredDocument != null) {
-			loadOptions = new HashMap (1);
+			loadOptions = new HashMap<String, Document> (1);
 			loadOptions.put("DOMDocument", structuredDocument);
 		}
 		

@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 
 
 /**
@@ -108,7 +108,7 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 	 */
 	class EMapMultiChangeHandler implements IUndoHandler {
 		ExtensionMap fExtensionMap;
-		Map fEldContents, fNewContents;
+		Map fOldContents, fNewContents;
 		
 		/**
 		 * @param extensionMap
@@ -117,7 +117,7 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		 */
 		public EMapMultiChangeHandler(ExtensionMap extensionMap, Map oldContents, Map newContents) {
 			this.fExtensionMap = extensionMap;
-			this.fEldContents = oldContents;
+			this.fOldContents = oldContents;
 			this.fNewContents = newContents;
 		}
 		/**
@@ -126,7 +126,7 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		public void undo() {
 			if (DEBUG) System.out.println("undo multi-change"); //$NON-NLS-1$
 			fExtensionMap.clear();
-			if (fEldContents != null) fExtensionMap.putAll(fEldContents);
+			if (fOldContents != null) fExtensionMap.putAll(fOldContents);
 		}
 		
 		/**
@@ -167,11 +167,10 @@ public class ModelAutoUndoRecorder implements IAutoUndoRecorder  {
 		        break;
 		    }
 		    case Notification.ADD_MANY: {
-		    	Collection<?> newValues = (Collection) notification.getNewValue();
-		    	for(Object next : newValues) {
-		    		Notifier newValue = (Notifier) next;
-		    		if (!newValue.eAdapters().contains(this)) {
-		    			newValue.eAdapters().add(this);
+		    	Collection<Notifier> newValues = (Collection<Notifier>) notification.getNewValue();
+		    	for(Notifier next : newValues) {
+		    		if (!next.eAdapters().contains(this)) {
+		    			next.eAdapters().add(this);
 		    		}
 		        }
 		    	break;

@@ -18,7 +18,7 @@ import org.eclipse.bpel.ui.bpelactions.AbstractBPELAction;
 import org.eclipse.bpel.ui.extensions.ActionDescriptor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 
 
 /**

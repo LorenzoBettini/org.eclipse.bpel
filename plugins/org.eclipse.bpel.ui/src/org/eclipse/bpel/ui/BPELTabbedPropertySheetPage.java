@@ -107,9 +107,9 @@ public class BPELTabbedPropertySheetPage extends TabbedPropertySheetPage {
 	 * Replace EditPart with model object.
 	 */
 	protected ISelection calculateSelection(ISelection selection) {
-		Set newSet = new HashSet();
+		Set<Object> newSet = new HashSet<Object>();
 		if (selection != null && !selection.isEmpty() && (selection instanceof IStructuredSelection)) {
-			Iterator it = ((IStructuredSelection)selection).iterator();
+			Iterator<Object> it = ((IStructuredSelection)selection).iterator();
 			while (it.hasNext()) {
 				Object o = it.next();
 				if (o instanceof EditPart) {

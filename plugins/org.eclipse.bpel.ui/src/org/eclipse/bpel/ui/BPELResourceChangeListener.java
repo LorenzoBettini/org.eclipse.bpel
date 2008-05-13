@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -84,7 +85,7 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 	}
 
 	protected IResourceDeltaVisitor visitor;
-	protected List<IFileChangeListener> listeners;;
+	protected List<IFileChangeListener> listeners;
 
 	public BPELResourceChangeListener() {
 		listeners = new ArrayList<IFileChangeListener>();
@@ -166,8 +167,8 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 		// notify listeners
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IFile newBPELFile = root.getFile(newBPELFilePath);
-		for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-			IFileChangeListener listener = (IFileChangeListener) iter.next();
+		for (Iterator<IFileChangeListener> iter = listeners.iterator(); iter.hasNext();) {
+			IFileChangeListener listener = iter.next();
 			listener.moved(oldBPELFile, newBPELFile);
 		}
 	}
@@ -185,11 +186,9 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 			EList extensionContents = extensionsResource.getContents();
 			ExtensionMap extensionMap = ExtensionmodelFactory.eINSTANCE.findExtensionMap(
 					IBPELUIConstants.MODEL_EXTENSIONS_NAMESPACE, extensionContents);
-			Iterator it = extensionMap.keySet().iterator();
-			while (it.hasNext()) {
-				InternalEObject next = (InternalEObject)it.next();
+			for (EObject next : extensionMap.keySet()) {
 				if (next.eIsProxy()) {
-					next.eSetProxyURI(bpelURI);
+					((InternalEObject) next).eSetProxyURI(bpelURI);
 				}
 			}
 			extensionsResource.save(Collections.EMPTY_MAP);
@@ -215,7 +214,7 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 	}
 
 	/**
-	 * If the BPEL file has been deleted we have to delete related files (e.g. .wcdl).
+	 * If the BPEL file has been deleted we have to delete related files (e.g. .bpelex).
 	 */
 	protected void fileDeleted(IFile oldBPELFile, IProgressMonitor monitor) throws CoreException {
 		// notify listeners

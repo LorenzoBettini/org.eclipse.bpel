@@ -39,7 +39,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 	 * When navigating through connections, a "Node" EditPart is used as a
 	 * reference.
 	 */
-	private WeakReference cachedNode;
+	private WeakReference<GraphicalEditPart> cachedNode;
 	private GraphicalViewer viewer;
 
 	public BPELGraphicalKeyHandler(GraphicalViewer viewer) {
@@ -88,7 +88,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		GraphicalEditPart node,
 		ConnectionEditPart current,
 		boolean forward) {
-		List connections = new ArrayList(node.getSourceConnections());
+		List<ConnectionEditPart> connections = new ArrayList<ConnectionEditPart>(node.getSourceConnections());
 		connections.addAll(node.getTargetConnections());
 		if (connections.isEmpty())
 			return null;
@@ -99,7 +99,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		while (counter < 0)
 			counter += connections.size();
 		counter %= connections.size();
-		return (ConnectionEditPart) connections.get(
+		return connections.get(
 			counter % connections.size());
 	}
 
@@ -107,7 +107,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 	 * pStart is a point in absolute coordinates.
 	 */
 	private GraphicalEditPart findSibling(
-		List siblings,
+		List<GraphicalEditPart> siblings,
 		Point pStart,
 		int direction,
 		EditPart exclude) {
@@ -117,9 +117,9 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		Point pCurrent;
 		int distance = Integer.MAX_VALUE;
 
-		Iterator iter = siblings.iterator();
+		Iterator<GraphicalEditPart> iter = siblings.iterator();
 		while (iter.hasNext()) {
-			epCurrent = (GraphicalEditPart) iter.next();
+			epCurrent = iter.next();
 			if (epCurrent == exclude || !epCurrent.isSelectable())
 				continue;
 			figure = epCurrent.getFigure();
@@ -150,7 +150,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 			return null;
 		if (cachedNode.isEnqueued())
 			return null;
-		return (GraphicalEditPart) cachedNode.get();
+		return cachedNode.get();
 	}
 
 	protected GraphicalEditPart getFocus() {
@@ -196,7 +196,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 			return true;
 		} else if (event.character == '[') {
 			int found = -1;
-			List list = getProcessNavigationList();
+			List<GraphicalEditPart> list = getProcessNavigationList();
 			for (int i = 0; i < list.size(); i++) {
 				if (getFocus() == list.get(i)) {
 					found = i;
@@ -207,12 +207,12 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 				found--;
 			}
 			if (found >=0) {
-				EditPart navigateTo = (EditPart) list.get(found);
+				EditPart navigateTo = list.get(found);
 				navigateTo(navigateTo, event);
 			}
 		} else if (event.character == ']') {
 			int found = -1;
-			List list = getProcessNavigationList();
+			List<GraphicalEditPart> list = getProcessNavigationList();
 			for (int i = 0; i < list.size(); i++) {
 				if (getFocus() == list.get(i)) {
 					found = i;
@@ -223,7 +223,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 				found++;
 			}
 			if (found < list.size()) {
-				EditPart navigateTo = (EditPart) list.get(found);
+				EditPart navigateTo = list.get(found);
 				navigateTo(navigateTo, event);
 			}
 		} else if (event.character == '+' || event.character == '=') {
@@ -300,7 +300,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 
 	private void navigateIntoContainer(KeyEvent event) {
 		GraphicalEditPart focus = getFocus();
-		List childList = getNavigationChildren(focus);
+		List<GraphicalEditPart> childList = getNavigationChildren(focus);
 		Point tl = focus.getContentPane().getBounds().getTopLeft();
 
 		int minimum = Integer.MAX_VALUE;
@@ -308,7 +308,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		GraphicalEditPart closestPart = null;
 
 		for (int i = 0; i < childList.size(); i++) {
-			GraphicalEditPart ged = (GraphicalEditPart) childList.get(i);
+			GraphicalEditPart ged = childList.get(i);
 			if (!ged.isSelectable())
 				continue;
 			Rectangle childBounds = ged.getFigure().getBounds();
@@ -333,7 +333,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		return navigateNextSibling(event, direction, getNavigationSiblings());
 	}
 
-	boolean navigateNextSibling(KeyEvent event, int direction, List list) {
+	boolean navigateNextSibling(KeyEvent event, int direction, List<GraphicalEditPart> list) {
 		GraphicalEditPart epStart = getFocus();
 		IFigure figure = epStart.getFigure();
 		Point pStart = getInterestingPoint(figure);
@@ -403,13 +403,13 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		if (node == null)
 			cachedNode = null;
 		else
-			cachedNode = new WeakReference(node);
+			cachedNode = new WeakReference<GraphicalEditPart>(node);
 	}
 
 	/**
 	 * handles StartNodeEditPart specific behavior
 	 */
-	protected List getNavigationChildren(EditPart part) {
+	protected List<GraphicalEditPart> getNavigationChildren(EditPart part) {
 //		if (part instanceof StartNodeEditPart) {
 //			// return the process's children
 //			ProcessEditPart proc = (ProcessEditPart) part.getParent();
@@ -421,7 +421,7 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		return part.getChildren();
 	}
 
-	protected List getNavigationSiblings() {
+	protected List<GraphicalEditPart> getNavigationSiblings() {
 		EditPart focus = getFocus().getParent();
 		return focus.getChildren();
 	}
@@ -434,11 +434,11 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 		return parent;
 	}
 	
-	protected void addChildren(EditPart part, List list) {
-		List children = part.getChildren();
+	protected void addChildren(EditPart part, List<GraphicalEditPart> list) {
+		List<GraphicalEditPart> children = part.getChildren();
 		for (int i = 0; i < children.size(); i++) {
 			list.add(children.get(i));
-			addChildren((EditPart)(children.get(i)), list);
+			addChildren((children.get(i)), list);
 		}
 		return;
 	}
@@ -446,9 +446,9 @@ public class BPELGraphicalKeyHandler extends KeyHandler {
 	 * as a usability enhancement, we want to navigate to the next activity using the SHIFT left and right arrow, this
 	 * allows the user to navigate to every element on the canvas easily
 	 */ 
-	protected List getProcessNavigationList() {
+	protected List<GraphicalEditPart> getProcessNavigationList() {
 		ProcessEditPart process = (ProcessEditPart)viewer.getContents();
-		Vector all = new Vector();
+		Vector<GraphicalEditPart> all = new Vector<GraphicalEditPart>();
 		addChildren(process,all);
 		return all;
 	}

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.bpel.model.Activity;
@@ -126,8 +125,7 @@ class LinkNotificationAdapter extends MultiObjectAdapter {
 
 	protected void refreshConnectionTargets(Sources sources) {
 		Map registry = this.bpelEditor.getGraphicalViewer().getEditPartRegistry();
-		for (Iterator it2 = sources.getChildren().iterator(); it2.hasNext(); ) {
-			Source source = (Source)it2.next();
+		for (Source source : sources.getChildren()) {
 			Link link = source.getLink();
 			if (link != null) {
 				Activity targetActivity = FlowLinkUtil.getLinkTarget(link);
@@ -143,8 +141,7 @@ class LinkNotificationAdapter extends MultiObjectAdapter {
 	}		
 	protected void refreshConnectionSources(Targets targets) {
 		Map registry = this.bpelEditor.getGraphicalViewer().getEditPartRegistry();
-		for (Iterator it2 = targets.getChildren().iterator(); it2.hasNext(); ) {
-			Target target = (Target)it2.next();
+		for (Target target : targets.getChildren()) {
 			Link link = target.getLink();
 			if (link != null) {
 				Activity sourceActivity = FlowLinkUtil.getLinkSource(link);

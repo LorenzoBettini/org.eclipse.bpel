@@ -675,7 +675,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	}
 	public void arrangeEditParts(GraphicalViewer graphicalViewer) {
 		// Make a list of all FlowEditParts whose children all have no positional metadata
-		List<EditPart> flowsToArrange = new ArrayList<EditPart>();
+		List<FlowEditPart> flowsToArrange = new ArrayList<FlowEditPart>();
 
 		for (TreeIterator<EObject> it = getProcess().eAllContents(); it.hasNext(); ) {
 			EObject model = it.next();
@@ -691,15 +691,14 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 				}
 				if (missingLoc) {
 					EditPart editPart = (EditPart)graphicalViewer.getEditPartRegistry().get(model); 
-					if (editPart instanceof FlowEditPart)  flowsToArrange.add(editPart);		
+					if (editPart instanceof FlowEditPart)  flowsToArrange.add((FlowEditPart) editPart);		
 				}
 			}
 		}
 		
 		BPELUtil.sortFlowList(flowsToArrange);
-
-		for (Iterator<EditPart> it = flowsToArrange.iterator(); it.hasNext(); ) {
-			((FlowEditPart)it.next()).doImmediateAutoLayout();
+		for (FlowEditPart flowEditPart : flowsToArrange) {
+			flowEditPart.doImmediateAutoLayout();
 		}
 	}
 	

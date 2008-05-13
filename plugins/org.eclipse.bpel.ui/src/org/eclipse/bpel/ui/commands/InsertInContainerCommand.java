@@ -30,18 +30,6 @@ import org.w3c.dom.Node;
  */
 public class InsertInContainerCommand extends AutoUndoCommand {
 	
-	private class MyBPELWriter extends  org.eclipse.bpel.model.resource.BPELWriter {
-		private MyBPELWriter(org.eclipse.bpel.model.resource.BPELResource bpelResource, org.w3c.dom.Document document) {
-			super(bpelResource, document);
-		}
-		
-		@Override
-		public Element activity2XML(org.eclipse.bpel.model.Activity activity) {
-			//just make the method public
-			return super.activity2XML(activity);
-		}
-	}
-
 	protected EObject child, parent, before;
 	protected Rectangle rect;
 	

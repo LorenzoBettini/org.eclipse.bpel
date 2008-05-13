@@ -12,7 +12,7 @@ package org.eclipse.bpel.ui.editors;
 
 import java.text.MessageFormat;
 
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;

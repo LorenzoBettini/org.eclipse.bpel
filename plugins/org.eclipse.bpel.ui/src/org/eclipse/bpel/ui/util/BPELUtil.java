@@ -116,7 +116,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Tool;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
@@ -593,7 +593,7 @@ public class BPELUtil {
 		
 		NameUnusedVisitor(String candidateName, Collection<EObject> ignoreObjects) {
 			this.candidateName = candidateName;
-			if (ignoreObjects == null)  ignoreObjects = Collections.EMPTY_SET;
+			if (ignoreObjects == null)  ignoreObjects = Collections.emptySet();
 			this.ignoreObjects = ignoreObjects;
 		}
 		
@@ -841,19 +841,19 @@ public class BPELUtil {
 		return depth % 4;
 	}
 
-	public static void sortFlowList(List listOfFlowEditParts) {
-		List result = listOfFlowEditParts;
+	public static void sortFlowList(List<FlowEditPart> listOfFlowEditParts) {
+		List<FlowEditPart> result = listOfFlowEditParts;
 		int resultSize = result.size();
 
 		for (int i = 0; i<resultSize; i++) {
 			for (int j = i+1; j<resultSize; j++) {
-				Flow flow1 = (Flow)((FlowEditPart)result.get(i)).getModel();	
-				Flow flow2 = (Flow)((FlowEditPart)result.get(j)).getModel();
+				Flow flow1 = (Flow)(result.get(i)).getModel();	
+				Flow flow2 = (Flow)(result.get(j)).getModel();
 				Flow[] parents = FlowLinkUtil.getParentFlows(flow2);
 				for (int k = 0; k<parents.length; k++) {
 					if (parents[k] == flow1) {
 						// flow2 must be layed out before flow1 so its size will be known!
-						Object temp = result.get(i);
+						FlowEditPart temp = result.get(i);
 						result.set(i, result.get(j));
 						result.set(j, temp);
 					}
@@ -1183,10 +1183,9 @@ public class BPELUtil {
 
 				@Override
 				public void getChildCount(AccessibleControlEvent e) {
-					List list = thisPart.getChildren();
+					List<EditPart> list = thisPart.getChildren();
 					int count = 0;
-					for (int i = 0; i < list.size(); i++) {
-						EditPart part = (EditPart)list.get(i);
+					for (EditPart part : list) {
 						AccessibleEditPart access = (AccessibleEditPart)part.getAdapter(AccessibleEditPart.class);
 						if (access == null)
 							continue;
@@ -1197,10 +1196,9 @@ public class BPELUtil {
 
 				@Override
 				public void getChildren(AccessibleControlEvent e) {
-					List list = thisPart.getChildren();
+					List<EditPart> list = thisPart.getChildren();
 					Vector<Integer> childList = new Vector<Integer>();
-					for (int i = 0; i < list.size(); i++) {
-						EditPart part = (EditPart)list.get(i);
+					for (EditPart part : list) {
 						AccessibleEditPart access = (AccessibleEditPart)part.getAdapter(AccessibleEditPart.class);
 						if (access == null)
 							continue;
@@ -1339,19 +1337,16 @@ public class BPELUtil {
 	
 	public static void deleteNonContainmentRefs(EObject modelObject, Collection referents) {
 		if (modelObject == null) return;
-		for (Iterator it = modelObject.eClass().getEAllReferences().iterator(); it.hasNext(); ) {
-			EReference feature = (EReference)it.next();
+		for (EReference feature : modelObject.eClass().getEAllReferences()) {
 			if (feature.isMany()) {
-				EList list = (EList)modelObject.eGet(feature, true);
-				for (Iterator it2 = referents.iterator(); it2.hasNext(); ) {
-					Object referent = it2.next();
+				EList<Object> list = (EList<Object>)modelObject.eGet(feature, true);
+				for (Object referent : referents) {
 					if (list.contains(referent)) list.remove(referent);
 					// TODO: support non-changeable features!  print a warning.
 				}
 			} else {
 				Object oldValue = modelObject.eGet(feature, true);
-				for (Iterator it2 = referents.iterator(); it2.hasNext(); ) {
-					Object referent = it2.next();
+				for (Object referent : referents) {
 					if (oldValue == referent) {
 						if (feature.isUnsettable()) {
 							// this is okay, default is always null for EReferences.
