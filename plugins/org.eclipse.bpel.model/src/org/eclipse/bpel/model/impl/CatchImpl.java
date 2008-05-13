@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: CatchImpl.java,v 1.10 2008/05/13 12:42:16 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -307,7 +307,7 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		}
 		Message oldFaultMessageType = faultMessageType;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_MESSAGE_TYPE, newFaultMessageType == null ? null : newFaultMessageType.toString());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_MESSAGE_TYPE, newFaultMessageType == null ? null : newFaultMessageType.getQName());
 		}
 		faultMessageType = newFaultMessageType;
 		if (eNotificationRequired())

@@ -11,7 +11,6 @@
 package org.eclipse.bpel.model.resource;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -37,6 +38,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceChangeListener {
 	 
+	public BPELResourceSetImpl() {
+		super();
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		workspace.addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
+	}
+
 	/**
 	 * Used to force loading using the right resource loaders.
 	 */
@@ -77,9 +84,7 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 		URIConverter theURIConverter = getURIConverter();
 		URI normalizedURI = theURIConverter.normalize(uri);
 		
-		Iterator<Resource> it = getResources().iterator();
-		while (it.hasNext()) {
-			Resource resource = it.next();			
+		for (Resource resource : getResources()) {
 			if (theURIConverter.normalize(resource.getURI()).equals(
 					normalizedURI)) {
 				if (loadOnDemand && !resource.isLoaded()) {
@@ -172,10 +177,18 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 //			 * @see IResourceDelta#MARKERS
 //			 * @see IResourceDelta#REPLACED
 			 
-			if ((delta.getFlags() & IResourceDelta.CONTENT) != IResourceDelta.CONTENT ) {
+			if ((delta.getFlags() & IResourceDelta.CONTENT) == 0){
 				continue;
 			}
-			resourceChanged((IFile) resource);			
+			
+			// TODO: Temporary hack
+			// Actually we should remove all resources from the resourceSet,
+			// but for some reasons bpel files can't be removed now
+			if ("bpel".equals(((IFile) resource).getFileExtension())){
+				continue;
+			}
+			
+			resourceChanged((IFile) resource);
 		}		
 	}
 	
@@ -189,7 +202,6 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 	 * @param file
 	 */
 	public void resourceChanged (IFile file) {
-								
 		// System.out.println("ResourceChanged: " + file  );
 		URI uri = URI.createPlatformResourceURI( file.getFullPath().toString() ) ;		
 		// System.out.println("    ResourceURI: " + uri );		
@@ -212,8 +224,7 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 				resources.remove(r);
 				// System.out.println("Removed from List: " + r );				
 			}
-		}		
+		}
 	}
-
 
 }

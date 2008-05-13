@@ -549,13 +549,14 @@ public class ElementFactory {
 	public String createName(WSDLElement element, QName name) {
 		String namespace = name.getNamespaceURI();
 		String prefix = BPELUtils.getNamespacePrefix(element, namespace);
-		if (prefix != null) {
-			return prefix + ":" + name.getLocalPart();
-		} else
-			return name.getLocalPart();
-		// return
-		// getWriter(element).getNamespacePrefixManager().qNameToString(element,
-		// name);
+		String localPart = name.getLocalPart();
+		if (localPart == "") {
+			return null;
+		} else if (prefix != null) {
+			return prefix + ":" + localPart;
+		}
+		
+		return localPart;
 	}
 
 	private MyBPELWriter getWriter(Object parent) {

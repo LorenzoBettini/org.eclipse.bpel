@@ -181,8 +181,7 @@ public class BPELWriter {
 
 			// For each existing import in the process, add it to the namespace
 			// map.
-			for (Object next : fProcessContext.getImports()) {
-				Import imp = (org.eclipse.bpel.model.Import) next;
+			for (Import imp : fProcessContext.getImports()) {
 				if (imp.getLocation() == null) {
 					System.err.println("Import location is unexpectedly null: "
 							+ imp);

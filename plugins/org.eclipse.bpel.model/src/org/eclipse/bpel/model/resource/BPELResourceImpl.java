@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
@@ -40,6 +39,8 @@ import org.eclipse.bpel.model.util.ImportResolverRegistry;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.wst.wsdl.Definition;
+import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
 import org.eclipse.xsd.util.XSDConstants;
 import org.w3c.dom.Document;
@@ -191,12 +192,8 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         	return result;
         }
         
-        
-        Iterator it = process.getImports().iterator();
-        while ( it.hasNext() )
-        {
-            Import imp = (Import) it.next();            
-            
+
+        for (Import imp : process.getImports()){
             // The null and "" problem ...
             String ns = imp.getNamespace();
             if (ns == null) {
@@ -207,16 +204,13 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
              	imp.getLocation() == null ) {
             	continue;
             }
-                        
-    	    ImportResolver[] resolvers = ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType());
-            for (int i = 0; i < resolvers.length; i++)
-            {            	
-                result = resolvers[i].resolve(imp, qname, proxyURI.getID(), proxyURI.getTypeName());
+
+            for (ImportResolver r : ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType())){
+                result = r.resolve(imp, qname, proxyURI.getID(), proxyURI.getTypeName());
                 if (result != null) {
                     return result;
                 }
             }
-            // next import
         }
         
         // Failed to resolve.
@@ -234,27 +228,23 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
      * 
      * @return a list of XSDScheme objects
      */
-    public List getSchemas ( boolean bIncludeXSD ) 
+    public List<XSDSchema> getSchemas ( boolean bIncludeXSD ) 
     {
-    	ArrayList al = new ArrayList(8);
+    	ArrayList<XSDSchema> al = new ArrayList<XSDSchema>(8);
     	
     	// Try the BPEL imports if any exist.
         Process process = getProcess();
         if (process == null) {
         	return al;
         }
-        
-        Iterator<Import> it = process.getImports().iterator();
-        while ( it.hasNext() )
-        {
-            Import imp = it.next();                                    
+
+        for (Import imp : process.getImports()) {
             if (imp.getLocation() == null ) {
             	continue;
             }                	   
     	    for(ImportResolver r : ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType())) {
-                al.addAll( r.resolve (imp, ImportResolver.RESOLVE_SCHEMA ) );
+                al.addAll( (List<? extends XSDSchema>) r.resolve (imp, ImportResolver.RESOLVE_SCHEMA ) );
             }
-            // next import
         }
         
         if (bIncludeXSD) {
@@ -271,30 +261,25 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
      * @return
      */
     
-    public List getDefinitions () {
-    	ArrayList al = new ArrayList(8);
+    public List<Definition> getDefinitions () {
+    	ArrayList<Definition> al = new ArrayList<Definition>(8);
     	
     	// Try the BPEL imports if any exist.
         Process process = getProcess();
         if (process == null) {
         	return al;
         }
-                
-        Iterator<Import> it = process.getImports().iterator();
-        while ( it.hasNext() )
-        {
-            Import imp = it.next();                                    
+
+        for (Import imp : process.getImports()) {
             if (imp.getLocation() == null ) {
             	continue;
             }                	    
     	    for(ImportResolver r : ImportResolverRegistry.INSTANCE.getResolvers(imp.getImportType())) {
-                al.addAll( r.resolve (imp, ImportResolver.RESOLVE_DEFINITION ) );
+                al.addAll( (List<? extends Definition>) r.resolve (imp, ImportResolver.RESOLVE_DEFINITION ) );
             }
-            // next import
         }        
                 
         return al;    	
-    	
     }
     
 	public Process getProcess() {
