@@ -252,7 +252,7 @@ public class ReconciliationHelper {
 					&& oldElement.getElement() != null
 					&& parent.getElement() == oldElement.getElement()
 							.getParentNode()) {
-				parent.getElement().removeChild(oldElement.getElement());
+				ElementPlacer.niceRemoveChild(parent, oldElement.getElement());
 			}
 		} finally {
 			setUpdatingDom(parent, oldUpdatingDom);

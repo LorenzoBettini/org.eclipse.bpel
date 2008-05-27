@@ -227,4 +227,54 @@ public class ElementPlacer {
 	public static void niceAppend(WSDLElement parent, Node child) {
 		niceInsertBefore(parent, child, null);
 	}
+
+	public static void niceRemoveChild(WSDLElement parent, Node child) {
+		boolean was = ReconciliationHelper.isUpdatingDom(parent);
+		ReconciliationHelper.setUpdatingDom(parent, true);
+
+		boolean done = false;
+
+		Node previous = child.getPreviousSibling();
+		if (previous != null && previous.getNodeType() == Node.TEXT_NODE) {
+			Text text = (Text) previous;
+			String data = text.getData();
+			int index = data.lastIndexOf('\n');
+			if (index != -1) {
+				if (index - 1 > 0 && data.charAt(index - 1) == '\r') {
+					text.deleteData(index - 1, data.length() - index + 1);
+				} else {
+					text.deleteData(index, data.length() - index);
+				}
+				done = true;
+			}
+		}
+
+		if (!done) {
+			for (Node next = child.getNextSibling(); next != null; next = next
+					.getNextSibling()) {
+				if (next.getNodeType() == Node.TEXT_NODE) {
+					Text text = (Text) next;
+					String data = text.getData();
+					int index = data.indexOf('\n');
+					if (index != -1) {
+						if (index + 1 < data.length()
+								&& data.charAt(index + 1) == '\r') {
+							text.deleteData(0, index + 2);
+						} else {
+							text.deleteData(0, index + 1);
+						}
+						break;
+					}
+					continue;
+				}
+
+				if (next.getNodeType() == Node.ELEMENT_NODE) {
+					break;
+				}
+			}
+		}
+
+		parent.getElement().removeChild(child);
+		ReconciliationHelper.setUpdatingDom(parent, was);
+	}
 }
