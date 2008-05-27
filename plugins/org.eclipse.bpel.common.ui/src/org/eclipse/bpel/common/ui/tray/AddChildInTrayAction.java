@@ -63,7 +63,7 @@ public class AddChildInTrayAction extends SelectionAction {
 	 */
 	@Override
 	public void run() {
-		if (target!= null && target instanceof TrayCategoryEditPart) 
+		if (target != null) 
 			target.publicAddEntry();
 	}
 	
