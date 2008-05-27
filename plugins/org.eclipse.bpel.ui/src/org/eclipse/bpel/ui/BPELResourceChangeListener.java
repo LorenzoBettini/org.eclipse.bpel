@@ -18,6 +18,8 @@ import java.util.List;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.common.extension.model.ExtensionmodelFactory;
+import org.eclipse.bpel.model.CorrelationSet;
+import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -98,7 +100,7 @@ public class BPELResourceChangeListener implements IResourceChangeListener {
 	public void addListener(IFileChangeListener listener) {
 		listeners.add(listener);
 	}
-
+	
 	/**
 	 * Removed the listener.
 	 */

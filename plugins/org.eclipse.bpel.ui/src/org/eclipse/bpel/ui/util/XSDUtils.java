@@ -377,10 +377,10 @@ public class XSDUtils {
 	 * primitive type.
 	 * @return
 	 */
-	public static List getAdvancedPrimitives() {
+	public static List<XSDTypeDefinition> getAdvancedPrimitives() {
 		advancedPrimitives = null;
 		if(advancedPrimitives == null) {
-			advancedPrimitives = new ArrayList();
+			advancedPrimitives = new ArrayList<XSDTypeDefinition>();
 		
 			// Get the schema for schemas instance to use when resolving primitives
 			XSDSchema schemaForSchemas = XSDUtil.getSchemaForSchema(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
@@ -448,10 +448,10 @@ public class XSDUtils {
 	 * @param bo
 	 * @return List of XSDAttributeDeclaration
 	 */
-	public static List getChildAttributes(XSDComplexTypeDefinition bo)
+	public static List<XSDAttributeDeclaration> getChildAttributes(XSDComplexTypeDefinition bo)
 	{
 		EList attrContents = bo.getAttributeContents();
-		List attrs = new ArrayList();
+		List<XSDAttributeDeclaration> attrs = new ArrayList<XSDAttributeDeclaration>();
 		for (int i=0; i< attrContents.size(); i++)
 		{
 			Object next = attrContents.get(i);
@@ -479,7 +479,7 @@ public class XSDUtils {
 	 * @param bo
 	 * @return
 	 */
-	public static List getChildElements(XSDComplexTypeDefinition bo) 
+	public static List<XSDFeature> getChildElements(XSDComplexTypeDefinition bo) 
 	{
    		return XSDUtils.getChildElements( getModelGroup(bo) );
 	}
@@ -490,7 +490,7 @@ public class XSDUtils {
 	 * @param bo
 	 * @return
 	 */
-	public static List getChildElements(XSDFeature elem) 
+	public static List<XSDFeature> getChildElements(XSDFeature elem) 
 	{
 		XSDComplexTypeDefinition cType = getResolvedComplexType(elem);
 		return (cType != null) ? XSDUtils.getChildElements(cType) : Collections.EMPTY_LIST;
@@ -503,17 +503,17 @@ public class XSDUtils {
 	 * @param group
 	 * @return 
 	 */
-	public static List getChildElements(XSDModelGroup group) 
+	public static List<XSDFeature> getChildElements(XSDModelGroup group) 
 	{
     	if(group == null)
-    		return new ArrayList();
+    		return new ArrayList<XSDFeature>();
     	
-		List children = new ArrayList();
-    	for(Iterator i = group.getContents().iterator(); i.hasNext();) 
+		List<XSDFeature> children = new ArrayList<XSDFeature>();
+    	for(Iterator<XSDParticle> i = group.getContents().iterator(); i.hasNext();) 
     	{
-    		XSDParticle next = (XSDParticle) i.next();
+    		XSDParticle next = i.next();
     		if(next.getContent() instanceof XSDFeature)
-    			children.add(next.getContent());
+    			children.add((XSDFeature) next.getContent());
     		else if (next.getTerm() instanceof XSDModelGroup)
     			children.addAll(getChildElements((XSDModelGroup) next.getTerm()));
     	}
@@ -552,9 +552,9 @@ public class XSDUtils {
 	 * @param type
 	 * @return
 	 */
-	public static Map getDocumentationAttributes(XSDTypeDefinition type)
+	public static Map<String, String> getDocumentationAttributes(XSDTypeDefinition type)
     {
-		Map attributes = new HashMap();
+		Map<String, String> attributes = new HashMap<String, String>();
 
         if (type.getAnnotation() != null)
         {
@@ -589,10 +589,10 @@ public class XSDUtils {
 	 * @param element
 	 * @return
 	 */
-	public static Map getDocumentationAttributes(XSDFeature element)
+	public static Map<String, String> getDocumentationAttributes(XSDFeature element)
 	{
 		XSDAnnotation annotation = null;
-		Map attributes = new HashMap();
+		Map<String, String> attributes = new HashMap<String, String>();
 		
 		if (element instanceof XSDAttributeDeclaration) 
 			annotation = ((XSDAttributeDeclaration)element).getAnnotation();
@@ -800,7 +800,7 @@ public class XSDUtils {
 	 * @return
 	 */
 	public static XSDSimpleTypeDefinition getPrimitive(String xsdName) {
-		for(Iterator i = getAdvancedPrimitives().iterator(); i.hasNext();) {
+		for(Iterator<XSDTypeDefinition> i = getAdvancedPrimitives().iterator(); i.hasNext();) {
 			XSDSimpleTypeDefinition next = (XSDSimpleTypeDefinition) i.next();
 			if(next.getName().equals(xsdName)) {
 				return next; 
@@ -815,16 +815,16 @@ public class XSDUtils {
 	 * These will have their XSD spec names (e.g. xsd:dateTime) so they will likely need to be fed to 
 	 * getDisplayName() if they are going to be presented to humans 
 	 */
-	public static List getPrimitives() {
+	public static List<XSDSimpleTypeDefinition> getPrimitives() {
 		if(primitives == null) {
-			primitives = new ArrayList();
+			primitives = new ArrayList<XSDSimpleTypeDefinition>();
 		
 			// Get the schema for schemas instance to use when resolving primitives
 			XSDSchema schemaForSchemas = XSDUtil.getSchemaForSchema(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 			
 			// Start adding the simple types from the XSD short list
-			for(Iterator i = xsdShortList.iterator(); i.hasNext(); ) {
-				String typeName = (String) i.next();
+			for(Iterator<String> i = xsdShortList.iterator(); i.hasNext(); ) {
+				String typeName = i.next();
 				
 				XSDSimpleTypeDefinition type = schemaForSchemas.resolveSimpleTypeDefinition(typeName);
 				primitives.add(type);
@@ -851,16 +851,14 @@ public class XSDUtils {
 	 * @param source  The complex type to examine for references
 	 * @return a Collection of XSDComplexTypeDefinition instances -- no duplicates
 	 */
-	public static Collection getReferencedTypes(XSDComplexTypeDefinition source) {
+	public static Collection<XSDComplexTypeDefinition> getReferencedTypes(XSDComplexTypeDefinition source) {
 		if(source == null)
-			return Collections.EMPTY_SET;
+			return Collections.emptySet();
 		
-		List results = new ArrayList();
-		XSDFeature element = null;
-		XSDComplexTypeDefinition elementType = null;
-		for(Iterator i = getChildElements(source).iterator(); i.hasNext(); ) {
-			element = (XSDFeature) i.next();
-			elementType = getResolvedComplexType(element); 
+		List<XSDComplexTypeDefinition> results = new ArrayList<XSDComplexTypeDefinition>();
+		for(Iterator<XSDFeature> i = getChildElements(source).iterator(); i.hasNext(); ) {
+			XSDFeature element = i.next();
+			XSDComplexTypeDefinition elementType = getResolvedComplexType(element); 
 			if(elementType != null && !results.contains(elementType) && !XSDConstants.isSchemaForSchemaNamespace(elementType.getTargetNamespace()))
 				results.add(elementType);
 		}
@@ -875,7 +873,7 @@ public class XSDUtils {
 	 * @param source  The complex type to examine for references
 	 * @return a Collection of XSDTypeDefinition (could be complex or simple type) instances -- no duplicates
 	 */
-	public static Collection getAllReferencedTypes(XSDComplexTypeDefinition source)
+	public static Collection<XSDTypeDefinition> getAllReferencedTypes(XSDComplexTypeDefinition source)
 	{
 		return getAllReferencedTypes(source, false);
 	}
@@ -891,16 +889,16 @@ public class XSDUtils {
 	 * types used in any way by source 
 	 * @return a Collection of XSDTypeDefinition (could be complex or simple type) instances -- no duplicates
 	 */
-	public static Collection getAllReferencedTypes(XSDComplexTypeDefinition source, boolean includeAnonymous)
+	public static Collection<XSDTypeDefinition> getAllReferencedTypes(XSDComplexTypeDefinition source, boolean includeAnonymous)
 	{
 		if (source == null)
-			return Collections.EMPTY_SET;
+			return Collections.emptySet();
 
-		List results = new ArrayList();
+		List<XSDTypeDefinition> results = new ArrayList<XSDTypeDefinition>();
 		XSDTypeDefinition elementType = null;
-		for (Iterator i = getChildElements(source).iterator(); i.hasNext();)
+		for (Iterator<XSDFeature> i = getChildElements(source).iterator(); i.hasNext();)
 		{
-			XSDFeature next = (XSDFeature) i.next();
+			XSDFeature next = i.next();
 			elementType = getResolvedType(next);
 			
 			// Only add non-null, non-duplicate, non-primitive types.  If includeAnonymous is false, 
@@ -1234,9 +1232,9 @@ public class XSDUtils {
 	 * Given an XSD complex type, return a list of the XSDFeatures (element
 	 * and attribute declarations) within the complex type.
 	 */
-	public static List getXSDElementsAndAttributes(XSDComplexTypeDefinition complexType)
+	public static List<XSDFeature> getXSDElementsAndAttributes(XSDComplexTypeDefinition complexType)
 	{
-		List result = getChildElements(complexType);
+		List<XSDFeature> result = getChildElements(complexType);
 		result.addAll( getChildAttributes(complexType));
 		
 		return result;

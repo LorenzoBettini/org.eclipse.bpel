@@ -468,11 +468,11 @@ public class Templates {
 		@SuppressWarnings("nls")
 		String process (String src, Map<String,Object> args )
 		{
-			StringBuilder sb = new StringBuilder ( src.length() );
 			// empty content, empty result
 			if (src == null) {
-				return sb.toString();
+				return "";
 			}
+			StringBuilder sb = new StringBuilder ( src.length() );
 			int cursor = 0;			
 			do {
 				int openReplace  = src.indexOf("${", cursor);

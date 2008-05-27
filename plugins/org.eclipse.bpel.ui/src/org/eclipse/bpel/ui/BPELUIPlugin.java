@@ -330,9 +330,9 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	
 	private void disposeColors() {
 		if (colorRegistry != null) {
-			Iterator it = colorRegistry.getKeySet().iterator();
+			Iterator<String> it = colorRegistry.getKeySet().iterator();
 			while (it.hasNext()) {
-				Color c = colorRegistry.get((String)it.next());
+				Color c = colorRegistry.get(it.next());
 				c.dispose();
 			}
 			colorRegistry = null;

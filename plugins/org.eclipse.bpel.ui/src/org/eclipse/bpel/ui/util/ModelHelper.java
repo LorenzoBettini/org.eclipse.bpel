@@ -985,7 +985,7 @@ public class ModelHelper {
 				while (it.hasNext()) {
 					Variable next =  it.next();
 					Object elm = ListMap.findElement(list,next,
-							new Comparator() {
+							new Comparator<Object>() {
 								public int compare(Object o1, Object o2) {
 									Variable v1 = (Variable)o1;
 									Variable v2 = (Variable)o2;
@@ -1616,14 +1616,7 @@ public class ModelHelper {
 	 */
 	
 	static public boolean isEqual ( String s1, String s2 ) {
-		
-		if (s1 != null) {
-			return s1.equals ( s2 );
-		} else if (s2 != null) {
-			return s2.equals ( s1 );
-		} else {
-			return true;
-		}
+		return s1 != null ? s1.equals(s2) : s2 == null;
 	}
 
 	public static ToParts getToParts(EObject model) {
