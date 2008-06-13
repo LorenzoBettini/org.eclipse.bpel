@@ -7,7 +7,7 @@
          >
 
     <!-- Import the client WSDL -->
-	<bpel:import location="${processName}.wsdl" namespace="${namespace}" 
+	<bpel:import location="${processName}Artifacts.wsdl" namespace="${namespace}" 
 	        importType="http://schemas.xmlsoap.org/wsdl/" />
          
     <!-- ================================================================= -->         
