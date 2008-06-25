@@ -16,13 +16,13 @@ import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.BPELCopyCommand;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.DeleteChildCommand;
 import org.eclipse.bpel.ui.commands.DeleteLinkCommand;
 import org.eclipse.bpel.ui.commands.RestoreSelectionCommand;
 import org.eclipse.bpel.ui.util.SharedImages;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 

@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.adapters;
 
 import java.util.List;
 
+import org.eclipse.bpel.ui.actions.editpart.IEditPartAction;
 import org.eclipse.gef.EditPart;
 
 
@@ -20,5 +21,5 @@ import org.eclipse.gef.EditPart;
  * EditPart for this type of model object.
  */
 public interface IEditPartActionContributor {
-	public List getEditPartActions(EditPart editPart);
+	public List<? extends IEditPartAction> getEditPartActions(EditPart editPart);
 }

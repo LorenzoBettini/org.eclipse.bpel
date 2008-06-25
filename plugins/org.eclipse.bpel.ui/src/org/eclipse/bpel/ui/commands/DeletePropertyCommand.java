@@ -14,8 +14,6 @@ package org.eclipse.bpel.ui.commands;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.gef.commands.CompoundCommand;
-
 import org.eclipse.wst.wsdl.Definition;
 
 /**

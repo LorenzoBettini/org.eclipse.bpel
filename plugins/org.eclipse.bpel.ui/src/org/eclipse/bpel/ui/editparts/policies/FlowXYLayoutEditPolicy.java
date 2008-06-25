@@ -12,11 +12,11 @@ package org.eclipse.bpel.ui.editparts.policies;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.SetConstraintCommand;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreateRequest;
 
 

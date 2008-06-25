@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.editparts.policies;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.ui.GraphicalBPELRootEditPart;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetConstraintCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
@@ -25,7 +26,6 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 
 

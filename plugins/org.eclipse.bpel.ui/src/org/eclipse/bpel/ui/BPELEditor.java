@@ -137,7 +137,7 @@ import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarker */{
 
 	//FIXME can't move it to MultiPageEditor because of chicken and egg problem
-	// TODO: comment
+	// TODO: comment	
 	protected BPELEditModelClient editModelClient;
 
 	protected BPELEditorAdapter editorAdapter;
@@ -145,6 +145,8 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	// transfer buffer (clipboard) for graph copies
 	private TransferBuffer transferBuffer;
 
+	protected BPELMultipageEditorPart multipageEditor;
+	
 	// This records all model changes for automatic undo/redo purposes.
 	private ModelAutoUndoRecorder modelAutoUndoRecorder;
 
@@ -177,13 +179,14 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	
 	protected ICommandFramework commandFramework;
 	
-	public BPELEditor(DefaultEditDomain ed) {
+	public BPELEditor(DefaultEditDomain ed, BPELMultipageEditorPart multipageEditor) {
 		super();
 		setEditDomain(ed);
-
+		this.multipageEditor = multipageEditor;
+		
 //		transferBuffer = new TransferBuffer();
 
-		modelAutoUndoRecorder = new ModelAutoUndoRecorder();
+		modelAutoUndoRecorder = new ModelAutoUndoRecorder();		
 	}
 	
 	protected class BPELEditorAdapter implements Adapter {
@@ -249,7 +252,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	    getSite().getKeyBindingService().registerAction(zoomInAction);
 	    getSite().getKeyBindingService().registerAction(zoomOutAction);
 		
-		ContextMenuProvider provider = new ProcessContextMenuProvider(getGraphicalViewer(), getActionRegistry());
+		ContextMenuProvider provider = new ProcessContextMenuProvider(this, getActionRegistry());
 		getGraphicalViewer().setContextMenu(provider);
 		getSite().setSelectionProvider(getAdaptingSelectionProvider());
 		getSite().registerContextMenu("org.eclipse.bpel.editor.contextmenu", //$NON-NLS-1$
@@ -1323,7 +1326,7 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 		getEditDomain().addViewer(viewer);
 		viewer.addSelectionChangedListener(this.traySelectionChangeListener);
 		registerViewer(viewer);
-		ContextMenuProvider provider = new ProcessContextMenuProvider(viewer, getActionRegistry());
+		ContextMenuProvider provider = new ProcessContextMenuProvider(this, getActionRegistry());
 		viewer.setContextMenu(provider);
 		getSite().registerContextMenu("org.eclipse.bpel.editor.tray.contextmenu", //$NON-NLS-1$
 			provider, getSite().getSelectionProvider());
@@ -1430,5 +1433,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public BPELMultipageEditorPart getMultipageEditor() {
+		return multipageEditor;
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.adapters;
 import java.util.List;
 
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.ui.actions.editpart.AbstractAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateOnAlarmAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateOnMessageAction;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
@@ -55,8 +56,8 @@ public class PickAdapter extends ContainerActivityAdapter {
 	/* IEditPartActionContributor */
 	
 	@Override
-	public List getEditPartActions(final EditPart editPart) {
-		List actions = super.getEditPartActions(editPart);
+	public List<AbstractAction> getEditPartActions(final EditPart editPart) {
+		List<AbstractAction> actions = super.getEditPartActions(editPart);
 
 		actions.add(new CreateOnMessageAction(editPart));
 		actions.add(new CreateOnAlarmAction(editPart));

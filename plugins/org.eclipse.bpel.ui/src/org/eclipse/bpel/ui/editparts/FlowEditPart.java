@@ -23,6 +23,7 @@ import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.SetConstraintCommand;
 import org.eclipse.bpel.ui.editparts.borders.DrawerBorder;
 import org.eclipse.bpel.ui.editparts.borders.FlowBorder;
@@ -58,7 +59,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.CommandStackListener;
-import org.eclipse.gef.commands.CompoundCommand;
 
 public class FlowEditPart extends CollapsableEditPart {
 

@@ -13,12 +13,12 @@ package org.eclipse.bpel.ui.actions;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.BPELPasteCommand;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.RestoreSelectionCommand;
 import org.eclipse.bpel.ui.commands.SetSelectionCommand;
 import org.eclipse.bpel.ui.util.SharedImages;
 import org.eclipse.bpel.ui.util.TransferBuffer;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 

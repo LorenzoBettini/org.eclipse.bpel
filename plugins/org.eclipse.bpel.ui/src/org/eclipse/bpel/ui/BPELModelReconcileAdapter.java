@@ -125,11 +125,11 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 		if (modelObjectCandidate != null) {
 			final Object modelObject = modelObjectCandidate;
 			final Element element = elementCandidate;
-			UpdateModelCommand cmd = new UpdateModelCommand(
-					(EObject) modelObject, "Change text") {
-				@SuppressWarnings("restriction")
-				@Override
-				public void doExecute() {
+//			UpdateModelCommand cmd = new UpdateModelCommand(
+//					(EObject) modelObject, "Change text") {
+//				@SuppressWarnings("restriction")
+//				@Override
+//				public void doExecute() {
 					if (modelObject instanceof ExtensibleElementImpl) {
 						((ExtensibleElementImpl) modelObject)
 								.elementChanged(element);
@@ -147,10 +147,10 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 						((XSDConcreteComponent) modelObject)
 								.elementChanged(element);
 					}
-				}
-			};
+//				}
+//			};
 
-			fEditor.getCommandFramework().execute(cmd);
+//			fEditor.getCommandFramework().execute(cmd);
 		}
 	}
 
@@ -197,11 +197,11 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 								(Element) node);
 				final INamespaceMap<String, String> objectMap = BPELUtils
 						.getNamespaceMap(modelObject);
-				UpdateModelCommand cmd = new UpdateModelCommand(modelObject,
-						"Change text") {
-					@SuppressWarnings("restriction")
-					@Override
-					public void doExecute() {
+//				UpdateModelCommand cmd = new UpdateModelCommand(modelObject,
+//						"Change text") {
+//					@SuppressWarnings("restriction")
+//					@Override
+//					public void doExecute() {
 						if (newValue == null) {
 							objectMap.remove(BPELUtils.getNSPrefixMapKey(attr
 									.getLocalName()));
@@ -209,11 +209,11 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 							objectMap.put(BPELUtils.getNSPrefixMapKey(attr
 									.getLocalName()), attr.getValue());
 						}
-					}
-				};
-				if (fEditor != null) {
-					fEditor.getCommandFramework().execute(cmd);
-				}
+//					}
+//				};
+//				if (fEditor != null) {
+//					fEditor.getCommandFramework().execute(cmd);
+//				}
 				// We should continue reconciling only if BPEL namespace has
 				// been changed
 				// otherwise we should not update children

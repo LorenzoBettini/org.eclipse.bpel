@@ -29,15 +29,12 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IContainer;
 import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
-import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.FlowLinkUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.osgi.util.NLS;
-
 import org.eclipse.wst.wsdl.Definition;
 
 /**
@@ -58,16 +55,7 @@ public class DeleteChildCommand extends AutoUndoCommand {
 	Resource[] resourcesToModify = null;
 	
 	CompoundCommand fDeleteLinksCmd;
-	CompoundCommand fDeletePLTsCmd;
-	
-	ModelAutoUndoRecorder modelAutoUndoRecorder;
-
-	// TODO: hack: necessary for multi-delete to work properly
-	@Override
-	protected ModelAutoUndoRecorder getRecorder() {
-		if (modelAutoUndoRecorder != null) return modelAutoUndoRecorder;
-		return super.getRecorder();
-	}
+	CompoundCommand fDeletePLTsCmd;	
 	
 	public DeleteChildCommand(EObject child) {
 		super(new ArrayList(2));
@@ -88,8 +76,6 @@ public class DeleteChildCommand extends AutoUndoCommand {
 		this.fChild = child;
 
 		if (fParent != null) {
-			BPELEditor bpelEditor = ModelHelper.getBPELEditor(fParent);
-			this.modelAutoUndoRecorder = bpelEditor.getModelAutoUndoRecorder();
 			addModelRoot(fParent);
 		}
 		
@@ -235,10 +221,10 @@ public class DeleteChildCommand extends AutoUndoCommand {
 			}
 		}
 		
-		fDeleteLinksCmd.execute();
+		fDeleteLinksCmd.doExecute();
 		
 		if (fDeletePLTsCmd != null) {
-			fDeletePLTsCmd.execute();
+			fDeletePLTsCmd.doExecute();
 		}
 						
 		// finally, we can remove the child.

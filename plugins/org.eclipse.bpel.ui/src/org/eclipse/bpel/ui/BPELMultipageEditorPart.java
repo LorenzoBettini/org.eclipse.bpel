@@ -13,6 +13,7 @@
 package org.eclipse.bpel.ui;
 
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -64,6 +65,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.TreeViewer;
@@ -91,6 +93,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
@@ -111,12 +115,13 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class BPELMultipageEditorPart extends MultiPageEditorPart 
 										implements IEditModelListener, 
-										           IGotoMarker {
+										           IGotoMarker/*, CommandStackListener*/ {
 
 	class OutlinePage extends ContentOutlinePage {
 		private PageBook pageBook;
@@ -144,7 +149,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 			fDesignViewer.registerViewer(getViewer());
 
 			//FIXME should we add the same for src tab?
-			ContextMenuProvider provider = new ProcessContextMenuProvider(getViewer(), fDesignViewer.getActionRegistry());
+			ContextMenuProvider provider = new ProcessContextMenuProvider(getDesignEditor(), fDesignViewer.getActionRegistry());
 
 			getViewer().setContextMenu(provider);
 			getSite().registerContextMenu("org.eclipse.bpel.outline.contextmenu", //$NON-NLS-1$
@@ -292,6 +297,9 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 					} 
 				
 					if (selectedNodeElement != null) {
+						if (selectedNodeElement instanceof IDOMNode && ((IDOMNode)selectedNodeElement).getModel().isModelStateChanging()) {
+							return;
+						}
 						StructuredSelection nodeSelection = new StructuredSelection(selectedNodeElement);
 						getTextEditor().getSelectionProvider().setSelection(nodeSelection);
 					}
@@ -380,7 +388,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	 * Creates the design page of the multi-page editor.
 	 */
 	protected void createDesignPage() {
-		fDesignViewer = new BPELEditor(getEditDomain());
+		fDesignViewer = new BPELEditor(getEditDomain(), this);
 		loadModel();
 		
 		try
@@ -420,7 +428,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	    	firePropertyChange(PROP_TITLE);
 			connectDesignPage();
 			initializeFileChangeListener();
-			initializeRefactoringListener();
+			initializeRefactoringListener();			
 		} catch (PartInitException e) {
 			//Logger.logException(e);
 			throw new RuntimeException(e);
@@ -541,6 +549,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 		fDesignViewer.getEditModelClient().getPrimaryResourceInfo().getResource().setModified(false);
 		// Save extensions
 		fDesignViewer.doSave(progressMonitor);
+	    getCommandStack().markSaveLocation();
 	}
 
 	/*
@@ -855,6 +864,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		try {
 			super.init(site, input);
+//			getCommandStack().addCommandStackListener(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -994,7 +1004,6 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 
 	    modelListenerAdapter = new ModelListenerAdapter();
 	    modelListenerAdapter.setExtensionMap(extensionMap);
-		
 	}
 
 	public void modelDeleted(ResourceInfo resourceInfo) {
@@ -1157,7 +1166,7 @@ public class BPELMultipageEditorPart extends MultiPageEditorPart
 
 	@Override
 	public boolean isDirty() {
-		return fDesignViewer.isDirty();
+		return fTextEditor.isDirty();
 	}
 
 	@Override

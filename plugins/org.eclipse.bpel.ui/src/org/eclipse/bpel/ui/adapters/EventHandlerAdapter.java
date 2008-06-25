@@ -17,6 +17,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.actions.editpart.AbstractAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateOnAlarmAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateOnEventAction;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
@@ -80,8 +81,8 @@ public class EventHandlerAdapter extends ContainerAdapter implements ILabeledEle
 
 	/* IEditPartActionContributor */
 	
-	public List getEditPartActions(final EditPart editPart) {
-		List actions = new ArrayList();
+	public List<AbstractAction> getEditPartActions(final EditPart editPart) {
+		List<AbstractAction> actions = new ArrayList<AbstractAction>();
 
 		actions.add(new CreateOnEventAction(editPart));
 		actions.add(new CreateOnAlarmAction(editPart));

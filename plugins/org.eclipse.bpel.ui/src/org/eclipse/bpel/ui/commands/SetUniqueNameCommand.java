@@ -17,13 +17,12 @@ import org.eclipse.bpel.ui.adapters.ILabeledElement;
 import org.eclipse.bpel.ui.adapters.INamedElement;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.commands.CompoundCommand;
 
 
 /**
  * Sets a unique name/display name to the model object. 
  */
-public class SetUniqueNameCommand extends CompoundCommand {
+public class SetUniqueNameCommand extends org.eclipse.gef.commands.CompoundCommand {
 
 	protected Process process;
 	protected Object model;

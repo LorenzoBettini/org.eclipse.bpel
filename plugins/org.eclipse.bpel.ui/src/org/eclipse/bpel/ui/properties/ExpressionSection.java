@@ -22,6 +22,7 @@ import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.details.providers.ExpressionEditorDescriptorContentProvider;
 import org.eclipse.bpel.ui.expressions.IEditorConstants;
@@ -36,7 +37,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -687,7 +687,14 @@ public abstract class ExpressionSection extends TextSection {
 					notifyEditorChanged();
 				}
 			}
-		});				
+			public void focusOut() {
+				// If expression editor has lost focus then apply current changes
+				getCommandFramework().applyCurrentChange();
+			}
+			public void focusIn() {
+				// TODO Auto-generated method stub
+			}
+		});
 	}
 	
 	/**

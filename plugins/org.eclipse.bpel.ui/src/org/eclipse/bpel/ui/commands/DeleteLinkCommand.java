@@ -16,15 +16,12 @@ import org.eclipse.bpel.model.Flow;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Source;
 import org.eclipse.bpel.model.Target;
-import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
-import org.eclipse.bpel.ui.commands.util.ModelAutoUndoRecorder;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.FlowLinkUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
@@ -36,24 +33,11 @@ public class DeleteLinkCommand extends AutoUndoCommand {
 	private Flow flow;
 
 	public DeleteLinkCommand(Link link) {
-		super(IBPELUIConstants.CMD_DELETE_LINK, new ArrayList());
+		super(IBPELUIConstants.CMD_DELETE_LINK, new ArrayList<Object>());
 		this.link = link;
 		EObject cont = link.eContainer().eContainer();
 		flow = (Flow)cont;
 		addModelRoot(flow);
-		if (flow.eResource() != null) {
-			BPELEditor bpelEditor = ModelHelper.getBPELEditor(flow);
-			this.modelAutoUndoRecorder = bpelEditor.getModelAutoUndoRecorder();
-		}
-	}
-
-	ModelAutoUndoRecorder modelAutoUndoRecorder;
-
-	// TODO: hack: necessary for multi-delete to work properly
-	@Override
-	protected ModelAutoUndoRecorder getRecorder() {
-		if (modelAutoUndoRecorder != null) return modelAutoUndoRecorder;
-		return super.getRecorder();
 	}
 
 	// NOTE: By selecting an activity and link at the same time, the user can run

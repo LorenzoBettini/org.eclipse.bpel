@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.editparts.policies;
 
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.InsertInContainerCommand;
 import org.eclipse.bpel.ui.commands.SetNameAndDirectEditCommand;
 import org.eclipse.bpel.ui.editparts.util.ReferencedAddRequest;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ContainerEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 

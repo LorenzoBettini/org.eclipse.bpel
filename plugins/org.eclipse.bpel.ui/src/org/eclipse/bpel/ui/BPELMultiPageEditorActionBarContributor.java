@@ -19,10 +19,14 @@ import org.eclipse.bpel.ui.actions.BPELPasteAction;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorActionBarContributor;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page
@@ -67,8 +71,10 @@ public class BPELMultiPageEditorActionBarContributor extends
 		IActionBars actionBars = getActionBars();
 
 		if (activeEditorPart != null && activeEditorPart instanceof ITextEditor) {
-			// source tab
-			// Nothing to do - it will reassign all global actions (?)
+			IActionBars siteActionBars = ((IEditorSite)activeEditorPart.getEditorSite()).getActionBars();
+			siteActionBars.setGlobalActionHandler(ITextEditorActionConstants.UNDO, getAction((ITextEditor)activeEditorPart, ITextEditorActionConstants.UNDO));
+			siteActionBars.setGlobalActionHandler(ITextEditorActionConstants.REDO, getAction((ITextEditor)activeEditorPart, ITextEditorActionConstants.REDO));
+			siteActionBars.updateActionBars();              
 		} else {
 			if (part instanceof BPELEditor) {
 				bpelEditor = (BPELEditor) part;
@@ -94,6 +100,16 @@ public class BPELMultiPageEditorActionBarContributor extends
 					actionBars.setGlobalActionHandler(ActionFactory.DELETE
 							.getId(), action);
 				}
+				
+				IWorkbenchPartSite site = bpelEditor.getSite();
+		        if (site instanceof IEditorSite) 
+		        {
+		          ITextEditor textEditor = bpelEditor.getMultipageEditor().getTextEditor();
+		          IActionBars siteActionBars = ((IEditorSite) site).getActionBars();
+		          siteActionBars.setGlobalActionHandler(ITextEditorActionConstants.UNDO, getAction(textEditor, ITextEditorActionConstants.UNDO));
+		          siteActionBars.setGlobalActionHandler(ITextEditorActionConstants.REDO, getAction(textEditor, ITextEditorActionConstants.REDO));
+		          siteActionBars.updateActionBars();              
+		        }       
 			}
 		}
 
@@ -103,5 +119,4 @@ public class BPELMultiPageEditorActionBarContributor extends
 		}
 
 	}
-
 }

@@ -18,6 +18,7 @@ import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.actions.editpart.AbstractAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateCatchAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateCatchAllAction;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
@@ -79,8 +80,8 @@ public class FaultHandlerAdapter extends ContainerAdapter implements ILabeledEle
 	
 	/* IEditPartActionContributor */
 	
-	public List getEditPartActions(final EditPart editPart) {
-		List actions = new ArrayList();
+	public List<AbstractAction> getEditPartActions(final EditPart editPart) {
+		List<AbstractAction> actions = new ArrayList<AbstractAction>();
 		Object modelObject = editPart.getModel();
 		
 		actions.add(new CreateCatchAction(editPart));

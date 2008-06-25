@@ -26,7 +26,6 @@ import org.eclipse.bpel.model.Targets;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.bpel.ui.util.FlowLinkUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
-import org.eclipse.gef.commands.CompoundCommand;
 
 
 

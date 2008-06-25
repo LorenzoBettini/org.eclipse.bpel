@@ -10,84 +10,166 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.commands.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.bpel.common.ui.editmodel.AbstractEditModelCommand;
-import org.eclipse.bpel.ui.BPELEditor;
-import org.eclipse.bpel.ui.BPELUIPlugin;
-import org.eclipse.bpel.ui.Policy;
-import org.eclipse.bpel.ui.util.ModelHelper;
+import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-
+import org.eclipse.wst.sse.core.internal.format.IStructuredFormatProcessor;
+import org.eclipse.wst.wsdl.WSDLElement;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
+import org.w3c.dom.Element;
 
 /**
- * A base class for BPEL editor commands.  Since the BPEL editor will have
+ * A base class for BPEL editor commands. Since the BPEL editor will have
  * automatic EMF-based Undo/Redo support, editor commands should not implement
  * the undo() or redo() methods (and the framework should not call them!).
  */
 public abstract class AutoUndoCommand extends AbstractEditModelCommand {
+	Set<Object> fModelRoots;
 	
-	protected List<Object> fChanges = null;
-	
-	boolean fReadyToUndo = false;
-	boolean fReadyToRedo = false;
-	
-	IAutoUndoRecorder fRecorder;
-	
-	List<Object> fModelRoots;
-
-	/**
-	 * Brand new shiny AutoUndoCommand ...
-	 * @param modelRoot
-	 */
-	
-	@SuppressWarnings("nls")
-	public AutoUndoCommand (EObject modelRoot) {
-		super();
-		if (modelRoot == null) {
-			throw new IllegalArgumentException("modelRoot cannot be null here.");
-		}
-		fModelRoots = Collections.singletonList((Object) modelRoot);
-	}
-	
-	/**
-	 * Brand new shiny AutoUndo Command.
-	 * @param modelRoots
-	 */
-	public AutoUndoCommand(List<Object> modelRoots) {
-		super();
-		this.fModelRoots = modelRoots;
-	}
-	
-	/**
-	 * 
-	 * @param label
-	 * @param modelRoot
-	 */
-	@SuppressWarnings("nls")
-	public AutoUndoCommand (String label, EObject modelRoot) {
-		super(label);		
-		if (modelRoot == null) {
-			throw new IllegalArgumentException("modelRoot cannot be null here");
-		}
-		fModelRoots = Collections.singletonList((Object) modelRoot);
-	}
-
-	/**
-	 * 
-	 * @param label
-	 * @param modelRoots
-	 */
-	public AutoUndoCommand(String label, List<Object> modelRoots) {
+	public AutoUndoCommand(String label, EObject modelRoot) {
 		super(label);
-		this.fModelRoots = modelRoots;
+		if (modelRoot == null) {
+			throw new IllegalStateException("modelRoot cannot be null here");
+		}
+		fModelRoots = Collections.singleton((Object) modelRoot);
 	}
 
-	// only call this method if you provided a modifiable List for modelRoots.
+	public AutoUndoCommand(EObject modelRoot) {
+		if (modelRoot == null) {
+			throw new IllegalStateException("modelRoot cannot be null here");
+		}
+		fModelRoots = Collections.singleton((Object) modelRoot);
+	}
+
+	public AutoUndoCommand(String label, ArrayList<Object> modelRoots) {
+		super(label);
+		this.fModelRoots = new HashSet<Object>();
+		fModelRoots.addAll(modelRoots);
+	}
+
+	public AutoUndoCommand(ArrayList<Object> modelRoots) {
+		this.fModelRoots = new HashSet<Object>();
+		fModelRoots.addAll(modelRoots);
+	}
+
+	private void beginRecording(Object element) {
+		if (element instanceof IDOMNode) {			
+			IDOMModel model = ((IDOMNode) element).getModel();
+			model.aboutToChangeModel();
+			model.beginRecording(this,
+					getUndoDescription());
+		}
+	}
+
+	private void endRecording(Object element) {
+		if (element instanceof IDOMNode) {
+			IDOMModel model = ((IDOMNode) element).getModel();
+			model.endRecording(this);
+			model.changedModel();
+		}
+	}
+
+	protected String getUndoDescription() {
+		return getLabel();
+	}
+
+	protected void formatChild(Element child) {
+		if (child instanceof IDOMNode) {
+			IDOMModel model = ((IDOMNode) child).getModel();
+			try {
+				// tell the model that we are about to make a big model change
+				model.aboutToChangeModel();
+
+				IStructuredFormatProcessor formatProcessor = new FormatProcessorXML();
+				formatProcessor.formatNode(child);
+			} finally {
+				// tell the model that we are done with the big model change
+				model.changedModel();
+			}
+		}
+	}
+
+	public void execute() {
+		if (canDoExecute()) {
+			Object element = calculateLeastCommonAncestor();
+			try {
+				beginRecording(element);
+				doExecute();
+			} finally {
+				endRecording(element);
+			}
+		}
+	}
+
+	private Object calculateLeastCommonAncestor() {
+		Object[] roots = fModelRoots.toArray();
+		if (roots.length == 0) {
+			return null;
+		}
+		if (roots.length == 1) {
+			return ((WSDLElement)roots[0]).getElement();
+		}
+		Integer worms = roots.length;
+		HashMap<Object, Integer> wormed = new HashMap<Object, Integer>();
+		Set<WSDLElement> old = new HashSet<WSDLElement>();
+		Set<WSDLElement> current = new HashSet<WSDLElement>();
+		for (Object node : roots) {
+			wormed.put(node, 1);
+			current.add((WSDLElement)node);
+		}
+		while (true) {
+			Set<WSDLElement> temp = old;
+			old = current;
+			current = temp;
+			current.clear();
+			for (WSDLElement node : old) {
+				if (node.getContainer() == null) {
+					if (node instanceof Process) {
+						return node.getElement();
+					} else {
+						continue;
+					}
+				}
+				Integer count = wormed.get(node);
+				if (count == null) {
+					wormed.put(node, 1);
+				} else if (worms.equals(count + 1)) {
+					System.err.println(node);
+					return node.getElement();
+				} else if (count != null) {
+					wormed.put(node, count + 1);
+				}
+				current.add(node.getContainer());
+			}
+			if (current.isEmpty()) {
+				return ((BPELResource)((WSDLElement)roots[0]).eResource()).getProcess().getElement();
+			}
+		}		
+	}
+	
+	/**
+	 * @return true if we can execute this, false otherwise.
+	 */
+
+	public boolean canDoExecute() {
+		return true;
+	}
+
+	public void doExecute() {
+
+	}
+	
 	@SuppressWarnings("nls")
 	protected void addModelRoot(Object modelRoot) {
 		if (modelRoot == null) {
@@ -96,7 +178,18 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 		fModelRoots.add(modelRoot);
 	}
 	
-	// should this helper be somewhere else?
+	protected void addModelRoots(List<Object> modelRoot) {
+		fModelRoots.addAll(modelRoot);
+	}
+	
+	protected void addModelRoots(Set<Object> modelRoot) {
+		fModelRoots.addAll(modelRoot);
+	}
+	
+	public Set<Object> getModelRoots() {
+		return fModelRoots;
+	}
+	
 	protected Resource getResource (Object modelRoot) {
 		if (modelRoot instanceof EObject) return ((EObject)modelRoot).eResource();
 		if (modelRoot instanceof Resource) return (Resource)modelRoot;
@@ -115,7 +208,7 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 				throw new IllegalStateException();
 				// return new Resource[0]
 			}
-			Resource resource = getResource(fModelRoots.get(0));
+			Resource resource = getResource(fModelRoots.toArray()[0]);
 			if (resource != null) {
 				return new Resource[] { resource };
 			}
@@ -143,119 +236,5 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	@Override
 	public final Resource[] getModifiedResources() {
 		return getResources(); 
-	}
-	
-	// Don't override this, except as a hack when we're really stuck.  :)
-	protected ModelAutoUndoRecorder getRecorder() {
-		BPELEditor bpelEditor = ModelHelper.getBPELEditor(fModelRoots.get(0));
-		return bpelEditor.getModelAutoUndoRecorder();
-	}
-	
-	protected final void initRecorder() {
-		if (fRecorder == null) {
-			fRecorder = getRecorder();
-		}
-		if (fRecorder == null) {
-			if (Policy.DEBUG) System.err.println("Warning: couldn't get IAutoUndoRecorder for "+this.getClass().getName()+"!"); //$NON-NLS-1$ //$NON-NLS-2$
-			new Exception().printStackTrace(System.err);
-		}
-	}
-	
-	/**
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	@Override
-	public final void undo() {
-		if (fChanges == null || !fReadyToUndo) {
-			throw new IllegalStateException();
-		}
-		fReadyToUndo = false;
-		// note: there is deliberately no try-finally here
-		fRecorder.undo(fChanges);
-		fReadyToRedo = true;
-	}
-	
-	
-	/**
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	@Override
-	public final void redo() {
-		if (fChanges == null || !fReadyToRedo) throw new IllegalStateException();
-		fReadyToRedo = false;
-		// note: there is deliberately no try-finally here
-		fRecorder.redo(fChanges);
-		fReadyToUndo = true;
-	}
-
-	/**
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
-	@Override
-	public final void execute() {
-		
-		if (fChanges != null) {
-			throw new IllegalStateException();
-		}
-		
-		initRecorder();
-		if (fRecorder.isRecordingChanges()) {
-			if (Policy.DEBUG) System.out.println("executing nested auto "+getClass().getName()); //$NON-NLS-1$
-			try {
-				fRecorder.addModelRoots(fModelRoots);
-				doExecute();
-				fReadyToUndo = true;
-				// TODO: in the event of an error, roll back whatever was recorded??
-				// How does that work for the nested case?  (maybe set a flag in the
-				// recorder to indicate that rollback is necessary?)
-			} finally {
-				fChanges = Collections.emptyList();
-			}
-			return;
-		}
-		fRecorder.startChanges(fModelRoots);
-		if (Policy.DEBUG) System.out.println("executing auto "+getClass().getName()); //$NON-NLS-1$
-		try {
-			doExecute();
-			fReadyToUndo = true;
-			// TODO: in the event of an error, roll back whatever was recorded??
-		} catch (RuntimeException e) {
-			BPELUIPlugin.log(e);
-			throw e;
-		} finally {
-			fChanges = fRecorder.finishChanges();
-		}
-	}
-
-	/**
-	 * @return true if we can execute this, false otherwise.
-	 */
-	
-	public boolean canDoExecute() { 
-		return true; 
-	}
-
-	/**
-	 * Subclasses should override this method.
-	 */
-	public void doExecute() { 
-		
-	}
-	
-	/**
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	@Override
-	public final boolean canUndo() { 
-		return fReadyToUndo; 
-	}
-	
-	/**
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
-	@Override
-	public final boolean canExecute() {
-		if (fChanges != null) return fReadyToRedo;
-		return canDoExecute();
 	}
 }

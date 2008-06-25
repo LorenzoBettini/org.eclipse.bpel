@@ -50,6 +50,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
 
 /**
@@ -62,15 +64,16 @@ import org.eclipse.ui.actions.ActionFactory;
 
 public class ProcessContextMenuProvider extends ContextMenuProvider {
 	private ActionRegistry actionRegistry;
-
+	private ITextEditor textEditor;
 	/**
 	 * @param viewer
 	 * @param registry
 	 */
 	
-	public ProcessContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
-		super(viewer);
+	public ProcessContextMenuProvider(BPELEditor editor, ActionRegistry registry) {
+		super(editor.getGraphicalViewer());
 		this.actionRegistry = registry;
+		textEditor = editor.getMultipageEditor().getTextEditor(); 
 	}
 
 	protected static final String EDITPART_ACTIONS = "org.eclipse.bpel.ui.EditPartActions"; //$NON-NLS-1$
@@ -104,8 +107,10 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 		menu.add(new Separator(IWorkbenchActionConstants.GROUP_SHOW_IN));
 
 		// Undo, Redo (always shown) and Revert (if appropriate)
-		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, actionRegistry.getAction(ActionFactory.UNDO.getId()));
-		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, actionRegistry.getAction(ActionFactory.REDO.getId()));
+//		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, actionRegistry.getAction(ActionFactory.UNDO.getId()));
+//		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, actionRegistry.getAction(ActionFactory.REDO.getId()));
+		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, textEditor.getAction(ITextEditorActionConstants.UNDO));
+		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, textEditor.getAction(ITextEditorActionConstants.REDO));
 		action = actionRegistry.getAction(ActionFactory.REVERT.getId());
 		if (action.isEnabled()) menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
@@ -123,9 +128,7 @@ public class ProcessContextMenuProvider extends ContextMenuProvider {
 				Object model = p.getModel();
 				IEditPartActionContributor contributor = BPELUtil.adapt(model, IEditPartActionContributor.class);
 				if (contributor != null) {
-					List actions = contributor.getEditPartActions(p);
-					for (int k = 0; k < actions.size(); k++) {
-						IEditPartAction epAction = (IEditPartAction)actions.get(k);
+					for (IEditPartAction epAction : contributor.getEditPartActions(p)) {
 						String s = epAction.getToolTip();
 						// TODO: change IEditPartAction to provide lifecycle management
 						// for the images themselves (i.e. an action could either create/destroy

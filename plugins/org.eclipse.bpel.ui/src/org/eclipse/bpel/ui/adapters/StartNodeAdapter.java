@@ -20,6 +20,7 @@ import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.actions.editpart.CreateProcessEventHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateProcessFaultHandlerAction;
+import org.eclipse.bpel.ui.actions.editpart.IEditPartAction;
 import org.eclipse.bpel.ui.editparts.StartNodeEditPart;
 import org.eclipse.bpel.ui.uiextensionmodel.StartNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -60,8 +61,8 @@ public class StartNodeAdapter extends AbstractAdapter implements EditPartFactory
 	
 	/* IEditPartActionContributor */
 	
-	public List getEditPartActions(final EditPart editPart) {
-		List actions = new ArrayList();
+	public List<IEditPartAction> getEditPartActions(final EditPart editPart) {
+		List<IEditPartAction> actions = new ArrayList<IEditPartAction>();
 		StartNode startNode = (StartNode)editPart.getModel();
 	    Process process = startNode.getProcess();
 		

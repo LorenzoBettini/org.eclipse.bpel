@@ -19,6 +19,7 @@ import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.partnerlinktype.Role;
+import org.eclipse.bpel.ui.actions.editpart.AbstractAction;
 import org.eclipse.bpel.ui.actions.editpart.SetPartnerLinkAction;
 import org.eclipse.bpel.ui.actions.editpart.SetVariableAction;
 import org.eclipse.bpel.ui.adapters.delegates.MultiContainer;
@@ -77,8 +78,8 @@ public class InvokeAdapter extends ContainerActivityAdapter implements EditPartF
 	/* IEditPartActionContributor */
 	
 	@Override
-	public List getEditPartActions(final EditPart editPart) {
-		List actions = super.getEditPartActions(editPart);
+	public List<AbstractAction> getEditPartActions(final EditPart editPart) {
+		List<AbstractAction> actions = super.getEditPartActions(editPart);
 		actions.add(new SetPartnerLinkAction(editPart));
 		actions.add(new SetVariableAction(editPart, SetVariableAction.REQUEST));
 		actions.add(new SetVariableAction(editPart, SetVariableAction.RESPONSE));

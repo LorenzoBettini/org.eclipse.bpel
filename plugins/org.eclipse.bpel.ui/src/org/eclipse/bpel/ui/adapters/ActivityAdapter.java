@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.adapters.AbstractStatefulAdapter;
+import org.eclipse.bpel.ui.actions.editpart.AbstractAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateCompensationHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateEventHandlerAction;
 import org.eclipse.bpel.ui.actions.editpart.CreateFaultHandlerAction;
@@ -154,8 +155,8 @@ public abstract class ActivityAdapter extends AbstractStatefulAdapter implements
 
 	/* IEditPartActionContributor */
 	
-	public List getEditPartActions(final EditPart editPart) {
-		List actions = new ArrayList();
+	public List<AbstractAction> getEditPartActions(final EditPart editPart) {
+		List<AbstractAction> actions = new ArrayList<AbstractAction>();
 		Object modelObject = editPart.getModel();
 		
 		IFaultHandlerHolder ifh =  BPELUtil.adapt(modelObject, IFaultHandlerHolder.class);
