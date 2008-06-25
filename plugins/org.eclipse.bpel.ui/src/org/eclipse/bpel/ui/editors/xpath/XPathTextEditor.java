@@ -36,6 +36,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.VerifyKeyListener;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -543,5 +544,8 @@ public class XPathTextEditor extends TextEditor {
 		}					
 	}
 
+	public void addFocusListener(FocusListener focusListener) {
+		getSourceViewer().getTextWidget().addFocusListener(focusListener);
+	}
 	
 }

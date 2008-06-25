@@ -16,6 +16,9 @@ import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.bpel.ui.properties.TextSection;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
@@ -38,6 +41,7 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	protected String undoRedoLabel;
 	protected String fBody;
 	protected boolean updating = false;
+	protected FocusListener focusListener;
 	
 	/**
 	 * 
@@ -124,6 +128,7 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	public void aboutToBeHidden() {
 		if (editor != null) {
 			editor.removePropertyListener(getPropertyListener());
+			editor.removeFocusListener(getFocusListener());
 		}
 	}
 
@@ -136,6 +141,7 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 	public void aboutToBeShown() {		
 		if (editor != null) {
 			editor.addPropertyListener(getPropertyListener());
+			editor.addFocusListener(getFocusListener());
 		}					
 	}
 
@@ -148,7 +154,7 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 			propertyListener = new IPropertyListener() {
 				public void propertyChanged(Object source, int propId) {
 					if (!updating && propId == IEditorPart.PROP_DIRTY && editor.isDirty() && !((TextSection)fSection).isExecutingStoreCommand()) {
-						notifyListeners();
+						notifyChanged();
 					}
 				}
 			};
@@ -156,6 +162,15 @@ public class DefaultExpressionEditor extends AbstractExpressionEditor {
 		return propertyListener;
 	}
 
+	protected FocusListener getFocusListener() {
+		if (focusListener == null){
+			focusListener = new FocusAdapter(){
+			public void focusLost(FocusEvent e) {
+				notifyFocusOut();
+			}
+		};}
+		return focusListener;
+	}
 	
 	/**
 	 * Get the user context to remember for next invocation.

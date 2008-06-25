@@ -16,9 +16,9 @@ import java.util.List;
 import org.eclipse.bpel.common.ui.composite.EditorInViewManager;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -73,12 +73,18 @@ public abstract class AbstractExpressionEditor implements IExpressionEditor {
 		listeners.remove(listener);
 	}
 
-	protected void notifyListeners() {
+	protected void notifyChanged() {
 		for (Listener next : listeners) {
 			next.notifyChanged();
 		}
 	}
-
+	
+	protected void notifyFocusOut() {
+		for (Listener next : listeners) {
+			next.focusOut();
+		}
+	}
+	
 	/**
 	 * @see org.eclipse.bpel.ui.expressions.IExpressionEditor#getEditorContent()
 	 * 

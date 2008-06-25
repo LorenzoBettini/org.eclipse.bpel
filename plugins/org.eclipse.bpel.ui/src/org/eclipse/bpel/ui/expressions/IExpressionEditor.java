@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.expressions;
 
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -104,6 +104,8 @@ public interface IExpressionEditor {
 		 * Notify that we have changed.
 		 */
 		public void notifyChanged();
+		public void focusOut();
+		public void focusIn();
 	}
 	
 	/**

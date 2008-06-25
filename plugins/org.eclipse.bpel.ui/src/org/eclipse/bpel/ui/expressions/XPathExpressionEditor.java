@@ -18,6 +18,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
 import org.eclipse.bpel.ui.commands.SetNamespaceMappingCommand;
 import org.eclipse.bpel.ui.editors.TextEditorInput;
 import org.eclipse.bpel.ui.editors.xpath.XPathTextEditor;
@@ -29,9 +30,11 @@ import org.eclipse.bpel.ui.util.BPELDateTimeHelpers;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -97,6 +100,8 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 	/** The input to the text editor. */
 	protected TextEditorInput textEditorInput;
+	
+	private FocusListener focusListener;
 
 	/**
 	 * Create a brand new shiny XPathExpressionEditor ...
@@ -213,10 +218,21 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 				this.textEditorInput, 
 				textEditorComposite);
 
-		textEditor.addPropertyListener(getPropertyListener());	
+		textEditor.addPropertyListener(getPropertyListener());
+		textEditor.addFocusListener(getFocusListener());
 		textEditor.setDecoration(true);
 		
 		return textEditorComposite;
+	}
+
+	protected FocusListener getFocusListener() {
+		if (focusListener == null){
+			focusListener = new FocusAdapter(){
+			public void focusLost(FocusEvent e) {
+				notifyFocusOut();
+			}
+		};}
+		return focusListener;
 	}
 
 	Composite getDateTimeEditor() {
@@ -269,7 +285,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 				}
 				
 				if (!((TextSection) fSection).isExecutingStoreCommand()) {
-					notifyListeners();
+					notifyChanged();
 				}
 			}
 
@@ -331,7 +347,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 			
 				// 
 			 	if (!((TextSection)fSection).isExecutingStoreCommand() ) {
-			 		notifyListeners();
+			 		notifyChanged();
 			 	}
 			 }
 			 public void widgetDefaultSelected(SelectionEvent e) { }
@@ -483,7 +499,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 							isEditorDirty = textEditor.isDirty();
 						}
 						if (isEditorDirty) {
-							notifyListeners();
+							notifyChanged();
 						}
 					}
 				}
@@ -644,6 +660,5 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 		}
 		
 	}
-	
-	
+
 }

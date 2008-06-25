@@ -360,6 +360,8 @@ public final class Messages extends NLS {
 	public static String IBPELUIConstants_Add_Compensation_Handler_11;
 	public static String IBPELUIConstants_Add_Termination_Handler_11;
 	public static String IBPELUIConstants_Add_Copy_12b;
+	public static String IBPELUIConstants_Insert_Copy;
+	public static String IBPELUIConstants_Swap_Copy;
 	public static String IBPELUIConstants_Add_VALIDATE_VARIABLE_15;
 	public static String IBPELUIConstants_Add_Correlation_6;
 	public static String IBPELUIConstants_Add_Custom_Property_14;

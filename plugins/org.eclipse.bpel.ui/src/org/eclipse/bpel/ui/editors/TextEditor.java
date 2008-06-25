@@ -11,6 +11,7 @@
 package org.eclipse.bpel.ui.editors;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
@@ -67,6 +68,14 @@ public class TextEditor extends AbstractDecoratedTextEditor {
 	@Override
 	protected boolean isOverviewRulerVisible() {    	
 	   	return false;
+	}
+
+	public void addFocusListener(FocusListener focusListener) {
+		getSourceViewer().getTextWidget().addFocusListener(focusListener);
+	}
+
+	public void removeFocusListener(FocusListener focusListener) {
+		getSourceViewer().getTextWidget().removeFocusListener(focusListener);
 	}
 
 }

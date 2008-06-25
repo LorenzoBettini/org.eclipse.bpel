@@ -261,6 +261,8 @@ public interface IBPELUIConstants {
 	public final String CMD_ADD_VALIDATE_VARIABLE = Messages.IBPELUIConstants_Add_VALIDATE_VARIABLE_15;
 	public final String CMD_ADD_IMPORT = Messages.IBPELUIConstants_Add_Import;
 	
+	public final String CMD_INSERT_COPY = Messages.IBPELUIConstants_Insert_Copy;
+	public final String CMD_SWAP_COPY = Messages.IBPELUIConstants_Swap_Copy;
 	public final String CMD_DELETE_LINK = Messages.IBPELUIConstants_Delete_Link_17; 
 	public final String CMD_DELETE_CORRELATION = Messages.IBPELUIConstants_Delete_Correlation_18;
 	public final String CMD_DELETE_VALIDATE_VARIABLE = Messages.IBPELUIConstants_Delete_Validate_Variable_26;
