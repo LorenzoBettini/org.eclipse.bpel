@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  * the undo() or redo() methods (and the framework should not call them!).
  */
 public abstract class AutoUndoCommand extends AbstractEditModelCommand {
-	Set<Object> fModelRoots;
+	private Set<Object> fModelRoots;
 	
 	public AutoUndoCommand(String label, EObject modelRoot) {
 		super(label);
@@ -54,12 +54,12 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 
 	public AutoUndoCommand(String label, ArrayList<Object> modelRoots) {
 		super(label);
-		this.fModelRoots = new HashSet<Object>();
+		fModelRoots = new HashSet<Object>();
 		fModelRoots.addAll(modelRoots);
 	}
 
 	public AutoUndoCommand(ArrayList<Object> modelRoots) {
-		this.fModelRoots = new HashSet<Object>();
+		fModelRoots = new HashSet<Object>();
 		fModelRoots.addAll(modelRoots);
 	}
 
@@ -113,7 +113,7 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	}
 
 	private Object calculateLeastCommonAncestor() {
-		Object[] roots = fModelRoots.toArray();
+		Object[] roots = getModelRoots().toArray();
 		if (roots.length == 0) {
 			return null;
 		}
@@ -175,15 +175,15 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 		if (modelRoot == null) {
 			throw new IllegalStateException("modelRoot cannot be null here");
 		}
-		fModelRoots.add(modelRoot);
+		getModelRoots().add(modelRoot);
 	}
 	
 	protected void addModelRoots(List<Object> modelRoot) {
-		fModelRoots.addAll(modelRoot);
+		getModelRoots().addAll(modelRoot);
 	}
 	
 	protected void addModelRoots(Set<Object> modelRoot) {
-		fModelRoots.addAll(modelRoot);
+		getModelRoots().addAll(modelRoot);
 	}
 	
 	public Set<Object> getModelRoots() {
@@ -202,20 +202,20 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	 */
 	@Override
 	public Resource[] getResources() {
-		if (fModelRoots.size() < 2) {
-			if (fModelRoots.isEmpty()) {
+		if (getModelRoots().size() < 2) {
+			if (getModelRoots().isEmpty()) {
 				// This should never happen. ?
 				throw new IllegalStateException();
 				// return new Resource[0]
 			}
-			Resource resource = getResource(fModelRoots.toArray()[0]);
+			Resource resource = getResource(getModelRoots().toArray()[0]);
 			if (resource != null) {
 				return new Resource[] { resource };
 			}
 			return EMPTY_RESOURCE_ARRAY;
 		}
-		Set<Resource> resultSet = new HashSet<Resource>(fModelRoots.size());
-		for (Object next : fModelRoots) {
+		Set<Resource> resultSet = new HashSet<Resource>(getModelRoots().size());
+		for (Object next : getModelRoots()) {
 			Resource resource = getResource(next);
 			if (resource != null) {
 				resultSet.add(resource);

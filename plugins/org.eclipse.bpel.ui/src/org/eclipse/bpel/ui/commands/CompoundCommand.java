@@ -1,7 +1,9 @@
 package org.eclipse.bpel.ui.commands;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
 import org.eclipse.gef.commands.Command;
@@ -18,10 +20,7 @@ public class CompoundCommand extends AutoUndoCommand {
 	}
 	
 	public void add(Command command) {
-		if (command != null) {
-			if (command instanceof AutoUndoCommand) {
-				addModelRoots(((AutoUndoCommand)command).getModelRoots());
-			}
+		if (command != null) {			
 			commandList.add(command);
 		}
 	}
@@ -69,5 +68,16 @@ public class CompoundCommand extends AutoUndoCommand {
 	
 	public List<Command> getCommands() {
 		return commandList;
+	}
+	
+	@Override
+	public Set<Object> getModelRoots() {
+		HashSet<Object> result = new HashSet<Object>();
+		for (Command command : commandList) {
+			if (command instanceof AutoUndoCommand) {
+				result.addAll(((AutoUndoCommand)command).getModelRoots());
+			}
+		}
+		return result;
 	}
 }
