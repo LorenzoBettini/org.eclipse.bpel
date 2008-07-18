@@ -28,6 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
 import org.apache.xerces.util.DOMUtil;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.resource.BPELWriter;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
 import org.eclipse.xsd.util.XSDConstants;
@@ -43,7 +44,7 @@ import com.ibm.wsdl.util.xml.DOM2Writer;
 
 public class BPELUnknownExtensionSerializer extends UnknownExtensionSerializer implements BPELExtensionSerializer {
 	
-	public void marshall(Class parentType, QName elementType, ExtensibilityElement extension, Node parentNode, Process process, ExtensionRegistry extReg) throws WSDLException {
+	public void marshall(Class parentType, QName elementType, ExtensibilityElement extension, Node parentNode, Process process, ExtensionRegistry extReg, BPELWriter bpelWriter) throws WSDLException {
 		Map<String,String> nsMap = BPELUtils.getNamespaceMap(process);
 		Element unknownElement = null;
 		

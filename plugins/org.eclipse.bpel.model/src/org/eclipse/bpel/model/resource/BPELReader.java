@@ -1471,7 +1471,7 @@ public class BPELReader implements ErrorHandler {
     /**
 	 * Converts an XML activity element to a BPEL Activity object.
 	 */
-     protected Activity xml2Activity(Element activityElement) {
+     public Activity xml2Activity(Element activityElement) {
 		Activity activity = null;
 		boolean checkExtensibility = true;
 
@@ -2766,7 +2766,7 @@ public class BPELReader implements ErrorHandler {
 						// ExtensibleElement
 						try {
 							Map<String,String> nsMap = getAllNamespacesForElement(serviceRefElement);
-							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,getResource().getURI());
+							ExtensibilityElement extensibilityElement=deserializer.unmarshall(ExtensibleElement.class,qname,childElement,process,nsMap,extensionRegistry,getResource().getURI(),this);
 							serviceRef.setValue(extensibilityElement);
 						} catch (WSDLException e) {
 							throw new WrappedException(e);
@@ -3329,7 +3329,7 @@ public class BPELReader implements ErrorHandler {
 		// ExtensibleElement
 		Map<String,String> nsMap = getAllNamespacesForElement (elm);
 		try {			
-			ExtensibilityElement extensibilityElement = deserializer.unmarshall(ee.getClass(),qname,elm,process,nsMap,extensionRegistry,getResource().getURI());
+			ExtensibilityElement extensibilityElement = deserializer.unmarshall(ee.getClass(),qname,elm,process,nsMap,extensionRegistry,getResource().getURI(),this);
 			ee.addExtensibilityElement(extensibilityElement);
 		} catch (WSDLException e) {
 			throw new WrappedException(e);
@@ -3369,7 +3369,7 @@ public class BPELReader implements ErrorHandler {
 		// ExtensibleElement
 		Map<String,String> nsMap = getAllNamespacesForElement( (Element) attr.getParentNode() );
 		try {			
-			ExtensibilityElement extensibilityElement = deserializer.unmarshall(ExtensibleElement.class,qname,tempElement,process,nsMap,extensionRegistry,getResource().getURI());
+			ExtensibilityElement extensibilityElement = deserializer.unmarshall(ExtensibleElement.class,qname,tempElement,process,nsMap,extensionRegistry,getResource().getURI(),this);
 			if (extensibilityElement!=null) {
 				ee.addExtensibilityElement (extensibilityElement);
 			}

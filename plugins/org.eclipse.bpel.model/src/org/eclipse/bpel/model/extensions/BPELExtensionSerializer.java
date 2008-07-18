@@ -16,6 +16,7 @@ import javax.wsdl.extensions.ExtensionRegistry;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.resource.BPELWriter;
 import org.w3c.dom.Node;
 
 
@@ -30,5 +31,5 @@ public interface BPELExtensionSerializer extends javax.wsdl.extensions.Extension
 	 * This method serializes extension-specific instances of
 	 * ExtensibilityElement into the given parent element.
 	 */
-	public void marshall(Class parentType, QName elementType, ExtensibilityElement extension, Node parentNode, Process process, ExtensionRegistry extReg) throws WSDLException;
+	public void marshall(Class parentType, QName elementType, ExtensibilityElement extension, Node parentNode, Process process, ExtensionRegistry extReg, BPELWriter bpelWriter) throws WSDLException;
 }

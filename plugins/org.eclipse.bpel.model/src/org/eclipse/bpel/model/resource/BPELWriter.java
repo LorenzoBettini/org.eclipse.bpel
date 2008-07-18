@@ -181,7 +181,8 @@ public class BPELWriter {
 
 			// For each existing import in the process, add it to the namespace
 			// map.
-			for (Import imp : fProcessContext.getImports()) {
+			for (Object next : fProcessContext.getImports()) {
+				Import imp = (org.eclipse.bpel.model.Import) next;
 				if (imp.getLocation() == null) {
 					System.err.println("Import location is unexpectedly null: "
 							+ imp);
@@ -1054,7 +1055,7 @@ public class BPELWriter {
 		return eventHandlerElement;
 	}
 
-	protected Element activity2XML(Activity activity) {
+	public Element activity2XML(Activity activity) {
 
 		Element activityElement = null;
 
@@ -1605,7 +1606,7 @@ public class BPELWriter {
 				try {
 					serializer.marshall(ExtensibleElement.class, qname,
 							extensibilityElement, fragment, getProcess(),
-							extensionRegistry);
+							extensionRegistry, this);
 					Element child = (Element) fragment.getFirstChild();
 					return child;
 				} catch (WSDLException e) {
@@ -2248,7 +2249,7 @@ public class BPELWriter {
 				try {
 					serializer.marshall(ExtensibleElement.class, qname,
 							extensibilityElement, fragment, getProcess(),
-							extensionRegistry);
+							extensionRegistry, this);
 				} catch (WSDLException e) {
 					throw new WrappedException(e);
 				}
@@ -2333,7 +2334,7 @@ public class BPELWriter {
 			serializer
 					.marshall(ExtensibleElement.class, qname,
 							extensibilityElement, fragment, getProcess(),
-							extensionRegistry);
+							extensionRegistry, this);
 			return (Element) fragment.getFirstChild();
 		} catch (WSDLException e) {
 			throw new WrappedException(e);

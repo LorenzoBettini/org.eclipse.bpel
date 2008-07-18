@@ -18,6 +18,7 @@ import javax.wsdl.extensions.ExtensionRegistry;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.resource.BPELReader;
 import org.eclipse.emf.common.util.URI;
 import org.w3c.dom.Node;
 
@@ -35,6 +36,6 @@ public interface BPELExtensionDeserializer extends javax.wsdl.extensions.Extensi
 	 * return value should be explicitly cast to the more-specific
 	 * implementing type.
 	 */
-	public ExtensibilityElement unmarshall(Class parentType, QName elementType, Node node, Process process, Map nsMap, ExtensionRegistry extReg, URI uri) throws WSDLException;
+	public ExtensibilityElement unmarshall(Class parentType, QName elementType, Node node, Process process, Map nsMap, ExtensionRegistry extReg, URI uri, BPELReader bpelReader) throws WSDLException;
 	
 }

@@ -90,7 +90,7 @@ public class ElementFactory {
 		}
 
 		@Override
-		protected Element activity2XML(org.eclipse.bpel.model.Activity activity) {
+		public Element activity2XML(org.eclipse.bpel.model.Activity activity) {
 			return super.activity2XML(activity);
 		}
 
@@ -550,14 +550,18 @@ public class ElementFactory {
 		String namespace = name.getNamespaceURI();
 		String prefix = BPELUtils.getNamespacePrefix(element, namespace);
 		String localPart = name.getLocalPart();
+		
 		if (localPart == "") {
 			return null;
-		} else if (prefix != null) {
-			return prefix + ":" + localPart;
 		}
 		
-		return localPart;
-	}
+		if (prefix != null) {
+			return prefix + ":" + localPart;
+		} else {
+			return localPart;
+		}
+	}	
+
 
 	private MyBPELWriter getWriter(Object parent) {
 		Document ownerDocument = getOwnerDocument(parent);

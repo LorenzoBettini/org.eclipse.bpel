@@ -3057,7 +3057,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 								.unmarshall(ExtensibleElement.class, qname,
 										childElement, process, nsMap,
 										extensionRegistry, getResource()
-												.getURI());
+												.getURI(), this);
 						serviceRef.setValue(extensibilityElement);
 					} catch (WSDLException e) {
 						throw new WrappedException(e);
@@ -3665,7 +3665,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		try {
 			ExtensibilityElement extensibilityElement = deserializer
 					.unmarshall(ee.getClass(), qname, elm, process, nsMap,
-							extensionRegistry, getResource().getURI());
+							extensionRegistry, getResource().getURI(), this);
 			ee.addExtensibilityElement(extensibilityElement);
 		} catch (WSDLException e) {
 			throw new WrappedException(e);
@@ -3715,7 +3715,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 			ExtensibilityElement extensibilityElement = deserializer
 					.unmarshall(ExtensibleElement.class, qname, tempElement,
 							process, nsMap, extensionRegistry, getResource()
-									.getURI());
+									.getURI(), this);
 			if (extensibilityElement != null) {
 				ee.addExtensibilityElement(extensibilityElement);
 			}

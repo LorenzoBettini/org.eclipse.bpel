@@ -20,6 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.resource.BPELReader;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
@@ -32,7 +33,7 @@ import com.ibm.wsdl.util.xml.DOMUtils;
 
 public class BPELUnknownExtensionDeserializer extends UnknownExtensionDeserializer implements BPELExtensionDeserializer {
 
-	public ExtensibilityElement unmarshall(Class parentType, QName elementType, Node node, Process process, Map nsMap, ExtensionRegistry extReg, URI uri) throws WSDLException {
+	public ExtensibilityElement unmarshall(Class parentType, QName elementType, Node node, Process process, Map nsMap, ExtensionRegistry extReg, URI uri, BPELReader bpelReader) throws WSDLException {
 		if (node instanceof Element) {			
 			if (elementType.getLocalPart().equals("extensibilityAttributes")) {
 				UnknownExtensibilityAttribute unknownExt = BPELFactory.eINSTANCE.createUnknownExtensibilityAttribute();
