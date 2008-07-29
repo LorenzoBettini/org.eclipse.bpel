@@ -73,12 +73,11 @@ public class CmdValidator {
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.plt.Factory());
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.wsdl.Factory());
 		
-		// RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory());
+		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory());
 		
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath0.Factory());
+		// RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath0.Factory());
 		
 		// This just prints an error message for the "process" elements in an unrecognized 
-		// namespace		
 		RuleFactory.registerFactory( new org.eclipse.bpel.validator.unsupported.Factory());			
 	}
 	
@@ -123,17 +122,17 @@ public class CmdValidator {
 	
 	/**
 	 * Log to a print stream 
-	 * @param problems
-	 * @param runner 
+	 * @param problems 
 	 * @param ps
 	 */
+	
 	@SuppressWarnings("boxing")
-	public void log ( IProblem[] problems, Runner runner, PrintStream ps ) {
+	public void log ( IProblem[] problems,PrintStream ps ) {
 		
 		ps.printf("<problems count=\"%1$d\">\n", problems.length);
 
 		// Which SA-analysis cases are covered ?
-		if (runner != null) {
+		if (fRunner != null) {
 			
 			Set<ARule> saChecks = new TreeSet<ARule>(new Comparator<ARule> ( ){
 				public int compare(ARule o1, ARule o2) {
@@ -141,7 +140,7 @@ public class CmdValidator {
 				} 
 			});
 			
-			saChecks.addAll( runner.getSAChecks() );
+			saChecks.addAll( fRunner.getSAChecks() );
 			ps.printf(" <sa-cases>");			
 			for(ARule a : saChecks) {
 				ps.printf("%1$d,", a.sa() );				
@@ -158,9 +157,12 @@ public class CmdValidator {
 				if (value == null) {
 					continue;
 				}
-				String v = value.toString();
-				
-				ps.printf("  <%1$s>%2$s</%1$s>\n",entry.getKey(), toSafeXML(v) );				
+				String v = toSafeXML(value);
+				if (value == null || "null".equals(v)) {
+					v = toSafeXML(value.toString());
+				}
+					
+				ps.printf("  <%1$s>%2$s</%1$s>\n",entry.getKey(), v);				
 			}
 			ps.println(" </problem>\n");
 		}
@@ -169,17 +171,25 @@ public class CmdValidator {
 	}
 	
 
-	protected String toSafeXML ( String value ) {		
-		if (value.indexOf("&") >= 0) {
-			value = value.replaceAll("\\&", "&amp;");
+	protected String toSafeXML ( Object value ) {
+		if (value instanceof String) {
+			return toSafeXML ((String) value);
 		}
-		if (value.indexOf("<") >= 0) {
-			value = value.replaceAll("\\<", "&lt;");
+		return toSafeXML(JavaScriptSource.getInstance().toSource(value));
+	}
+	
+	
+	protected String toSafeXML ( String s)  {			
+		if (s.indexOf("&") >= 0) {
+			s = s.replaceAll("\\&", "&amp;");
 		}
-		if (value.indexOf(">") >= 0) {
-			value = value.replaceAll("\\>", "&gt;");
+		if (s.indexOf("<") >= 0) {
+			s = s.replaceAll("\\<", "&lt;");
 		}
-		return value;
+		if (s.indexOf(">") >= 0) {
+			s = s.replaceAll("\\>", "&gt;");
+		}
+		return s;
 	}
 	
 	
@@ -205,14 +215,14 @@ public class CmdValidator {
 			
 			IProblem problems[] = validate (aFile);
 			
-			log(problems,fRunner,OUT);
+			log(problems,OUT);
 			
 			File log = new File(aFile + ".log.xml");			
 			OUT.printf("Writing to log %1$s\n\n", log );
 			PrintStream ps = null;
 			try {
 				ps = new PrintStream( log );
-				log(problems, fRunner, ps);
+				log(problems, ps);
 			} catch (FileNotFoundException e) {
 				// 
 			} finally {

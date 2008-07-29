@@ -17,13 +17,15 @@ Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.3.0",
  org.eclipse.wst.wsdl.validation;bundle-version="1.1.0",
  org.eclipse.wst.xml.core;bundle-version="1.1.0",
  javax.wsdl;bundle-version="1.4.0",
- org.junit4;bundle-version="4.3.0";resolution:=optional
+ org.eclipse.bpel.xpath10,
+ org.junit
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: bin
 Export-Package: org.eclipse.bpel.validator,
  org.eclipse.bpel.validator.adapters,
  org.eclipse.bpel.validator.factory,
+ org.eclipse.bpel.validator.helpers,
  org.eclipse.bpel.validator.model,
  org.eclipse.bpel.validator.plt,
  org.eclipse.bpel.validator.rules,
@@ -32,4 +34,5 @@ Export-Package: org.eclipse.bpel.validator,
  org.eclipse.bpel.validator.unsupported,
  org.eclipse.bpel.validator.vprop,
  org.eclipse.bpel.validator.wsdl,
+ org.eclipse.bpel.validator.xpath,
  org.eclipse.bpel.validator.xpath0

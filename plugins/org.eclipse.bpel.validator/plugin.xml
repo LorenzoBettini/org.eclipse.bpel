@@ -88,7 +88,7 @@
             name="Unsupported Factory">
       </factory>
       <factory
-            class="org.eclipse.bpel.validator.xpath0.Factory"
+            class="org.eclipse.bpel.validator.xpath.Factory"
             name="XPath Validator Factory"/>
    </extension>
    <extension

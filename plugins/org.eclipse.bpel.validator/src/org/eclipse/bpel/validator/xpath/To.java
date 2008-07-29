@@ -12,9 +12,10 @@ package org.eclipse.bpel.validator.xpath;
 
 import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.jaxen.expr.Expr;
-import org.jaxen.expr.PathExpr;
-import org.jaxen.expr.VariableReferenceExpr;
+
+import org.eclipse.bpel.xpath10.Expr;
+import org.eclipse.bpel.xpath10.PathExpr;
+import org.eclipse.bpel.xpath10.VariableReferenceExpr;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -43,7 +44,7 @@ public class To extends XPathValidator {
 	public void rule_CheckVariableReference_15 () {
 				
 		IProblem problem;
-		Expr expr = xpathExpr.getRootExpr();
+		Expr expr = xpathExpr;
 		
 		if (expr instanceof VariableReferenceExpr) {
 			mVisitor.visit( expr );

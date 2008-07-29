@@ -11,17 +11,11 @@
 package org.eclipse.bpel.validator.test;
 
 
-import java.io.File;
-
 import junit.framework.Assert;
+import junit.framework.TestCase;
 
-import org.eclipse.bpel.validator.Main;
-import org.eclipse.bpel.validator.helpers.CmdValidator;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -31,66 +25,48 @@ import org.junit.Test;
 
 @SuppressWarnings("nls")
 
-public class TestRunner  {
+public class TestRunner extends TestCase {
 
-	static Main fValidator ;
+	SimpleRunner fRunner;
 	
-	/** The home folder */
-	static File fHome;
+	String fTestId = "t2";
 	
-	/** BPEL source file */
-	static File fSrc;
+	static ThreadLocal<SimpleRunner> fRunners = new ThreadLocal<SimpleRunner>();
+		
 	
-	/** Problems generated from the validation */
-	static IProblem[] fProblems;
-	
-	/** Problems read from the problems file */
-	static IProblem[] fExpectedProblems;	
-	
-
+	public void setTestId (String id) {
+		fTestId = id;
+	}
 	
 	/**
-	 * @throws java.lang.Exception
+	 * @throws Exception
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		
-		
-		fValidator = new Main();
-		String home = System.getenv( "BPEL_TEST_HOME");
-		String testCase = System.getenv( "BPEL_TEST_CASE");
-		
-		Assert.assertNotNull("BPEL_TEST_HOME is undefined",home);
-		Assert.assertNotNull("BPEL_TEST_CASE is undefined",testCase);
-		
-		fHome = new File (home);
-		Assert.assertTrue(fHome + " does not exist", fHome.exists() );
-				
-		Assert.assertTrue(fHome + " is not a directory", fHome.isDirectory() );
-				
-		fSrc = new File (fHome + "/tests/" + testCase + "/" + testCase + ".bpel");	
-		
-		fExpectedProblems = CmdValidator.readMessages( new File ( fSrc + ".xml") );
-		
-		fProblems = fValidator.validate( fSrc );
-		
+	@Override
+	public void setUp () throws Exception {		
+		fRunner = fRunners.get();
+		if (fRunner == null) {			
+			fRunner =  new SimpleRunner(fTestId) ;
+			fRunners.set( fRunner );
+			fRunner.run();
+		}
 	}
-
+	
 	/**
-	 * @throws java.lang.Exception
+	 * @throws Exception
 	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+	@Override
+	public void tearDown () throws Exception {
+		
 	}
-
 	
+	/** There should be some errors after validating 
+	 * @throws Exception 
+	 **/
 	
-	/** There should be some errors after validating */
-	@Test()
-	public void Validate () throws Exception {					
+	public void testValidate () throws Exception {					
 		
 		Assert.assertTrue("Problems have been found", 
-				fProblems.length > 0);
+				fRunner.fProblems.length > 0);
 	}
 
 	/**
@@ -98,8 +74,8 @@ public class TestRunner  {
 	 * @throws Exception
 	 */
 	
-	@Test()
-	public void CheckUndefinedMessages () throws Exception {
+	
+	public void testCheckUndefinedMessages () throws Exception {
 
 		checkProblems(IProblem.MESSAGE, new IFilter<String> () {
 			public boolean select(String m) {
@@ -113,8 +89,8 @@ public class TestRunner  {
 	 * @throws Exception 
 	 */
 	
-	@Test()
-	public void CheckModelPointers () throws Exception {
+	
+	public void testCheckModelPointers () throws Exception {
 				
 		checkProblems("address.model", new IFilter<String> () {
 			public boolean select(String m) {
@@ -134,8 +110,8 @@ public class TestRunner  {
 	 * 
 	 * @throws Exception
 	 */
-	@Test()
-	public void CheckErrorCode () throws Exception {
+	
+	public void testCheckErrorCode () throws Exception {
 				
 		checkProblems(IProblem.SEVERITY, new IFilter<String> () {
 			public boolean select(String m) {
@@ -158,8 +134,8 @@ public class TestRunner  {
 	 * @throws Exception
 	 */
 	
-	@Test()
-	public void CheckIfRuleIsSet () throws Exception {
+	
+	public void testCheckIfRuleIsSet () throws Exception {
 				
 		checkProblems(IProblem.RULE, new IFilter<String> () {
 			public boolean select(String m) {
@@ -175,11 +151,10 @@ public class TestRunner  {
 	 * 
 	 * @throws Exception
 	 */
-	
-	@Test
-	public void CompareProblemsToExpectedProblems () throws Exception {
 		
-		Assert.assertEquals(fExpectedProblems.length, fProblems.length);
+	public void testCompareProblemsToExpectedProblems () throws Exception {
+		
+		Assert.assertEquals(fRunner.fExpectedProblems.length, fRunner.fProblems.length);
 		
 		String attribtues [] = {
 				IProblem.LINE_NUMBER,
@@ -197,9 +172,9 @@ public class TestRunner  {
 		
 		int matched = 0;
 		
-		for(IProblem p : fProblems) {
+		for(IProblem p : fRunner.fProblems) {
 	
-			for(IProblem ep : fExpectedProblems) {
+			for(IProblem ep : fRunner.fExpectedProblems) {
 	
 				boolean bSame = true;
 				
@@ -238,13 +213,13 @@ public class TestRunner  {
 		
 		
 		// 
-		Assert.assertEquals("Matched to Expected problems: " , fExpectedProblems.length, matched);
+		Assert.assertEquals("Matched to Expected problems: " , fRunner.fExpectedProblems.length, matched);
 	}
 		
 		
 	void checkProblems ( String attr, IFilter<String> filter) {		
 		int count = 0;
-		for(IProblem p : fProblems) {
+		for(IProblem p : fRunner.fProblems) {
 			String m = p.getAttribute(attr,null).toString() ;
 			if (filter.select(m)) {
 				count += 1;

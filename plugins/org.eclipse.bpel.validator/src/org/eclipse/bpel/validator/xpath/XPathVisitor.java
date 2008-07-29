@@ -31,30 +31,10 @@ import org.eclipse.bpel.validator.model.IProblem;
 
 
 /**
- * Dependency on JAXEN 
+ * Dependency on XPath 1.0 semantics tree model 
  */
 
-import org.jaxen.expr.AllNodeStep;
-import org.jaxen.expr.BinaryExpr;
-import org.jaxen.expr.CommentNodeStep;
-import org.jaxen.expr.EqualityExpr;
-import org.jaxen.expr.FilterExpr;
-import org.jaxen.expr.FunctionCallExpr;
-import org.jaxen.expr.LiteralExpr;
-import org.jaxen.expr.LocationPath;
-import org.jaxen.expr.LogicalExpr;
-import org.jaxen.expr.NameStep;
-import org.jaxen.expr.NumberExpr;
-import org.jaxen.expr.PathExpr;
-import org.jaxen.expr.Predicate;
-import org.jaxen.expr.ProcessingInstructionNodeStep;
-import org.jaxen.expr.RelationalExpr;
-
-import org.jaxen.expr.TextNodeStep;
-import org.jaxen.expr.UnaryExpr;
-import org.jaxen.expr.UnionExpr;
-import org.jaxen.expr.VariableReferenceExpr;
-import org.jaxen.saxpath.Axis;
+import org.eclipse.bpel.xpath10.*;
 
 /**
  * Dependency on the ParserTool

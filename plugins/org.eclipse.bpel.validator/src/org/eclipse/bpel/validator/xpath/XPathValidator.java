@@ -31,27 +31,10 @@ import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Validator;
 import org.eclipse.bpel.validator.tools.ParserTool;
 
-/**
- * JAXEN dependency here
- */
+import org.eclipse.bpel.xpath10.*;
+import org.eclipse.bpel.xpath10.parser.XPath10Exception;
+import org.eclipse.bpel.xpath10.parser.XPath10Factory;
 
-import org.jaxen.JaxenHandler;
-import org.jaxen.expr.AdditiveExpr;
-import org.jaxen.expr.EqualityExpr;
-import org.jaxen.expr.Expr;
-import org.jaxen.expr.FunctionCallExpr;
-import org.jaxen.expr.LiteralExpr;
-import org.jaxen.expr.LogicalExpr;
-import org.jaxen.expr.MultiplicativeExpr;
-import org.jaxen.expr.NumberExpr;
-import org.jaxen.expr.RelationalExpr;
-import org.jaxen.expr.UnaryExpr;
-import org.jaxen.expr.VariableReferenceExpr;
-import org.jaxen.expr.XPathExpr;
-import org.jaxen.saxpath.SAXPathException;
-import org.jaxen.saxpath.XPathReader;
-import org.jaxen.saxpath.XPathSyntaxException;
-import org.jaxen.saxpath.helpers.XPathReaderFactory;
 
 /**
  * This validator validates the XPath expressions used in the BPEL source.
@@ -100,7 +83,7 @@ public class XPathValidator extends Validator {
 	String exprStringTrimmed;
 
 	/** the parsed XPath expression */
-	XPathExpr xpathExpr;
+	Expr xpathExpr;
 
 	/** For static analysis */
 	XPathVisitor mVisitor;
@@ -160,25 +143,13 @@ public class XPathValidator extends Validator {
 		IProblem problem;
 
 		try {
-			XPathReader reader = XPathReaderFactory.createReader();
-			JaxenHandler handler = new JaxenHandler();
-			reader.setXPathHandler(handler);
-			reader.parse(exprString);
-			xpathExpr = handler.getXPathExpr();
-		} catch (XPathSyntaxException e) {
+			xpathExpr = XPath10Factory.create( exprString );			
+		} catch (XPath10Exception e) {
 			problem = createError();
 			problem.fill("XPATH_EXPRESSION_SYNTAX", toString(mNode.nodeName()) ,
 					exprStringTrimmed, fExprByNode, e.getMessage());
 			repointOffsets(problem, e.getPosition(), e.getPosition() + 3);
 			// TODO: Position in the expression ... ?
-			disableRules();
-
-		} catch (SAXPathException e) {
-			problem = createError();
-			problem.fill("XPATH_EXPRESSION_SYNTAX", toString(mNode.nodeName()),
-					exprStringTrimmed, fExprByNode, e.getMessage());
-			repointOffsets(problem, 1, 7);
-
 			disableRules();
 		}
 	}
@@ -361,7 +332,7 @@ public class XPathValidator extends Validator {
 	public void checkDeadlineExpression() {
 
 		IProblem problem;
-		Expr expr = xpathExpr.getRootExpr();
+		Expr expr = xpathExpr;
 
 		if (expr instanceof LiteralExpr) {
 			LiteralExpr lexpr = (LiteralExpr) expr;
@@ -392,7 +363,7 @@ public class XPathValidator extends Validator {
 	public void checkDurationExpression() {
 
 		IProblem problem;
-		Expr expr = xpathExpr.getRootExpr();
+		Expr expr = xpathExpr ;
 		if (expr instanceof LiteralExpr) {
 			LiteralExpr lexpr = (LiteralExpr) expr;
 			try {
@@ -421,7 +392,7 @@ public class XPathValidator extends Validator {
 
 	public void checkBooleanExpression() {
 
-		Expr expr = xpathExpr.getRootExpr();
+		Expr expr = xpathExpr ;
 
 		IProblem problem;
 
@@ -467,7 +438,7 @@ public class XPathValidator extends Validator {
 	public void checkIntegerExpression() {
 
 		IProblem problem;
-		Expr expr = xpathExpr.getRootExpr();
+		Expr expr = xpathExpr;
 
 		if (expr instanceof MultiplicativeExpr) {
 			mVisitor.visit((MultiplicativeExpr) expr);

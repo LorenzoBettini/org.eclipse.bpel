@@ -84,7 +84,7 @@ public class Validator implements IValidator {
 			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(f);
 			if (resource == null || resource.getType() != IResource.FILE) {
 				p("File " + f + " does not exist and cannot be validated.");
-				return ;
+				continue ;
 			}
 			
 			if (mechanism == 1) {

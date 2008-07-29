@@ -631,7 +631,7 @@ public class Validator implements IConstants {
 	 */
 	
 	public <T extends Object> T getValue ( Object key ) {
-		return getValue( key , null );
+		return (T) getValue( key , null );
 	}
 
 	

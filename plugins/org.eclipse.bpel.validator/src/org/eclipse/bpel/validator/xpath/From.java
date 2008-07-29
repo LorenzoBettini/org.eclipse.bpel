@@ -11,7 +11,8 @@
 package org.eclipse.bpel.validator.xpath;
 
 import org.eclipse.bpel.validator.model.ARule;
-import org.jaxen.expr.FunctionCallExpr;
+
+import org.eclipse.bpel.xpath10.FunctionCallExpr;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -35,7 +36,7 @@ public class From extends XPathValidator {
 		order = 15
 	)
 	public void CheckGeneralExpression () {	
-		mVisitor.visit(xpathExpr.getRootExpr());				
+		mVisitor.visit( xpathExpr );				
 	}
 	
 	

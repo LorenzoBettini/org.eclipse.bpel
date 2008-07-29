@@ -15,32 +15,9 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jaxen.JaxenHandler;
-import org.jaxen.expr.AdditiveExpr;
-import org.jaxen.expr.AllNodeStep;
-import org.jaxen.expr.CommentNodeStep;
-import org.jaxen.expr.EqualityExpr;
-import org.jaxen.expr.Expr;
-import org.jaxen.expr.FilterExpr;
-import org.jaxen.expr.FunctionCallExpr;
-import org.jaxen.expr.LiteralExpr;
-import org.jaxen.expr.LocationPath;
-import org.jaxen.expr.LogicalExpr;
-import org.jaxen.expr.MultiplicativeExpr;
-import org.jaxen.expr.NameStep;
-import org.jaxen.expr.NumberExpr;
-import org.jaxen.expr.PathExpr;
-import org.jaxen.expr.Predicate;
-import org.jaxen.expr.ProcessingInstructionNodeStep;
-import org.jaxen.expr.RelationalExpr;
-import org.jaxen.expr.TextNodeStep;
-import org.jaxen.expr.UnaryExpr;
-import org.jaxen.expr.UnionExpr;
-import org.jaxen.expr.VariableReferenceExpr;
-import org.jaxen.expr.XPathExpr;
-import org.jaxen.saxpath.XPathReader;
-import org.jaxen.saxpath.helpers.XPathReaderFactory;
-
+import org.eclipse.bpel.xpath10.*;
+import org.eclipse.bpel.xpath10.parser.XPath10Exception;
+import org.eclipse.bpel.xpath10.parser.XPath10Factory;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -83,19 +60,19 @@ public class Main {
 				continue;
 			}
 			
-			XPathExpr expr = null;
-			try {
-				XPathReader reader = XPathReaderFactory.createReader();	       
-			    JaxenHandler handler = new JaxenHandler();		       
-			    reader.setXPathHandler( handler );		       
-			    reader.parse( xpath );
-				expr = handler.getXPathExpr();
-			} catch (Throwable t) {
-				pl("error: cannot create XPath expression because {0}",t.getMessage()); //$NON-NLS-1$
+			Expr expr = null;
+			try {			    
+				expr = XPath10Factory.create ( xpath );
+			} catch (XPath10Exception t) {
+				pl("error: ... cannot create XPath expression"); //$NON-NLS-1$
+				System.out.println(xpath);
+				for(int i=0,j=t.getPosition(); i <= j; i++) {
+					System.out.print(" ");
+				}
+				pl("^^^ {0}",t.getMessage());
 				continue;
-			}											
-			Expr simplified = expr.getRootExpr().simplify();					
-			visitor.visit( simplified );			
+			}																		
+			visitor.visit( expr );			
 		}		
 	}
 	
@@ -418,8 +395,10 @@ public class Main {
 				visit ( (AdditiveExpr) expr);
 			} else if (expr instanceof List) {
 				visitList((List)expr);
-			} else {
+			} else if (expr != null) {
 				out("Panic: Unknown expression kind {0} ",expr.getClass().getName()); //$NON-NLS-1$
+			} else {
+				out("null - unset");
 			}
 			
 			offset -= 2;

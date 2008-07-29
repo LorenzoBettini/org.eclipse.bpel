@@ -68,7 +68,7 @@ public class Problem implements IProblem {
 	 */
 	
 	@SuppressWarnings("unchecked")
-	public <T> T getAttribute (String attributeName) {
+	public <T extends Object> T getAttribute (String attributeName) {
 		Object value = mMap.get(attributeName);
 		return (T) value;	
 	}
@@ -77,9 +77,13 @@ public class Problem implements IProblem {
 	/**
 	 * @see org.eclipse.bpel.validator.model.IProblem#getAttribute(java.lang.String, java.lang.Object)
 	 */
-	public <T> T getAttribute(String attributeName, T defaultValue) {
-		T value = getAttribute(attributeName);
-		return (value == null ? defaultValue : value );
+	@SuppressWarnings("unchecked")
+	public <T extends Object> T getAttribute(String attributeName, T defaultValue) {
+		Object value = mMap.get(attributeName);
+		if (value == null) {
+			return defaultValue;
+		}
+		return (T) value;
 	} 
 
 	/** (non-Javadoc)
@@ -213,8 +217,7 @@ public class Problem implements IProblem {
 			return def;
 		}
 		Class<?> clazz = fContext.getClass();
-		
-		while (clazz != null && clazz != Object.class) {
+		do {		
 			String bundleName = clazz.getPackage().getName() + ".messages";
 			Messages msg = Messages.getMessages( bundleName );
 			if (msg.containsKey(key)) {
@@ -226,8 +229,9 @@ public class Problem implements IProblem {
 				// return the message
 				return msg.get(key);
 			}
-			clazz = clazz.getSuperclass();			
-		}
+			clazz = clazz.getSuperclass();		
+		} while (clazz != null && clazz != Object.class);
+		
 		return def;		
 	}
 	

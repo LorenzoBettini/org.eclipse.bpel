@@ -41,7 +41,6 @@ public interface IProblem  {
 	 * @see #SEVERITY_ERROR
 	 * @see #SEVERITY_WARNING
 	 * @see #SEVERITY_INFO
-	 * @see #getAttribute(String, int)
 	 */
 	public static final String SEVERITY = "severity"; //$NON-NLS-1$
 
@@ -128,21 +127,18 @@ public interface IProblem  {
 	/** 
 	 * Error severity constant (value 2) indicating an error state.
 	 *
-	 * @see #getAttribute(String, int)
 	 */
 	public static final int SEVERITY_ERROR = 2;
 
 	/** 
 	 * Warning severity constant (value 1) indicating a warning.
 	 *
-	 * @see #getAttribute(String, int)
 	 */
 	public static final int SEVERITY_WARNING = 1;
 
 	/** 
 	 * Info severity constant (value 0) indicating information only.
 	 *
-	 * @see #getAttribute(String, int)
 	 */
 	public static final int SEVERITY_INFO = 0;
 

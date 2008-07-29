@@ -18,19 +18,20 @@ import java.lang.reflect.Modifier;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.adapters.AdapterRegistry;
+import org.eclipse.bpel.model.adapters.BasicBPELAdapterFactory;
 import org.eclipse.bpel.model.resource.BPELResourceFactoryImpl;
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.bpel.validator.helpers.CmdValidator;
 import org.eclipse.bpel.validator.helpers.GetOpt;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.Runner;
-import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.internal.util.WSDLResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
@@ -45,11 +46,9 @@ import org.w3c.dom.Element;
 @SuppressWarnings("nls")
 
 public class Main extends CmdValidator {
-
-	IAdapterManager fManager ;
+	
 	ResourceSet fResourceSet;
-	
-	
+		
 	/**
 	 * Create a brand new 
 	 */
@@ -58,19 +57,12 @@ public class Main extends CmdValidator {
 	
 		super();
 		
-		// Create the Quasi-Eclipse environment ...
-		
-		fManager = AdapterManagerHelper.getAdapterManager();
-		
-		IAdapterFactory factory = new org.eclipse.bpel.validator.factory.AdapterFactory();		
-		Class<?> list[] = { Element.class, EObject.class };		
-		for(Class<?> c : list) {
-			fManager.registerAdapters(factory, c);
-		}				
-		
-		
+		// Create the Quasi-Eclipse environment ...							
+		AdapterRegistry.INSTANCE.registerAdapterFactory( new org.eclipse.bpel.validator.factory.AdapterFactory() );
+		AdapterRegistry.INSTANCE.registerAdapterFactory( BPELPackage.eINSTANCE, BasicBPELAdapterFactory.INSTANCE );
+				
 		//	Create a resource set.
-		fResourceSet = new ResourceSetImpl();
+		fResourceSet = new BPELResourceSetImpl();
 	    
 		// Register the resource factories for .bpel, .wsdl, and .xsd resources.
 		//   - bpel reads BPEL resources (our model)
@@ -124,7 +116,7 @@ public class Main extends CmdValidator {
 		linkModels(process);
 				
 		// Process as INode 
-		INode node = (INode) fManager.getAdapter( process.getElement(), INode.class );
+		INode node = AdapterRegistry.INSTANCE.adapt( process.getElement(), INode.class );
 		
 		// Step 3. Run it
 		fRunner = new Runner ( new ModelQuery() , node);

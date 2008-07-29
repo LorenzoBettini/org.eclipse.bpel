@@ -13,10 +13,11 @@ package org.eclipse.bpel.validator.xpath;
 import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.jaxen.expr.Expr;
-import org.jaxen.expr.FunctionCallExpr;
-import org.jaxen.expr.LocationPath;
-import org.jaxen.expr.VariableReferenceExpr;
+
+import org.eclipse.bpel.xpath10.Expr;
+import org.eclipse.bpel.xpath10.FunctionCallExpr;
+import org.eclipse.bpel.xpath10.LocationPath;
+import org.eclipse.bpel.xpath10.VariableReferenceExpr;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -57,7 +58,7 @@ public class Query extends XPathValidator {
 	public void CheckQuery () {			
 		
 		IProblem problem;
-		Expr expr = xpathExpr.getRootExpr();
+		Expr expr = xpathExpr ;
 		
 		if (expr instanceof LocationPath) {
 			

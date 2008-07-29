@@ -29,8 +29,6 @@ import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
 import org.eclipse.bpel.validator.model.Selector;
 import org.eclipse.bpel.validator.model.UndefinedNode;
 import org.eclipse.bpel.validator.model.XNotImplemented;
-
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
