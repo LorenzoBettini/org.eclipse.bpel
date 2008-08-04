@@ -364,12 +364,12 @@ public class Rules  {
 		
 		
 		// Hmm this should be somehow done in a different way ...
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.rules.Factory () );		
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.wsdl.Factory () );
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.plt.Factory () );
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.vprop.Factory () );
-		// RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath.Factory () );
-		RuleFactory.registerFactory( new org.eclipse.bpel.validator.xpath0.Factory () );
+		RuleFactory.INSTANCE.registerFactory( org.eclipse.bpel.validator.rules.Factory.INSTANCE );		
+		RuleFactory.INSTANCE.registerFactory( org.eclipse.bpel.validator.wsdl.Factory.INSTANCE );
+		RuleFactory.INSTANCE.registerFactory( org.eclipse.bpel.validator.plt.Factory.INSTANCE );
+		RuleFactory.INSTANCE.registerFactory( org.eclipse.bpel.validator.vprop.Factory.INSTANCE );
+		// RuleFactory.INSTANCE.registerFactory( new org.eclipse.bpel.validator.xpath.Factory.INSTANCE );
+		RuleFactory.INSTANCE.registerFactory( org.eclipse.bpel.validator.xpath0.Factory.INSTANCE );
 		
 		
 		// 
@@ -484,7 +484,7 @@ public class Rules  {
 		
 		for(QName qtype: nodes) {
 			
-			Validator obj = RuleFactory.createValidator( qtype );
+			Validator obj = RuleFactory.INSTANCE.createValidator( qtype );
 			
 			if (obj == null) {
 				p("<li><div class='missing'>{0} - no validator.</div></li>",  qtype); //$NON-NLS-1$

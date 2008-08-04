@@ -31,9 +31,16 @@ import org.eclipse.bpel.validator.model.Validator;
 public class Factory implements IFactory<Validator> {
 
 	static final String PACKAGE_NAME = Factory.class.getPackage().getName();
+
+	/**
+	 * Instance
+	 */
+	public static final IFactory<Validator> INSTANCE = new Factory();
 	
 	Logger mLogger = Logger.getLogger(getClass().getName());
 		
+
+	
 	/** (non-Javadoc)
 	 * @see org.eclipse.bpel.validator.model.IFactory#create(javax.xml.namespace.QName)
 	 */

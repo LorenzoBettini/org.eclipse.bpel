@@ -72,7 +72,7 @@ public class BasicAdapter extends AbstractStatefulAdapter
 		
 		EObject obj = (EObject) getTarget();
 		QName qname = new QName(IConstants.XMLNS_BPEL,obj.eClass().getName());
-		return RuleFactory.createValidator( qname );
+		return RuleFactory.INSTANCE.createValidator( qname );
 	}
 	
 	

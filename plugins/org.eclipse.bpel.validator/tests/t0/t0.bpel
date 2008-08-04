@@ -11,6 +11,5 @@
 	<bpws:partnerLinks></bpws:partnerLinks>
 
 	<bpws:variables></bpws:variables>
-	<bpws:sequence name="main">   	    
-	</bpws:sequence>
+	<bpws:sequence name="main"></bpws:sequence>
 </bpws:process>

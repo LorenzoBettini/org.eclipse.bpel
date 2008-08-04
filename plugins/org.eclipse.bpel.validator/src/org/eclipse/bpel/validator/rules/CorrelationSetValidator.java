@@ -114,7 +114,7 @@ public class CorrelationSetValidator extends CValidator {
 		if (isEmptyOrWhitespace(fProperties)) {
 			problem = createError();
 			problem.fill("BPELC__UNSET_ATTRIBUTE",
-					mNode.nodeName(),
+					toString(mNode.nodeName()) ,
 					AT_PROPERTIES,					
 					KIND_NODE);
 			
@@ -154,7 +154,7 @@ public class CorrelationSetValidator extends CValidator {
 				
 				problem = createError();
 				problem.fill("BPELC__UNRESOLVED_ATTRIBUTE", 
-					mNode.nodeName(), AT_PROPERTIES, KIND_NODE , qName) ;
+					toString( mNode.nodeName() ), AT_PROPERTIES, KIND_NODE , qName ) ;
 				
 				continue;
 			} 
@@ -174,7 +174,7 @@ public class CorrelationSetValidator extends CValidator {
 			if (mModelQuery.check(IModelQueryLookups.TEST_IS_SIMPLE_TYPE, typeDef, null) == false) {
 				problem = createError();
 				problem.fill("BPELC_XSD__NOT_SIMPLE_TYPE",
-						mNode.nodeName(),
+						toString(mNode.nodeName()),
 						atType,
 						"text.property",
 						qName

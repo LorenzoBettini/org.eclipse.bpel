@@ -176,7 +176,7 @@ public class ScopeValidator extends CActivityValidator {
 				problem.fill("BPELC_SCOPE__ISOLATED",
 						toString(mNode.nodeName()),
 						ncName,
-						node.nodeName(),
+						toString(node.nodeName()),
 						node.getAttribute(AT_NAME)
 				);
 			}
@@ -219,7 +219,7 @@ public class ScopeValidator extends CActivityValidator {
 			problem.fill("BPELC_SCOPE__UNIQUE_NAME",
 					toString(mNode.nodeName()),
 					ncName,
-					scope.nodeName(),
+					toString(scope.nodeName()),
 					scope.getAttribute(AT_NAME)
 			);
 		}
@@ -255,7 +255,7 @@ public class ScopeValidator extends CActivityValidator {
 			problem.fill("BPELC_SCOPE__COMPENSATION_HANDLER",
 					toString(mNode.nodeName()),
 					ncName,
-					node.nodeName()
+					toString(node.nodeName())
 			);
 			
 		}

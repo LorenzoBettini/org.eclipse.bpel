@@ -11,6 +11,8 @@
 package org.eclipse.bpel.validator;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Collections;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
@@ -67,23 +69,34 @@ public class BPELReader {
 
 		URI uri = URI.createPlatformResourceURI (modelFile.getFullPath().toString());
 			
-		processResource = resourceSet.getResource(uri, true);
-	
+		processResource = resourceSet.getResource(uri, true);	
 		read(processResource, resourceSet);
-		readExtensions (processResource, resourceSet, modelFile);
+		
+		// readExtensions (processResource, resourceSet, modelFile);
 	}
 	
 	/**
 	 * @param file
 	 * @param resourceSet
 	 */
-	public void read (File file, ResourceSet  resourceSet) {
-		
-		//URI uri = URI.createPlatformResourceURI( file.getAbsolutePath() );
+	public void read (File file, ResourceSet  resourceSet) {		
 		URI uri = URI.createFileURI( file.getAbsolutePath() );
 		processResource = resourceSet.getResource(uri, true);
 		read(processResource , resourceSet );
-		readExtensions(processResource,resourceSet, file );
+		
+		// readExtensions(processResource,resourceSet, file );
+	}
+	
+	/**
+	 * @param file
+	 * @param resourceSet
+	 */
+	public void read (URL file, ResourceSet resourceSet)  {
+		URI uri = URI.createURI(file.toString());
+		processResource = resourceSet.getResource(uri, true);
+		read(processResource , resourceSet );
+		
+		// readExtensions(processResource,resourceSet, file );		
 	}
 	/**
 	 * Another public method for those who want to get the process resource
@@ -125,9 +138,9 @@ public class BPELReader {
 	
 	void readExtensions ( Resource resource, ResourceSet resourceSet, IFile modelFile) {
 		
-		IPath extensionsPath = modelFile.getFullPath().removeFileExtension().addFileExtension( EXTENSION_MODEL_EXTENSIONS );
-		URI extensionsUri = URI.createPlatformResourceURI(extensionsPath.toString());
-		IFile extensionsFile = ResourcesPlugin.getWorkspace().getRoot().getFile(extensionsPath);
+//		IPath extensionsPath = modelFile.getFullPath().removeFileExtension().addFileExtension( EXTENSION_MODEL_EXTENSIONS );
+//		URI extensionsUri = URI.createPlatformResourceURI(extensionsPath.toString());
+//		IFile extensionsFile = ResourcesPlugin.getWorkspace().getRoot().getFile(extensionsPath);
 
 		
 //		try {

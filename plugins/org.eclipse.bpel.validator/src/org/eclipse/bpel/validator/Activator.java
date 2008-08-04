@@ -85,7 +85,7 @@ public class Activator extends Plugin {
 						log(e1);
 					}
 					if (obj != null && obj instanceof IFactory) {
-						RuleFactory.registerFactory( (IFactory) obj);
+						RuleFactory.INSTANCE.registerFactory( (IFactory) obj);
 					}
 				}
 			}

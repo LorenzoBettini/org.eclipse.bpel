@@ -267,7 +267,7 @@ public class DOMNodeAdapter implements INode {
 		
 	Validator createValidator () {		
 		QName qname = new QName ( targetElement.getNamespaceURI(), targetElement.getLocalName() );
-		return RuleFactory.createValidator( qname );
+		return RuleFactory.INSTANCE.createValidator( qname );
 	}
 
 	/**

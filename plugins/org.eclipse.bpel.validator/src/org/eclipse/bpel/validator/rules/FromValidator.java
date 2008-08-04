@@ -445,7 +445,7 @@ public class FromValidator extends CValidator {
 			/** 2. If no, then create the validator. We use the normal factory mechanism for */ 
 			QName qname = new QName( fExpressionLanguage, mNode.nodeName().getLocalPart() );
 		
-			fExprValidator = RuleFactory.createValidator ( qname ); 
+			fExprValidator = RuleFactory.INSTANCE.createValidator ( qname ); 
 		
 			IProblem problem;
 		

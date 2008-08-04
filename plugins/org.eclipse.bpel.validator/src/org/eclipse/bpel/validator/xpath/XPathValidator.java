@@ -931,8 +931,7 @@ public class XPathValidator extends Validator {
 	}
 
 	protected String lookupNamespace(String prefix) {
-		return mModelQuery.lookup(mNode,
-				IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS, prefix, null);
+		return mModelQuery.lookup(mNode,IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS, prefix, null);
 	}
 
 	/**

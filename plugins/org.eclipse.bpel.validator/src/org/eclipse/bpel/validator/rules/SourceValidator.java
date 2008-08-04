@@ -211,7 +211,7 @@ public class SourceValidator extends CValidator {
 			problem.fill("BPELC_LINK__CROSS_REPEATABLE",
 					toString(mNode.nodeName()),
 					ncName,
-					fRepeatableConstructNode.nodeName(),
+					toString(fRepeatableConstructNode.nodeName()),
 					fRepeatableConstructNode.getAttribute(AT_NAME)
 			);			
 		}		
@@ -284,7 +284,7 @@ public class SourceValidator extends CValidator {
 				problem.fill("BPELC_LINK__OUTBOUND_ONLY",
 						toString(mNode.nodeName()),
 						ncName,
-						fFaultHandlerNode.nodeName()
+						toString(fFaultHandlerNode.nodeName()) 
 					);
 
 				break;

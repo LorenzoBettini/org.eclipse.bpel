@@ -11,13 +11,13 @@
 package org.eclipse.bpel.validator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
 
+import org.eclipse.bpel.fnmeta.ClasspathFunctionRegistryLoader;
+import org.eclipse.bpel.fnmeta.FunctionLibrary;
+import org.eclipse.bpel.fnmeta.model.util.FMResourceFactoryImpl;
+import org.eclipse.bpel.fnmeta.model.util.FMResourceImpl;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
@@ -86,10 +86,17 @@ public class Main extends CmdValidator {
 		//   - xsd reads WSDL resources (from wst project)	
 		
 		
-		// Register the real model query interface, that knows about EMF
-		// world as well.
+		fResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+				"fnmeta", new FMResourceFactoryImpl ()
+		);
 		
-		ModelQueryImpl.register( new ModelQuery() );
+		// Register the real model query interface, that knows about EMF world as well.		
+		ModelQueryImpl.register( new ModelQuery() );	
+		
+		// The function library is late bound. When eclipse is running, this information
+		// is registered via the plugin's descriptor. On its own, we have to do it another way.
+		
+		FunctionLibrary.INSTANCE.registerLoader( new ClasspathFunctionRegistryLoader (fResourceSet) );
 	}
 	
 	
@@ -109,8 +116,42 @@ public class Main extends CmdValidator {
 		Process process = reader.getProcess();
 		
 		if (process == null) {
-			OUT.printf("Error: Cannot read BPEL Process in %1$s",file);	
-			return EMPTY_RESULT;
+			// If the file cannot be fetched in the resource set it's not because it does not exist necessarily.
+			// EMF resource sets will not produce a corresponding EMF model if the process (top node) has the "wrong" 
+			// namespace. In this case, we fall back to DOM only validation.
+			return super.validate(file);
+		}
+		
+		// Step 2. Preparation for the validator.
+		linkModels(process);
+				
+		// Process as INode 
+		INode node = AdapterRegistry.INSTANCE.adapt( process.getElement(), INode.class );
+		
+		// Step 3. Run it
+		fRunner = new Runner ( new ModelQuery() , node);
+		return fRunner.run();		
+	}
+		
+	/**
+	 * @param source
+	 * @return the validation result
+	 */
+	
+	@Override
+	public IProblem[] validate (URL source) {
+		//
+		//Step 1. Read the BPEL process using the Model API.
+		BPELReader reader = new BPELReader();
+			
+		reader.read( source, fResourceSet );
+		Process process = reader.getProcess();
+		
+		if (process == null) {
+			// If the file cannot be fetched in the resource set it's not because it does not exist necessarily.
+			// EMF resource sets will not produce a corresponding EMF model if the process (top node) has the "wrong" 
+			// namespace. In this case, we fall back to DOM only validation.
+			return super.validate(source);
 		}
 		// Step 2. Preparation for the validator.
 		linkModels(process);
@@ -123,6 +164,7 @@ public class Main extends CmdValidator {
 		return fRunner.run();		
 	}
 		
+	
 	void linkModels ( EObject process ) {
 		
 		// 
@@ -146,120 +188,7 @@ public class Main extends CmdValidator {
 		}
 	}
 	
-	
-	/**
-	 * @param file
-	 */
-	void dumpModel(File file, PrintStream ps ) {
 		
-		// Step 1. Read the BPEL process using the Model API.
-		BPELReader reader = new BPELReader();
-			
-		reader.read( file, fResourceSet );
-		Process process = reader.getProcess();
-		
-		
-		if (process == null) {
-			OUT.printf("Error: Cannot read BPEL Process in %1$s",file);
-			return ;
-		}
-		
-		ps.println("<dump xmlns='http://emf/dump'>");
-		
-		Iterator<EObject> emfIterator = process.eAllContents();
-		int count = 0;
-		while (emfIterator.hasNext()) {
-		
-			EObject eObj = emfIterator.next();
-			count += 1;
-			
-			ps.println("<EObject count=\"" + count + "\">" + toSafeXML(eObj.toString()) );
-
-			Method methods [] = eObj.getClass().getMethods();
-			for(Method m : methods) {
-				
-				if (	(m.getModifiers() & Modifier.PUBLIC) != Modifier.PUBLIC ||
-						(m.getModifiers() & Modifier.STATIC) == Modifier.STATIC || 
-							((m.getName().startsWith("get")) == false &&
-							 (m.getName().startsWith("is")) == false) ||
-						(m.getReturnType() == null) ||
-						(m.getParameterTypes().length > 0)) {				
-					continue;
-				}
-				
-				
-								
-				
-				Object result = null ;
-				// otherwise an interesting method to call ... so
-				try {
-					result = m.invoke(eObj, null);
-				} catch (Throwable t) {				
-					continue;
-				}
-				if (result == null) {					
-					continue;				
-				}
-				
-				ps.print("<" + m.getName() + " result='" + result.getClass() + "'");
-				EObject eObjResult = null;
-				if (result instanceof EObject) {
-					eObjResult = (EObject) result;
-					ps.print(" isProxy='" + eObjResult.eIsProxy() + "'");
-				}
-				
-				ps.print(">");
-				
-				if (result instanceof List) {
-					
-				} else {
-					ps.println( toSafeXML( result.toString() ) );
-				}
-				ps.println("</" + m.getName() + ">");
-			}
-			
-			ps.println("</EObject>");
-		}	
-		
-		ps.println("</dump>");
-	}
-	
-	
-	
-	/** 
-	 * Do the actual run
-	 *  
-	 * @param opt 
-	 * @throws Exception 
-	 */
-	
-	@Override
-	public void run (GetOpt opt) throws Exception {
-
-		if (opt.hasOption('d')) {			
-			// dump 
-			File aFile = new File(opt.getOption('d'));
-			OUT.printf("Dumping Model of %1$s\n\n",aFile);
-			dumpModel (aFile,OUT);	
-			File log = new File(aFile + ".model_dump.xml");			
-			OUT.printf("Writing to log %1$s\n\n", log );
-			
-			PrintStream ps = null;
-			try {
-				ps = new PrintStream( log );
-				dumpModel(aFile,ps);
-			} catch (FileNotFoundException e) {
-				
-			} finally {
-				try { ps.close(); } catch(Throwable t) {} 
-			}			
-			
-		}
-		
-		super.run(opt);
-	}
-	
-	
 	/**
 	 * Main entry point for the command line validator.
 	 * @param argv
@@ -269,7 +198,7 @@ public class Main extends CmdValidator {
 	static public void main (String argv[]) throws Exception {
 		
 		Main builder = new Main();
-		GetOpt opt = new GetOpt("-d:-h",argv);		
+		GetOpt opt = new GetOpt("-h",argv);		
 		builder.run(opt);
 	}
 }

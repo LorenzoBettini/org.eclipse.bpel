@@ -114,7 +114,7 @@ public class QueryValidator extends CValidator {
 
 		if (fQueryValidator == null) {
 				
-			fQueryValidator = RuleFactory.createValidator ( qname ); 
+			fQueryValidator = RuleFactory.INSTANCE.createValidator ( qname ); 
 			
 			IProblem problem;
 			

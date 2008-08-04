@@ -24,6 +24,13 @@ import javax.xml.namespace.QName;
 
 public class RuleFactory  {
 	
+	
+	/**
+	 * 
+	 */
+	static public final RuleFactory INSTANCE = new RuleFactory();
+	
+	
 	/**
 	 * Create a validator class.
 	 * 
@@ -31,10 +38,10 @@ public class RuleFactory  {
 	 * @return the validator class or potentially null
 	 */
 	
-	static public Validator createValidator ( QName qname ) {
+	public Validator createValidator ( QName qname ) {
 		Validator top = null;
 		
-		for (IFactory<Validator> factory: FACTORIES) {
+		for (IFactory<Validator> factory: fFactories) {
 			Validator next = factory.create(qname);
 			if (next == null) {
 				continue;
@@ -49,15 +56,15 @@ public class RuleFactory  {
 	}
 	
 	
-	static List<IFactory<Validator>> FACTORIES = new ArrayList<IFactory<Validator>>(16);
+	List<IFactory<Validator>> fFactories = new ArrayList<IFactory<Validator>>(16);
 			
 	
 	/**
 	 * 
 	 * @return the factories registered in the list.
 	 */
-	static public List<IFactory<Validator>> getFactories () {
-		return FACTORIES;
+	public List<IFactory<Validator>> getFactories () {
+		return fFactories;
 	}
 	
 	
@@ -68,7 +75,14 @@ public class RuleFactory  {
 	 * @param factory
 	 */
 	
-	static public void registerFactory ( IFactory<Validator> factory ) {
-		FACTORIES.add( factory );		
+	public void registerFactory ( IFactory<Validator> factory ) {
+		
+		if (fFactories.contains(factory)) {
+			return ;
+		}
+		
+		fFactories.add( factory );		
 	}
+	
+	
 }

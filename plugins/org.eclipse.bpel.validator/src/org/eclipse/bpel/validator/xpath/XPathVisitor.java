@@ -260,7 +260,7 @@ public class XPathVisitor  {
 			int axis = step.getAxis();
 
 			String nsURI = mValidator.lookupNamespace(prefix);
-			QName qname = new QName(nsURI,step.getLocalName(),prefix);
+			QName qname = new QName(nsURI,step.getLocalName(),prefix != null ? prefix : "");
 			boolean notChecked = false;
 			
 			INode result = null;

@@ -262,7 +262,7 @@ public class ReceiveValidator extends CPartnerActivityValidator {
 			problem = createError();
 			problem.fill("BPELC__PA_PARTS",
 					toString(mNode.nodeName()),
-					ND_FROM_PART,
+					toString (ND_FROM_PART) ,
 					AT_VARIABLE,
 					KIND_ACTIVITY);			
 		}		

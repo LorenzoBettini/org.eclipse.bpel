@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpws:process
-	xmlns:bpws="http://schemas.xmlsoap.org/ws/2004/03/business-process/"
+	xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
 	xmlns:ns="http://eclipse.org/bpel/sampleArtifacts"
 	xmlns:tns="http://eclipse.org/bpel/sample" 
 	xmlns:tnstoo="http://eclipse.org/bpel/sample"

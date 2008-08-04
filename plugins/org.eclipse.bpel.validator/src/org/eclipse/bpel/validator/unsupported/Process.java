@@ -66,7 +66,7 @@ public class Process extends CValidator {
 		
 		IProblem problem = createError();
 		problem.fill("BPELC__UNSUPPORTED_VALIDATION", 
-				toString(mNode.nodeName()), ncName );
+				toString(mNode.nodeName()), ncName, mNode.nodeName().getNamespaceURI() );
 		
 	}
 

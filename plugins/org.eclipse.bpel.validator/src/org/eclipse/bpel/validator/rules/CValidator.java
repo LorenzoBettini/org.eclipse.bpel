@@ -561,7 +561,7 @@ public class CValidator extends Validator {
 	
 	protected Validator createExpressionValidator ( QName qname ) {
 
-		Validator object = RuleFactory.createValidator ( qname ); 
+		Validator object = RuleFactory.INSTANCE.createValidator ( qname ); 
 	
 		IProblem problem;
 	

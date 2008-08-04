@@ -14,8 +14,9 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.fnmeta.FunctionLibrary;
 import org.eclipse.bpel.fnmeta.FunctionRegistry;
-import org.eclipse.bpel.fnmeta.model.Function;
+
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IConstants;
@@ -24,6 +25,7 @@ import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.UndefinedNode;
 import org.eclipse.bpel.validator.model.XNotImplemented;
 import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -48,7 +50,7 @@ import org.w3c.dom.Element;
 @SuppressWarnings("nls")
 
 public class ModelQuery extends ModelQueryImpl {		
-	
+		
 	/**
 	 * Return an answer that decides whether the model has support for 
 	 * the given aspects that the validator wants.
@@ -160,16 +162,11 @@ public class ModelQuery extends ModelQueryImpl {
 	@Override
 	public IFunctionMeta lookupFunction (String language, String ns, String name) {
 		
-		FunctionRegistry registry = FunctionRegistry.getRegistryForLanguage(language);
+		FunctionRegistry registry = FunctionLibrary.INSTANCE.getRegistryForLanguage(language);
 		if (registry == null) {
 			return null;
 		}
-		
-		Function function = registry.lookupFunction ( ns, name );
-		if (function == null) {
-			return null;
-		}
-		return AdapterRegistry.INSTANCE.adapt(function, IFunctionMeta.class);		
+		return AdapterRegistry.INSTANCE.adapt(registry.lookupFunction ( ns, name ) , IFunctionMeta.class);		
 	}
 
 
