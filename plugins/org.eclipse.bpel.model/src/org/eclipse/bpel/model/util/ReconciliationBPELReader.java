@@ -1538,15 +1538,12 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 	/**
 	 * Converts an XML catchAll element to a BPEL CatchAll object.
 	 */
-	protected CatchAll xml2CatchAll(CatchAll catchAllActivity, Element catchAllElement) {
+	protected CatchAll xml2CatchAll(CatchAll catchAll, Element catchAllElement) {
 		if (!catchAllElement.getLocalName().equals("catchAll"))
 			return null;
 
-		CatchAll catchAll;
-		if (catchAllActivity instanceof CatchAll) {
-			catchAll = (CatchAll)catchAllActivity;
-		} else {
-			catchAll = BPELFactory.eINSTANCE.createCatchAll();		
+		if (catchAll == null){
+			catchAll = BPELFactory.eINSTANCE.createCatchAll();
 			catchAll.setElement(catchAllElement);
 		}
 

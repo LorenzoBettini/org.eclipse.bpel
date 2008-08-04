@@ -152,17 +152,22 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 	public void resourceChanged (IResourceChangeEvent event) {
 		
 		// System.out.println("IResourceChangeEvent: " + event + "; " + event.getType()  );				
-		IResourceDelta[] deltas = event.getDelta().getAffectedChildren( IResourceDelta.CHANGED , IResource.FILE );	
+		IResourceDelta[] deltas = event.getDelta().getAffectedChildren( IResourceDelta.CHANGED | IResourceDelta.REMOVED, IResource.FILE );	
 		processDeltas ( deltas );
 	}
 	
 	void processDeltas ( IResourceDelta [] deltas ) {
 		
 		for(IResourceDelta delta : deltas) {			
-			processDeltas( delta.getAffectedChildren(IResourceDelta.CHANGED, IResource.FILE) );
+			processDeltas( delta.getAffectedChildren(IResourceDelta.CHANGED | IResourceDelta.REMOVED, IResource.FILE) );
 			
 			IResource resource = delta.getResource();
 			if (resource.getType () != IResource.FILE) {
+				continue;
+			}
+			
+			if (delta.getKind() == IResourceDelta.REMOVED){
+				resourceChanged((IFile)resource);
 				continue;
 			}
 			

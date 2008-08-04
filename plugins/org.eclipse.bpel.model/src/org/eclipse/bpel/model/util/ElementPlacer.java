@@ -170,54 +170,60 @@ public class ElementPlacer {
 			short nodeType = child.getNodeType();
 			if (nodeType == Node.ELEMENT_NODE)
 				break;
-			if (nodeType == Node.TEXT_NODE) {
-				Text text = (Text) child;
-				String data = text.getData();
-				int index = data.lastIndexOf('\n');
-				if (index != -1) {
-					StringBuffer indent = new StringBuffer();
-					for (Node ancestor = parentElement.getParentNode(); ancestor != null
-							&& ancestor.getNodeType() != Node.DOCUMENT_NODE; ancestor = ancestor
-							.getParentNode()) {
-						indent.append("    ");
-					}
-					if (index + 1 < data.length()
-							&& data.charAt(index + 1) == '\r') {
-						index++;
-					}
-					text.replaceData(index + 1, data.length() - index - 1,
-							indent + "    ");
-
-					// DO:
-					// Format children of the newChild.
-					// In this case we suppose that they were not indented
-					// before.
-					Node innerChild = newChild.getFirstChild();
-					if (innerChild != null) {
-						// \n + indent before every child
-						while (innerChild != null) {
-							newChild.insertBefore(
-									newChild.getOwnerDocument().createTextNode(
-											"\n" + indent + "        "),
-									innerChild);
-							innerChild = innerChild.getNextSibling();
-						}
-						// \n after the last child
-						newChild.appendChild(newChild.getOwnerDocument()
-								.createTextNode("\n" + indent + "    "));
-					}
-
-					if (referenceChild != null) {
-						indent.append("    ");
-					}
-					text = parentElement.getOwnerDocument().createTextNode(
-							"\n" + indent);
-					parentElement.insertBefore(text, referenceChild);
-					referenceChild = text;
-					break;
-				}
+			if (nodeType != Node.TEXT_NODE) {
+				child = child.getPreviousSibling();
+				continue;
 			}
-			child = child.getPreviousSibling();
+
+			Text text = (Text) child;
+			String data = text.getData();
+			int index = data.lastIndexOf('\n');
+			if (index == -1) {
+				child = child.getPreviousSibling();
+				continue;
+			}
+
+			StringBuffer indent = new StringBuffer();
+			for (Node ancestor = parentElement.getParentNode(); ancestor != null
+					&& ancestor.getNodeType() != Node.DOCUMENT_NODE; ancestor = ancestor
+					.getParentNode()) {
+				indent.append("    ");
+			}
+			if (index + 1 < data.length() && data.charAt(index + 1) == '\r') {
+				index++;
+			}
+			text.replaceData(index + 1, data.length() - index - 1, indent
+					+ "    ");
+
+			// DO:
+			// Format children of the newChild.
+			Node innerChild = newChild.getFirstChild();
+			if (innerChild != null) {
+				// add "\n" + indent before every child
+				while (innerChild != null) {
+					if (innerChild.getNodeType() == Node.TEXT_NODE) {
+						// remove an old indentation
+						newChild.removeChild(innerChild);
+					} else {
+						newChild.insertBefore(newChild.getOwnerDocument()
+								.createTextNode("\n" + indent + "        "),
+								innerChild);
+					}
+					innerChild = innerChild.getNextSibling();
+				}
+				// add "\n" after the last child
+				newChild.appendChild(newChild.getOwnerDocument()
+						.createTextNode("\n" + indent + "    "));
+			}
+
+			if (referenceChild != null) {
+				indent.append("    ");
+			}
+			text = parentElement.getOwnerDocument().createTextNode(
+					"\n" + indent);
+			parentElement.insertBefore(text, referenceChild);
+			referenceChild = text;
+			break;
 		}
 
 		parentElement.insertBefore(newChild, referenceChild);

@@ -260,25 +260,29 @@ public class ReconciliationHelper {
 	}
 	
 	
-	public static void replaceAttribute(WSDLElement element, String attributeName, String attributeValue) {
-		boolean oldUpdatingDom = isUpdatingDom(element);
+	public static void replaceAttribute(WSDLElement parent, String attributeName, String attributeValue) {
+		boolean oldUpdatingDom = isUpdatingDom(parent);
 		try {
-			setUpdatingDom(element, true);		
+			setUpdatingDom(parent, true);		
 			
-			if (isLoading(element)) {
+			if (isLoading(parent)) {
 				return;
 			}
-			if (element.getElement() == null) {
-				System.err.println("trying to replace attribute on null element:" + element.getClass());
+			Element element = parent.getElement();
+			if (element == null) {
+				System.err.println("trying to replace attribute on null element:" + parent.getClass());
+				return;
+			}
+			if (isEqual(element.getAttribute(attributeName), attributeValue)) {
 				return;
 			}
 			if (attributeValue != null) {
-				element.getElement().setAttribute(attributeName, attributeValue);
+				element.setAttribute(attributeName, attributeValue);
 			} else {
-				element.getElement().removeAttribute(attributeName);
+				element.removeAttribute(attributeName);
 			}
 		} finally {
-			setUpdatingDom(element, oldUpdatingDom);
+			setUpdatingDom(parent, oldUpdatingDom);
 		}
 	}
 	
@@ -863,6 +867,11 @@ public class ReconciliationHelper {
         return false;
     }
 //
+    
+    static private boolean isEqual ( String s1, String s2 ) {
+		return s1 != null ? s1.equals(s2) : s2 == null;
+	}
+    
 //    public static EList getActivities(Object context) {
 //        if (context instanceof Sequence) {
 //            return ((Sequence)context).getActivities();         

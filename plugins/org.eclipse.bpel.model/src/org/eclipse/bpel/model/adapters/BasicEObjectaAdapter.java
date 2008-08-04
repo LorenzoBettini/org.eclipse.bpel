@@ -172,8 +172,12 @@ implements IProperty<String, Object>, INamespaceMap<String, String> {
 				String attr = key.equals("") ? "xmlns" : "xmlns:" + key;
 				// We only need to update attribute if something really has been changed
 				// because it causes hard reconcile process
-				if (oldValue == null || !oldValue.equals(value))
-					element.setAttributeNS(XSDConstants.XMLNS_URI_2000, attr, value);
+				if ((oldValue == null && value != null)|| !oldValue.equals(value)) {
+					String attribute = element.getAttribute(attr);
+					if ((attribute == null && value != null) || !attribute.equals(value)) {
+						element.setAttribute(attr, value);
+					}
+				}
 			}
 		}
 		return oldValue;

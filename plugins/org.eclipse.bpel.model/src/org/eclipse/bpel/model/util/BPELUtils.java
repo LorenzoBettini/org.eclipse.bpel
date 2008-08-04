@@ -975,7 +975,7 @@ public class BPELUtils {
 			}
 			default: {
 				throw new IllegalArgumentException("can't copy node type, "
-						+ type + " (" + node.getNodeName() + ')');
+						+ type + " (" + place.getNodeName() + ')');
 			}
 			}
 			dest.appendChild(node);
