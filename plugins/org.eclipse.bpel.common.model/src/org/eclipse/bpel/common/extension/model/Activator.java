@@ -10,6 +10,15 @@
  *******************************************************************************/
 package org.eclipse.bpel.common.extension.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.bpel.common.BPELResourceSet;
+import org.eclipse.bpel.fnmeta.FunctionLibrary;
+import org.eclipse.bpel.fnmeta.FunctionRegistry;
+import org.eclipse.bpel.fnmeta.IFunctionRegistryLoader;
+import org.eclipse.bpel.fnmeta.model.Function;
+import org.eclipse.bpel.fnmeta.model.Registry;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -17,6 +26,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -25,7 +36,7 @@ import org.osgi.framework.BundleContext;
 
 @SuppressWarnings({"boxing","nls"})
 
-public class Activator extends Plugin {
+public class Activator extends Plugin implements IFunctionRegistryLoader {
 
 	/**
 	 * The plugin id.
@@ -35,6 +46,10 @@ public class Activator extends Plugin {
 	
 	/** The shared instance. */
 	static public  Activator INSTANCE;
+	
+	static String FUNCTION_REGISTRY = "functionRegistry";
+	static String AT_REGISTRY_NAME_SPACE = "namespace";
+	static String AT_URI = "uri";
 	
 	/**
 	 * The constructor.
@@ -49,6 +64,7 @@ public class Activator extends Plugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		FunctionLibrary.INSTANCE.registerLoader( this );
 	}
 
 	/**
@@ -57,6 +73,7 @@ public class Activator extends Plugin {
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
+		FunctionLibrary.INSTANCE.unregisterLoader( this );
 		INSTANCE = null;
 	}
 
@@ -131,5 +148,31 @@ public class Activator extends Plugin {
 		}
 		return extensionPoint.getConfigurationElements();
 	}
+	
+
+	/**
+	 * @see org.eclipse.bpel.fnmeta.IFunctionRegistryLoader#load(org.eclipse.bpel.fnmeta.FunctionRegistry)
+	 */
+	public void load (FunctionRegistry registry) {
+		
+		for (IConfigurationElement elm : getConfigurationElements( FUNCTION_REGISTRY )) {
+			String ns = registry.getLanguageNS();
+			if (ns == null || ns.equals(elm.getAttribute(AT_REGISTRY_NAME_SPACE)) == false) {
+				continue;					
+			}
+			
+			String location = elm.getAttribute(AT_URI);
+			URI uri = URI.createURI( location ) ;
+		
+			BPELResourceSet rs = new BPELResourceSet();
+			Resource resource = rs.getResource(uri, true, "fnmeta");
+			
+			if (resource.getContents().size() > 0) {
+				Registry r = (Registry) resource.getContents().get(0);			
+				registry.add( r.getFunctions() );				
+			}			
+		}		
+	}
+	
 	
 }

@@ -121,7 +121,9 @@ public class BPELResourceSet extends ResourceSetImpl {
 		}
 		
 		Resource resource = createResource(URI.createURI("*." + kind)); 
-		resource.setURI(uri);		
+		if (resource != null) {
+			resource.setURI(uri);
+		}
 		return resource;
 	}
 
