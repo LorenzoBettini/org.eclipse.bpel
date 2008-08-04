@@ -13,6 +13,7 @@ package org.eclipse.bpel.ui.expressions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.bpel.fnmeta.FunctionLibrary;
 import org.eclipse.bpel.fnmeta.FunctionRegistry;
 import org.eclipse.bpel.fnmeta.model.Function;
 
@@ -31,8 +32,8 @@ public class Functions {
 	
 	private Functions ( String namespace ) {
 		
-		FunctionRegistry registry = new FunctionRegistry ( namespace );
-		
+		FunctionRegistry registry = FunctionLibrary.INSTANCE.getRegistryForLanguage( namespace );
+		 
 		for( Function fn : registry.getRegistry() ) {
 			allFunctions.put(fn.getName(), fn);			
 		}
