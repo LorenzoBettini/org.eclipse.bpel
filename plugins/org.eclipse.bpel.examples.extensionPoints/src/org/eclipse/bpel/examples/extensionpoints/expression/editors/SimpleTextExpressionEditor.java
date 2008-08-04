@@ -148,9 +148,10 @@ public class SimpleTextExpressionEditor extends AbstractExpressionEditor {
 		
 		if (fPropertyListener == null) {
 			fPropertyListener = new IPropertyListener() {
+				@SuppressWarnings("synthetic-access")
 				public void propertyChanged(Object source, int propId) {
-					if (!updating && propId == IEditorPart.PROP_DIRTY && fEditorPart.isDirty() && !((TextSection)fSection).isExecutingStoreCommand()) {
-						notifyListeners();
+					if (!updating && propId == IEditorPart.PROP_DIRTY && fEditorPart.isDirty() && !((TextSection)fSection).isExecutingStoreCommand()) { 
+						notifyChanged();
 					}
 				}
 			};
