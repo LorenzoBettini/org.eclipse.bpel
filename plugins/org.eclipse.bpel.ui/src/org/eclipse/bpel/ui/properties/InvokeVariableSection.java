@@ -86,7 +86,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 	/**
 	 * Selection Listener for the "Use Part Mapping" checkbox
 	 */
-	private class UsePartMappingCheckboxSelectionListener implements SelectionListener {
+	private class UsePartMappingCheckboxSelectionListener implements
+			SelectionListener {
 
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
@@ -96,10 +97,12 @@ public class InvokeVariableSection extends BPELPropertySection {
 			// Null out the variable/inputVariable/outputVarable fields
 			CompoundCommand ccmd = new CompoundCommand();
 			if (ModelHelper.isMessageActivity(getModel(), ModelHelper.INCOMING)) {
-				ccmd.add(new SetVariableCommand(getModel(), null, ModelHelper.INCOMING));
+				ccmd.add(new SetVariableCommand(getModel(), null,
+						ModelHelper.INCOMING));
 			}
 			if (ModelHelper.isMessageActivity(getModel(), ModelHelper.OUTGOING)) {
-				ccmd.add(new SetVariableCommand(getModel(), null, ModelHelper.OUTGOING));
+				ccmd.add(new SetVariableCommand(getModel(), null,
+						ModelHelper.OUTGOING));
 			}
 			// Null out the fromParts and toParts
 			ccmd.add(new AutoUndoCommand(getInput()) {
@@ -120,48 +123,38 @@ public class InvokeVariableSection extends BPELPropertySection {
 		}
 	}
 
-	private VariableFilter			fInputVariableFilter	= new VariableFilter();
-	private VariableFilter			fOutputVariableFilter	= new VariableFilter();
-	private IControlContentAdapter	fTextContentAdapter		= new TextContentAdapter() {
-																@Override
-																public void insertControlContents(
-																		Control control,
-																		String text,
-																		int cursorPosition) {
-																	if (text != null) {
-																		super
-																				.insertControlContents(
-																						control,
-																						text,
-																						cursorPosition);
-																	}
-																}
+	private VariableFilter fInputVariableFilter = new VariableFilter();
+	private VariableFilter fOutputVariableFilter = new VariableFilter();
+	private IControlContentAdapter fTextContentAdapter = new TextContentAdapter() {
+		@Override
+		public void insertControlContents(Control control, String text,
+				int cursorPosition) {
+			if (text != null) {
+				super.insertControlContents(control, text, cursorPosition);
+			}
+		}
 
-																@Override
-																public void setControlContents(
-																		Control control,
-																		String text,
-																		int cursorPosition) {
-																	if (text != null) {
-																		super.setControlContents(
-																				control, text,
-																				cursorPosition);
-																	}
-																}
-															};
-	private Button					inputVariableButton;
-	private Composite				inputVariableComposite;
-	private Label					inputVariableLabel;
-	private Text					inputVariableText;
-	private Composite				nonPartMappingComposite;
-	private Widget					operationLabel;
-	private Button					outputVariableButton;
-	private Composite				outputVariableComposite;
-	private Label					outputVariableLabel;
-	private Text					outputVariableText;
-	private Composite				parentComposite;
-	private Composite				partMappingComposite;
-	private Button					usePartMappingCheckbox;
+		@Override
+		public void setControlContents(Control control, String text,
+				int cursorPosition) {
+			if (text != null) {
+				super.setControlContents(control, text, cursorPosition);
+			}
+		}
+	};
+	private Button inputVariableButton;
+	private Composite inputVariableComposite;
+	private Label inputVariableLabel;
+	private Text inputVariableText;
+	private Composite nonPartMappingComposite;
+	private Widget operationLabel;
+	private Button outputVariableButton;
+	private Composite outputVariableComposite;
+	private Label outputVariableLabel;
+	private Text outputVariableText;
+	private Composite parentComposite;
+	private Composite partMappingComposite;
+	private Button usePartMappingCheckbox;
 
 	@Override
 	protected void addAllAdapters() {
@@ -203,7 +196,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 	protected void basicSetInput(EObject newInput) {
 		super.basicSetInput(newInput);
 
-		this.usePartMappingCheckbox.setSelection(shouldUsePartMapping(getModel()));
+		this.usePartMappingCheckbox
+				.setSelection(shouldUsePartMapping(getModel()));
 	}
 
 	@Override
@@ -221,13 +215,17 @@ public class InvokeVariableSection extends BPELPropertySection {
 			public void notify(Notification n) {
 
 				/*
-				 * This is a hack to make the QuickPicker work: If a variable is set to our model
-				 * object (either by command or by the QuickPicker) we deselect the checkbox.
+				 * This is a hack to make the QuickPicker work: If a variable is
+				 * set to our model object (either by command or by the
+				 * QuickPicker) we deselect the checkbox.
 				 */
-				if (ModelHelper.isVariableAffected(getInput(), n, ModelHelper.INCOMING)
-						|| ModelHelper.isVariableAffected(getInput(), n, ModelHelper.OUTGOING)) {
+				if (ModelHelper.isVariableAffected(getInput(), n,
+						ModelHelper.INCOMING)
+						|| ModelHelper.isVariableAffected(getInput(), n,
+								ModelHelper.OUTGOING)) {
 					// something has happened to our variable
-					if (n.getEventType() == Notification.SET && n.getNewValue() != null) {
+					if (n.getEventType() == Notification.SET
+							&& n.getNewValue() != null) {
 						// a new variable has been set
 						usePartMappingCheckbox.setSelection(false);
 						try {
@@ -267,10 +265,11 @@ public class InvokeVariableSection extends BPELPropertySection {
 				-InvokeImplSection.SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 
-		inputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_7);
+		inputVariableLabel = fWidgetFactory.createLabel(composite,
+				Messages.InvokeImplSection_7);
 		inputVariableText = fWidgetFactory.createText(composite, EMPTY_STRING);
-		inputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW
-				| SWT.DOWN | SWT.CENTER);
+		inputVariableButton = fWidgetFactory.createButton(composite,
+				EMPTY_STRING, SWT.ARROW | SWT.DOWN | SWT.CENTER);
 
 		// Provide Content Assist for the variables
 		// Content assist on partnerName
@@ -283,7 +282,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 			public void run() {
 				createVariable(ModelHelper.getProcess(getInput()), null,
-						isInvoke() ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
+						isInvoke() ? ModelHelper.OUTGOING
+								: ModelHelper.INCOMING);
 			}
 		};
 
@@ -295,8 +295,9 @@ public class InvokeVariableSection extends BPELPropertySection {
 			}
 
 			public void run() {
-				createVariable(getInput(), null, isInvoke() ? ModelHelper.OUTGOING
-						: ModelHelper.INCOMING);
+				createVariable(getInput(), null,
+						isInvoke() ? ModelHelper.OUTGOING
+								: ModelHelper.INCOMING);
 			}
 		};
 
@@ -307,8 +308,10 @@ public class InvokeVariableSection extends BPELPropertySection {
 			}
 
 			public void run() {
-				int direction = isInvoke() ? ModelHelper.OUTGOING : ModelHelper.INCOMING;
-				getCommandFramework().execute(new SetVariableCommand(getInput(), null, direction));
+				int direction = isInvoke() ? ModelHelper.OUTGOING
+						: ModelHelper.INCOMING;
+				getCommandFramework().execute(
+						new SetVariableCommand(getInput(), null, direction));
 			}
 		};
 
@@ -327,32 +330,37 @@ public class InvokeVariableSection extends BPELPropertySection {
 		proposalProvider.addProposalToEnd(proposal2);
 		proposalProvider.addProposalToEnd(proposal3);
 
-		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(inputVariableText,
-				fTextContentAdapter, proposalProvider, null, null, true);
+		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(
+				inputVariableText, fTextContentAdapter, proposalProvider, null,
+				null, true);
 		// 
 		contentAssist.setLabelProvider(new ModelLabelProvider());
 		contentAssist.setPopupSize(new Point(300, 100));
 		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-		contentAssist.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+		contentAssist
+				.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 		contentAssist.addContentProposalListener(proposal);
 		contentAssist.addContentProposalListener(proposal2);
 		contentAssist.addContentProposalListener(proposal3);
-		contentAssist.addContentProposalListener(new IContentProposalListener() {
+		contentAssist
+				.addContentProposalListener(new IContentProposalListener() {
 
-			public void proposalAccepted(IContentProposal chosenProposal) {
-				if (chosenProposal.getContent() == null) {
-					return;
-				}
-				Variable variable = null;
-				try {
-					variable = (Variable) ((Adapter) chosenProposal).getTarget();
-				} catch (Throwable t) {
-					return;
-				}
-				SetVariableCommand cmd = new SetVariableCommand(getInput(), variable);
-				getCommandFramework().execute(cmd);
-			}
-		});
+					public void proposalAccepted(IContentProposal chosenProposal) {
+						if (chosenProposal.getContent() == null) {
+							return;
+						}
+						Variable variable = null;
+						try {
+							variable = (Variable) ((Adapter) chosenProposal)
+									.getTarget();
+						} catch (Throwable t) {
+							return;
+						}
+						SetVariableCommand cmd = new SetVariableCommand(
+								getInput(), variable);
+						getCommandFramework().execute(cmd);
+					}
+				});
 
 		// End of Content Assist for variable
 		inputVariableButton.addListener(SWT.Selection, new Listener() {
@@ -365,7 +373,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 			public void handleEvent(Event event) {
 				if (event.keyCode == SWT.CR) {
 					findAndSetOrCreateVariable(inputVariableText.getText(),
-							isInvoke() ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
+							isInvoke() ? ModelHelper.OUTGOING
+									: ModelHelper.INCOMING);
 				}
 			}
 		});
@@ -377,14 +386,15 @@ public class InvokeVariableSection extends BPELPropertySection {
 		inputVariableButton.setLayoutData(data);
 
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel,
-				STANDARD_LABEL_WIDTH_SM));
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
+				operationLabel, STANDARD_LABEL_WIDTH_SM));
 		data.right = new FlatFormAttachment(inputVariableButton, 0);
 		inputVariableText.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(inputVariableText, -IDetailsAreaConstants.HSPACE);
+		data.right = new FlatFormAttachment(inputVariableText,
+				-IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(inputVariableText, 0, SWT.CENTER);
 		inputVariableLabel.setLayoutData(data);
 
@@ -393,15 +403,16 @@ public class InvokeVariableSection extends BPELPropertySection {
 	}
 
 	/**
-	 * The output variable widgets are only pertaining to Invoke activity, if there is an output
-	 * message on the partner link
+	 * The output variable widgets are only pertaining to Invoke activity, if
+	 * there is an output message on the partner link
 	 * 
 	 * @param top
 	 * @param parent
 	 * @return the output variable composite
 	 */
 
-	private Composite createOutputVariableWidgets(Composite top, Composite parent) {
+	private Composite createOutputVariableWidgets(Composite top,
+			Composite parent) {
 		FlatFormData data;
 
 		final Composite composite = this.outputVariableComposite = createFlatFormComposite(parent);
@@ -417,10 +428,11 @@ public class InvokeVariableSection extends BPELPropertySection {
 				-InvokeImplSection.SPLIT_POINT_OFFSET);
 		composite.setLayoutData(data);
 
-		outputVariableLabel = fWidgetFactory.createLabel(composite, Messages.InvokeImplSection_13);
+		outputVariableLabel = fWidgetFactory.createLabel(composite,
+				Messages.InvokeImplSection_13);
 		outputVariableText = fWidgetFactory.createText(composite, EMPTY_STRING);
-		outputVariableButton = fWidgetFactory.createButton(composite, EMPTY_STRING, SWT.ARROW
-				| SWT.DOWN | SWT.CENTER);
+		outputVariableButton = fWidgetFactory.createButton(composite,
+				EMPTY_STRING, SWT.ARROW | SWT.DOWN | SWT.CENTER);
 
 		// Provide Content Assist for the operation
 
@@ -433,7 +445,9 @@ public class InvokeVariableSection extends BPELPropertySection {
 			}
 
 			public void run() {
-				createVariable(ModelHelper.getProcess(getInput()), null, ModelHelper.INCOMING);
+				createVariable(ModelHelper.getProcess(getInput()), null,
+						isInvoke() ? ModelHelper.INCOMING
+								: ModelHelper.OUTGOING);
 			}
 		};
 
@@ -444,7 +458,9 @@ public class InvokeVariableSection extends BPELPropertySection {
 			}
 
 			public void run() {
-				createVariable(getInput(), null, ModelHelper.INCOMING);
+				createVariable(getInput(), null,
+						isInvoke() ? ModelHelper.INCOMING
+								: ModelHelper.OUTGOING);
 			}
 		};
 
@@ -456,7 +472,9 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 			public void run() {
 				getCommandFramework().execute(
-						new SetVariableCommand(getInput(), null, ModelHelper.INCOMING));
+						new SetVariableCommand(getInput(), null,
+								isInvoke() ? ModelHelper.INCOMING
+										: ModelHelper.OUTGOING));
 			}
 		};
 
@@ -475,33 +493,37 @@ public class InvokeVariableSection extends BPELPropertySection {
 		proposalProvider.addProposalToEnd(proposal2);
 		proposalProvider.addProposalToEnd(proposal3);
 
-		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(outputVariableText,
-				fTextContentAdapter, proposalProvider, null, null, true);
+		final FieldAssistAdapter contentAssist = new FieldAssistAdapter(
+				outputVariableText, fTextContentAdapter, proposalProvider,
+				null, null, true);
 		// 
 		contentAssist.setLabelProvider(new ModelLabelProvider());
 		contentAssist.setPopupSize(new Point(300, 100));
 		contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-		contentAssist.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+		contentAssist
+				.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 		contentAssist.addContentProposalListener(proposal);
 		contentAssist.addContentProposalListener(proposal2);
 		contentAssist.addContentProposalListener(proposal3);
-		contentAssist.addContentProposalListener(new IContentProposalListener() {
+		contentAssist
+				.addContentProposalListener(new IContentProposalListener() {
 
-			public void proposalAccepted(IContentProposal chosenProposal) {
-				if (chosenProposal.getContent() == null) {
-					return;
-				}
-				Variable variable = null;
-				try {
-					variable = (Variable) ((Adapter) chosenProposal).getTarget();
-				} catch (Throwable t) {
-					return;
-				}
-				SetVariableCommand cmd = new SetVariableCommand(getInput(), variable,
-						ModelHelper.INCOMING);
-				getCommandFramework().execute(cmd);
-			}
-		});
+					public void proposalAccepted(IContentProposal chosenProposal) {
+						if (chosenProposal.getContent() == null) {
+							return;
+						}
+						Variable variable = null;
+						try {
+							variable = (Variable) ((Adapter) chosenProposal)
+									.getTarget();
+						} catch (Throwable t) {
+							return;
+						}
+						SetVariableCommand cmd = new SetVariableCommand(
+								getInput(), variable, ModelHelper.INCOMING);
+						getCommandFramework().execute(cmd);
+					}
+				});
 
 		// End of Content Assist for operation
 
@@ -513,7 +535,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 		outputVariableText.addListener(SWT.KeyDown, new Listener() {
 			public void handleEvent(Event event) {
 				if (event.keyCode == SWT.CR) {
-					findAndSetOrCreateVariable(outputVariableText.getText(), ModelHelper.INCOMING);
+					findAndSetOrCreateVariable(outputVariableText.getText(),
+							ModelHelper.INCOMING);
 				}
 			}
 		});
@@ -525,23 +548,24 @@ public class InvokeVariableSection extends BPELPropertySection {
 		outputVariableButton.setLayoutData(data);
 
 		data = new FlatFormData();
-		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(operationLabel,
-				STANDARD_LABEL_WIDTH_SM));
+		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
+				operationLabel, STANDARD_LABEL_WIDTH_SM));
 		data.right = new FlatFormAttachment(outputVariableButton, 0);
 		outputVariableText.setLayoutData(data);
 
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, 0);
-		data.right = new FlatFormAttachment(outputVariableText, -IDetailsAreaConstants.HSPACE);
+		data.right = new FlatFormAttachment(outputVariableText,
+				-IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(outputVariableText, 0, SWT.CENTER);
 		outputVariableLabel.setLayoutData(data);
 
 		return composite;
 	}
 
-	private void createPartMappingRows(ILabelProvider labelProvider, final EObject model,
-			List<Part> messageParts, Group refGroup, EObject fromPartsOrToParts,
-			final boolean isFromParts) {
+	private void createPartMappingRows(ILabelProvider labelProvider,
+			final EObject model, List<Part> messageParts, Group refGroup,
+			EObject fromPartsOrToParts, final boolean isFromParts) {
 
 		FlatFormData data;
 		CLabel ref = null;
@@ -558,7 +582,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 				FromParts fromParts = (FromParts) fromPartsOrToParts;
 				if (fromParts != null && !fromParts.getChildren().isEmpty()) {
 					for (FromPart fromPart : fromParts.getChildren()) {
-						if (fromPart.getPart() != null && fromPart.getPart().equals(part)) {
+						if (fromPart.getPart() != null
+								&& fromPart.getPart().equals(part)) {
 							var = fromPart.getToVariable();
 							break;
 						}
@@ -570,7 +595,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 				ToParts toParts = (ToParts) fromPartsOrToParts;
 				if (toParts != null && !toParts.getChildren().isEmpty()) {
 					for (ToPart toPart : toParts.getChildren()) {
-						if (toPart.getPart() != null && toPart.getPart().equals(part)) {
+						if (toPart.getPart() != null
+								&& toPart.getPart().equals(part)) {
 							var = toPart.getFromVariable();
 							break;
 						}
@@ -588,12 +614,13 @@ public class InvokeVariableSection extends BPELPropertySection {
 				text.setEditable(false);
 
 				// create button
-				button = fWidgetFactory.createButton(refGroup, EMPTY_STRING, SWT.ARROW | SWT.DOWN
-						| SWT.CENTER);
+				button = fWidgetFactory.createButton(refGroup, EMPTY_STRING,
+						SWT.ARROW | SWT.DOWN | SWT.CENTER);
 
 				// align button
 				data = new FlatFormData();
-				data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
+				data.right = new FlatFormAttachment(100,
+						-IDetailsAreaConstants.HSPACE);
 				data.top = new FlatFormAttachment(text, +2, SWT.TOP);
 				data.bottom = new FlatFormAttachment(text, -2, SWT.BOTTOM);
 				button.setLayoutData(data);
@@ -602,16 +629,20 @@ public class InvokeVariableSection extends BPELPropertySection {
 			// align text
 			data = new FlatFormData();
 			if (isFirst) {
-				data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+				data.top = new FlatFormAttachment(0,
+						IDetailsAreaConstants.VSPACE);
 			} else {
-				data.top = new FlatFormAttachment(ref, IDetailsAreaConstants.VSPACE);
+				data.top = new FlatFormAttachment(ref,
+						IDetailsAreaConstants.VSPACE);
 			}
-			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(ref,
-					STANDARD_LABEL_WIDTH_LRG));
+			data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(
+					ref, STANDARD_LABEL_WIDTH_LRG));
 			if (button == null) {
-				data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
+				data.right = new FlatFormAttachment(100,
+						-IDetailsAreaConstants.HSPACE);
 			} else {
-				data.right = new FlatFormAttachment(button, -IDetailsAreaConstants.HSPACE);
+				data.right = new FlatFormAttachment(button,
+						-IDetailsAreaConstants.HSPACE);
 			}
 			text.setLayoutData(data);
 
@@ -624,7 +655,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 			// align label
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-			data.right = new FlatFormAttachment(text, -IDetailsAreaConstants.HSPACE);
+			data.right = new FlatFormAttachment(text,
+					-IDetailsAreaConstants.HSPACE);
 			data.top = new FlatFormAttachment(text, 0, SWT.CENTER);
 			ref.setLayoutData(data);
 
@@ -639,8 +671,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 				}
 
 				public void run() {
-					createVariableForPartMapping(ModelHelper.getProcess(model), model, part,
-							isFromParts);
+					createVariableForPartMapping(ModelHelper.getProcess(model),
+							model, part, isFromParts);
 				}
 
 			};
@@ -653,7 +685,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 				}
 
 				public void run() {
-					createVariableForPartMapping(model, model, part, isFromParts);
+					createVariableForPartMapping(model, model, part,
+							isFromParts);
 				}
 
 			};
@@ -699,38 +732,45 @@ public class InvokeVariableSection extends BPELPropertySection {
 			proposalProvider.addProposalToEnd(proposal2);
 			proposalProvider.addProposalToEnd(proposal3);
 
-			final FieldAssistAdapter contentAssist = new FieldAssistAdapter(text,
-					fTextContentAdapter, proposalProvider, null, null, true);
+			final FieldAssistAdapter contentAssist = new FieldAssistAdapter(
+					text, fTextContentAdapter, proposalProvider, null, null,
+					true);
 			contentAssist.setLabelProvider(labelProvider);
 			contentAssist.setPopupSize(new Point(300, 100));
-			contentAssist.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
-			contentAssist.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+			contentAssist
+					.setFilterStyle(ContentProposalAdapter.FILTER_CUMULATIVE);
+			contentAssist
+					.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 			contentAssist.addContentProposalListener(proposal1);
 			contentAssist.addContentProposalListener(proposal2);
 			contentAssist.addContentProposalListener(proposal3);
-			contentAssist.addContentProposalListener(new IContentProposalListener() {
+			contentAssist
+					.addContentProposalListener(new IContentProposalListener() {
 
-				public void proposalAccepted(IContentProposal proposal) {
-					if (proposal.getContent() == null) {
-						return;
-					}
-					Variable variable = null;
-					try {
-						variable = (Variable) ((Adapter) proposal).getTarget();
-					} catch (Throwable t) {
-						return;
-					}
+						public void proposalAccepted(IContentProposal proposal) {
+							if (proposal.getContent() == null) {
+								return;
+							}
+							Variable variable = null;
+							try {
+								variable = (Variable) ((Adapter) proposal)
+										.getTarget();
+							} catch (Throwable t) {
+								return;
+							}
 
-					Command cmd = null;
-					if (isFromParts) {
-						cmd = new AddFromPartCommand(model, variable, part);
-					} else {
-						cmd = new AddToPartCommand(model, variable, part);
-					}
-					getCommandFramework().execute(cmd);
-				}
+							Command cmd = null;
+							if (isFromParts) {
+								cmd = new AddFromPartCommand(model, variable,
+										part);
+							} else {
+								cmd = new AddToPartCommand(model, variable,
+										part);
+							}
+							getCommandFramework().execute(cmd);
+						}
 
-			});
+					});
 
 			// End of Content Assist for variable
 			if (button != null) {
@@ -752,7 +792,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 						FromParts fromParts = onEvent.getFromParts();
 						FromPart fromPart = null;
 						Variable variable = null;
-						if (fromParts != null && fromParts.getChildren() != null) {
+						if (fromParts != null
+								&& fromParts.getChildren() != null) {
 							for (FromPart fp : fromParts.getChildren()) {
 								if (part.equals(fp.getPart())) {
 									fromPart = fp;
@@ -764,15 +805,20 @@ public class InvokeVariableSection extends BPELPropertySection {
 								variable = fromPart.getToVariable();
 							}
 							if (variable == null) {
-								variable = BPELFactory.eINSTANCE.createVariable();
+								variable = BPELFactory.eINSTANCE
+										.createVariable();
 								// set the variable's type to the part's type
 								variable.setType(part.getTypeDefinition());
-								variable.setXSDElement(part.getElementDeclaration());
+								variable.setXSDElement(part
+										.getElementDeclaration());
 							}
 							variable.setName(s);
-							ccmd.add(new AddFromPartCommand(onEvent, variable, part));
+							ccmd.add(new AddFromPartCommand(onEvent, variable,
+									part));
 						} else {
-							ccmd.add(new AddFromPartCommand(onEvent, null, part));
+							ccmd
+									.add(new AddFromPartCommand(onEvent, null,
+											part));
 						}
 						return ccmd;
 					}
@@ -786,16 +832,16 @@ public class InvokeVariableSection extends BPELPropertySection {
 					}
 
 				};
-				ChangeTracker onEventVariableTracker = new ChangeTracker(text, change,
-						getCommandFramework());
+				ChangeTracker onEventVariableTracker = new ChangeTracker(text,
+						change, getCommandFramework());
 				onEventVariableTracker.startTracking();
 			}
 		}
 	}
 
 	/**
-	 * Create an input variable, set it to the right type, and set the input variable pon the
-	 * activity.
+	 * Create an input variable, set it to the right type, and set the input
+	 * variable pon the activity.
 	 * 
 	 * @param ref
 	 *            the object on which to create the variable (Scope or Process)
@@ -827,8 +873,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 		}
 
 		// ask for the name, we know the type.
-		NameDialog nameDialog = new NameDialog(inputVariableComposite.getShell(),
-				Messages.VariableSelectorDialog_New_Variable_4,
+		NameDialog nameDialog = new NameDialog(inputVariableComposite
+				.getShell(), Messages.VariableSelectorDialog_New_Variable_4,
 				Messages.VariableSelectorDialog_Variable_Name_5, name, BPELUtil
 						.getNCNameValidator());
 
@@ -853,8 +899,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 		getCommandFramework().execute(cmd);
 	}
 
-	private void createVariableForPartMapping(EObject ref, EObject model, Part part,
-			boolean isFromPart) {
+	private void createVariableForPartMapping(EObject ref, EObject model,
+			Part part, boolean isFromPart) {
 
 		Variable variable = BPELFactory.eINSTANCE.createVariable();
 
@@ -866,8 +912,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 		}
 
 		// let the user choose a name for the variable
-		NameDialog nameDialog = new NameDialog(inputVariableComposite.getShell(),
-				Messages.VariableSelectorDialog_New_Variable_4,
+		NameDialog nameDialog = new NameDialog(inputVariableComposite
+				.getShell(), Messages.VariableSelectorDialog_New_Variable_4,
 				Messages.VariableSelectorDialog_Variable_Name_5, null, BPELUtil
 						.getNCNameValidator());
 		if (nameDialog.open() == Window.CANCEL) {
@@ -897,7 +943,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 				.addSelectionListener(new UsePartMappingCheckboxSelectionListener());
 
 		this.nonPartMappingComposite = createFlatFormComposite(composite);
-		Composite ref = createInputVariableWidgets(null, nonPartMappingComposite);
+		Composite ref = createInputVariableWidgets(null,
+				nonPartMappingComposite);
 		ref = createOutputVariableWidgets(ref, nonPartMappingComposite);
 
 		// part mapping composite
@@ -910,13 +957,15 @@ public class InvokeVariableSection extends BPELPropertySection {
 		this.usePartMappingCheckbox.setLayoutData(ffd);
 
 		ffd = new FlatFormData();
-		ffd.top = new FlatFormAttachment(this.usePartMappingCheckbox, IDetailsAreaConstants.VSPACE);
+		ffd.top = new FlatFormAttachment(this.usePartMappingCheckbox,
+				IDetailsAreaConstants.VSPACE);
 		ffd.left = new FlatFormAttachment(0, 0);
 		ffd.right = new FlatFormAttachment(100, 0);
 		this.partMappingComposite.setLayoutData(ffd);
 
 		ffd = new FlatFormData();
-		ffd.top = new FlatFormAttachment(this.usePartMappingCheckbox, IDetailsAreaConstants.VSPACE);
+		ffd.top = new FlatFormAttachment(this.usePartMappingCheckbox,
+				IDetailsAreaConstants.VSPACE);
 		ffd.left = new FlatFormAttachment(0, 0);
 		ffd.right = new FlatFormAttachment(100, 0);
 		this.nonPartMappingComposite.setLayoutData(ffd);
@@ -927,10 +976,12 @@ public class InvokeVariableSection extends BPELPropertySection {
 		text = text.trim();
 		EObject model = getInput();
 
-		SetVariableCommand cmd = new SetVariableCommand(getInput(), null, direction);
+		SetVariableCommand cmd = new SetVariableCommand(getInput(), null,
+				direction);
 		if (text.length() > 0) {
-			Variable variable = (Variable) ModelHelper.findElementByName(ModelHelper
-					.getContainingScope(model), text, Variable.class);
+			Variable variable = (Variable) ModelHelper
+					.findElementByName(ModelHelper.getContainingScope(model),
+							text, Variable.class);
 			if (variable == null) {
 
 				createVariable(getInput(), text, direction);
@@ -944,7 +995,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 	}
 
 	/**
-	 * Answer, based on the model, whether we should display "Fault" instead of "Response".
+	 * Answer, based on the model, whether we should display "Fault" instead of
+	 * "Response".
 	 */
 	private boolean getDisplayFault() {
 		EObject model = getModel();
@@ -959,6 +1011,14 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 	private boolean isInvoke() {
 		return (getInput() instanceof Invoke);
+	}
+
+	private boolean isReply() {
+		return getInput() instanceof Reply;
+	}
+
+	private boolean isReceive() {
+		return getInput() instanceof Receive;
 	}
 
 	/**
@@ -980,7 +1040,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 	public void refresh() {
 		super.refresh();
 
-		boolean showPartMappingComposite = this.usePartMappingCheckbox.getSelection();
+		boolean showPartMappingComposite = this.usePartMappingCheckbox
+				.getSelection();
 		updateWidgets(showPartMappingComposite);
 
 		if (showPartMappingComposite) {
@@ -1002,8 +1063,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 			}
 		}
 
-		if (model instanceof Receive || model instanceof Invoke || model instanceof OnMessage
-				|| model instanceof OnEvent) {
+		if (model instanceof Receive || model instanceof Invoke
+				|| model instanceof OnMessage || model instanceof OnEvent) {
 			shouldUsePartMapping = true;
 			if (ModelHelper.getVariable(model, ModelHelper.INCOMING) != null) {
 				return false;
@@ -1015,14 +1076,19 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 	private void updateInputVariableWidgets() {
 
+		inputVariableComposite.setVisible(!isReply());
+
+		if (isReply())
+			return;
+
 		if (isInvoke()) {
 			inputVariableLabel.setText(Messages.InvokeImplSection_22);
 		} else {
 			inputVariableLabel.setText(Messages.InvokeImplSection_23);
 		}
 
-		Variable inputVar = ModelHelper.getVariable(getInput(), isInvoke() ? ModelHelper.OUTGOING
-				: ModelHelper.INCOMING);
+		Variable inputVar = ModelHelper.getVariable(getInput(),
+				isInvoke() ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
 
 		if (inputVar != null) {
 			inputVariableText.setText(inputVar.getName());
@@ -1032,8 +1098,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 		// Figure out the type of the message.
 		fInputVariableFilter.clear();
-		Object type = ModelHelper.getVariableType(getInput(), isInvoke() ? ModelHelper.OUTGOING
-				: ModelHelper.INCOMING);
+		Object type = ModelHelper.getVariableType(getInput(),
+				isInvoke() ? ModelHelper.OUTGOING : ModelHelper.INCOMING);
 		if (type != null && type instanceof Message) {
 			fInputVariableFilter.setType((Message) type);
 		}
@@ -1041,13 +1107,20 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 	private void updateOutputVariableWidgets() {
 
-		outputVariableComposite.setVisible(isInvoke());
+		outputVariableComposite.setVisible(!isReceive());
 
-		if (!isInvoke()) {
+		if (isReceive()) {
 			return;
 		}
 
-		Variable outputVar = ModelHelper.getVariable(getInput(), ModelHelper.INCOMING);
+		if (isInvoke()) {
+			outputVariableLabel.setText(Messages.InvokeImplSection_13);
+		} else {
+			outputVariableLabel.setText(Messages.InvokeImplSection_23);
+		}
+
+		Variable outputVar = ModelHelper.getVariable(getInput(),
+				isInvoke() ? ModelHelper.INCOMING : ModelHelper.OUTGOING);
 		if (outputVar != null) {
 			outputVariableText.setText(outputVar.getName());
 		} else {
@@ -1056,7 +1129,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 		// Figure out the type of the message.
 		fOutputVariableFilter.clear();
-		Object type = ModelHelper.getVariableType(getInput(), ModelHelper.INCOMING);
+		Object type = ModelHelper.getVariableType(getInput(),
+				isInvoke() ? ModelHelper.INCOMING : ModelHelper.OUTGOING);
 		if (type != null) {
 			if (type instanceof Message) {
 				fOutputVariableFilter.setType((Message) type);
@@ -1074,8 +1148,9 @@ public class InvokeVariableSection extends BPELPropertySection {
 				(isInvoke() ? ModelHelper.OUTGOING : ModelHelper.INCOMING));
 		boolean showFaults = getDisplayFault();
 		boolean showOutputs = !showFaults
-				&& ModelHelper.isMessageActivity(model, (isInvoke() ? ModelHelper.INCOMING
-						: ModelHelper.OUTGOING));
+				&& ModelHelper.isMessageActivity(model,
+						(isInvoke() ? ModelHelper.INCOMING
+								: ModelHelper.OUTGOING));
 
 		Operation operation = ModelHelper.getOperation(model);
 
@@ -1085,22 +1160,22 @@ public class InvokeVariableSection extends BPELPropertySection {
 
 			List<Part> inputParts = Collections.emptyList();
 			if (showInputs) {
-				inputParts = PartMappingUtil
-						.getPartsForPartMapping(operation, WSDLConstants.INPUT, null);
+				inputParts = PartMappingUtil.getPartsForPartMapping(operation,
+						WSDLConstants.INPUT, null);
 			}
 
 			List<Part> outputParts = Collections.emptyList();
 			if (showOutputs) {
-				outputParts = PartMappingUtil.getPartsForPartMapping(operation, WSDLConstants.OUTPUT,
-						null);
+				outputParts = PartMappingUtil.getPartsForPartMapping(operation,
+						WSDLConstants.OUTPUT, null);
 			}
 
 			List<Part> faultParts = Collections.emptyList();
 			if (showFaults) {
 				String faultName = ModelHelper.getFaultName(model);
 				if (faultName != null) {
-					faultParts = PartMappingUtil.getPartsForPartMapping(operation, WSDLConstants.FAULT,
-							faultName);
+					faultParts = PartMappingUtil.getPartsForPartMapping(
+							operation, WSDLConstants.FAULT, faultName);
 				}
 			}
 
@@ -1111,18 +1186,24 @@ public class InvokeVariableSection extends BPELPropertySection {
 				FromParts fromParts = ModelHelper.getFromParts(model);
 
 				FlatFormData data = new FlatFormData();
-				data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-				data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
+				data.left = new FlatFormAttachment(0,
+						IDetailsAreaConstants.HSPACE);
+				data.right = new FlatFormAttachment(100,
+						-IDetailsAreaConstants.HSPACE);
 				if (refGroup != null) {
-					data.top = new FlatFormAttachment(refGroup, IDetailsAreaConstants.VSPACE);
+					data.top = new FlatFormAttachment(refGroup,
+							IDetailsAreaConstants.VSPACE);
 				} else {
-					data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+					data.top = new FlatFormAttachment(0,
+							IDetailsAreaConstants.VSPACE);
 				}
-				refGroup = fWidgetFactory.createGroup(this.partMappingComposite, "Input(s)");
+				refGroup = fWidgetFactory.createGroup(
+						this.partMappingComposite, "Input(s)");
 				refGroup.setLayoutData(data);
 				refGroup.setLayout(new FlatFormLayout());
 
-				createPartMappingRows(labelProvider, model, inputParts, refGroup, fromParts, true);
+				createPartMappingRows(labelProvider, model, inputParts,
+						refGroup, fromParts, true);
 			}
 
 			// print out all output parts
@@ -1131,18 +1212,24 @@ public class InvokeVariableSection extends BPELPropertySection {
 				ToParts toParts = ModelHelper.getToParts(model);
 
 				FlatFormData data = new FlatFormData();
-				data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-				data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
+				data.left = new FlatFormAttachment(0,
+						IDetailsAreaConstants.HSPACE);
+				data.right = new FlatFormAttachment(100,
+						-IDetailsAreaConstants.HSPACE);
 				if (refGroup != null) {
-					data.top = new FlatFormAttachment(refGroup, IDetailsAreaConstants.VSPACE);
+					data.top = new FlatFormAttachment(refGroup,
+							IDetailsAreaConstants.VSPACE);
 				} else {
-					data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+					data.top = new FlatFormAttachment(0,
+							IDetailsAreaConstants.VSPACE);
 				}
-				refGroup = fWidgetFactory.createGroup(this.partMappingComposite, "Output(s)");
+				refGroup = fWidgetFactory.createGroup(
+						this.partMappingComposite, "Output(s)");
 				refGroup.setLayoutData(data);
 				refGroup.setLayout(new FlatFormLayout());
 
-				createPartMappingRows(labelProvider, model, outputParts, refGroup, toParts, false);
+				createPartMappingRows(labelProvider, model, outputParts,
+						refGroup, toParts, false);
 			}
 
 			// print out all fault parts
@@ -1151,18 +1238,24 @@ public class InvokeVariableSection extends BPELPropertySection {
 				ToParts toParts = ModelHelper.getToParts(model);
 
 				FlatFormData data = new FlatFormData();
-				data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
-				data.right = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);
+				data.left = new FlatFormAttachment(0,
+						IDetailsAreaConstants.HSPACE);
+				data.right = new FlatFormAttachment(100,
+						-IDetailsAreaConstants.HSPACE);
 				if (refGroup != null) {
-					data.top = new FlatFormAttachment(refGroup, IDetailsAreaConstants.VSPACE);
+					data.top = new FlatFormAttachment(refGroup,
+							IDetailsAreaConstants.VSPACE);
 				} else {
-					data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
+					data.top = new FlatFormAttachment(0,
+							IDetailsAreaConstants.VSPACE);
 				}
-				refGroup = fWidgetFactory.createGroup(this.partMappingComposite, "Fault(s)");
+				refGroup = fWidgetFactory.createGroup(
+						this.partMappingComposite, "Fault(s)");
 				refGroup.setLayoutData(data);
 				refGroup.setLayout(new FlatFormLayout());
 
-				createPartMappingRows(labelProvider, model, faultParts, refGroup, toParts, false);
+				createPartMappingRows(labelProvider, model, faultParts,
+						refGroup, toParts, false);
 			}
 			this.parentComposite.layout(true);
 		} else {
@@ -1178,7 +1271,8 @@ public class InvokeVariableSection extends BPELPropertySection {
 		}
 		this.partMappingComposite = createFlatFormComposite(this.parentComposite);
 		FlatFormData ffd = new FlatFormData();
-		ffd.top = new FlatFormAttachment(this.usePartMappingCheckbox, IDetailsAreaConstants.VSPACE);
+		ffd.top = new FlatFormAttachment(this.usePartMappingCheckbox,
+				IDetailsAreaConstants.VSPACE);
 		ffd.left = new FlatFormAttachment(0, 0);
 		ffd.right = new FlatFormAttachment(100, 0);
 		this.partMappingComposite.setLayoutData(ffd);
