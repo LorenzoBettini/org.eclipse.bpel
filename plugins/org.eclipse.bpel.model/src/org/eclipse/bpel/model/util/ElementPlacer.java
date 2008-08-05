@@ -55,6 +55,11 @@ public class ElementPlacer {
 		// While
 		String whileElements[] = { BPELConstants.ND_CONDITION, ACTIVITY };
 		mapper.put(BPELConstants.ND_WHILE, Arrays.asList(whileElements));
+		// ForEach
+		String forEachElements[] = { BPELConstants.ND_START_COUNTER_VALUE,
+				BPELConstants.ND_FINAL_COUNTER_VALUE,
+				BPELConstants.ND_COMPLETION_CONDITION, ACTIVITY };
+		mapper.put(BPELConstants.ND_FOR_EACH, Arrays.asList(forEachElements));
 		// RepeatUntil
 		String repeatElements[] = { ACTIVITY, BPELConstants.ND_CONDITION };
 		mapper

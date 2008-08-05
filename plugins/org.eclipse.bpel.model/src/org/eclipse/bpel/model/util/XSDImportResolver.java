@@ -55,7 +55,7 @@ public class XSDImportResolver implements ImportResolver {
      */
     
     
-	protected <T extends EObject> T findAndLoad ( Import imp , String kind ) 
+	protected <T extends EObject> T findAndLoad ( Import imp , String kind, Class<T> clazz ) 
     {
     	Resource baseResource = imp.eResource();
         String location = imp.getLocation();
@@ -81,10 +81,9 @@ public class XSDImportResolver implements ImportResolver {
         	BPELPlugin.log("Resource " + locationURI + " is empty.",null,IStatus.WARNING) ;
         	return null;
         }
-        
-        
+                
         try {
-        	return (T) result.getContents().get(0);
+        	return clazz.cast(result.getContents().get(0));
         } catch (Throwable t) {
            	BPELPlugin.log("Resource " + locationURI + " is not of the expected kind.",t,IStatus.WARNING) ;        	
         }                
@@ -116,7 +115,7 @@ public class XSDImportResolver implements ImportResolver {
         	return result ; 
         }
         
-        XSDSchema schema = findAndLoad( imp , "xsd");   
+        XSDSchema schema = findAndLoad( imp , "xsd", XSDSchema.class);   
         
         if (TOP.equals(refType)) {
         	return schema;
@@ -147,7 +146,7 @@ public class XSDImportResolver implements ImportResolver {
 		}
 		
 		List<Object> list = new ArrayList<Object>(1);
-		XSDSchema schema = findAndLoad(imp,"xsd");
+		XSDSchema schema = findAndLoad(imp,"xsd", XSDSchema.class);
 		if (schema != null) {
 			list.add ( schema );
 		}

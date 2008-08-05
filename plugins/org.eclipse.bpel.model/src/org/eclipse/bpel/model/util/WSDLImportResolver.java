@@ -12,6 +12,7 @@ package org.eclipse.bpel.model.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -19,7 +20,9 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.Definition;
+import org.eclipse.wst.wsdl.internal.impl.ImportImpl;
 import org.eclipse.wst.wsdl.util.WSDLConstants;
+import org.eclipse.xsd.XSDSchema;
 
 
 /**
@@ -64,7 +67,7 @@ public class WSDLImportResolver extends XSDImportResolver {
         	return result ; 
         }
         
-        Definition definition = findAndLoad ( imp , "wsdl" );
+        Definition definition = findAndLoad ( imp , "wsdl", Definition.class );
         
         if (refType.equals(TOP)) {
         	return definition;
@@ -75,6 +78,41 @@ public class WSDLImportResolver extends XSDImportResolver {
         }
         
         return result;
+    }
+    
+    protected List<Object> resolveSchemas(Definition definition) {
+    	if (definition == null) {
+        	return Collections.emptyList();
+        }
+        
+        ArrayList<Object> schemas = new ArrayList<Object>();
+        
+        if (definition.getImports() != null) {
+        	Iterator defImp = definition.getImports().values().iterator();
+        	while (defImp.hasNext()) {
+        		List impList = (List) defImp.next();
+        		for (int i=0; i<impList.size(); i++) {
+        			ImportImpl wsdlImport = (ImportImpl) impList.get(i);
+        			wsdlImport.importDefinitionOrSchema();
+        			XSDSchema schema = wsdlImport.getESchema();
+        			Definition wsdlDefinition = wsdlImport.getEDefinition(); 
+        			if (schema != null) {
+        				schemas.add(schema);
+        			}
+        			if (definition != null) {
+        				schemas.addAll(resolveSchemas(wsdlDefinition));
+        			}
+        		}
+        	}
+        }
+        
+        if (definition.getETypes() == null) {
+        	return schemas;
+        }
+        
+        schemas.addAll(definition.getETypes().getSchemas());
+        
+        return schemas;        	
     }
 
 	/**
@@ -91,11 +129,7 @@ public class WSDLImportResolver extends XSDImportResolver {
         	return Collections.emptyList();
         }
 		
-        Definition definition = findAndLoad ( imp , "wsdl" );
-        
-        if (definition == null) {
-        	return Collections.emptyList();
-        }
+        Definition definition = findAndLoad ( imp , "wsdl", Definition.class );
         
         if (what == RESOLVE_DEFINITION) {
         	ArrayList<Object> al = new ArrayList<Object>(1);
@@ -103,11 +137,7 @@ public class WSDLImportResolver extends XSDImportResolver {
         	return al;
         }
         
-        if (definition.getETypes() == null) {
-        	return Collections.emptyList();
-        }
-        
-        return definition.getETypes().getSchemas();        	
+        return resolveSchemas(definition);
 	}
     
 }

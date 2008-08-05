@@ -79,17 +79,16 @@ public class BPELConstants {
 		"correlationViolation", //$NON-NLS-1$ 
 		"invalidBranchCondition", //$NON-NLS-1$ 
 		"invalidExpressionValue", //$NON-NLS-1$ 
-		"invalidVariables", //$NON-NLS-1$ 
-		"invalidReply", //$NON-NLS-1$		 
+		"invalidVariables", //$NON-NLS-1$		 
 		"joinFailure", //$NON-NLS-1$		
 		"mismatchedAssignmentFailure", //$NON-NLS-1$
 		"missingReply", //$NON-NLS-1$
-		"missingRequest", //$NON-NLS-1$
-		"repeatedCompensation", //$NON-NLS-1$   
+		"missingRequest", //$NON-NLS-1$   
 		"scopeInitializationFailure", //$NON-NLS-1$
 		"selectionFailure", //$NON-NLS-1$
 		"subLanguageExecutionFault", //$NON-NLS-1$
 		"uninitializedPartnerRole", //$NON-NLS-1$
+		"uninitializedVariable", //$NON-NLS-1$
 		"unsupportedReference", //$NON-NLS-1$ 	
 		"xsltInvalidSource", //$NON-NLS-1$ 
 		"xsltStylesheetNotFound", //$NON-NLS-1$ 
