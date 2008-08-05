@@ -967,11 +967,13 @@ public class ModelHelper {
 			List<Variable> refList = null;
 			if (refObj instanceof Process) {
 				Process process = (Process) refObj;
-				refList = process.getVariables().getChildren();
+				Variables variables = process.getVariables();
+				refList = variables == null ? null : variables.getChildren();
 				
 			} else if (refObj instanceof Scope) {
 				Scope scope = (Scope) refObj;
-				refList = scope.getVariables().getChildren();
+				Variables variables = scope.getVariables();
+				refList = variables == null ? null : variables.getChildren();
 			}			
 			
 			// If there are variables at this level, then check for 
