@@ -48,6 +48,7 @@ import org.eclipse.bpel.model.FromPart;
 import org.eclipse.bpel.model.FromParts;
 import org.eclipse.bpel.model.If;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.Link;
 import org.eclipse.bpel.model.Links;
 import org.eclipse.bpel.model.MessageExchange;
@@ -503,8 +504,6 @@ public class ReconciliationHelper {
 				System.err.println("Non-reconciling element:" + parent.getClass());
 				parentElement.insertBefore(childElement, beforeElement);
 			}
-	    } else if (child instanceof FaultHandler){
-	    	((FaultHandler)child).setElement((Element)parentElement);
 	    }
 	    
 	    // This code is to handle particular types that are created with their children
@@ -541,7 +540,7 @@ public class ReconciliationHelper {
 	    	EList<Catch> _catch = c.getCatch();
 			if (_catch.size() == 1 && _catch.get(0).getElement() == null) {
 				Catch ch = _catch.get(0);
-				Element catchElement = ReconciliationHelper.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH);
+				Element catchElement = ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH);
 				ch.setElement(catchElement);
 				reconcile(ch, catchElement);
 	    	}
@@ -580,7 +579,7 @@ public class ReconciliationHelper {
 	 *            the localName to match against
 	 * @return the first matching element, or null if no element was found
 	 */
-	public static Element getBPELChildElementByLocalName(Element parentElement,
+	public static Element getBPELChildElementByLocalName(Node parentElement,
 			String localName) {
 		if (parentElement == null) {
 			return null;
@@ -734,6 +733,13 @@ public class ReconciliationHelper {
 					((Scope) parent.getContainer()).setMessageExchanges(null);
 				else
 					throw new IllegalStateException();
+			}
+			if (child instanceof Catch && parent instanceof Invoke) {								
+				Invoke invoke = (Invoke)parent;
+				FaultHandler faultHandler = invoke.getFaultHandler();
+				if (faultHandler.getCatch().size() == 0 && faultHandler.getCatchAll() == null) {
+					invoke.setFaultHandler(null);
+				}
 			}
 		} finally {
 			setUpdatingDom(parent, oldUpdatingDom);

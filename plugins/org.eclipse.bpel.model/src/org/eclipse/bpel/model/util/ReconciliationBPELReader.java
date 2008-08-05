@@ -976,11 +976,16 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		}
 
 		// Handle Variables Element
-		Element variablesElement = ReconciliationHelper.getBPELChildElementByLocalName(
-				processElement, "variables");
-		if (variablesElement != null && (process.getVariables() == null || process.getVariables().getChildren() == null)) {
-			process.setVariables(xml2Variables(process.getVariables(), variablesElement));
-		} else if (variablesElement == null) {
+		Element variablesElement = ReconciliationHelper
+				.getBPELChildElementByLocalName(processElement, "variables");
+		if (variablesElement != null) {
+			if (process.getVariables() == null
+					|| process.getVariables().getChildren() == null
+					|| process.getVariables().getChildren().size() == 0) {
+				process.setVariables(xml2Variables(process.getVariables(),
+						variablesElement));
+			}
+		} else {
 			process.setVariables(null);
 		}
 
@@ -1839,7 +1844,7 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 
 		// Handle Variables element
 		Element variablesElement = ReconciliationHelper.getBPELChildElementByLocalName(scopeElement, "variables");
-		if (variablesElement != null && (scope.getVariables() == null && scope.getVariables().getChildren().size() == 0)) {
+		if (variablesElement != null && (scope.getVariables() == null || scope.getVariables().getChildren().size() == 0)) {
 			scope.setVariables(xml2Variables(scope.getVariables(), variablesElement));
 		} else if (variablesElement == null) {
 			scope.setVariables(null);
