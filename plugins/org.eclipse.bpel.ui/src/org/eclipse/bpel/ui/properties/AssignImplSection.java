@@ -113,7 +113,7 @@ public class AssignImplSection extends BPELPropertySection {
 
 			@Override
 			public void notify(Notification n) {
-				
+
 				adjustCopyRulesList();
 				if (n.getFeature() == BPELPackage.eINSTANCE.getAssign_Copy()) {
 					Copy copy = (Copy) n.getNewValue();
@@ -134,8 +134,10 @@ public class AssignImplSection extends BPELPropertySection {
 		EList<Copy> list = ((Assign) getInput()).getCopy();
 		for (Copy copy : list) {
 			fAdapters[0].addToObject(copy);
-			fAdapters[0].addToObject(copy.getFrom());
-			fAdapters[0].addToObject(copy.getTo());
+			if (copy.getFrom() != null)
+				fAdapters[0].addToObject(copy.getFrom());
+			if (copy.getTo() != null)
+				fAdapters[0].addToObject(copy.getTo());
 		}
 	}
 
