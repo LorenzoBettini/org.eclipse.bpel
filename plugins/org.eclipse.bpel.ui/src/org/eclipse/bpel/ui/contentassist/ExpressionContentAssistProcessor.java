@@ -1239,7 +1239,7 @@ public class ExpressionContentAssistProcessor
 					return context;
 				
 				if (!(Character.isLetterOrDigit(currChar) || currChar == '/' 
-						|| currChar == '.' || currChar == '@'))
+						|| currChar == '.' || currChar == '@' || currChar == '_'))
 					return null;
 				
 				context = currChar + context;
@@ -1281,7 +1281,7 @@ public class ExpressionContentAssistProcessor
 	
 	private boolean isLocationPathCharacter(char c) {
 		final String LOCATION_CHARS = "./:@-"; //$NON-NLS-1$
-		if ((LOCATION_CHARS.indexOf(c) > -1) || (Character.isLetterOrDigit(c)))
+		if ((LOCATION_CHARS.indexOf(c) > -1) || (Character.isLetterOrDigit(c) || c == '_'))
 			return true;
 		return false;
 	}
