@@ -75,8 +75,8 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 	private void endRecording(Object element) {
 		if (element instanceof IDOMNode) {
 			IDOMModel model = ((IDOMNode) element).getModel();
-			model.endRecording(this);
 			model.changedModel();
+			model.endRecording(this);
 		}
 	}
 
@@ -145,7 +145,6 @@ public abstract class AutoUndoCommand extends AbstractEditModelCommand {
 				if (count == null) {
 					wormed.put(node, 1);
 				} else if (worms.equals(count + 1)) {
-					System.err.println(node);
 					return node.getElement();
 				} else if (count != null) {
 					wormed.put(node, count + 1);

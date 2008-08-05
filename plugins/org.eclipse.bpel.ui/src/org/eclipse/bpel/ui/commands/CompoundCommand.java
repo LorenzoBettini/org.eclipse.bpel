@@ -1,11 +1,15 @@
 package org.eclipse.bpel.ui.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.bpel.common.ui.editmodel.AbstractEditModelCommand;
+import org.eclipse.bpel.model.resource.BPELResource;
 import org.eclipse.bpel.ui.commands.util.AutoUndoCommand;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.commands.Command;
 
 public class CompoundCommand extends AutoUndoCommand {
@@ -76,6 +80,12 @@ public class CompoundCommand extends AutoUndoCommand {
 		for (Command command : commandList) {
 			if (command instanceof AutoUndoCommand) {
 				result.addAll(((AutoUndoCommand)command).getModelRoots());
+			} else if (command instanceof AbstractEditModelCommand) {				
+				for (Resource res : ((AbstractEditModelCommand)command).getResources()) {
+					if (res instanceof BPELResource) {
+						result.add(((BPELResource)res).getProcess());
+					}
+				}
 			}
 		}
 		return result;
