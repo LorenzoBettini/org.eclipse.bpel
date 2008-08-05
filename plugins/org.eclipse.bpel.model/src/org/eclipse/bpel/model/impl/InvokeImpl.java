@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: InvokeImpl.java,v 1.10 2007/12/06 20:01:23 smoser Exp $
+ * $Id: InvokeImpl.java,v 1.11 2008/08/05 14:39:50 odanilov Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -579,29 +578,6 @@ public class InvokeImpl extends PartnerActivityImpl implements Invoke {
 		}
 		return super.eIsSet(featureID);
 	}
-
-	@Override
-	protected void adoptContent(EReference reference, Object object) {
-		// if (object instanceof ToPart) {
-		// ReconciliationHelper
-		// .adoptChild(this, toPart, (ToPart) object, BPELConstants.ND_TO_PART);
-		// } else if (object instanceof FromPart) {
-		// ReconciliationHelper.adoptChild(this, fromPart, (FromPart) object,
-		// BPELConstants.ND_FROM_PART);
-		// }
-		if (object instanceof FaultHandler) {
-			((FaultHandler) object).setElement(getElement());
-		}
-		super.adoptContent(reference, object);
-	}
-
-	@Override
-		protected void orphanContent(EReference reference, Object obj) {
-			if (obj instanceof FaultHandler) {
-				((FaultHandler) obj).setElement(null);
-			}
-			super.orphanContent(reference, obj);
-		}
 
 	@Override
 	public EList getWSDLContents() {
