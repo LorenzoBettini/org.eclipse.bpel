@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
@@ -45,13 +47,22 @@ public class AdapterRegistry {
 	 */
 	
 	HashMap<Object,List<AdapterFactory>> fKeyToAdapterFactory ;
-		
+	
+	/** The current adapter manager */
+	IAdapterManager fAdapterManager;
+	
 	/**
 	 * Private constructor.
 	 */
 	
 	AdapterRegistry () {
-		fKeyToAdapterFactory = new HashMap<Object,List<AdapterFactory>>();				
+		fKeyToAdapterFactory = new HashMap<Object,List<AdapterFactory>>();
+		
+		if (Platform.isRunning()) {
+			fAdapterManager = Platform.getAdapterManager();
+		} else {
+			fAdapterManager = org.eclipse.core.internal.runtime.AdapterManager.getDefault();
+		}		
 	}
 	
 	/**
@@ -206,9 +217,9 @@ public class AdapterRegistry {
 			}
 		}
 				
-		if (checkWSAdapters) {
+		if ( checkWSAdapters && fAdapterManager != null ) {
 			// otherwise, the object we are adapting is not an EObject, try any other adapters.		
-			adapter = Platform.getAdapterManager().getAdapter(target, clazz);
+			adapter = fAdapterManager.getAdapter(target, clazz);
 			if (adapter != null && clazz.isInstance(adapter)) {
 				return clazz.cast(adapter);
 			}
@@ -268,6 +279,18 @@ public class AdapterRegistry {
 		}
 		
 		return adapter;
+	}
+
+	public void registerAdapterFactory (IAdapterFactory factory) {
+		registerAdapterFactory(factory, Object.class);
+	}
+	
+	/**
+	 * @param factory
+	 * @param class1
+	 */
+	public void registerAdapterFactory(IAdapterFactory factory,	Class<?> clazz) {
+		fAdapterManager.registerAdapters(factory, clazz);		
 	}
 
 
