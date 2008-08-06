@@ -40,8 +40,9 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 	 
 	public BPELResourceSetImpl() {
 		super();
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		workspace.addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
+		// FIX ME: This should not have dependency on running eclipse.
+		// IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		// workspace.addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
 	}
 
 	/**
@@ -129,8 +130,11 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 	 * @return the created resource
 	 */
 	
+	// TODO: ganymede [ this method apparently is already in the parent resource set ]
+	// we can strike it from this resourceset.
+	
 	@SuppressWarnings("nls")
-	public Resource createResource ( URI uri, String kind ) {
+	public Resource createResource ( URI uri, String kind) {
 		
 		if (kind == null) {
 			return super.createResource(uri);
