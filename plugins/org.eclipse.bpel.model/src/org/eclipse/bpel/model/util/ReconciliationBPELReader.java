@@ -2567,11 +2567,17 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 				// If individual extensionActivity subclasses are actually
 				// extensible, they
 				// have to do this themselves in their deserializer.
+				
+				// The created Activity that extends from ExtensioActivity should get the
+				// whole <extensionActivity>-DOM-Fragment, this is done here.
+				activity.setElement(extensionActivityElement);
+				
 				return activity;
 			}
 		}
 		// Fallback is to create a new extensionActivity.
-		return BPELFactory.eINSTANCE.createExtensionActivity();
+		//eturn BPELFactory.eINSTANCE.createExtensionActivity();
+		return null;
 	}
 
 	/**

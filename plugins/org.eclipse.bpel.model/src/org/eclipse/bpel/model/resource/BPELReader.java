@@ -433,7 +433,7 @@ public class BPELReader implements ErrorHandler {
 	 * @param localName  the localName to match against
 	 * @return a node list of the matching children of parentElement
      */
-	protected List<Element> getBPELChildElementsByLocalName(Element parentElement, String localName) {
+	public List<Element> getBPELChildElementsByLocalName(Element parentElement, String localName) {
 		List<Element> list = new ArrayList<Element>();
 		NodeList children = parentElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -454,7 +454,7 @@ public class BPELReader implements ErrorHandler {
 	 * @param localName  the localName to match against
 	 * @return the first matching element, or null if no element was found
       */
-	protected Element getBPELChildElementByLocalName(Element parentElement, String localName) {
+	public Element getBPELChildElementByLocalName(Element parentElement, String localName) {
 		NodeList children = parentElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
@@ -1006,7 +1006,7 @@ public class BPELReader implements ErrorHandler {
 	/**
 	 * Converts an XML partnerLinks
 	 */
-	protected PartnerLinks xml2PartnerLinks(Element partnerLinksElement) {
+	public PartnerLinks xml2PartnerLinks(Element partnerLinksElement) {
 		if (!partnerLinksElement.getLocalName().equals("partnerLinks")) {
 			return null;
 		}
@@ -1026,7 +1026,7 @@ public class BPELReader implements ErrorHandler {
 	}
 
 
-	protected Variables xml2Variables(Element variablesElement) {
+	public Variables xml2Variables(Element variablesElement) {
 		if (!variablesElement.getLocalName().equals("variables"))
 			return null;
 			
@@ -1059,7 +1059,7 @@ public class BPELReader implements ErrorHandler {
 		return variables;
 	}
 	
-	protected CorrelationSets xml2CorrelationSets(Element correlationSetsElement) {
+	public CorrelationSets xml2CorrelationSets(Element correlationSetsElement) {
 		if (!correlationSetsElement.getLocalName().equals("correlationSets"))
 			return null;
 			
@@ -1116,7 +1116,7 @@ public class BPELReader implements ErrorHandler {
 		return toParts;
 	}
 
-	protected MessageExchanges xml2MessageExchanges(Element messageExchangesElement) {
+	public MessageExchanges xml2MessageExchanges(Element messageExchangesElement) {
 		if (!messageExchangesElement.getLocalName().equals("messageExchanges"))
 			return null;
 		
@@ -1475,7 +1475,7 @@ public class BPELReader implements ErrorHandler {
 		Activity activity = null;
 		boolean checkExtensibility = true;
 
-        if (!BPELUtils.isBPELElement(activityElement))
+        if (!BPELUtils.isBPELElement(activityElement)) 
             return null;
         
 		String localName = activityElement.getLocalName();        
@@ -2360,7 +2360,11 @@ public class BPELReader implements ErrorHandler {
 				// Don't do extensibility because extensionActivity is not extensible.
 				// If individual extensionActivity subclasses are actually extensible, they
 				// have to do this themselves in their deserializer.
-				return activity;
+				
+				// The created Activity that extends from ExtensioActivity should get the
+				// whole <extensionActivity>-DOM-Fragment, this is done here.
+				activity.setElement(extensionActivityElement);
+ 				return activity;
 			}
 		}
 		// Fallback is to create a new extensionActivity.

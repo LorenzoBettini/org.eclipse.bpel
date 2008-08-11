@@ -39,6 +39,7 @@ import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.ExtensibleElement;
 import org.eclipse.bpel.model.Extension;
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
 import org.eclipse.bpel.model.FaultHandler;
 import org.eclipse.bpel.model.Flow;
@@ -222,7 +223,14 @@ public class ReconciliationHelper {
 			if (isLoading(parent)) {
 				return;
 			}
-			if (parent.getElement() == null) {
+
+			Element parseElement = parent.getElement();
+
+			if (parent instanceof ExtensionActivity) {
+				parseElement = getExtensionActivityChildElement(parseElement);
+			}
+
+			if (parseElement == null) {
 				System.err.println("trying to replace child on null element: "
 						+ parent.getClass());
 				return;
@@ -241,17 +249,16 @@ public class ReconciliationHelper {
 				}
 				if (oldElement != null
 						&& oldElement.getElement() != null
-						&& parent.getElement() == oldElement.getElement()
+						&& parseElement == oldElement.getElement()
 								.getParentNode()) {
-					parent.getElement().replaceChild(newElement.getElement(),
+					parseElement.replaceChild(newElement.getElement(),
 							oldElement.getElement());
 				} else {
-					ElementPlacer.placeChild(parent, newElement
-							.getElement());
+					ElementPlacer.placeChild(parent, newElement.getElement());
 				}
 			} else if (oldElement != null
 					&& oldElement.getElement() != null
-					&& parent.getElement() == oldElement.getElement()
+					&& parseElement == oldElement.getElement()
 							.getParentNode()) {
 				ElementPlacer.niceRemoveChild(parent, oldElement.getElement());
 			}
@@ -260,30 +267,67 @@ public class ReconciliationHelper {
 		}
 	}
 	
+	/**
+	 * Returns a list of child nodes of <code>parentElement</code> that are
+	 * {@link Element}s. Returns an empty list if no elements are found.
+	 * 
+	 * @param parentElement
+	 *            the element to find the children of
+	 * @return a node list of the children of parentElement
+	 */
+	protected static List<Element> getChildElements(Element parentElement) {
+		List<Element> list = new ArrayList<Element>();
+
+		if (parentElement != null) {
+			NodeList children = parentElement.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				if (children.item(i).getNodeType() == Node.ELEMENT_NODE)
+					list.add((Element) children.item(i));
+			}
+		}
+
+		return list;
+	}
+
+	public static Element getExtensionActivityChildElement(
+			Element parentElement) {
+		// Find the child element.
+		List<Element> nodeList = getChildElements(parentElement);
+
+		if (nodeList.size() == 1) {
+			return nodeList.get(0);
+		}
+		return null;
+	}
 	
-	public static void replaceAttribute(WSDLElement parent, String attributeName, String attributeValue) {
-		boolean oldUpdatingDom = isUpdatingDom(parent);
+	public static void replaceAttribute(WSDLElement element, String attributeName, String attributeValue) {
+		boolean oldUpdatingDom = isUpdatingDom(element);
+
+		Element parseElement = element.getElement();
+
+		if (element instanceof ExtensionActivity) {
+			parseElement = getExtensionActivityChildElement(parseElement);
+		}
 		try {
-			setUpdatingDom(parent, true);		
+			setUpdatingDom(element, true);
 			
-			if (isLoading(parent)) {
+			if (isLoading(element)) {
 				return;
 			}
-			Element element = parent.getElement();
-			if (element == null) {
-				System.err.println("trying to replace attribute on null element:" + parent.getClass());
+			if (parseElement == null) {
+				System.err.println("trying to replace attribute on null element:" + element.getClass());
 				return;
 			}
-			if (isEqual(element.getAttribute(attributeName), attributeValue)) {
+			if (isEqual(parseElement.getAttribute(attributeName), attributeValue)) {
 				return;
 			}
-			if (attributeValue != null) {
-				element.setAttribute(attributeName, attributeValue);
+			if (attributeValue != null && !attributeValue.equals("")) {
+				parseElement.setAttribute(attributeName, attributeValue);
 			} else {
-				element.removeAttribute(attributeName);
+				parseElement.removeAttribute(attributeName);
 			}
 		} finally {
-			setUpdatingDom(parent, oldUpdatingDom);
+			setUpdatingDom(element, oldUpdatingDom);
 		}
 	}
 	
@@ -335,6 +379,9 @@ public class ReconciliationHelper {
 			}
 	
 			Element element = parent.getElement();
+			if (parent instanceof ExtensionActivity) {
+				element = getExtensionActivityChildElement(element);
+			}
 			if (element == null) {
 				System.err.println("trying to replace text on null element");
 				return;
@@ -420,6 +467,9 @@ public class ReconciliationHelper {
 				return;
 			}
 			Element parentElement = parent.getElement();
+			if (parent instanceof ExtensionActivity) {
+				parentElement = getExtensionActivityChildElement(parentElement);
+			}
 			for (Element node : ReconciliationHelper.getBPELChildElementsByLocalName(parentElement, BPELConstants.ND_CATCH)) {
 				parentElement.removeChild(node);
 			}
@@ -504,6 +554,8 @@ public class ReconciliationHelper {
 				System.err.println("Non-reconciling element:" + parent.getClass());
 				parentElement.insertBefore(childElement, beforeElement);
 			}
+		} else if (child instanceof FaultHandler) {
+			((FaultHandler) child).setElement((Element) parentElement);
 	    }
 	    
 	    // This code is to handle particular types that are created with their children
@@ -540,7 +592,7 @@ public class ReconciliationHelper {
 	    	EList<Catch> _catch = c.getCatch();
 			if (_catch.size() == 1 && _catch.get(0).getElement() == null) {
 				Catch ch = _catch.get(0);
-				Element catchElement = ReconciliationHelper.getBPELChildElementByLocalName(parentElement, BPELConstants.ND_CATCH);
+				Element catchElement = ReconciliationHelper.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_CATCH);
 				ch.setElement(catchElement);
 				reconcile(ch, catchElement);
 	    	}
@@ -579,7 +631,7 @@ public class ReconciliationHelper {
 	 *            the localName to match against
 	 * @return the first matching element, or null if no element was found
 	 */
-	public static Element getBPELChildElementByLocalName(Node parentElement,
+	public static Element getBPELChildElementByLocalName(Element parentElement,
 			String localName) {
 		if (parentElement == null) {
 			return null;
@@ -587,8 +639,7 @@ public class ReconciliationHelper {
 		NodeList children = parentElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
-			if (localName.equals(node.getLocalName())
-					&& BPELUtils.isBPELElement(node)) {
+			if (localName.equals(node.getLocalName())) {
 				return (Element) node;
 			}
 		}
@@ -655,22 +706,27 @@ public class ReconciliationHelper {
 		try {
 			setUpdatingDom(parent, true);
 			
-			if (isLoading(parent) || parent.getElement() == null) {
+			Element parseElement = parent.getElement();
+			
+			if (parent instanceof ExtensionActivity) {
+				parseElement = getExtensionActivityChildElement(parseElement);
+			}
+			if (isLoading(parent) || parseElement == null) {
 				return;
 			}
 			if (newChild.getElement() == null) {
 				newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));
 			}
-			if (newChild.getElement().getParentNode() == parent.getElement()) {
+			if (newChild.getElement().getParentNode() == parseElement) {
 				// already in the dom tree
 				return;
 			}
 			int index = children.indexOf(newChild);
 			List<Element> domChildren;
 			if (parent instanceof Sequence || parent instanceof Flow) {
-				domChildren = getActivities(parent.getElement());
+				domChildren = getActivities(parseElement);
 			} else {
-				domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parent.getElement(), nodeName);
+				domChildren = ReconciliationHelper.getBPELChildElementsByLocalName(parseElement, nodeName);
 			}
 			if (index >= domChildren.size()) {
 				ElementPlacer.placeChild(parent, newChild.getElement());

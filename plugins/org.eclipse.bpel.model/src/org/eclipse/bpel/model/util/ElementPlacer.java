@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -76,6 +77,11 @@ public class ElementPlacer {
 
 	public static void placeChild(WSDLElement parent, Node child) {
 		Element parentElement = parent.getElement();
+		
+		if (parent instanceof ExtensionActivity){
+			parentElement = ReconciliationHelper.getExtensionActivityChildElement(parentElement);
+		}
+		
 		List<String> nodeTypeList = mapper.get(parentElement.getLocalName());
 		if (nodeTypeList != null) {
 			String nodeName = child.getLocalName();
@@ -149,6 +155,11 @@ public class ElementPlacer {
 			Node referenceChild) {
 		boolean was = ReconciliationHelper.isUpdatingDom(parent);
 		Element parentElement = parent.getElement();
+		
+		if (parent instanceof ExtensionActivity){
+			parentElement = ReconciliationHelper.getExtensionActivityChildElement(parentElement);
+		}
+		
 		ReconciliationHelper.setUpdatingDom(parent, true);
 		Node child = (referenceChild == null) ? parentElement.getLastChild()
 				: referenceChild.getPreviousSibling();
@@ -243,6 +254,13 @@ public class ElementPlacer {
 		boolean was = ReconciliationHelper.isUpdatingDom(parent);
 		ReconciliationHelper.setUpdatingDom(parent, true);
 
+		
+		Element parseElement = parent.getElement();
+
+		if (parent instanceof ExtensionActivity) {
+			parseElement = ReconciliationHelper.getExtensionActivityChildElement(parseElement);
+		}
+		
 		boolean done = false;
 
 		Node previous = child.getPreviousSibling();
@@ -285,7 +303,7 @@ public class ElementPlacer {
 			}
 		}
 
-		parent.getElement().removeChild(child);
+		parseElement.removeChild(child);
 		ReconciliationHelper.setUpdatingDom(parent, was);
 	}
 }
