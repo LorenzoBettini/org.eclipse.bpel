@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.bpel.apache.ode.deploy.model; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.bpel.apache.ode.deploy.model.dd,
+ org.eclipse.bpel.apache.ode.deploy.model.dd.impl,
+ org.eclipse.bpel.apache.ode.deploy.model.dd.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ javax.wsdl,
+ org.eclipse.bpel.model,
+ org.eclipse.wst.wsdl,
+ org.eclipse.xsd
+Eclipse-LazyStart: true
