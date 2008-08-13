@@ -17,6 +17,7 @@ import java.io.File;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELMultipageEditorPart;
 import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.dialogs.SaveImageDialog;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -29,13 +30,15 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -44,24 +47,13 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 
 	private BPELMultipageEditorPart fEditor;
 
-	private String getFileName(IEditorPart editorPart) {
-		String[] filterExtensions = new String[] { "*.png", "*.jpg", "*.bmp" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		FileDialog fileDialog = new FileDialog(editorPart.getEditorSite()
-				.getShell(), SWT.SAVE);
-		String fullName = editorPart.getEditorInput().getName();
-		int pos = fullName.lastIndexOf('.');
-		String name = (pos == -1) ? fullName : fullName.substring(0, pos);
-		fileDialog.setFileName(name);
-		fileDialog.setFilterExtensions(filterExtensions);
-		fileDialog.setText(Messages.SaveImageAction_0);
-		return fileDialog.open();
-	}
-
 	public void run(IAction action) {
-		String fileName = getFileName(fEditor);
-		if (fileName == null)
+		SaveImageDialog sid = new SaveImageDialog(Display.getDefault()
+				.getActiveShell(), fEditor.getEditorInput().getName());
+		sid.setHelpAvailable(false);
+		if (sid.open() == Window.CANCEL)
 			return;
-
+		String fileName = sid.getFileName();
 		File file = new File(fileName);
 		if (file.exists() && file.isFile()) {
 			if (!MessageDialog.openQuestion(PlatformUI.getWorkbench()
@@ -74,7 +66,7 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 		}
 
 		try {
-			saveBPELAsImage(fEditor, fileName);
+			saveBPELAsImage(fEditor, fileName, sid.isTransparent());
 		} catch (Exception ex) {
 			MessageDialog.openError(fEditor.getEditorSite().getShell(),
 					Messages.SaveImageAction_3, NLS.bind(
@@ -83,7 +75,8 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 		}
 	}
 
-	private void saveBPELAsImage(IEditorPart editorPart, String fileName) {
+	private void saveBPELAsImage(IEditorPart editorPart, String fileName,
+			boolean isTransparent) {
 		GraphicalViewer viewer = (GraphicalViewer) fEditor
 				.getAdapter(GraphicalViewer.class);
 		ScalableRootEditPart rootEditPart = (ScalableRootEditPart) viewer
@@ -112,6 +105,10 @@ public class SaveImageAction extends Action implements IEditorActionDelegate {
 		ImageLoader imgLoader = new ImageLoader();
 		imgLoader.data = new ImageData[1];
 		imgLoader.data[0] = croppedImage.getImageData();
+
+		if (isTransparent)
+			imgLoader.data[0].transparentPixel = imgLoader.data[0].palette
+					.getPixel(new RGB(255, 255, 255));
 
 		int format = SWT.IMAGE_JPEG;
 		if (fileName.endsWith(".bmp")) //$NON-NLS-1$
