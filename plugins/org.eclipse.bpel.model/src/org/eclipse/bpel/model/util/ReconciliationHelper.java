@@ -706,13 +706,13 @@ public class ReconciliationHelper {
 		try {
 			setUpdatingDom(parent, true);
 			
+			if (isLoading(parent) || parent.getElement() == null) {
+				return;
+			}
 			Element parseElement = parent.getElement();
 			
 			if (parent instanceof ExtensionActivity) {
 				parseElement = getExtensionActivityChildElement(parseElement);
-			}
-			if (isLoading(parent) || parseElement == null) {
-				return;
 			}
 			if (newChild.getElement() == null) {
 				newChild.setElement(ElementFactory.getInstance().createElement(newChild, parent));

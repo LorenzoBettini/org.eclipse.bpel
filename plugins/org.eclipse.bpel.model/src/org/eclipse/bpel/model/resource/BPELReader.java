@@ -3103,8 +3103,7 @@ public class BPELReader implements ErrorHandler {
 	 */
 	protected Documentation xml2Documentation(Element documentationElement) {
 		Documentation documentation = BPELFactory.eINSTANCE.createDocumentation();
-		// TODO: Facade ? 
-		// documentation.setElement(documentationElement);
+		documentation.setElement(documentationElement);
 				 
 		if (documentationElement.hasAttribute("xml:lang")) {
 			documentation.setLang(documentationElement.getAttribute("xml:lang"));
