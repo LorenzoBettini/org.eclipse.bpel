@@ -121,6 +121,9 @@ public class DocumentationSection extends BPELPropertySection {
 		CompoundCommand ccmd = null;
 		if (fDocumentation.eContainer() == null) {
 			ccmd = new CompoundCommand();
+			fDocumentation.setSource(fSourceText.getText());
+			fDocumentation.setLang(fLangCombo.getText());
+			fDocumentation.setValue(fDescription.getText());
 			ccmd.add( new SetCommand(fModelEE,fDocumentation,BPELPackage.eINSTANCE.getExtensibleElement_Documentation()) );
 		}
 		return ccmd;
@@ -179,7 +182,7 @@ public class DocumentationSection extends BPELPropertySection {
 		data.left = new FlatFormAttachment(0,IDetailsAreaConstants.HSPACE );
 		data.right = new FlatFormAttachment(fSourceText, 0);
 		data.top = new FlatFormAttachment(fSourceText, 0, SWT.CENTER);
-		nameLabel.setLayoutData(data);								
+		nameLabel.setLayoutData(data);
 	}
 
 	@SuppressWarnings("nls")
