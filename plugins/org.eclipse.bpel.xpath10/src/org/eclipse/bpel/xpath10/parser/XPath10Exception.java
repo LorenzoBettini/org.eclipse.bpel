@@ -37,7 +37,7 @@ public class XPath10Exception extends Error {
 	}
 	
 	/**
-	 * @return
+	 * @return the position within the input stream where the exception has occurred.
 	 */
 	public int getPosition () {
 		return fPosition;

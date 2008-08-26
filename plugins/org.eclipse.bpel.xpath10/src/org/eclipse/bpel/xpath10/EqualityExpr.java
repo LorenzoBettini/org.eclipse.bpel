@@ -11,7 +11,22 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * An equality XPath expression.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
 public class EqualityExpr extends BinaryExpr {
+	
+	/**
+	 * Brand new shiny EqualityExpr ...
+	 * @param op
+	 * @param left
+	 * @param right
+	 */
+	
 	public EqualityExpr (String op, Expr left, Expr right) {
 		super (op,left,right);
 	}

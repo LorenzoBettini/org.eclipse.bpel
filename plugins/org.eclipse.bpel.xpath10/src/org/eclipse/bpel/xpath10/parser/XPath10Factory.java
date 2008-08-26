@@ -26,7 +26,7 @@ public class XPath10Factory {
 
 	/**
 	 * @param source
-	 * @return
+	 * @return a brand new shiny xpath expr [ whatever it may be ]
 	 * @throws XPath10Exception
 	 */
 	static public Expr create (String source) throws XPath10Exception

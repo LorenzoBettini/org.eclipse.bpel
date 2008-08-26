@@ -11,7 +11,21 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * Logical Expression (and,or)
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+
+ */
 public class LogicalExpr extends BinaryExpr {
+	
+	/**
+	 * Brand new shiny LogicalExpr.
+	 * @param op
+	 * @param left
+	 * @param right
+	 */
 	public LogicalExpr (String op, Expr left, Expr right) {
 		super (op,left,right);
 	}

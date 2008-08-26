@@ -11,7 +11,22 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * Multiplicative expression ... ( *,/,mod,div)
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
 public class MultiplicativeExpr extends BinaryExpr {
+	
+	/**
+	 * Brand new shiny multiplicative expression.
+	 * @param op
+	 * @param left
+	 * @param right
+	 */
+	
 	public MultiplicativeExpr (String op, Expr left, Expr right) {
 		super (op,left,right);
 	}

@@ -11,19 +11,39 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * A literal expression (string literal).
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+
+@SuppressWarnings("nls")
+
 public class LiteralExpr extends Expr {
 
 	String fLiteral;
+	
+	/**
+	 * Brand new shiny string literal expression.
+	 * 
+	 * @param text
+	 */
 	public LiteralExpr (String text) {
 		super(text);
 		fLiteral = parseLiteral( text);
 	}
 	
+    /**
+     * @return the literal
+     */
     public String getLiteral() {
     	return fLiteral;    	
     }
     
-    protected String parseLiteral (String string) {
+    
+	protected String parseLiteral (String string) {
     	if (string.length()  < 2) {
     		return "";
     	}

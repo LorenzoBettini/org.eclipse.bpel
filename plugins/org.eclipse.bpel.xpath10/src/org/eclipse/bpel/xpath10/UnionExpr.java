@@ -11,7 +11,25 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * A union expression in XPath.
+ * Basically 
+ *   <pre>path | path</pre>
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
 public class UnionExpr extends BinaryExpr {
+	
+	/**
+	 * A Brand new shiny union expression. 
+	 * 
+	 * @param op should only be |
+	 * @param left 
+	 * @param right 
+	 */
+	
 	public UnionExpr (String op, Expr left, Expr right) {
 		super (op,left,right);
 	}

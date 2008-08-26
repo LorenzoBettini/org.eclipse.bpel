@@ -11,15 +11,34 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * All note step.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+
+@SuppressWarnings("nls")
+
 public class AllNodeStep extends Step {
+	
+	/**
+	 * Brand new shiny all node step.
+	 * 
+	 * @param axis 
+	 */
 	
 	public AllNodeStep (int axis) {
 		super(axis);
 	}
+		
+	@Override
 	protected String asString () {
 		return "node()";
 	}
 	
+	@Override
 	protected String asText () {
 		return asString();
 	}

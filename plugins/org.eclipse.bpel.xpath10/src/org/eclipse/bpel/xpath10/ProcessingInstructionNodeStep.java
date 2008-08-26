@@ -11,20 +11,40 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * ProcessingIntstruction node step in an XPath path.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+
+@SuppressWarnings("nls")
+
 public class ProcessingInstructionNodeStep extends Step {
 	
 	String fName; 
+	/** 
+	 * Brand new processing-instruction-node-step ...
+	 * @param axis
+	 * @param name
+	 */
 	public ProcessingInstructionNodeStep (int axis, String name) {
 		super(axis);
 		fName = name;
 		
 	}
 	
+	/**
+	 * @return name of the processing instruction.
+	 */
 	public String getName () {
 		return fName;
 	}	
+		
 	
-	public String asString () {
+	@Override
+	protected String asString () {
 		StringBuilder sb = new StringBuilder ();
 		sb.append("processing-instruction(");
 		if (fName != null) {
@@ -34,7 +54,8 @@ public class ProcessingInstructionNodeStep extends Step {
 		return sb.toString();
 	}
 	
-	public String asText() {
+	@Override
+	protected String asText() {
 		return asString();
 	}
 }

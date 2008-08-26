@@ -11,16 +11,37 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * The comment() element of the XPath location path.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+
+@SuppressWarnings("nls")
+
 public class CommentNodeStep extends Step {
 	
+	/**
+	 * Bran new shiny comment node step.
+	 * @param axis
+	 */
 	public CommentNodeStep (int axis) {
 		super(axis);
 	}
 
+	/**
+	 * @see org.eclipse.bpel.xpath10.Step#getText()
+	 */
+	@Override
 	public String getText() {
 		return asString();
 	}
-	public String asString () {
+	
+		
+	@Override
+	protected String asString () {
 		return "comment()";
 	}
 }

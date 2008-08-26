@@ -12,26 +12,51 @@
 package org.eclipse.bpel.xpath10;
 
 
+
+/**
+ * A unary expression.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+@SuppressWarnings("nls")
+
 public class UnaryExpr extends Expr {
 
 	Expr fExpr;
 	String fOparand;
 		
+	/**
+	 * Brand new shiny unary expression
+	 * @param expr
+	 */
 	public UnaryExpr (Expr expr) {
 		super(expr.toString());
 		fExpr = expr;
 	}
 	
+	/** 
+	 * @return the RHS of the unary expression.
+	 */
+	
 	public Expr getExpr () {
 		return fExpr;		
 	}
     
+	/**
+	 * Set the operand of the unary expression.
+	 * 
+	 * @param operand the operand
+	 */
+	
 	public void setOperand  (String operand)
 	{
 		fOparand = operand;
 	}
 	
-    protected String asText()
+    @Override
+	protected String asText()
     {
     	StringBuilder sb = new StringBuilder();
     	if (fOparand != null) {
@@ -43,7 +68,9 @@ public class UnaryExpr extends Expr {
     	return sb.toString();
     }
     
-    protected String asString () {
+    
+	@Override
+	protected String asString () {
     	StringBuilder sb = new StringBuilder();
     	if (fOparand != null) {
     		sb.append(fOparand);
@@ -55,15 +82,27 @@ public class UnaryExpr extends Expr {
     	return sb.toString();
     }
     
-    public boolean isWrapParen () {
+    /**
+     * @see org.eclipse.bpel.xpath10.Expr#isWrapParen()
+     */
+    @Override
+	public boolean isWrapParen () {
     	return fExpr != null ? fExpr.isWrapParen() : false;
     }
     
-    public int getPosition ()  {
+    /**
+     * @see org.eclipse.bpel.xpath10.Expr#getPosition()
+     */
+    @Override
+	public int getPosition ()  {
     	return fExpr != null ? fExpr.getPosition() : -1;
     }
     
-    public int getEndPosition () {
+    /**
+     * @see org.eclipse.bpel.xpath10.Expr#getEndPosition()
+     */
+    @Override
+	public int getEndPosition () {
     	return fExpr != null ? fExpr.getEndPosition() : -1;
     }
     

@@ -11,20 +11,38 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * A number expression.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
 public class NumberExpr extends Expr {
 	
 	Number fNumber = new Integer(0);
 	
+	/**
+	 * Brand new shiny number expression.
+	 * @param number
+	 */
 	public NumberExpr (String number) {
 		super( number );
 		fNumber = extractNumber(number);
 	}
 	
+	/**
+	 * Brand new shiny number expression.
+	 * @param num
+	 */
 	public NumberExpr (Number num) {
 		super(num.toString());
 		fNumber = num;
 	}
 	
+	/**	 
+	 * @return the number.
+	 */
 	public Number getNumber() {
 		return fNumber;
 	}
@@ -33,13 +51,15 @@ public class NumberExpr extends Expr {
         boolean isReal = numberBody.indexOf('.') >= 0; 
         if (!isReal) {
             return new Integer(numberBody);
-        } else {
-            double result = Double.parseDouble(numberBody);
-            return new Double(result);
         }
+		double result = Double.parseDouble(numberBody);
+		return new Double(result);
     }
    
 	
+	/**
+	 * negate the number expression.
+	 */
 	public void negate () {
 		
 		if (fNumber instanceof Float) {

@@ -11,12 +11,29 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * 
+ * A binary expression. Something with left and right side and an operator in the middle.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+@SuppressWarnings("nls")
+
 public class BinaryExpr extends Expr {
 	
 	String fOperator;
 	Expr fLHS;
 	Expr fRHS;
 	
+	/**
+	 * Brand new shiny binary expression.
+	 * 
+	 * @param op
+	 * @param lhs
+	 * @param rhs
+	 */
 	public BinaryExpr (String op, Expr lhs, Expr rhs) {
 		super("");
 		fOperator = op;
@@ -24,17 +41,34 @@ public class BinaryExpr extends Expr {
 		fRHS = rhs;
 	}
 	
+	/**
+	 * @return the operator of the binary expression.
+	 */
+	
 	public String getOperator() {
 		return fOperator;
 	}
+	/**
+	 * 
+	 * @return the left hand side of the expression.
+	 */
+	
 	public Expr getLHS() {
-		return fLHS;
+		return fLHS;	
 	}
+	
+    /**
+     * 
+     * @return the right hand side of the expression.
+     */
+	
     public Expr getRHS() {
     	return fRHS;
     }
     
-    protected String asText() {
+
+	@Override
+	protected String asText() {
     	StringBuilder sb = new StringBuilder();
     	if (isWrapParen()) {
     		sb.append("(");
@@ -51,7 +85,8 @@ public class BinaryExpr extends Expr {
     }
     
 
-    protected String asString () {
+    @Override
+	protected String asString () {
     	StringBuilder sb = new StringBuilder();
     	if (isWrapParen()) {
     		sb.append("(");
@@ -64,11 +99,20 @@ public class BinaryExpr extends Expr {
     }
     
      
-    public int getPosition () {    	
+    /**
+     * @see org.eclipse.bpel.xpath10.Expr#getPosition()
+     */
+    @Override
+	public int getPosition () {    	
     	return getLHS().getPosition();
     }
     
-    public int getEndPosition () {
+    /**
+     * @see org.eclipse.bpel.xpath10.Expr#getEndPosition()
+     */
+    
+    @Override
+	public int getEndPosition () {
     	return getRHS().getEndPosition();
     }
     

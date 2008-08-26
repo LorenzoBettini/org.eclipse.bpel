@@ -14,6 +14,15 @@ package org.eclipse.bpel.xpath10;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A step in the location path ...
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+
+@SuppressWarnings("nls")
 public class Step {
 
 	int fAxis = 0;
@@ -22,11 +31,20 @@ public class Step {
 	int fStartPosition = -1;
 	int fEndPosition = -1;
 	
+	/**
+	 * Bran new step ... on the axis specified.
+	 * 
+	 * @param axis
+	 */
 	public Step (int axis) {
 		fAxis = axis;			
 	}
 	
 	
+	/**
+	 * @return return the text of this step.
+	 */
+
 	public String getText()
     {
         StringBuilder buf = new StringBuilder();
@@ -44,14 +62,27 @@ public class Step {
 		return "?";
 	}
 	
+	/**
+	 * @return the axis of this step.
+	 */
 	public int getAxis () {
 		return fAxis;
 	}
 	
+	/**
+	 * Set the axis of this step (from parser).
+	 * 
+	 * @param axis the axis of this step.
+	 */
 	public void setAxis (int axis) {
 		fAxis = axis;
 	}
 	
+	/**
+	 * Add a predicate to this step.
+	 * 
+	 * @param predicate
+	 */
 	public void addPredicate(Predicate predicate)
 	{
 		if (predicate != null) {
@@ -59,16 +90,26 @@ public class Step {
 		}
 	}
 	
+    /**
+     * @return all predicates of this step. 
+     */
     public List<Predicate> getPredicates() {
     	return fList;
     }
     
+    /**
+     * @return the axis name.
+     */
     public String getAxisName ()
     {
     	return Axis.getName(fAxis);
     }
     
-    public String toString () {
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+	public String toString () {
     	StringBuilder sb = new StringBuilder();
     	sb.append("{").append(getClass().getSimpleName()).append(",").append(getAxisName()).append(",");
     	sb.append(asString());
@@ -87,14 +128,28 @@ public class Step {
     }
     
     
+    /**
+     * @return the end position of this step in the input "stream"
+     */
     public int getEndPosition() {
 		return fEndPosition;
 	}
+
+    /**
+     * @return the start position of this step in the input "stream"
+     */
 
 	public int getPosition() {
 		return fStartPosition;
 	}
 	
+	/**
+	 * Set the position of this step in the input stream.
+	 * This is called by the parser ...
+	 * 
+	 * @param start
+	 * @param end
+	 */
 	public void setPosition (int start, int end) {
 		fStartPosition = start;		
 		fEndPosition = end;

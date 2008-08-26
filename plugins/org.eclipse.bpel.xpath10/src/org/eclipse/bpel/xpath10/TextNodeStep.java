@@ -11,12 +11,25 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * TextNodeStep are text() nodes in any XPath path. 
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
 public class TextNodeStep extends Step {
 	
+	/**
+	 * Brand new shiny TextNodeStep
+	 * @param axis
+	 */
 	public TextNodeStep (int axis) {
 		super(axis);
 	}
 	
+	@Override
+	@SuppressWarnings("nls")
 	protected String asText()
     {
 		return "text()";

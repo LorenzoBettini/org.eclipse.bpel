@@ -11,7 +11,22 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * Additive Expression.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
+
 public class AdditiveExpr extends BinaryExpr {
+
+	/**
+	 * Brand new additive expression. 
+	 * @param op either + or - (additive)
+	 * @param left 
+	 * @param right
+	 */
 	public AdditiveExpr (String op, Expr left, Expr right) {
 		super (op,left,right);
 	}

@@ -17,7 +17,11 @@ package org.eclipse.bpel.xpath10 ;
 import java.util.List;
 
 
-@SuppressWarnings({"nls","boxing"})
+/**
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ */
 
 public class Visitor  {
 			
@@ -65,8 +69,7 @@ public class Visitor  {
 		 
 	}
 
-	
-	@SuppressWarnings("nls")
+		
 	protected void visit (VariableReferenceExpr expr) {
 		 
 	}

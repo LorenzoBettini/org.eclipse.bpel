@@ -11,7 +11,23 @@
 
 package org.eclipse.bpel.xpath10;
 
+/**
+ * A relational expression ( >,<, etc.) 
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * @date Aug 26, 2008
+ *
+ */
 public class RelationalExpr extends BinaryExpr {
+	
+	/**
+	 * A brand new shiny relational expression.
+	 * 
+	 * @param op
+	 * @param left
+	 * @param right
+	 */
+	
 	public RelationalExpr (String op, Expr left, Expr right) {
 		super (op,left,right);
 	}
