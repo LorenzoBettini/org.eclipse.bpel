@@ -22,7 +22,6 @@ Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.3.0",
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: bin,
- tests/,
  meta/
 Export-Package: org.eclipse.bpel.validator,
  org.eclipse.bpel.validator.adapters,
@@ -31,7 +30,6 @@ Export-Package: org.eclipse.bpel.validator,
  org.eclipse.bpel.validator.model,
  org.eclipse.bpel.validator.plt,
  org.eclipse.bpel.validator.rules,
- org.eclipse.bpel.validator.junit,
  org.eclipse.bpel.validator.tools,
  org.eclipse.bpel.validator.unsupported,
  org.eclipse.bpel.validator.vprop,

@@ -16,5 +16,6 @@ Packages.org.eclipse.jface.dialogs.MessageDialog.openInformation(
 
 
 function main() {
+	alert("Hello world ...")
     Packages.org.eclipse.bpel.validator.model.Messages.clear();    
 }

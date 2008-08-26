@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
  *
  */
 
+@SuppressWarnings("nls")
 
 public class Messages {
 	
@@ -73,8 +74,7 @@ public class Messages {
 	 * @param bundleName
 	 * @return the messages for that bundle name.
 	 */
-	
-	@SuppressWarnings("unchecked")
+		
 	static final public Messages getMessages ( String bundleName ) {
 		
 		Messages msg = BUNDLES.get( bundleName );
@@ -102,6 +102,7 @@ public class Messages {
 	 * @param bundleName
 	 * 
 	 */
+	
 	
 	public Messages ( String bundleName ) {
 				
@@ -181,8 +182,7 @@ public class Messages {
 	 * @param key
 	 * @return the missing key format string
 	 */
-	
-	@SuppressWarnings("nls")
+
 	static public final String missingKey (String key) {
 		StringBuilder sb = new StringBuilder(64);
 		sb.append("!!").append(key).append("! [0={0},1={1},2={2},3={3},4={4},5={5}]");
