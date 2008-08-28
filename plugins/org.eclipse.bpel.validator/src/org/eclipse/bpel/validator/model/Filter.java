@@ -38,7 +38,12 @@ public class Filter {
 		fName = name;
 	}
 	
-	static protected Comparator<QName> QNAME_COMPARATOR = new Comparator<QName>() {
+	/**
+	 * Comparator for QNames.
+	 * 
+	 */
+	
+	public static Comparator<QName> QNAME_COMPARATOR = new Comparator<QName>() {
 		
 		public int compare(QName o1, QName o2) {
 			int result = o1.getLocalPart().compareTo(o2.getLocalPart());
@@ -47,10 +52,17 @@ public class Filter {
 			}			
 			return result;
 		}	
-		
-		
 	};
-		
+	
+	/**
+	 * 
+	 */
+	public static Comparator<String> STRING_COMPARATOR = new Comparator<String>() {
+
+		public int compare(String o1, String o2) {
+			return o1.compareTo(o2);
+		}		
+	};
 	
 	/**
 	 * Create a readable values list.

@@ -37,16 +37,16 @@ public class Filters implements IConstants {
 	public static final IFilter<INode> FLOW = new NodeNameFilter( ND_FLOW );
 	
 	/** Boolean filter values */
-	static public final IFilter<String> BOOLEAN_FILTER = new ValueFilter<String> ( BOOLEAN_VALUES );
+	static public final IFilter<String> BOOLEAN_FILTER = new ValueFilter<String> ( Filter.STRING_COMPARATOR, BOOLEAN_VALUES );
 	
 	/** Initiate filter values */
-	public static final IFilter<String> INITIATE_FILTER = new ValueFilter<String> (INITIATE_VALUES);
+	public static final IFilter<String> INITIATE_FILTER = new ValueFilter<String> (Filter.STRING_COMPARATOR,INITIATE_VALUES);
 
 	/** End point values */
-	public static final IFilter<String> ENDPOINT_FILTER = new ValueFilter<String> (ENDPOINT_VALUES);
+	public static final IFilter<String> ENDPOINT_FILTER = new ValueFilter<String> (Filter.STRING_COMPARATOR,ENDPOINT_VALUES);
 
 	/** Correlation pattern values */
-	public static final IFilter<String> PATTERN_FILTER = new ValueFilter<String> ( PATTERN_VALUES );
+	public static final IFilter<String> PATTERN_FILTER = new ValueFilter<String> ( Filter.STRING_COMPARATOR,PATTERN_VALUES );
 	
 	/** Repeatable nodes */
 	public static final IFilter<INode> REPEATABLE_CONSTRUCT = new NodeNameFilter ( REPEATABLE_NODES );

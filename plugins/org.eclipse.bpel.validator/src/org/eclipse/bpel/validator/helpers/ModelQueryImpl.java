@@ -135,14 +135,18 @@ public class ModelQueryImpl  implements IModelQuery {
 			
 			Object v1 = n1.nodeValue();
 			Object v2 = n2.nodeValue();
-			
-			if (v1 != null) {
-				return v1.equals (v2) ;
-			} else if (v2 != null) {
-				return v2.equals(v1) ;
-			} else {
+
+			// both identical or null
+			if (v1 == v2) {
 				return true;
 			}
+			
+			// not identical and *not* both null.
+			if (v1 != null) {
+				return v1.equals(v2);
+			}
+			// v1 is null and not identical to v2 so false.
+			return false;
 		
 		case TEST_COMPATIBLE_PARTNER_ACTIVITY_MESSAGE:
 			// n1 is source 

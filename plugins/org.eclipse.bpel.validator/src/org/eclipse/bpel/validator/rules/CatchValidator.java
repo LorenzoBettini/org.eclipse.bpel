@@ -13,6 +13,7 @@ package org.eclipse.bpel.validator.rules;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.validator.model.Filter;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
@@ -30,10 +31,7 @@ import org.eclipse.bpel.validator.model.ValueFilter;
  */
 
 @SuppressWarnings({"nls","boxing"})
-
 public class CatchValidator extends CatchAllValidator {
-
-	
 	
 	protected String fFaultName;
 	
@@ -101,6 +99,7 @@ public class CatchValidator extends CatchAllValidator {
 	
 	
 	static IFilter<QName> TYPE_DEFS = new ValueFilter<QName> ( 
+			Filter.QNAME_COMPARATOR,
 			AT_FAULT_MESSAGE_TYPE, AT_FAULT_ELEMENT 
 	);
 	

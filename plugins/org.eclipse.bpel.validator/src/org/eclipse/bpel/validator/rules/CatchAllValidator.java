@@ -22,8 +22,6 @@ import org.eclipse.bpel.validator.model.NodeNameFilter;
  *
  */
 
-@SuppressWarnings("nls")
-
 public class CatchAllValidator extends CValidator {
 
 	/**

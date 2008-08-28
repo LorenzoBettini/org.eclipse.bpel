@@ -30,7 +30,7 @@ import org.eclipse.bpel.validator.model.Validator;
  *
  */
 
-
+@SuppressWarnings("nls")
 public class ConditionValidator extends CValidator {
 			
 	/** list of my parents */	
@@ -63,6 +63,7 @@ public class ConditionValidator extends CValidator {
 	 * Checks the expression language attribute for support in the model.
 	 */
 	
+	
 	@ARule(
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the expression language for support in the BPEL model",		
@@ -80,7 +81,7 @@ public class ConditionValidator extends CValidator {
 			
 			problem = createError();
 			problem.fill( 
-					"BPELC__UNSUPPORTED_XML_LANG",  //$NON-NLS-1$
+					"BPELC__UNSUPPORTED_XML_LANG",
 					AT_EXPRESSIONLANGUAGE,
 					fExpressionLanguage);
 			

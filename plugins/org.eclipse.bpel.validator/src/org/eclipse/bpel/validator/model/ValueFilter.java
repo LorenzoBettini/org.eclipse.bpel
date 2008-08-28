@@ -26,18 +26,7 @@ public class ValueFilter<T> extends Filter implements IFilter<T> {
 
 	T[] fList;
 	Comparator<T> fComparator;
-	
-	/**
-	 * Create a filer for the values indicated.
-	 * 
-	 * @param values
-	 */
-
-	public ValueFilter (T... values) {
-		fList = values;
-		Arrays.sort(fList);
-	}
-
+		
 	/**
 	 * @param comparator
 	 * @param values

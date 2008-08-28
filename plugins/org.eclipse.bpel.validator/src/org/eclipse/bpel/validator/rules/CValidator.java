@@ -34,7 +34,6 @@ import org.eclipse.bpel.validator.model.Validator;
  */
 
 @SuppressWarnings("nls")
-
 public class CValidator extends Validator {
 	
 	/** The parent node */
@@ -136,8 +135,7 @@ public class CValidator extends Validator {
 	 * @param min
 	 * @param max
 	 * @return the number of occurrences of this child.
-	 */
-	@SuppressWarnings("nls")
+	 */	
 	
 	public int checkChild (QName node, int min, int max) {
 		return checkChild ( new NodeNameFilter(node),min,max) ;

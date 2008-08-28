@@ -16,6 +16,7 @@ import javax.xml.namespace.QName;
 
 
 import org.eclipse.bpel.validator.model.ARule;
+import org.eclipse.bpel.validator.model.Filter;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
@@ -48,15 +49,12 @@ import org.eclipse.bpel.validator.model.ValueFilter;
 
 
 /**
- * Validate the receive activity.
- * 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
- * @date Sep 25, 2006
+ * @date Aug 28, 2008
  *
  */
 
 @SuppressWarnings( {"hiding","nls","boxing"} )
-
 public class OnEventValidator extends CPartnerActivityValidator {
 		
 
@@ -152,7 +150,9 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	
 	
 
-	static IFilter<QName> TYPE_DEFS = new ValueFilter<QName>( AT_MESSAGE_TYPE, AT_ELEMENT);
+	static IFilter<QName> TYPE_DEFS = new ValueFilter<QName>( 
+			Filter.QNAME_COMPARATOR,
+			AT_MESSAGE_TYPE, AT_ELEMENT);
 	
 	
 	/**
