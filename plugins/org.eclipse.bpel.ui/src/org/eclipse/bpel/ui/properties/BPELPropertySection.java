@@ -46,9 +46,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.internal.views.properties.tabbed.view.Tab;
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyViewer;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
+import org.eclipse.ui.views.properties.tabbed.TabContents;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
@@ -519,7 +519,7 @@ public abstract class BPELPropertySection extends AbstractPropertySection
 			}
 			
 			protected BPELPropertySection getSection (int index) {
-				 Tab tab = getTabbedPropertySheetPage().getCurrentTab();
+				 TabContents tab = getTabbedPropertySheetPage().getCurrentTab();
 				 if (tab != null) {
 					 return (BPELPropertySection) tab.getSectionAtIndex(sectionIndex);
 				 }
