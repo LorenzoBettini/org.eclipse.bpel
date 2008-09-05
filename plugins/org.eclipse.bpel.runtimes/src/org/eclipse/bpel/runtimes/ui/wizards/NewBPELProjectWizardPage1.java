@@ -26,8 +26,10 @@ public class NewBPELProjectWizardPage1 extends DataModelFacetCreationWizardPage 
 
 	public NewBPELProjectWizardPage1(IDataModel dataModel, String pageName) {
 		super(dataModel, pageName);
-		setTitle(Messages.NewProjectWizard_1);
-		setDescription(Messages.NewProjectWizardPage1_1);
+		//setTitle(org.eclipse.bpel.runtimes.ui.wizards.Messages.NewProjectWizard_1);
+		//setDescription(org.eclipse.bpel.runtimes.ui.wizards.Messages.NewProjectWizardPage1_1);
+		setTitle(org.eclipse.bpel.runtimes.ui.wizards.Messages.NewProjectWizard_1);
+		setDescription(org.eclipse.bpel.runtimes.ui.wizards.Messages.NewProjectWizardPage1_1);		
 		setImageDescriptor(RuntimesPlugin.getPlugin().getImageDescriptor(IRuntimesUIConstants.ICON_NEWPRJ_WIZARD_BANNER));
 	}
 	
@@ -35,4 +37,8 @@ public class NewBPELProjectWizardPage1 extends DataModelFacetCreationWizardPage 
 		return IBPELModuleFacetConstants.BPEL20_MODULE_TYPE;
 	}
 
+	protected String getModuleTypeID() {
+		return IBPELModuleFacetConstants.BPEL20_PROJECT_FACET;
+	}
+	
 }
