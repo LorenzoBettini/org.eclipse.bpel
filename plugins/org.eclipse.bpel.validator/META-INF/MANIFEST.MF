@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.3.0",
  org.eclipse.wst.validation;bundle-version="1.1.0",
  org.eclipse.wst.wsdl.validation;bundle-version="1.1.0",
  org.eclipse.wst.xml.core;bundle-version="1.1.0",
- javax.wsdl;bundle-version="1.4.0",
+ javax.wsdl;bundle-version="[1.4.0,1.5.0)",
  org.eclipse.bpel.xpath10,
  org.junit
 Eclipse-LazyStart: true
