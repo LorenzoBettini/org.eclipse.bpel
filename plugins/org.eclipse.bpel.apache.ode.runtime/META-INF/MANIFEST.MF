@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.server.ui,
  org.eclipse.jst.common.project.facet.core,
  org.eclipse.jst.server.core,
- javax.wsdl,
+ javax.wsdl;bundle-version="[1.4.0,1.5.0)",
  org.eclipse.bpel.apache.ode.deploy.model
 Bundle-Activator: org.eclipse.bpel.apache.ode.runtime.OdePlugin
 Export-Package: org.eclipse.bpel.apache.ode.runtime
