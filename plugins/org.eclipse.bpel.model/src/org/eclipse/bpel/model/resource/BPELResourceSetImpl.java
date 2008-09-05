@@ -133,17 +133,17 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 	// TODO: ganymede [ this method apparently is already in the parent resource set ]
 	// we can strike it from this resourceset.
 	
-	@SuppressWarnings("nls")
-	public Resource createResource ( URI uri, String kind) {
-		
-		if (kind == null) {
-			return super.createResource(uri);
-		}
-		
-		Resource resource = createResource(URI.createURI("*." + kind)); 
-		resource.setURI(uri);		
-		return resource;
-	}
+//	@SuppressWarnings("nls")
+//	public Resource createResource ( URI uri, String kind) {
+//		
+//		if (kind == null) {
+//			return super.createResource(uri);
+//		}
+//		
+//		Resource resource = createResource(URI.createURI("*." + kind)); 
+//		resource.setURI(uri);		
+//		return resource;
+//	}
 
 
 	
