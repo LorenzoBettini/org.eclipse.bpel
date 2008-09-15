@@ -1803,14 +1803,15 @@ public class BPELWriter {
 
 		Element ifElement = createBPELElement("if");
 
-		if (activity.getActivity() != null) {
-			ifElement.appendChild(activity2XML(activity.getActivity()));
-		}
-
 		if (activity.getCondition() != null) {
 			ifElement.appendChild(expression2XML(activity.getCondition(),
 					"condition"));
 		}
+
+		if (activity.getActivity() != null) {
+			ifElement.appendChild(activity2XML(activity.getActivity()));
+		}
+
 
 		List<?> elseIfs = activity.getElseIf();
 		if (!elseIfs.isEmpty()) {
