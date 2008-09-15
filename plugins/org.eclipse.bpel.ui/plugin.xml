@@ -6,6 +6,7 @@
    <extension-point id="expressionEditors" name="Expression Language Editors" schema="schemas/expressionEditors.exsd"/>
    <extension-point id="actions" name="Actions" schema="schemas/actions.exsd"/>
    <extension-point id="modelListener" name="Model Listener" schema="schemas/modelListener.exsd"/>
+   <extension-point id="uiObjectFactories" name="UIObjectFactories" schema="schema/uiObjectFactories.exsd"/>
 
 
    <extension

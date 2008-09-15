@@ -17,8 +17,11 @@ import org.eclipse.bpel.ui.Policy;
 import org.eclipse.bpel.ui.bpelactions.AbstractBPELAction;
 import org.eclipse.bpel.ui.extensions.ActionDescriptor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.bpel.ui.extensions.UIObjectFactoryDescriptor;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.emf.ecore.EClass;
 
 
 /**
@@ -53,6 +56,45 @@ public class UIObjectFactoryProvider {
 //			EClass modelType = BPELUIObjectFactory.bpelPlusClassArray[i];
 //			provider.register(modelType, new BPELUIObjectFactory(modelType));
 //		}
+		
+		
+		
+		// List of extension ui object factories factories 
+		UIObjectFactoryDescriptor[] factories = BPELUIRegistry.getInstance().getUIObjectFactoryDescriptors();
+		
+		// loop over List of extension ui object factories
+		for (int i = 0; i < factories.length; i++) {
+		    
+		    // get the extension ui object factory
+		    AbstractUIObjectFactory factory = factories[i].getFactory();
+            
+		    // get the classes for which the extension ui object factory is responsible
+		    EClass[] classArray = ((IExtensionUIObjectFactory)factory).getClassArray();
+		    
+		    // get the configuration element of the extension ui object factory
+		    IConfigurationElement factConfigElement = factories[i].getConfigElement();
+
+		    // loop over classes for which the extension ui object factory is responsible
+		    for (int j = 0; j < classArray.length; j++) {
+		        // get the class name 
+				EClass modelType = classArray[j];		
+				IExtensionUIObjectFactory fact = null;
+				try {
+				    // create a extension ui object factory
+                    fact = (IExtensionUIObjectFactory)factConfigElement. createExecutableExtension("class");
+                    // set the class for which the factory is responsible
+                    fact.setModelType(modelType);
+                } catch (CoreException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+				
+                // register the factory
+				provider.register(modelType, (AbstractUIObjectFactory)fact);
+			}
+        }
+		
+		
 		
 		// TODO: We are currently overwritting the ones already provided above.
 		// We should change that so that we do not create the ones for action twice.

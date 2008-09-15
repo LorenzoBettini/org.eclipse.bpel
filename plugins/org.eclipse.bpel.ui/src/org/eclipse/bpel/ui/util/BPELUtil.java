@@ -88,6 +88,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -102,6 +103,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -116,7 +118,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Tool;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
@@ -225,6 +226,9 @@ public class BPELUtil {
 		AdapterRegistry.INSTANCE.registerAdapterFactory(key,factory);
 	}
 	
+	public static void registerAdapterFactory(EPackage key, AdapterFactory factory) {
+		AdapterRegistry.INSTANCE.registerAdapterFactory(key, factory);
+	}
 	
 	static Class<?> adapterInterface ( Object type ) {
 		

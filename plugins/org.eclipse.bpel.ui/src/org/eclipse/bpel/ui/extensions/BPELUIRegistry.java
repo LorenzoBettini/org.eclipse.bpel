@@ -22,6 +22,7 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.bpelactions.AbstractBPELAction;
 import org.eclipse.bpel.ui.expressions.DefaultExpressionEditor;
 import org.eclipse.bpel.ui.expressions.IExpressionEditor;
+import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -64,6 +65,7 @@ public class BPELUIRegistry {
 	private ActionCategoryDescriptor[] fActionCategoryDescriptors;
 	private ActionDescriptor[] fActionDescriptors;
 	private ListenerDescriptor[] fListenerDescriptors;
+	private UIObjectFactoryDescriptor[] uiObjectFactoryDescriptor;
 	private IHoverHelper hoverHelper;
 	
 	private BPELUIRegistry() {
@@ -71,6 +73,7 @@ public class BPELUIRegistry {
 		readHoverHelpers();
 		readActions();
 		readListeners();
+		readUIObjecFactories();
 	}
 
 	/**
@@ -150,6 +153,13 @@ public class BPELUIRegistry {
 		}
 	}
 
+    /**
+     * Return the UIObjectFactory descriptors
+     */
+	public UIObjectFactoryDescriptor[] getUIObjectFactoryDescriptors() {
+        return uiObjectFactoryDescriptor;
+    }
+	
 	/**
 	 * Return all action descriptors.
 	 * @return Return all action descriptors.
@@ -254,6 +264,40 @@ public class BPELUIRegistry {
 		actions.toArray(fActionDescriptors);
 	}
 
+    /**
+     * Read all the actions and categories.
+     */
+    private void readUIObjecFactories() {
+        List categories = new ArrayList();
+        List factories = new ArrayList();
+        IConfigurationElement[] extensions = getConfigurationElements("uiObjectFactories");
+        for (int i = 0; i < extensions.length; i++) {
+            IConfigurationElement element = extensions[i];
+            if (element.getName().equals("factory")) {
+                String id = element.getAttribute(ATT_ID);
+                String category = element.getAttribute(ATT_CATEGORY_ID);
+                String specCompliant = element.getAttribute(ATT_SPEC_COMPLIANT);
+                if (category != null && id != null) {
+                    UIObjectFactoryDescriptor descriptor = new UIObjectFactoryDescriptor();
+                    descriptor.setId(id);
+                    descriptor.setCategoryId(category);
+                    descriptor.setSpecCompliant(Boolean.valueOf(specCompliant).booleanValue());
+                    try {
+                        AbstractUIObjectFactory factory = (AbstractUIObjectFactory) element.createExecutableExtension(ATT_CLASS);
+                        descriptor.setFactory(factory);
+                        descriptor.setConfigElement(element);
+                    } catch (CoreException e) {
+                        BPELUIPlugin.log(e);
+                    }
+                    factories.add(descriptor);
+                }
+            }
+        }
+
+        uiObjectFactoryDescriptor = new UIObjectFactoryDescriptor[factories.size()];
+        factories.toArray(uiObjectFactoryDescriptor);
+    }
+	
 	/**
 	 * Read all the model listeners
 	 */
