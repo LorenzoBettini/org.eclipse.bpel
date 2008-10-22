@@ -2,24 +2,20 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SampleStructuredActivityImpl.java,v 1.1 2008/09/15 15:44:28 smoser Exp $
+ * $Id: SampleStructuredActivityImpl.java,v 1.2 2008/10/22 12:15:51 smoser Exp $
  */
 package org.eclipse.bpel.extensionsample.model.impl;
 
 import org.eclipse.bpel.extensionsample.model.ModelPackage;
 import org.eclipse.bpel.extensionsample.model.SampleStructuredActivity;
-
 import org.eclipse.bpel.model.Activity;
-
 import org.eclipse.bpel.model.impl.ExtensionActivityImpl;
 import org.eclipse.bpel.model.util.ReconciliationHelper;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -173,4 +169,21 @@ public class SampleStructuredActivityImpl extends ExtensionActivityImpl implemen
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	protected void adoptContent(EReference reference, Object object) {
+		if (object instanceof Activity) {
+			ReconciliationHelper.replaceChild(this, activity, (Activity) object);
+		}
+		super.adoptContent(reference, object);
+
+	}
+	
+	@Override
+	protected void orphanContent(EReference reference, Object obj) {
+		if (obj instanceof Activity) {
+			ReconciliationHelper.orphanChild(this, (Activity)obj);
+		}
+		super.orphanContent(reference, obj);
+	}
+	
 } // SampleStructuredActivityImpl
