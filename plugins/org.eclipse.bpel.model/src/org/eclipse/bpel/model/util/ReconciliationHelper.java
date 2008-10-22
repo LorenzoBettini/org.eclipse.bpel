@@ -533,6 +533,14 @@ public class ReconciliationHelper {
 	}
 	
 	public void patchDom(EObject child, EObject parent, Node parentElement, EObject before, Node beforeElement) {
+		
+        // If the parent object is an ExtensionActivity, then we need to set the
+        // new child as child of the <extensionActivity> element child and not the <extensionActivity> itself. 
+        // This code snippet changes the parentElement to the correct subelement
+        if (parent instanceof ExtensionActivity) {
+            parentElement = getExtensionActivityChildElement((Element) parentElement);
+        }
+		
 		if (child instanceof Variable) {
 			parentElement = patchParentElement(child, parent, parentElement, BPELConstants.ND_VARIABLES, BPELConstants.ND_VARIABLE);
 		} else if (child instanceof CorrelationSet) {
@@ -926,6 +934,8 @@ public class ReconciliationHelper {
         if (context instanceof RepeatUntil)  return true;
         if (context instanceof CompensationHandler) return true;
         if (context instanceof Scope) return true;
+        if (context instanceof ExtensionActivity) return true;
+        //TODO: DElegate this call to the app. Ext Activity Impl
         return false;
     }
 //
