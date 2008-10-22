@@ -7,22 +7,9 @@ import org.eclipse.emf.common.notify.Adapter;
 
 public class ExtensionSampleUIAdapterFactory extends ModelAdapterFactory {
 
-	private static ExtensionSampleUIAdapterFactory instance;
-	
 	private SampleSimpleActivityAdapter sampleSimpleActivityAdapter;
 	private SampleStructuredActivityAdapter sampleStructuredActivityAdapter;
-	
-	private ExtensionSampleUIAdapterFactory() {
-		super();
-	}
-	
-	public static ExtensionSampleUIAdapterFactory getInstance() {
-		if (instance == null) {
-			instance = new ExtensionSampleUIAdapterFactory();
-		}
-		return instance;
-	}
-	
+		
 	@Override
 	public Adapter createSampleSimpleActivityAdapter() {
 		if (this.sampleSimpleActivityAdapter == null) {

@@ -28,7 +28,6 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
-		BPELUtil.registerAdapterFactory(ModelPackage.eINSTANCE, ExtensionSampleUIAdapterFactory.getInstance());
 	}
 
 	/*
@@ -38,6 +37,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		BPELUtil.registerAdapterFactory(ModelPackage.eINSTANCE, new ExtensionSampleUIAdapterFactory());
 	}
 
 	/*
