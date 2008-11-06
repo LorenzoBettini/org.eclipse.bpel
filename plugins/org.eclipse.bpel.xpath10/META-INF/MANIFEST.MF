@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Xpath10
+Bundle-Name: XPath Parser 1.0 (Incubation)
 Bundle-SymbolicName: org.eclipse.bpel.xpath10
 Bundle-Version: 1.0.0
 Bundle-ClassPath: bin/,
