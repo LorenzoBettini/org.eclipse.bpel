@@ -9,4 +9,4 @@ plugin@org.eclipse.bpel.wsil.model=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsr
 plugin@org.eclipse.bpel.xpath10=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.xpath10
 plugin@org.eclipse.bpel.apache.ode.deploy.model=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.apache.ode.deploy.model
 plugin@org.eclipse.bpel.apache.ode.deploy.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.apache.ode.deploy.ui
-plugin@org.eclipse.bpel.apache.ode.runtime=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.apache.ode.runtime
+plugin@org.apache.ode.runtime=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.bpel/plugins/org.eclipse.bpel.apache.ode.runtime
