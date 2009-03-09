@@ -97,7 +97,7 @@ cd `dirname $0`
 CWD=`pwd | sed -e 's/^\/cygdrive\/\(.\)/\1:/g'`
 
 # Java things
-export JAVA_CMD="${JAVA_HOME}/bin/java"
+export JAVA_CMD="${JAVA_HOME}/jre/bin/java"
 
 # ant args like verbose for example ... (-v)
 # export ANT_ARGS="-v -debug"
@@ -164,7 +164,7 @@ then
     echo "Running build ..."
 	${JAVA_CMD} -cp \
 	"${STARTUP_JAR}" \
-	org.eclipse.core.launcher.Main \
+	org.eclipse.equinox.launcher.Main \
 	-application org.eclipse.ant.core.antRunner \
 	-buildfile "${BUILD_XML}" \
 	-data "${BUILD_DIRECTORY}/workspace-build" \
