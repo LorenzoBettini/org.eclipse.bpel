@@ -220,79 +220,47 @@ litigation.
       <update label="Eclipse BPEL Designer" url="http://download.eclipse.org/technology/bpel/update-site/"/>
    </url>
 
-   <includes
-         id="org.eclipse.emf"
-         version="0.0.0"
-         search-location="both"/>
-
-   <includes
-         id="org.eclipse.gef"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.wst"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.jst"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd.edit"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.emf.ecore.xmi" version="2.4.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.ide" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gef" version="3.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.change" version="2.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.ide" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.core.resources" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.gef" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.emf.ecore.change" version="2.4.0" match="compatible"/>
       <import plugin="org.eclipse.xsd" version="2.4.0" match="compatible"/>
-      <import plugin="org.eclipse.wst.wsdl" version="1.1.0" match="compatible"/>
-      <import plugin="org.apache.xerces" version="2.8.0" match="compatible"/>
+      <import plugin="org.eclipse.wst.wsdl" version="1.1.200" match="compatible"/>
+      <import plugin="org.apache.xerces" version="2.9.0" match="compatible"/>
       <import plugin="javax.wsdl" version="1.4.0" match="equivalent"/>
-      <import plugin="org.eclipse.ui.views.properties.tabbed" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.editors" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jface.text" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xsd" version="2.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.wsdl" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.xml.core" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.sse.ui"/>
-      <import plugin="org.eclipse.wst.sse.core"/>
-      <import plugin="org.eclipse.wst.xsd.ui"/>
-      <import plugin="org.eclipse.wst.wsdl.ui"/>
-      <import plugin="org.eclipse.wst.xml.ui"/>
-      <import plugin="org.eclipse.wst.server.core" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.web.ui" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.common.project.facet.ui" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.common.modulecore" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.common.frameworks" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.common.project.facet.core" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.common.frameworks.ui" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jst.server.generic.core" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jem.util" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.debug.ui" version="3.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.validation" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.wsdl.validation" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.core.databinding"/>
-      <import plugin="org.eclipse.jface.databinding"/>
-      <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.jst.server.generic.ui"/>
-      <import plugin="org.eclipse.jst.server.ui"/>
-      <import plugin="org.eclipse.jst.common.project.facet.core"/>
-      <import plugin="org.eclipse.jst.server.core"/>
+      <import plugin="org.eclipse.ui.views.properties.tabbed" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.editors" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.jface.text" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.wst.xml.core" version="1.1.300" match="compatible"/>
+      <import plugin="org.eclipse.wst.sse.ui" version="1.1.0" match="compatible"/>
+      <import plugin="org.eclipse.wst.sse.core" version="1.1.300" match="compatible"/>
+      <import plugin="org.eclipse.wst.xsd.ui" version="1.2.101" match="compatible"/>
+      <import plugin="org.eclipse.wst.wsdl.ui" version="1.2.100" match="compatible"/>
+      <import plugin="org.eclipse.wst.xml.ui" version="1.0.400" match="compatible"/>
+      <import plugin="org.eclipse.wst.server.core" version="1.1.0" match="compatible"/>
+      <import plugin="org.eclipse.wst.web.ui" version="1.1.200" match="compatible"/>
+      <import plugin="org.eclipse.wst.common.project.facet.ui" version="1.3.0" match="compatible"/>
+      <import plugin="org.eclipse.wst.common.modulecore" version="1.1.200" match="compatible"/>
+      <import plugin="org.eclipse.wst.common.frameworks" version="1.1.200" match="compatible"/>
+      <import plugin="org.eclipse.wst.common.project.facet.core" version="1.3.0" match="compatible"/>
+      <import plugin="org.eclipse.wst.common.frameworks.ui" version="1.1.200" match="compatible"/>
+      <import plugin="org.eclipse.jst.server.generic.core" version="1.0.305" match="compatible"/>
+      <import plugin="org.eclipse.jem.util" version="2.0.100" match="compatible"/>
+      <import plugin="org.eclipse.debug.ui" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.4.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.forms" version="3.3.100" match="compatible"/>
+      <import plugin="org.eclipse.core.databinding" version="1.1.0" match="compatible"/>
+      <import plugin="org.eclipse.jface.databinding" version="1.2.0" match="compatible"/>
+      <import plugin="org.eclipse.emf.edit.ui" version="2.4.0" match="compatible"/>
+      <import plugin="org.eclipse.jst.server.generic.ui" version="1.0.305" match="compatible"/>
+      <import plugin="org.eclipse.jst.server.ui" version="1.0.303" match="compatible"/>
+      <import plugin="org.eclipse.jst.common.project.facet.core" version="1.3.0" match="compatible"/>
+      <import plugin="org.eclipse.jst.server.core" version="1.1.0" match="compatible"/>
    </requires>
 
    <plugin
@@ -338,13 +306,6 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.bpel.validator"
-         download-size="0"
-         install-size="0"
-         version="0.4.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.bpel.apache.ode.deploy.model"
          download-size="0"
          install-size="0"
@@ -353,13 +314,6 @@ litigation.
 
    <plugin
          id="org.eclipse.bpel.apache.ode.deploy.ui"
-         download-size="0"
-         install-size="0"
-         version="0.4.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.bpel.xpath10"
          download-size="0"
          install-size="0"
          version="0.4.0"
