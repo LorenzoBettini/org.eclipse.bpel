@@ -207,6 +207,9 @@ public class WSDLUtil
     static final Finder<Definition,PartnerLinkType> PARTNER_LINK_TYPE_FINDER = new Finder<Definition,PartnerLinkType>() {
     	
     	public PartnerLinkType find (Definition defn, QName qname) {
+    		
+    		if (defn.getTargetNamespace() == null)
+    			return null;
 	       
 	        if (defn.getTargetNamespace().equals(qname.getNamespaceURI()) == false) {
 	        	return null;
