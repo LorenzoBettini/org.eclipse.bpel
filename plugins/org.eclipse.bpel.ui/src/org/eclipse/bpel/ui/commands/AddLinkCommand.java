@@ -62,6 +62,7 @@ public class AddLinkCommand extends AutoUndoCommand {
 			if (Policy.DEBUG) System.out.println("No common flow found!!"); //$NON-NLS-1$
 			return;
 		}
+		if (setNameCmd != null)  setNameCmd.execute();
 		FlowLinkUtil.setLinkSource(link, source);
 		FlowLinkUtil.setLinkTarget(link, target);
 		if (link.eContainer() != null) {
@@ -71,7 +72,6 @@ public class AddLinkCommand extends AutoUndoCommand {
 			}
 		}
 		FlowLinkUtil.addFlowLink(flow, link);
-		if (setNameCmd != null)  setNameCmd.execute();
 	}
 	
 	public Link getLink() { return link; }
