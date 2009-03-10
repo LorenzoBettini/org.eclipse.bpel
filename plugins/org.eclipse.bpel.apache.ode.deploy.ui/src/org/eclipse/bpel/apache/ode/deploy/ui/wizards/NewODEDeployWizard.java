@@ -2,15 +2,21 @@ package org.eclipse.bpel.apache.ode.deploy.ui.wizards;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.bpel.apache.ode.deploy.model.dd.DocumentRoot;
+import org.eclipse.bpel.apache.ode.deploy.model.dd.ProcessType;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.TDeployment;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.ddFactory;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.util.ddResourceFactoryImpl;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.util.ddResourceImpl;
 import org.eclipse.bpel.apache.ode.deploy.ui.Activator;
+import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployUtils;
+import org.eclipse.bpel.model.Process;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -21,6 +27,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -114,9 +121,8 @@ public class NewODEDeployWizard extends Wizard implements INewWizard {
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
 		
-		try {
-			URI fileURI = URI.createURI(file.getFullPath().toString());
-			Resource emfResource = createBaseDeploymentDescriptor(fileURI);
+		try {			
+			Resource emfResource = createBaseDeploymentDescriptor(file);
 			emfResource.save(null);
 		} 
 		catch (IOException e) {
@@ -143,8 +149,10 @@ public class NewODEDeployWizard extends Wizard implements INewWizard {
 	 * Purpose of this method is to create a new empty deployment descriptor 
 	 * in the targetDir 
 	 */
-	public Resource createBaseDeploymentDescriptor(URI fileURI)
+	public Resource createBaseDeploymentDescriptor(IFile file)
 	{
+		URI fileURI = URI.createURI(file.getFullPath().toString());
+		
 		//generate Resource Factory
 		ddResourceFactoryImpl fac = new ddResourceFactoryImpl();
 		//URI ddFileLocation = URI.createFileURI(this.deployDirectory + System.getProperty("file.separator") + DD_FILENAME );
@@ -156,6 +164,21 @@ public class NewODEDeployWizard extends Wizard implements INewWizard {
 		rootElm.setDeploy(deployElement);
 		ddResource.getContents().add(rootElm);
 		
+		//bugzilla 250057: parse the project, and if we find a BPEL file, create 
+		//a base "process" tag that has 
+		//    <active>true</active>
+	    //    <retired>false</retired>
+		IProject project  = file.getProject();
+		List<Process> processes = DeployUtils.loadAllBPELFromProject(project, new ResourceSetImpl());
+		for (Iterator iterator = processes.iterator(); iterator.hasNext();) {
+			Process process = (Process) iterator.next();
+			ProcessType pt = DeployUtils.createProcessStub(process);	
+			pt.setActive(true);
+			pt.setRetired(false);			
+			pt.setModel(process);
+			deployElement.getProcess().add(pt);			
+		}		
+	
 		return ddResource;
 	}
 

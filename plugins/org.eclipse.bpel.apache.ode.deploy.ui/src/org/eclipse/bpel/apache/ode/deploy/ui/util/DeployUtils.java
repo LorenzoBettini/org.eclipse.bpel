@@ -189,6 +189,25 @@ public class DeployUtils {
 		return wsdlFiles;
 	}
 	
+	public static List<Process> loadAllBPELFromProject(IProject project, ResourceSet resourceSet) 
+	{
+		List<Process> bpelFiles = new ArrayList<Process>();
+		
+		List<IFile> allFiles = DeployUtils.getAllFilesInProject(project);
+		
+		for (IFile file : allFiles) {
+
+			if (file.getFileExtension().equalsIgnoreCase("bpel")) {				 //$NON-NLS-1$
+//				load it 
+				Process currentProcess = loadBPEL(file, resourceSet);
+//				stuff it in bpelFiles
+				bpelFiles.add(currentProcess);				
+			}
+		}
+		
+		return bpelFiles;
+	}
+	
 	
 	public static List<IFile> getAllFilesInProject(IProject project) {
 		final List<IFile> files = new ArrayList<IFile>();
