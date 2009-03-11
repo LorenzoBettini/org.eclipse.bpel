@@ -3020,9 +3020,7 @@ public class BPELReader implements ErrorHandler {
 		setStandardAttributes(forEachElement, forEach);
 
 		if (forEachElement.hasAttribute("parallel")) {
-			if (process != null) {
-				process.setSuppressJoinFailure(new Boolean(forEachElement.getAttribute("parallel").equals("yes")));
-			}
+			forEach.setParallel(forEachElement.getAttribute("parallel").equals("yes"));
 		}
 
 		// Set counterName variable
