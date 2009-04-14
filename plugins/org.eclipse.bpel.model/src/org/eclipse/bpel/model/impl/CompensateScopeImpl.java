@@ -106,7 +106,9 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	public void setTarget(Activity newTarget) {
 		Activity oldTarget = target;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_TARGET, newTarget == null ? null : newTarget.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_TARGET, newTarget == null ? null
+							: newTarget.getName());
 		}
 		target = newTarget;
 		if (eNotificationRequired())
@@ -122,10 +124,10 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				if (resolve)
-					return getTarget();
-				return basicGetTarget();
+		case BPELPackage.COMPENSATE_SCOPE__TARGET:
+			if (resolve)
+				return getTarget();
+			return basicGetTarget();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -138,9 +140,9 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				setTarget((Activity) newValue);
-				return;
+		case BPELPackage.COMPENSATE_SCOPE__TARGET:
+			setTarget((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -153,9 +155,9 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				setTarget((Activity) null);
-				return;
+		case BPELPackage.COMPENSATE_SCOPE__TARGET:
+			setTarget((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -168,8 +170,8 @@ public class CompensateScopeImpl extends ActivityImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.COMPENSATE_SCOPE__TARGET:
-				return target != null;
+		case BPELPackage.COMPENSATE_SCOPE__TARGET:
+			return target != null;
 		}
 		return super.eIsSet(featureID);
 	}

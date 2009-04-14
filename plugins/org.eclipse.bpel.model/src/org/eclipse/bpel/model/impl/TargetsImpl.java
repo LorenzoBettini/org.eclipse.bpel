@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetsImpl.java,v 1.9 2008/05/05 07:33:18 odanilov Exp $
+ * $Id: TargetsImpl.java,v 1.10 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -117,10 +117,15 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 			NotificationChain msgs) {
 		Condition oldJoinCondition = joinCondition;
 		if (!isReconciling) {
-			if (newJoinCondition != null && newJoinCondition.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newJoinCondition.setElement(ElementFactory.getInstance().createExpressionElement(newJoinCondition, this, BPELConstants.ND_JOIN_CONDITION));
+			if (newJoinCondition != null
+					&& newJoinCondition.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newJoinCondition.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newJoinCondition, this,
+								BPELConstants.ND_JOIN_CONDITION));
 			}
-			ReconciliationHelper.replaceChild(this, oldJoinCondition, newJoinCondition);
+			ReconciliationHelper.replaceChild(this, oldJoinCondition,
+					newJoinCondition);
 		}
 		joinCondition = newJoinCondition;
 		if (eNotificationRequired()) {
@@ -171,11 +176,11 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.TARGETS__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
-			case BPELPackage.TARGETS__JOIN_CONDITION:
-				return basicSetJoinCondition(null, msgs);
+		case BPELPackage.TARGETS__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
+		case BPELPackage.TARGETS__JOIN_CONDITION:
+			return basicSetJoinCondition(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -188,10 +193,10 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.TARGETS__CHILDREN:
-				return getChildren();
-			case BPELPackage.TARGETS__JOIN_CONDITION:
-				return getJoinCondition();
+		case BPELPackage.TARGETS__CHILDREN:
+			return getChildren();
+		case BPELPackage.TARGETS__JOIN_CONDITION:
+			return getJoinCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -205,13 +210,13 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.TARGETS__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll((Collection<? extends Target>) newValue);
-				return;
-			case BPELPackage.TARGETS__JOIN_CONDITION:
-				setJoinCondition((Condition) newValue);
-				return;
+		case BPELPackage.TARGETS__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll((Collection<? extends Target>) newValue);
+			return;
+		case BPELPackage.TARGETS__JOIN_CONDITION:
+			setJoinCondition((Condition) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -224,12 +229,12 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TARGETS__CHILDREN:
-				getChildren().clear();
-				return;
-			case BPELPackage.TARGETS__JOIN_CONDITION:
-				setJoinCondition((Condition) null);
-				return;
+		case BPELPackage.TARGETS__CHILDREN:
+			getChildren().clear();
+			return;
+		case BPELPackage.TARGETS__JOIN_CONDITION:
+			setJoinCondition((Condition) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -242,10 +247,10 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TARGETS__CHILDREN:
-				return children != null && !children.isEmpty();
-			case BPELPackage.TARGETS__JOIN_CONDITION:
-				return joinCondition != null;
+		case BPELPackage.TARGETS__CHILDREN:
+			return children != null && !children.isEmpty();
+		case BPELPackage.TARGETS__JOIN_CONDITION:
+			return joinCondition != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -253,17 +258,18 @@ public class TargetsImpl extends ExtensibleElementImpl implements Targets {
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Target) {
-			ReconciliationHelper.adoptChild(this, children, (Target)object, BPELConstants.ND_TARGET);
+			ReconciliationHelper.adoptChild(this, children, (Target) object,
+					BPELConstants.ND_TARGET);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Target) {
-			ReconciliationHelper.orphanChild(this, (Target)obj);
+			ReconciliationHelper.orphanChild(this, (Target) obj);
 		}
 		super.orphanContent(reference, obj);
-	}	
-	
+	}
+
 } //TargetsImpl

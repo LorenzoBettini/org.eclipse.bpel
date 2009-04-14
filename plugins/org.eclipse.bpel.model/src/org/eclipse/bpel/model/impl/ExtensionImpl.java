@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExtensionImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ExtensionImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -122,7 +122,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAMESPACE, newNamespace);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_NAMESPACE, newNamespace);
 		}
 		namespace = newNamespace;
 		if (eNotificationRequired())
@@ -146,7 +147,9 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	public void setMustUnderstand(Boolean newMustUnderstand) {
 		Boolean oldMustUnderstand = mustUnderstand;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MUST_UNDERSTAND, BPELUtils.boolean2XML(newMustUnderstand));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MUST_UNDERSTAND, BPELUtils
+							.boolean2XML(newMustUnderstand));
 		}
 		mustUnderstand = newMustUnderstand;
 		boolean oldMustUnderstandESet = mustUnderstandESet;
@@ -164,7 +167,8 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	public void unsetMustUnderstand() {
 		Boolean oldMustUnderstand = mustUnderstand;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MUST_UNDERSTAND, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MUST_UNDERSTAND, (String) null);
 		}
 		boolean oldMustUnderstandESet = mustUnderstandESet;
 		mustUnderstand = MUST_UNDERSTAND_EDEFAULT;
@@ -192,10 +196,10 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.EXTENSION__NAMESPACE:
-				return getNamespace();
-			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
-				return getMustUnderstand();
+		case BPELPackage.EXTENSION__NAMESPACE:
+			return getNamespace();
+		case BPELPackage.EXTENSION__MUST_UNDERSTAND:
+			return getMustUnderstand();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -208,12 +212,12 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.EXTENSION__NAMESPACE:
-				setNamespace((String) newValue);
-				return;
-			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
-				setMustUnderstand((Boolean) newValue);
-				return;
+		case BPELPackage.EXTENSION__NAMESPACE:
+			setNamespace((String) newValue);
+			return;
+		case BPELPackage.EXTENSION__MUST_UNDERSTAND:
+			setMustUnderstand((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -226,12 +230,12 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EXTENSION__NAMESPACE:
-				setNamespace(NAMESPACE_EDEFAULT);
-				return;
-			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
-				unsetMustUnderstand();
-				return;
+		case BPELPackage.EXTENSION__NAMESPACE:
+			setNamespace(NAMESPACE_EDEFAULT);
+			return;
+		case BPELPackage.EXTENSION__MUST_UNDERSTAND:
+			unsetMustUnderstand();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -244,11 +248,11 @@ public class ExtensionImpl extends ExtensibleElementImpl implements Extension {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EXTENSION__NAMESPACE:
-				return NAMESPACE_EDEFAULT == null ? namespace != null
-						: !NAMESPACE_EDEFAULT.equals(namespace);
-			case BPELPackage.EXTENSION__MUST_UNDERSTAND:
-				return isSetMustUnderstand();
+		case BPELPackage.EXTENSION__NAMESPACE:
+			return NAMESPACE_EDEFAULT == null ? namespace != null
+					: !NAMESPACE_EDEFAULT.equals(namespace);
+		case BPELPackage.EXTENSION__MUST_UNDERSTAND:
+			return isSetMustUnderstand();
 		}
 		return super.eIsSet(featureID);
 	}

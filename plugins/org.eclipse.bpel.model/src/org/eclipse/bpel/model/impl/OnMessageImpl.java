@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnMessageImpl.java,v 1.11 2008/02/28 17:33:20 smoser Exp $
+ * $Id: OnMessageImpl.java,v 1.12 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -591,13 +591,16 @@ public class OnMessageImpl extends ExtensibleElementImpl implements OnMessage {
 	public void setMessageExchange(MessageExchange newMessageExchange) {
 		MessageExchange oldMessageExchange = messageExchange;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MESSAGE_EXCHANGE,
+					newMessageExchange == null ? null : newMessageExchange
+							.getName());
 		}
 		messageExchange = newMessageExchange;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					BPELPackage.ON_MESSAGE__MESSAGE_EXCHANGE, oldMessageExchange,
-					messageExchange));
+					BPELPackage.ON_MESSAGE__MESSAGE_EXCHANGE,
+					oldMessageExchange, messageExchange));
 	}
 
 	/**

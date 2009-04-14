@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangesImpl.java,v 1.7 2008/05/04 11:05:46 odanilov Exp $
+ * $Id: MessageExchangesImpl.java,v 1.8 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -160,9 +160,14 @@ public class MessageExchangesImpl extends ExtensibleElementImpl implements
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof MessageExchange) {
 			if (getElement() == null) {
-				ReconciliationHelper.getInstance().patchParentElement((MessageExchange)object, this, null, BPELConstants.ND_MESSAGE_EXCHANGES, BPELConstants.ND_MESSAGE_EXCHANGE);
+				ReconciliationHelper.getInstance().patchParentElement(
+						(MessageExchange) object, this, null,
+						BPELConstants.ND_MESSAGE_EXCHANGES,
+						BPELConstants.ND_MESSAGE_EXCHANGE);
 			}
-			ReconciliationHelper.adoptChild(this, children, (MessageExchange)object, BPELConstants.ND_MESSAGE_EXCHANGE);
+			ReconciliationHelper
+					.adoptChild(this, children, (MessageExchange) object,
+							BPELConstants.ND_MESSAGE_EXCHANGE);
 		}
 		super.adoptContent(reference, object);
 	}

@@ -3378,6 +3378,41 @@ public class BPELReader implements ErrorHandler {
 			throw new WrappedException(e);
 		}
 	}
+	
+	/**
+	 * Checks for process type
+	 * @param processElement
+	 * @return true if process is abstract, false otherwise
+	 */
+	public boolean isAbstractProcess(Element processElement)
+	{
+		
+		if (processElement != null) {
+    		Map<String, String> nsMap = this.getAllNamespacesForElement(processElement);
+   		
+    		if (nsMap.containsValue(BPELConstants.NAMESPACE_ABSTRACT_2007))
+    		{
+    			return true;
+    		}
+		}
+    	return false;
+	}
+	
+	/**
+	 * returns abstract process profile
+	 * @param processElement
+	 * @return namespace of abstract process profile
+	 */
+	public String getProfileNamespace(Element processElement)
+	{
+		if (processElement.getAttribute(BPELConstants.AT_ABSTRACT_PROFILES) != null){
+			
+			return processElement.getAttribute(BPELConstants.AT_ABSTRACT_PROFILES);
+		}
+    	return null;
+	}
+	
+	
 	/**
      * Returns true if the string is either null or contains just whitespace.
 	 * @param value 

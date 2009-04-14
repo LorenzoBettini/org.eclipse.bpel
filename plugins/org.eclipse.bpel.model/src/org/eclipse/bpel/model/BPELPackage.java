@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackage.java,v 1.35 2008/02/28 17:33:21 smoser Exp $
+ * $Id: BPELPackage.java,v 1.36 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -945,13 +945,22 @@ public interface BPELPackage extends EPackage {
 	int PROCESS__MESSAGE_EXCHANGES = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
 
 	/**
+	 * The feature id for the '<em><b>Abstract Process Profile</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS__ABSTRACT_PROCESS_PROFILE = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 16;
+
+	/**
 	 * The number of structural features of the '<em>Process</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 16;
+	int PROCESS_FEATURE_COUNT = EXTENSIBLE_ELEMENT_FEATURE_COUNT + 17;
 
 	/**
 	 * The feature id for the '<em><b>Documentation Element</b></em>' attribute.
@@ -6912,6 +6921,17 @@ public interface BPELPackage extends EPackage {
 	EReference getProcess_MessageExchanges();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.bpel.model.Process#getAbstractProcessProfile <em>Abstract Process Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Abstract Process Profile</em>'.
+	 * @see org.eclipse.bpel.model.Process#getAbstractProcessProfile()
+	 * @see #getProcess()
+	 * @generated
+	 */
+	EAttribute getProcess_AbstractProcessProfile();
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.model.Process#getEventHandlers <em>Event Handlers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9812,6 +9832,15 @@ public interface BPELPackage extends EPackage {
 		 */
 		EReference PROCESS__MESSAGE_EXCHANGES = eINSTANCE
 				.getProcess_MessageExchanges();
+
+		/**
+		 * The meta object literal for the '<em><b>Abstract Process Profile</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS__ABSTRACT_PROCESS_PROFILE = eINSTANCE
+				.getProcess_AbstractProcessProfile();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.model.impl.PartnerLinkImpl <em>Partner Link</em>}' class.

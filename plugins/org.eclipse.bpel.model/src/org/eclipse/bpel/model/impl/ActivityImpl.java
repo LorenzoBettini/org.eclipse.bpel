@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ActivityImpl.java,v 1.10 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -147,10 +147,11 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 */
 	public void setName(String newName) {
-		String oldName = name;		
+		String oldName = name;
 		name = newName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME,
+					newName);
 		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -173,7 +174,9 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public void setSuppressJoinFailure(Boolean newSuppressJoinFailure) {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils.boolean2XML(newSuppressJoinFailure));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SUPPRESS_JOIN_FAILURE, BPELUtils
+							.boolean2XML(newSuppressJoinFailure));
 		}
 		suppressJoinFailure = newSuppressJoinFailure;
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
@@ -192,7 +195,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public void unsetSuppressJoinFailure() {
 		Boolean oldSuppressJoinFailure = suppressJoinFailure;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUPPRESS_JOIN_FAILURE, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SUPPRESS_JOIN_FAILURE, (String) null);
 		}
 		boolean oldSuppressJoinFailureESet = suppressJoinFailureESet;
 		suppressJoinFailure = SUPPRESS_JOIN_FAILURE_EDEFAULT;
@@ -334,10 +338,10 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.ACTIVITY__TARGETS:
-				return basicSetTargets(null, msgs);
-			case BPELPackage.ACTIVITY__SOURCES:
-				return basicSetSources(null, msgs);
+		case BPELPackage.ACTIVITY__TARGETS:
+			return basicSetTargets(null, msgs);
+		case BPELPackage.ACTIVITY__SOURCES:
+			return basicSetSources(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -350,14 +354,14 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.ACTIVITY__NAME:
-				return getName();
-			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				return getSuppressJoinFailure();
-			case BPELPackage.ACTIVITY__TARGETS:
-				return getTargets();
-			case BPELPackage.ACTIVITY__SOURCES:
-				return getSources();
+		case BPELPackage.ACTIVITY__NAME:
+			return getName();
+		case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
+			return getSuppressJoinFailure();
+		case BPELPackage.ACTIVITY__TARGETS:
+			return getTargets();
+		case BPELPackage.ACTIVITY__SOURCES:
+			return getSources();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -370,18 +374,18 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.ACTIVITY__NAME:
-				setName((String) newValue);
-				return;
-			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				setSuppressJoinFailure((Boolean) newValue);
-				return;
-			case BPELPackage.ACTIVITY__TARGETS:
-				setTargets((Targets) newValue);
-				return;
-			case BPELPackage.ACTIVITY__SOURCES:
-				setSources((Sources) newValue);
-				return;
+		case BPELPackage.ACTIVITY__NAME:
+			setName((String) newValue);
+			return;
+		case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
+			setSuppressJoinFailure((Boolean) newValue);
+			return;
+		case BPELPackage.ACTIVITY__TARGETS:
+			setTargets((Targets) newValue);
+			return;
+		case BPELPackage.ACTIVITY__SOURCES:
+			setSources((Sources) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -394,18 +398,18 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ACTIVITY__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				unsetSuppressJoinFailure();
-				return;
-			case BPELPackage.ACTIVITY__TARGETS:
-				setTargets((Targets) null);
-				return;
-			case BPELPackage.ACTIVITY__SOURCES:
-				setSources((Sources) null);
-				return;
+		case BPELPackage.ACTIVITY__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
+			unsetSuppressJoinFailure();
+			return;
+		case BPELPackage.ACTIVITY__TARGETS:
+			setTargets((Targets) null);
+			return;
+		case BPELPackage.ACTIVITY__SOURCES:
+			setSources((Sources) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -418,15 +422,15 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ACTIVITY__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-						.equals(name);
-			case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
-				return isSetSuppressJoinFailure();
-			case BPELPackage.ACTIVITY__TARGETS:
-				return targets != null;
-			case BPELPackage.ACTIVITY__SOURCES:
-				return sources != null;
+		case BPELPackage.ACTIVITY__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
+		case BPELPackage.ACTIVITY__SUPPRESS_JOIN_FAILURE:
+			return isSetSuppressJoinFailure();
+		case BPELPackage.ACTIVITY__TARGETS:
+			return targets != null;
+		case BPELPackage.ACTIVITY__SOURCES:
+			return sources != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -452,7 +456,7 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		result.append(')');
 		return result.toString();
 	}
-	
+
 	public int getActivityNodeIndex(Node activityNode) {
 		Node parent = activityNode.getParentNode();
 		if (parent == null) {
@@ -460,7 +464,8 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 		}
 
 		int index = 0;
-		for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+		for (Node child = parent.getFirstChild(); child != null; child = child
+				.getNextSibling()) {
 			if (child == activityNode) {
 				return index;
 			}
@@ -476,7 +481,5 @@ public class ActivityImpl extends ExtensibleElementImpl implements Activity {
 	    	remove(this, i.next());
 	    }
 	}*/
-
-
 
 } //ActivityImpl

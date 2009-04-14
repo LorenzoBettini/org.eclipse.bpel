@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerActivityImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: PartnerActivityImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -153,7 +153,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PARTNER_LINK,
+					newPartnerLink == null ? null : newPartnerLink.getName());
 		}
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
@@ -179,7 +181,8 @@ public class PartnerActivityImpl extends ActivityImpl implements
 			NotificationChain msgs) {
 		Correlations oldCorrelations = correlations;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCorrelations, newCorrelations);
+			ReconciliationHelper.replaceChild(this, oldCorrelations,
+					newCorrelations);
 		}
 		correlations = newCorrelations;
 		if (eNotificationRequired()) {
@@ -284,7 +287,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	public void setPortType(PortType newPortType) {
 		PortType oldPortType = portType;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PORT_TYPE, newPortType == null ? null : newPortType.getQName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PORT_TYPE, newPortType == null ? null
+							: newPortType.getQName());
 		}
 		portType = newPortType;
 		if (eNotificationRequired())
@@ -350,7 +355,9 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	public void setOperation(Operation newOperation) {
 		Operation oldOperation = operation;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_OPERATION, newOperation == null ? null : newOperation.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_OPERATION, newOperation == null ? null
+							: newOperation.getName());
 		}
 		operation = newOperation;
 		if (eNotificationRequired())
@@ -368,8 +375,8 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				return basicSetCorrelations(null, msgs);
+		case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
+			return basicSetCorrelations(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -382,20 +389,20 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				if (resolve)
-					return getPartnerLink();
-				return basicGetPartnerLink();
-			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				return getCorrelations();
-			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				if (resolve)
-					return getPortType();
-				return basicGetPortType();
-			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				if (resolve)
-					return getOperation();
-				return basicGetOperation();
+		case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
+			if (resolve)
+				return getPartnerLink();
+			return basicGetPartnerLink();
+		case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
+			return getCorrelations();
+		case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
+			if (resolve)
+				return getPortType();
+			return basicGetPortType();
+		case BPELPackage.PARTNER_ACTIVITY__OPERATION:
+			if (resolve)
+				return getOperation();
+			return basicGetOperation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -408,18 +415,18 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				setPartnerLink((PartnerLink) newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				setCorrelations((Correlations) newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				setPortType((PortType) newValue);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				setOperation((Operation) newValue);
-				return;
+		case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
+			setPartnerLink((PartnerLink) newValue);
+			return;
+		case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
+			setCorrelations((Correlations) newValue);
+			return;
+		case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
+			setPortType((PortType) newValue);
+			return;
+		case BPELPackage.PARTNER_ACTIVITY__OPERATION:
+			setOperation((Operation) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -432,18 +439,18 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				setPartnerLink((PartnerLink) null);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				setCorrelations((Correlations) null);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				setPortType((PortType) null);
-				return;
-			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				setOperation((Operation) null);
-				return;
+		case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
+			setPartnerLink((PartnerLink) null);
+			return;
+		case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
+			setCorrelations((Correlations) null);
+			return;
+		case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
+			setPortType((PortType) null);
+			return;
+		case BPELPackage.PARTNER_ACTIVITY__OPERATION:
+			setOperation((Operation) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -456,14 +463,14 @@ public class PartnerActivityImpl extends ActivityImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
-				return partnerLink != null;
-			case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
-				return correlations != null;
-			case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
-				return portType != null;
-			case BPELPackage.PARTNER_ACTIVITY__OPERATION:
-				return operation != null;
+		case BPELPackage.PARTNER_ACTIVITY__PARTNER_LINK:
+			return partnerLink != null;
+		case BPELPackage.PARTNER_ACTIVITY__CORRELATIONS:
+			return correlations != null;
+		case BPELPackage.PARTNER_ACTIVITY__PORT_TYPE:
+			return portType != null;
+		case BPELPackage.PARTNER_ACTIVITY__OPERATION:
+			return operation != null;
 		}
 		return super.eIsSet(featureID);
 	}

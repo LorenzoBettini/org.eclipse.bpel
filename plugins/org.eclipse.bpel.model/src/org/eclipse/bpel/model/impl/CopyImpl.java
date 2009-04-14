@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CopyImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: CopyImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -265,7 +265,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	public void setKeepSrcElementName(Boolean newKeepSrcElementName) {
 		Boolean oldKeepSrcElementName = keepSrcElementName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_KEEP_SRC_ELEMENT_NAME, BPELUtils.boolean2XML(newKeepSrcElementName));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_KEEP_SRC_ELEMENT_NAME, BPELUtils
+							.boolean2XML(newKeepSrcElementName));
 		}
 		keepSrcElementName = newKeepSrcElementName;
 		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
@@ -284,7 +286,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	public void unsetKeepSrcElementName() {
 		Boolean oldKeepSrcElementName = keepSrcElementName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_KEEP_SRC_ELEMENT_NAME, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_KEEP_SRC_ELEMENT_NAME, (String) null);
 		}
 		boolean oldKeepSrcElementNameESet = keepSrcElementNameESet;
 		keepSrcElementName = KEEP_SRC_ELEMENT_NAME_EDEFAULT;
@@ -321,7 +324,9 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	public void setIgnoreMissingFromData(Boolean newIgnoreMissingFromData) {
 		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_IGNORE_MISSING_FROM_DATA, BPELUtils.boolean2XML(newIgnoreMissingFromData));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_IGNORE_MISSING_FROM_DATA, BPELUtils
+							.boolean2XML(newIgnoreMissingFromData));
 		}
 		ignoreMissingFromData = newIgnoreMissingFromData;
 		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
@@ -340,7 +345,8 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	public void unsetIgnoreMissingFromData() {
 		Boolean oldIgnoreMissingFromData = ignoreMissingFromData;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_IGNORE_MISSING_FROM_DATA, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_IGNORE_MISSING_FROM_DATA, (String) null);
 		}
 		boolean oldIgnoreMissingFromDataESet = ignoreMissingFromDataESet;
 		ignoreMissingFromData = IGNORE_MISSING_FROM_DATA_EDEFAULT;
@@ -371,10 +377,10 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.COPY__TO:
-				return basicSetTo(null, msgs);
-			case BPELPackage.COPY__FROM:
-				return basicSetFrom(null, msgs);
+		case BPELPackage.COPY__TO:
+			return basicSetTo(null, msgs);
+		case BPELPackage.COPY__FROM:
+			return basicSetFrom(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -387,14 +393,14 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.COPY__TO:
-				return getTo();
-			case BPELPackage.COPY__FROM:
-				return getFrom();
-			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
-				return getKeepSrcElementName();
-			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
-				return getIgnoreMissingFromData();
+		case BPELPackage.COPY__TO:
+			return getTo();
+		case BPELPackage.COPY__FROM:
+			return getFrom();
+		case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+			return getKeepSrcElementName();
+		case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+			return getIgnoreMissingFromData();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -407,18 +413,18 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.COPY__TO:
-				setTo((To) newValue);
-				return;
-			case BPELPackage.COPY__FROM:
-				setFrom((From) newValue);
-				return;
-			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
-				setKeepSrcElementName((Boolean) newValue);
-				return;
-			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
-				setIgnoreMissingFromData((Boolean) newValue);
-				return;
+		case BPELPackage.COPY__TO:
+			setTo((To) newValue);
+			return;
+		case BPELPackage.COPY__FROM:
+			setFrom((From) newValue);
+			return;
+		case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+			setKeepSrcElementName((Boolean) newValue);
+			return;
+		case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+			setIgnoreMissingFromData((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -431,18 +437,18 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.COPY__TO:
-				setTo((To) null);
-				return;
-			case BPELPackage.COPY__FROM:
-				setFrom((From) null);
-				return;
-			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
-				unsetKeepSrcElementName();
-				return;
-			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
-				unsetIgnoreMissingFromData();
-				return;
+		case BPELPackage.COPY__TO:
+			setTo((To) null);
+			return;
+		case BPELPackage.COPY__FROM:
+			setFrom((From) null);
+			return;
+		case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+			unsetKeepSrcElementName();
+			return;
+		case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+			unsetIgnoreMissingFromData();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -455,14 +461,14 @@ public class CopyImpl extends ExtensibleElementImpl implements Copy {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.COPY__TO:
-				return to != null;
-			case BPELPackage.COPY__FROM:
-				return from != null;
-			case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
-				return isSetKeepSrcElementName();
-			case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
-				return isSetIgnoreMissingFromData();
+		case BPELPackage.COPY__TO:
+			return to != null;
+		case BPELPackage.COPY__FROM:
+			return from != null;
+		case BPELPackage.COPY__KEEP_SRC_ELEMENT_NAME:
+			return isSetKeepSrcElementName();
+		case BPELPackage.COPY__IGNORE_MISSING_FROM_DATA:
+			return isSetIgnoreMissingFromData();
 		}
 		return super.eIsSet(featureID);
 	}

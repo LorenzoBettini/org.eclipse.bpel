@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.35 2008/02/28 17:33:20 smoser Exp $
+ * $Id: BPELPackageImpl.java,v 1.36 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -692,7 +692,6 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		// Initialize simple dependencies
 		EcorePackage.eINSTANCE.eClass();
 		WSDLPackage.eINSTANCE.eClass();
-		XSDPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		PartnerlinktypePackageImpl thePartnerlinktypePackage = (PartnerlinktypePackageImpl) (EPackage.Registry.INSTANCE
@@ -855,6 +854,15 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 	 */
 	public EReference getProcess_MessageExchanges() {
 		return (EReference) processEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProcess_AbstractProcessProfile() {
+		return (EAttribute) processEClass.getEStructuralFeatures().get(16);
 	}
 
 	/**
@@ -3212,6 +3220,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(processEClass, PROCESS__EXTENSIONS);
 		createEAttribute(processEClass, PROCESS__EXIT_ON_STANDARD_FAULT);
 		createEReference(processEClass, PROCESS__MESSAGE_EXCHANGES);
+		createEAttribute(processEClass, PROCESS__ABSTRACT_PROCESS_PROFILE);
 
 		partnerLinkEClass = createEClass(PARTNER_LINK);
 		createEAttribute(partnerLinkEClass, PARTNER_LINK__NAME);
@@ -3745,6 +3754,10 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 				this.getMessageExchanges(),
 				null,
 				"messageExchanges", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getProcess_AbstractProcessProfile(),
+				theEcorePackage.getEString(),
+				"abstractProcessProfile", null, 0, 1, org.eclipse.bpel.model.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(
 				partnerLinkEClass,

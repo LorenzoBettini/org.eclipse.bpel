@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: AssignImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: AssignImpl.java,v 1.10 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -124,7 +124,9 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	public void setValidate(Boolean newValidate) {
 		Boolean oldValidate = validate;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VALIDATE, BPELUtils.boolean2XML(newValidate));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VALIDATE, BPELUtils
+							.boolean2XML(newValidate));
 		}
 		validate = newValidate;
 		if (eNotificationRequired())
@@ -141,9 +143,8 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.ASSIGN__COPY:
-				return ((InternalEList<?>) getCopy()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.ASSIGN__COPY:
+			return ((InternalEList<?>) getCopy()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -156,10 +157,10 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.ASSIGN__COPY:
-				return getCopy();
-			case BPELPackage.ASSIGN__VALIDATE:
-				return getValidate();
+		case BPELPackage.ASSIGN__COPY:
+			return getCopy();
+		case BPELPackage.ASSIGN__VALIDATE:
+			return getValidate();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -173,13 +174,13 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.ASSIGN__COPY:
-				getCopy().clear();
-				getCopy().addAll((Collection<? extends Copy>) newValue);
-				return;
-			case BPELPackage.ASSIGN__VALIDATE:
-				setValidate((Boolean) newValue);
-				return;
+		case BPELPackage.ASSIGN__COPY:
+			getCopy().clear();
+			getCopy().addAll((Collection<? extends Copy>) newValue);
+			return;
+		case BPELPackage.ASSIGN__VALIDATE:
+			setValidate((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -192,12 +193,12 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ASSIGN__COPY:
-				getCopy().clear();
-				return;
-			case BPELPackage.ASSIGN__VALIDATE:
-				setValidate(VALIDATE_EDEFAULT);
-				return;
+		case BPELPackage.ASSIGN__COPY:
+			getCopy().clear();
+			return;
+		case BPELPackage.ASSIGN__VALIDATE:
+			setValidate(VALIDATE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -210,11 +211,11 @@ public class AssignImpl extends ActivityImpl implements Assign {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ASSIGN__COPY:
-				return copy != null && !copy.isEmpty();
-			case BPELPackage.ASSIGN__VALIDATE:
-				return VALIDATE_EDEFAULT == null ? validate != null
-						: !VALIDATE_EDEFAULT.equals(validate);
+		case BPELPackage.ASSIGN__COPY:
+			return copy != null && !copy.isEmpty();
+		case BPELPackage.ASSIGN__VALIDATE:
+			return VALIDATE_EDEFAULT == null ? validate != null
+					: !VALIDATE_EDEFAULT.equals(validate);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -235,19 +236,20 @@ public class AssignImpl extends ActivityImpl implements Assign {
 		result.append(')');
 		return result.toString();
 	}
-	
+
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Copy) {
-			ReconciliationHelper.adoptChild(this, copy, (Copy)object, BPELConstants.ND_COPY);
+			ReconciliationHelper.adoptChild(this, copy, (Copy) object,
+					BPELConstants.ND_COPY);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Copy) {
-			ReconciliationHelper.orphanChild(this, (Copy)obj);
+			ReconciliationHelper.orphanChild(this, (Copy) obj);
 		}
 		super.orphanContent(reference, obj);
 	}

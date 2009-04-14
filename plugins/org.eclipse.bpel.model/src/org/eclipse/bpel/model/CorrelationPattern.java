@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationPattern.java,v 1.5 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: CorrelationPattern.java,v 1.6 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -160,12 +160,12 @@ public enum CorrelationPattern implements Enumerator {
 	 */
 	public static CorrelationPattern get(int value) {
 		switch (value) {
-			case IN:
-				return IN_LITERAL;
-			case OUT:
-				return OUT_LITERAL;
-			case OUTIN:
-				return OUTIN_LITERAL;
+		case IN:
+			return IN_LITERAL;
+		case OUT:
+			return OUT_LITERAL;
+		case OUTIN:
+			return OUTIN_LITERAL;
 		}
 		return null;
 	}

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPartImpl.java,v 1.9 2007/12/06 20:01:23 smoser Exp $
+ * $Id: FromPartImpl.java,v 1.10 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -48,7 +48,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable	toVariable;
+	protected Variable toVariable;
 
 	/**
 	 * The cached value of the '{@link #getPart() <em>Part</em>}' reference.
@@ -58,13 +58,13 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 * @generated
 	 * @ordered
 	 */
-	protected Part		part;
-	
+	protected Part part;
+
 	/**
 	 * The deserialized value of the part name.
 	 * @customized
 	 */
-	protected String	partName	= null;
+	protected String partName = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -97,7 +97,8 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 			if (toVariable != oldToVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							BPELPackage.FROM_PART__TO_VARIABLE, oldToVariable, toVariable));
+							BPELPackage.FROM_PART__TO_VARIABLE, oldToVariable,
+							toVariable));
 			}
 		}
 		return toVariable;
@@ -118,14 +119,16 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	 */
 	public void setToVariable(Variable newToVariable) {
 		Variable oldToVariable = toVariable;
-        if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_TO_VARIABLE,
-					newToVariable == null ? null : newToVariable.getName());
-        }
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_TO_VARIABLE, newToVariable == null ? null
+							: newToVariable.getName());
+		}
 		toVariable = newToVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					BPELPackage.FROM_PART__TO_VARIABLE, oldToVariable, toVariable));
+					BPELPackage.FROM_PART__TO_VARIABLE, oldToVariable,
+					toVariable));
 	}
 
 	/**
@@ -148,7 +151,8 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 								javax.wsdl.Message message = input.getMessage();
 								if (message != null) {
 									// Create an part proxy with the deserialized part name.
-									part = new PartProxy(eResource(), (Message) message, partName);
+									part = new PartProxy(eResource(),
+											(Message) message, partName);
 									partName = null;
 								}
 							}
@@ -159,7 +163,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 		}
 		return getPartGen();
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -195,7 +199,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 
 		partName = newPartName;
 	}
-	
+
 	/**
 	 * Get the deserialized value of the part name.
 	 * @customized
@@ -204,7 +208,7 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 
 		return partName;
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -212,12 +216,13 @@ public class FromPartImpl extends ExtensibleElementImpl implements FromPart {
 	public void setPart(Part newPart) {
 		Part oldPart = part;
 		if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPart.getName());
-        }
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART,
+					newPart.getName());
+		}
 		part = newPart;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.FROM_PART__PART,
-					oldPart, part));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.FROM_PART__PART, oldPart, part));
 	}
 
 	/**

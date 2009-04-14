@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinksImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: PartnerLinksImpl.java,v 1.10 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -96,9 +96,9 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINKS__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.PARTNER_LINKS__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -111,8 +111,8 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINKS__CHILDREN:
-				return getChildren();
+		case BPELPackage.PARTNER_LINKS__CHILDREN:
+			return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -126,11 +126,10 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINKS__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll(
-						(Collection<? extends PartnerLink>) newValue);
-				return;
+		case BPELPackage.PARTNER_LINKS__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll((Collection<? extends PartnerLink>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -143,9 +142,9 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINKS__CHILDREN:
-				getChildren().clear();
-				return;
+		case BPELPackage.PARTNER_LINKS__CHILDREN:
+			getChildren().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -158,31 +157,34 @@ public class PartnerLinksImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINKS__CHILDREN:
-				return children != null && !children.isEmpty();
+		case BPELPackage.PARTNER_LINKS__CHILDREN:
+			return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
-	
+
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof PartnerLink) {
 			if (getElement() == null) {
-				ReconciliationHelper.getInstance().patchParentElement((PartnerLink)object, this, null, BPELConstants.ND_PARTNER_LINKS, BPELConstants.ND_PARTNER_LINK);
+				ReconciliationHelper.getInstance().patchParentElement(
+						(PartnerLink) object, this, null,
+						BPELConstants.ND_PARTNER_LINKS,
+						BPELConstants.ND_PARTNER_LINK);
 			} else {
-				ReconciliationHelper.adoptChild(this, children, (PartnerLink)object, BPELConstants.ND_PARTNER_LINK);
+				ReconciliationHelper.adoptChild(this, children,
+						(PartnerLink) object, BPELConstants.ND_PARTNER_LINK);
 			}
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof PartnerLink) {
-			ReconciliationHelper.orphanChild(this, (PartnerLink)obj);
+			ReconciliationHelper.orphanChild(this, (PartnerLink) obj);
 		}
 		super.orphanContent(reference, obj);
 	}
-
 
 } //PartnerLinksImpl

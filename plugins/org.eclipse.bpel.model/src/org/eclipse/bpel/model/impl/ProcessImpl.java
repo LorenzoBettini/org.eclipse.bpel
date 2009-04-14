@@ -62,6 +62,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getMessageExchanges <em>Message Exchanges</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.impl.ProcessImpl#getAbstractProcessProfile <em>Abstract Process Profile</em>}</li>
  * </ul>
  * </p>
  *
@@ -334,6 +335,35 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 * @ordered
 	 */
 	protected MessageExchanges messageExchanges;
+
+	/**
+	 * The default value of the '{@link #getAbstractProcessProfile() <em>Abstract Process Profile</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAbstractProcessProfile()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ABSTRACT_PROCESS_PROFILE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getAbstractProcessProfile() <em>Abstract Process Profile</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAbstractProcessProfile()
+	 * @generated
+	 * @ordered
+	 */
+	protected String abstractProcessProfile = ABSTRACT_PROCESS_PROFILE_EDEFAULT;
+
+	/**
+	 * This is true if the Abstract Process Profile attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean abstractProcessProfileESet;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1030,6 +1060,65 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getAbstractProcessProfile() {
+		return abstractProcessProfile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public void setAbstractProcessProfile(String newAbstractProcessProfile) {
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_ABSTRACT_PROFILES, newAbstractProcessProfile);
+		}
+		String oldAbstractProcessProfile = abstractProcessProfile;
+		abstractProcessProfile = newAbstractProcessProfile;
+		boolean oldAbstractProcessProfileESet = abstractProcessProfileESet;
+		abstractProcessProfileESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.PROCESS__ABSTRACT_PROCESS_PROFILE,
+					oldAbstractProcessProfile, abstractProcessProfile,
+					!oldAbstractProcessProfileESet));
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public void unsetAbstractProcessProfile() {
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_ABSTRACT_PROFILES, (String) null);
+		}
+		String oldAbstractProcessProfile = abstractProcessProfile;
+		boolean oldAbstractProcessProfileESet = abstractProcessProfileESet;
+		abstractProcessProfile = ABSTRACT_PROCESS_PROFILE_EDEFAULT;
+		abstractProcessProfileESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					BPELPackage.PROCESS__ABSTRACT_PROCESS_PROFILE,
+					oldAbstractProcessProfile,
+					ABSTRACT_PROCESS_PROFILE_EDEFAULT,
+					oldAbstractProcessProfileESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetAbstractProcessProfile() {
+		return abstractProcessProfileESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
@@ -1097,6 +1186,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			return getExitOnStandardFault();
 		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
 			return getMessageExchanges();
+		case BPELPackage.PROCESS__ABSTRACT_PROCESS_PROFILE:
+			return getAbstractProcessProfile();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1159,6 +1250,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
 			setMessageExchanges((MessageExchanges) newValue);
 			return;
+		case BPELPackage.PROCESS__ABSTRACT_PROCESS_PROFILE:
+			setAbstractProcessProfile((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -1219,6 +1313,9 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
 			setMessageExchanges((MessageExchanges) null);
 			return;
+		case BPELPackage.PROCESS__ABSTRACT_PROCESS_PROFILE:
+			unsetAbstractProcessProfile();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1267,6 +1364,8 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 							.equals(exitOnStandardFault);
 		case BPELPackage.PROCESS__MESSAGE_EXCHANGES:
 			return messageExchanges != null;
+		case BPELPackage.PROCESS__ABSTRACT_PROCESS_PROFILE:
+			return isSetAbstractProcessProfile();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1437,6 +1536,11 @@ public class ProcessImpl extends ExtensibleElementImpl implements
 			result.append("<unset>"); //$NON-NLS-1$
 		result.append(", exitOnStandardFault: "); //$NON-NLS-1$
 		result.append(exitOnStandardFault);
+		result.append(", abstractProcessProfile: "); //$NON-NLS-1$
+		if (abstractProcessProfileESet)
+			result.append(abstractProcessProfile);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
 		result.append(')');
 		return result.toString();
 	}

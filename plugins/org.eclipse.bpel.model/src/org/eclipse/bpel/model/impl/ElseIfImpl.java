@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseIfImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ElseIfImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -192,10 +192,10 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.ELSE_IF__CONDITION:
-				return basicSetCondition(null, msgs);
-			case BPELPackage.ELSE_IF__ACTIVITY:
-				return basicSetActivity(null, msgs);
+		case BPELPackage.ELSE_IF__CONDITION:
+			return basicSetCondition(null, msgs);
+		case BPELPackage.ELSE_IF__ACTIVITY:
+			return basicSetActivity(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -208,10 +208,10 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.ELSE_IF__CONDITION:
-				return getCondition();
-			case BPELPackage.ELSE_IF__ACTIVITY:
-				return getActivity();
+		case BPELPackage.ELSE_IF__CONDITION:
+			return getCondition();
+		case BPELPackage.ELSE_IF__ACTIVITY:
+			return getActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -224,12 +224,12 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.ELSE_IF__CONDITION:
-				setCondition((Condition) newValue);
-				return;
-			case BPELPackage.ELSE_IF__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
+		case BPELPackage.ELSE_IF__CONDITION:
+			setCondition((Condition) newValue);
+			return;
+		case BPELPackage.ELSE_IF__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -242,12 +242,12 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ELSE_IF__CONDITION:
-				setCondition((Condition) null);
-				return;
-			case BPELPackage.ELSE_IF__ACTIVITY:
-				setActivity((Activity) null);
-				return;
+		case BPELPackage.ELSE_IF__CONDITION:
+			setCondition((Condition) null);
+			return;
+		case BPELPackage.ELSE_IF__ACTIVITY:
+			setActivity((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -260,10 +260,10 @@ public class ElseIfImpl extends ExtensibleElementImpl implements ElseIf {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ELSE_IF__CONDITION:
-				return condition != null;
-			case BPELPackage.ELSE_IF__ACTIVITY:
-				return activity != null;
+		case BPELPackage.ELSE_IF__CONDITION:
+			return condition != null;
+		case BPELPackage.ELSE_IF__ACTIVITY:
+			return activity != null;
 		}
 		return super.eIsSet(featureID);
 	}

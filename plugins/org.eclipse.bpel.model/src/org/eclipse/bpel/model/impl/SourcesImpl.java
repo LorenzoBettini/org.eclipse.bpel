@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourcesImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: SourcesImpl.java,v 1.8 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -94,9 +94,9 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.SOURCES__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.SOURCES__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -109,8 +109,8 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.SOURCES__CHILDREN:
-				return getChildren();
+		case BPELPackage.SOURCES__CHILDREN:
+			return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -124,10 +124,10 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.SOURCES__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll((Collection<? extends Source>) newValue);
-				return;
+		case BPELPackage.SOURCES__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll((Collection<? extends Source>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -140,9 +140,9 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SOURCES__CHILDREN:
-				getChildren().clear();
-				return;
+		case BPELPackage.SOURCES__CHILDREN:
+			getChildren().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -155,8 +155,8 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SOURCES__CHILDREN:
-				return children != null && !children.isEmpty();
+		case BPELPackage.SOURCES__CHILDREN:
+			return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -164,17 +164,18 @@ public class SourcesImpl extends ExtensibleElementImpl implements Sources {
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Source) {
-			ReconciliationHelper.adoptChild(this, children, (Source)object, BPELConstants.ND_SOURCE);
+			ReconciliationHelper.adoptChild(this, children, (Source) object,
+					BPELConstants.ND_SOURCE);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Source) {
-			ReconciliationHelper.orphanChild(this, (Source)obj);
+			ReconciliationHelper.orphanChild(this, (Source) obj);
 		}
 		super.orphanContent(reference, obj);
 	}
-	
+
 } //SourcesImpl

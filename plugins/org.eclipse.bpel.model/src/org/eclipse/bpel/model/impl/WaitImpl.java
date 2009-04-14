@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WaitImpl.java,v 1.8 2008/05/05 07:33:18 odanilov Exp $
+ * $Id: WaitImpl.java,v 1.9 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -97,8 +97,11 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			NotificationChain msgs) {
 		Expression oldFor = for_;
 		if (!isReconciling) {
-			if (newFor != null && newFor.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newFor.setElement(ElementFactory.getInstance().createExpressionElement(newFor, this, BPELConstants.ND_FOR));
+			if (newFor != null && newFor.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newFor.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newFor, this,
+								BPELConstants.ND_FOR));
 			}
 			ReconciliationHelper.replaceChild(this, oldFor, newFor);
 		}
@@ -155,8 +158,11 @@ public class WaitImpl extends ActivityImpl implements Wait {
 			NotificationChain msgs) {
 		Expression oldUntil = until;
 		if (!isReconciling) {
-			if (newUntil != null && newUntil.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newUntil.setElement(ElementFactory.getInstance().createExpressionElement(newUntil, this, BPELConstants.ND_UNTIL));
+			if (newUntil != null && newUntil.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newUntil.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newUntil, this,
+								BPELConstants.ND_UNTIL));
 			}
 			ReconciliationHelper.replaceChild(this, oldUntil, newUntil);
 		}
@@ -207,10 +213,10 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.WAIT__FOR:
-				return basicSetFor(null, msgs);
-			case BPELPackage.WAIT__UNTIL:
-				return basicSetUntil(null, msgs);
+		case BPELPackage.WAIT__FOR:
+			return basicSetFor(null, msgs);
+		case BPELPackage.WAIT__UNTIL:
+			return basicSetUntil(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -223,10 +229,10 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.WAIT__FOR:
-				return getFor();
-			case BPELPackage.WAIT__UNTIL:
-				return getUntil();
+		case BPELPackage.WAIT__FOR:
+			return getFor();
+		case BPELPackage.WAIT__UNTIL:
+			return getUntil();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,12 +245,12 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.WAIT__FOR:
-				setFor((Expression) newValue);
-				return;
-			case BPELPackage.WAIT__UNTIL:
-				setUntil((Expression) newValue);
-				return;
+		case BPELPackage.WAIT__FOR:
+			setFor((Expression) newValue);
+			return;
+		case BPELPackage.WAIT__UNTIL:
+			setUntil((Expression) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -257,12 +263,12 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.WAIT__FOR:
-				setFor((Expression) null);
-				return;
-			case BPELPackage.WAIT__UNTIL:
-				setUntil((Expression) null);
-				return;
+		case BPELPackage.WAIT__FOR:
+			setFor((Expression) null);
+			return;
+		case BPELPackage.WAIT__UNTIL:
+			setUntil((Expression) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -275,10 +281,10 @@ public class WaitImpl extends ActivityImpl implements Wait {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.WAIT__FOR:
-				return for_ != null;
-			case BPELPackage.WAIT__UNTIL:
-				return until != null;
+		case BPELPackage.WAIT__FOR:
+			return for_ != null;
+		case BPELPackage.WAIT__UNTIL:
+			return until != null;
 		}
 		return super.eIsSet(featureID);
 	}

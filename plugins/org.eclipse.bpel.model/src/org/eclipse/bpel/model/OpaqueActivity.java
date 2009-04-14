@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OpaqueActivity.java,v 1.2 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: OpaqueActivity.java,v 1.3 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -11,10 +11,15 @@ package org.eclipse.bpel.model;
  * A representation of the model object '<em><b>Opaque Activity</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * Hides detailed information of an existing executable activity. Using an Opaque Activity will turn the process into an abstract process.
+ * <!-- end-model-doc -->
+ *
  *
  * @see org.eclipse.bpel.model.BPELPackage#getOpaqueActivity()
  * @model
  * @generated
  */
 public interface OpaqueActivity extends Activity {
+
 } // OpaqueActivity

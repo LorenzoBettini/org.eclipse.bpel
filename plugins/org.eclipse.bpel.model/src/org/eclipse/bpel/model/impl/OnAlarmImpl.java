@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnAlarmImpl.java,v 1.8 2008/05/05 07:33:18 odanilov Exp $
+ * $Id: OnAlarmImpl.java,v 1.9 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -176,8 +176,11 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			NotificationChain msgs) {
 		Expression oldFor = for_;
 		if (!isReconciling) {
-			if (newFor != null && newFor.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newFor.setElement(ElementFactory.getInstance().createExpressionElement(newFor, this, BPELConstants.ND_FOR));
+			if (newFor != null && newFor.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newFor.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newFor, this,
+								BPELConstants.ND_FOR));
 			}
 			ReconciliationHelper.replaceChild(this, oldFor, newFor);
 		}
@@ -234,8 +237,11 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			NotificationChain msgs) {
 		Expression oldUntil = until;
 		if (!isReconciling) {
-			if (newUntil != null && newUntil.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newUntil.setElement(ElementFactory.getInstance().createExpressionElement(newUntil, this, BPELConstants.ND_UNTIL));
+			if (newUntil != null && newUntil.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newUntil.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newUntil, this,
+								BPELConstants.ND_UNTIL));
 			}
 			ReconciliationHelper.replaceChild(this, oldUntil, newUntil);
 		}
@@ -293,10 +299,14 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 			NotificationChain msgs) {
 		Expression oldRepeatEvery = repeatEvery;
 		if (!isReconciling) {
-			if (newRepeatEvery != null && newRepeatEvery.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newRepeatEvery.setElement(ElementFactory.getInstance().createExpressionElement(newRepeatEvery, this, BPELConstants.ND_REPEAT_EVERY));
+			if (newRepeatEvery != null && newRepeatEvery.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newRepeatEvery.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newRepeatEvery, this,
+								BPELConstants.ND_REPEAT_EVERY));
 			}
-			ReconciliationHelper.replaceChild(this, oldRepeatEvery, newRepeatEvery);
+			ReconciliationHelper.replaceChild(this, oldRepeatEvery,
+					newRepeatEvery);
 		}
 		repeatEvery = newRepeatEvery;
 		if (eNotificationRequired()) {
@@ -347,14 +357,14 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.ON_ALARM__ACTIVITY:
-				return basicSetActivity(null, msgs);
-			case BPELPackage.ON_ALARM__FOR:
-				return basicSetFor(null, msgs);
-			case BPELPackage.ON_ALARM__UNTIL:
-				return basicSetUntil(null, msgs);
-			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				return basicSetRepeatEvery(null, msgs);
+		case BPELPackage.ON_ALARM__ACTIVITY:
+			return basicSetActivity(null, msgs);
+		case BPELPackage.ON_ALARM__FOR:
+			return basicSetFor(null, msgs);
+		case BPELPackage.ON_ALARM__UNTIL:
+			return basicSetUntil(null, msgs);
+		case BPELPackage.ON_ALARM__REPEAT_EVERY:
+			return basicSetRepeatEvery(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -367,14 +377,14 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.ON_ALARM__ACTIVITY:
-				return getActivity();
-			case BPELPackage.ON_ALARM__FOR:
-				return getFor();
-			case BPELPackage.ON_ALARM__UNTIL:
-				return getUntil();
-			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				return getRepeatEvery();
+		case BPELPackage.ON_ALARM__ACTIVITY:
+			return getActivity();
+		case BPELPackage.ON_ALARM__FOR:
+			return getFor();
+		case BPELPackage.ON_ALARM__UNTIL:
+			return getUntil();
+		case BPELPackage.ON_ALARM__REPEAT_EVERY:
+			return getRepeatEvery();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -387,18 +397,18 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.ON_ALARM__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.ON_ALARM__FOR:
-				setFor((Expression) newValue);
-				return;
-			case BPELPackage.ON_ALARM__UNTIL:
-				setUntil((Expression) newValue);
-				return;
-			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				setRepeatEvery((Expression) newValue);
-				return;
+		case BPELPackage.ON_ALARM__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.ON_ALARM__FOR:
+			setFor((Expression) newValue);
+			return;
+		case BPELPackage.ON_ALARM__UNTIL:
+			setUntil((Expression) newValue);
+			return;
+		case BPELPackage.ON_ALARM__REPEAT_EVERY:
+			setRepeatEvery((Expression) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -411,18 +421,18 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ON_ALARM__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.ON_ALARM__FOR:
-				setFor((Expression) null);
-				return;
-			case BPELPackage.ON_ALARM__UNTIL:
-				setUntil((Expression) null);
-				return;
-			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				setRepeatEvery((Expression) null);
-				return;
+		case BPELPackage.ON_ALARM__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.ON_ALARM__FOR:
+			setFor((Expression) null);
+			return;
+		case BPELPackage.ON_ALARM__UNTIL:
+			setUntil((Expression) null);
+			return;
+		case BPELPackage.ON_ALARM__REPEAT_EVERY:
+			setRepeatEvery((Expression) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -435,14 +445,14 @@ public class OnAlarmImpl extends ExtensibleElementImpl implements OnAlarm {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ON_ALARM__ACTIVITY:
-				return activity != null;
-			case BPELPackage.ON_ALARM__FOR:
-				return for_ != null;
-			case BPELPackage.ON_ALARM__UNTIL:
-				return until != null;
-			case BPELPackage.ON_ALARM__REPEAT_EVERY:
-				return repeatEvery != null;
+		case BPELPackage.ON_ALARM__ACTIVITY:
+			return activity != null;
+		case BPELPackage.ON_ALARM__FOR:
+			return for_ != null;
+		case BPELPackage.ON_ALARM__UNTIL:
+			return until != null;
+		case BPELPackage.ON_ALARM__REPEAT_EVERY:
+			return repeatEvery != null;
 		}
 		return super.eIsSet(featureID);
 	}

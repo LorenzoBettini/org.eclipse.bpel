@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationSetImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: CorrelationSetImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -110,7 +110,8 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	public void setName(String newName) {
 		String oldName = name;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME,
+					newName);
 		}
 		name = newName;
 		if (eNotificationRequired())
@@ -139,10 +140,10 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SET__NAME:
-				return getName();
-			case BPELPackage.CORRELATION_SET__PROPERTIES:
-				return getProperties();
+		case BPELPackage.CORRELATION_SET__NAME:
+			return getName();
+		case BPELPackage.CORRELATION_SET__PROPERTIES:
+			return getProperties();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,14 +157,13 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SET__NAME:
-				setName((String) newValue);
-				return;
-			case BPELPackage.CORRELATION_SET__PROPERTIES:
-				getProperties().clear();
-				getProperties().addAll(
-						(Collection<? extends Property>) newValue);
-				return;
+		case BPELPackage.CORRELATION_SET__NAME:
+			setName((String) newValue);
+			return;
+		case BPELPackage.CORRELATION_SET__PROPERTIES:
+			getProperties().clear();
+			getProperties().addAll((Collection<? extends Property>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -176,12 +176,12 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SET__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.CORRELATION_SET__PROPERTIES:
-				getProperties().clear();
-				return;
+		case BPELPackage.CORRELATION_SET__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case BPELPackage.CORRELATION_SET__PROPERTIES:
+			getProperties().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -194,11 +194,11 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION_SET__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-						.equals(name);
-			case BPELPackage.CORRELATION_SET__PROPERTIES:
-				return properties != null && !properties.isEmpty();
+		case BPELPackage.CORRELATION_SET__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
+		case BPELPackage.CORRELATION_SET__PROPERTIES:
+			return properties != null && !properties.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -222,11 +222,14 @@ public class CorrelationSetImpl extends ExtensibleElementImpl implements
 
 	@Override
 	protected void changeReference(EReference reference) {
-		if (reference.getFeatureID() == BPELPackage.CORRELATION_SET__PROPERTIES && !ReconciliationHelper.isLoading(this)) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTIES, ElementFactory.getInstance().createPropertiesString(this));
+		if (reference.getFeatureID() == BPELPackage.CORRELATION_SET__PROPERTIES
+				&& !ReconciliationHelper.isLoading(this)) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PROPERTIES, ElementFactory.getInstance()
+							.createPropertiesString(this));
 		}
 
 		super.changeReference(reference);
 	}
-	
+
 } //CorrelationSetImpl

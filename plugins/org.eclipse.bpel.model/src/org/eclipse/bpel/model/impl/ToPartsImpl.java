@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartsImpl.java,v 1.1 2007/11/20 14:14:22 smoser Exp $
+ * $Id: ToPartsImpl.java,v 1.2 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -43,7 +43,7 @@ public class ToPartsImpl extends ExtensibleElementImpl implements ToParts {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ToPart>	children;
+	protected EList<ToPart> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -83,11 +83,12 @@ public class ToPartsImpl extends ExtensibleElementImpl implements ToParts {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID,
-			NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case BPELPackage.TO_PARTS__CHILDREN:
-			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd, msgs);
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

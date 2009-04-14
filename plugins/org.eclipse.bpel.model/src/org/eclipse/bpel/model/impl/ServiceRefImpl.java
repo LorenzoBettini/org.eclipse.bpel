@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ServiceRefImpl.java,v 1.12 2008/05/05 07:33:18 odanilov Exp $
+ * $Id: ServiceRefImpl.java,v 1.13 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
 import org.w3c.dom.Node;
 
 /**
@@ -81,7 +82,7 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	protected Object value = VALUE_EDEFAULT;
 
 	private Node valueNode;
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,7 +118,8 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	public void setReferenceScheme(String newReferenceScheme) {
 		String oldReferenceScheme = referenceScheme;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_REFERENCE_SCHEME, newReferenceScheme);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_REFERENCE_SCHEME, newReferenceScheme);
 		}
 		referenceScheme = newReferenceScheme;
 		if (eNotificationRequired())
@@ -145,7 +147,8 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 		Object oldValue = value;
 		value = newValue;
 		if (!isReconciling && oldValue != newValue) {
-			valueNode = ReconciliationHelper.replaceValue(this, valueNode, newValue);
+			valueNode = ReconciliationHelper.replaceValue(this, valueNode,
+					newValue);
 		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -160,10 +163,10 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
-				return getReferenceScheme();
-			case BPELPackage.SERVICE_REF__VALUE:
-				return getValue();
+		case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
+			return getReferenceScheme();
+		case BPELPackage.SERVICE_REF__VALUE:
+			return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -176,12 +179,12 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
-				setReferenceScheme((String) newValue);
-				return;
-			case BPELPackage.SERVICE_REF__VALUE:
-				setValue(newValue);
-				return;
+		case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
+			setReferenceScheme((String) newValue);
+			return;
+		case BPELPackage.SERVICE_REF__VALUE:
+			setValue(newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -194,12 +197,12 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
-				setReferenceScheme(REFERENCE_SCHEME_EDEFAULT);
-				return;
-			case BPELPackage.SERVICE_REF__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
+		case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
+			setReferenceScheme(REFERENCE_SCHEME_EDEFAULT);
+			return;
+		case BPELPackage.SERVICE_REF__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -212,12 +215,12 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
-				return REFERENCE_SCHEME_EDEFAULT == null ? referenceScheme != null
-						: !REFERENCE_SCHEME_EDEFAULT.equals(referenceScheme);
-			case BPELPackage.SERVICE_REF__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
-						.equals(value);
+		case BPELPackage.SERVICE_REF__REFERENCE_SCHEME:
+			return REFERENCE_SCHEME_EDEFAULT == null ? referenceScheme != null
+					: !REFERENCE_SCHEME_EDEFAULT.equals(referenceScheme);
+		case BPELPackage.SERVICE_REF__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+					.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}

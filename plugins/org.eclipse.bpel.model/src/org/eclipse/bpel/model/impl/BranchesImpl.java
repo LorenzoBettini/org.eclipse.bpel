@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BranchesImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: BranchesImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -94,7 +94,9 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 			Boolean newCountCompletedBranchesOnly) {
 		Boolean oldCountCompletedBranchesOnly = countCompletedBranchesOnly;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUCCESSFUL_BRANCHES_ONLY, BPELUtils.boolean2XML(newCountCompletedBranchesOnly));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SUCCESSFUL_BRANCHES_ONLY, BPELUtils
+							.boolean2XML(newCountCompletedBranchesOnly));
 		}
 		countCompletedBranchesOnly = newCountCompletedBranchesOnly;
 		boolean oldCountCompletedBranchesOnlyESet = countCompletedBranchesOnlyESet;
@@ -113,7 +115,8 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	public void unsetCountCompletedBranchesOnly() {
 		Boolean oldCountCompletedBranchesOnly = countCompletedBranchesOnly;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SUCCESSFUL_BRANCHES_ONLY, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SUCCESSFUL_BRANCHES_ONLY, (String) null);
 		}
 		boolean oldCountCompletedBranchesOnlyESet = countCompletedBranchesOnlyESet;
 		countCompletedBranchesOnly = COUNT_COMPLETED_BRANCHES_ONLY_EDEFAULT;
@@ -143,8 +146,8 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
-				return getCountCompletedBranchesOnly();
+		case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
+			return getCountCompletedBranchesOnly();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -157,9 +160,9 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
-				setCountCompletedBranchesOnly((Boolean) newValue);
-				return;
+		case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
+			setCountCompletedBranchesOnly((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -172,9 +175,9 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
-				unsetCountCompletedBranchesOnly();
-				return;
+		case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
+			unsetCountCompletedBranchesOnly();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -187,8 +190,8 @@ public class BranchesImpl extends ExpressionImpl implements Branches {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
-				return isSetCountCompletedBranchesOnly();
+		case BPELPackage.BRANCHES__COUNT_COMPLETED_BRANCHES_ONLY:
+			return isSetCountCompletedBranchesOnly();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReceiveImpl.java,v 1.14 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ReceiveImpl.java,v 1.15 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -314,7 +314,10 @@ public class ReceiveImpl extends PartnerActivityImpl implements Receive {
 	public void setMessageExchange(MessageExchange newMessageExchange) {
 		MessageExchange oldMessageExchange = messageExchange;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MESSAGE_EXCHANGE,
+					newMessageExchange == null ? null : newMessageExchange
+							.getName());
 		}
 		messageExchange = newMessageExchange;
 		if (eNotificationRequired())

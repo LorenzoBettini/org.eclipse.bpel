@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: WhileImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: WhileImpl.java,v 1.8 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -150,12 +150,12 @@ public class WhileImpl extends ActivityImpl implements While {
 	 */
 	public NotificationChain basicSetCondition(Condition newCondition,
 			NotificationChain msgs) {
-		
+
 		Condition oldCondition = condition;
 		if (!isReconciling) {
 			ReconciliationHelper.replaceChild(this, oldCondition, newCondition);
 		}
-		condition = newCondition;		
+		condition = newCondition;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
 					Notification.SET, BPELPackage.WHILE__CONDITION,
@@ -201,10 +201,10 @@ public class WhileImpl extends ActivityImpl implements While {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.WHILE__ACTIVITY:
-				return basicSetActivity(null, msgs);
-			case BPELPackage.WHILE__CONDITION:
-				return basicSetCondition(null, msgs);
+		case BPELPackage.WHILE__ACTIVITY:
+			return basicSetActivity(null, msgs);
+		case BPELPackage.WHILE__CONDITION:
+			return basicSetCondition(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -217,10 +217,10 @@ public class WhileImpl extends ActivityImpl implements While {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.WHILE__ACTIVITY:
-				return getActivity();
-			case BPELPackage.WHILE__CONDITION:
-				return getCondition();
+		case BPELPackage.WHILE__ACTIVITY:
+			return getActivity();
+		case BPELPackage.WHILE__CONDITION:
+			return getCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -233,12 +233,12 @@ public class WhileImpl extends ActivityImpl implements While {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.WHILE__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.WHILE__CONDITION:
-				setCondition((Condition) newValue);
-				return;
+		case BPELPackage.WHILE__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.WHILE__CONDITION:
+			setCondition((Condition) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -251,12 +251,12 @@ public class WhileImpl extends ActivityImpl implements While {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.WHILE__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.WHILE__CONDITION:
-				setCondition((Condition) null);
-				return;
+		case BPELPackage.WHILE__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.WHILE__CONDITION:
+			setCondition((Condition) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -269,36 +269,36 @@ public class WhileImpl extends ActivityImpl implements While {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.WHILE__ACTIVITY:
-				return activity != null;
-			case BPELPackage.WHILE__CONDITION:
-				return condition != null;
+		case BPELPackage.WHILE__ACTIVITY:
+			return activity != null;
+		case BPELPackage.WHILE__CONDITION:
+			return condition != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-//	protected void handleReconciliation(Collection remainingModelObjects) {
-//		for (Object o : remainingModelObjects) {			
-//			if (o == activity) {
-//				setActivity(null);				
-//			} else if (o == condition) {
-////				Condition condition = (Condition)o;
-////				Element conditionElement = ElementFactory.createExpressionElement(condition, BPELConstants.ND_CONDITION, this);
-////				condition.setElement(conditionElement);
-////				getElement().appendChild(conditionElement);
-//				setCondition(null);
-//			} else {
-//				System.err.println(getClass() + "!!!!!!!!!!" + o);
-//			}
-//		}		
-//	}
-//	
-//	public void handleUnreconciledElement(Element child, Collection remainingModelObjects) {		
-//		Activity activity = ReconciliationHelper.createActivity(child);
-//		if (activity != null) {
-//			ReconciliationHelper.addActivity(this, activity);
-//		} else {
-//			super.handleUnreconciledElement(child, remainingModelObjects);
-//		}
-//	}
+	//	protected void handleReconciliation(Collection remainingModelObjects) {
+	//		for (Object o : remainingModelObjects) {			
+	//			if (o == activity) {
+	//				setActivity(null);				
+	//			} else if (o == condition) {
+	////				Condition condition = (Condition)o;
+	////				Element conditionElement = ElementFactory.createExpressionElement(condition, BPELConstants.ND_CONDITION, this);
+	////				condition.setElement(conditionElement);
+	////				getElement().appendChild(conditionElement);
+	//				setCondition(null);
+	//			} else {
+	//				System.err.println(getClass() + "!!!!!!!!!!" + o);
+	//			}
+	//		}		
+	//	}
+	//	
+	//	public void handleUnreconciledElement(Element child, Collection remainingModelObjects) {		
+	//		Activity activity = ReconciliationHelper.createActivity(child);
+	//		if (activity != null) {
+	//			ReconciliationHelper.addActivity(this, activity);
+	//		} else {
+	//			super.handleUnreconciledElement(child, remainingModelObjects);
+	//		}
+	//	}
 } //WhileImpl

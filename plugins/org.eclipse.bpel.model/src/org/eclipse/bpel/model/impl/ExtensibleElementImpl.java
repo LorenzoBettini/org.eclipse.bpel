@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensibleElementImpl.java,v 1.13 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ExtensibleElementImpl.java,v 1.14 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 import org.w3c.dom.Element;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -94,7 +93,8 @@ public class ExtensibleElementImpl extends
 			Documentation newDocumentation, NotificationChain msgs) {
 		Documentation oldDocumentation = documentation;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldDocumentation, newDocumentation);
+			ReconciliationHelper.replaceChild(this, oldDocumentation,
+					newDocumentation);
 		}
 		documentation = newDocumentation;
 		boolean oldDocumentationESet = documentationESet;
@@ -216,8 +216,8 @@ public class ExtensibleElementImpl extends
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-				return basicUnsetDocumentation(msgs);
+		case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
+			return basicUnsetDocumentation(msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -230,8 +230,8 @@ public class ExtensibleElementImpl extends
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-				return getDocumentation();
+		case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
+			return getDocumentation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -244,9 +244,9 @@ public class ExtensibleElementImpl extends
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-				setDocumentation((Documentation) newValue);
-				return;
+		case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
+			setDocumentation((Documentation) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -259,9 +259,9 @@ public class ExtensibleElementImpl extends
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-				unsetDocumentation();
-				return;
+		case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
+			unsetDocumentation();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -274,8 +274,8 @@ public class ExtensibleElementImpl extends
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
-				return isSetDocumentation();
+		case BPELPackage.EXTENSIBLE_ELEMENT__DOCUMENTATION:
+			return isSetDocumentation();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -346,57 +346,56 @@ public class ExtensibleElementImpl extends
 		return (T) obj;
 	}
 
-
 	// Reconciliation stuff. Has copy in ExtensibilityElement
 	// TODO: (DU) remove duplication					
 	@Override
 	protected void reconcile(Element changedElement) {
-//	    reconcileAttributes(changedElement);
-//	    reconcileContents(changedElement);
+		//	    reconcileAttributes(changedElement);
+		//	    reconcileContents(changedElement);
 		ReconciliationHelper.getInstance().reconcile(this, changedElement);
 	}
-	
-//	protected void reconcileContents(Element changedElement) {
-//	    List remainingModelObjects = new ArrayList(getWSDLContents());
-//
-//	    Collection<Element> contentNodes = ReconciliationHelper.getContentNodes(this, changedElement);
-//
-//	    Element theDocumentationElement = null;
-//
-//	    // for each applicable child node of changedElement
-//	    LOOP: for (Element child : contentNodes) {
-//	    	// Set Documentation element if exists
-//	    	/*if (WSDLConstants.DOCUMENTATION_ELEMENT_TAG.equals(child.getLocalName())
-//	    			&& WSDLConstants.isMatchingNamespace(child.getNamespaceURI(), WSDLConstants.WSDL_NAMESPACE_URI)) {
-//	    		// assume the first 'documentation' element is 'the' documentation element
-//	    		// 'there can be only one!'
-//	    		if (theDocumentationElement == null) {
-//	    			theDocumentationElement = child;
-//	    		}
-//	    	}*/
-//	    	// go thru the model objects to collect matching object for reuse
-//	    	for (Iterator contents = remainingModelObjects.iterator(); contents.hasNext();) {
-//	    		Object modelObject = (Object)contents.next();
-//	    		if (((WSDLElement)modelObject).getElement() == child) {
-//	    			contents.remove(); // removes the 'child' Node from the remainingModelObjects list
-//	    			continue LOOP;
-//	    		}
-//	    	}
-//
-//	    	// if the documentation element has changed... update it
-//	    	if (theDocumentationElement != getDocumentationElement()) {
-//	    		setDocumentationElement(theDocumentationElement);
-//	    	}
-//
-//	    	// we haven't found a matching model object for the Node, so we may need to
-//	    	// create a new model object
-//	    	handleUnreconciledElement(child, remainingModelObjects);
-//	    }
-//
-//	    // now we can remove the remaining model objects
-//	    handleReconciliation(remainingModelObjects);
-//	}
-	
+
+	//	protected void reconcileContents(Element changedElement) {
+	//	    List remainingModelObjects = new ArrayList(getWSDLContents());
+	//
+	//	    Collection<Element> contentNodes = ReconciliationHelper.getContentNodes(this, changedElement);
+	//
+	//	    Element theDocumentationElement = null;
+	//
+	//	    // for each applicable child node of changedElement
+	//	    LOOP: for (Element child : contentNodes) {
+	//	    	// Set Documentation element if exists
+	//	    	/*if (WSDLConstants.DOCUMENTATION_ELEMENT_TAG.equals(child.getLocalName())
+	//	    			&& WSDLConstants.isMatchingNamespace(child.getNamespaceURI(), WSDLConstants.WSDL_NAMESPACE_URI)) {
+	//	    		// assume the first 'documentation' element is 'the' documentation element
+	//	    		// 'there can be only one!'
+	//	    		if (theDocumentationElement == null) {
+	//	    			theDocumentationElement = child;
+	//	    		}
+	//	    	}*/
+	//	    	// go thru the model objects to collect matching object for reuse
+	//	    	for (Iterator contents = remainingModelObjects.iterator(); contents.hasNext();) {
+	//	    		Object modelObject = (Object)contents.next();
+	//	    		if (((WSDLElement)modelObject).getElement() == child) {
+	//	    			contents.remove(); // removes the 'child' Node from the remainingModelObjects list
+	//	    			continue LOOP;
+	//	    		}
+	//	    	}
+	//
+	//	    	// if the documentation element has changed... update it
+	//	    	if (theDocumentationElement != getDocumentationElement()) {
+	//	    		setDocumentationElement(theDocumentationElement);
+	//	    	}
+	//
+	//	    	// we haven't found a matching model object for the Node, so we may need to
+	//	    	// create a new model object
+	//	    	handleUnreconciledElement(child, remainingModelObjects);
+	//	    }
+	//
+	//	    // now we can remove the remaining model objects
+	//	    handleReconciliation(remainingModelObjects);
+	//	}
+
 	@Override
 	public void elementChanged(Element changedElement) {
 		if (!isUpdatingDOM()) {
@@ -406,26 +405,28 @@ public class ExtensibleElementImpl extends
 					reconcile(changedElement);
 
 					WSDLElement theContainer = getContainer();
-					if (theContainer != null && theContainer.getElement() == changedElement) {
-						((WSDLElementImpl)theContainer).elementChanged(changedElement);
+					if (theContainer != null
+							&& theContainer.getElement() == changedElement) {
+						((WSDLElementImpl) theContainer)
+								.elementChanged(changedElement);
 					}
 				} finally {
 					isReconciling = false;
 				}
 				traverseToRootForPatching();
-			} 
-	    } 
-	}	
-	
+			}
+		}
+	}
+
 	public boolean isReconciling() {
 		return isReconciling;
 	}
-	
+
 	@Override
 	public boolean isUpdatingDOM() {
 		return super.isUpdatingDOM();
 	}
-	
+
 	public void setUpdatingDOM(boolean updatingDOM) {
 		this.updatingDOM = updatingDOM;
 	}

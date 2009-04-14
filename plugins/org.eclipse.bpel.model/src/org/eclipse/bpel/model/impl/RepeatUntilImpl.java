@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RepeatUntilImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: RepeatUntilImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -198,10 +198,10 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
-				return basicSetActivity(null, msgs);
-			case BPELPackage.REPEAT_UNTIL__CONDITION:
-				return basicSetCondition(null, msgs);
+		case BPELPackage.REPEAT_UNTIL__ACTIVITY:
+			return basicSetActivity(null, msgs);
+		case BPELPackage.REPEAT_UNTIL__CONDITION:
+			return basicSetCondition(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -214,10 +214,10 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
-				return getActivity();
-			case BPELPackage.REPEAT_UNTIL__CONDITION:
-				return getCondition();
+		case BPELPackage.REPEAT_UNTIL__ACTIVITY:
+			return getActivity();
+		case BPELPackage.REPEAT_UNTIL__CONDITION:
+			return getCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -230,12 +230,12 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.REPEAT_UNTIL__CONDITION:
-				setCondition((Condition) newValue);
-				return;
+		case BPELPackage.REPEAT_UNTIL__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.REPEAT_UNTIL__CONDITION:
+			setCondition((Condition) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -248,12 +248,12 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.REPEAT_UNTIL__CONDITION:
-				setCondition((Condition) null);
-				return;
+		case BPELPackage.REPEAT_UNTIL__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.REPEAT_UNTIL__CONDITION:
+			setCondition((Condition) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -266,10 +266,10 @@ public class RepeatUntilImpl extends ActivityImpl implements RepeatUntil {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.REPEAT_UNTIL__ACTIVITY:
-				return activity != null;
-			case BPELPackage.REPEAT_UNTIL__CONDITION:
-				return condition != null;
+		case BPELPackage.REPEAT_UNTIL__ACTIVITY:
+			return activity != null;
+		case BPELPackage.REPEAT_UNTIL__CONDITION:
+			return condition != null;
 		}
 		return super.eIsSet(featureID);
 	}

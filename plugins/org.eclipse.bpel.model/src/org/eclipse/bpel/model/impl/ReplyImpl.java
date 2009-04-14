@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ReplyImpl.java,v 1.13 2008/02/28 17:33:20 smoser Exp $
+ * $Id: ReplyImpl.java,v 1.14 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -278,7 +278,10 @@ public class ReplyImpl extends PartnerActivityImpl implements Reply {
 	public void setMessageExchange(MessageExchange newMessageExchange) {
 		MessageExchange oldMessageExchange = messageExchange;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MESSAGE_EXCHANGE,
+					newMessageExchange == null ? null : newMessageExchange
+							.getName());
 		}
 		messageExchange = newMessageExchange;
 		if (eNotificationRequired())

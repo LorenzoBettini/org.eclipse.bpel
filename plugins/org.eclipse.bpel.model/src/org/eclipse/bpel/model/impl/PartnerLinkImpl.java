@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkImpl.java,v 1.11 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: PartnerLinkImpl.java,v 1.12 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -164,7 +164,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	public void setName(String newName) {
 		String oldName = name;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME,
+					newName);
 		}
 		name = newName;
 		if (eNotificationRequired())
@@ -207,7 +208,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	public void setMyRole(Role newMyRole) {
 		Role oldMyRole = myRole;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MY_ROLE, newMyRole == null ? null : newMyRole.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MY_ROLE, newMyRole == null ? null
+							: newMyRole.getName());
 		}
 		myRole = newMyRole;
 		if (eNotificationRequired())
@@ -250,7 +253,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	public void setPartnerRole(Role newPartnerRole) {
 		Role oldPartnerRole = partnerRole;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_ROLE, newPartnerRole == null ? null : newPartnerRole.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PARTNER_ROLE,
+					newPartnerRole == null ? null : newPartnerRole.getName());
 		}
 		partnerRole = newPartnerRole;
 		if (eNotificationRequired())
@@ -296,15 +301,19 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 		if (!isReconciling) {
 			// TODO: (DO) Check BPELWriter			
 			if (newPartnerLinkType == null) {
-				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK_TYPE, (String)null);	
+				ReconciliationHelper.replaceAttribute(this,
+						BPELConstants.AT_PARTNER_LINK_TYPE, (String) null);
 			} else {
 				QName qname = null;
-				if (newPartnerLinkType.eIsProxy() && newPartnerLinkType instanceof IBPELServicesProxy) 
-					qname = ((IBPELServicesProxy)newPartnerLinkType).getQName();
+				if (newPartnerLinkType.eIsProxy()
+						&& newPartnerLinkType instanceof IBPELServicesProxy)
+					qname = ((IBPELServicesProxy) newPartnerLinkType)
+							.getQName();
 				else
 					qname = BPELServicesUtility.getQName(newPartnerLinkType);
 
-				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK_TYPE, qname);
+				ReconciliationHelper.replaceAttribute(this,
+						BPELConstants.AT_PARTNER_LINK_TYPE, qname);
 			}
 		}
 		partnerLinkType = newPartnerLinkType;
@@ -330,7 +339,9 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	public void setInitializePartnerRole(Boolean newInitializePartnerRole) {
 		Boolean oldInitializePartnerRole = initializePartnerRole;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIALIZE_PARTNER_ROLE, BPELUtils.boolean2XML(newInitializePartnerRole));	
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_INITIALIZE_PARTNER_ROLE, BPELUtils
+							.boolean2XML(newInitializePartnerRole));
 		}
 		initializePartnerRole = newInitializePartnerRole;
 		boolean oldInitializePartnerRoleESet = initializePartnerRoleESet;
@@ -349,7 +360,8 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	public void unsetInitializePartnerRole() {
 		Boolean oldInitializePartnerRole = initializePartnerRole;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIALIZE_PARTNER_ROLE, (String)null);	
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_INITIALIZE_PARTNER_ROLE, (String) null);
 		}
 		boolean oldInitializePartnerRoleESet = initializePartnerRoleESet;
 		initializePartnerRole = INITIALIZE_PARTNER_ROLE_EDEFAULT;
@@ -378,22 +390,22 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINK__NAME:
-				return getName();
-			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				if (resolve)
-					return getMyRole();
-				return basicGetMyRole();
-			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				if (resolve)
-					return getPartnerRole();
-				return basicGetPartnerRole();
-			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				if (resolve)
-					return getPartnerLinkType();
-				return basicGetPartnerLinkType();
-			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
-				return getInitializePartnerRole();
+		case BPELPackage.PARTNER_LINK__NAME:
+			return getName();
+		case BPELPackage.PARTNER_LINK__MY_ROLE:
+			if (resolve)
+				return getMyRole();
+			return basicGetMyRole();
+		case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
+			if (resolve)
+				return getPartnerRole();
+			return basicGetPartnerRole();
+		case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
+			if (resolve)
+				return getPartnerLinkType();
+			return basicGetPartnerLinkType();
+		case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+			return getInitializePartnerRole();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -406,21 +418,21 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINK__NAME:
-				setName((String) newValue);
-				return;
-			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				setMyRole((Role) newValue);
-				return;
-			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				setPartnerRole((Role) newValue);
-				return;
-			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				setPartnerLinkType((PartnerLinkType) newValue);
-				return;
-			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
-				setInitializePartnerRole((Boolean) newValue);
-				return;
+		case BPELPackage.PARTNER_LINK__NAME:
+			setName((String) newValue);
+			return;
+		case BPELPackage.PARTNER_LINK__MY_ROLE:
+			setMyRole((Role) newValue);
+			return;
+		case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
+			setPartnerRole((Role) newValue);
+			return;
+		case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
+			setPartnerLinkType((PartnerLinkType) newValue);
+			return;
+		case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+			setInitializePartnerRole((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -433,21 +445,21 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINK__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				setMyRole((Role) null);
-				return;
-			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				setPartnerRole((Role) null);
-				return;
-			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				setPartnerLinkType((PartnerLinkType) null);
-				return;
-			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
-				unsetInitializePartnerRole();
-				return;
+		case BPELPackage.PARTNER_LINK__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case BPELPackage.PARTNER_LINK__MY_ROLE:
+			setMyRole((Role) null);
+			return;
+		case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
+			setPartnerRole((Role) null);
+			return;
+		case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
+			setPartnerLinkType((PartnerLinkType) null);
+			return;
+		case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+			unsetInitializePartnerRole();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -460,17 +472,17 @@ public class PartnerLinkImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PARTNER_LINK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-						.equals(name);
-			case BPELPackage.PARTNER_LINK__MY_ROLE:
-				return myRole != null;
-			case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
-				return partnerRole != null;
-			case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
-				return partnerLinkType != null;
-			case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
-				return isSetInitializePartnerRole();
+		case BPELPackage.PARTNER_LINK__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
+		case BPELPackage.PARTNER_LINK__MY_ROLE:
+			return myRole != null;
+		case BPELPackage.PARTNER_LINK__PARTNER_ROLE:
+			return partnerRole != null;
+		case BPELPackage.PARTNER_LINK__PARTNER_LINK_TYPE:
+			return partnerLinkType != null;
+		case BPELPackage.PARTNER_LINK__INITIALIZE_PARTNER_ROLE:
+			return isSetInitializePartnerRole();
 		}
 		return super.eIsSet(featureID);
 	}

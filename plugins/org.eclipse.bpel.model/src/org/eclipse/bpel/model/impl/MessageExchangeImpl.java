@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MessageExchangeImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: MessageExchangeImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -85,7 +85,8 @@ public class MessageExchangeImpl extends ExtensibleElementImpl implements
 	public void setName(String newName) {
 		String oldName = name;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME,
+					newName);
 		}
 		name = newName;
 		if (eNotificationRequired())

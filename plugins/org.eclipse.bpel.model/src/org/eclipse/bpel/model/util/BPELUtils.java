@@ -911,7 +911,8 @@ public class BPELUtils {
 			   BPELConstants.ND_IF.equals(name) ||
 			   BPELConstants.ND_VALIDATE.equals(name) ||
 			   BPELConstants.ND_COMPENSATE_SCOPE.equals(name) ||
-			   BPELConstants.ND_EMPTY.equals(name));
+			   BPELConstants.ND_EMPTY.equals(name) ||
+			   BPELConstants.ND_OPAQUEACTIVITY.equals(name));
 			
 	}
 

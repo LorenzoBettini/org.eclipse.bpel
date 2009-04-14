@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TerminationHandlerImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: TerminationHandlerImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -129,8 +129,8 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
-				return basicSetActivity(null, msgs);
+		case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			return basicSetActivity(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -143,8 +143,8 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
-				return getActivity();
+		case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			return getActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -157,9 +157,9 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
+		case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -172,9 +172,9 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
-				setActivity((Activity) null);
-				return;
+		case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			setActivity((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -187,8 +187,8 @@ public class TerminationHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
-				return activity != null;
+		case BPELPackage.TERMINATION_HANDLER__ACTIVITY:
+			return activity != null;
 		}
 		return super.eIsSet(featureID);
 	}

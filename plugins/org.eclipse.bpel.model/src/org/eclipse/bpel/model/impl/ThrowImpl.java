@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ThrowImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ThrowImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -106,7 +106,8 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_NAME, newFaultName);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_NAME, newFaultName);
 		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
@@ -149,7 +150,10 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	public void setFaultVariable(Variable newFaultVariable) {
 		Variable oldFaultVariable = faultVariable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_VARIABLE, newFaultVariable == null ? null : newFaultVariable.getName() );
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_VARIABLE,
+					newFaultVariable == null ? null : newFaultVariable
+							.getName());
 		}
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired())
@@ -166,12 +170,12 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.THROW__FAULT_NAME:
-				return getFaultName();
-			case BPELPackage.THROW__FAULT_VARIABLE:
-				if (resolve)
-					return getFaultVariable();
-				return basicGetFaultVariable();
+		case BPELPackage.THROW__FAULT_NAME:
+			return getFaultName();
+		case BPELPackage.THROW__FAULT_VARIABLE:
+			if (resolve)
+				return getFaultVariable();
+			return basicGetFaultVariable();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -184,12 +188,12 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.THROW__FAULT_NAME:
-				setFaultName((QName) newValue);
-				return;
-			case BPELPackage.THROW__FAULT_VARIABLE:
-				setFaultVariable((Variable) newValue);
-				return;
+		case BPELPackage.THROW__FAULT_NAME:
+			setFaultName((QName) newValue);
+			return;
+		case BPELPackage.THROW__FAULT_VARIABLE:
+			setFaultVariable((Variable) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -202,12 +206,12 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.THROW__FAULT_NAME:
-				setFaultName(FAULT_NAME_EDEFAULT);
-				return;
-			case BPELPackage.THROW__FAULT_VARIABLE:
-				setFaultVariable((Variable) null);
-				return;
+		case BPELPackage.THROW__FAULT_NAME:
+			setFaultName(FAULT_NAME_EDEFAULT);
+			return;
+		case BPELPackage.THROW__FAULT_VARIABLE:
+			setFaultVariable((Variable) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -220,11 +224,11 @@ public class ThrowImpl extends ActivityImpl implements Throw {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.THROW__FAULT_NAME:
-				return FAULT_NAME_EDEFAULT == null ? faultName != null
-						: !FAULT_NAME_EDEFAULT.equals(faultName);
-			case BPELPackage.THROW__FAULT_VARIABLE:
-				return faultVariable != null;
+		case BPELPackage.THROW__FAULT_NAME:
+			return FAULT_NAME_EDEFAULT == null ? faultName != null
+					: !FAULT_NAME_EDEFAULT.equals(faultName);
+		case BPELPackage.THROW__FAULT_VARIABLE:
+			return faultVariable != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CompletionConditionImpl.java,v 1.11 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: CompletionConditionImpl.java,v 1.12 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -130,8 +130,8 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				return basicSetBranches(null, msgs);
+		case BPELPackage.COMPLETION_CONDITION__BRANCHES:
+			return basicSetBranches(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -144,8 +144,8 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				return getBranches();
+		case BPELPackage.COMPLETION_CONDITION__BRANCHES:
+			return getBranches();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -158,9 +158,9 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				setBranches((Branches) newValue);
-				return;
+		case BPELPackage.COMPLETION_CONDITION__BRANCHES:
+			setBranches((Branches) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -173,9 +173,9 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				setBranches((Branches) null);
-				return;
+		case BPELPackage.COMPLETION_CONDITION__BRANCHES:
+			setBranches((Branches) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -188,8 +188,8 @@ public class CompletionConditionImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.COMPLETION_CONDITION__BRANCHES:
-				return branches != null;
+		case BPELPackage.COMPLETION_CONDITION__BRANCHES:
+			return branches != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ForEachImpl.java,v 1.13 2008/05/05 07:33:18 odanilov Exp $
+ * $Id: ForEachImpl.java,v 1.14 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -147,10 +147,15 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			Expression newStartCounterValue, NotificationChain msgs) {
 		Expression oldStartCounterValue = startCounterValue;
 		if (!isReconciling) {
-			if (newStartCounterValue != null && newStartCounterValue.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newStartCounterValue.setElement(ElementFactory.getInstance().createExpressionElement(newStartCounterValue, this, BPELConstants.ND_START_COUNTER_VALUE));
+			if (newStartCounterValue != null
+					&& newStartCounterValue.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newStartCounterValue.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newStartCounterValue, this,
+								BPELConstants.ND_START_COUNTER_VALUE));
 			}
-			ReconciliationHelper.replaceChild(this, oldStartCounterValue, newStartCounterValue);
+			ReconciliationHelper.replaceChild(this, oldStartCounterValue,
+					newStartCounterValue);
 		}
 		startCounterValue = newStartCounterValue;
 		if (eNotificationRequired()) {
@@ -210,10 +215,15 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			Expression newFinalCounterValue, NotificationChain msgs) {
 		Expression oldFinalCounterValue = finalCounterValue;
 		if (!isReconciling) {
-			if (newFinalCounterValue != null && newFinalCounterValue.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newFinalCounterValue.setElement(ElementFactory.getInstance().createExpressionElement(newFinalCounterValue, this, BPELConstants.ND_FINAL_COUNTER_VALUE));
+			if (newFinalCounterValue != null
+					&& newFinalCounterValue.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newFinalCounterValue.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newFinalCounterValue, this,
+								BPELConstants.ND_FINAL_COUNTER_VALUE));
 			}
-			ReconciliationHelper.replaceChild(this, oldFinalCounterValue, newFinalCounterValue);
+			ReconciliationHelper.replaceChild(this, oldFinalCounterValue,
+					newFinalCounterValue);
 		}
 
 		finalCounterValue = newFinalCounterValue;
@@ -273,7 +283,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public void setParallel(Boolean newParallel) {
 		Boolean oldParallel = parallel;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARALLEL, BPELUtils.boolean2XML(newParallel));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PARALLEL, BPELUtils
+							.boolean2XML(newParallel));
 		}
 		parallel = newParallel;
 		if (eNotificationRequired())
@@ -298,7 +310,9 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			NotificationChain msgs) {
 		Variable oldCounterName = counterName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_COUNTER_NAME, newCounterName != null ? newCounterName.getName() : null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_COUNTER_NAME,
+					newCounterName != null ? newCounterName.getName() : null);
 		}
 		counterName = newCounterName;
 		if (eNotificationRequired()) {
@@ -357,7 +371,8 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 			CompletionCondition newCompletionCondition, NotificationChain msgs) {
 		CompletionCondition oldCompletionCondition = completionCondition;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCompletionCondition, newCompletionCondition);
+			ReconciliationHelper.replaceChild(this, oldCompletionCondition,
+					newCompletionCondition);
 		}
 		completionCondition = newCompletionCondition;
 		if (eNotificationRequired()) {
@@ -466,16 +481,16 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				return basicSetStartCounterValue(null, msgs);
-			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				return basicSetFinalCounterValue(null, msgs);
-			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				return basicSetCounterName(null, msgs);
-			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				return basicSetCompletionCondition(null, msgs);
-			case BPELPackage.FOR_EACH__ACTIVITY:
-				return basicSetActivity(null, msgs);
+		case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+			return basicSetStartCounterValue(null, msgs);
+		case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+			return basicSetFinalCounterValue(null, msgs);
+		case BPELPackage.FOR_EACH__COUNTER_NAME:
+			return basicSetCounterName(null, msgs);
+		case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+			return basicSetCompletionCondition(null, msgs);
+		case BPELPackage.FOR_EACH__ACTIVITY:
+			return basicSetActivity(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -488,18 +503,18 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				return getStartCounterValue();
-			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				return getFinalCounterValue();
-			case BPELPackage.FOR_EACH__PARALLEL:
-				return getParallel();
-			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				return getCounterName();
-			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				return getCompletionCondition();
-			case BPELPackage.FOR_EACH__ACTIVITY:
-				return getActivity();
+		case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+			return getStartCounterValue();
+		case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+			return getFinalCounterValue();
+		case BPELPackage.FOR_EACH__PARALLEL:
+			return getParallel();
+		case BPELPackage.FOR_EACH__COUNTER_NAME:
+			return getCounterName();
+		case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+			return getCompletionCondition();
+		case BPELPackage.FOR_EACH__ACTIVITY:
+			return getActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -512,24 +527,24 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				setStartCounterValue((Expression) newValue);
-				return;
-			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				setFinalCounterValue((Expression) newValue);
-				return;
-			case BPELPackage.FOR_EACH__PARALLEL:
-				setParallel((Boolean) newValue);
-				return;
-			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				setCounterName((Variable) newValue);
-				return;
-			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition) newValue);
-				return;
-			case BPELPackage.FOR_EACH__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
+		case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+			setStartCounterValue((Expression) newValue);
+			return;
+		case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+			setFinalCounterValue((Expression) newValue);
+			return;
+		case BPELPackage.FOR_EACH__PARALLEL:
+			setParallel((Boolean) newValue);
+			return;
+		case BPELPackage.FOR_EACH__COUNTER_NAME:
+			setCounterName((Variable) newValue);
+			return;
+		case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+			setCompletionCondition((CompletionCondition) newValue);
+			return;
+		case BPELPackage.FOR_EACH__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -542,24 +557,24 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				setStartCounterValue((Expression) null);
-				return;
-			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				setFinalCounterValue((Expression) null);
-				return;
-			case BPELPackage.FOR_EACH__PARALLEL:
-				setParallel(PARALLEL_EDEFAULT);
-				return;
-			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				setCounterName((Variable) null);
-				return;
-			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition) null);
-				return;
-			case BPELPackage.FOR_EACH__ACTIVITY:
-				setActivity((Activity) null);
-				return;
+		case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+			setStartCounterValue((Expression) null);
+			return;
+		case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+			setFinalCounterValue((Expression) null);
+			return;
+		case BPELPackage.FOR_EACH__PARALLEL:
+			setParallel(PARALLEL_EDEFAULT);
+			return;
+		case BPELPackage.FOR_EACH__COUNTER_NAME:
+			setCounterName((Variable) null);
+			return;
+		case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+			setCompletionCondition((CompletionCondition) null);
+			return;
+		case BPELPackage.FOR_EACH__ACTIVITY:
+			setActivity((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -572,19 +587,19 @@ public class ForEachImpl extends ActivityImpl implements ForEach {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
-				return startCounterValue != null;
-			case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
-				return finalCounterValue != null;
-			case BPELPackage.FOR_EACH__PARALLEL:
-				return PARALLEL_EDEFAULT == null ? parallel != null
-						: !PARALLEL_EDEFAULT.equals(parallel);
-			case BPELPackage.FOR_EACH__COUNTER_NAME:
-				return counterName != null;
-			case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
-				return completionCondition != null;
-			case BPELPackage.FOR_EACH__ACTIVITY:
-				return activity != null;
+		case BPELPackage.FOR_EACH__START_COUNTER_VALUE:
+			return startCounterValue != null;
+		case BPELPackage.FOR_EACH__FINAL_COUNTER_VALUE:
+			return finalCounterValue != null;
+		case BPELPackage.FOR_EACH__PARALLEL:
+			return PARALLEL_EDEFAULT == null ? parallel != null
+					: !PARALLEL_EDEFAULT.equals(parallel);
+		case BPELPackage.FOR_EACH__COUNTER_NAME:
+			return counterName != null;
+		case BPELPackage.FOR_EACH__COMPLETION_CONDITION:
+			return completionCondition != null;
+		case BPELPackage.FOR_EACH__ACTIVITY:
+			return activity != null;
 		}
 		return super.eIsSet(featureID);
 	}

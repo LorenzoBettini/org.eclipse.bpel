@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: FlowImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: FlowImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -182,7 +182,8 @@ public class FlowImpl extends ActivityImpl implements Flow {
 			CompletionCondition newCompletionCondition, NotificationChain msgs) {
 		CompletionCondition oldCompletionCondition = completionCondition;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceChild(this, oldCompletionCondition, newCompletionCondition);
+			ReconciliationHelper.replaceChild(this, oldCompletionCondition,
+					newCompletionCondition);
 		}
 		completionCondition = newCompletionCondition;
 		if (eNotificationRequired()) {
@@ -234,13 +235,13 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.FLOW__ACTIVITIES:
-				return ((InternalEList<?>) getActivities()).basicRemove(
-						otherEnd, msgs);
-			case BPELPackage.FLOW__LINKS:
-				return basicSetLinks(null, msgs);
-			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				return basicSetCompletionCondition(null, msgs);
+		case BPELPackage.FLOW__ACTIVITIES:
+			return ((InternalEList<?>) getActivities()).basicRemove(otherEnd,
+					msgs);
+		case BPELPackage.FLOW__LINKS:
+			return basicSetLinks(null, msgs);
+		case BPELPackage.FLOW__COMPLETION_CONDITION:
+			return basicSetCompletionCondition(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -253,12 +254,12 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.FLOW__ACTIVITIES:
-				return getActivities();
-			case BPELPackage.FLOW__LINKS:
-				return getLinks();
-			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				return getCompletionCondition();
+		case BPELPackage.FLOW__ACTIVITIES:
+			return getActivities();
+		case BPELPackage.FLOW__LINKS:
+			return getLinks();
+		case BPELPackage.FLOW__COMPLETION_CONDITION:
+			return getCompletionCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -272,17 +273,16 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.FLOW__ACTIVITIES:
-				getActivities().clear();
-				getActivities().addAll(
-						(Collection<? extends Activity>) newValue);
-				return;
-			case BPELPackage.FLOW__LINKS:
-				setLinks((Links) newValue);
-				return;
-			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition) newValue);
-				return;
+		case BPELPackage.FLOW__ACTIVITIES:
+			getActivities().clear();
+			getActivities().addAll((Collection<? extends Activity>) newValue);
+			return;
+		case BPELPackage.FLOW__LINKS:
+			setLinks((Links) newValue);
+			return;
+		case BPELPackage.FLOW__COMPLETION_CONDITION:
+			setCompletionCondition((CompletionCondition) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -295,15 +295,15 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.FLOW__ACTIVITIES:
-				getActivities().clear();
-				return;
-			case BPELPackage.FLOW__LINKS:
-				setLinks((Links) null);
-				return;
-			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				setCompletionCondition((CompletionCondition) null);
-				return;
+		case BPELPackage.FLOW__ACTIVITIES:
+			getActivities().clear();
+			return;
+		case BPELPackage.FLOW__LINKS:
+			setLinks((Links) null);
+			return;
+		case BPELPackage.FLOW__COMPLETION_CONDITION:
+			setCompletionCondition((CompletionCondition) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -316,12 +316,12 @@ public class FlowImpl extends ActivityImpl implements Flow {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.FLOW__ACTIVITIES:
-				return activities != null && !activities.isEmpty();
-			case BPELPackage.FLOW__LINKS:
-				return links != null;
-			case BPELPackage.FLOW__COMPLETION_CONDITION:
-				return completionCondition != null;
+		case BPELPackage.FLOW__ACTIVITIES:
+			return activities != null && !activities.isEmpty();
+		case BPELPackage.FLOW__LINKS:
+			return links != null;
+		case BPELPackage.FLOW__COMPLETION_CONDITION:
+			return completionCondition != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PickImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: PickImpl.java,v 1.8 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -133,7 +133,9 @@ public class PickImpl extends ActivityImpl implements Pick {
 	public void setCreateInstance(Boolean newCreateInstance) {
 		Boolean oldCreateInstance = createInstance;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, BPELUtils.boolean2XML(newCreateInstance));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_CREATE_INSTANCE, BPELUtils
+							.boolean2XML(newCreateInstance));
 		}
 		createInstance = newCreateInstance;
 		boolean oldCreateInstanceESet = createInstanceESet;
@@ -151,9 +153,6 @@ public class PickImpl extends ActivityImpl implements Pick {
 	 */
 	public void unsetCreateInstance() {
 		Boolean oldCreateInstance = createInstance;
-		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_CREATE_INSTANCE, (String)null);
-		}
 		boolean oldCreateInstanceESet = createInstanceESet;
 		createInstance = CREATE_INSTANCE_EDEFAULT;
 		createInstanceESet = false;
@@ -207,12 +206,11 @@ public class PickImpl extends ActivityImpl implements Pick {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.PICK__MESSAGES:
-				return ((InternalEList<?>) getMessages()).basicRemove(otherEnd,
-						msgs);
-			case BPELPackage.PICK__ALARM:
-				return ((InternalEList<?>) getAlarm()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.PICK__MESSAGES:
+			return ((InternalEList<?>) getMessages()).basicRemove(otherEnd,
+					msgs);
+		case BPELPackage.PICK__ALARM:
+			return ((InternalEList<?>) getAlarm()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -225,12 +223,12 @@ public class PickImpl extends ActivityImpl implements Pick {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.PICK__CREATE_INSTANCE:
-				return getCreateInstance();
-			case BPELPackage.PICK__MESSAGES:
-				return getMessages();
-			case BPELPackage.PICK__ALARM:
-				return getAlarm();
+		case BPELPackage.PICK__CREATE_INSTANCE:
+			return getCreateInstance();
+		case BPELPackage.PICK__MESSAGES:
+			return getMessages();
+		case BPELPackage.PICK__ALARM:
+			return getAlarm();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -244,18 +242,17 @@ public class PickImpl extends ActivityImpl implements Pick {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.PICK__CREATE_INSTANCE:
-				setCreateInstance((Boolean) newValue);
-				return;
-			case BPELPackage.PICK__MESSAGES:
-				getMessages().clear();
-				getMessages()
-						.addAll((Collection<? extends OnMessage>) newValue);
-				return;
-			case BPELPackage.PICK__ALARM:
-				getAlarm().clear();
-				getAlarm().addAll((Collection<? extends OnAlarm>) newValue);
-				return;
+		case BPELPackage.PICK__CREATE_INSTANCE:
+			setCreateInstance((Boolean) newValue);
+			return;
+		case BPELPackage.PICK__MESSAGES:
+			getMessages().clear();
+			getMessages().addAll((Collection<? extends OnMessage>) newValue);
+			return;
+		case BPELPackage.PICK__ALARM:
+			getAlarm().clear();
+			getAlarm().addAll((Collection<? extends OnAlarm>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -268,15 +265,15 @@ public class PickImpl extends ActivityImpl implements Pick {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PICK__CREATE_INSTANCE:
-				unsetCreateInstance();
-				return;
-			case BPELPackage.PICK__MESSAGES:
-				getMessages().clear();
-				return;
-			case BPELPackage.PICK__ALARM:
-				getAlarm().clear();
-				return;
+		case BPELPackage.PICK__CREATE_INSTANCE:
+			unsetCreateInstance();
+			return;
+		case BPELPackage.PICK__MESSAGES:
+			getMessages().clear();
+			return;
+		case BPELPackage.PICK__ALARM:
+			getAlarm().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -289,12 +286,12 @@ public class PickImpl extends ActivityImpl implements Pick {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.PICK__CREATE_INSTANCE:
-				return isSetCreateInstance();
-			case BPELPackage.PICK__MESSAGES:
-				return messages != null && !messages.isEmpty();
-			case BPELPackage.PICK__ALARM:
-				return alarm != null && !alarm.isEmpty();
+		case BPELPackage.PICK__CREATE_INSTANCE:
+			return isSetCreateInstance();
+		case BPELPackage.PICK__MESSAGES:
+			return messages != null && !messages.isEmpty();
+		case BPELPackage.PICK__ALARM:
+			return alarm != null && !alarm.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -322,21 +319,23 @@ public class PickImpl extends ActivityImpl implements Pick {
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof OnMessage) {
-			ReconciliationHelper.adoptChild(this, messages, (OnMessage)object, BPELConstants.ND_ON_MESSAGE);
+			ReconciliationHelper.adoptChild(this, messages, (OnMessage) object,
+					BPELConstants.ND_ON_MESSAGE);
 		}
 		if (object instanceof OnAlarm) {
-			ReconciliationHelper.adoptChild(this, alarm, (OnAlarm)object, BPELConstants.ND_ON_ALARM);
+			ReconciliationHelper.adoptChild(this, alarm, (OnAlarm) object,
+					BPELConstants.ND_ON_ALARM);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object object) {
 		if (object instanceof OnMessage) {
-			ReconciliationHelper.orphanChild(this, (OnMessage)object);
+			ReconciliationHelper.orphanChild(this, (OnMessage) object);
 		}
 		if (object instanceof OnAlarm) {
-			ReconciliationHelper.orphanChild(this, (OnAlarm)object);
+			ReconciliationHelper.orphanChild(this, (OnAlarm) object);
 		}
 		super.orphanContent(reference, object);
 	}

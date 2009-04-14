@@ -69,7 +69,7 @@ public interface BPELResource extends Resource {
      * @see #getOptionUseNSPrefix()
      */
     void setOptionUseNSPrefix(boolean useNSPrefix);
-
+   
     interface MapListener {
         public void objectAdded(Object key, Object value);
     }

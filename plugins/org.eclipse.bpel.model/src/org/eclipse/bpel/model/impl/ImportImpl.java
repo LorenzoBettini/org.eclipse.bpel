@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ImportImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ImportImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -132,8 +132,9 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 */
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAMESPACE, newNamespace);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_NAMESPACE, newNamespace);
 		}
 		namespace = newNamespace;
 		if (eNotificationRequired())
@@ -156,8 +157,9 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 */
 	public void setLocation(String newLocation) {
 		String oldLocation = location;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LOCATION, newLocation);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_LOCATION, newLocation);
 		}
 		location = newLocation;
 		if (eNotificationRequired())
@@ -180,8 +182,9 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	 */
 	public void setImportType(String newImportType) {
 		String oldImportType = importType;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_IMPORT_TYPE, newImportType);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_IMPORT_TYPE, newImportType);
 		}
 		importType = newImportType;
 		if (eNotificationRequired())
@@ -197,12 +200,12 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.IMPORT__NAMESPACE:
-				return getNamespace();
-			case BPELPackage.IMPORT__LOCATION:
-				return getLocation();
-			case BPELPackage.IMPORT__IMPORT_TYPE:
-				return getImportType();
+		case BPELPackage.IMPORT__NAMESPACE:
+			return getNamespace();
+		case BPELPackage.IMPORT__LOCATION:
+			return getLocation();
+		case BPELPackage.IMPORT__IMPORT_TYPE:
+			return getImportType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -215,15 +218,15 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.IMPORT__NAMESPACE:
-				setNamespace((String) newValue);
-				return;
-			case BPELPackage.IMPORT__LOCATION:
-				setLocation((String) newValue);
-				return;
-			case BPELPackage.IMPORT__IMPORT_TYPE:
-				setImportType((String) newValue);
-				return;
+		case BPELPackage.IMPORT__NAMESPACE:
+			setNamespace((String) newValue);
+			return;
+		case BPELPackage.IMPORT__LOCATION:
+			setLocation((String) newValue);
+			return;
+		case BPELPackage.IMPORT__IMPORT_TYPE:
+			setImportType((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -236,15 +239,15 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.IMPORT__NAMESPACE:
-				setNamespace(NAMESPACE_EDEFAULT);
-				return;
-			case BPELPackage.IMPORT__LOCATION:
-				setLocation(LOCATION_EDEFAULT);
-				return;
-			case BPELPackage.IMPORT__IMPORT_TYPE:
-				setImportType(IMPORT_TYPE_EDEFAULT);
-				return;
+		case BPELPackage.IMPORT__NAMESPACE:
+			setNamespace(NAMESPACE_EDEFAULT);
+			return;
+		case BPELPackage.IMPORT__LOCATION:
+			setLocation(LOCATION_EDEFAULT);
+			return;
+		case BPELPackage.IMPORT__IMPORT_TYPE:
+			setImportType(IMPORT_TYPE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -257,15 +260,15 @@ public class ImportImpl extends ExtensibleElementImpl implements Import {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.IMPORT__NAMESPACE:
-				return NAMESPACE_EDEFAULT == null ? namespace != null
-						: !NAMESPACE_EDEFAULT.equals(namespace);
-			case BPELPackage.IMPORT__LOCATION:
-				return LOCATION_EDEFAULT == null ? location != null
-						: !LOCATION_EDEFAULT.equals(location);
-			case BPELPackage.IMPORT__IMPORT_TYPE:
-				return IMPORT_TYPE_EDEFAULT == null ? importType != null
-						: !IMPORT_TYPE_EDEFAULT.equals(importType);
+		case BPELPackage.IMPORT__NAMESPACE:
+			return NAMESPACE_EDEFAULT == null ? namespace != null
+					: !NAMESPACE_EDEFAULT.equals(namespace);
+		case BPELPackage.IMPORT__LOCATION:
+			return LOCATION_EDEFAULT == null ? location != null
+					: !LOCATION_EDEFAULT.equals(location);
+		case BPELPackage.IMPORT__IMPORT_TYPE:
+			return IMPORT_TYPE_EDEFAULT == null ? importType != null
+					: !IMPORT_TYPE_EDEFAULT.equals(importType);
 		}
 		return super.eIsSet(featureID);
 	}

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ToPartImpl.java,v 1.10 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ToPartImpl.java,v 1.11 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -48,7 +48,7 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable	fromVariable;
+	protected Variable fromVariable;
 
 	/**
 	 * The cached value of the '{@link #getPart() <em>Part</em>}' reference.
@@ -58,14 +58,14 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	 * @generated
 	 * @ordered
 	 */
-	protected Part		part;
+	protected Part part;
 
 	/**
 	 * The deserialized value of the part name.
 	 * @customized
 	 */
-	protected String	partName	= null;
-	
+	protected String partName = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -97,7 +97,8 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 			if (fromVariable != oldFromVariable) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							BPELPackage.TO_PART__FROM_VARIABLE, oldFromVariable, fromVariable));
+							BPELPackage.TO_PART__FROM_VARIABLE,
+							oldFromVariable, fromVariable));
 			}
 		}
 		return fromVariable;
@@ -119,15 +120,17 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 	public void setFromVariable(Variable newFromVariable) {
 		Variable oldFromVariable = fromVariable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FROM_VARIABLE,
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FROM_VARIABLE,
 					newFromVariable == null ? null : newFromVariable.getName());
 		}
 		fromVariable = newFromVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					BPELPackage.TO_PART__FROM_VARIABLE, oldFromVariable, fromVariable));
+					BPELPackage.TO_PART__FROM_VARIABLE, oldFromVariable,
+					fromVariable));
 	}
-	
+
 	/**
 	 * Customizes {@link #getPartGen()} to lazy-resolve the part name.
 	 * @customized
@@ -198,7 +201,7 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 
 		partName = newPartName;
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -211,8 +214,8 @@ public class ToPartImpl extends ExtensibleElementImpl implements ToPart {
 		}
 		part = newPart;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BPELPackage.TO_PART__PART,
-					oldPart, part));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					BPELPackage.TO_PART__PART, oldPart, part));
 	}
 
 	/**

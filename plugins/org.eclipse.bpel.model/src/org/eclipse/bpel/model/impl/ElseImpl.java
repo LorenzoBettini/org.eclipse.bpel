@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElseImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ElseImpl.java,v 1.9 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -124,8 +124,8 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.ELSE__ACTIVITY:
-				return basicSetActivity(null, msgs);
+		case BPELPackage.ELSE__ACTIVITY:
+			return basicSetActivity(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -138,8 +138,8 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.ELSE__ACTIVITY:
-				return getActivity();
+		case BPELPackage.ELSE__ACTIVITY:
+			return getActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -152,9 +152,9 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.ELSE__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
+		case BPELPackage.ELSE__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -167,9 +167,9 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ELSE__ACTIVITY:
-				setActivity((Activity) null);
-				return;
+		case BPELPackage.ELSE__ACTIVITY:
+			setActivity((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -182,8 +182,8 @@ public class ElseImpl extends ExtensibleElementImpl implements Else {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.ELSE__ACTIVITY:
-				return activity != null;
+		case BPELPackage.ELSE__ACTIVITY:
+			return activity != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.10 2008/05/13 12:42:16 odanilov Exp $
+ * $Id: CatchImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -143,8 +143,9 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public void setFaultName(QName newFaultName) {
 		QName oldFaultName = faultName;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_NAME, newFaultName);
-			}
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_NAME, newFaultName);
+		}
 		faultName = newFaultName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -168,7 +169,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 			NotificationChain msgs) {
 		Variable oldFaultVariable = faultVariable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_VARIABLE, newFaultVariable == null ? null : newFaultVariable.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_VARIABLE,
+					newFaultVariable == null ? null : newFaultVariable
+							.getName());
 		}
 		faultVariable = newFaultVariable;
 		if (eNotificationRequired()) {
@@ -307,7 +311,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		}
 		Message oldFaultMessageType = faultMessageType;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_MESSAGE_TYPE, newFaultMessageType == null ? null : newFaultMessageType.getQName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_MESSAGE_TYPE,
+					newFaultMessageType == null ? null : newFaultMessageType
+							.getQName());
 		}
 		faultMessageType = newFaultMessageType;
 		if (eNotificationRequired())
@@ -359,7 +366,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 		}
 		XSDElementDeclaration oldFaultElement = faultElement;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_FAULT_ELEMENT, newFaultElement == null ? null : new QName(newFaultElement.getTargetNamespace(), newFaultElement.getName()));
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_FAULT_ELEMENT,
+					newFaultElement == null ? null : new QName(newFaultElement
+							.getTargetNamespace(), newFaultElement.getName()));
 		}
 		faultElement = newFaultElement;
 		if (eNotificationRequired())
@@ -377,10 +387,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.CATCH__FAULT_VARIABLE:
-				return basicSetFaultVariable(null, msgs);
-			case BPELPackage.CATCH__ACTIVITY:
-				return basicSetActivity(null, msgs);
+		case BPELPackage.CATCH__FAULT_VARIABLE:
+			return basicSetFaultVariable(null, msgs);
+		case BPELPackage.CATCH__ACTIVITY:
+			return basicSetActivity(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -393,20 +403,20 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.CATCH__FAULT_NAME:
-				return getFaultName();
-			case BPELPackage.CATCH__FAULT_VARIABLE:
-				return getFaultVariable();
-			case BPELPackage.CATCH__ACTIVITY:
-				return getActivity();
-			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				if (resolve)
-					return getFaultMessageType();
-				return basicGetFaultMessageType();
-			case BPELPackage.CATCH__FAULT_ELEMENT:
-				if (resolve)
-					return getFaultElement();
-				return basicGetFaultElement();
+		case BPELPackage.CATCH__FAULT_NAME:
+			return getFaultName();
+		case BPELPackage.CATCH__FAULT_VARIABLE:
+			return getFaultVariable();
+		case BPELPackage.CATCH__ACTIVITY:
+			return getActivity();
+		case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
+			if (resolve)
+				return getFaultMessageType();
+			return basicGetFaultMessageType();
+		case BPELPackage.CATCH__FAULT_ELEMENT:
+			if (resolve)
+				return getFaultElement();
+			return basicGetFaultElement();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -419,21 +429,21 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.CATCH__FAULT_NAME:
-				setFaultName((QName) newValue);
-				return;
-			case BPELPackage.CATCH__FAULT_VARIABLE:
-				setFaultVariable((Variable) newValue);
-				return;
-			case BPELPackage.CATCH__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				setFaultMessageType((Message) newValue);
-				return;
-			case BPELPackage.CATCH__FAULT_ELEMENT:
-				setFaultElement((XSDElementDeclaration) newValue);
-				return;
+		case BPELPackage.CATCH__FAULT_NAME:
+			setFaultName((QName) newValue);
+			return;
+		case BPELPackage.CATCH__FAULT_VARIABLE:
+			setFaultVariable((Variable) newValue);
+			return;
+		case BPELPackage.CATCH__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
+			setFaultMessageType((Message) newValue);
+			return;
+		case BPELPackage.CATCH__FAULT_ELEMENT:
+			setFaultElement((XSDElementDeclaration) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -446,21 +456,21 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CATCH__FAULT_NAME:
-				setFaultName(FAULT_NAME_EDEFAULT);
-				return;
-			case BPELPackage.CATCH__FAULT_VARIABLE:
-				setFaultVariable((Variable) null);
-				return;
-			case BPELPackage.CATCH__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				setFaultMessageType((Message) null);
-				return;
-			case BPELPackage.CATCH__FAULT_ELEMENT:
-				setFaultElement((XSDElementDeclaration) null);
-				return;
+		case BPELPackage.CATCH__FAULT_NAME:
+			setFaultName(FAULT_NAME_EDEFAULT);
+			return;
+		case BPELPackage.CATCH__FAULT_VARIABLE:
+			setFaultVariable((Variable) null);
+			return;
+		case BPELPackage.CATCH__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
+			setFaultMessageType((Message) null);
+			return;
+		case BPELPackage.CATCH__FAULT_ELEMENT:
+			setFaultElement((XSDElementDeclaration) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -473,17 +483,17 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CATCH__FAULT_NAME:
-				return FAULT_NAME_EDEFAULT == null ? faultName != null
-						: !FAULT_NAME_EDEFAULT.equals(faultName);
-			case BPELPackage.CATCH__FAULT_VARIABLE:
-				return faultVariable != null;
-			case BPELPackage.CATCH__ACTIVITY:
-				return activity != null;
-			case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
-				return faultMessageType != null;
-			case BPELPackage.CATCH__FAULT_ELEMENT:
-				return faultElement != null;
+		case BPELPackage.CATCH__FAULT_NAME:
+			return FAULT_NAME_EDEFAULT == null ? faultName != null
+					: !FAULT_NAME_EDEFAULT.equals(faultName);
+		case BPELPackage.CATCH__FAULT_VARIABLE:
+			return faultVariable != null;
+		case BPELPackage.CATCH__ACTIVITY:
+			return activity != null;
+		case BPELPackage.CATCH__FAULT_MESSAGE_TYPE:
+			return faultMessageType != null;
+		case BPELPackage.CATCH__FAULT_ELEMENT:
+			return faultElement != null;
 		}
 		return super.eIsSet(featureID);
 	}

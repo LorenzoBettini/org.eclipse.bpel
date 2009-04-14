@@ -46,6 +46,9 @@
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageExchanges" eType="#//MessageExchanges"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstractProcessProfile"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PartnerLink" eSuperTypes="#//ExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -504,7 +507,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromVariable" eType="#//Variable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Part"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OpaqueActivity" eSuperTypes="#//Activity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OpaqueActivity" eSuperTypes="#//Activity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Hides detailed information of an existing executable activity. Using an Opaque Activity will turn the process into an abstract process."/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForEach" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="startCounterValue" lowerBound="1"
         eType="#//Expression" containment="true"/>

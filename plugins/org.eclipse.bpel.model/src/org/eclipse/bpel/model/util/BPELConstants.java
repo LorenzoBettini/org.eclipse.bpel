@@ -26,6 +26,10 @@ public class BPELConstants {
 	/** The 2.0 BPEL Namespace */
 	public static final String NAMESPACE_2007 = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
 	
+	/** The 2.0 BPEL Namespace for abstract processes */
+	public static final String NAMESPACE_ABSTRACT_2007 = "http://docs.oasis-open.org/wsbpel/2.0/process/abstract";
+	
+	
 	/** The default query language */
 	static final String XMLNS_XPATH_QUERY_LANGUAGE_2007 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
 
@@ -44,17 +48,27 @@ public class BPELConstants {
 	/** The current expression language */
 	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE = XMLNS_XPATH_EXPRESSION_LANGUAGE_2007;
 	
+	/** The Abstract Process Profile for Observable Behavior */
+	public static final String NAMESPACE_ABSTRACT_PROFILE_OB = "http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08";
+	
+	/** Abstract Process Profile for Templates */
+	public static final String NAMESPACE_ABSTRACT_PROFILE_T = "http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08";
 	
 	/**
 	 * The current namespace.
 	 */
-	public static final String NAMESPACE = NAMESPACE_2007;
+	public static String NAMESPACE = NAMESPACE_2007;
 
     /**
      * The preferred namespace prefix.
      */
-    public static final String PREFIX = "bpws";
+    public static final String PREFIX = "bpel";
     
+    /**
+	 * The current abstract process profile namespace.
+	 */
+	public static String NAMESPACE_ABSTRACT_PROFILE = NAMESPACE_ABSTRACT_PROFILE_T;
+	
     /**
 	 * Tests if <code>namespace</code> equals any of the valid namespaces.
 	 * @param namespace The namespace
@@ -64,8 +78,9 @@ public class BPELConstants {
 	public static boolean isBPELNamespace (String namespace)
 	{
 		return namespace != null
-			&& (namespace.equals(NAMESPACE_2004) || 
-				namespace.equals(NAMESPACE_2007)) ;
+			&& ( (namespace.equals(NAMESPACE_2004)) || 
+				 (namespace.equals(NAMESPACE_2007)) ||
+				 (namespace.equals(NAMESPACE_ABSTRACT_2007)) );
 	}
 	
     /**
@@ -113,6 +128,7 @@ public class BPELConstants {
     
     // node names (bpel XML)
     public static final String ND_PROCESS = "process";
+    public static final String ND_OPAQUEACTIVITY = "opaqueActivity";
     public static final String ND_EMPTY = "empty";
     public static final String ND_INVOKE = "invoke";
     public static final String ND_RECEIVE = "receive";
@@ -204,6 +220,7 @@ public class BPELConstants {
     public static final String AT_VARIABLE_ACCESS_SERIALIZABLE = "variableAccessSerializable";
     public static final String AT_ENABLE_INSTANCE_COMPENSATION = "enableInstanceCompensation";
     public static final String AT_ABSTRACT_PROCESSES = "abstractProcess";
+    public static final String AT_ABSTRACT_PROFILES = "abstractProcessProfile";
     public static final String AT_PARTNER_LINK_TYPE = "partnerLinkType";
     public static final String AT_FAULT_NAME = "faultName";
     public static final String AT_FAULT_VARIABLE = "faultVariable";

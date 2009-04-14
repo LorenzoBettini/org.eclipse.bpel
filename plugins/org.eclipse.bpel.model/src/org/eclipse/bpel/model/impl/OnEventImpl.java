@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.12 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: OnEventImpl.java,v 1.13 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -744,7 +744,10 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	public void setMessageExchange(MessageExchange newMessageExchange) {
 		MessageExchange oldMessageExchange = messageExchange;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_MESSAGE_EXCHANGE, newMessageExchange == null ? null : newMessageExchange.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_MESSAGE_EXCHANGE,
+					newMessageExchange == null ? null : newMessageExchange
+							.getName());
 		}
 		messageExchange = newMessageExchange;
 		if (eNotificationRequired())

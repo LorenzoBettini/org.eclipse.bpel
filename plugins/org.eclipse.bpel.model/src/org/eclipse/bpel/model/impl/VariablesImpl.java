@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariablesImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: VariablesImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -93,9 +93,9 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.VARIABLES__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.VARIABLES__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -108,8 +108,8 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.VARIABLES__CHILDREN:
-				return getChildren();
+		case BPELPackage.VARIABLES__CHILDREN:
+			return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -123,10 +123,10 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.VARIABLES__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll((Collection<? extends Variable>) newValue);
-				return;
+		case BPELPackage.VARIABLES__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll((Collection<? extends Variable>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -139,9 +139,9 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.VARIABLES__CHILDREN:
-				getChildren().clear();
-				return;
+		case BPELPackage.VARIABLES__CHILDREN:
+			getChildren().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -154,28 +154,31 @@ public class VariablesImpl extends ExtensibleElementImpl implements Variables {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.VARIABLES__CHILDREN:
-				return children != null && !children.isEmpty();
+		case BPELPackage.VARIABLES__CHILDREN:
+			return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
-	
+
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Variable) {
 			if (getElement() == null) {
-				ReconciliationHelper.getInstance().patchParentElement((Variable)object, this, null, BPELConstants.ND_VARIABLES, BPELConstants.ND_VARIABLE);
+				ReconciliationHelper.getInstance().patchParentElement(
+						(Variable) object, this, null,
+						BPELConstants.ND_VARIABLES, BPELConstants.ND_VARIABLE);
 			} else {
-				ReconciliationHelper.adoptChild(this, children, (Variable)object, BPELConstants.ND_VARIABLE);
+				ReconciliationHelper.adoptChild(this, children,
+						(Variable) object, BPELConstants.ND_VARIABLE);
 			}
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Variable) {
-			ReconciliationHelper.orphanChild(this, (Variable)obj);
+			ReconciliationHelper.orphanChild(this, (Variable) obj);
 		}
 		super.orphanContent(reference, obj);
 	}

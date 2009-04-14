@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EventHandlerImpl.java,v 1.6 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: EventHandlerImpl.java,v 1.7 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -120,12 +120,10 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.EVENT_HANDLER__ALARM:
-				return ((InternalEList<?>) getAlarm()).basicRemove(otherEnd,
-						msgs);
-			case BPELPackage.EVENT_HANDLER__EVENTS:
-				return ((InternalEList<?>) getEvents()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.EVENT_HANDLER__ALARM:
+			return ((InternalEList<?>) getAlarm()).basicRemove(otherEnd, msgs);
+		case BPELPackage.EVENT_HANDLER__EVENTS:
+			return ((InternalEList<?>) getEvents()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -138,10 +136,10 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.EVENT_HANDLER__ALARM:
-				return getAlarm();
-			case BPELPackage.EVENT_HANDLER__EVENTS:
-				return getEvents();
+		case BPELPackage.EVENT_HANDLER__ALARM:
+			return getAlarm();
+		case BPELPackage.EVENT_HANDLER__EVENTS:
+			return getEvents();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -155,14 +153,14 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.EVENT_HANDLER__ALARM:
-				getAlarm().clear();
-				getAlarm().addAll((Collection<? extends OnAlarm>) newValue);
-				return;
-			case BPELPackage.EVENT_HANDLER__EVENTS:
-				getEvents().clear();
-				getEvents().addAll((Collection<? extends OnEvent>) newValue);
-				return;
+		case BPELPackage.EVENT_HANDLER__ALARM:
+			getAlarm().clear();
+			getAlarm().addAll((Collection<? extends OnAlarm>) newValue);
+			return;
+		case BPELPackage.EVENT_HANDLER__EVENTS:
+			getEvents().clear();
+			getEvents().addAll((Collection<? extends OnEvent>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -175,12 +173,12 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EVENT_HANDLER__ALARM:
-				getAlarm().clear();
-				return;
-			case BPELPackage.EVENT_HANDLER__EVENTS:
-				getEvents().clear();
-				return;
+		case BPELPackage.EVENT_HANDLER__ALARM:
+			getAlarm().clear();
+			return;
+		case BPELPackage.EVENT_HANDLER__EVENTS:
+			getEvents().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -193,10 +191,10 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EVENT_HANDLER__ALARM:
-				return alarm != null && !alarm.isEmpty();
-			case BPELPackage.EVENT_HANDLER__EVENTS:
-				return events != null && !events.isEmpty();
+		case BPELPackage.EVENT_HANDLER__ALARM:
+			return alarm != null && !alarm.isEmpty();
+		case BPELPackage.EVENT_HANDLER__EVENTS:
+			return events != null && !events.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -204,21 +202,23 @@ public class EventHandlerImpl extends ExtensibleElementImpl implements
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof OnEvent) {
-			ReconciliationHelper.adoptChild(this, events, (OnEvent)object, BPELConstants.ND_ON_EVENT);
+			ReconciliationHelper.adoptChild(this, events, (OnEvent) object,
+					BPELConstants.ND_ON_EVENT);
 		}
 		if (object instanceof OnAlarm) {
-			ReconciliationHelper.adoptChild(this, alarm, (OnAlarm)object, BPELConstants.ND_ON_ALARM);
+			ReconciliationHelper.adoptChild(this, alarm, (OnAlarm) object,
+					BPELConstants.ND_ON_ALARM);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object object) {
 		if (object instanceof OnEvent) {
-			ReconciliationHelper.orphanChild(this, (OnEvent)object);
+			ReconciliationHelper.orphanChild(this, (OnEvent) object);
 		}
 		if (object instanceof OnAlarm) {
-			ReconciliationHelper.orphanChild(this, (OnAlarm)object);
+			ReconciliationHelper.orphanChild(this, (OnAlarm) object);
 		}
 		super.orphanContent(reference, object);
 	}

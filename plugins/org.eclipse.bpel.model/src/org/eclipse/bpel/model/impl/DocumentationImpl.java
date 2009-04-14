@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentationImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: DocumentationImpl.java,v 1.10 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -124,8 +124,9 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	 */
 	public void setLang(String newLang) {
 		String oldLang = lang;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LANGUAGE, newLang);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_LANGUAGE, newLang);
 		}
 		lang = newLang;
 		if (eNotificationRequired())
@@ -138,7 +139,7 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSource() {	
+	public String getSource() {
 		return source;
 	}
 
@@ -148,8 +149,9 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	 */
 	public void setSource(String newSource) {
 		String oldSource = source;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SOURCE, newSource);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_SOURCE, newSource);
 		}
 		source = newSource;
 		if (eNotificationRequired())
@@ -189,12 +191,12 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.DOCUMENTATION__LANG:
-				return getLang();
-			case BPELPackage.DOCUMENTATION__SOURCE:
-				return getSource();
-			case BPELPackage.DOCUMENTATION__VALUE:
-				return getValue();
+		case BPELPackage.DOCUMENTATION__LANG:
+			return getLang();
+		case BPELPackage.DOCUMENTATION__SOURCE:
+			return getSource();
+		case BPELPackage.DOCUMENTATION__VALUE:
+			return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -207,15 +209,15 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.DOCUMENTATION__LANG:
-				setLang((String) newValue);
-				return;
-			case BPELPackage.DOCUMENTATION__SOURCE:
-				setSource((String) newValue);
-				return;
-			case BPELPackage.DOCUMENTATION__VALUE:
-				setValue((String) newValue);
-				return;
+		case BPELPackage.DOCUMENTATION__LANG:
+			setLang((String) newValue);
+			return;
+		case BPELPackage.DOCUMENTATION__SOURCE:
+			setSource((String) newValue);
+			return;
+		case BPELPackage.DOCUMENTATION__VALUE:
+			setValue((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -228,15 +230,15 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.DOCUMENTATION__LANG:
-				setLang(LANG_EDEFAULT);
-				return;
-			case BPELPackage.DOCUMENTATION__SOURCE:
-				setSource(SOURCE_EDEFAULT);
-				return;
-			case BPELPackage.DOCUMENTATION__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
+		case BPELPackage.DOCUMENTATION__LANG:
+			setLang(LANG_EDEFAULT);
+			return;
+		case BPELPackage.DOCUMENTATION__SOURCE:
+			setSource(SOURCE_EDEFAULT);
+			return;
+		case BPELPackage.DOCUMENTATION__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -249,15 +251,15 @@ public class DocumentationImpl extends ExtensibleElementImpl implements Document
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.DOCUMENTATION__LANG:
-				return LANG_EDEFAULT == null ? lang != null : !LANG_EDEFAULT
-						.equals(lang);
-			case BPELPackage.DOCUMENTATION__SOURCE:
-				return SOURCE_EDEFAULT == null ? source != null
-						: !SOURCE_EDEFAULT.equals(source);
-			case BPELPackage.DOCUMENTATION__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
-						.equals(value);
+		case BPELPackage.DOCUMENTATION__LANG:
+			return LANG_EDEFAULT == null ? lang != null : !LANG_EDEFAULT
+					.equals(lang);
+		case BPELPackage.DOCUMENTATION__SOURCE:
+			return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT
+					.equals(source);
+		case BPELPackage.DOCUMENTATION__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+					.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}

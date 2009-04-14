@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ScopeImpl.java,v 1.13 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ScopeImpl.java,v 1.14 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -803,7 +803,7 @@ public class ScopeImpl extends ActivityImpl implements Scope {
 		}
 		return msgs;
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

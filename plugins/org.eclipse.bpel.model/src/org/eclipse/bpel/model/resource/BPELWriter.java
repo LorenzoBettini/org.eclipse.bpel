@@ -1,5 +1,4 @@
 /*******************************************************************************
- * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -512,6 +511,10 @@ public class BPELWriter {
 		if (process.isSetExpressionLanguage())
 			processElement.setAttribute("expressionLanguage", process
 					.getExpressionLanguage());
+		if (process.isSetAbstractProcessProfile())
+			processElement.setAttribute("abstractProcessProfile", process
+					.getAbstractProcessProfile());
+		
 
 		for (Object next : process.getImports()) {
 			processElement
@@ -1207,6 +1210,30 @@ public class BPELWriter {
 	protected Element opaqueActivity2XML(OpaqueActivity activity) {
 		Element activityElement = createBPELElement("opaqueActivity");
 
+		//Set Namespace to Abstract Process
+		INamespaceMap<String, String> nsMap = BPELUtils.getNamespaceMap(fBPELResource.getProcess());
+
+		if (fBPELResource.getOptionUseNSPrefix()) {
+        	nsMap.remove("");
+            List<String> prefix = nsMap.getReverse(fBPELResource.getNamespaceURI());
+            if (prefix.isEmpty()){
+            	nsMap.put(BPELConstants.PREFIX, BPELConstants.NAMESPACE_ABSTRACT_2007);
+            } else {
+            	//TODO: Which prefix?
+            	nsMap.put(prefix.get(0), BPELConstants.NAMESPACE_ABSTRACT_2007);
+            }
+    	} else {
+            nsMap.put("", BPELConstants.NAMESPACE_ABSTRACT_2007);
+        }
+		
+		fBPELResource.setNamespaceURI(BPELConstants.NAMESPACE_ABSTRACT_2007);
+		
+		Process process = fBPELResource.getProcess(); 
+		//Set Default Abstract Process Profile
+		//TODO: Let user decide whether to use a profile
+			if (!process.isSetAbstractProcessProfile()){
+				process.setAbstractProcessProfile(BPELConstants.NAMESPACE_ABSTRACT_PROFILE_T);
+			}
 		addCommonActivityItems(activityElement, activity);
 		return activityElement;
 	}

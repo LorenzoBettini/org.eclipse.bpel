@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.11 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: QueryImpl.java,v 1.12 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -38,7 +39,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class QueryImpl extends ExtensibilityElementImpl implements Query {
+public class QueryImpl extends WSDLElementImpl implements Query {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -103,7 +104,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue() {		
+	public String getValue() {
 		return value;
 	}
 
@@ -138,7 +139,8 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	public void setQueryLanguage(String newQueryLanguage) {
 		String oldQueryLanguage = queryLanguage;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_QUERYLANGUAGE, newQueryLanguage);
 		}
 		queryLanguage = newQueryLanguage;
 		if (eNotificationRequired())
@@ -155,10 +157,10 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.QUERY__VALUE:
-				return getValue();
-			case BPELPackage.QUERY__QUERY_LANGUAGE:
-				return getQueryLanguage();
+		case BPELPackage.QUERY__VALUE:
+			return getValue();
+		case BPELPackage.QUERY__QUERY_LANGUAGE:
+			return getQueryLanguage();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -171,12 +173,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.QUERY__VALUE:
-				setValue((String) newValue);
-				return;
-			case BPELPackage.QUERY__QUERY_LANGUAGE:
-				setQueryLanguage((String) newValue);
-				return;
+		case BPELPackage.QUERY__VALUE:
+			setValue((String) newValue);
+			return;
+		case BPELPackage.QUERY__QUERY_LANGUAGE:
+			setQueryLanguage((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -189,12 +191,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.QUERY__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
-			case BPELPackage.QUERY__QUERY_LANGUAGE:
-				setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
-				return;
+		case BPELPackage.QUERY__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
+		case BPELPackage.QUERY__QUERY_LANGUAGE:
+			setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -207,12 +209,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.QUERY__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
-						.equals(value);
-			case BPELPackage.QUERY__QUERY_LANGUAGE:
-				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
-						: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
+		case BPELPackage.QUERY__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+					.equals(value);
+		case BPELPackage.QUERY__QUERY_LANGUAGE:
+			return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
+					: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -238,6 +240,6 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 
 	@Override
 	protected void reconcile(Element changedElement) {
-		ReconciliationHelper.getInstance().reconcile(this, changedElement);	
+		ReconciliationHelper.getInstance().reconcile(this, changedElement);
 	}
 } //QueryImpl

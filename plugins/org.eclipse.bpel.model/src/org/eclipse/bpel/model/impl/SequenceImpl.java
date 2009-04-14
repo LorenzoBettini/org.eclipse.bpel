@@ -92,9 +92,9 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.SEQUENCE__ACTIVITIES:
-				return ((InternalEList<?>) getActivities()).basicRemove(
-						otherEnd, msgs);
+		case BPELPackage.SEQUENCE__ACTIVITIES:
+			return ((InternalEList<?>) getActivities()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -107,8 +107,8 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.SEQUENCE__ACTIVITIES:
-				return getActivities();
+		case BPELPackage.SEQUENCE__ACTIVITIES:
+			return getActivities();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -122,11 +122,10 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.SEQUENCE__ACTIVITIES:
-				getActivities().clear();
-				getActivities().addAll(
-						(Collection<? extends Activity>) newValue);
-				return;
+		case BPELPackage.SEQUENCE__ACTIVITIES:
+			getActivities().clear();
+			getActivities().addAll((Collection<? extends Activity>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -139,9 +138,9 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SEQUENCE__ACTIVITIES:
-				getActivities().clear();
-				return;
+		case BPELPackage.SEQUENCE__ACTIVITIES:
+			getActivities().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -154,8 +153,8 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SEQUENCE__ACTIVITIES:
-				return activities != null && !activities.isEmpty();
+		case BPELPackage.SEQUENCE__ACTIVITIES:
+			return activities != null && !activities.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -163,16 +162,17 @@ public class SequenceImpl extends ActivityImpl implements Sequence {
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Activity) {
-			ReconciliationHelper.adoptChild(this, activities, (Activity)object, "ACTIVITY");
+			ReconciliationHelper.adoptChild(this, activities,
+					(Activity) object, "ACTIVITY");
 		}
 		super.adoptContent(reference, object);
 
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Activity) {
-			ReconciliationHelper.orphanChild(this, (Activity)obj);
+			ReconciliationHelper.orphanChild(this, (Activity) obj);
 		}
 		super.orphanContent(reference, obj);
 	}

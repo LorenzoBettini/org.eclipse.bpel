@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ExpressionImpl.java,v 1.12 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ExpressionImpl.java,v 1.13 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -22,6 +22,7 @@ import org.eclipse.bpel.model.util.ReconciliationHelper;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
@@ -144,7 +145,7 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getBody() {		
+	public Object getBody() {
 		return body;
 	}
 
@@ -154,14 +155,16 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setBody(Object newBody) {
 		Object oldBody = body;
-		
-		ExtensibleElementImpl parent = ((ExtensibleElementImpl)eContainer());
+
+		ExtensibleElementImpl parent = ((ExtensibleElementImpl) eContainer());
 		boolean transparent = BPELUtils.isTransparent(eContainer(), this);
-		
-		if ((!transparent && !isReconciling) || (transparent && !parent.isReconciling())) {						
-			ReconciliationHelper.replaceText(transparent ? parent : this, newBody);
+
+		if ((!transparent && !isReconciling)
+				|| (transparent && !parent.isReconciling())) {
+			ReconciliationHelper.replaceText(transparent ? parent : this,
+					newBody);
 		}
-		body = newBody;		
+		body = newBody;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					BPELPackage.EXPRESSION__BODY, oldBody, body));
@@ -182,8 +185,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setExpressionLanguage(String newExpressionLanguage) {
 		String oldExpressionLanguage = expressionLanguage;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? (WSDLElement)eContainer() : this, BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(
+					eContainer(), this) ? (WSDLElement) eContainer() : this,
+					BPELConstants.AT_EXPRESSIONLANGUAGE, newExpressionLanguage);
 		}
 		expressionLanguage = newExpressionLanguage;
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
@@ -201,8 +206,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void unsetExpressionLanguage() {
 		String oldExpressionLanguage = expressionLanguage;
-		if (!isReconciling)  {
-			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()) : this, BPELConstants.AT_EXPRESSIONLANGUAGE, (String)null);
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(
+					eContainer(), this) ? ((WSDLElement) eContainer()) : this,
+					BPELConstants.AT_EXPRESSIONLANGUAGE, (String) null);
 		}
 		boolean oldExpressionLanguageESet = expressionLanguageESet;
 		expressionLanguage = EXPRESSION_LANGUAGE_EDEFAULT;
@@ -238,8 +245,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void setOpaque(Boolean newOpaque) {
 		Boolean oldOpaque = opaque;
-		if (!isReconciling && getElement() != null)  {
-			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()) : this, BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
+		if (!isReconciling && getElement() != null) {
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(
+					eContainer(), this) ? ((WSDLElement) eContainer()) : this,
+					BPELConstants.AT_OPAQUE, BPELUtils.boolean2XML(newOpaque));
 		}
 		opaque = newOpaque;
 		boolean oldOpaqueESet = opaqueESet;
@@ -256,8 +265,10 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	 */
 	public void unsetOpaque() {
 		Boolean oldOpaque = opaque;
-		if (!isReconciling && getElement() != null)  {
-			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(eContainer(), this) ? ((WSDLElement)eContainer()) : this, BPELConstants.AT_OPAQUE, (String)null);
+		if (!isReconciling && getElement() != null) {
+			ReconciliationHelper.replaceAttribute(BPELUtils.isTransparent(
+					eContainer(), this) ? ((WSDLElement) eContainer()) : this,
+					BPELConstants.AT_OPAQUE, (String) null);
 		}
 		boolean oldOpaqueESet = opaqueESet;
 		opaque = OPAQUE_EDEFAULT;
@@ -285,12 +296,12 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.EXPRESSION__BODY:
-				return getBody();
-			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
-				return getExpressionLanguage();
-			case BPELPackage.EXPRESSION__OPAQUE:
-				return getOpaque();
+		case BPELPackage.EXPRESSION__BODY:
+			return getBody();
+		case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
+			return getExpressionLanguage();
+		case BPELPackage.EXPRESSION__OPAQUE:
+			return getOpaque();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -303,15 +314,15 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.EXPRESSION__BODY:
-				setBody(newValue);
-				return;
-			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
-				setExpressionLanguage((String) newValue);
-				return;
-			case BPELPackage.EXPRESSION__OPAQUE:
-				setOpaque((Boolean) newValue);
-				return;
+		case BPELPackage.EXPRESSION__BODY:
+			setBody(newValue);
+			return;
+		case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
+			setExpressionLanguage((String) newValue);
+			return;
+		case BPELPackage.EXPRESSION__OPAQUE:
+			setOpaque((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -324,15 +335,15 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EXPRESSION__BODY:
-				setBody(BODY_EDEFAULT);
-				return;
-			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
-				unsetExpressionLanguage();
-				return;
-			case BPELPackage.EXPRESSION__OPAQUE:
-				unsetOpaque();
-				return;
+		case BPELPackage.EXPRESSION__BODY:
+			setBody(BODY_EDEFAULT);
+			return;
+		case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
+			unsetExpressionLanguage();
+			return;
+		case BPELPackage.EXPRESSION__OPAQUE:
+			unsetOpaque();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -345,13 +356,13 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.EXPRESSION__BODY:
-				return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT
-						.equals(body);
-			case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
-				return isSetExpressionLanguage();
-			case BPELPackage.EXPRESSION__OPAQUE:
-				return isSetOpaque();
+		case BPELPackage.EXPRESSION__BODY:
+			return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT
+					.equals(body);
+		case BPELPackage.EXPRESSION__EXPRESSION_LANGUAGE:
+			return isSetExpressionLanguage();
+		case BPELPackage.EXPRESSION__OPAQUE:
+			return isSetOpaque();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -385,6 +396,6 @@ public class ExpressionImpl extends ExtensibilityElementImpl implements
 
 	@Override
 	protected void reconcile(Element changedElement) {
-		ReconciliationHelper.getInstance().reconcile(this, changedElement);	
+		ReconciliationHelper.getInstance().reconcile(this, changedElement);
 	}
 } //ExpressionImpl

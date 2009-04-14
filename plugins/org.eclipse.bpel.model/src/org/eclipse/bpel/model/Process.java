@@ -46,6 +46,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.bpel.model.Process#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getExitOnStandardFault <em>Exit On Standard Fault</em>}</li>
  *   <li>{@link org.eclipse.bpel.model.Process#getMessageExchanges <em>Message Exchanges</em>}</li>
+ *   <li>{@link org.eclipse.bpel.model.Process#getAbstractProcessProfile <em>Abstract Process Profile</em>}</li>
  * </ul>
  * </p>
  *
@@ -502,6 +503,59 @@ public interface Process extends ExtensibleElement {
 	 * @generated
 	 */
 	void setMessageExchanges(MessageExchanges value);
+
+	/**
+	 * Returns the value of the '<em><b>Abstract Process Profile</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Abstract Process Profile</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Abstract Process Profile</em>' attribute.
+	 * @see #isSetAbstractProcessProfile()
+	 * @see #unsetAbstractProcessProfile()
+	 * @see #setAbstractProcessProfile(String)
+	 * @see org.eclipse.bpel.model.BPELPackage#getProcess_AbstractProcessProfile()
+	 * @model unsettable="true"
+	 * @generated
+	 */
+	String getAbstractProcessProfile();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.bpel.model.Process#getAbstractProcessProfile <em>Abstract Process Profile</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstract Process Profile</em>' attribute.
+	 * @see #isSetAbstractProcessProfile()
+	 * @see #unsetAbstractProcessProfile()
+	 * @see #getAbstractProcessProfile()
+	 * @generated
+	 */
+	void setAbstractProcessProfile(String value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.bpel.model.Process#getAbstractProcessProfile <em>Abstract Process Profile</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetAbstractProcessProfile()
+	 * @see #getAbstractProcessProfile()
+	 * @see #setAbstractProcessProfile(String)
+	 * @generated
+	 */
+	void unsetAbstractProcessProfile();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.bpel.model.Process#getAbstractProcessProfile <em>Abstract Process Profile</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Abstract Process Profile</em>' attribute is set.
+	 * @see #unsetAbstractProcessProfile()
+	 * @see #getAbstractProcessProfile()
+	 * @see #setAbstractProcessProfile(String)
+	 * @generated
+	 */
+	boolean isSetAbstractProcessProfile();
 
 	/**
 	 * Returns the value of the '<em><b>Event Handlers</b></em>' containment reference.

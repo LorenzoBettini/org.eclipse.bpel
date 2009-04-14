@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: SourceImpl.java,v 1.8 2008/05/05 07:33:18 odanilov Exp $
+ * $Id: SourceImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -130,7 +130,9 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	public NotificationChain basicSetLink(Link newLink, NotificationChain msgs) {
 		Link oldLink = link;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LINK_NAME, newLink == null ? null : newLink.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_LINK_NAME, newLink == null ? null
+							: newLink.getName());
 		}
 		link = newLink;
 		if (eNotificationRequired()) {
@@ -222,10 +224,15 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 			Condition newTransitionCondition, NotificationChain msgs) {
 		Condition oldTransitionCondition = transitionCondition;
 		if (!isReconciling) {
-			if (newTransitionCondition != null && newTransitionCondition.getElement() == null && !ReconciliationHelper.isLoading(this)) {
-				newTransitionCondition.setElement(ElementFactory.getInstance().createExpressionElement(newTransitionCondition, this, BPELConstants.ND_TRANSITION_CONDITION));
+			if (newTransitionCondition != null
+					&& newTransitionCondition.getElement() == null
+					&& !ReconciliationHelper.isLoading(this)) {
+				newTransitionCondition.setElement(ElementFactory.getInstance()
+						.createExpressionElement(newTransitionCondition, this,
+								BPELConstants.ND_TRANSITION_CONDITION));
 			}
-			ReconciliationHelper.replaceChild(this, oldTransitionCondition, newTransitionCondition);
+			ReconciliationHelper.replaceChild(this, oldTransitionCondition,
+					newTransitionCondition);
 		}
 		transitionCondition = newTransitionCondition;
 		if (eNotificationRequired()) {
@@ -276,11 +283,11 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.SOURCE__LINK:
-				if (link != null)
-					msgs = ((InternalEObject) link).eInverseRemove(this,
-							BPELPackage.LINK__SOURCES, Link.class, msgs);
-				return basicSetLink((Link) otherEnd, msgs);
+		case BPELPackage.SOURCE__LINK:
+			if (link != null)
+				msgs = ((InternalEObject) link).eInverseRemove(this,
+						BPELPackage.LINK__SOURCES, Link.class, msgs);
+			return basicSetLink((Link) otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -294,10 +301,10 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.SOURCE__LINK:
-				return basicSetLink(null, msgs);
-			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				return basicSetTransitionCondition(null, msgs);
+		case BPELPackage.SOURCE__LINK:
+			return basicSetLink(null, msgs);
+		case BPELPackage.SOURCE__TRANSITION_CONDITION:
+			return basicSetTransitionCondition(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -310,16 +317,16 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.SOURCE__LINK:
-				if (resolve)
-					return getLink();
-				return basicGetLink();
-			case BPELPackage.SOURCE__ACTIVITY:
-				if (resolve)
-					return getActivity();
-				return basicGetActivity();
-			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				return getTransitionCondition();
+		case BPELPackage.SOURCE__LINK:
+			if (resolve)
+				return getLink();
+			return basicGetLink();
+		case BPELPackage.SOURCE__ACTIVITY:
+			if (resolve)
+				return getActivity();
+			return basicGetActivity();
+		case BPELPackage.SOURCE__TRANSITION_CONDITION:
+			return getTransitionCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -332,15 +339,15 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.SOURCE__LINK:
-				setLink((Link) newValue);
-				return;
-			case BPELPackage.SOURCE__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
-			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				setTransitionCondition((Condition) newValue);
-				return;
+		case BPELPackage.SOURCE__LINK:
+			setLink((Link) newValue);
+			return;
+		case BPELPackage.SOURCE__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
+		case BPELPackage.SOURCE__TRANSITION_CONDITION:
+			setTransitionCondition((Condition) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -353,15 +360,15 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SOURCE__LINK:
-				setLink((Link) null);
-				return;
-			case BPELPackage.SOURCE__ACTIVITY:
-				setActivity((Activity) null);
-				return;
-			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				setTransitionCondition((Condition) null);
-				return;
+		case BPELPackage.SOURCE__LINK:
+			setLink((Link) null);
+			return;
+		case BPELPackage.SOURCE__ACTIVITY:
+			setActivity((Activity) null);
+			return;
+		case BPELPackage.SOURCE__TRANSITION_CONDITION:
+			setTransitionCondition((Condition) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -374,12 +381,12 @@ public class SourceImpl extends ExtensibleElementImpl implements Source {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.SOURCE__LINK:
-				return link != null;
-			case BPELPackage.SOURCE__ACTIVITY:
-				return activity != null;
-			case BPELPackage.SOURCE__TRANSITION_CONDITION:
-				return transitionCondition != null;
+		case BPELPackage.SOURCE__LINK:
+			return link != null;
+		case BPELPackage.SOURCE__ACTIVITY:
+			return activity != null;
+		case BPELPackage.SOURCE__TRANSITION_CONDITION:
+			return transitionCondition != null;
 		}
 		return super.eIsSet(featureID);
 	}

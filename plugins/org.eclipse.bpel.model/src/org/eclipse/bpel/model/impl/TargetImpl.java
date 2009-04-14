@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: TargetImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: TargetImpl.java,v 1.8 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -117,7 +117,9 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	public NotificationChain basicSetLink(Link newLink, NotificationChain msgs) {
 		Link oldLink = link;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_LINK_NAME, newLink == null ? null : newLink.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_LINK_NAME, newLink == null ? null
+							: newLink.getName());
 		}
 		link = newLink;
 		if (eNotificationRequired()) {
@@ -201,11 +203,11 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.TARGET__LINK:
-				if (link != null)
-					msgs = ((InternalEObject) link).eInverseRemove(this,
-							BPELPackage.LINK__TARGETS, Link.class, msgs);
-				return basicSetLink((Link) otherEnd, msgs);
+		case BPELPackage.TARGET__LINK:
+			if (link != null)
+				msgs = ((InternalEObject) link).eInverseRemove(this,
+						BPELPackage.LINK__TARGETS, Link.class, msgs);
+			return basicSetLink((Link) otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -219,8 +221,8 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.TARGET__LINK:
-				return basicSetLink(null, msgs);
+		case BPELPackage.TARGET__LINK:
+			return basicSetLink(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -233,14 +235,14 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.TARGET__LINK:
-				if (resolve)
-					return getLink();
-				return basicGetLink();
-			case BPELPackage.TARGET__ACTIVITY:
-				if (resolve)
-					return getActivity();
-				return basicGetActivity();
+		case BPELPackage.TARGET__LINK:
+			if (resolve)
+				return getLink();
+			return basicGetLink();
+		case BPELPackage.TARGET__ACTIVITY:
+			if (resolve)
+				return getActivity();
+			return basicGetActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -253,12 +255,12 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.TARGET__LINK:
-				setLink((Link) newValue);
-				return;
-			case BPELPackage.TARGET__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
+		case BPELPackage.TARGET__LINK:
+			setLink((Link) newValue);
+			return;
+		case BPELPackage.TARGET__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -271,12 +273,12 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TARGET__LINK:
-				setLink((Link) null);
-				return;
-			case BPELPackage.TARGET__ACTIVITY:
-				setActivity((Activity) null);
-				return;
+		case BPELPackage.TARGET__LINK:
+			setLink((Link) null);
+			return;
+		case BPELPackage.TARGET__ACTIVITY:
+			setActivity((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -289,10 +291,10 @@ public class TargetImpl extends ExtensibleElementImpl implements Target {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TARGET__LINK:
-				return link != null;
-			case BPELPackage.TARGET__ACTIVITY:
-				return activity != null;
+		case BPELPackage.TARGET__LINK:
+			return link != null;
+		case BPELPackage.TARGET__ACTIVITY:
+			return activity != null;
 		}
 		return super.eIsSet(featureID);
 	}

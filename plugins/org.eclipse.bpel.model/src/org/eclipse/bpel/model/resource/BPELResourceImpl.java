@@ -44,6 +44,7 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
 import org.eclipse.xsd.util.XSDConstants;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 
@@ -103,7 +104,10 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
 	
 	/** 
 	 * Convert a BPEL XML document into the BPEL EMF model.
-     * After loading, the process' namespace URI is reset to the current namespace URI.
+     * After loading, the process' checks for process type (executable/abstract)
+     * and resets the current namespace accordingly. If the process type is abstract
+     * and no profile has been set, the default abstract process profile is being inserted. 
+     * 
 	 */
 	@Override
 	public void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
@@ -121,6 +125,7 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         		&& (document = (org.w3c.dom.Document)options.get("DOMDocument")) != null) {
         	reader = new BPELReader();
         	reader.read(this, document);
+     	
         } else {
         	try {
         		reader = new BPELReader( getDOMParser() );
@@ -131,8 +136,21 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
         	}
     		reader.read(this, inputStream);
         }
-        
-        setNamespaceURI(BPELConstants.NAMESPACE);
+    	
+    	//Check for process type Abstract/ Executable
+    	Element processElement = (document != null)? document.getDocumentElement(): null;
+    	if (processElement != null && reader.isAbstractProcess(processElement))
+    	{
+    		setNamespaceURI(BPELConstants.NAMESPACE_ABSTRACT_2007);
+    		//TODO: Let user decide whether to use a profile
+    		if (reader.getProfileNamespace(processElement) != null){
+    			getProcess().setAbstractProcessProfile(reader.getProfileNamespace(processElement));   			
+    		} else {
+    			getProcess().setAbstractProcessProfile(BPELConstants.NAMESPACE_ABSTRACT_PROFILE);
+    		}
+		} else {
+        	setNamespaceURI(BPELConstants.NAMESPACE);
+        }
 	}
 
     /*
@@ -502,5 +520,4 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
     public void setOptionUseNSPrefix(boolean useNSPrefix) {
         optionUseNSPrefix = useNSPrefix;
     }
-
 }	

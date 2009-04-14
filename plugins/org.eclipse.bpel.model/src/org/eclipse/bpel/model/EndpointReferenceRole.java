@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: EndpointReferenceRole.java,v 1.4 2007/08/01 21:02:30 mchmielewski Exp $
+ * $Id: EndpointReferenceRole.java,v 1.5 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -136,10 +136,10 @@ public enum EndpointReferenceRole implements Enumerator {
 	 */
 	public static EndpointReferenceRole get(int value) {
 		switch (value) {
-			case MY_ROLE:
-				return MY_ROLE_LITERAL;
-			case PARTNER_ROLE:
-				return PARTNER_ROLE_LITERAL;
+		case MY_ROLE:
+			return MY_ROLE_LITERAL;
+		case PARTNER_ROLE:
+			return PARTNER_ROLE_LITERAL;
 		}
 		return null;
 	}

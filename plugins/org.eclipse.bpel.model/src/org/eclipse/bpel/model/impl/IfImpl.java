@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IfImpl.java,v 1.8 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: IfImpl.java,v 1.9 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -288,15 +288,14 @@ public class IfImpl extends ActivityImpl implements If {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.IF__CONDITION:
-				return basicSetCondition(null, msgs);
-			case BPELPackage.IF__ELSE_IF:
-				return ((InternalEList<?>) getElseIf()).basicRemove(otherEnd,
-						msgs);
-			case BPELPackage.IF__ELSE:
-				return basicSetElse(null, msgs);
-			case BPELPackage.IF__ACTIVITY:
-				return basicSetActivity(null, msgs);
+		case BPELPackage.IF__CONDITION:
+			return basicSetCondition(null, msgs);
+		case BPELPackage.IF__ELSE_IF:
+			return ((InternalEList<?>) getElseIf()).basicRemove(otherEnd, msgs);
+		case BPELPackage.IF__ELSE:
+			return basicSetElse(null, msgs);
+		case BPELPackage.IF__ACTIVITY:
+			return basicSetActivity(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -309,14 +308,14 @@ public class IfImpl extends ActivityImpl implements If {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.IF__CONDITION:
-				return getCondition();
-			case BPELPackage.IF__ELSE_IF:
-				return getElseIf();
-			case BPELPackage.IF__ELSE:
-				return getElse();
-			case BPELPackage.IF__ACTIVITY:
-				return getActivity();
+		case BPELPackage.IF__CONDITION:
+			return getCondition();
+		case BPELPackage.IF__ELSE_IF:
+			return getElseIf();
+		case BPELPackage.IF__ELSE:
+			return getElse();
+		case BPELPackage.IF__ACTIVITY:
+			return getActivity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -330,19 +329,19 @@ public class IfImpl extends ActivityImpl implements If {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.IF__CONDITION:
-				setCondition((Condition) newValue);
-				return;
-			case BPELPackage.IF__ELSE_IF:
-				getElseIf().clear();
-				getElseIf().addAll((Collection<? extends ElseIf>) newValue);
-				return;
-			case BPELPackage.IF__ELSE:
-				setElse((Else) newValue);
-				return;
-			case BPELPackage.IF__ACTIVITY:
-				setActivity((Activity) newValue);
-				return;
+		case BPELPackage.IF__CONDITION:
+			setCondition((Condition) newValue);
+			return;
+		case BPELPackage.IF__ELSE_IF:
+			getElseIf().clear();
+			getElseIf().addAll((Collection<? extends ElseIf>) newValue);
+			return;
+		case BPELPackage.IF__ELSE:
+			setElse((Else) newValue);
+			return;
+		case BPELPackage.IF__ACTIVITY:
+			setActivity((Activity) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -355,18 +354,18 @@ public class IfImpl extends ActivityImpl implements If {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.IF__CONDITION:
-				setCondition((Condition) null);
-				return;
-			case BPELPackage.IF__ELSE_IF:
-				getElseIf().clear();
-				return;
-			case BPELPackage.IF__ELSE:
-				setElse((Else) null);
-				return;
-			case BPELPackage.IF__ACTIVITY:
-				setActivity((Activity) null);
-				return;
+		case BPELPackage.IF__CONDITION:
+			setCondition((Condition) null);
+			return;
+		case BPELPackage.IF__ELSE_IF:
+			getElseIf().clear();
+			return;
+		case BPELPackage.IF__ELSE:
+			setElse((Else) null);
+			return;
+		case BPELPackage.IF__ACTIVITY:
+			setActivity((Activity) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -379,14 +378,14 @@ public class IfImpl extends ActivityImpl implements If {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.IF__CONDITION:
-				return condition != null;
-			case BPELPackage.IF__ELSE_IF:
-				return elseIf != null && !elseIf.isEmpty();
-			case BPELPackage.IF__ELSE:
-				return else_ != null;
-			case BPELPackage.IF__ACTIVITY:
-				return activity != null;
+		case BPELPackage.IF__CONDITION:
+			return condition != null;
+		case BPELPackage.IF__ELSE_IF:
+			return elseIf != null && !elseIf.isEmpty();
+		case BPELPackage.IF__ELSE:
+			return else_ != null;
+		case BPELPackage.IF__ACTIVITY:
+			return activity != null;
 		}
 		return super.eIsSet(featureID);
 	}

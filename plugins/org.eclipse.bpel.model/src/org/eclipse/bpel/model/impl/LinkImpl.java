@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: LinkImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: LinkImpl.java,v 1.8 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -122,7 +122,8 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	public void setName(String newName) {
 		String oldName = name;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME, newName);
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_NAME,
+					newName);
 		}
 		name = newName;
 		if (eNotificationRequired())
@@ -168,12 +169,12 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.LINK__SOURCES:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getSources())
-						.basicAdd(otherEnd, msgs);
-			case BPELPackage.LINK__TARGETS:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getTargets())
-						.basicAdd(otherEnd, msgs);
+		case BPELPackage.LINK__SOURCES:
+			return ((InternalEList<InternalEObject>) (InternalEList<?>) getSources())
+					.basicAdd(otherEnd, msgs);
+		case BPELPackage.LINK__TARGETS:
+			return ((InternalEList<InternalEObject>) (InternalEList<?>) getTargets())
+					.basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -187,12 +188,12 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.LINK__SOURCES:
-				return ((InternalEList<?>) getSources()).basicRemove(otherEnd,
-						msgs);
-			case BPELPackage.LINK__TARGETS:
-				return ((InternalEList<?>) getTargets()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.LINK__SOURCES:
+			return ((InternalEList<?>) getSources())
+					.basicRemove(otherEnd, msgs);
+		case BPELPackage.LINK__TARGETS:
+			return ((InternalEList<?>) getTargets())
+					.basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -205,12 +206,12 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.LINK__NAME:
-				return getName();
-			case BPELPackage.LINK__SOURCES:
-				return getSources();
-			case BPELPackage.LINK__TARGETS:
-				return getTargets();
+		case BPELPackage.LINK__NAME:
+			return getName();
+		case BPELPackage.LINK__SOURCES:
+			return getSources();
+		case BPELPackage.LINK__TARGETS:
+			return getTargets();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -224,17 +225,17 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.LINK__NAME:
-				setName((String) newValue);
-				return;
-			case BPELPackage.LINK__SOURCES:
-				getSources().clear();
-				getSources().addAll((Collection<? extends Source>) newValue);
-				return;
-			case BPELPackage.LINK__TARGETS:
-				getTargets().clear();
-				getTargets().addAll((Collection<? extends Target>) newValue);
-				return;
+		case BPELPackage.LINK__NAME:
+			setName((String) newValue);
+			return;
+		case BPELPackage.LINK__SOURCES:
+			getSources().clear();
+			getSources().addAll((Collection<? extends Source>) newValue);
+			return;
+		case BPELPackage.LINK__TARGETS:
+			getTargets().clear();
+			getTargets().addAll((Collection<? extends Target>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -247,15 +248,15 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.LINK__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case BPELPackage.LINK__SOURCES:
-				getSources().clear();
-				return;
-			case BPELPackage.LINK__TARGETS:
-				getTargets().clear();
-				return;
+		case BPELPackage.LINK__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case BPELPackage.LINK__SOURCES:
+			getSources().clear();
+			return;
+		case BPELPackage.LINK__TARGETS:
+			getTargets().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -268,13 +269,13 @@ public class LinkImpl extends ExtensibleElementImpl implements Link {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.LINK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-						.equals(name);
-			case BPELPackage.LINK__SOURCES:
-				return sources != null && !sources.isEmpty();
-			case BPELPackage.LINK__TARGETS:
-				return targets != null && !targets.isEmpty();
+		case BPELPackage.LINK__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
+		case BPELPackage.LINK__SOURCES:
+			return sources != null && !sources.isEmpty();
+		case BPELPackage.LINK__TARGETS:
+			return targets != null && !targets.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

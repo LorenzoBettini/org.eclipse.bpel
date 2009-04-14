@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.9 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: CorrelationImpl.java,v 1.10 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -145,7 +145,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	public void setInitiate(String newInitiate) {
 		String oldInitiate = initiate;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIATE, newInitiate);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_INITIATE, newInitiate);
 		}
 		initiate = newInitiate;
 		boolean oldInitiateESet = initiateESet;
@@ -163,7 +164,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	public void unsetInitiate() {
 		String oldInitiate = initiate;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_INITIATE, (String)null);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_INITIATE, (String) null);
 		}
 		boolean oldInitiateESet = initiateESet;
 		initiate = INITIATE_EDEFAULT;
@@ -199,7 +201,10 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	public void setPattern(CorrelationPattern newPattern) {
 		CorrelationPattern oldPattern = pattern;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PATTERN, newPattern == null ? PATTERN_EDEFAULT.getName() : newPattern.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PATTERN,
+					newPattern == null ? PATTERN_EDEFAULT.getName()
+							: newPattern.getName());
 		}
 		pattern = newPattern == null ? PATTERN_EDEFAULT : newPattern;
 		boolean oldPatternESet = patternESet;
@@ -217,7 +222,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	public void unsetPattern() {
 		CorrelationPattern oldPattern = pattern;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PATTERN, PATTERN_EDEFAULT.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PATTERN, PATTERN_EDEFAULT.getName());
 		}
 		boolean oldPatternESet = patternESet;
 		pattern = PATTERN_EDEFAULT;
@@ -271,7 +277,8 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	public void setSet(CorrelationSet newSet) {
 		CorrelationSet oldSet = set;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SET, newSet == null ? null : newSet.getName());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_SET,
+					newSet == null ? null : newSet.getName());
 		}
 		set = newSet;
 		if (eNotificationRequired())
@@ -287,14 +294,14 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION__INITIATE:
-				return getInitiate();
-			case BPELPackage.CORRELATION__PATTERN:
-				return getPattern();
-			case BPELPackage.CORRELATION__SET:
-				if (resolve)
-					return getSet();
-				return basicGetSet();
+		case BPELPackage.CORRELATION__INITIATE:
+			return getInitiate();
+		case BPELPackage.CORRELATION__PATTERN:
+			return getPattern();
+		case BPELPackage.CORRELATION__SET:
+			if (resolve)
+				return getSet();
+			return basicGetSet();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -307,15 +314,15 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION__INITIATE:
-				setInitiate((String) newValue);
-				return;
-			case BPELPackage.CORRELATION__PATTERN:
-				setPattern((CorrelationPattern) newValue);
-				return;
-			case BPELPackage.CORRELATION__SET:
-				setSet((CorrelationSet) newValue);
-				return;
+		case BPELPackage.CORRELATION__INITIATE:
+			setInitiate((String) newValue);
+			return;
+		case BPELPackage.CORRELATION__PATTERN:
+			setPattern((CorrelationPattern) newValue);
+			return;
+		case BPELPackage.CORRELATION__SET:
+			setSet((CorrelationSet) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -328,15 +335,15 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION__INITIATE:
-				unsetInitiate();
-				return;
-			case BPELPackage.CORRELATION__PATTERN:
-				unsetPattern();
-				return;
-			case BPELPackage.CORRELATION__SET:
-				setSet((CorrelationSet) null);
-				return;
+		case BPELPackage.CORRELATION__INITIATE:
+			unsetInitiate();
+			return;
+		case BPELPackage.CORRELATION__PATTERN:
+			unsetPattern();
+			return;
+		case BPELPackage.CORRELATION__SET:
+			setSet((CorrelationSet) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -349,12 +356,12 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATION__INITIATE:
-				return isSetInitiate();
-			case BPELPackage.CORRELATION__PATTERN:
-				return isSetPattern();
-			case BPELPackage.CORRELATION__SET:
-				return set != null;
+		case BPELPackage.CORRELATION__INITIATE:
+			return isSetInitiate();
+		case BPELPackage.CORRELATION__PATTERN:
+			return isSetPattern();
+		case BPELPackage.CORRELATION__SET:
+			return set != null;
 		}
 		return super.eIsSet(featureID);
 	}

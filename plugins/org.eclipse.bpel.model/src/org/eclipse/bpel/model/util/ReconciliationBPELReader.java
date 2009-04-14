@@ -957,6 +957,13 @@ public class ReconciliationBPELReader extends BPELReader implements ErrorHandler
 		} else{
 			process.unsetExpressionLanguage();
 		}
+		
+		if (processElement.hasAttribute("abstractProcessProfile")) {
+			process.setAbstractProcessProfile(processElement.getAttribute("abstractProcessProfile"));
+		} else{
+			process.unsetAbstractProcessProfile();
+		}
+		
 
 		// Handle Import Elements
 		List<Element> childElements = ReconciliationHelper.getBPELChildElementsByLocalName(processElement, "import");

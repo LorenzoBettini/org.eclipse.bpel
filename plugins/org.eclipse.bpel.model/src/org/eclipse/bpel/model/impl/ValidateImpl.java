@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ValidateImpl.java,v 1.8 2009/04/14 10:50:36 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -83,8 +83,8 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.VALIDATE__VARIABLES:
-				return getVariables();
+		case BPELPackage.VALIDATE__VARIABLES:
+			return getVariables();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -98,11 +98,10 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.VALIDATE__VARIABLES:
-				getVariables().clear();
-				getVariables()
-						.addAll((Collection<? extends Variable>) newValue);
-				return;
+		case BPELPackage.VALIDATE__VARIABLES:
+			getVariables().clear();
+			getVariables().addAll((Collection<? extends Variable>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -115,9 +114,9 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.VALIDATE__VARIABLES:
-				getVariables().clear();
-				return;
+		case BPELPackage.VALIDATE__VARIABLES:
+			getVariables().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -130,32 +129,37 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.VALIDATE__VARIABLES:
-				return variables != null && !variables.isEmpty();
+		case BPELPackage.VALIDATE__VARIABLES:
+			return variables != null && !variables.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
-	
+
 	@Override
 	protected void changeReference(EReference reference) {
-		if (reference != null && reference.getFeatureID() == BPELPackage.VALIDATE__VARIABLES && !isReconciling) {
-			String varAttribute = element.getAttribute(BPELConstants.AT_VARIABLES);
+		if (reference != null
+				&& reference.getFeatureID() == BPELPackage.VALIDATE__VARIABLES
+				&& !isReconciling) {
+			String varAttribute = element
+					.getAttribute(BPELConstants.AT_VARIABLES);
 			if (variables == null || variables.size() == 0) {
-				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLES, (String)null);
+				ReconciliationHelper.replaceAttribute(this,
+						BPELConstants.AT_VARIABLES, (String) null);
 			} else {
 				StringBuilder val = new StringBuilder();
 				Iterator<Variable> i = variables.iterator();
-				for (;i.hasNext();) {
+				for (; i.hasNext();) {
 					Variable var = i.next();
 					val.append(var.getName());
 					if (i.hasNext()) {
 						val.append(" ");
 					}
 				}
-				ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLES, val.toString());
+				ReconciliationHelper.replaceAttribute(this,
+						BPELConstants.AT_VARIABLES, val.toString());
 			}
 		}
 		super.changeReference(reference);
 	}
-	
+
 } //ValidateImpl

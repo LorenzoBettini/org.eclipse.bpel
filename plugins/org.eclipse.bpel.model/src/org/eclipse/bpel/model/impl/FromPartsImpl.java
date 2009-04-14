@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FromPartsImpl.java,v 1.1 2007/11/20 14:14:23 smoser Exp $
+ * $Id: FromPartsImpl.java,v 1.2 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -43,7 +43,7 @@ public class FromPartsImpl extends ExtensibleElementImpl implements FromParts {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<FromPart>	children;
+	protected EList<FromPart> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -71,8 +71,8 @@ public class FromPartsImpl extends ExtensibleElementImpl implements FromParts {
 	 */
 	public EList<FromPart> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList<FromPart>(FromPart.class, this,
-					BPELPackage.FROM_PARTS__CHILDREN);
+			children = new EObjectContainmentEList<FromPart>(FromPart.class,
+					this, BPELPackage.FROM_PARTS__CHILDREN);
 		}
 		return children;
 	}
@@ -83,11 +83,12 @@ public class FromPartsImpl extends ExtensibleElementImpl implements FromParts {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID,
-			NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case BPELPackage.FROM_PARTS__CHILDREN:
-			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd, msgs);
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

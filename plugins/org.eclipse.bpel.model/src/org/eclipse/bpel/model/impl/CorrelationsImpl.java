@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationsImpl.java,v 1.6 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: CorrelationsImpl.java,v 1.7 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -95,9 +95,9 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.CORRELATIONS__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
+		case BPELPackage.CORRELATIONS__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -110,8 +110,8 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.CORRELATIONS__CHILDREN:
-				return getChildren();
+		case BPELPackage.CORRELATIONS__CHILDREN:
+			return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -125,11 +125,10 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.CORRELATIONS__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll(
-						(Collection<? extends Correlation>) newValue);
-				return;
+		case BPELPackage.CORRELATIONS__CHILDREN:
+			getChildren().clear();
+			getChildren().addAll((Collection<? extends Correlation>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -142,9 +141,9 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATIONS__CHILDREN:
-				getChildren().clear();
-				return;
+		case BPELPackage.CORRELATIONS__CHILDREN:
+			getChildren().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -157,25 +156,25 @@ public class CorrelationsImpl extends ExtensibleElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.CORRELATIONS__CHILDREN:
-				return children != null && !children.isEmpty();
+		case BPELPackage.CORRELATIONS__CHILDREN:
+			return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-	
 	@Override
 	protected void adoptContent(EReference reference, Object object) {
 		if (object instanceof Correlation) {
-			ReconciliationHelper.adoptChild(this, children, (Correlation)object, BPELConstants.ND_CORRELATION);
+			ReconciliationHelper.adoptChild(this, children,
+					(Correlation) object, BPELConstants.ND_CORRELATION);
 		}
 		super.adoptContent(reference, object);
 	}
-	
+
 	@Override
 	protected void orphanContent(EReference reference, Object obj) {
 		if (obj instanceof Correlation) {
-			ReconciliationHelper.orphanChild(this, (Correlation)obj);
+			ReconciliationHelper.orphanChild(this, (Correlation) obj);
 		}
 		super.orphanContent(reference, obj);
 	}

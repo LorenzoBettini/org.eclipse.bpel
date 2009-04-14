@@ -148,7 +148,8 @@ public class ElementPlacer {
 				|| BPELConstants.ND_THROW.equals(nodeName)
 				|| BPELConstants.ND_VALIDATE.equals(nodeName)
 				|| BPELConstants.ND_WAIT.equals(nodeName)
-				|| BPELConstants.ND_WHILE.equals(nodeName);
+				|| BPELConstants.ND_WHILE.equals(nodeName)
+				|| BPELConstants.ND_OPAQUEACTIVITY.equals(nodeName);
 	}
 
 	public static void niceInsertBefore(WSDLElement parent, Node newChild,

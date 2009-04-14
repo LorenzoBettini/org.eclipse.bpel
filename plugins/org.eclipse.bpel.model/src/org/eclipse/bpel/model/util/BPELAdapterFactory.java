@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELAdapterFactory.java,v 1.22 2008/02/28 17:33:21 smoser Exp $
+ * $Id: BPELAdapterFactory.java,v 1.23 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.util;
 
@@ -144,7 +144,7 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

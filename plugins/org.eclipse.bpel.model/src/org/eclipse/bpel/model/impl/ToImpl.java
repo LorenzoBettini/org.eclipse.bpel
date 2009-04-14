@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ToImpl.java,v 1.12 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: ToImpl.java,v 1.13 2009/04/14 10:50:37 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -170,7 +170,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLE, newVariable == null ? null : newVariable.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLE, newVariable == null ? null
+							: newVariable.getName());
 		}
 		variable = newVariable;
 		if (eNotificationRequired())
@@ -229,7 +231,7 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 * @customized
 	 */
 	public void setPartName(String newPartName) {
-		
+
 		partName = newPartName;
 	}
 
@@ -240,7 +242,8 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public void setPart(Part newPart) {
 		Part oldPart = part;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART, newPart == null ? null : newPart.getName());
+			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PART,
+					newPart == null ? null : newPart.getName());
 		}
 		part = newPart;
 		if (eNotificationRequired())
@@ -283,7 +286,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public void setPartnerLink(PartnerLink newPartnerLink) {
 		PartnerLink oldPartnerLink = partnerLink;
 		if (!isReconciling) {
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PARTNER_LINK, newPartnerLink == null ? null : newPartnerLink.getName());
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PARTNER_LINK,
+					newPartnerLink == null ? null : newPartnerLink.getName());
 		}
 		partnerLink = newPartnerLink;
 		if (eNotificationRequired())
@@ -324,9 +329,11 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	 */
 	public void setProperty(Property newProperty) {
 		Property oldProperty = property;
-        if (!isReconciling) {
-            ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_PROPERTY, newProperty == null ? null : newProperty.getQName());
-        }
+		if (!isReconciling) {
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_PROPERTY, newProperty == null ? null
+							: newProperty.getQName());
+		}
 		property = newProperty;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -349,9 +356,9 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public NotificationChain basicSetQuery(Query newQuery,
 			NotificationChain msgs) {
 		Query oldQuery = query;
-        if (!isReconciling) {
-            ReconciliationHelper.replaceChild(this, oldQuery, newQuery);
-        }
+		if (!isReconciling) {
+			ReconciliationHelper.replaceChild(this, oldQuery, newQuery);
+		}
 		query = newQuery;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
@@ -453,10 +460,10 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case BPELPackage.TO__QUERY:
-				return basicSetQuery(null, msgs);
-			case BPELPackage.TO__EXPRESSION:
-				return basicSetExpression(null, msgs);
+		case BPELPackage.TO__QUERY:
+			return basicSetQuery(null, msgs);
+		case BPELPackage.TO__EXPRESSION:
+			return basicSetExpression(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -469,26 +476,26 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BPELPackage.TO__VARIABLE:
-				if (resolve)
-					return getVariable();
-				return basicGetVariable();
-			case BPELPackage.TO__PART:
-				if (resolve)
-					return getPart();
-				return basicGetPart();
-			case BPELPackage.TO__PARTNER_LINK:
-				if (resolve)
-					return getPartnerLink();
-				return basicGetPartnerLink();
-			case BPELPackage.TO__PROPERTY:
-				if (resolve)
-					return getProperty();
-				return basicGetProperty();
-			case BPELPackage.TO__QUERY:
-				return getQuery();
-			case BPELPackage.TO__EXPRESSION:
-				return getExpression();
+		case BPELPackage.TO__VARIABLE:
+			if (resolve)
+				return getVariable();
+			return basicGetVariable();
+		case BPELPackage.TO__PART:
+			if (resolve)
+				return getPart();
+			return basicGetPart();
+		case BPELPackage.TO__PARTNER_LINK:
+			if (resolve)
+				return getPartnerLink();
+			return basicGetPartnerLink();
+		case BPELPackage.TO__PROPERTY:
+			if (resolve)
+				return getProperty();
+			return basicGetProperty();
+		case BPELPackage.TO__QUERY:
+			return getQuery();
+		case BPELPackage.TO__EXPRESSION:
+			return getExpression();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -501,24 +508,24 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BPELPackage.TO__VARIABLE:
-				setVariable((Variable) newValue);
-				return;
-			case BPELPackage.TO__PART:
-				setPart((Part) newValue);
-				return;
-			case BPELPackage.TO__PARTNER_LINK:
-				setPartnerLink((PartnerLink) newValue);
-				return;
-			case BPELPackage.TO__PROPERTY:
-				setProperty((Property) newValue);
-				return;
-			case BPELPackage.TO__QUERY:
-				setQuery((Query) newValue);
-				return;
-			case BPELPackage.TO__EXPRESSION:
-				setExpression((Expression) newValue);
-				return;
+		case BPELPackage.TO__VARIABLE:
+			setVariable((Variable) newValue);
+			return;
+		case BPELPackage.TO__PART:
+			setPart((Part) newValue);
+			return;
+		case BPELPackage.TO__PARTNER_LINK:
+			setPartnerLink((PartnerLink) newValue);
+			return;
+		case BPELPackage.TO__PROPERTY:
+			setProperty((Property) newValue);
+			return;
+		case BPELPackage.TO__QUERY:
+			setQuery((Query) newValue);
+			return;
+		case BPELPackage.TO__EXPRESSION:
+			setExpression((Expression) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -531,24 +538,24 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TO__VARIABLE:
-				setVariable((Variable) null);
-				return;
-			case BPELPackage.TO__PART:
-				setPart((Part) null);
-				return;
-			case BPELPackage.TO__PARTNER_LINK:
-				setPartnerLink((PartnerLink) null);
-				return;
-			case BPELPackage.TO__PROPERTY:
-				setProperty((Property) null);
-				return;
-			case BPELPackage.TO__QUERY:
-				setQuery((Query) null);
-				return;
-			case BPELPackage.TO__EXPRESSION:
-				setExpression((Expression) null);
-				return;
+		case BPELPackage.TO__VARIABLE:
+			setVariable((Variable) null);
+			return;
+		case BPELPackage.TO__PART:
+			setPart((Part) null);
+			return;
+		case BPELPackage.TO__PARTNER_LINK:
+			setPartnerLink((PartnerLink) null);
+			return;
+		case BPELPackage.TO__PROPERTY:
+			setProperty((Property) null);
+			return;
+		case BPELPackage.TO__QUERY:
+			setQuery((Query) null);
+			return;
+		case BPELPackage.TO__EXPRESSION:
+			setExpression((Expression) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -561,18 +568,18 @@ public class ToImpl extends ExtensibleElementImpl implements To {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BPELPackage.TO__VARIABLE:
-				return variable != null;
-			case BPELPackage.TO__PART:
-				return part != null;
-			case BPELPackage.TO__PARTNER_LINK:
-				return partnerLink != null;
-			case BPELPackage.TO__PROPERTY:
-				return property != null;
-			case BPELPackage.TO__QUERY:
-				return query != null;
-			case BPELPackage.TO__EXPRESSION:
-				return expression != null;
+		case BPELPackage.TO__VARIABLE:
+			return variable != null;
+		case BPELPackage.TO__PART:
+			return part != null;
+		case BPELPackage.TO__PARTNER_LINK:
+			return partnerLink != null;
+		case BPELPackage.TO__PROPERTY:
+			return property != null;
+		case BPELPackage.TO__QUERY:
+			return query != null;
+		case BPELPackage.TO__EXPRESSION:
+			return expression != null;
 		}
 		return super.eIsSet(featureID);
 	}
