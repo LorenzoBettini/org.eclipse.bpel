@@ -428,8 +428,16 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	public Adapter createExpressionAdapter() {		
 		return fProvider.getAdapter(ExpressionAdapter.class);
 	}
+		
+	/**
+	 * @see org.eclipse.bpel.model.util.BPELAdapterFactory#createOpaqueActivityAdapter()
+	 */
+	@Override
+	public Adapter createOpaqueActivityAdapter(){
+		return fProvider.getAdapter(OpaqueActivityAdapter.class);
+	}
 	
-
+	
 	/**
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
@@ -447,8 +455,6 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	protected Object resolve (Object object, Object type) {
 		return null;
 	}
-	
-	
 	
     @Override
 	protected Adapter createAdapter(Notifier target, Object type) {

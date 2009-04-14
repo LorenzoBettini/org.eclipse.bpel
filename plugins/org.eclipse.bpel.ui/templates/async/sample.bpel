@@ -5,7 +5,7 @@
          targetNamespace="${namespace}"
          suppressJoinFailure="yes"
          xmlns:tns="${namespace}"
-         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:bpel="${bpelNamespace}"
          >
     <!-- Import the client WSDL -->
 	<bpel:import location="${processName}Artifacts.wsdl" namespace="${namespace}" 

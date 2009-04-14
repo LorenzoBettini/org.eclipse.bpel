@@ -62,7 +62,10 @@ public class BPELUIObjectFactory extends AbstractUIObjectFactory {
 
 	/** we should not include actions here (invoke, etc...) */
 	public static EClass[] classArray = {
+		
+		
 			// BPELPackage.eINSTANCE.getProcess(),
+			BPELPackage.eINSTANCE.getOpaqueActivity(),
 			BPELPackage.eINSTANCE.getVariable(),
 			BPELPackage.eINSTANCE.getCorrelationSet(),
 			BPELPackage.eINSTANCE.getPartnerLink(),

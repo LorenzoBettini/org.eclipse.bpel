@@ -53,12 +53,13 @@ public class PaletteFactory implements IPaletteProvider {
 		BPELPackage bpelPackage = BPELPackage.eINSTANCE;
 		UIObjectFactoryProvider provider = UIObjectFactoryProvider
 				.getInstance();
-
+		
 		PaletteCategory basicActionsCategory = new PaletteCategory("Actions"); //$NON-NLS-1$
 		basicActionsCategory.setOrder(10);
 		basicActionsCategory.setCategoryId("bpel.actions");
-
+		
 		String term = BPELTerms.getString("Empty"); //$NON-NLS-1$
+			
 		basicActionsCategory.add(new BPELCreationToolEntry(term, term, provider
 				.getFactoryFor(bpelPackage.getEmpty())));
 		basicActionsCategory.add(new BPELCreationToolEntry(
@@ -71,6 +72,9 @@ public class PaletteFactory implements IPaletteProvider {
 				Messages.BPELEditor_Reply_6, Messages.BPELEditor_Reply_7,
 				provider.getFactoryFor(bpelPackage.getReply())));
 		basicActionsCategory.add(new BPELCreationToolEntry(
+				Messages.BPELEditor_OpaqueActivity_1,Messages.BPELEditor_OpaqueActivity_2,
+				provider.getFactoryFor(bpelPackage.getOpaqueActivity())));
+		basicActionsCategory.add(new BPELCreationToolEntry(
 				Messages.BPELEditor_Assign_10, Messages.BPELEditor_Assign_11,
 				provider.getFactoryFor(bpelPackage.getAssign())));
 		basicActionsCategory.add(new BPELCreationToolEntry(
@@ -79,7 +83,7 @@ public class PaletteFactory implements IPaletteProvider {
 						.getFactoryFor(bpelPackage.getValidate())));
 		palette.add(basicActionsCategory);
 
-		PaletteCategory controlCategory = new PaletteCategory("Control"); //$NON-NLS-1$
+		PaletteCategory controlCategory = new PaletteCategory("Control2"); //$NON-NLS-1$
 		controlCategory.setOrder(20);
 		controlCategory.setCategoryId("bpel.control");
 

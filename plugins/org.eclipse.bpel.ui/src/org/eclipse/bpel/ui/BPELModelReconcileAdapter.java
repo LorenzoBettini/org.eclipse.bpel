@@ -93,6 +93,7 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 				process.unsetExpressionLanguage();
 				process.unsetSuppressJoinFailure();
 				process.unsetVariableAccessSerializable();
+				process.unsetAbstractProcessProfile();
 				process.setFaultHandlers(null);
 				process.setExtensions(null);
 				process.setExitOnStandardFault(false);

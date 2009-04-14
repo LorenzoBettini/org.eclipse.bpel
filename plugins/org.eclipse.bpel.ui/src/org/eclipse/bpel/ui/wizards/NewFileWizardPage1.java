@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Templates.Template;
@@ -28,6 +29,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -35,6 +37,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 
 /**
@@ -63,6 +68,8 @@ public class NewFileWizardPage1 extends WizardPage
     /** Template description, in summary */
     Text templateDescription;
 
+    /** option for creating an abstract process */
+    Button processAbstractOptionButton;
     
     private Map<String,Object> mArgs = new HashMap<String,Object> (3);
     
@@ -221,7 +228,16 @@ public class NewFileWizardPage1 extends WizardPage
      	if (templates.length > 0) {
      		processTemplateField.select(0);
      	}
-                
+     	
+     	//add checkbox for abstract process option
+     	processAbstractOptionButton = new Button(projectGroup, SWT.CHECK );
+     	processAbstractOptionButton.setText(Messages.NewFileWizardPage1_9); 
+     	processAbstractOptionButton.setFont(parent.getFont() );
+     	processAbstractOptionButton.addSelectionListener(new SelectionAdapter(){
+     		public void widgetSelected(SelectionEvent event) {
+    			setPageComplete(validatePage());			
+    		}
+     	});     	
     }
     
 
@@ -324,17 +340,30 @@ public class NewFileWizardPage1 extends WizardPage
         	return false;
         }
         
+        String bpelNamespace = (isAbstractOptionButtonChecked())?
+        		BPELConstants.NAMESPACE_ABSTRACT_2007: BPELConstants.NAMESPACE;
+        
         // settings for next time the dialog is used.
         settings.put( LAST_NAMESPACE_KEY , namespace) ;
                 
         // Template arguments
         mArgs.put("processName", processName ); //$NON-NLS-1$
         mArgs.put("namespace",   namespace );   //$NON-NLS-1$
+        mArgs.put("bpelNamespace", bpelNamespace );	    //$NON-NLS-1$
         mArgs.put("date",   new Date() );	    //$NON-NLS-1$
+
         
         return true;
     }
 
+    
+    /**
+     * @return true if Option for abstract process is checked
+     */
+    private boolean isAbstractOptionButtonChecked() {
+    	return processAbstractOptionButton.getSelection();
+    }
+    
     /**
      * see @DialogPage.setVisible(boolean)
      * @param visible whether should be visible or not

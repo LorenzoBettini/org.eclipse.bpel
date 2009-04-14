@@ -47,6 +47,7 @@ public class Messages extends NLS {
 	public static String NewFileWizardPage1_6;
 	public static String NewFileWizardPage1_7;
 	public static String NewFileWizardPage1_8;
+	public static String NewFileWizardPage1_9;
 	public static String NewFileWizardPage1_10;
 	public static String NewFileWizardPage1_11;
 	public static String NewFileWizardPage2_0;

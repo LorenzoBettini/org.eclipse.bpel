@@ -74,6 +74,8 @@ public interface IBPELUIConstants {
 	public final String ICON_FLOW_32 = "obj20/flow.png"; //$NON-NLS-1$
 	public final String ICON_INVOKE_16 = "obj16/invoke.gif"; //$NON-NLS-1$
 	public final String ICON_INVOKE_32 = "obj20/invoke.png"; //$NON-NLS-1$
+	public final String ICON_OPAQUEACTIVITY_16 = "obj16/opaqueactivity.gif"; //$NON-NLS-1$
+	public final String ICON_OPAQUEACTIVITY_32 = "obj20/opaqueactivity.png"; //$NON-NLS-1$
 	public final String ICON_PICK_16 = "obj16/pick.gif"; //$NON-NLS-1$
 	public final String ICON_PICK_32 = "obj20/pick.png"; //$NON-NLS-1$
 	public final String ICON_RECEIVE_16 = "obj16/receive.gif"; //$NON-NLS-1$

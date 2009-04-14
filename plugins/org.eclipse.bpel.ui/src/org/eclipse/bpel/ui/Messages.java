@@ -156,6 +156,8 @@ public final class Messages extends NLS {
 	public static String BPELEditPart_Enter_a_new_name_3;
 	public static String BPELEditPart_Rename_2;
 	public static String BPELEditPartFactory_Could_not_create_edit_part_for;
+	public static String BPELEditor_OpaqueActivity_1;
+	public static String BPELEditor_OpaqueActivity_2;
 	public static String BPELEditor_Assign_10;
 	public static String BPELEditor_Assign_11;
 	public static String BPELEditor_Validate_XML_12;
@@ -498,6 +500,7 @@ public final class Messages extends NLS {
 	public static String OnAlarmAdapter_OnAlarm_1;
 	public static String OnEventAdapter_OnEvent_1;
 	public static String OnMessageAdapter_OnMessage_1;
+	public static String OpaqueAction_opaque_HTML_Description_1;
 	public static String OpaqueAssignCategory_An_Opaque_value_is_used_in_abstract_processes__2;
 	public static String OpaqueAssignCategory_Opaque_1;
 	public static String OperationAdapter_Operation_1;
