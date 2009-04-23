@@ -109,16 +109,16 @@ public class CorrelationSection extends BPELPropertySection {
 			return new ComboBoxCellEditor(parent, twoWayStrings);
 		}
 		protected int patternIndex(CorrelationPattern pattern) {
-			if (pattern == CorrelationPattern.OUT_LITERAL)  return 0;
-			if (pattern == CorrelationPattern.IN_LITERAL)  return 1;
-			if (pattern == CorrelationPattern.OUTIN_LITERAL)  return 2;
+			if (pattern == CorrelationPattern.RESPONSE_LITERAL)  return 0;
+			if (pattern == CorrelationPattern.REQUEST_LITERAL)  return 1;
+			if (pattern == CorrelationPattern.REQUESTRESPONSE_LITERAL)  return 2;
 			return allowOutgoing? 0 : 1;
 		}
 		protected CorrelationPattern indexPattern(int index) {
 			switch (index) {
-			case 0: return CorrelationPattern.OUT_LITERAL;
-			case 1: return CorrelationPattern.IN_LITERAL;
-			case 2: return CorrelationPattern.OUTIN_LITERAL;
+			case 0: return CorrelationPattern.RESPONSE_LITERAL;
+			case 1: return CorrelationPattern.REQUEST_LITERAL;
+			case 2: return CorrelationPattern.REQUESTRESPONSE_LITERAL;
 			}
 			throw new IllegalArgumentException();
 		}
@@ -327,7 +327,7 @@ public class CorrelationSection extends BPELPropertySection {
 		Correlation correlation = BPELFactory.eINSTANCE.createCorrelation();
 		correlation.setInitiate(NO);
 		if (getInput() instanceof Invoke) {
-			correlation.setPattern(CorrelationPattern.OUT_LITERAL);
+			correlation.setPattern(CorrelationPattern.RESPONSE_LITERAL);
 		}
 		
 		// Try to select a correlation set that isn't already in the table.

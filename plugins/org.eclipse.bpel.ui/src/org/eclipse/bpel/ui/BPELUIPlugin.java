@@ -323,19 +323,12 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
-		disposeColors();
+
 		super.stop(context);
-	}
-	
-	private void disposeColors() {
-		if (colorRegistry != null) {
-			Iterator<String> it = colorRegistry.getKeySet().iterator();
-			while (it.hasNext()) {
-				Color c = colorRegistry.get(it.next());
-				c.dispose();
-			}
-			colorRegistry = null;
+
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		if (workspace != null) {
+			workspace.removeResourceChangeListener(resourceChangeListener);
 		}
 	}
 	
