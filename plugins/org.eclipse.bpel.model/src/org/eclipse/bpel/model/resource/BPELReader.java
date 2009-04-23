@@ -3219,12 +3219,12 @@ public class BPELReader implements ErrorHandler {
 		Attr pattern = correlationElement.getAttributeNode("pattern");
 
 		if (pattern != null && pattern.getSpecified()) {
-			if (pattern.getValue().equals("in"))
-				correlation.setPattern(CorrelationPattern.IN_LITERAL);
-			else if (pattern.getValue().equals("out"))
-					correlation.setPattern(CorrelationPattern.OUT_LITERAL);
-				else if (pattern.getValue().equals("out-in"))
-					correlation.setPattern(CorrelationPattern.OUTIN_LITERAL);			
+			if (pattern.getValue().equals("request"))
+				correlation.setPattern(CorrelationPattern.REQUEST_LITERAL);
+			else if (pattern.getValue().equals("response"))
+					correlation.setPattern(CorrelationPattern.RESPONSE_LITERAL);
+				else if (pattern.getValue().equals("request-response"))
+					correlation.setPattern(CorrelationPattern.REQUESTRESPONSE_LITERAL);			
 		}
 		
 		xml2ExtensibleElement(correlation, correlationElement);

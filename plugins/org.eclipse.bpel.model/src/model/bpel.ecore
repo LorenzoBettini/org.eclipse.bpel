@@ -379,9 +379,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="set" lowerBound="1" eType="#//CorrelationSet"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CorrelationPattern">
-    <eLiterals name="in"/>
-    <eLiterals name="out" value="1"/>
-    <eLiterals name="outin" value="2"/>
+    <eLiterals name="request"/>
+    <eLiterals name="response" value="1"/>
+    <eLiterals name="requestresponse" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="EndpointReferenceRole">
     <eLiterals name="myRole"/>

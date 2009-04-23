@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.36 2009/04/14 10:50:37 smoser Exp $
+ * $Id: BPELPackageImpl.java,v 1.37 2009/04/23 10:52:48 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -723,9 +723,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		BPELPackage thePackage = initGen();
 
 		//TODO: handle the following test differently
-		if (!CorrelationPattern.OUTIN_LITERAL.getName().equals("out-in")) { //$NON-NLS-1$
-			System.err
-					.println("BPELPackageImpl: CorrelationPattern has invalid value. Fix CorrelationPattern.OUTIN_LITERAL."); //$NON-NLS-1$
+		if (!CorrelationPattern.REQUESTRESPONSE_LITERAL.getName().equals("request-response")) { //$NON-NLS-1$
+			System.err.println("BPELPackageImpl: CorrelationPattern has invalid value. Fix CorrelationPattern.REQUESTRESPONSE_LITERAL."); //$NON-NLS-1$
 		}
 		return thePackage;
 	}
@@ -4967,10 +4966,12 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		// Initialize enums and add enum literals
 		initEEnum(correlationPatternEEnum, CorrelationPattern.class,
 				"CorrelationPattern"); //$NON-NLS-1$
-		addEEnumLiteral(correlationPatternEEnum, CorrelationPattern.IN_LITERAL);
-		addEEnumLiteral(correlationPatternEEnum, CorrelationPattern.OUT_LITERAL);
 		addEEnumLiteral(correlationPatternEEnum,
-				CorrelationPattern.OUTIN_LITERAL);
+				CorrelationPattern.REQUEST_LITERAL);
+		addEEnumLiteral(correlationPatternEEnum,
+				CorrelationPattern.RESPONSE_LITERAL);
+		addEEnumLiteral(correlationPatternEEnum,
+				CorrelationPattern.REQUESTRESPONSE_LITERAL);
 
 		initEEnum(endpointReferenceRoleEEnum, EndpointReferenceRole.class,
 				"EndpointReferenceRole"); //$NON-NLS-1$

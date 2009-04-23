@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationImpl.java,v 1.10 2009/04/14 10:50:36 smoser Exp $
+ * $Id: CorrelationImpl.java,v 1.11 2009/04/23 10:52:48 smoser Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -79,7 +79,7 @@ public class CorrelationImpl extends ExtensibleElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final CorrelationPattern PATTERN_EDEFAULT = CorrelationPattern.IN_LITERAL;
+	protected static final CorrelationPattern PATTERN_EDEFAULT = CorrelationPattern.REQUEST_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.

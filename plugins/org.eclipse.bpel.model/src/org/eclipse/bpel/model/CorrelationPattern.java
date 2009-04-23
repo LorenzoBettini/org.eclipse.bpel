@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CorrelationPattern.java,v 1.6 2009/04/14 10:50:37 smoser Exp $
+ * $Id: CorrelationPattern.java,v 1.7 2009/04/23 10:52:48 smoser Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -31,76 +31,74 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum CorrelationPattern implements Enumerator {
 	/**
-	 * The '<em><b>In</b></em>' literal object.
+	 * The '<em><b>Request</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #IN
+	 * @see #REQUEST
 	 * @generated
 	 * @ordered
 	 */
-	IN_LITERAL(0, "in", "in"),
-	/**
-	 * The '<em><b>Out</b></em>' literal object.
+	REQUEST_LITERAL(0, "request", "request"), /**
+	 * The '<em><b>Response</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #OUT
+	 * @see #RESPONSE
 	 * @generated
 	 * @ordered
 	 */
-	OUT_LITERAL(1, "out", "out"),
-	/**
-	 * The '<em><b>Outin</b></em>' literal object.
+	RESPONSE_LITERAL(1, "response", "response"), /**
+	 * The '<em><b>Requestresponse</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #OUTIN
-	 * @customized
+	 * @see #REQUESTRESPONSE
+	 * @generated
 	 * @ordered
 	 */
-	OUTIN_LITERAL(2, "out-in", "out-in");
+	REQUESTRESPONSE_LITERAL(2, "request-response", "request-response"); 
 	/**
-	 * The '<em><b>In</b></em>' literal value.
+	 * The '<em><b>Request</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>In</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Request</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #IN_LITERAL
-	 * @model name="in"
+	 * @see #REQUEST_LITERAL
+	 * @model name="request"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int IN = 0;
+	public static final int REQUEST = 0;
 
 	/**
-	 * The '<em><b>Out</b></em>' literal value.
+	 * The '<em><b>Response</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Out</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Response</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #OUT_LITERAL
-	 * @model name="out"
+	 * @see #RESPONSE_LITERAL
+	 * @model name="response"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OUT = 1;
+	public static final int RESPONSE = 1;
 
 	/**
-	 * The '<em><b>Outin</b></em>' literal value.
+	 * The '<em><b>Requestresponse</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Outin</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Requestresponse</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #OUTIN_LITERAL
-	 * @model name="outin"
+	 * @see #REQUESTRESPONSE_LITERAL
+	 * @model name="requestresponse"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OUTIN = 2;
+	public static final int REQUESTRESPONSE = 2;
 
 	/**
 	 * An array of all the '<em><b>Correlation Pattern</b></em>' enumerators.
@@ -109,7 +107,7 @@ public enum CorrelationPattern implements Enumerator {
 	 * @generated
 	 */
 	private static final CorrelationPattern[] VALUES_ARRAY = new CorrelationPattern[] {
-			IN_LITERAL, OUT_LITERAL, OUTIN_LITERAL, };
+			REQUEST_LITERAL, RESPONSE_LITERAL, REQUESTRESPONSE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Correlation Pattern</b></em>' enumerators.
@@ -160,12 +158,12 @@ public enum CorrelationPattern implements Enumerator {
 	 */
 	public static CorrelationPattern get(int value) {
 		switch (value) {
-		case IN:
-			return IN_LITERAL;
-		case OUT:
-			return OUT_LITERAL;
-		case OUTIN:
-			return OUTIN_LITERAL;
+		case REQUEST:
+			return REQUEST_LITERAL;
+		case RESPONSE:
+			return RESPONSE_LITERAL;
+		case REQUESTRESPONSE:
+			return REQUESTRESPONSE_LITERAL;
 		}
 		return null;
 	}
