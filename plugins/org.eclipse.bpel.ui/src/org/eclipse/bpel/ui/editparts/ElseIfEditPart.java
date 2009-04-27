@@ -92,7 +92,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ElseHighlightEditPolicy(false, true));
 		
 		// The case must lay out its child activity
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(ModelHelper.isHorizontalLayout(getModel()))
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ElseIfOrderedHorizontalLayoutEditPolicy());
 		else 
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new BPELOrderedLayoutEditPolicy());
@@ -122,7 +122,7 @@ public class ElseIfEditPart extends BPELEditPart implements NodeEditPart, ILayou
 		ILabeledElement element = BPELUtil.adapt(getModel(), ILabeledElement.class);
 		if (element == null) return null;
 		
-		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		boolean horizontal = ModelHelper.isHorizontalLayout(getModel());
 		
 		IFigure figure = new Figure();
 		ColorRegistry registry = BPELUIPlugin.INSTANCE.getColorRegistry();

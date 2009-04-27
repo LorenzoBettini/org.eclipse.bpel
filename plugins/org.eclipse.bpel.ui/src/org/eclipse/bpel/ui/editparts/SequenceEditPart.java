@@ -130,7 +130,7 @@ public class SequenceEditPart extends CollapsableEditPart {
 		});
 		
 		BPELOrderedLayoutEditPolicy policy = null;
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(ModelHelper.isHorizontalLayout(getModel()))
 			policy = new SequenceHorizontalBPELOrderedLayoutPolicy();
 		else
 			policy = new BPELOrderedLayoutEditPolicy();
@@ -143,7 +143,7 @@ public class SequenceEditPart extends CollapsableEditPart {
 		
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setHorizontal(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
+		layout.setHorizontal(ModelHelper.isHorizontalLayout(getModel()));
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);
 		aFigure.setLayoutManager(layout);

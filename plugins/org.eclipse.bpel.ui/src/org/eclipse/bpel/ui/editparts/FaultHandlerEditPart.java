@@ -59,7 +59,7 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
 		boolean vertical = (getModel() instanceof CompensationHandler) || (getModel() instanceof TerminationHandler);
-		boolean horizontalLayout = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		boolean horizontalLayout = ModelHelper.isHorizontalLayout(getModel());
 		layout.setHorizontal(horizontalLayout ? vertical : !vertical);
 		figure.setLayoutManager(layout);
 		if (image == null) {
@@ -110,7 +110,7 @@ public class FaultHandlerEditPart extends BPELEditPart implements ILayoutAware{
 	
 	public void switchLayout(boolean horizontal) {
 		boolean vertical = (getModel() instanceof CompensationHandler) || (getModel() instanceof TerminationHandler);
-		boolean horizontalLayout = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		boolean horizontalLayout = ModelHelper.isHorizontalLayout(getModel());
 		
 		((FlowLayout)getContentPane().getLayoutManager()).setHorizontal(horizontalLayout ? vertical : !vertical);
 		

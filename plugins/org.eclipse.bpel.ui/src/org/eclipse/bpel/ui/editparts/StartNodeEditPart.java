@@ -83,7 +83,7 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart, ILa
 		@Override
 		public void paint(Graphics graphics) {
 			super.paint(graphics);
-			computeHandlerIconPositions(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
+			computeHandlerIconPositions(ModelHelper.isHorizontalLayout(getModel()));
 			if (hasFH) {
 				graphics.pushState();
 				graphics.setClip(faultImageFigure.getBounds().getCopy());
@@ -146,7 +146,7 @@ public class StartNodeEditPart extends BPELEditPart implements NodeEditPart, ILa
 		// doesn't reach the Startnode. So add an invisible
 		// border
 		StartNodeFigure snf = new StartNodeFigure();
-		if(!ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(!ModelHelper.isHorizontalLayout(getModel()))
 			snf.setBorder(new MarginBorder(0,7+BORDER_WIDTH,0,7+BORDER_WIDTH));
 		else
 			snf.setBorder(new MarginBorder(5,0,5,0));

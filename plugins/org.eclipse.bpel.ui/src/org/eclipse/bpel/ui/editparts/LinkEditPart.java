@@ -431,7 +431,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	private void applyConnectionRouter(Connection con){
 		EditPart conTo = getSource() == null ? getTarget() : getSource();
 		if(conTo != null){
-			if(ModelHelper.getBPELEditor(conTo.getModel()).isHorizontalLayout())
+			if(ModelHelper.isHorizontalLayout(conTo.getModel()))
 				con.setConnectionRouter(new ManhattanConnectionRouterEx(ManhattanConnectionRouterEx.RIGHT, ManhattanConnectionRouterEx.LEFT));
 			else
 				con.setConnectionRouter(new ManhattanConnectionRouter());

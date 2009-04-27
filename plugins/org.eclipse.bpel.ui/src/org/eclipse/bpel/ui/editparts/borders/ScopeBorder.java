@@ -194,7 +194,7 @@ public class ScopeBorder extends CollapsableBorder {
 		expandedBounds.height -= expandedHeight / 2;
 		
 		// Calculate the positions of the handler icons
-		computeHandlerIconPositions(ModelHelper.getBPELEditor(getEditPart().getModel()).isHorizontalLayout(),figure);
+		computeHandlerIconPositions(ModelHelper.isHorizontalLayout(getEditPart().getModel()),figure);
 
 		// Top drawer
 		IMarker topMarker = getTopMarker();

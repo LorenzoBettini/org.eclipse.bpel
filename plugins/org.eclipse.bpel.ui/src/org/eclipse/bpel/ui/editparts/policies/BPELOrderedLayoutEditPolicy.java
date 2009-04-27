@@ -189,7 +189,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 					PolylineConnection connection = createConnection(sourceAnchor,targetAnchor,arrowColor);
 					
 					if(sourcePart instanceof StartNodeEditPart || sourcePart instanceof ScopeEditPart || sourcePart instanceof InvokeEditPart){
-						boolean horizontal = ModelHelper.getBPELEditor(getHost().getModel()).isHorizontalLayout();
+						boolean horizontal = ModelHelper.isHorizontalLayout(getHost().getModel());
 						connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(horizontal));
 					}
 					connections.add(connection);
@@ -291,7 +291,7 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 		connection.setTargetAnchor(targetAnchor);
 		connection.setForegroundColor(color);
 		connection.setBackgroundColor(color);
-		connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(ModelHelper.getBPELEditor(getHost().getModel()).isHorizontalLayout()));
+		connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(ModelHelper.isHorizontalLayout(getHost().getModel())));
 		PolygonDecoration arrow = new PolygonDecoration();
 		arrow.setTemplate(PolygonDecoration.TRIANGLE_TIP);
 		arrow.setScale(5,2.5);

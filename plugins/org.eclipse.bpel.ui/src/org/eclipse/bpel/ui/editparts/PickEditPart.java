@@ -51,7 +51,7 @@ public class PickEditPart extends SequenceEditPart {
 	
 	@Override
 	protected void createEditPolicies() {
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(ModelHelper.isHorizontalLayout(getModel()))
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new PickOrderedLayoutEditPolicy());
 		else
 			super.createEditPolicies();
@@ -60,7 +60,7 @@ public class PickEditPart extends SequenceEditPart {
 	@Override
 	protected void configureExpandedFigure(IFigure figure) {
 		super.configureExpandedFigure(figure);
-		boolean horizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		boolean horizontal = ModelHelper.isHorizontalLayout(getModel());
 		FlowLayout layout = (FlowLayout)figure.getLayoutManager();
 		layout.setHorizontal(!horizontal);
 		layout.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);

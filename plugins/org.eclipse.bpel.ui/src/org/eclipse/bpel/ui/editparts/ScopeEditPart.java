@@ -129,7 +129,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		}
 		
 		private void refreshMargin(){
-			if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+			if(ModelHelper.isHorizontalLayout(getModel()))
 				setBorder(new MarginBorder(contentFigure.getPreferredSize().height+10,0,0,0));
 			else
 				setBorder(null);
@@ -204,7 +204,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 				return DrawerBorder.DRAWER_WIDTH;
 			}			
 		});
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(ModelHelper.isHorizontalLayout(getModel()))
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedHorizontalLayoutEditPolicy());
 		else
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ScopeOrderedLayoutEditPolicy());
@@ -263,7 +263,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 			configureExpandedFigure(contentFigure);
 		}
 		
-		boolean isHorizontal = ModelHelper.getBPELEditor(getModel()).isHorizontalLayout();
+		boolean isHorizontal = ModelHelper.isHorizontalLayout(getModel());
 		
 		this.auxilaryFigure = new AuxiliaryFigure();
 		layout = new AlignedFlowLayout();
@@ -674,7 +674,7 @@ public class ScopeEditPart extends CollapsableEditPart {
 		FlowLayout layout = new FlowLayout();
 		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
 		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setHorizontal(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
+		layout.setHorizontal(ModelHelper.isHorizontalLayout(getModel()));
 		layout.setMajorSpacing(SPACING);
 		layout.setMinorSpacing(SPACING);
 		figure.setLayoutManager(layout);

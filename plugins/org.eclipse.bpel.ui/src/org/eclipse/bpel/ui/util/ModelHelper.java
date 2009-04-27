@@ -1300,6 +1300,15 @@ public class ModelHelper {
 		}
 		throw new IllegalArgumentException("Not an EObject/Resource/ResourceSet");
 	}
+	
+	public static boolean isHorizontalLayout(Object modelObject) {
+		BPELEditor bpelEditor = ModelHelper.getBPELEditor(modelObject);
+		if (bpelEditor != null) {
+			return bpelEditor.isHorizontalLayout();
+		} else {
+			return false;
+		}
+	}
 
 	public static TreeIterator getAllContents(Object modelObject) {
 		if (modelObject instanceof EObject) {

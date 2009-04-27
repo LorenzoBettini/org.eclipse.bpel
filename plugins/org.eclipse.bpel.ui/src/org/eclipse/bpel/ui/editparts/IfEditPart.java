@@ -323,7 +323,7 @@ public class IfEditPart extends PickEditPart {
 	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(ModelHelper.isHorizontalLayout(getModel()))
 			installEditPolicy(EditPolicy.LAYOUT_ROLE,new IfOrderedHorizontalLayoutEditPolicy());
 		else
 			installEditPolicy(EditPolicy.LAYOUT_ROLE,new IfOrderedLayoutEditPolicy());

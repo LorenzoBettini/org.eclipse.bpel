@@ -95,7 +95,7 @@ public class ProcessEditPart extends BPELEditPart implements ILayoutAware{
 					
 					
 					if(sourcePart instanceof StartNodeEditPart){
-						boolean horizontal = ModelHelper.getBPELEditor(getHost().getModel()).isHorizontalLayout();
+						boolean horizontal = ModelHelper.isHorizontalLayout(getHost().getModel());
 						connection.setConnectionRouter(new ImplicitLinkHandlerConnectionRouter(horizontal));
 					}
 					
@@ -153,7 +153,7 @@ public class ProcessEditPart extends BPELEditPart implements ILayoutAware{
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new BPELContainerEditPolicy());
 
 		// The process must lay out its child activity
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout())
+		if(ModelHelper.isHorizontalLayout(getModel()))
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedHorizontalLayoutEditPolicy());
 		else
 			installEditPolicy(EditPolicy.LAYOUT_ROLE, new ProcessOrderedLayoutEditPolicy());
@@ -197,7 +197,7 @@ public class ProcessEditPart extends BPELEditPart implements ILayoutAware{
 		
 		// It's not a reals switch - just apply all layout setting here
 		// to avoid duplicate code
-		switchLayout(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
+		switchLayout(ModelHelper.isHorizontalLayout(getModel()));
 		
 		return layeredPane;
 	}

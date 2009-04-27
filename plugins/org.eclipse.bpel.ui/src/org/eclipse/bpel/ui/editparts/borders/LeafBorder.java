@@ -160,7 +160,7 @@ public class LeafBorder extends GradientBorder {
 			graphics.drawRoundRectangle(rectBounds, arcSize, arcSize);
 		}
 		
-		computeHandlerIconPositions(ModelHelper.getBPELEditor(getEditPart().getModel()).isHorizontalLayout());
+		computeHandlerIconPositions(ModelHelper.isHorizontalLayout(getEditPart().getModel()));
 
 		// Draw the fault image in the upper right hand corner of the round rectangle
 		if (showFault) {

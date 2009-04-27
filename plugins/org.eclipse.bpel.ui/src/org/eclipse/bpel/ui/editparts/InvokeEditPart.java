@@ -94,7 +94,7 @@ public class InvokeEditPart extends LeafEditPart implements ILayoutAware{
 		border.setShowFault(getFaultHandler() != null);
 		border.setShowCompensation(getCompensationHandler() != null);
 		
-		if(ModelHelper.getBPELEditor(getModel()).isHorizontalLayout()){
+		if(ModelHelper.isHorizontalLayout(getModel())){
 			auxilaryFigure.getInsets().top = contentFigure.getBounds().height+10;
 		}else
 			auxilaryFigure.getInsets().top = 0;
@@ -135,7 +135,7 @@ public class InvokeEditPart extends LeafEditPart implements ILayoutAware{
 		
 		this.auxilaryFigure = new Figure();
 		layout = new AlignedFlowLayout();
-		layout.setHorizontal(!ModelHelper.getBPELEditor(getModel()).isHorizontalLayout());
+		layout.setHorizontal(!ModelHelper.isHorizontalLayout(getModel()));
 		auxilaryFigure.setBorder(new MarginBorder(0,0,0,0));
 		auxilaryFigure.setLayoutManager(layout);
 		parentFigure.add(auxilaryFigure);
