@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import java.util.List;
+
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
@@ -66,24 +69,42 @@ public class ImportsSection extends BPELPropertySection {
 
 	protected TableCursor tableCursor = null;
 
-	
 	/**
-	 * Make this section use all the vertical space it can get. 
+	 * Make this section use all the vertical space it can get.
 	 * 
 	 */
 	@Override
-	public boolean shouldUseExtraSpace() { 
+	public boolean shouldUseExtraSpace() {
 		return true;
 	}
-	
-	
-	
+
+	/**
+	 * Bug 290085 - Override the super-class because the input is Process not Import
+	 * If use super-class's directly, when change the import attributes
+	 * the properties section do not change. Grid Qian
+	 */
 	@Override
-	protected MultiObjectAdapter[] createAdapters() {		
+	protected void addAllAdapters() {
+		super.addAllAdapters();
+		if (fAdapters.length > 0) {
+			if (getModel() != null) {
+				EObject obj = getModel();
+				if (obj instanceof Process) {
+					List<Import> list = ((Process) obj).getImports();
+					for (int i = 0; i < list.size(); i++) {
+						fAdapters[0].addToObject((Import) list.get(i));
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	protected MultiObjectAdapter[] createAdapters() {
 		return new MultiObjectAdapter[] { new MultiObjectAdapter() {
 			@Override
 			public void notify(Notification n) {
-				importViewer.setInput(getInput());				
+				importViewer.setInput(getInput());
 			}
 		}, };
 	}
@@ -92,23 +113,24 @@ public class ImportsSection extends BPELPropertySection {
 
 		FlatFormData data;
 
-		Button browseWSDL = fWidgetFactory.createButton(parent, Messages.ImportsSection_0,
-				SWT.PUSH);
-		Button browseXSD = fWidgetFactory.createButton(parent, Messages.ImportsSection_1,
-				SWT.PUSH);
-		final Button removeImport = fWidgetFactory.createButton(parent, Messages.ImportsSection_2, SWT.PUSH);
+		Button browseWSDL = fWidgetFactory.createButton(parent,
+				Messages.ImportsSection_0, SWT.PUSH);
+		Button browseXSD = fWidgetFactory.createButton(parent,
+				Messages.ImportsSection_1, SWT.PUSH);
+		final Button removeImport = fWidgetFactory.createButton(parent,
+				Messages.ImportsSection_2, SWT.PUSH);
 		removeImport.setEnabled(false);
-		
-		removeImport.addSelectionListener( new SelectionListener () {
 
-			public void widgetDefaultSelected(SelectionEvent e) {				
+		removeImport.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				removeImport();				
-			}			
+				removeImport();
+			}
 		});
-		
+
 		browseWSDL.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -148,7 +170,8 @@ public class ImportsSection extends BPELPropertySection {
 		data.top = new FlatFormAttachment(0, IDetailsAreaConstants.VSPACE);
 		browseWSDL.setLayoutData(data);
 
-		importLabel = fWidgetFactory.createLabel(parent, Messages.ImportDetails_Imports_20);
+		importLabel = fWidgetFactory.createLabel(parent,
+				Messages.ImportDetails_Imports_20);
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0, IDetailsAreaConstants.HSPACE);
 		data.top = new FlatFormAttachment(browseWSDL,
@@ -185,12 +208,14 @@ public class ImportsSection extends BPELPropertySection {
 		importViewer.setColumnProperties(tableProvider.getColumnProperties());
 		importViewer.setCellEditors(tableProvider
 				.createCellEditors(importTable));
-		
-		importViewer.addPostSelectionChangedListener( new ISelectionChangedListener () {
-			public void selectionChanged(SelectionChangedEvent event) {
-				removeImport.setEnabled( ! event.getSelection().isEmpty() );				
-			}		
-		});
+
+		importViewer
+				.addPostSelectionChangedListener(new ISelectionChangedListener() {
+					public void selectionChanged(SelectionChangedEvent event) {
+						removeImport
+								.setEnabled(!event.getSelection().isEmpty());
+					}
+				});
 
 		tableCursor = BPELUtil.createTableCursor(importTable, importViewer);
 	}
