@@ -209,7 +209,8 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 		String fileName = ifile.getName();
 		String wspath = ifile.getWorkspace().getRoot().getLocation().toOSString();
 
-		File srcFile = new File(wspath + from);
+		//bugzilla 284658
+		File srcFile = ifile.getLocation().toFile();
 		File targetFile = new File(toDeployDir + System.getProperty("file.separator") + fileName);
 		
 		if (srcFile != null && srcFile.exists()) {
