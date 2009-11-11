@@ -50,7 +50,8 @@ public class LiteralExpr extends Expr {
     	char ch1 = string.charAt(0);
     	char ch2 = string.charAt(string.length()-1);
     	if ( (ch1 == '"' || ch1 == '\'') && ch1 == ch2 ) {
-    		return string.substring(1, string.length()-2);
+    		//bugzilla 288935
+    		return string.substring(1, string.length()-1);
     	}
     	return string;
     }
