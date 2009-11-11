@@ -24,6 +24,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 
@@ -122,6 +123,55 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 		return createResource ( uri, kind );
 	}
 	
+	/*
+	 * Fix for Bug 278205 - Problem with importing remote WSIL/WSDL still exists.
+	 * Telesh Alexandr added this method to solve this which is to load remote WSIL/WSDL 
+     * by the correct resource loader based on known before loading resouce 
+     * extension which is posed as resource content type.
+	 */
+	public Resource.Factory.Registry getResourceFactoryRegistry() {
+		if (resourceFactoryRegistry == null) {
+
+			resourceFactoryRegistry = new ResourceFactoryRegistryImpl() {
+				@Override
+				protected Resource.Factory delegatedGetFactory(URI uri, String contentTypeIdentifier) {
+					// patch for "wsil" and "wsdl" resources without extensions
+					final Map<String, Object> extensionToFactoryMap =
+						Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+					
+					final Object wsilFactory = extensionToFactoryMap.get("wsil");
+					final Object wsdlFactory = extensionToFactoryMap.get("wsdl");
+					
+					final Map<String, Object> contentTypeToFactoryMap = 
+						Resource.Factory.Registry.INSTANCE.getContentTypeToFactoryMap();
+					
+					if (null != wsilFactory) {
+						contentTypeToFactoryMap.put("wsil", wsilFactory);
+					}
+					if (null != wsdlFactory) {
+						contentTypeToFactoryMap.put("wsdl", wsdlFactory);
+					}
+
+					return convert(getFactory(uri,
+							Resource.Factory.Registry.INSTANCE.getProtocolToFactoryMap(),
+							extensionToFactoryMap, contentTypeToFactoryMap,
+							contentTypeIdentifier, false));
+				}
+
+				@Override
+				protected URIConverter getURIConverter() {
+					// return ResourceSetImpl.this.getURIConverter();
+					return BPELResourceSetImpl.this.getURIConverter();
+				}
+
+				@Override
+				protected Map<?, ?> getContentDescriptionOptions() {
+					return getLoadOptions();
+				}
+			};
+		}
+		return resourceFactoryRegistry;
+	}
 	
 	/**
 	 * Create the resource based on the kind.
