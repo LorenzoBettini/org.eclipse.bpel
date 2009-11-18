@@ -576,7 +576,11 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 			
 			fFilteredList.setEnabled(true);
 			fFilteredList.setAllowDuplicates(showDuplicates);
-			fFilteredList.setElements( contentProvider.getElements( fProjectObjects ) );						
+			fFilteredList.setElements( contentProvider.getElements( fProjectObjects ) );
+			
+			if (contentProvider.getElements( fProjectObjects ) != null && contentProvider.getElements( fProjectObjects ).length > 0) {
+				updateLowerViewWidget(fFilteredList.getSelection());
+			}		
 		}		
 	}
 
