@@ -57,7 +57,7 @@ public class Validator implements IValidator {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidator#cleanup(org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	public void cleanup (IReporter reporter) {
-		 // p("Doing cleanup ...");
+
 	}
 
 	/**
@@ -86,6 +86,10 @@ public class Validator implements IValidator {
 				p("File " + f + " does not exist and cannot be validated.");
 				continue ;
 			}
+			
+			//because the validate will validate its referenced artefacts, if those referenced 
+			//file was changed, clear the catch to make sure those referenced file to be reloaded.
+			fBuilder.clearCach();			
 			
 			if (mechanism == 1) {
 				// delegate all the "builder"

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
 
 /**
@@ -19,4 +20,7 @@ import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
  */
 public class ValidatorHelper extends WorkbenchContext {
 
+	public void registerResource(IResource resource) {
+ 		getValidationFileURIs().add(resource.getFullPath().toOSString());		
+ 	}
 }
