@@ -285,9 +285,13 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 
 		// Do not import schema for schemas
 		if (obj instanceof XSDSimpleTypeDefinition) {
-			if (((XSDSimpleTypeDefinition) obj).getTargetNamespace().equals(
-					XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001)) {
-				return false;
+			
+			String targetNamespace = ((XSDSimpleTypeDefinition) obj).getTargetNamespace();
+			if (targetNamespace != null) {
+				if (((XSDSimpleTypeDefinition) obj).getTargetNamespace().equals(
+						XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001)) {
+					return false;
+				}
 			}
 		}
 
