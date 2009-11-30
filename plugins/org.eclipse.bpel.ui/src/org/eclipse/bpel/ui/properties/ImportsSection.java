@@ -17,6 +17,7 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
@@ -26,7 +27,6 @@ import org.eclipse.bpel.ui.details.providers.ColumnTableProvider;
 import org.eclipse.bpel.ui.details.providers.ImportContentProvider;
 import org.eclipse.bpel.ui.dialogs.SchemaImportDialog;
 import org.eclipse.bpel.ui.util.BPELUtil;
-import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.bpel.ui.util.NamespaceUtils;
 import org.eclipse.bpel.ui.util.TableCursor;
@@ -339,7 +339,7 @@ public class ImportsSection extends BPELPropertySection {
 		Object obj = ssel.getFirstElement();
 		
 		RemoveImportCommand cmd = new RemoveImportCommand ( 
-				ModelHelper.getProcess( getInput() ), 
+				BPELUtils.getProcess( getInput() ), 
 				obj,
 				IBPELUIConstants.CMD_REMOVE_IMPORT);
 		
@@ -361,7 +361,7 @@ public class ImportsSection extends BPELPropertySection {
 			return;
 		}
 
-		AddImportCommand cmd = new AddImportCommand(ModelHelper
+		AddImportCommand cmd = new AddImportCommand(BPELUtils
 				.getProcess(getInput()), result[0]);
 		if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {
 			getCommandFramework().execute(cmd);
@@ -381,7 +381,7 @@ public class ImportsSection extends BPELPropertySection {
 			return;
 		}
 
-		AddImportCommand cmd = new AddImportCommand(ModelHelper
+		AddImportCommand cmd = new AddImportCommand(BPELUtils
 				.getProcess(getInput()), result[0]);
 		if (cmd.canDoExecute() && cmd.wouldCreateDuplicateImport() == false) {
 			getCommandFramework().execute(cmd);
