@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.emf.compare.ui.gef";
+	public static final String PLUGIN_ID = "org.eclipse.bpel.compare.ui";
 
 	// The shared instance
 	private static Activator plugin;
