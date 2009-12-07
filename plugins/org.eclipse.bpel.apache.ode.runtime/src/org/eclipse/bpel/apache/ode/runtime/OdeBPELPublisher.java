@@ -152,15 +152,15 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 		
 		String fileExtension = file.getFileExtension();
 		
-		if (fileExtension.equalsIgnoreCase("bpel"))
+		if ("bpel".equalsIgnoreCase(fileExtension))
 			return true; 
-		if (fileExtension.equalsIgnoreCase("wsdl"))
+		if ("wsdl".equalsIgnoreCase(fileExtension))
 			return true; 
-		if (fileExtension.equalsIgnoreCase("xsd"))
+		if ("xsd".equalsIgnoreCase(fileExtension))
 			return true; 
-		if (fileExtension.equalsIgnoreCase("soap"))
+		if ("soap".equalsIgnoreCase(fileExtension))
 			return true;
-		if (fileExtension.equalsIgnoreCase("xml"))
+		if ("xml".equalsIgnoreCase(fileExtension))
 			return true; 
 		else
 			return false;
