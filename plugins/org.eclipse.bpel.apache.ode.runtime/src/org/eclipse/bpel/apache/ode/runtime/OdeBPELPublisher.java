@@ -63,7 +63,7 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 				
 				if (doesDeploymentDescriptorExist(files)){
 					
-					String currentDeployDir = createDeploymentDestination(module);
+ 					File currentDeployDir = new File(createDeploymentDestination(module));
 					
 					for (IFile file : files) {
 
@@ -73,7 +73,7 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 					}
 
 					//remove <project>.deployed to kick the redeployment
-					new File(new File(currentDeployDir).getParent(), new File(currentDeployDir).getName() + ".deployed").delete();
+					new File(currentDeployDir.getParent(), currentDeployDir.getName() + ".deployed").delete();
 
 					result[i] = new Status(IStatus.OK, OdePlugin.PLUGIN_ID, 1,
 							"Deployment successful", null);
@@ -203,15 +203,18 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 		return dir.delete();
 	}
 
-	private void copyFileToDeploymentDestination(IFile ifile, String toDeployDir) {
+	private void copyFileToDeploymentDestination(IFile ifile, File toDeployDir) {
 
-		String from = ifile.getFullPath().toOSString();
-		String fileName = ifile.getName();
-		String wspath = ifile.getWorkspace().getRoot().getLocation().toOSString();
+		String toDeployDirName = toDeployDir.getName();
+		String absoluteFilename = ifile.getFullPath().toPortableString();
+		String fileName = absoluteFilename.substring(absoluteFilename
+				.lastIndexOf(toDeployDirName)
+				+ 1 + toDeployDirName.length());
 
 		//bugzilla 284658
 		File srcFile = ifile.getLocation().toFile();
-		File targetFile = new File(toDeployDir + System.getProperty("file.separator") + fileName);
+		File targetFile = new File(toDeployDir, fileName);
+		targetFile.getParentFile().mkdirs();
 		
 		if (srcFile != null && srcFile.exists()) {
 
