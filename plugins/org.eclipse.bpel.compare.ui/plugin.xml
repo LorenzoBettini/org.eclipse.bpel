@@ -19,7 +19,7 @@
       <matchengine
             engineClass="org.eclipse.bpel.compare.ui.gef.bpel.BPELMatchEngine"
             fileExtension="bpel"
-            icon="icons/full/obj16/MatchModel.gif"
+            icon="icons/obj16/MatchModel.gif"
             label="BPEL Matching Engine"/>
    </extension>
    
