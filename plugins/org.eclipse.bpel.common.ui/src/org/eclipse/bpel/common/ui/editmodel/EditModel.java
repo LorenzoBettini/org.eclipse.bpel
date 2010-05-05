@@ -285,7 +285,7 @@ public class EditModel {
 		
 	}
 
-	protected static IFile getIFileForURI(URI uri) {
+	public static IFile getIFileForURI(URI uri) {
 		String filePath = null;
 		String scheme = uri.scheme();
 		IFile file = null;
