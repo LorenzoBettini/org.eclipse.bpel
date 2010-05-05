@@ -42,7 +42,18 @@ public class PortTypeTreeContentProvider extends ModelTreeContentProvider {
 				PortType element = (PortType) it.next();
 				list.add ( new PortTypeTreeNode(element,isCondensed));
 			}			
-		}	
+		} else if (inputElement instanceof List){
+			List inputList = (List) inputElement;
+			for (Iterator iterator = inputList.iterator(); iterator.hasNext();) {
+				Definition def = (Definition) iterator.next();
+				Iterator it = def.getPortTypes().values().iterator();
+				while (it.hasNext()) {
+					PortType element = (PortType) it.next();
+					list.add ( new PortTypeTreeNode(element,isCondensed));
+				}		
+			}
+			
+		}
 		return list.isEmpty() ? EMPTY_ARRAY : list.toArray();
 	}
 }

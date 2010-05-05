@@ -184,7 +184,7 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 		
 			PortType pt = (PortType) obj;
 			CreatePartnerLinkWizard wizard = new CreatePartnerLinkWizard();
-			wizard.setPortType( pt );
+			wizard.setMandatoryPortType( pt );
 			
 			wizard.setBPELEditor( ModelHelper.getBPELEditor( pt ) );
 			WizardDialog dialog = new WizardDialog(getShell(), wizard);
