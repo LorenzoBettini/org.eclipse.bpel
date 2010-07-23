@@ -35,7 +35,6 @@ import org.eclipse.bpel.xpath10.*;
 import org.eclipse.bpel.xpath10.parser.XPath10Exception;
 import org.eclipse.bpel.xpath10.parser.XPath10Factory;
 
-
 /**
  * This validator validates the XPath expressions used in the BPEL source.
  * <p>
@@ -52,17 +51,17 @@ import org.eclipse.bpel.xpath10.parser.XPath10Factory;
  * type is as follows:
  * 
  * <ul>
- * <li> branches - unsigned integer
- * <li> condition - boolean
- * <li> finalCounterValue - unsigned integer
- * <li> for - duration
- * <li> from - any
- * <li> joinCondition - boolean
- * <li> repeatEvery - duration
- * <li> startCounterValue - unsigned integer
- * <li> to - variable reference expression ($var/foo)
- * <li> transitionCondition - boolean
- * <li> until - deadline
+ * <li>branches - unsigned integer
+ * <li>condition - boolean
+ * <li>finalCounterValue - unsigned integer
+ * <li>for - duration
+ * <li>from - any
+ * <li>joinCondition - boolean
+ * <li>repeatEvery - duration
+ * <li>startCounterValue - unsigned integer
+ * <li>to - variable reference expression ($var/foo)
+ * <li>transitionCondition - boolean
+ * <li>until - deadline
  * 
  * </ul>
  * 
@@ -74,7 +73,7 @@ import org.eclipse.bpel.xpath10.parser.XPath10Factory;
  * 
  */
 
-@SuppressWarnings( { "nls", "boxing" })
+@SuppressWarnings({ "nls", "boxing" })
 public class XPathValidator extends Validator {
 
 	/** The string format of the XPath expression */
@@ -106,7 +105,7 @@ public class XPathValidator extends Validator {
 				IModelQueryLookups.LOOKUP_TEXT_TEXT, null, null);
 
 		exprStringTrimmed = exprString.trim();
-	
+
 		fParentNode = mNode.parentNode();
 
 		/** fExprByNode is a key to a localization map */
@@ -122,7 +121,8 @@ public class XPathValidator extends Validator {
 
 		if (isEmptyOrWhitespace(exprString)) {
 			problem = createError();
-			problem.fill("XPATH_EMPTY_EXPRESSION", toString(mNode.nodeName()), fExprByNode);
+			problem.fill("XPATH_EMPTY_EXPRESSION", toString(mNode.nodeName()),
+					fExprByNode);
 			exprString = null;
 
 			disableRules();
@@ -143,10 +143,10 @@ public class XPathValidator extends Validator {
 		IProblem problem;
 
 		try {
-			xpathExpr = XPath10Factory.create( exprString );			
+			xpathExpr = XPath10Factory.create(exprString);
 		} catch (XPath10Exception e) {
 			problem = createError();
-			problem.fill("XPATH_EXPRESSION_SYNTAX", toString(mNode.nodeName()) ,
+			problem.fill("XPATH_EXPRESSION_SYNTAX", toString(mNode.nodeName()),
 					exprStringTrimmed, fExprByNode, e.getMessage());
 			repointOffsets(problem, e.getPosition(), e.getPosition() + 3);
 			// TODO: Position in the expression ... ?
@@ -340,16 +340,17 @@ public class XPathValidator extends Validator {
 				ParserTool.parseDateAndTime(lexpr.getLiteral());
 			} catch (Exception e) {
 				problem = createError();
-				problem.fill("XPATH_EXPRESSION_SYNTAX", toString(mNode.nodeName()), lexpr
-						.getLiteral(), fExprByNode, e.getMessage());
+				problem.fill("XPATH_EXPRESSION_SYNTAX",
+						toString(mNode.nodeName()), lexpr.getLiteral(),
+						fExprByNode, e.getMessage());
 				repointOffsets(problem, expr);
 			}
 		} else if (expr instanceof FunctionCallExpr) {
 			mVisitor.visit((FunctionCallExpr) expr);
 		} else {
 			problem = createError();
-			problem.fill("XPATH_EXPRESSION_TYPE", toString(mNode.nodeName()), exprStringTrimmed,
-					fExprByNode);
+			problem.fill("XPATH_EXPRESSION_TYPE", toString(mNode.nodeName()),
+					exprStringTrimmed, fExprByNode);
 			repointOffsets(problem, expr);
 		}
 
@@ -363,23 +364,24 @@ public class XPathValidator extends Validator {
 	public void checkDurationExpression() {
 
 		IProblem problem;
-		Expr expr = xpathExpr ;
+		Expr expr = xpathExpr;
 		if (expr instanceof LiteralExpr) {
 			LiteralExpr lexpr = (LiteralExpr) expr;
 			try {
 				ParserTool.parseDuration(lexpr.getLiteral());
 			} catch (Exception e) {
 				problem = createError();
-				problem.fill("XPATH_EXPRESSION_SYNTAX", toString(mNode.nodeName()), lexpr
-						.getLiteral(), fExprByNode, e.getLocalizedMessage());
+				problem.fill("XPATH_EXPRESSION_SYNTAX",
+						toString(mNode.nodeName()), lexpr.getLiteral(),
+						fExprByNode, e.getLocalizedMessage());
 				repointOffsets(problem, expr);
 			}
 		} else if (expr instanceof FunctionCallExpr) {
 			mVisitor.visit((FunctionCallExpr) expr);
 		} else {
 			problem = createError();
-			problem.fill("XPATH_EXPRESSION_TYPE", toString(mNode.nodeName()), exprStringTrimmed,
-					fExprByNode);
+			problem.fill("XPATH_EXPRESSION_TYPE", toString(mNode.nodeName()),
+					exprStringTrimmed, fExprByNode);
 			repointOffsets(problem, expr);
 		}
 
@@ -392,7 +394,7 @@ public class XPathValidator extends Validator {
 
 	public void checkBooleanExpression() {
 
-		Expr expr = xpathExpr ;
+		Expr expr = xpathExpr;
 
 		IProblem problem;
 
@@ -402,6 +404,12 @@ public class XPathValidator extends Validator {
 			mVisitor.visit((EqualityExpr) expr);
 		} else if (expr instanceof RelationalExpr) {
 			mVisitor.visit((RelationalExpr) expr);
+		} else if (expr instanceof UnaryExpr
+				&& !(((UnaryExpr) expr).getExpr() instanceof FunctionCallExpr)) {
+			// Bugzilla 320538:
+			// Allow unary expressions like variable references and literals
+			// Since we're using XPath 1.0 there's no XSD type checking
+			mVisitor.visit((UnaryExpr) expr);
 		} else {
 			FunctionCallExpr fce = null;
 			// Bugzilla 320535:
@@ -464,8 +472,8 @@ public class XPathValidator extends Validator {
 			mVisitor.visit((VariableReferenceExpr) expr);
 		} else {
 			problem = createError();
-			problem.fill("XPATH_EXPRESSION_TYPE", toString(mNode.nodeName()), exprStringTrimmed,
-					fExprByNode);
+			problem.fill("XPATH_EXPRESSION_TYPE", toString(mNode.nodeName()),
+					exprStringTrimmed, fExprByNode);
 		}
 
 		disableRules();
@@ -514,7 +522,8 @@ public class XPathValidator extends Validator {
 		if (psize != 2) {
 			problem = createError();
 			int pz = (params.size() - 2 < 0) ? 0 : 1;
-			problem.fill("XPATH_FN_ARGS", toString(mNode.nodeName()), fn, expr.getText(), pz, 2);
+			problem.fill("XPATH_FN_ARGS", toString(mNode.nodeName()), fn,
+					expr.getText(), pz, 2);
 			repointOffsets(problem, expr);
 
 			if (psize < 1) {
@@ -526,8 +535,9 @@ public class XPathValidator extends Validator {
 			Expr p = (Expr) params.get(i);
 			if ((p instanceof LiteralExpr) == false) {
 				problem = createError();
-				problem.fill("XPATH_FN_LITERAL_ARGS", toString(mNode.nodeName()), fn, expr
-						.getText(), i + 1, p.getText());
+				problem.fill("XPATH_FN_LITERAL_ARGS",
+						toString(mNode.nodeName()), fn, expr.getText(), i + 1,
+						p.getText());
 
 				repointOffsets(problem, p);
 			}
@@ -542,8 +552,8 @@ public class XPathValidator extends Validator {
 			if (duplicateThing("duplicate.variable.check.", p1l.getLiteral()) == false) {
 
 				INode variableNode = mModelQuery.lookup(mNode,
-						IModelQueryLookups.LOOKUP_NODE_VARIABLE, p1l
-								.getLiteral());
+						IModelQueryLookups.LOOKUP_NODE_VARIABLE,
+						p1l.getLiteral());
 
 				if (isUndefined(variableNode)) {
 					problem = createError();
@@ -617,7 +627,8 @@ public class XPathValidator extends Validator {
 		if (psize < 2) {
 
 			problem = createError();
-			problem.fill("XPATH_FN_ARGS", toString(mNode.nodeName()), fn, expr.getText(), 0, 2);
+			problem.fill("XPATH_FN_ARGS", toString(mNode.nodeName()), fn,
+					expr.getText(), 0, 2);
 			repointOffsets(problem, expr);
 
 			if (psize < 1) {
@@ -629,8 +640,8 @@ public class XPathValidator extends Validator {
 
 		if ((p instanceof LiteralExpr) == false) {
 			problem = createError();
-			problem.fill("XPATH_FN_LITERAL_ARGS", toString(mNode.nodeName()), fn,
-					expr.getText(), 1, p.getText());
+			problem.fill("XPATH_FN_LITERAL_ARGS", toString(mNode.nodeName()),
+					fn, expr.getText(), 1, p.getText());
 
 			repointOffsets(problem, p);
 			return;
@@ -645,8 +656,8 @@ public class XPathValidator extends Validator {
 			uri = new java.net.URI(lexpr.getLiteral());
 		} catch (URISyntaxException e) {
 			problem = createWarning();
-			problem.fill("XPATH_URI_SYNTAX", toString(mNode.nodeName()), lexpr
-					.getLiteral(), expr.getText(), e.getMessage());
+			problem.fill("XPATH_URI_SYNTAX", toString(mNode.nodeName()),
+					lexpr.getLiteral(), expr.getText(), e.getMessage());
 			repointOffsets(problem, lexpr);
 		}
 
@@ -672,7 +683,8 @@ public class XPathValidator extends Validator {
 		IProblem problem;
 		if (params.size() % 2 != 0) {
 			problem = createError();
-			problem.fill("XPATH_FN_ARGS", toString(mNode.nodeName()), fn, expr.getText(), 0, 2);
+			problem.fill("XPATH_FN_ARGS", toString(mNode.nodeName()), fn,
+					expr.getText(), 0, 2);
 			repointOffsets(problem, expr);
 		}
 	}
@@ -711,8 +723,8 @@ public class XPathValidator extends Validator {
 
 				if (isNamespaceOK(qname) == false) {
 					problem = createError();
-					problem.fill("XPATH_UNRESOLVED_NAMESPACE_PREFIX", qname
-							.getPrefix(), qname.getLocalPart());
+					problem.fill("XPATH_UNRESOLVED_NAMESPACE_PREFIX",
+							qname.getPrefix(), qname.getLocalPart());
 					repointOffsets(problem, p);
 				}
 			} else {
@@ -746,11 +758,12 @@ public class XPathValidator extends Validator {
 		IProblem problem;
 
 		// Bugzilla 320537:
-		// this returns too soon - only check duplicateThing if we're sure that there really IS a problem
+		// this returns too soon - only check duplicateThing if we're sure that
+		// there really IS a problem
 		// check to make sure we don't print the same message twice.
-//		if (duplicateThing("duplicate.variable.check.", name)) {
-//			return;
-//		}
+		// if (duplicateThing("duplicate.variable.check.", name)) {
+		// return;
+		// }
 
 		if (isEmpty(prefix) == false) {
 			// check to make sure we don't print the same message twice.
@@ -822,8 +835,8 @@ public class XPathValidator extends Validator {
 					return;
 				}
 				problem = createError();
-				problem.fill("XPATH_VARIABLE_PART", varName, partName, expr
-						.getText(), 0);
+				problem.fill("XPATH_VARIABLE_PART", varName, partName,
+						expr.getText(), 0);
 				repointOffsets(problem, expr);
 
 			} else if (isUndefined(variablePart)) {
@@ -968,7 +981,8 @@ public class XPathValidator extends Validator {
 	}
 
 	protected String lookupNamespace(String prefix) {
-		return mModelQuery.lookup(mNode,IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS, prefix, null);
+		return mModelQuery.lookup(mNode,
+				IModelQueryLookups.LOOKUP_TEXT_PREFIX2NS, prefix, null);
 	}
 
 	/**
@@ -1016,9 +1030,10 @@ public class XPathValidator extends Validator {
 
 		if (meta.isDeprecated()) {
 			problem = createWarning();
-			problem.fill("XPATH_FUNCTION_DEPRECATED", //$NON-NLS-1$
-					toString(mNode.nodeName()), fnCall, meta
-							.getDeprecateComment());
+			problem.fill(
+					"XPATH_FUNCTION_DEPRECATED", //$NON-NLS-1$
+					toString(mNode.nodeName()), fnCall,
+					meta.getDeprecateComment());
 			repointOffsets(problem, functionExpr);
 		}
 	}
@@ -1066,8 +1081,8 @@ public class XPathValidator extends Validator {
 			ns = lookupNamespace(functionExpr.getPrefix());
 		}
 		return mModelQuery.lookupFunction(
-				IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, ns, functionExpr
-						.getFunctionName());
+				IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE, ns,
+				functionExpr.getFunctionName());
 	}
 
 }
