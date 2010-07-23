@@ -466,7 +466,10 @@ public class BPELUtils {
 				prefix);
 
 		// namespaceURI may be null. That's okay.
-		return new QName(namespaceURI, localPart);
+		// Bugzilla 320654
+		if (prefix==null)
+			return new QName(namespaceURI, localPart);
+		return new QName(namespaceURI, localPart, prefix);
 	}
 
 	/**
