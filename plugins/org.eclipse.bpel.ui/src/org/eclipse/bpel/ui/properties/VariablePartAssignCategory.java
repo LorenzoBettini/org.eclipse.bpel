@@ -547,11 +547,13 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		// Variable is defined using "messageType"
 		Message msg = var.getMessageType();
 		if (msg != null) {
-			XSDElementDeclaration declaration = side.getPart()
-					.getElementDeclaration();
-			if (declaration != null) {
-				uriWSDL = declaration.getSchema().getSchemaLocation();
-				rootElement = declaration.getName();
+			if (side.getPart() != null) {
+				XSDElementDeclaration declaration = side.getPart()
+						.getElementDeclaration();
+				if (declaration != null) {
+					uriWSDL = declaration.getSchema().getSchemaLocation();
+					rootElement = declaration.getName();
+				}
 			}
 		}
 
@@ -725,7 +727,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			MyDOMContentBuilderImpl contentBuilder = new MyDOMContentBuilderImpl(
 					xmlDocument);
 
-			contentBuilder.setBuildPolicy(contentBuilder.BUILD_OPTIONAL_ELEMENTS);
+			contentBuilder
+					.setBuildPolicy(contentBuilder.BUILD_OPTIONAL_ELEMENTS);
 			contentBuilder.createDefaultRootContent(cmDocument,
 					cmElementDeclaration, namespaceInfoList);
 
