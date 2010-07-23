@@ -21,6 +21,8 @@ import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
 public class ValidatorHelper extends WorkbenchContext {
 
 	public void registerResource(IResource resource) {
- 		getValidationFileURIs().add(resource.getFullPath().toOSString());		
+		if (resource != null && resource.getFullPath() != null && getValidationFileURIs() != null) {
+			getValidationFileURIs().add(resource.getFullPath().toOSString());		
+		}
  	}
 }

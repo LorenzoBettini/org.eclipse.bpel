@@ -345,19 +345,20 @@ public class Builder extends IncrementalProjectBuilder {
 		fResourceSet.resourceChanged(bpelFile);
 		fReader.read(bpelFile, fResourceSet);
 		Process process = fReader.getProcess();
-
+		
 		p("Delete markers");
 
-		IContainer container = bpelFile.getParent();
-		for (Import impt : process.getImports()) {
-			String fileLocation = impt.getLocation();
-			IFile importedFile = container.getFile(new Path(fileLocation));
-			if (importedFile != null && importedFile.exists()) {
-				importedFile.deleteMarkers(IBPELMarker.ID, false,
-						IResource.DEPTH_ZERO);
+		if (process != null) {
+			IContainer container = bpelFile.getParent();
+			for (Import impt : process.getImports()) {
+				String fileLocation = impt.getLocation();
+				IFile importedFile = container.getFile(new Path(fileLocation));
+				if (importedFile != null && importedFile.exists()) {
+					importedFile.deleteMarkers(IBPELMarker.ID, false,
+							IResource.DEPTH_ZERO);
+				}
 			}
 		}
-
 	}
 
 	public void clearCach() {
