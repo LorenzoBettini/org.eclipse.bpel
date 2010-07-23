@@ -208,7 +208,7 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 		String toDeployDirName = toDeployDir.getName();
 		String absoluteFilename = ifile.getFullPath().toPortableString();
 		String fileName = absoluteFilename.substring(absoluteFilename
-				.lastIndexOf(toDeployDirName)
+				.lastIndexOf(toDeployDirName + '/')
 				+ 1 + toDeployDirName.length());
 
 		//bugzilla 284658
