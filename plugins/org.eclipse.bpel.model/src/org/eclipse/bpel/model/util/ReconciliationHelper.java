@@ -398,11 +398,13 @@ public class ReconciliationHelper {
 			if (object instanceof PartnerActivity) {
 				PartnerActivity partnerAct = (PartnerActivity) object;
 				Correlations correlations = partnerAct.getCorrelations();
-				EList<Correlation> list = correlations.getChildren();
-				for (Correlation correlation : list) {
-					CorrelationSet corrSet2 = correlation.getSet();
-					if (corrSet.equals(correlation.getSet())) {
-						correlation.getElement().setAttribute(BPELConstants.AT_SET, name);
+				if (correlations != null) {
+					EList<Correlation> list = correlations.getChildren();
+					for (Correlation correlation : list) {
+						CorrelationSet corrSet2 = correlation.getSet();
+						if (corrSet.equals(correlation.getSet())) {
+							correlation.getElement().setAttribute(BPELConstants.AT_SET, name);
+						}
 					}
 				}
 			}
