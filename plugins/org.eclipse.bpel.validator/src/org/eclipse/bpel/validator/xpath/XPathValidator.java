@@ -333,6 +333,10 @@ public class XPathValidator extends Validator {
 
 		IProblem problem;
 		Expr expr = xpathExpr;
+		// Bugzilla 320539:
+		if (expr instanceof UnaryExpr) {
+			expr = ((UnaryExpr) expr).getExpr();
+		}
 
 		if (expr instanceof LiteralExpr) {
 			LiteralExpr lexpr = (LiteralExpr) expr;
@@ -365,6 +369,12 @@ public class XPathValidator extends Validator {
 
 		IProblem problem;
 		Expr expr = xpathExpr;
+
+		// Bugzilla 320539:
+		if (expr instanceof UnaryExpr) {
+			expr = ((UnaryExpr) expr).getExpr();
+		}
+
 		if (expr instanceof LiteralExpr) {
 			LiteralExpr lexpr = (LiteralExpr) expr;
 			try {
