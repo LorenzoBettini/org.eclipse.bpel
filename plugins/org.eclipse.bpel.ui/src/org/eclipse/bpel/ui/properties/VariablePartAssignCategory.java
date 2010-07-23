@@ -212,8 +212,9 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 
 		FlatFormData data;
 
-		fVariableTree = fWidgetFactory
-				.createTree(parent, SWT.NONE /* SWT.BORDER */);
+		fVariableTree = fWidgetFactory.createTree(parent, SWT.NONE /*
+																	 * SWT.BORDER
+																	 */);
 
 		if (displayQuery()) {
 			// area for query string and wizard button
@@ -227,9 +228,11 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 					-IDetailsAreaConstants.HSPACE);
 			data.bottom = new FlatFormAttachment(100, 0);
 
-			data.top = new FlatFormAttachment(100, (-1)
-					* (fNameText.getLineHeight() + 4 * fNameText
-							.getBorderWidth()) - IDetailsAreaConstants.VSPACE);
+			data.top = new FlatFormAttachment(100,
+					(-1)
+							* (fNameText.getLineHeight() + 4 * fNameText
+									.getBorderWidth())
+							- IDetailsAreaConstants.VSPACE);
 			fNameText.setLayoutData(data);
 
 			fChangeHelper.startListeningTo(fNameText);
@@ -508,10 +511,9 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 								.getShell(),
 						"Initializer",
-						NLS
-								.bind(
-										"Variable {0} doesn't have initializer. Should it be generated?",
-										(new Object[] { var.getName() })))) {
+						NLS.bind(
+								"Variable {0} doesn't have initializer. Should it be generated?",
+								(new Object[] { var.getName() })))) {
 			initTargetVariable(var, side);
 		}
 	}
@@ -545,7 +547,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		// Variable is defined using "messageType"
 		Message msg = var.getMessageType();
 		if (msg != null) {
-			XSDElementDeclaration declaration = side.getPart().getElementDeclaration();
+			XSDElementDeclaration declaration = side.getPart()
+					.getElementDeclaration();
 			if (declaration != null) {
 				uriWSDL = declaration.getSchema().getSchemaLocation();
 				rootElement = declaration.getName();
@@ -563,8 +566,8 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 		// Variable is defined using "element"
 		XSDElementDeclaration element = var.getXSDElement();
 		if (element != null) {
-			QName qname = new QName(element.getTargetNamespace(), element
-					.getName());
+			QName qname = new QName(element.getTargetNamespace(),
+					element.getName());
 			rootElement = qname.getLocalPart();
 			uriWSDL = element.eResource().getURI().toString();
 		}
@@ -587,10 +590,6 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			Copy copy = BPELFactory.eINSTANCE.createCopy();
 			Assign a = (Assign) ((To) side.getCopyRuleSide()).getContainer()
 					.getContainer();
-			getCommandFramework()
-					.execute(
-							wrapInShowContextCommand(new InsertCopyCommand(a,
-									copy, 0)));
 			To to = BPELFactory.eINSTANCE.createTo();
 			From from = BPELFactory.eINSTANCE.createFrom();
 			copy.setFrom(from);
@@ -598,6 +597,10 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			from.setLiteral(literal);
 			to.setVariable(side.getVariable());
 			to.setPart(side.getPart());
+			getCommandFramework()
+					.execute(
+							wrapInShowContextCommand(new InsertCopyCommand(a,
+									copy, 0)));
 		} catch (Exception e) {
 			throw new IllegalStateException(
 					"Can't generate initializer, check WSDL file");
