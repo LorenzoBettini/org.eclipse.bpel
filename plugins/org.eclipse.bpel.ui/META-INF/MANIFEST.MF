@@ -67,3 +67,4 @@ Export-Package: org.eclipse.bpel.ui,
  org.eclipse.bpel.ui.wizards
 Bundle-ClassPath: bin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.eclipse.bpel.validator
