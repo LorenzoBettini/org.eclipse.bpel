@@ -10,14 +10,15 @@
  *     Oracle Corporation
  *******************************************************************************/
 
-
 package org.eclipse.bpel.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -30,41 +31,43 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
-
 /**
- * Wizard for the new process template. 
- *  
- * @author Michal Chmielewski (michal.chmielewski@oracle.com) 
- *
+ * Wizard for the new process template.
+ * 
+ * @author Michal Chmielewski (michal.chmielewski@oracle.com)
+ * 
  */
 
 public class NewFileWizard extends Wizard implements INewWizard {
 
 	/** The id of our BPEL editor */
 	static protected final String BPEL_EDITOR_ID = "org.eclipse.bpel.ui.bpeleditor"; //$NON-NLS-1$
-		
+
 	/** The container where the file(s) will be created */
-	private IContainer mContainer ;
-		
+	private IContainer mContainer;
+
 	private IWorkbench fWorkbench;
-	
+
 	/** The 1st page of the wizard */
 	private NewFileWizardPage1 fMainPage;
 
 	/** The 2nd page of the wizard */
 	private NewFileWizardPage2 fContainerPage;
 
-		
+	/** The 3nd page of the wizard */
+	private WSDLCustomPage wsdlPage;
+
 	/**
 	 * Create a brand new shining Create Project Wizard for BPEL.
 	 */
 
 	public NewFileWizard() {
-		
+
 		setNeedsProgressMonitor(true);
-		setDialogSettings(BPELUIPlugin.INSTANCE.getDialogSettingsFor(this));		
+		setDialogSettings(BPELUIPlugin.INSTANCE.getDialogSettingsFor(this));
 		setHelpAvailable(false);
-		
+		this.setWindowTitle(Messages.NewFileWizard_1);
+
 	}
 
 	/**
@@ -82,15 +85,14 @@ public class NewFileWizard extends Wizard implements INewWizard {
 
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fWorkbench = workbench;
-		mContainer = getClosestContainer( currentSelection.getFirstElement() );					
+		mContainer = getBPELContainer(currentSelection.getFirstElement());
 	}
 
-	
 	protected void selectAndReveal(IResource newResource) {
-		BasicNewResourceWizard.selectAndReveal(newResource, fWorkbench.getActiveWorkbenchWindow());
+		BasicNewResourceWizard.selectAndReveal(newResource, fWorkbench
+				.getActiveWorkbenchWindow());
 	}
 
-	
 	protected void openResource(final IFile resource) {
 		if (resource.getType() != IResource.FILE) {
 			return;
@@ -106,9 +108,10 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			final Display display = getShell().getDisplay();
 			display.asyncExec(new Runnable() {
 				public void run() {
-					try {						
-						IDE.openEditor(activePage, resource, BPEL_EDITOR_ID, true);
-						// IDE.openEditor(activePage, resource,  true);
+					try {
+						IDE.openEditor(activePage, resource, BPEL_EDITOR_ID,
+								true);
+						// IDE.openEditor(activePage, resource, true);
 					} catch (PartInitException e) {
 						BPELUIPlugin.log(e);
 					}
@@ -119,7 +122,6 @@ public class NewFileWizard extends Wizard implements INewWizard {
 		}
 	}
 
-	
 	/**
 	 * Perform cancel. Close the wizard and don't do anything else.
 	 * 
@@ -137,14 +139,18 @@ public class NewFileWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void addPages() {
-		
-		fMainPage = new NewFileWizardPage1(Messages.NewFileWizard_1);
-		fContainerPage = new NewFileWizardPage2(Messages.NewFileWizard_1);
-		
+
+		fMainPage = new NewFileWizardPage1(Messages.NewFileWizardPage1_Name);
+		fContainerPage = new NewFileWizardPage2(
+				Messages.NewFileWizardPage2_Name);
+		wsdlPage = new WSDLCustomPage(
+				Messages.NewFileWizard_WSDLCustomPage_Name);
+
 		addPage(fMainPage);
+		addPage(wsdlPage);
 		addPage(fContainerPage);
-		
-		fContainerPage.setPreviousPage( fMainPage );			
+		wsdlPage.setPreviousPage(fMainPage);
+		fContainerPage.setPreviousPage(wsdlPage);
 	}
 
 	/**
@@ -159,21 +165,24 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	public boolean performFinish() {
 
 		BPELCreateOperation runnable = new BPELCreateOperation();
-		
+
 		// The container either comes from the 2nd page, explicitely defined
 		// or it comes as the context in the current selection.
-		
+
 		IContainer container = fContainerPage.getResourceContainer();
 		if (container == null) {
 			container = mContainer;
 		}
+
+		runnable.setContainer(container);
+		runnable.setTemplate(fMainPage.getSelectedTemplate());
 		
-		runnable.setContainer( container );
-		runnable.setTemplate( fMainPage.getSelectedTemplate () );
-		runnable.setArgs( fMainPage.getArgs () ) ;
-		
+		Map<String, Object> map = fMainPage.getArgs();
+		map.putAll(wsdlPage.getMap());
+		runnable.setArgs(map);
+
 		try {
-			getContainer().run(false, true, runnable);			
+			getContainer().run(false, true, runnable);
 		} catch (InvocationTargetException e) {
 			BPELUIPlugin.log(e);
 			return false;
@@ -183,45 +192,45 @@ public class NewFileWizard extends Wizard implements INewWizard {
 		}
 
 		IFile res = (IFile) runnable.getElementToOpen();
-		if (res != null) {
+		if (res != null && res.exists()) {
 			openResource(res);
 		}
 		return true;
 	}
 
-	
 	/**
-	 * Return the closest container in which we can generate 
-	 * process from the template. 
+	 * Return the BPEL files container in which we can generate process from the
+	 * template.
 	 * 
-	 * @return the closest IContainer
+	 * @return the BPEL files IContainer
 	 */
-	
-	IContainer getClosestContainer ( Object obj ) {
-		
+
+	IContainer getBPELContainer(Object obj) {
+
 		if (obj == null) {
 			return null;
 		}
+		IProject project = null;
 		if (obj instanceof IFile) {
 			IFile file = (IFile) obj;
-			return file.getParent();
+			project = file.getProject();
 		}
 		if (obj instanceof IContainer) {
-			return (IContainer) obj;
+			IContainer container = (IContainer) obj;
+			project = container.getProject();
 		}
-		return null;		
+		return project;
 	}
 
-	
 	/**
-	 *  
+	 * 
 	 * Final condition for the wizard to finish
 	 */
-	
+
 	@Override
 	public boolean canFinish() {
-		return (fMainPage.isPageComplete() && mContainer != null) || super.canFinish();
+		return (fMainPage.isPageComplete() && wsdlPage.isPageComplete() && mContainer != null)
+				|| super.canFinish();
 	}
-	
-	
+
 }
