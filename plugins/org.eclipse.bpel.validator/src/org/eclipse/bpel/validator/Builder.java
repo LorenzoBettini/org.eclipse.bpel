@@ -34,7 +34,10 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentDescription;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
@@ -50,6 +53,9 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("nls")
 public class Builder extends IncrementalProjectBuilder {
+	// Bugzilla 320545:
+	// Content Type ID for org.eclipse.bpel editor files
+	public static final String BPEL_CONTENT_TYPE = "org.eclipse.bpel.contenttype"; //$NON-NLS-1$
 
 	Date created = new Date();
 	
@@ -185,13 +191,14 @@ public class Builder extends IncrementalProjectBuilder {
 			IFile file = (IFile) resource;
 									
 			p("File Resource : " + file.getName() );
-			 
-			// TODO: This should be a better check
-			if (file.getName().endsWith(".bpel")) {
-				file.deleteMarkers(IBPELMarker.ID, true,
-						IResource.DEPTH_INFINITE);
-				deleteMarkersInReferencialResources(file);
-				makeMarkers(validate(file, monitor));
+			// Bugzilla 320545:
+			// use content type to check for BPEL files
+			if ( isBPELFile(file) ||  file.getName().endsWith(".wsdl")) {
+				IProject project = file.getProject();
+				validate(project, monitor);
+//				file.deleteMarkers(IBPELMarker.ID, true,  IResource.DEPTH_INFINITE);
+//				deleteMarkersInReferencialResources(file);
+//				makeMarkers ( validate (  file, monitor  ) );	
 			}
 			break;
 
@@ -363,5 +370,25 @@ public class Builder extends IncrementalProjectBuilder {
 
 	public void clearCach() {
 		fResourceSet.getResources().clear();
+	}
+
+	// Bugzilla 320545
+	public static boolean isBPELFile(IResource res)
+	{
+		try
+		{
+			if (res.getType() == IResource.FILE) {
+				IContentDescription desc = ((IFile) res).getContentDescription();
+				if (desc != null) {
+					IContentType type = desc.getContentType();
+					if (type.getId().equals(BPEL_CONTENT_TYPE))
+						return true;
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+		}
+		return false;	
 	}
 }
