@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Vector;
 
 import org.eclipse.bpel.apache.ode.deploy.model.dd.DocumentRoot;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.ProcessType;
@@ -22,6 +24,7 @@ import org.eclipse.bpel.apache.ode.deploy.model.dd.TDeployment;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.util.ddResourceFactoryImpl;
 import org.eclipse.bpel.apache.ode.deploy.ui.pages.ProcessPage;
 import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployUtils;
+import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
@@ -40,6 +43,7 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
@@ -53,6 +57,12 @@ import org.eclipse.ui.forms.editor.FormEditor;
  */
 public class ODEDeployMultiPageEditor extends FormEditor implements IEditingDomainProvider {
 	
+	// Display this in title if no BPEL process files are found in current directory
+	private final static String NO_PROCESSES_FOUND = " *** No Processes Found *** ";
+	private boolean readOnly = false;
+	// https://jira.jboss.org/jira/browse/JBIDE-6230
+	// if BPEL processes were added or deleted, DD model is not in sync and needs to be saved 
+	private boolean modelInSync = true;
 	protected TDeployment deployDescriptor = null;	
 	
 	protected AdapterFactoryEditingDomain editingDomain;
@@ -74,6 +84,8 @@ public class ODEDeployMultiPageEditor extends FormEditor implements IEditingDoma
 		commitPages(true);
 		saveDeploymentDescriptor();
 		((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+		modelInSync = true;
+		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 	
 	/**
@@ -104,6 +116,9 @@ public class ODEDeployMultiPageEditor extends FormEditor implements IEditingDoma
 
 	public void saveDeploymentDescriptor() {
 		try {			
+			// Bugzilla 320545:
+			// editor will be "read only" if there are no BPEL resources to process
+			if (!readOnly)
 			deployDescriptor.eResource().save(null);
 		} 
 		catch (IOException e1) {
@@ -175,7 +190,11 @@ public class ODEDeployMultiPageEditor extends FormEditor implements IEditingDoma
 
 	@Override
 	public boolean isDirty() {
-		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
+		return !readOnly && // Bugzilla 320545:
+			(
+					((BasicCommandStack) editingDomain.getCommandStack()).isSaveNeeded() ||
+					!modelInSync
+			);
 	}
 	
 	@Override
@@ -200,37 +219,63 @@ public class ODEDeployMultiPageEditor extends FormEditor implements IEditingDoma
 				deployDescriptor = ((DocumentRoot) contents.get(0)).getDeploy();
 				
 				populateModel();
-				
-				//TODO: what to do with processtypes in DD without a corresponding BPEL file available?
 			}
 		} catch (CoreException e) {
 			throw new PartInitException(e.getStatus());
 		} catch (IOException e) {
 			throw new PartInitException(e.getMessage(), e);
 		}
+		if (deployDescriptor.getProcess().isEmpty()) {
+			// https://jira.jboss.org/jira/browse/JBIDE-6006
+			// add a process stub to DD so the editor doesn't crash
+			org.eclipse.bpel.model.Process p = BPELFactory.eINSTANCE.createProcess();
+			p.setName(NO_PROCESSES_FOUND);
+			ProcessType pt = DeployUtils.createProcessStub(p);
+			deployDescriptor.getProcess().add(pt);
+			// set model
+			pt.setModel(p);
+			readOnly = true; // can't save editor anyway
+			modelInSync = true; // so it might as well be in sync
+		}
 	}
 
 	public void populateModel() throws CoreException {
+		final Vector<ProcessType> processesFound = new Vector<ProcessType>();
 		((IFileEditorInput)getEditorInput()).getFile().getProject().accept(new IResourceVisitor() {
 			public boolean visit(IResource bpelfile) throws CoreException {
-				if (bpelfile.getType() == IResource.FILE
-						&& bpelfile.getFileExtension().equalsIgnoreCase("bpel")) { //$NON-NLS-1$
+				// Bugzilla 320545:
+				if (DeployUtils.isBPELFile(bpelfile)) {
 					org.eclipse.bpel.model.Process p = DeployUtils.loadBPEL((IFile)bpelfile, editingDomain.getResourceSet());
 					if (p != null) {
-						// add process to DD unless it it not already there.
+						// add process to DD unless it is not already there.
 						ProcessType pt = DeployUtils.findProcessTypeInDD(p, deployDescriptor); 
 						if (pt == null) {
 							pt = DeployUtils.createProcessStub(p);
 							deployDescriptor.getProcess().add(pt);
+							modelInSync = false; // need to do a save
 						}
 						// set model
 						pt.setModel(p);
 						
+						processesFound.add(pt);
 					}
 				}
 				return true;
 			}
 		});
+		// Bugzilla 320545:
+		// figure out which BPEL processes are missing from the workspace
+		// and remove them from the DD model
+		Vector<ProcessType> processesToDelete = new Vector<ProcessType>();
+		for(ProcessType pt : deployDescriptor.getProcess())
+		{
+			if (!processesFound.contains(pt))
+				processesToDelete.add(pt);
+		}
+		if ( processesToDelete.size()>0)
+		{
+			deployDescriptor.getProcess().removeAll(processesToDelete);
+			modelInSync = false; // need to do a save
+		}
 	}
-
 }
