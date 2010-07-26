@@ -340,7 +340,7 @@ public class ReconciliationHelper {
 		if (nearestScopeOrProcess == null)
 			return;
 
-		TreeIterator iter = nearestScopeOrProcess.eAllContents();
+		TreeIterator<EObject> iter = nearestScopeOrProcess.eAllContents();
 		while (iter.hasNext()) {
 			Object object = iter.next();
 			
@@ -390,7 +390,7 @@ public class ReconciliationHelper {
 		if (nearestScopeOrProcess == null)
 			return;
 
-		TreeIterator iter = nearestScopeOrProcess.eAllContents();
+		TreeIterator<EObject> iter = nearestScopeOrProcess.eAllContents();
 		while (iter.hasNext()) {
 			Object object = iter.next();
 			
@@ -398,13 +398,13 @@ public class ReconciliationHelper {
 			if (object instanceof PartnerActivity) {
 				PartnerActivity partnerAct = (PartnerActivity) object;
 				Correlations correlations = partnerAct.getCorrelations();
-				if (correlations != null) {
-					EList<Correlation> list = correlations.getChildren();
-					for (Correlation correlation : list) {
-						CorrelationSet corrSet2 = correlation.getSet();
-						if (corrSet.equals(correlation.getSet())) {
-							correlation.getElement().setAttribute(BPELConstants.AT_SET, name);
-						}
+				if(correlations == null){
+					continue;
+				}
+				EList<Correlation> list = correlations.getChildren();
+				for (Correlation correlation : list) {
+					if (corrSet.equals(correlation.getSet())) {
+						correlation.getElement().setAttribute(BPELConstants.AT_SET, name);
 					}
 				}
 			}
@@ -413,6 +413,9 @@ public class ReconciliationHelper {
 			else if (object instanceof OnMessage) {
 				OnMessage onMessage = (OnMessage) object;
 				Correlations correlations = onMessage.getCorrelations();
+				if(correlations == null){
+					continue;
+				}
 				EList<Correlation> list = correlations.getChildren();
 				for (Correlation correlation : list) {
 					if (corrSet.equals(correlation.getSet())) {
@@ -424,6 +427,9 @@ public class ReconciliationHelper {
 			} else if (object instanceof OnEvent) {
 				OnEvent onEvent = (OnEvent) object;
 				Correlations correlations = onEvent.getCorrelations();
+				if(correlations == null){
+					continue;
+				}
 				EList<Correlation> list = correlations.getChildren();
 				for (Correlation correlation : list) {
 					if (corrSet.equals(correlation.getSet())) {
@@ -448,7 +454,7 @@ public class ReconciliationHelper {
 		if (nearestScopeOrProcess == null)
 			return;
 
-		TreeIterator iter = nearestScopeOrProcess.eAllContents();
+		TreeIterator<EObject> iter = nearestScopeOrProcess.eAllContents();
 		while (iter.hasNext()) {
 			Object object = iter.next();
 
@@ -519,7 +525,7 @@ public class ReconciliationHelper {
 	 * @param name
 	 */
 	private static void updateVariableNameReferencesOnScope(EObject scope, Variable variable, String name) {
-		TreeIterator iter = scope.eAllContents();
+		TreeIterator<EObject> iter = scope.eAllContents();
 		while (iter.hasNext()) {
 			Object object = iter.next();
 			
@@ -679,7 +685,11 @@ public class ReconciliationHelper {
 				System.err.println("trying to replace attribute on null element:" + element.getClass());
 				return;
 			}
-			if (isEqual(parseElement.getAttribute(attributeName), attributeValue)) {
+			
+			// This is a problem in eclipse3.6, if we use parseElement.getAttribute(attributeName) and the attribute is not in the parseElement,
+			// users add a element firstly, it is ok. But when users add the same element secondly, we will get a NPE. It is a eclipse xml issue.
+			// So fix as below.
+			if (parseElement.getAttributes().getNamedItem(attributeName) != null && isEqual(parseElement.getAttribute(attributeName), attributeValue)) {
 				return;
 			}
 			
