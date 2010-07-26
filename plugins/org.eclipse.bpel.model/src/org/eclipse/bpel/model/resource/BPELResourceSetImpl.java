@@ -21,6 +21,8 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.content.IContentDescription;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -38,6 +40,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 @SuppressWarnings("nls")
 
 public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceChangeListener {
+	// Bugzilla 320545:
+	// this ID identifies the BPEL file content type
+	public static final String BPEL_CONTENT_TYPE = "org.eclipse.bpel.contenttype"; //$NON-NLS-1$
 	 
 	public BPELResourceSetImpl() {
 		super();
@@ -243,7 +248,8 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 			// TODO: Temporary hack
 			// Actually we should remove all resources from the resourceSet,
 			// but for some reasons bpel files can't be removed now
-			if ("bpel".equals(((IFile) resource).getFileExtension())){
+			// Bugzilla 320545:
+			if (isBPELFile(resource)){
 				continue;
 			}
 			
@@ -286,4 +292,23 @@ public class BPELResourceSetImpl extends ResourceSetImpl implements IResourceCha
 		}
 	}
 
+	// Bugzilla 320545:
+	public static boolean isBPELFile(IResource res)
+	{
+		try
+		{
+			if (res.getType() == IResource.FILE) {
+				IContentDescription desc = ((IFile) res).getContentDescription();
+				if (desc != null) {
+					IContentType type = desc.getContentType();
+					if (type.getId().equals(BPEL_CONTENT_TYPE))
+						return true;
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+		}
+		return false;	
+	}
 }

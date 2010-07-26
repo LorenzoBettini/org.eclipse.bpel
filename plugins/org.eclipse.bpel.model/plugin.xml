@@ -79,5 +79,12 @@
    </extension>
 
 
+	<!-- Bugzilla 320545: -->
+	<extension point="org.eclipse.emf.ecore.content_parser">
+		<parser
+            class="org.eclipse.bpel.model.resource.BPELResourceFactoryImpl"
+			contentTypeIdentifier="org.eclipse.bpel.contenttype">
+		</parser>
+	</extension>
 </plugin>
 
