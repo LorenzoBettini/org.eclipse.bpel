@@ -28,7 +28,8 @@ public class TransitionConditionValidator extends ConditionValidator {
 	 */
 		
 	@SuppressWarnings("hiding")
-	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_SOURCES );						
+	// fix Bug 323939
+	static public IFilter<INode> PARENTS = new NodeNameFilter( ND_SOURCE );						
 	
 	
 }

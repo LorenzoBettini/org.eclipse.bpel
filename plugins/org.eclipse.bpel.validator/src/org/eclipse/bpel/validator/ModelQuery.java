@@ -25,7 +25,6 @@ import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.UndefinedNode;
 import org.eclipse.bpel.validator.model.XNotImplemented;
 import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -63,16 +62,18 @@ public class ModelQuery extends ModelQueryImpl {
 	
 	@Override
 	public boolean hasSupport (int item, String value) {
-		
+		//fix Bug 323945
 		switch (item) {
 		case SUPPORT_QUERY_LANGUAGE :		
 			return 
 			IConstants.XMLNS_XPATH_QUERY_LANGUAGE.equals ( value ) ||
+			IConstants.XMLNS_XPATH_QUERY_LANGUAGE_XPATH2.equals ( value ) ||
 			IConstants.XMLNS_XPATH_QUERY_LANGUAGE_2.equals( value );
 		
 		case SUPPORT_EXPRESSION_LANGUAGE :
 			return 
 			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE.equals ( value ) ||
+			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE_XPATH2.equals( value ) ||
 			IConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE_2.equals( value );			
 
 		case SUPPORT_IMPORT_TYPE :

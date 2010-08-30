@@ -59,12 +59,14 @@ public interface IConstants {
 	
 	/** The default expression language */
 	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE  = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"; //$NON-NLS-1$
+	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_XPATH2  = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"; //$NON-NLS-1$
 
 	/** A variant from previous spec iterations */
 	public static final String XMLNS_XPATH_EXPRESSION_LANGUAGE_2 = "http://www.w3.org/TR/1999/REC-xpath-19991116"; //$NON-NLS-1$
 	
 	/** The default query language */
 	public static final String XMLNS_XPATH_QUERY_LANGUAGE = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
+	public static final String XMLNS_XPATH_QUERY_LANGUAGE_XPATH2 = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0";
 
 	public static final String XMLNS_XPATH_QUERY_LANGUAGE_2 = "http://www.w3.org/TR/1999/REC-xpath-19991116";
 	
@@ -126,6 +128,8 @@ public interface IConstants {
     public static final String REQUEST = "request";
     public static final String RESPONSE = "response";
     public static final String REQUEST_RESPONSE = "request-response";
+    public static final String IN = "in";
+    public static final String OUT = "out";
     //
     
     public static final String PARTNER_ROLE = "partnerRole";
@@ -246,6 +250,8 @@ public interface IConstants {
     public static final QName AT_OUTPUT_VARIABLE = new QName("outputVariable");
     public static final QName AT_CREATE_INSTANCE = new QName("createInstance");
     public static final QName AT_PART = new QName("part");
+    // fix  Bug 323945
+    public static final QName AT_HEADER = new QName("header");
     public static final QName AT_QUERY = new QName("query");
     public static final QName AT_OPAQUE = new QName("opaque");
     public static final QName AT_PROPERTY = new QName("property");
@@ -336,7 +342,7 @@ public interface IConstants {
     
     public static final String ENDPOINT_VALUES [] = { MY_ROLE, PARTNER_ROLE };
     
-    public static final String PATTERN_VALUES [] = { REQUEST , RESPONSE, REQUEST_RESPONSE };
+    public static final String PATTERN_VALUES [] = { REQUEST , RESPONSE, REQUEST_RESPONSE, IN, OUT };
     
     public static final QName REPEATABLE_NODES [] = { 
     	ND_WHILE, ND_REPEAT_UNTIL, ND_FOR_EACH, ND_EVENT_HANDLERS, ND_COMPENSATION_HANDLER }; 

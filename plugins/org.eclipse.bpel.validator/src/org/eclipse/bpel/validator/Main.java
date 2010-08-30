@@ -17,7 +17,6 @@ import java.util.Iterator;
 import org.eclipse.bpel.fnmeta.ClasspathFunctionRegistryLoader;
 import org.eclipse.bpel.fnmeta.FunctionLibrary;
 import org.eclipse.bpel.fnmeta.model.util.FMResourceFactoryImpl;
-import org.eclipse.bpel.fnmeta.model.util.FMResourceImpl;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
