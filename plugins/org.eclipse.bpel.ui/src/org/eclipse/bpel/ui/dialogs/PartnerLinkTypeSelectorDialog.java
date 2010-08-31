@@ -194,13 +194,13 @@ public class PartnerLinkTypeSelectorDialog extends BrowseSelectorDialog {
 			}
 			
 			fPartnerLinkType = wizard.getPartnerLinkType();
+			if (fPartnerLinkType == null) { 
+				return ;
+			}		
 			if (!checkNamespace(fPartnerLinkType)){
 				return;
 			}
 			
-			if (fPartnerLinkType == null) { 
-				return ;
-			}		
 			super.okPressed();
 						
 			return ;

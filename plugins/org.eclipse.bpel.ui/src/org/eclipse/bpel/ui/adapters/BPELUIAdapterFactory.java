@@ -438,6 +438,12 @@ public class BPELUIAdapterFactory extends BPELAdapterFactory {
 	}
 	
 	
+	@Override
+	// Bugzilla 324115
+	public Adapter createExtensionActivityAdapter() {
+		return fProvider.getAdapter(ExtensionActivityAdapter.class);
+	}
+
 	/**
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
