@@ -25,12 +25,12 @@ public class ExtensionSampleUIObjectFactory extends AbstractUIObjectFactory impl
 	
 	@Override
 	public Image getLargeImage() {
-		return Activator.getDefault().getImageRegistry().get(ExtensionSampleUIConstants.DEFAULT_ICON_32);
+		return Activator.getDefault().getImageRegistry().get(ExtensionSampleUIConstants.DEFAULT_ICON_20);
 	}
 
 	@Override
 	public ImageDescriptor getLargeImageDescriptor() {
-		return Activator.getDefault().getImageDescriptor(ExtensionSampleUIConstants.DEFAULT_ICON_32);
+		return Activator.getDefault().getImageDescriptor(ExtensionSampleUIConstants.DEFAULT_ICON_20);
 	}
 
 	@Override

@@ -28,6 +28,8 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
+		// Bugzilla 324115
+		BPELUtil.registerAdapterFactory(ModelPackage.eINSTANCE, ExtensionSampleUIAdapterFactory.getInstance());
 	}
 
 	/*
@@ -37,7 +39,6 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		BPELUtil.registerAdapterFactory(ModelPackage.eINSTANCE, new ExtensionSampleUIAdapterFactory());
 	}
 
 	/*
@@ -62,7 +63,7 @@ public class Activator extends AbstractUIPlugin {
 	protected void initializeImageRegistry(ImageRegistry reg) {
 		URL baseURL = getBundle().getEntry("/");
 		createImageDescriptor(ExtensionSampleUIConstants.DEFAULT_ICON_16, baseURL);
-		createImageDescriptor(ExtensionSampleUIConstants.DEFAULT_ICON_32, baseURL);
+		createImageDescriptor(ExtensionSampleUIConstants.DEFAULT_ICON_20, baseURL);
 	}
 
 	private void createImageDescriptor(String id, URL baseURL) {
