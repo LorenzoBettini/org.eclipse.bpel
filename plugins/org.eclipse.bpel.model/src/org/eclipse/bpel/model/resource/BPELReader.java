@@ -2373,7 +2373,12 @@ public class BPELReader implements ErrorHandler {
 			}
 		}
 		// Fallback is to create a new extensionActivity.
-		return BPELFactory.eINSTANCE.createExtensionActivity();
+		// Bugzilla 324115
+		Activity activity = BPELFactory.eINSTANCE.createExtensionActivity();
+		setStandardAttributes(extensionActivityElement, activity);
+		setStandardElements(extensionActivityElement, activity);
+		activity.setElement(extensionActivityElement);
+		return activity;
 	}
 
 	

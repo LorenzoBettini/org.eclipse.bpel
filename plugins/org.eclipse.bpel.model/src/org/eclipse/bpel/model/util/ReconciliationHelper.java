@@ -22,6 +22,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
+import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
@@ -92,6 +93,7 @@ import org.eclipse.bpel.model.impl.VariablesImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
@@ -946,7 +948,11 @@ public class ReconciliationHelper {
         // new child as child of the <extensionActivity> element child and not the <extensionActivity> itself. 
         // This code snippet changes the parentElement to the correct subelement
         if (parent instanceof ExtensionActivity) {
-            parentElement = getExtensionActivityChildElement((Element) parentElement);
+			// Bugzilla 324115
+			// Fix NPE
+            Node realParent = ReconciliationHelper.getExtensionActivityChildElement((Element) parentElement);
+            if (realParent!=null)
+            	parentElement = realParent;
         }
 		
 		if (child instanceof Variable) {
@@ -1379,6 +1385,16 @@ public class ReconciliationHelper {
         if (context instanceof CompensationHandler)  return ((CompensationHandler)context).getActivity();
         if (context instanceof TerminationHandler)  return ((TerminationHandler)context).getActivity();
         if (context instanceof If) return ((If) context).getActivity();
+		// Bugzilla 324115
+        if (context instanceof ExtensionActivity)
+        {
+        	ExtensionActivity ea = (ExtensionActivity)context;
+        	for (EStructuralFeature sf : ea.eClass().getEAllStructuralFeatures())
+        	{
+        		if (sf.getName().equals("activity"))
+        			return (Activity) ea.eGet(sf);
+        	}
+        }
         System.err.println("Missing getActivity():" + context.getClass());
         throw new IllegalArgumentException();
     }
