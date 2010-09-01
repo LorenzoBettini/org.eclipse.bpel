@@ -47,7 +47,7 @@ public final class Messages extends NLS {
 	public static String ImportsSection_1;
 	public static String ImportsSection_2;
 	public static String ImportsSection_3;
-	// Bugzilla 324115
+	// Bugzilla 324162
 	public static String NamespacePrefixesSection;
 	public static String NamespacePrefixesSection_0;
 	public static String NamespacePrefixesSection_1;
