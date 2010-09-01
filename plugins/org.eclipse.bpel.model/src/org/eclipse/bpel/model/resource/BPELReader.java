@@ -165,7 +165,10 @@ public class BPELReader implements ErrorHandler {
 
 	// The process we are reading
 	private Process process = null;
+	// Bugzilla 324165
 	// The resource we are reading from
+	private Resource fCurrentResource = null;
+	// The successfully loaded resource
 	private Resource fResource = null;
 	// The document builder controls various DOM characteristics
 	private DocumentBuilder docBuilder = null;
@@ -302,6 +305,11 @@ public class BPELReader implements ErrorHandler {
 			inputSource.setPublicId( resource.getURI().toString() );
 			inputSource.setSystemId( resource.getURI().toString() );
 			
+			resource.setErrorHandler(fErrorHandler != null ? fErrorHandler : this);
+			// Bugzilla 324165
+			// set the resource currently being loaded so the error handler can
+			// attach diagnostics to it
+			fCurrentResource = resource;
 			doc = read ( inputSource );
 			// After the document has successfully parsed, it's okay
 			// to assign the resource.
@@ -313,13 +321,13 @@ public class BPELReader implements ErrorHandler {
 		} finally {
 			
 		}
-		
-		if (doc == null) {
-			return ;
+
+		// Bugzilla 324165
+		if (doc != null) {
+			pass1(doc);		
+			pass2();
 		}
-		
-		pass1(doc);		
-		pass2();
+		fCurrentResource = null;
 	}
 
 	
@@ -336,22 +344,26 @@ public class BPELReader implements ErrorHandler {
 	
 	/**
 	 * @param xmlSource the XML source
-	 * @param sourceDesciption some textual description of the source (for example Clipboard).
+	 * @param sourceDescription some textual description of the source (for example Clipboard).
 	 * @return a list of objects 
 	 */
 	
-	public List<EObject> fromXML ( String xmlSource , String sourceDesciption , Resource resource ) {
+	public List<EObject> fromXML ( String xmlSource , String sourceDescription , Resource resource ) {
 		
 		armErrorHandler ();
 		
-		if (sourceDesciption == null) {
-			sourceDesciption = "String";
+		if (sourceDescription == null) {
+			sourceDescription = "String";
 		}
 		
 		Document doc = null;
 		try {
 			InputSource inputSource = new InputSource(new StringReader ( xmlSource ));
-			inputSource.setPublicId( sourceDesciption );
+			inputSource.setPublicId( sourceDescription );
+			// Bugzilla 324165
+			// set the resource currently being loaded so the error handler can
+			// attach diagnostics to it
+			fCurrentResource = resource;
 			doc = read (inputSource);
 			
 		} catch (SAXException sax) {
@@ -363,6 +375,7 @@ public class BPELReader implements ErrorHandler {
 		}
 				
 		if (doc == null) {
+			fCurrentResource = null;
 			return Collections.emptyList();		
 		}
 		
@@ -376,6 +389,7 @@ public class BPELReader implements ErrorHandler {
 		// pass 1 (for example, establishing object links to variables).
 		pass2();
 		
+		fCurrentResource = null;
 		return result;		
 	}
 	
@@ -3524,6 +3538,10 @@ public class BPELReader implements ErrorHandler {
 				exception.getLocalizedMessage()
 		);			
 		BPELPlugin.logMessage(message, exception, IStatus.ERROR);		
+		// Bugzilla 324165
+		// add the error to resource
+		if (fCurrentResource!=null)
+			fCurrentResource.getErrors().add(new SAXParseDiagnostic(exception, SAXParseDiagnostic.ERROR));
 	}
 
 	/**
@@ -3540,6 +3558,10 @@ public class BPELReader implements ErrorHandler {
 				exception.getLocalizedMessage()
 		);			
 		BPELPlugin.logMessage(message, exception, IStatus.ERROR);
+		// Bugzilla 324165
+		// add the error to resource
+		if (fCurrentResource!=null)
+			fCurrentResource.getErrors().add(new SAXParseDiagnostic(exception, SAXParseDiagnostic.FATAL_ERROR));
 	}
 
 	/**
@@ -3558,5 +3580,9 @@ public class BPELReader implements ErrorHandler {
 		BPELPlugin.logMessage(message, exception, IStatus.WARNING);		
 
 		
+		// Bugzilla 324165
+		// add the error to resource
+		if (fCurrentResource!=null)
+			fCurrentResource.getErrors().add(new SAXParseDiagnostic(exception, SAXParseDiagnostic.WARNING));
 	}	
 }

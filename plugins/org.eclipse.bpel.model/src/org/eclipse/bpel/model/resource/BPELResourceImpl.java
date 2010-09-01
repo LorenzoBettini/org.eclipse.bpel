@@ -78,6 +78,19 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
 		validating = true;
 	}
 
+	// Bugzilla 324165
+	public void setErrorHandler(ErrorHandler errorHandler)
+	{
+		this.errorHandler = errorHandler;
+		validating = true;
+	}
+
+	// Bugzilla 324165
+	public ErrorHandler getErrorHandler()
+	{
+		return errorHandler;
+	}
+
 	/**
 	 * Convert the BPEL model to an XML DOM model and then write the DOM model
 	 * to the output stream.
