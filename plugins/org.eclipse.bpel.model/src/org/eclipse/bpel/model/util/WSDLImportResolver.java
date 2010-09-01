@@ -133,7 +133,9 @@ public class WSDLImportResolver extends XSDImportResolver {
         
         if (what == RESOLVE_DEFINITION) {
         	ArrayList<Object> al = new ArrayList<Object>(1);
-        	al.add(definition);
+        	// Bugzilla 324164
+        	if (definition!=null)
+        		al.add(definition);
         	return al;
         }
         
