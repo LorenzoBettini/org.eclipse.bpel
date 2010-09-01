@@ -13,11 +13,13 @@ import java.util.Map;
 import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
+import org.eclipse.bpel.model.resource.SAXParseDiagnostic;
 import org.eclipse.bpel.validator.factory.AdapterFactory;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.Messages;
+import org.eclipse.bpel.validator.model.Problem;
 import org.eclipse.bpel.validator.model.Runner;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -38,6 +40,7 @@ import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.w3c.dom.Element;
 
@@ -193,7 +196,7 @@ public class Builder extends IncrementalProjectBuilder {
 			p("File Resource : " + file.getName() );
 			// Bugzilla 320545:
 			// use content type to check for BPEL files
-			if ( isBPELFile(file) ||  file.getName().endsWith(".wsdl")) {
+			if ( isBPELFile(file) ||  "wsdl".equalsIgnoreCase(file.getFileExtension()) ) {
 				IProject project = file.getProject();
 				validate(project, monitor);
 //				file.deleteMarkers(IBPELMarker.ID, true,  IResource.DEPTH_INFINITE);
@@ -234,6 +237,33 @@ public class Builder extends IncrementalProjectBuilder {
 		Process process = fReader.getProcess();
 		
 		if (process == null) {
+			// Bugzilla 324165
+			// if the resource failed to parse because of malformed XML, the Process
+			// will be null. Fetch the SAXParseDiagnostics from the resource and build
+			// problem markers for this resource.
+			Resource resource = fReader.getProcessResource();
+			if ( resource!=null && !resource.getErrors().isEmpty() )
+			{
+				ArrayList<IProblem> problems = new ArrayList<IProblem>(resource.getErrors().size());
+				for ( Diagnostic d : resource.getErrors())
+				{
+					IProblem problem = new Problem();
+					problem.setAttribute(IProblem.ERESOURCE,resource);
+					if (d instanceof SAXParseDiagnostic &&
+							((SAXParseDiagnostic)d).getSeverity() == SAXParseDiagnostic.WARNING)
+					{
+						problem.setAttribute(IProblem.SEVERITY, IProblem.SEVERITY_WARNING);
+					}
+					else
+						problem.setAttribute(IProblem.SEVERITY, IProblem.SEVERITY_ERROR);
+					problem.setAttribute(IProblem.LINE_NUMBER, d.getLine());
+					problem.setAttribute(IProblem.COLUMN_NUMBER, d.getColumn()); 
+					problem.setAttribute(IProblem.MESSAGE, d.getMessage());    
+
+					problems.add(problem);
+				}
+				return problems.toArray( new Problem[problems.size()] );
+			}
 			p ("Cannot read BPEL Process !!!");
 			return EMPTY_PROBLEMS ;
 		}

@@ -13,6 +13,7 @@ import org.eclipse.bpel.validator.IBPELMarker;
 import org.eclipse.bpel.validator.helpers.DOMNodeAdapter;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -132,11 +133,16 @@ public class AdapterFactory implements IAdapterFactory {
 	IResource adapt_Element2IResource ( Element elm ) {
 		
 		Element top = elm.getOwnerDocument().getDocumentElement();
+		// Bugzilla 324165
+		IResource result = null;
+		if (top != null) {
+			// Find the EObject reference to the emf model in the hierarchy of
+			// the
+			EObject eObj = (EObject) top.getUserData("emf.model");
 		
-		// Find the EObject reference to the emf model in the hierarchy of the 
-		EObject eObj = (EObject) top.getUserData("emf.model");
-		
-		return adapt_EObject2IResource(eObj);
+			result = adapt_EObject2IResource(eObj);
+		}
+		return result;
 	}
 
 	/**
@@ -149,8 +155,17 @@ public class AdapterFactory implements IAdapterFactory {
 
 	IMarker adapt_IProblem2IMarker (IProblem problem ) {
 				
-		INode node = (INode) problem.getAttribute( IProblem.NODE );					
-		IResource resource = (IResource) getAdapter(node.nodeValue(), IResource.class );
+		IResource resource = null;
+		INode node = (INode) problem.getAttribute( IProblem.NODE );
+		// Bugzilla 324165
+		if (node!=null)
+			resource = (IResource) getAdapter(node.nodeValue(), IResource.class );
+		else
+		{
+			// added a new ERESOURCE attribute
+			Resource modelResource = (Resource) problem.getAttribute( IProblem.ERESOURCE );
+			resource = getFileFromURI(modelResource.getURI());
+		}		
 		
 		Map<String,Object> props = new HashMap<String,Object>();
 		
@@ -522,10 +537,14 @@ public class AdapterFactory implements IAdapterFactory {
 	
 	
 	IFile getFileFromURI (URI uri) {
-		if (uri.isFile()) {
-			return getFileFromDeviceURI(uri);
+		// Bugzilla 324165
+		if (uri != null) {
+			if (uri.isFile()) {
+				return getFileFromDeviceURI(uri);
+			}
+			return getFileFromPlatformURI(uri);
 		}
-		return getFileFromPlatformURI(uri);
+		return null;
 	}
 	
 	IFile getFileFromDeviceURI(URI uri) {
