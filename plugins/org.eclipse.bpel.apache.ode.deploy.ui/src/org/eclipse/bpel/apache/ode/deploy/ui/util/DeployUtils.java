@@ -191,6 +191,14 @@ public class DeployUtils {
 			}
 		}
 		
+		// Bugzilla 324164
+		// Add WSDLs that were resolved as imports, to the list
+		for (Resource res : resourceSet.getResources())
+		{
+			Definition def = (Definition)res.getContents().get(0);
+			if (!wsdlFiles.contains(def))
+				wsdlFiles.add(def);
+		}
 		return wsdlFiles;
 	}
 	
