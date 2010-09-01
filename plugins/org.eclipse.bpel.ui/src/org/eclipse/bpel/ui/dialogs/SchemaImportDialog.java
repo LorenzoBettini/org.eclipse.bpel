@@ -592,7 +592,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 			return t;
 		}
 
-		// https://jira.jboss.org/browse/JBIDE-6786
+		// Bugzilla 324164
 		if (resource!=null && resource.getErrors().isEmpty() && resource.isLoaded()) {
 			return resource.getContents().get(0);
 		}

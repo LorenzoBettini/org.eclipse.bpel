@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
 
@@ -99,7 +100,13 @@ public class CreatePartnerLinkWizard extends Wizard {
 				IBPELUIConstants.ICON_WIZARD_BANNER));
 		
 		IFile file = EditModel.getIFileForURI(fMandatoryPortType.eResource().getURI());
-		fRolePage2.setOptionalDefinitions( getOptionalDefinitions(file.getProject()) );
+		if (file==null)
+			// Bugzilla 324164
+			// if WSDL is not a file (e.g. http://service.com?WSDL) use editor's input file project
+			file = ((FileEditorInput)fEditor.getEditorInput()).getFile();
+		
+		if (file!=null)
+			fRolePage2.setOptionalDefinitions( getOptionalDefinitions(file.getProject()) );
 		fRolePage2.setOptional(true);
 		
 		
@@ -121,10 +128,10 @@ public class CreatePartnerLinkWizard extends Wizard {
 		final List<IFile> wsdlFiles = new ArrayList<IFile>();
 		IResourceVisitor visitor = new IResourceVisitor() {
 			public boolean visit(org.eclipse.core.resources.IResource resource) throws org.eclipse.core.runtime.CoreException {
-				if (resource.getType() == IResource.FILE && resource.getFileExtension().equalsIgnoreCase("wsdl")) {
+				if (resource.getType() == IResource.FILE && "wsdl".equalsIgnoreCase(resource.getFileExtension())) {
 					
 					IFile artifactFile = EditModel.getIFileForURI(fEditor.getArtifactsDefinition().eResource().getURI());
-					if (!(artifactFile.getFullPath().equals((IFile)resource.getFullPath()))) {
+					if (artifactFile==null || !(artifactFile.getFullPath().equals(((IFile)resource).getFullPath()))) {
 						//filter artifacts WSDL
 						wsdlFiles.add((IFile)resource);
 					}
