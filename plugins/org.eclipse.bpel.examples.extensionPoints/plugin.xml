@@ -20,6 +20,7 @@
                default="false"/>
       </additions>
    </extension>
+   <!-- NOTE: This extension point is not yet implemented -->
    <extension
          point="org.eclipse.bpel.common.ui.embeddedEditors">
       <editor
