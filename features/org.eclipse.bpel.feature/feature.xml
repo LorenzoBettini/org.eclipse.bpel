@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.bpel.feature"
       label="BPEL Visual Designer"
-      version="0.5.0"
+      version="0.5.0.qualifier"
       provider-name="eclipse.org">
 
    <description url="http://www.eclipse.org/bpel/">
@@ -278,70 +278,70 @@ litigation.
          id="org.eclipse.bpel.common.model"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.common.ui"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.model"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.ui"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.runtimes"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.wsil.model"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.apache.ode.deploy.model"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.apache.ode.deploy.ui"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.apache.ode.runtime"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.bpel.compare.ui"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
