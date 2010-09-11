@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jboss.tools</groupId>
-	<artifactId>org.jboss.tools.parent.pom</artifactId>
+	<groupId>org.eclipse.bpel</groupId>
+	<artifactId>org.eclipse.bpel.parent.pom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>JBoss Tools Parent</name>
+	<name>Eclipse BPEL Parent</name>
 	<packaging>pom</packaging>
 	<modules>
 	</modules>
@@ -132,17 +132,17 @@
 	</build>
 
 	<scm>
-		<connection>scm:svn:http://anonsvn.jboss.org/repos/jbosstools/${scmBranch}
+		<connection>scm:cvs:http://dev.eclipse.org/viewcvs/indextech.cgi/org.eclipse.bpel/
 		</connection>
-		<developerConnection>scm:svn:http://anonsvn.jboss.org/repos/jbosstools/${scmBranch}
+		<developerConnection>scm:cvs:http://dev.eclipse.org/viewcvs/indextech.cgi/org.eclipse.bpel/
 		</developerConnection>
-		<url>http://anonsvn.jboss.org/repos/jbosstools/${scmBranch}
+		<url>http://dev.eclipse.org/viewcvs/indextech.cgi/org.eclipse.bpel/
 		</url>
 	</scm>
 
 	<issueManagement>
-		<system>jira</system>
-		<url>https://jira.jboss.org/jira/secure/</url>
+		<system>bugzilla</system>
+		<url>https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BPEL</url>
 	</issueManagement>
 	<profiles>
 		<profile>
@@ -161,7 +161,7 @@
 						<configuration>
 							<target>
 								<artifact>
-									<groupId>org.jboss.tools</groupId>
+									<groupId>org.eclipse.bpel</groupId>
 									<artifactId>target-platform</artifactId>
 									<version>0.0.1-SNAPSHOT</version>
 									<classifier>${target.platform}</classifier>
@@ -207,30 +207,8 @@
                                         </releases>
                                 </repository>
 				<repository>
-					<id>jboss-helios</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/helios/</url>
-					<layout>p2</layout>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-				</repository>
-				<!--repository>
 					<id>webtools32</id>
 					<url>http://download.eclipse.org/webtools/repository/helios</url>
-					<layout>p2</layout>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-				</repository-->
-				<repository>
-					<id>jboss-webtools32</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/webtools-3.2/</url>
 					<layout>p2</layout>
 					<snapshots>
 						<enabled>true</enabled>
@@ -242,18 +220,6 @@
 				<repository>
 					<id>birt26</id>
 					<url>http://download.eclipse.org/birt/update-site/2.6/
-					</url>
-					<layout>p2</layout>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-				</repository>
-				<repository>
-					<id>jboss-drools-nightly</id>
-					<url>http://download.jboss.org/jbosstools/builds/staging/jbosstools-drools/all/repo/
 					</url>
 					<layout>p2</layout>
 					<snapshots>
@@ -276,18 +242,6 @@
 					</releases>
 				</repository-->
 				<repository>
-					<id>jboss-swtbot-helios</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/swtbot-helios/
-					</url>
-					<layout>p2</layout>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-				</repository>
-				<repository>
 					<id>m2eclipse</id>
 					<url>http://m2eclipse.sonatype.org/sites/m2e/</url>
 					<layout>p2</layout>
@@ -309,21 +263,10 @@
 						<enabled>true</enabled>
 					</releases>
 				</repository>
-				<!--repository>
-					<id>jboss-orbit</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/orbit/R20100519200754/
-					</url>
-					<layout>p2</layout>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-				</repository-->
+
 				<repository>
-					<id>jboss-thirdparty</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/thirdparty/
+					<id>webtools</id>
+					<url>http://download.eclipse.org/webtools/updates
 					</url>
 					<layout>p2</layout>
 					<snapshots>
@@ -333,9 +276,10 @@
 						<enabled>true</enabled>
 					</releases>
 				</repository>
+
 				<repository>
-					<id>jboss-xulrunner-1.9.1.2</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/xulrunner-1.9.1.2/
+					<id>emf-ecore</id>
+					<url>http://download.eclipse.org/modeling/emf/updates
 					</url>
 					<layout>p2</layout>
 					<snapshots>
@@ -345,9 +289,10 @@
 						<enabled>true</enabled>
 					</releases>
 				</repository>
-				<!--repository>
-					<id>jboss-xulrunner-1.9.2</id>
-					<url>http://download.jboss.org/jbosstools/updates/requirements/xulrunner-1.9.2/
+
+				<repository>
+					<id>gef</id>
+					<url>http://download.eclipse.org/tools/gef/updates
 					</url>
 					<layout>p2</layout>
 					<snapshots>
@@ -356,18 +301,8 @@
 					<releases>
 						<enabled>true</enabled>
 					</releases>
-				</repository-->
-				<repository>
-					<id>google eclipse plugins</id>
-					<url>http://dl.google.com/eclipse/plugin/3.6</url>
-					<layout>p2</layout>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
 				</repository>
+
 			</repositories>
 		</profile>
 
@@ -658,11 +593,11 @@
 		</profile>
 
 		<profile>
-			<id>jbosstools-nightly-trunk</id>
+			<id>bpel-nightly-trunk</id>
 			<repositories>
 				<repository>
-					<id>jbosstools-nightly-trunk</id>
-					<url>http://download.jboss.org/jbosstools/updates/nightly/trunk/</url>
+					<id>bpel-nightly-trunk</id>
+					<url>http://download.eclipse.org/technology/bpel/updates/nightly/trunk/</url>
 					<layout>p2</layout>
 					<snapshots>
 						<enabled>true</enabled>
