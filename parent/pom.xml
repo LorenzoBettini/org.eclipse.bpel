@@ -183,7 +183,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<repositories>
-				<!--repository>
+				<repository>
 					<id>helios</id>
 					<url>http://download.eclipse.org/releases/helios/</url>
 					<layout>p2</layout>
@@ -193,7 +193,7 @@
 					<releases>
 						<enabled>true</enabled>
 					</releases>
-				</repository-->
+				</repository>
                                 <repository>
                                         <id>eclipse36</id>
                                         <url>http://download.eclipse.org/eclipse/updates/3.6.x/
@@ -229,7 +229,7 @@
 						<enabled>true</enabled>
 					</releases>
 				</repository>
-				<!--repository>
+				<repository>
 					<id>swtbot-helios</id>
 					<url>http://download.eclipse.org/technology/swtbot/helios/dev-build/update-site/
 					</url>
@@ -240,7 +240,7 @@
 					<releases>
 						<enabled>true</enabled>
 					</releases>
-				</repository-->
+				</repository>
 				<repository>
 					<id>m2eclipse</id>
 					<url>http://m2eclipse.sonatype.org/sites/m2e/</url>
