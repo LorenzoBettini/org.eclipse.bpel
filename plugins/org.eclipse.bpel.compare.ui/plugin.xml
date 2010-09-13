@@ -10,7 +10,7 @@
       </viewer>
       <contentTypeBinding
             contentMergeViewerId="org.eclipse.emf.compare.ui.gef.mergeviewer.content"
-            contentTypeId="org.eclipse.bpel.common.ui.bpel.content-type">
+	        id="org.eclipse.bpel.contenttype">
       </contentTypeBinding>
    </extension>
    
@@ -27,7 +27,7 @@
          point="org.eclipse.compare.structureMergeViewers">
       <contentTypeBinding
             structureMergeViewerId="org.eclipse.emf.compare.ui.structuremergeviewer.ModelStructureMergeViewer"
-            contentTypeId="org.eclipse.bpel.common.ui.bpel.content-type"/>
+	        id="org.eclipse.bpel.contenttype">
    </extension-->
    
 </plugin>
