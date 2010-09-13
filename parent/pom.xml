@@ -278,8 +278,8 @@
 				</repository>
 
 				<repository>
-					<id>emf-ecore</id>
-					<url>http://download.eclipse.org/modeling/emf/updates
+					<id>emf26</id>
+					<url>http://download.eclipse.org/modeling/emf/emf/updates/2.6/R201006141136/
 					</url>
 					<layout>p2</layout>
 					<snapshots>
