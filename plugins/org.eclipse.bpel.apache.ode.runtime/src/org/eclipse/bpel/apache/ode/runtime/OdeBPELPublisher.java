@@ -171,7 +171,7 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 	 */
 	protected String createDeploymentDestination(IModule module)
 	{
-		String moduleName = module.getName().substring(0, module.getName().indexOf('/'));
+		String moduleName = module.getName();
 		String deployAppName = moduleName;
 		
 		//get TOMCAT_HOME
