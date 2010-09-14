@@ -90,7 +90,7 @@
 		
 		<template id="template.bpel.core">
     		<label>%BPEL_FACET_TEMPLATE_LABEL</label>
-<!--    		<fixed facet="bpel.facet.core"/>-->
+   		    <fixed facet="bpel.facet.core"/>
     	</template>
     	
 	</extension>
