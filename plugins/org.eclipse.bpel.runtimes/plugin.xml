@@ -31,6 +31,13 @@
       </wizard>
    </extension>
    
+  <extension point="org.eclipse.wst.common.project.facet.ui.wizardPages">
+    <wizard-pages action="bpel.facet.core.install">
+      <page class="org.eclipse.bpel.runtimes.ui.wizards.BPELFacetInstallPage"/>
+    </wizard-pages>
+  </extension>
+   
+   
 <!--=========================================================================-->
 <!-- BPEL ModuleType							 							 -->
 <!--=========================================================================-->   
@@ -62,11 +69,19 @@
 		  <description>%BPEL_CORE_FACET_DESCRIPTION</description>
 		</project-facet>
 		
-		<project-facet-version facet="bpel.facet.core" version="2.0">
-		  <action type="install">
+        <project-facet-version facet="bpel.facet.core" version="2.0">
+          <group-member id="modules"></group-member>
+          <constraint>
+             <conflicts group="modules">
+             </conflicts>
+          </constraint>
+        </project-facet-version>
+		
+		
+		<action facet="bpel.facet.core" version="2.0" type="INSTALL" id="bpel.facet.core.install">
 		    <delegate class="org.eclipse.bpel.runtimes.facets.BPELCoreFacetInstallDelegate"/>
-		  </action>
-		</project-facet-version>
+	        <config-factory class="org.eclipse.bpel.runtimes.facets.BPELFacetInstallDataModelProvider"/>	    
+		</action>
 			
 		<category id="bpel.category">
 		  <label>%BPEL_FACET_CATEGORY_LABEL</label>
@@ -87,6 +102,15 @@
 	<extension point="org.eclipse.wst.common.project.facet.ui.images">
     	<image facet="bpel.facet.core" path="icons/obj16/bpelfacet.gif"/>
     </extension>
+    
+    <extension
+         point="org.eclipse.wst.common.modulecore.componentimpl">
+      <componentimpl
+            typeID="bpel.facet.core"
+            class="org.eclipse.bpel.runtimes.facets.BPELVirtualComponent">
+      </componentimpl>
+   </extension>
+    
 
 <!--=========================================================================-->
 <!-- BPEL Module Factory													 -->

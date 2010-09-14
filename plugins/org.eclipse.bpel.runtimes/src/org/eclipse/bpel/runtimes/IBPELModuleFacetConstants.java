@@ -16,6 +16,8 @@ package org.eclipse.bpel.runtimes;
  * @author Bruno Wassermann, written Jun 29, 2006
  */
 public interface IBPELModuleFacetConstants {
+	public final static String BPEL_CONTENT_FOLDER =  "BPELFacetInstallDataModelProvider.contentRoot";
+	public final static String BPEL_CONTENT_DEFAULT_FOLDER =  "bpelContent";
 
 	// module types
 	public final static String BPEL20_MODULE_TYPE = "bpel.module"; //$NON-NLS-1$

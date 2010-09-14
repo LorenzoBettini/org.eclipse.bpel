@@ -15,17 +15,21 @@ import java.util.Map;
 
 import org.eclipse.bpel.runtimes.IBPELModuleFacetConstants;
 import org.eclipse.core.resources.ICommand;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
-import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jst.common.project.facet.WtpUtils;
+import org.eclipse.wst.common.componentcore.internal.util.IComponentImplFactory;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-import org.eclipse.wst.common.frameworks.internal.datamodel.DataModelImpl;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+
 
 /**
  * BPEL Facet implementation of <code>IDelegate</code>. 
@@ -53,83 +57,74 @@ public class BPELCoreFacetInstallDelegate implements IDelegate {
 						IProgressMonitor progMon) 
 		throws CoreException 
 	{
-		progMon.beginTask( "Configuring ...", 3 ); //$NON-NLS-1$
-
-		FacetInstallDataModelProvider dmProvider = new FacetInstallDataModelProvider();
-		IDataModel dataModel = new DataModelImpl (dmProvider);
+		progMon.beginTask( "Configuring ...", 300 ); //$NON-NLS-1$
+		IDataModel model = (IDataModel)obj;
+		String contentRoot = (String)model.getProperty(BPELFacetInstallDataModelProvider.BPEL_CONTENT_FOLDER);
+		contentRoot = (contentRoot == null || "".equals(contentRoot)) ? IBPELModuleFacetConstants.BPEL_CONTENT_DEFAULT_FOLDER : contentRoot;
 		
-		progMon.worked(1);		
-        try
-        {        
+        // add natures
+        WtpUtils.addNatures(proj);
+
+        // Create the content folder
+        IFolder bpelContent = proj.getFolder(contentRoot);
+        bpelContent.create(true,true, null);
         
-        	dataModel.setProperty(
-					IFacetDataModelProperties.FACET_ID, 
-					IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
-			dataModel.setProperty(
-					IFacetDataModelProperties.FACET_PROJECT_NAME, 
-					proj.getName());
-			dataModel.setProperty(
-					IFacetDataModelProperties.FACET_VERSION, 
-					ver);
-			dataModel.setProperty(
-					IFacetDataModelProperties.FACET_VERSION_STR, 
-					ver.getVersionString());
-			dataModel.setProperty(IFacetDataModelProperties.SHOULD_EXECUTE, Boolean.TRUE);
-        
-        	progMon.worked(1);                
-        	
-        	
-        	// Add the builder to the project description
-        	IProjectDescription description = proj.getDescription();
-        	
-    		// Our builder name
-        	String builderName = "org.eclipse.bpel.validator.builder"; //$NON-NLS-1$
-        	
-        	// Install the builder (validator)
-        	
-    		ICommand buildCommand = description.newCommand();
-    		
-    		// We only support 1 argument now, its "debug"
-    		Map<String,String> args = new HashMap<String,String>();
-    		args.put("debug","false");
-    		buildCommand.setArguments(args);
-    		
-    		buildCommand.setBuilderName( builderName );
-    		
-    		
-    		ICommand [] commands = description.getBuildSpec();
-    		
-    		if (commands == null) {    			    			
-    			description.setBuildSpec( new ICommand[] { buildCommand } );
-    			proj.setDescription(description, IResource.KEEP_HISTORY, progMon);
-    			
-    		} else {
-    			
-    			boolean bFound = false;
-    			for(ICommand c : commands) {
-    				if (builderName.equals(c.getBuilderName())) {
-    					bFound = true;
-    					break;
-    				}
-    			}    		
-    			
-    			//  not found
-    			if (bFound == false) {
-    				int i = commands.length;
-    				ICommand [] newCommands = new ICommand [ i + 1 ];
-    				System.arraycopy(commands, 0, newCommands, 0, i);
-    				newCommands [ i ] = buildCommand;
-    				description.setBuildSpec( newCommands );
-    				proj.setDescription(description, IResource.KEEP_HISTORY, progMon);
-    			}    			
-    		}    		    		
-    		
-        	progMon.worked( 1 );
-        }
-        finally
-        {
-            progMon.done();
-        }
+        // create the virtual component
+        IComponentImplFactory factory = new BPELVirtualComponent();
+        IVirtualComponent newComponent = factory.createComponent(proj);
+        newComponent.create(0, null);
+        progMon.worked(100);
+
+        // Add the resource mapping to bpelContent
+        newComponent.getRootFolder().createLink(new Path("/" + contentRoot), 0, null);
+
+		// Add builder
+		addBuilder(proj, new SubProgressMonitor(progMon, 100));
+		progMon.done();
 	}
-	
+	protected void addBuilder(IProject proj, IProgressMonitor monitor) throws CoreException {
+		// Add the builder to the project description
+		IProjectDescription description = proj.getDescription();
+
+		// Our builder name
+		String builderName = "org.eclipse.bpel.validator.builder"; //$NON-NLS-1$
+
+		// Install the builder (validator)
+
+		ICommand buildCommand = description.newCommand();
+
+		// We only support 1 argument now, its "debug"
+		Map<String, String> args = new HashMap<String, String>();
+		args.put("debug", "false");
+		buildCommand.setArguments(args);
+
+		buildCommand.setBuilderName(builderName);
+
+		ICommand[] commands = description.getBuildSpec();
+
+		if (commands == null) {
+			description.setBuildSpec(new ICommand[] { buildCommand });
+			proj.setDescription(description, IResource.KEEP_HISTORY, monitor);
+
+		} else {
+
+			boolean bFound = false;
+			for (ICommand c : commands) {
+				if (builderName.equals(c.getBuilderName())) {
+					bFound = true;
+					break;
+				}
+			}
+
+			// not found
+			if (bFound == false) {
+				int i = commands.length;
+				ICommand[] newCommands = new ICommand[i + 1];
+				System.arraycopy(commands, 0, newCommands, 0, i);
+				newCommands[i] = buildCommand;
+				description.setBuildSpec(newCommands);
+				proj.setDescription(description, IResource.KEEP_HISTORY, monitor);
+			}
+		}
+	}
 }
