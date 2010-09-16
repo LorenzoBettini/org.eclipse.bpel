@@ -35,12 +35,13 @@ import org.eclipse.ui.console.IConsoleConstants;
  */
 public class BPELPerspectiveFactory implements IPerspectiveFactory {
 
-	private static final String ID_NEW_BPEL_PROJECT_WIZARD="org.jboss.tools.bpel.runtimes.wizards.newBPELProject";
+	private static final String ID_NEW_BPEL_PROJECT_WIZARD="org.eclipse.bpel.runtimes.wizards.newBPELProject";
 	private static final String ID_NEW_BPEL_FILE_WIZARD="org.eclipse.bpel.ui.newFile";
 	private static final String ID_NEW_BPEL_DEPLOY_WIZARD="org.eclipse.bpel.apache.ode.deploy.ui.wizards.NewODEDeployWizard";
 	private static final String ID_PALETTE_VIEW="org.eclipse.gef.ui.palette_view";
 	private static final String ID_SERVERS_VIEW="org.eclipse.wst.server.ui.ServersView";
-	private static final String ID_SERVERS_ACTION_SET="org.jboss.tools.jst.web.ui.server.actionSet";
+	// TODO: fix this
+	//private static final String ID_SERVERS_ACTION_SET="org.jboss.tools.jst.web.ui.server.actionSet";
 
 
 	public void createInitialLayout(IPageLayout layout) {
@@ -83,7 +84,7 @@ public class BPELPerspectiveFactory implements IPerspectiveFactory {
 
 		// action sets
 		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
-		layout.addActionSet(ID_SERVERS_ACTION_SET);
+		//layout.addActionSet(ID_SERVERS_ACTION_SET);
 
 		
 	}
