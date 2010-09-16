@@ -13,7 +13,7 @@ BUILD_NUMBER=$(cat ${JOBDIR}/nextBuildNumber); BUILD_NUMBER=$(( ${BUILD_NUMBER}-
 ################# END CONFIGURATION #################
 
 # where to create the stuff to publish
-STAGINGDIR=${WORKSPACE}/results/${JOB_NAME}
+STAGINGDIR=/tmp${WORKSPACE}/results/${JOB_NAME}
 
 JOBNAMEREDUX=${JOB_NAME/.aggregate}; JOBNAMEREDUX=${JOBNAMEREDUX/jbosstools-}
 
