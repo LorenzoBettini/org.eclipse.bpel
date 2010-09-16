@@ -7,7 +7,7 @@ DESTINATION=/home/data/httpd/download.eclipse.org/technology/bpel/updates
 JOB_NAME=tycho-bpel
 JOBDIR=/opt/users/hudsonbuild/.hudson/jobs/${JOB_NAME}
 WORKSPACE=${JOBDIR}/workspace/
-BUILD_ID=$(find ${JOBDIR}/builds -maxdepth 1 -type d | sort | tail -1)
+BUILD_ID=$(find ${JOBDIR}/builds -maxdepth 1 -type d | sort | tail -1); BUILD_ID=${BUILD_ID/${JOBDIR}\/builds\/}
 BUILD_NUMBER=$(cat ${JOBDIR}/nextBuildNumber); BUILD_NUMBER=$(( ${BUILD_NUMBER}-1 ))
 
 ################# END CONFIGURATION #################
@@ -83,7 +83,8 @@ fi
 z=""
 
 # if component zips exist, copy them too; first site.zip, then site_assembly.zip
-for z in $(find ${WORKSPACE}/sources/*/site/target -type f -name "site*.zip" | sort -r); do 
+if [[ -d ${WORKSPACE}/sources/ ]]; then
+  for z in $(find ${WORKSPACE}/sources/*/site/target -type f -name "site*.zip" | sort -r); do 
 	y=${z%%/site/target/*}; y=${y##*/}
 	if [[ $y != "aggregate" ]]; then # prevent duplicate nested sites
 		#echo "[$y] $z ..."
@@ -93,7 +94,8 @@ for z in $(find ${WORKSPACE}/sources/*/site/target -type f -name "site*.zip" | s
 		# copy into workspace for access by bucky aggregator (same name every time)
 		rsync -aq $z ${STAGINGDIR}/${y}${SUFFNAME}
 	fi
-done
+  done
+fi
 
 # if zips exist produced & renamed by ant script, copy them too
 if [[ ! -f ${STAGINGDIR}/all/${SNAPNAME} ]]; then
@@ -106,7 +108,11 @@ if [[ ! -f ${STAGINGDIR}/all/${SNAPNAME} ]]; then
 fi
 
 # create sources zip
-pushd ${WORKSPACE}/sources
+if [[ -d ${WORKSPACE}/sources ]]; then
+	pushd ${WORKSPACE}/sources
+else
+	pushd ${WORKSPACE}
+fi
 mkdir -p ${STAGINGDIR}/all
 zip ${STAGINGDIR}/all/${SRCSNAME} -q -r * -x documentation\* -x download.jboss.org\* -x requirements\* \
   -x workingset\* -x labs\* -x build\* -x \*test\* -x \*target\* -x \*.class -x \*.svn\* -x \*classes\* -x \*bin\* -x \*.zip \
