@@ -2,20 +2,20 @@
 
 ################# BEGIN CONFIGURATION #################
 
-DESTINATION=/home/data/httpd/download.eclipse.org/technology/bpel/updates
-
-JOB_NAME=tycho-bpel
+DESTINATION=/home/data/httpd/download.eclipse.org/technology/bpel
+JOB_NAME=bpel-0.5
 JOBDIR=/opt/users/hudsonbuild/.hudson/jobs/${JOB_NAME}
 WORKSPACE=${JOBDIR}/workspace/
 BUILD_ID=$(find ${JOBDIR}/builds -maxdepth 1 -type d | sort | tail -1); BUILD_ID=${BUILD_ID/${JOBDIR}\/builds\/}
 BUILD_NUMBER=$(cat ${JOBDIR}/nextBuildNumber); BUILD_NUMBER=$(( ${BUILD_NUMBER}-1 ))
+JOB_URL=https://build.eclipse.org/hudson/job/${JOB_NAME}
 
 ################# END CONFIGURATION #################
 
 # where to create the stuff to publish
 STAGINGDIR=/tmp${WORKSPACE}/results/${JOB_NAME}
 
-JOBNAMEREDUX=${JOB_NAME/.aggregate}; JOBNAMEREDUX=${JOBNAMEREDUX/jbosstools-}
+JOBNAMEREDUX=${JOB_NAME/.aggregate}; JOBNAMEREDUX=${JOBNAMEREDUX/tycho-}
 
 # releases get named differently than snapshots
 if [[ ${RELEASE} == "Yes" ]]; then
@@ -36,13 +36,7 @@ rm -fr ${WORKSPACE}/results; mkdir -p ${STAGINGDIR}
 
 # check for aggregate zip or overall zip
 z=""
-if [[ -d ${WORKSPACE}/sources/aggregate/site/target ]]; then
-	siteZip=${WORKSPACE}/sources/aggregate/site/target/site_assembly.zip
-	if [[ ! -f ${WORKSPACE}/sources/aggregate/site/target/site_assembly.zip ]]; then
-		siteZip=${WORKSPACE}/sources/aggregate/site/target/site.zip
-	fi
-	z=$siteZip
-elif [[ -d ${WORKSPACE}/sources/site/target ]]; then
+if [[ -d ${WORKSPACE}/sources/site/target ]]; then
 	siteZip=${WORKSPACE}/sources/site/target/site_assembly.zip
 	if [[ ! -f ${WORKSPACE}/sources/site/target/site_assembly.zip ]]; then
 		siteZip=${WORKSPACE}/sources/site/target/site.zip
@@ -82,51 +76,6 @@ if [[ $z != "" ]] && [[ -f $z ]] ; then
 fi
 z=""
 
-# if component zips exist, copy them too; first site.zip, then site_assembly.zip
-if [[ -d ${WORKSPACE}/sources/ ]]; then
-  for z in $(find ${WORKSPACE}/sources/*/site/target -type f -name "site*.zip" | sort -r); do 
-	y=${z%%/site/target/*}; y=${y##*/}
-	if [[ $y != "aggregate" ]]; then # prevent duplicate nested sites
-		#echo "[$y] $z ..."
-		# unzip into workspace for publishing as unpacked site
-		mkdir -p ${STAGINGDIR}/$y
-		unzip -u -o -q -d ${STAGINGDIR}/$y $z
-		# copy into workspace for access by bucky aggregator (same name every time)
-		rsync -aq $z ${STAGINGDIR}/${y}${SUFFNAME}
-	fi
-  done
-fi
-
-# if zips exist produced & renamed by ant script, copy them too
-if [[ ! -f ${STAGINGDIR}/all/${SNAPNAME} ]]; then
-	for z in $(find ${WORKSPACE} -maxdepth 5 -mindepth 3 -name "*Update*.zip" | sort | tail -1); do 
-		#echo "$z ..."
-		mkdir -p ${STAGINGDIR}/all
-		unzip -u -o -q -d ${STAGINGDIR}/all/ $z
-		rsync -aq $z ${STAGINGDIR}/all/${SNAPNAME}
-	done
-fi
-
-# create sources zip
-if [[ -d ${WORKSPACE}/sources ]]; then
-	pushd ${WORKSPACE}/sources
-else
-	pushd ${WORKSPACE}
-fi
-mkdir -p ${STAGINGDIR}/all
-zip ${STAGINGDIR}/all/${SRCSNAME} -q -r * -x documentation\* -x download.jboss.org\* -x requirements\* \
-  -x workingset\* -x labs\* -x build\* -x \*test\* -x \*target\* -x \*.class -x \*.svn\* -x \*classes\* -x \*bin\* -x \*.zip \
-  -x \*docs\* -x \*reference\* -x \*releng\*
-popd
-
-# collect component zips from upstream aggregated build jobs
-if [[ ${JOB_NAME/.aggregate} != ${JOB_NAME} ]] && [[ -d ${WORKSPACE}/sources/aggregate/site/zips ]]; then
-	mkdir -p ${STAGINGDIR}/components
-	for z in $(find ${WORKSPACE}/sources/aggregate/site/zips -name "*Update*.zip") $(find ${WORKSPACE}/sources/aggregate/site/zips -name "*Sources*.zip"); do
-		mv $z ${STAGINGDIR}/components
-	done
-fi
-
 # generate list of zips in this job
 METAFILE=zip.list.txt
 mkdir -p ${STAGINGDIR}/logs
@@ -137,25 +86,10 @@ for z in $(find ${STAGINGDIR} -name "*Update*.zip") $(find ${STAGINGDIR} -name "
 done
 echo ""  >> ${STAGINGDIR}/logs/${METAFILE}
 
-# generate HTML snippet, download-snippet.txt, for inclusion on jboss.org
-if [[ ${RELEASE} == "Yes" ]]; then
-	mkdir -p ${STAGINGDIR}/logs
-	ANT_PARAMS="-v -DZIPSUFFIX=${ZIPSUFFIX} -DJOB_NAME=${JOB_NAME} -Dinput.dir=${STAGINGDIR} -Doutput.dir=${STAGINGDIR}/logs -DWORKSPACE=${WORKSPACE}"
-	if [[ ${JOB_NAME/.aggregate} != ${JOB_NAME} ]]; then # reuse snippet from upstream build
-		ANT_PARAMS="${ANT_PARAMS} -Dtemplate.file=http://download.jboss.org/jbosstools/builds/staging/${JOB_NAME/.aggregate/.continuous}/logs/download-snippet.txt"
-	fi
-	for buildxml in ${WORKSPACE}/build/results/build.xml ${WORKSPACE}/sources/build/results/build.xml ${WORKSPACE}/sources/results/build.xml; do
-		if [[ -f ${buildxml} ]]; then
-			ANT_SCRIPT=${buildxml}
-		fi
-	done
-	ant -f ${ANT_SCRIPT} ${ANT_PARAMS}
-fi
-
 # get full build log and filter out Maven test failures
 mkdir -p ${STAGINGDIR}/logs
 bl=${STAGINGDIR}/logs/BUILDLOG.txt
-wget -q http://hudson.qa.jboss.com/hudson/job/${JOB_NAME}/${BUILD_NUMBER}/consoleText -O ${bl}
+wget -q ${JOB_URL}/${BUILD_NUMBER}/consoleText -O ${bl}
 fl=${STAGINGDIR}/logs/FAIL_LOG.txt
 # ignore warning lines and checksum failures
 sed -ne "/\[WARNING\]\|CHECKSUM FAILED/ ! p" ${bl} | sed -ne "/<<< FAI/,+9 p" | sed -e "/AILURE/,+9 s/\(.\+AILURE.\+\)/\n----------\n\n\1/g" > ${fl}
@@ -178,46 +112,32 @@ if [[ $ec != "0" ]]; then
 	echo "" >> ${el}; echo -n "ERR" >> ${el}; echo "ORS FOUND: "$ec >> ${el};
 fi
 
-# publish to download.jboss.org, unless errors found - avoid destroying last-good update site
+# publish to download.*.org, unless errors found - avoid destroying last-good update site
 if [[ $ec == "0" ]] && [[ $fc == "0" ]]; then
 	# publish build dir (including update sites/zips/logs/metadata
 	if [[ -d ${STAGINGDIR} ]]; then
 		
-		# if an aggregate build, put output elsewhere on disk
-		if [[ ${JOB_NAME/.aggregate} != ${JOB_NAME} ]]; then
-			echo "<meta http-equiv=\"refresh\" content=\"0;url=${BUILD_ID}-H${BUILD_NUMBER}/\">" > /tmp/latestBuild.html
-			if [[ $1 == "trunk" ]]; then
-				date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/trunk/${BUILD_ID}-H${BUILD_NUMBER}/
-				date; rsync -arzq --delete /tmp/latestBuild.html $DESTINATION/builds/nightly/trunk/
-			else
-				date; rsync -arzq --delete /tmp/latestBuild.html $DESTINATION/builds/nightly/${JOBNAMEREDUX}/ 
-				date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/${JOBNAMEREDUX}/${BUILD_ID}-H${BUILD_NUMBER}/
-			fi
-			rm -f /tmp/latestBuild.html
+		echo "<meta http-equiv=\"refresh\" content=\"0;url=${BUILD_ID}-H${BUILD_NUMBER}/all/${SNAPNAME}\">" > /tmp/index.html
+		if [[ $1 == "trunk" ]]; then
+			date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/trunk/${BUILD_ID}-H${BUILD_NUMBER}/
+			date; rsync -arzq --delete /tmp/index.html $DESTINATION/builds/nightly/trunk/
 		else
-			# if a release build, create a named dir
-			if [[ ${RELEASE} == "Yes" ]]; then
-				date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/staging/${JOB_NAME}-${ZIPSUFFIX}/
-			fi
+			date; rsync -arzq --delete /tmp/index.html $DESTINATION/builds/nightly/${JOBNAMEREDUX}/ 
+			date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/${JOBNAMEREDUX}/${BUILD_ID}-H${BUILD_NUMBER}/
 		fi
-
-		# and create/replace a snapshot dir w/ static URL
-		date; rsync -arzq --delete ${STAGINGDIR} $DESTINATION/builds/staging/
+		rm -f /tmp/index.html
 	fi
 
-	# extra publish step for aggregate update sites ONLY
-	if [[ ${JOB_NAME/.aggregate} != ${JOB_NAME} ]]; then
-		if [[ $1 == "trunk" ]]; then 
-			date; rsync -arzq --delete ${STAGINGDIR}/all/repo/* $DESTINATION/updates/nightly/trunk/
-		else
-			date; rsync -arzq --delete ${STAGINGDIR}/all/repo/* $DESTINATION/updates/nightly/${JOBNAMEREDUX}/
-		fi
+	if [[ $1 == "trunk" ]]; then
+		date; rsync -arzq --delete ${STAGINGDIR}/all/repo/* $DESTINATION/updates/nightly/trunk/
+	else
+		date; rsync -arzq --delete ${STAGINGDIR}/all/repo/* $DESTINATION/updates/nightly/${JOBNAMEREDUX}/
 	fi
 fi
 date
 
 # generate md5sums in a single file 
-if [[ ${RELEASE} == "Yes" ]]; then
+if [[ ${RELEASE} == "Yes" ]] || [[ $2 == "RELEASE" ]] || [[ $1 == "RELEASE" ]]; then
 	md5sumsFile=${STAGINGDIR}/all/${JOB_NAME}-md5sums-${BUILD_ID}-H${BUILD_NUMBER}.txt
 	echo "# Update Site Zips" > ${md5sumsFile}
 	echo "# ----------------" >> ${md5sumsFile}
