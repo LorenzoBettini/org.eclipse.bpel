@@ -32,7 +32,7 @@ SRCSNAME="${JOB_NAME}-Sources-${ZIPSUFFIX}.zip"
 SUFFNAME="-Update-${ZIPSUFFIX}.zip"
 
 # cleanup from last time
-rm -fr ${WORKSPACE}/results; mkdir -p ${STAGINGDIR}
+rm -fr /tmp${WORKSPACE}/results; mkdir -p ${STAGINGDIR}
 
 # check for aggregate zip or overall zip
 z=""
@@ -116,16 +116,24 @@ fi
 if [[ $ec == "0" ]] && [[ $fc == "0" ]]; then
 	# publish build dir (including update sites/zips/logs/metadata
 	if [[ -d ${STAGINGDIR} ]]; then
-		
-		echo "<meta http-equiv=\"refresh\" content=\"0;url=${BUILD_ID}-H${BUILD_NUMBER}/all/${SNAPNAME}\">" > /tmp/index.html
+		pushd ${STAGINGDIR} 2>&1 >/dev/null
+		list=/tmp/${BUILD_ID}-H${BUILD_NUMBER}.list.txt
+		echo "<html><head><title>Directory listing</title></head><body>" > $list
+		find . -type f | sort | grep -v "/all/repo/" | sed "s#^\.\(.\+\)\$#<li><a href=${BUILD_ID}-H${BUILD_NUMBER}\1>${BUILD_ID}-H${BUILD_NUMBER}\1</a>#g" >> $list
+		echo "</body></html>" >> $list
+		popd 2>&1 >/dev/null
+
+		echo "<meta http-equiv=\"refresh\" content=\"0;url=${BUILD_ID}-H${BUILD_NUMBER}\">" > /tmp/latestBuild.html
 		if [[ $1 == "trunk" ]]; then
 			date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/trunk/${BUILD_ID}-H${BUILD_NUMBER}/
-			date; rsync -arzq --delete /tmp/index.html $DESTINATION/builds/nightly/trunk/
+			date; rsync -arzq --delete /tmp/latestBuild.html $DESTINATION/builds/nightly/trunk/
+			date; rsync -arzq --delete $list $DESTINATION/builds/nightly/trunk/index.html
 		else
-			date; rsync -arzq --delete /tmp/index.html $DESTINATION/builds/nightly/${JOBNAMEREDUX}/ 
+			date; rsync -arzq --delete /tmp/latestBuild.html $DESTINATION/builds/nightly/${JOBNAMEREDUX}/ 
 			date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/${JOBNAMEREDUX}/${BUILD_ID}-H${BUILD_NUMBER}/
+			date; rsync -arzq --delete $list $DESTINATION/builds/nightly/${JOBNAMEREDUX}/index.html
 		fi
-		rm -f /tmp/index.html
+		rm -f /tmp/latestBuild.html $list
 	fi
 
 	if [[ $1 == "trunk" ]]; then
