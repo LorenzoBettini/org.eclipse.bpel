@@ -116,22 +116,25 @@ fi
 if [[ $ec == "0" ]] && [[ $fc == "0" ]]; then
 	# publish build dir (including update sites/zips/logs/metadata
 	if [[ -d ${STAGINGDIR} ]]; then
-		pushd ${STAGINGDIR} 2>&1 >/dev/null
-		list=/tmp/${BUILD_ID}-H${BUILD_NUMBER}.list.txt
-		echo "<html><head><title>Directory listing</title></head><body>" > $list
-		find . -type f | sort | grep -v "/all/repo/" | sed "s#^\.\(.\+\)\$#<li><a href=${BUILD_ID}-H${BUILD_NUMBER}\1>${BUILD_ID}-H${BUILD_NUMBER}\1</a>#g" >> $list
-		echo "</body></html>" >> $list
-		popd 2>&1 >/dev/null
+		list=""
+		if [[ ! -d ${DESTINATION}/ ]]; then # remote dir, generate index
+			pushd ${STAGINGDIR} 2>&1 >/dev/null
+			list=/tmp/${BUILD_ID}-H${BUILD_NUMBER}.list.txt
+			echo "<html><head><title>Directory listing</title></head><body>" > $list
+			find . -type f | sort | grep -v "/all/repo/" | sed "s#^\.\(.\+\)\$#<li><a href=${BUILD_ID}-H${BUILD_NUMBER}\1>${BUILD_ID}-H${BUILD_NUMBER}\1</a>#g" >> $list
+			echo "</body></html>" >> $list
+			popd 2>&1 >/dev/null
+		fi
 
 		echo "<meta http-equiv=\"refresh\" content=\"0;url=${BUILD_ID}-H${BUILD_NUMBER}\">" > /tmp/latestBuild.html
 		if [[ $1 == "trunk" ]]; then
 			date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/trunk/${BUILD_ID}-H${BUILD_NUMBER}/
 			date; rsync -arzq --delete /tmp/latestBuild.html $DESTINATION/builds/nightly/trunk/
-			date; rsync -arzq --delete $list $DESTINATION/builds/nightly/trunk/index.html
+			if [[ $list ]]; then date; rsync -arzq --delete $list $DESTINATION/builds/nightly/trunk/index.html; fi
 		else
 			date; rsync -arzq --delete /tmp/latestBuild.html $DESTINATION/builds/nightly/${JOBNAMEREDUX}/ 
 			date; rsync -arzq --delete ${STAGINGDIR}/* $DESTINATION/builds/nightly/${JOBNAMEREDUX}/${BUILD_ID}-H${BUILD_NUMBER}/
-			date; rsync -arzq --delete $list $DESTINATION/builds/nightly/${JOBNAMEREDUX}/index.html
+			if [[ $list ]]; then date; rsync -arzq --delete $list $DESTINATION/builds/nightly/${JOBNAMEREDUX}/index.html; fi
 		fi
 		rm -f /tmp/latestBuild.html $list
 	fi
@@ -155,5 +158,20 @@ if [[ ${RELEASE} == "Yes" ]] || [[ $2 == "RELEASE" ]] || [[ $1 == "RELEASE" ]]; 
 	echo "# -----------" >> ${md5sumsFile}
 	md5sum $(find . -name "*Source*.zip" | egrep -v "aggregate-Sources|nightly-Update") >> ${md5sumsFile}
 	echo " " >> ${md5sumsFile}
+fi
+
+# if destination is local, we can also generate index.html with more information
+if [[ -d $DESTINATION/ ]]; then # local dir - we can generate index.html with more info
+	if [[ $1 == "trunk" ]]; then
+		pushd $DESTINATION/builds/nightly/trunk/ 2>&1 >/dev/null
+	else
+		pushd $DESTINATION/builds/nightly/${JOBNAMEREDUX}/ 2>&1 >/dev/null
+	fi
+	list=index.html
+	rm -fr $list
+	echo "<html><head><title>Directory listing</title></head><body>" > $list
+	find . -type f | sort | grep -v "/all/repo/" | grep -v index.html | sed "s#^\(.\+\)\$#<li><a href=\1>\1</a>#g" >> $list
+	echo "</body></html>" >> $list
+	popd 2>&1 >/dev/null
 fi
 
