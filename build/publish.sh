@@ -116,6 +116,12 @@ fi
 if [[ $ec == "0" ]] && [[ $fc == "0" ]]; then
 	# publish build dir (including update sites/zips/logs/metadata
 	if [[ -d ${STAGINGDIR} ]]; then
+		pushd ${STAGINGDIR} 2>&1 >/dev/null
+		list=index.html
+		echo "<html><head><title>Directory listing</title></head><body>" > $list
+		find . -type f | sort | grep -v "/all/repo/" | grep -v index.html | sed "s#^\(.\+\)\$#<li><a href=\1>\1</a>#g" >> $list
+		echo "</body></html>" >> $list
+		popd 2>&1 >/dev/null
 		list=""
 		if [[ ! -d ${DESTINATION}/ ]]; then # remote dir, generate index
 			pushd ${STAGINGDIR} 2>&1 >/dev/null
