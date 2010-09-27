@@ -145,6 +145,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	public void addPages() {
 
 		fMainPage = new NewFileWizardPage1(Messages.NewFileWizardPage1_Name);
+		fMainPage.setContainer(mContainer);
 		fContainerPage = new NewFileWizardPage2(
 				Messages.NewFileWizardPage2_Name);
 		wsdlPage = new WSDLCustomPage(

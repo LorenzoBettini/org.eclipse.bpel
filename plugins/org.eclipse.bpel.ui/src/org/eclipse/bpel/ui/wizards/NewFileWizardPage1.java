@@ -22,6 +22,7 @@ import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Templates.Template;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.IStatus;
@@ -56,6 +57,8 @@ public class NewFileWizardPage1 extends WizardPage {
 
 	/** last namespace used in creating a project, saved in dialog settings */
 	static final String LAST_NAMESPACE_KEY = "last.namespace.used"; //$NON-NLS-1$
+	
+	private IContainer mContainer;
 
 	/** Process name field */
 	private Text processNameField;
@@ -363,6 +366,10 @@ public class NewFileWizardPage1 extends WizardPage {
 			setErrorMessage(Messages.NewFileWizardPage1_11);
 			return false;
 		}
+		
+		if (mContainer!=null && mContainer.findMember(processNameField.getText()+".bpel")!=null ) { //$NON-NLS-1$
+			setMessage(Messages.NewFileWizardPage1_12,WARNING);
+		}
 
 		String bpelNamespace = (isAbstractOptionButtonChecked()) ? BPELConstants.NAMESPACE_ABSTRACT_2007
 				: BPELConstants.NAMESPACE;
@@ -376,13 +383,13 @@ public class NewFileWizardPage1 extends WizardPage {
 		mArgs.put("bpelNamespace", bpelNamespace); //$NON-NLS-1$
 		mArgs.put("date", new Date()); //$NON-NLS-1$
 
-		// set the default value of the wsdlpage
-		setValuesForWSDLPage(processName);
+		// set the default value of the wsdlpage and container page
+		setValuesForWSDLAndContainerPage(processName);
 
 		return true;
 	}
 
-	private void setValuesForWSDLPage(String processName) {
+	private void setValuesForWSDLAndContainerPage(String processName) {
 		WSDLCustomPage page = (WSDLCustomPage) this.getWizard().getPage(
 				Messages.NewFileWizard_WSDLCustomPage_Name);
 		if (page != null) {
@@ -391,6 +398,13 @@ public class NewFileWizardPage1 extends WizardPage {
 			page.getAddressField().setText(
 					"http://localhost:8080/" + processName);
 		}
+		NewFileWizardPage2 page2 = (NewFileWizardPage2) this.getWizard().getPage(
+				Messages.NewFileWizardPage2_Name);
+		if (page2 != null) {
+			page2.setProcessName(processName);
+		}
+		
+		
 	}
 
 	public IWizardPage getNextPage() {
@@ -472,6 +486,10 @@ public class NewFileWizardPage1 extends WizardPage {
 	public Map<String, Object> getArgs() {
 
 		return mArgs;
+	}
+
+	public void setContainer(IContainer mContainer) {
+		this.mContainer = mContainer;
 	}
 
 }
