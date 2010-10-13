@@ -198,9 +198,15 @@ public class DeployUtils {
 		// Add WSDLs that were resolved as imports, to the list
 		for (Resource res : resourceSet.getResources())
 		{
-			Definition def = (Definition)res.getContents().get(0);
-			if (!wsdlFiles.contains(def))
-				wsdlFiles.add(def);
+			// fix a dumb mistake: XSDs don't have Definitions
+			// and will cause this to throw a class cast exception
+			Object obj = res.getContents().get(0);
+			if (obj instanceof Definition)
+			{
+				Definition def = (Definition)obj;
+				if (!wsdlFiles.contains(def))
+					wsdlFiles.add(def);
+			}
 		}
 		return wsdlFiles;
 	}
