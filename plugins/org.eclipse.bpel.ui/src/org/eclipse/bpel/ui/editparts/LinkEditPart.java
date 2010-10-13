@@ -385,7 +385,9 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 				if (labeledElement != null) {
 					childType = labeledElement.getTypeLabel(thisPart.getModel());
 					displayName = labeledElement.getLabel(thisPart.getModel());
-					if (childType != null && displayName.equals(childType)) {
+					// bug 327644
+					// prevent possible NPE
+					if (childType != null && childType.equals(displayName)) {
 						childType = null;
 					}
 				} else {
