@@ -67,7 +67,8 @@ public class BPELCoreFacetInstallDelegate implements IDelegate {
 
         // Create the content folder
         IFolder bpelContent = proj.getFolder(contentRoot);
-        bpelContent.create(true,true, null);
+        if (!bpelContent.exists())
+        	bpelContent.create(true,true, null);
         
         // create the virtual component
         IComponentImplFactory factory = new BPELVirtualComponent();
