@@ -224,7 +224,10 @@ public class DeployUtils {
 //				load it 
 				Process currentProcess = loadBPEL(file, resourceSet);
 //				stuff it in bpelFiles
-				bpelFiles.add(currentProcess);				
+				// Bug 330396 -  Can't create ODE Deployment Descriptor
+				// make sure the BPEL is valid
+				if (currentProcess!=null)
+					bpelFiles.add(currentProcess);				
 			}
 		}
 		
