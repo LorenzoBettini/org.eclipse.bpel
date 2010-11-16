@@ -846,7 +846,24 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 						}
 					});
 				}
-
+				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330394
+				// close editor when file is deleted
+				else {
+					IFile editorFile = ((IFileEditorInput)getEditorInput()).getFile();
+					IResource target = delta.getResource();
+					if (delta.getKind() == IResourceDelta.REMOVED &&
+							target instanceof IFile &&
+							editorFile.equals(target))
+					{
+						// Close the editor if its input file has been moved or deleted.
+						Display display = getSite().getShell().getDisplay();
+						display.asyncExec(new Runnable() {
+							public void run() {
+								getSite().getPage().closeEditor(ProcessPage.this.editor, false);
+							}
+						});
+					}
+				}
 				return true; // visit the children
 			}
 		};
