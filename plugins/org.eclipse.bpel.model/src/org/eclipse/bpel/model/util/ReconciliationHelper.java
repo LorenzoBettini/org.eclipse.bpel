@@ -22,7 +22,6 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
-import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.Catch;
 import org.eclipse.bpel.model.CatchAll;
@@ -1008,7 +1007,12 @@ public class ReconciliationHelper {
 	    } else if (child instanceof OnEvent) {
 	    	
 	    } else if (child instanceof OnAlarm) {
-		    
+	        // fix https://bugs.eclipse.org/bugs/show_bug.cgi?id=330308
+	    	OnAlarm o = (OnAlarm)child;
+	    	Activity a = o.getActivity();
+	    	Element s = ReconciliationHelper.getBPELChildElementByLocalName(o.getElement(), BPELConstants.ND_SCOPE);
+	    	a.setElement(s);
+	    	reconcile(a, s);
 	    } else if (child instanceof FaultHandler) {
 	    	FaultHandler c = (FaultHandler)child;
 	    	EList<Catch> _catch = c.getCatch();
@@ -1019,7 +1023,23 @@ public class ReconciliationHelper {
 				reconcile(ch, catchElement);
 	    	}
 			System.err.println("FaultHandler patch ok");
-	    } 
+	    } else if (child instanceof EventHandler) {
+	    	// fix https://bugs.eclipse.org/bugs/show_bug.cgi?id=330308
+	    	EventHandler e = (EventHandler)child;
+	    	EList<OnEvent> _onEvent = e.getEvents();
+	    	OnEvent on = _onEvent.get(0);
+	    	Element onElement = ReconciliationHelper.getBPELChildElementByLocalName(e.getElement(), BPELConstants.ND_ON_EVENT);
+	    	on.setElement(onElement);
+	    	reconcile(on, onElement);
+	    }  else if (child instanceof CompensationHandler) {
+	    	// fix https://bugs.eclipse.org/bugs/show_bug.cgi?id=330308
+	    	CompensationHandler c = (CompensationHandler)child;
+	    	Activity a = c.getActivity();
+	    	Element s = ReconciliationHelper.getBPELChildElementByLocalName(c.getElement(), BPELConstants.ND_SEQUENCE);
+	    	a.setElement(s);
+	    	reconcile(a, s);
+	    }
+
 	    	
 	}
 
