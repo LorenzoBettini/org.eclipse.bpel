@@ -64,6 +64,7 @@
          id="org.eclispe.bpel.validator.marker"
          name="BPEL Validation Marker"
          point="org.eclipse.core.resources.markers">
+      <!-- Bugzilla 330519 -->
       <persistent value="false"/>
       <super type="org.eclipse.core.resources.problemmarker"/>
       <attribute name="address.xpath"/>
