@@ -14,8 +14,8 @@ import org.eclipse.bpel.model.adapters.AbstractAdapter;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 import org.eclipse.emf.ecore.EObject;
 
-
-public class CopyAdapter extends AbstractAdapter implements IExtensionFactory {
+// Bugzilla 330519
+public class CopyAdapter extends MarkerDelegateAdapter implements IExtensionFactory {
 
 	/* IExtensionFactory */
 	

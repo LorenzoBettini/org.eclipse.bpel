@@ -26,7 +26,8 @@ import org.eclipse.wst.wsdl.Part;
  * @date Jun 11, 2007
  *
  */
-public class FromAdapter extends AbstractStatefulAdapter implements IVirtualCopyRuleSide {
+// Bugzilla 330519
+public class FromAdapter extends MarkerDelegateAdapter implements IVirtualCopyRuleSide {
 
 	/**
 	 * @see org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide#getEndpointReference()

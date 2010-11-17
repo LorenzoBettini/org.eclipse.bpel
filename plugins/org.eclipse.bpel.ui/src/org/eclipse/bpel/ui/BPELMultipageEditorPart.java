@@ -1193,6 +1193,8 @@ IGotoMarker/*, CommandStackListener*/ {
 
 		this.modelListenerAdapter = new ModelListenerAdapter();
 		this.modelListenerAdapter.setExtensionMap(this.extensionMap);
+		// Bugzilla 330519
+		updateMarkersHard();
 	}
 
 	public void modelDeleted(ResourceInfo resourceInfo) {
@@ -1249,6 +1251,70 @@ IGotoMarker/*, CommandStackListener*/ {
 
 	}
 
+	/**
+	 * Erase and reload markers for the given model object.
+	 * This will create the necessary adapters so that marker
+	 * notifications are delegated to the correct activity displayed
+	 * in the graphical viewer.
+	 * 
+	 * @param modelObject
+	 * @see Bugzilla 330519
+	 */
+	public void updateMarkers(EObject modelObject) {
+		List<Long> removed = new ArrayList<Long>();
+		for (Entry<Long, EObject> e : fMarkers2EObject.entrySet()){
+			if (e.getValue() == modelObject)
+				removed.add(e.getKey());
+		}
+		for (Long key : removed) {
+			fMarkers2EObject.remove(key);
+		}
+
+		modelObject.eNotify(fMarkersStale);
+		
+		for (TreeIterator<EObject> iter=EcoreUtil.getAllContents((EObject)modelObject, true); iter.hasNext(); ){
+			EObject obj = iter.next();
+			BPELUtil.adapt(obj, IMarkerHolder.class);
+		}
+
+		IMarker[] markers = null;
+		IFile file = getFileInput();
+		Resource resource = getProcess().eResource();
+
+		try {
+			markers = file.findMarkers(null, true, IResource.DEPTH_ZERO);
+		} catch (CoreException ex) {
+			BPELUIPlugin.log(ex);
+			return;
+		}
+
+		for (IMarker m : markers) {
+
+			String href = null;
+			EObject target = null;
+			try {
+				href = (String) m.getAttribute( "address.model" ); //$NON-NLS-1$
+				if (href == null) {
+					continue;
+				}
+				target = resource.getEObject(href);
+			} catch (CoreException ex) {
+				continue;
+			}
+
+			if (target == modelObject) {
+				this.fMarkers2EObject.put(m.getId(), target);
+				EObject obj = target;
+				while (obj!=null) {
+					BPELUtil.adapt(obj, IMarkerHolder.class);
+					obj = obj.eContainer();
+				}
+				target.eNotify( new NotificationImpl (AdapterNotification.NOTIFICATION_MARKER_ADDED , null, m ));
+			}
+		}
+		
+	}
+
 	protected void updateMarkersHard () {
 
 		for(EObject obj : this.fMarkers2EObject.values()) {
@@ -1281,12 +1347,16 @@ IGotoMarker/*, CommandStackListener*/ {
 			} catch (CoreException ex) {
 				continue;
 			}
-
 			if (target == null) {
 				continue;
 			}
 
 			this.fMarkers2EObject.put(m.getId(), target);
+			EObject obj = target;
+			while (obj!=null) {
+				BPELUtil.adapt(obj, IMarkerHolder.class);
+				obj = obj.eContainer();
+			}
 			target.eNotify( new NotificationImpl (AdapterNotification.NOTIFICATION_MARKER_ADDED , null, m ));
 		}
 
@@ -1365,7 +1435,7 @@ IGotoMarker/*, CommandStackListener*/ {
 
 	@Override
 	public boolean isDirty() {
-		return this.fTextEditor.isDirty();
+		return this.fTextEditor.isDirty() || this.editDomain.getCommandStack().isDirty();
 	}
 
 	@Override

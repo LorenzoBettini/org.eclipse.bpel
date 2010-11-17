@@ -86,6 +86,8 @@
       <attribute name="order"/>
       <attribute name="active"/>
       <attribute name="installed"/>
+      <!-- Bugzilla 330519 -->
+      <persistent value="true"/>
    </extension>
 
 <!-- Markers used in expression editors. -->

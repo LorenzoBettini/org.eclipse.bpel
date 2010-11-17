@@ -133,6 +133,8 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 					if (modelObject instanceof ExtensibleElementImpl) {
 						((ExtensibleElementImpl) modelObject)
 								.elementChanged(element);
+						// Bugzilla 330519
+						this.fEditor.getMultipageEditor().updateMarkers((ExtensibleElementImpl)modelObject);
 					} else if (modelObject instanceof ExtensibilityElementImpl) {
 						((ExtensibilityElementImpl) modelObject)
 								.elementChanged(element);

@@ -110,11 +110,14 @@ public class BPELUIXSDAdapterFactory extends XSDAdapterFactory {
 	@Override
 	public Adapter adaptNew(Notifier target, Object type) {
 		Adapter adapter = createAdapter(target, type);
-		if (adapter == null) {
-			return null;
+		// Bugzilla 330519
+		// only associate the adapter with the target (i.e. add it to the
+		// target's eAdapters list) if the adapter is for the requested type
+		if (adapter!=null && adapter.isAdapterForType(type)) {
+			associate(adapter,target);
+			return adapter;
 		}
-		associate(adapter, target);
-		return adapter.isAdapterForType(type) ? adapter : null;
+		return null;		
 	}
 	
 
