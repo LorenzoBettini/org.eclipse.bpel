@@ -13,6 +13,7 @@ package org.eclipse.bpel.common.ui.editmodel;
 import java.io.IOException;
 import java.util.Map;
 
+import org.eclipse.bpel.common.ui.CommonUIPlugin;
 import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -41,12 +42,18 @@ public class EditModelClient {
  * @param modelListener the listener which is used to communicate back to the editor.
  * @param loadOptions a Map of EMF load/save options. May be empty.
  */
-public EditModelClient(IEditorPart editor,IFile file,IEditModelListener modelListener,Map loadOptions) {
-	SynchronizationHandler handler = new Synchronizer();
+public EditModelClient(IEditorPart editor,IEditModelListener modelListener) {
 	this.editor = editor;
+	this.modelListener = modelListener;
+}
+
+// Bugzilla 330513
+// separated this from constructor
+public void loadPrimaryResource(IFile file, Map loadOptions) throws RuntimeException {
 	editModel = getSharedResourceSet(file);
 	((BPELResourceSetImpl)editModel.getResourceSet()).setLoadOptions(loadOptions);
 	try {
+		SynchronizationHandler handler = new Synchronizer();
 		if(getCommandStack() == null) {
 			EditModelCommandStack commandStack = createCommandStack();
 			editModel.setCommandStack(commandStack);
@@ -54,7 +61,6 @@ public EditModelClient(IEditorPart editor,IFile file,IEditModelListener modelLis
 		primaryResourceInfo = editModel.getResourceInfo(file);
 		if(loadOptions != null)
 			primaryResourceInfo.setLoadOptions(loadOptions);
-		this.modelListener = modelListener;
 		getEditModel().addListener(modelListener);
 		manager = new SynchronizationManager(editor,editModel,handler);
 	} catch (RuntimeException ex) {
@@ -133,7 +139,12 @@ private class Synchronizer implements SynchronizationHandler {
 		}
 	}
 	public void refresh(ResourceInfo resourceInfo) {
+		try {
 		resourceInfo.refresh();
+		}
+		catch (Exception e) {
+			CommonUIPlugin.log(e);
+		}
 		getCommandStack().flush();
 	}
 }
