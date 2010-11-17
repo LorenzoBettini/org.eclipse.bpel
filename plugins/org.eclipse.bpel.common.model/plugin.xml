@@ -12,6 +12,8 @@
       <attribute
             name="org.eclipse.bpel.common.model.modelMarker.objectId">
       </attribute>
+      <!-- Bugzilla 330519 -->
+      <persistent value="true"/>
    </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
