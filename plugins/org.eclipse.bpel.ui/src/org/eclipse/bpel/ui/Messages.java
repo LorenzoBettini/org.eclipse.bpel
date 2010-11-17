@@ -315,7 +315,15 @@ public final class Messages extends NLS {
 	public static String EditMessagePropertyDialog_3;
 	public static String EditMessagePropertyDialog_4;
 	public static String EditMessagePropertyDialog_9;
+	// Bugzilla 330513
+	public static String EditMessagePropertyDialog_11;
+	public static String EditMessagePropertyDialog_12;
+	public static String EditMessagePropertyDialog_13;
+	public static String EditMessagePropertyDialog_15;
+	public static String EditMessagePropertyDialog_16;
 	public static String EditMessagePropertyDialog_Type_1;
+	public static String EditMessagePropertyDialog_Element_1;
+	public static String EditMessagePropertyDialog_Message_1;
 	public static String EditPropertyAliasDialog_10;
 	public static String EditPropertyAliasDialog_3;
 	public static String EditPropertyAliasDialog_4;
@@ -668,6 +676,16 @@ public final class Messages extends NLS {
 	public static String DeletePartnerLinkTypeWarningMessage;
 	public static String DeletePartnerLinkTypeWarningDialogTitle;
 
+	// Bugzilla 330513
+	public static String EditModelClient_load_error_title;
+	public static String EditModelClient_bpel_load_error;
+	public static String EditModelClient_bpelex_load_error;
+	public static String EditModelClient_wsdl_load_error;
+	public static String EditModelClient_delete_error_title;
+	public static String EditModelClient_delete_error_message;
+	public static String Editor_load_error_title;
+	public static String Editor_load_error;
+	public static String Editor_design_page_error;
 	static {
 		
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

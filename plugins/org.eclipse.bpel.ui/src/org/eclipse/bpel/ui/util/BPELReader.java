@@ -87,10 +87,12 @@ public class BPELReader {
 				extensionMap = ExtensionmodelFactory.eINSTANCE.findExtensionMap(
 					IBPELUIConstants.MODEL_EXTENSIONS_NAMESPACE, extensionsResource.getContents());
 			}
+			// Bugzilla 330513
+			if (extensionMap != null)
+				extensionMap.initializeAdapter();
 		} catch (Exception e) {
 			BPELUIPlugin.log(e);
 		}
-		if (extensionMap != null) extensionMap.initializeAdapter();
 
 		if (process == null) {
 			process = BPELFactory.eINSTANCE.createProcess();

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.bpel.common.extension.model.ExtensionMap;
 import org.eclipse.bpel.common.ui.editmodel.IEditModelListener;
@@ -27,12 +28,15 @@ import org.eclipse.bpel.common.ui.editmodel.ResourceInfo;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.MessageExchange;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.model.resource.BPELResourceSetImpl;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.adapters.AdapterNotification;
+import org.eclipse.bpel.ui.adapters.IMarkerHolder;
 import org.eclipse.bpel.ui.editparts.ProcessTrayEditPart;
 import org.eclipse.bpel.ui.editparts.util.OutlineTreePartFactory;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
@@ -40,6 +44,7 @@ import org.eclipse.bpel.ui.uiextensionmodel.StartNode;
 import org.eclipse.bpel.ui.util.BPELEditModelClient;
 import org.eclipse.bpel.ui.util.BPELEditorUtil;
 import org.eclipse.bpel.ui.util.BPELReader;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -49,6 +54,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -62,8 +68,11 @@ import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.draw2d.parts.Thumbnail;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
@@ -79,6 +88,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.IPostSelectionProvider;
@@ -88,11 +98,13 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -120,6 +132,7 @@ import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Document;
@@ -399,20 +412,45 @@ IGotoMarker/*, CommandStackListener*/ {
 		if( getFileInput() == null ) {
 			MessageDialog.openError(
 					getSite().getShell(),
-					"Error while opening the file",
-			"The file could be opened, no input could be retrieved." );
+					Messages.Editor_load_error_title, // Bugzilla 330513
+					Messages.Editor_load_error
+			);
 			return;
 		}
 		// End of patch
-		loadModel();
 		try
 		{
+			loadModel();
 			addPage(0, this.fDesignViewer, getEditorInput());
 			//FIXME I18N
 			setPageText(0, "Design");
 		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(), "Error creating Design page", null, e.getStatus()); //$NON-NLS-1$
+			ErrorDialog.openError(
+					getSite().getShell(),
+					Messages.Editor_design_page_error, // Bugzilla 330513
+					null,
+					e.getStatus()); //$NON-NLS-1$
+		} catch (CoreException e) {
+			// TODO: what to do here?
 		}
+	}
+
+	// https://jira.jboss.org/browse/JBIDE-6917
+	@Override
+	protected IEditorSite createSite(IEditorPart page) {
+		IEditorSite site = null;
+		if (page == fTextEditor) {
+			site = new org.eclipse.ui.part.MultiPageEditorSite(this, page) {
+				public String getId() {
+					// Sets this ID so nested editor is configured for BPEL source
+					return BPELResourceSetImpl.BPEL_CONTENT_TYPE;
+				}
+			};
+		}
+		else {
+			site = super.createSite(page);
+		}
+		return site;
 	}
 
 	/**
@@ -1030,7 +1068,7 @@ IGotoMarker/*, CommandStackListener*/ {
 		return false;
 	}
 
-	protected void loadModel() {
+	protected void loadModel() throws CoreException {
 		Document structuredDocument = null;
 
 		try {
@@ -1058,14 +1096,90 @@ IGotoMarker/*, CommandStackListener*/ {
 
 		// Bug # 209341 - starting patch
 		// By Vincent Zurczak
-		IFile fileToOpen = getFileInput();
-		BPELEditModelClient editModelClient = new BPELEditModelClient(this, fileToOpen, this, loadOptions);
+		IFile file = null;
+		BPELEditModelClient editModelClient = new BPELEditModelClient(this);
+
+		// Bugzilla 330513
+		// first load the primary resource (the *.bpel file)
+		boolean keepGoing = false;
+		Shell shell = getEditorSite().getShell();
+		try {
+			file = getFileInput();
+			editModelClient.loadPrimaryResource(file,loadOptions);
+		}
+		catch (RuntimeException ex) {
+			String msg = NLS.bind(Messages.EditModelClient_bpel_load_error,
+					new String[]{file.toString()}
+			); 
+
+			keepGoing = MessageDialog.openQuestion(
+					shell, 
+					Messages.EditModelClient_load_error_title,  
+					msg);
+			
+			if (!keepGoing)
+				throw ex;
+		}
+
+		// next load the extensions resource (the *.bpelex file)
+		try {
+			editModelClient.loadExtensionsResource();
+		}
+		catch (RuntimeException ex) {
+			file = editModelClient.getExtensionsFile();
+			String msg = NLS.bind(Messages.EditModelClient_bpelex_load_error,
+					new String[]{file.toString()}
+			); 
+
+			keepGoing = MessageDialog.openQuestion(
+					shell, 
+					Messages.EditModelClient_load_error_title,  
+					msg);
+			
+			if (!keepGoing)
+				throw ex;
+			
+			try {
+				file.delete(true, null);
+				editModelClient.loadExtensionsResource();
+			} catch (CoreException ce) {
+				MessageDialog.openError(shell, Messages.EditModelClient_delete_error_title, Messages.EditModelClient_delete_error_message);
+				throw ce;
+			}
+		}
+
+		// finally load the artifacts resource (the *.wsdl file)
+		try {
+			editModelClient.loadArtifactsResource();
+		}
+		catch (RuntimeException ex) {
+			file = editModelClient.getArtifactsFile();
+			String msg = NLS.bind(Messages.EditModelClient_wsdl_load_error,
+					new String[]{file.toString()}
+			); 
+
+			keepGoing = MessageDialog.openQuestion(
+					shell, 
+					Messages.EditModelClient_load_error_title,  
+					msg);
+			
+			if (!keepGoing)
+				throw ex;
+			
+			try {
+				file.delete(true, null);
+				editModelClient.loadArtifactsResource();
+			} catch (CoreException ce) {
+				MessageDialog.openError(shell, Messages.EditModelClient_delete_error_title, Messages.EditModelClient_delete_error_message);
+				throw ce;
+			}
+		}
 		this.fDesignViewer.setEditModelClient(editModelClient);
 		getEditDomain().setCommandStack(editModelClient.getCommandStack());
 
 		Resource bpelResource = editModelClient.getPrimaryResourceInfo().getResource();
 		BPELReader reader = new BPELReader();
-		reader.read(bpelResource, fileToOpen, this.fDesignViewer.getResourceSet());
+		reader.read(bpelResource, getFileInput(), this.fDesignViewer.getResourceSet());
 		// End of patch
 
 		this.process = reader.getProcess();

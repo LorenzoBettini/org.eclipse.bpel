@@ -1134,6 +1134,8 @@ public class ModelHelper {
 			// Just assume there is no extension (fall through)
 		}
 		
+		// Bugzilla 330513
+		extensionMap.remove(input);
 		// If it supports IExtensionFactory, create an extension and add it to the map.
 		IExtensionFactory extensionFactory = BPELUtil.adapt( input, IExtensionFactory.class);
 		if (extensionFactory != null) {
