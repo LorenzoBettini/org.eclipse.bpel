@@ -128,7 +128,12 @@ public abstract class GraphicalEditorWithPalette extends GraphicalEditorWithFlyo
 	
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		updateActions(getSelectionActions());
+		// Bugzilla 330526
+		getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				updateActions(getSelectionActions());
+			}
+		});
 	}
 	
 	@Override
