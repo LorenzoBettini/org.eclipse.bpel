@@ -759,13 +759,19 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 			// object to improve performance in future queries.
 			if( extension == null){
 									
-				for( Extension ext : getExtensions()) {					
-					if (ext.getExtendedObject() != null && ext.getExtendedObject().equals(extendedObject)){
+				EList<Extension> extensions = getExtensions();
+				int len = extensions.size();
+				for (int i = 0; i < len; ++i) {
+					Extension ext = extensions.get(i);
+					EObject extObject = ext.getExtendedObject();
+					if (extObject != null) {
+						if (ext.getExtendedObject().equals(extendedObject)) {
 						extension = ext;
 						
 						ExtensionmodelAdapterFactory adapterFactory = new ExtensionmodelAdapterFactory();
 				
-						ExtendedObjectAdapter extAdptr = (ExtendedObjectAdapter) adapterFactory.createExtendedObjectAdapter();
+							ExtendedObjectAdapter extAdptr = (ExtendedObjectAdapter) adapterFactory
+									.createExtendedObjectAdapter();
 				
 						extAdptr.setExtension(extension);
 						extAdptr.setNamespace(getNamespace());
@@ -775,6 +781,14 @@ public class ExtensionMapImpl extends EObjectImpl implements ExtensionMap  {
 						adapterFactory.adapt(extension,ExtensionAdapterImpl.class);
 						
 						break;
+						} else if (extObject.eIsProxy()) {
+							// Bugzilla 330513
+							// this thing has not been resolved - the extension
+							// model is out of sync with the BPEL model so remove
+							// this extension from the model
+							extensions.remove(i--);
+							--len;
+						}
 					}
 					 
 				}
