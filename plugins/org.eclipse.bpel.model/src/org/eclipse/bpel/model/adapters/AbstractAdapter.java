@@ -29,7 +29,9 @@ public class AbstractAdapter implements Adapter {
 	static public final int CONTEXT_UPDATE_EVENT_TYPE = 101;
 		
 	/** Makes sense only when adapters are statefull */
-	private Object target = null;
+	// Bugzilla 330519
+	// need access to this in MarkerDelegateAdapter
+	protected Object target = null;
 	
 	/** additional context that is needed by the adapter to wrap the object */
 	private Object context = null;	
