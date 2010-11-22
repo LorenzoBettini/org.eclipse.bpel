@@ -7,17 +7,16 @@
  */
 package org.eclipse.bpel.ui.adapters;
 
-/*
- * This is the extensionActivity adapter
- *
- * @see Bugzilla 324115
- * @author Bob Brodt
- * @date Aug 27, 2010
- */
-public class ExtensionActivityAdapter extends ActivityAdapter {
+import org.eclipse.bpel.model.adapters.BasicEObjectaAdapter;
 
-	public ExtensionActivityAdapter()
-	{
-		super();
-	}
+/*
+ * This adds the INamespace adapter to PropertyAlias objects (required for the XPath expression editor)
+ *
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+ * @see https://jira.jboss.org/browse/JBIDE-7107
+ * @author Bob Brodt
+ * @date Oct 12, 2010
+ */
+public class PropertyAliasAdapter extends BasicEObjectaAdapter {
+
 }

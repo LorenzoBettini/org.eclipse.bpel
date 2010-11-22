@@ -58,6 +58,17 @@ public class BPELUIMessagePropertiesAdapterFactory extends MessagepropertiesAdap
 		return provider.getAdapter( PropertyAdapter.class );
 	}
 	
+	/**
+	 * @see org.eclipse.bpel.model.messageproperties.util.MessagepropertiesAdapterFactory#createPropertyAdapter()
+	 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	 * https://jira.jboss.org/browse/JBIDE-7107
+	 * This adds the INamespace adapter to PropertyAlias objects (required for the XPath expression editor)
+	 */
+	@Override
+	public Adapter createPropertyAliasAdapter() {
+		return provider.getAdapter( PropertyAliasAdapter.class );
+	}
+	
 	
 	/**
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adaptNew(org.eclipse.emf.common.notify.Notifier, java.lang.Object)

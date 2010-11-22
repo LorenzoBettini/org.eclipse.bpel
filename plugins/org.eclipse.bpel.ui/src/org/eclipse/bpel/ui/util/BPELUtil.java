@@ -83,6 +83,7 @@ import org.eclipse.bpel.ui.extensions.ActionDescriptor;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.uiextensionmodel.ActivityExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
+import org.eclipse.bpel.validator.EmfModelQuery;
 import org.eclipse.bpel.wsil.model.inspection.InspectionPackage;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -1720,6 +1721,10 @@ public class BPELUtil {
 	
 	public static void openEditor(EObject modelObject, BPELEditor editor) {
 		try {
+	        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+			if (modelObject.eIsProxy()) {
+				modelObject = EmfModelQuery.resolveProxy(editor.getProcess(), modelObject);
+			}
 			Assert.isNotNull(modelObject);
 			Assert.isNotNull(modelObject.eResource());
 			IFile file = BPELUtil.getFileFromURI(modelObject.eResource().getURI());

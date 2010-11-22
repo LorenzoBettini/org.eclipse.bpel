@@ -29,6 +29,7 @@ import org.eclipse.bpel.ui.factories.UIObjectFactoryProvider;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.FlowLinkUtil;
+import org.eclipse.core.internal.resources.Marker;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -47,47 +48,13 @@ import org.eclipse.swt.graphics.Image;
  *
  */
 
-public abstract class ActivityAdapter extends AbstractStatefulAdapter implements INamedElement,
+// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+// https://jira.jboss.org/browse/JBIDE-7526
+// push all of the Marker stuff up to MarkerHolderAdapter to avoid duplication
+public abstract class ActivityAdapter extends MarkerHolderAdapter implements INamedElement,
 	ILabeledElement, EditPartFactory, IOutlineEditPartFactory, IMarkerHolder,
 	IEditPartActionContributor, IExtensionFactory, AdapterNotification
 {
-
-	
-	/**
-	 * @see org.eclipse.bpel.model.adapters.AbstractAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-	 */
-	@Override
-	public void notifyChanged(Notification notification) {		
-		super.notifyChanged(notification);
-		switch (notification.getEventType()) {
-			case NOTIFICATION_MARKERS_STALE : 
-				fMarkers.clear();
-				break;
-			case NOTIFICATION_MARKER_ADDED :
-				fMarkers.add ( (IMarker) notification.getNewValue() );
-				break;
-			case NOTIFICATION_MARKER_DELETED :
-				fMarkers.remove ( notification.getOldValue() );
-				break;								
-		}				
-	}
-	
-	ArrayList<IMarker> fMarkers = new ArrayList<IMarker>();
-
-	static IMarker [] EMPTY_MARKERS = {};
-	
-	/** (non-Javadoc)
-	 * @see org.eclipse.bpel.ui.adapters.IMarkerHolder#getMarkers(java.lang.Object)
-	 */
-
-	public IMarker[] getMarkers (Object object) {
-		
-		if (fMarkers.size() == 0) {
-			return EMPTY_MARKERS;
-		}
-		return fMarkers.toArray( EMPTY_MARKERS );						
-	}
-	
 	
 	/**
 	 * Helper method for getting an AbstractUIObjectFactory from a model object.

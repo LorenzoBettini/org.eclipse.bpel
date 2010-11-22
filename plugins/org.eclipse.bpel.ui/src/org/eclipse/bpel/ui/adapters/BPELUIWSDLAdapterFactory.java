@@ -60,6 +60,17 @@ public class BPELUIWSDLAdapterFactory extends WSDLAdapterFactory {
 	}
 	
 	/**
+	 * @see org.eclipse.wst.wsdl.internal.util.WSDLAdapterFactory#createDefinitionAdapter()
+	 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	 * https://jira.jboss.org/browse/JBIDE-7107
+	 * This adds the INamespace adapter to Definition objects (required for the XPath expression editor)
+	 */
+	@Override
+	public Adapter createDefinitionAdapter() {
+		return provider.getAdapter( DefinitionAdapter.class );
+	}
+	
+	/**
 	 * @see org.eclipse.wst.wsdl.internal.util.WSDLAdapterFactory#createMessageAdapter()
 	 */
 	@Override

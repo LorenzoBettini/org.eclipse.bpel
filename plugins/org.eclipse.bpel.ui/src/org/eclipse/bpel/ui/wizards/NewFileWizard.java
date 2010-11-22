@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
+import org.eclipse.bpel.ui.Templates.Template;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -244,6 +245,15 @@ public class NewFileWizard extends Wizard implements INewWizard {
 				|| super.canFinish();
 	}
 	
+	/**
+	 * @return the currently selected Template
+	 * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	 * @see https://jira.jboss.org/browse/JBIDE-7165
+	 */
+	public Template getSelectedTemplate()
+	{
+		return fMainPage.getSelectedTemplate();
+	}
 	
 	static IPath getWebContentRootPath(IProject project) {
 		if (project == null)

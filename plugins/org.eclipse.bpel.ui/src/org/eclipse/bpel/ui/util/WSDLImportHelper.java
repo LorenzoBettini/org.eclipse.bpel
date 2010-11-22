@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.PropertyAlias;
+import org.eclipse.bpel.model.messageproperties.Query;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
@@ -42,16 +43,15 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDTypeDefinition;
 
-
 /**
  * This class contains helpers to place the necessary <import> and <namespace>
- * declarations in a WSDL Definition so that it will serialize properly. 
+ * declarations in a WSDL Definition so that it will serialize properly.
  */
 public class WSDLImportHelper {
 
 	static final String WSDL_PREFIX_KIND = "wsdl"; //$NON-NLS-1$
-	static final String XSD_PREFIX_KIND = "xsd";   //$NON-NLS-1$
-	
+	static final String XSD_PREFIX_KIND = "xsd"; //$NON-NLS-1$
+
 	
 	
 	public static void addAllImportsAndNamespaces(Definition definition, IResource contextObject) {
@@ -67,13 +67,13 @@ public class WSDLImportHelper {
 		addToolingNamespaces(definition);
 
 		for (Iterator it = definition.getEExtensibilityElements().iterator(); it.hasNext(); ) {
-			ExtensibilityElement ee = (ExtensibilityElement)it.next();
+			ExtensibilityElement ee = (ExtensibilityElement) it.next();
 
 			if (ee instanceof PartnerLinkType) {
 				// for each <role> with a <portType>, import the file with the portType in it
-				for (Role role : ((PartnerLinkType)ee).getRole()) {
+				for (Role role : ((PartnerLinkType) ee).getRole()) {
 					if (role.getPortType() != null) {
-						PortType pt = (PortType)role.getPortType();
+						PortType pt = (PortType) role.getPortType();
 						if (pt != null && pt.getQName() != null) {
 							addImportAndNamespace(definition, pt.getEnclosingDefinition());
 						}
@@ -81,49 +81,51 @@ public class WSDLImportHelper {
 				}
 			}
 			if (ee instanceof PropertyAlias) {
-				Message msg = (Message)((PropertyAlias)ee).getMessageType(); 
+				Message msg = (Message) ((PropertyAlias) ee).getMessageType();
 				if (msg != null && msg.getQName() != null) {
 					addImportAndNamespace(definition, msg.getEnclosingDefinition());
 			        // add the namespaces of the propertyalias, message, part, type definition
 			        // for maybe the query of the propertyalias will use the elements in the namespaces
-			        if (((PropertyAlias) ee).getQuery() != null
-			                && !"".equals(((PropertyAlias) ee).getQuery().getValue())) {
-			            String query = ((PropertyAlias) ee).getQuery().getValue();
-			            String[] queryArr = query.split("/");
-			            List<String> prefixList = new LinkedList<String>();
-			            for (String qname : queryArr) {
-			                String[] strs = qname.split(":");
-			                if (strs.length > 1) {
-			                    prefixList.add(strs[0]);
-			                }
-			            }
-			            if (prefixList.size() > 0) {
+					
+					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+					Query q = ((PropertyAlias) ee).getQuery();
+					if (q != null && q.getValue() != null && !"".equals(q.getValue())) {
+						String query = ((PropertyAlias) ee).getQuery().getValue();
+						String[] queryArr = query.split("/");
+						List<String> prefixList = new LinkedList<String>();
+						for (String qname : queryArr) {
+							String[] strs = qname.split(":");
+							if (strs.length > 1) {
+								prefixList.add(strs[0]);
+							}
+						}
+						if (prefixList.size() > 0) {
 			                Types types = (Types) msg.getEnclosingDefinition().getTypes();
-			                if (types != null && types.getSchemas() != null) {
-			                    XSDSchema xsd = null;
-			                    for (int i = 0; i < types.getSchemas().size(); i++) {
-			                        xsd = (XSDSchema) types.getSchemas().get(i);
-			                        Map<String, String> map = xsd
-			                                .getQNamePrefixToNamespaceMap();
-			                        if (map != null) {
+							if (types != null && types.getSchemas() != null) {
+								XSDSchema xsd = null;
+								for (int i = 0; i < types.getSchemas().size(); i++) {
+									xsd = (XSDSchema) types.getSchemas().get(i);
+									Map<String, String> map = xsd
+											.getQNamePrefixToNamespaceMap();
+									if (map != null) {
 			                            for (Object obj : map.keySet().toArray()) {
 			                                if (prefixList.contains((String) obj)) {
 			                                    definition.addNamespace((String) obj,
 			                                            (String) map.get((String) obj));
-			                                }
+											}
 
-			                            }
-			                        }
-			                    }
-			                }
-			            }
-			        }					
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 			if (ee instanceof Property) {
-				Object xsdType = ((Property)ee).getType();
+				Object xsdType = ((Property) ee).getType();
 				if (xsdType instanceof XSDTypeDefinition) {
-					XSDTypeDefinition td = (XSDTypeDefinition)xsdType;
+					XSDTypeDefinition td = (XSDTypeDefinition) xsdType;
 					if (td.eResource() != null && !XSDTypeOrElementContentProvider.isBuiltInType(td)) {
 						addImportAndNamespace(definition, td.getSchema(), contextObject);
 					} else {
@@ -131,7 +133,7 @@ public class WSDLImportHelper {
 						addNamespace(definition,td.getTargetNamespace(), XSD_PREFIX_KIND );
 					}
 				} else if (xsdType instanceof XSDElementDeclaration) {
-					XSDElementDeclaration ed = (XSDElementDeclaration)xsdType;
+					XSDElementDeclaration ed = (XSDElementDeclaration) xsdType;
 					if (ed.eResource() != null) {
 						addImportAndNamespace(definition, ed.getSchema(), contextObject);
 					} else {
@@ -141,7 +143,7 @@ public class WSDLImportHelper {
 				}
 			}
 		}
-		
+
 	}
 
 	// TODO: is this truly necessary, or is the model doing it for us somewhere else?
@@ -149,21 +151,21 @@ public class WSDLImportHelper {
 	// and so I have added the tooling namespace back to existence. I have no idea why at this point.
 
 	protected static void addToolingNamespaces(Definition definition) {
-		
+
 		addNamespace(definition, PartnerlinktypeConstants.NAMESPACE, PartnerlinktypePackage.eNS_PREFIX );
 		addNamespace(definition, MessagepropertiesConstants.NAMESPACE, MessagepropertiesPackage.eNS_PREFIX );
-		
+
 //		if (getEnclosingDefinition().getPrefix(MessagepropertiesConstants.NAMESPACE) == null) {
 		//	getEnclosingDefinition().addNamespace(MessagepropertiesPackage.eNS_PREFIX, MessagepropertiesConstants.NAMESPACE);
 		// }
 //		if (definition.getNamespace(PartnerlinktypePackage.eNS_PREFIX) == null) {
-//			definition.addNamespace(PartnerlinktypePackage.eNS_PREFIX,
-//				PartnerlinktypePackage.eNS_URI);
-//		}
+		// definition.addNamespace(PartnerlinktypePackage.eNS_PREFIX,
+		// PartnerlinktypePackage.eNS_URI);
+		// }
 //		if (definition.getNamespace(MessagepropertiesPackage.eNS_PREFIX) == null) {
-//			definition.addNamespace(MessagepropertiesPackage.eNS_PREFIX,
-//				MessagepropertiesPackage.eNS_URI);
-//		}
+		// definition.addNamespace(MessagepropertiesPackage.eNS_PREFIX,
+		// MessagepropertiesPackage.eNS_URI);
+		// }
 	}
 
 	public static void addImportAndNamespace(Definition definition, XSDSchema importedSchema,
@@ -172,8 +174,8 @@ public class WSDLImportHelper {
 		String namespace = importedSchema.getTargetNamespace();
 		// TODO LOGTHIS: need better error handling here!
 		if (namespace == null)  return;
-		
-		addNamespace( definition, namespace, XSD_PREFIX_KIND );
+
+		addNamespace(definition, namespace, XSD_PREFIX_KIND);
 		addImport(namespace, definition, definition.eResource().getURI(), importedSchema,
 			importedSchema.eResource().getURI(), contextObject);
 	}
@@ -186,17 +188,17 @@ public class WSDLImportHelper {
 		String namespace = importedDefinition.getTargetNamespace();
 		// TODO LOGTHIS: need better error handling here!
 		if (namespace == null)  return;
-		
-		addNamespace(definition, namespace, WSDL_PREFIX_KIND );
+
+		addNamespace(definition, namespace, WSDL_PREFIX_KIND);
 		addImport(namespace, definition, definition.eResource().getURI(), importedDefinition,
 			importedDefinition.eResource().getURI());
 	}
-	
+
 	protected static void addNamespace ( Definition definition, String namespace, String pfxRoot  ) {
-		
+
 		String prefix = definition.getPrefix(namespace);
 		if (prefix != null) {
-			return ;
+			return;
 		}
 		// Find a suitable prefix
 		prefix = pfxRoot;
@@ -205,12 +207,12 @@ public class WSDLImportHelper {
 			if (definition.getNamespace(prefix) == null) {
 				definition.addNamespace(prefix, namespace);
 				break;
-			} 
+			}
 			prefix = pfxRoot + idx;
 			idx += 1;
 		} while (true);
 	}
-	
+
 	protected static void addImport(String namespace, Definition importingDefinition,
 		URI importingUri, Definition importedDefinition, URI importedUri) {
 		WSDLFactory wsdlFactory = WSDLPackage.eINSTANCE.getWSDLFactory();
@@ -221,15 +223,15 @@ public class WSDLImportHelper {
 		boolean found = false;
 		for (int i = 0; i < imports.size() && !found; i++) {
 			Import _import = imports.get(i);
-			if (_import.getEDefinition()== importedDefinition) {
+			if (_import.getEDefinition() == importedDefinition) {
 				found = true;
 			}
 		}
 		if (!found) {
 			String locationURI = createBuildPathRelativeReference(importingUri, importedUri);
-						
+
 			if (locationURI != null && locationURI.length() != 0) {
-		        // Create and add the import to the definition
+				// Create and add the import to the definition
 				Import _import = wsdlFactory.createImport();
 				_import.setEDefinition(importedDefinition);
 				_import.setLocationURI(locationURI);
@@ -253,7 +255,7 @@ public class WSDLImportHelper {
 		boolean found = false;
 		for (int i = 0; i < imports.size() && !found; i++) {
 			Import _import = imports.get(i);
-			if (_import.getESchema()== importedSchema) {
+			if (_import.getESchema() == importedSchema) {
 				found = true; continue;
 			}
 		}
@@ -264,17 +266,22 @@ public class WSDLImportHelper {
 			// It's not for something in the workspace.
 		} else {
 			String locationString = createBuildPathRelativeReference(importingUri, importedUri);
-			
+
 			if (locationString != null && locationString.length() != 0) {
-		        // Create and add the import to the definition
+				// Create and add the import to the definition
 				Import _import = wsdlFactory.createImport();
 				_import.setESchema(importedSchema);
 				_import.setLocationURI(locationString);
 				_import.setNamespaceURI(namespace);
-				//imports.add(_import);
+				// imports.add(_import);
 				//importingDefinition.getImports().put(importedSchema.getTargetNamespace(), imports);
 				importingDefinition.addImport(_import);
-			} else {
+			}
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+			// https://jira.jboss.org/browse/JBIDE-7107
+			// ignore an inconsequential error here
+			else if ( !importingUri.equals(importedUri) )
+			{
 				// TODO handle errors here?
 				throw new IllegalStateException();
 			}
@@ -284,25 +291,25 @@ public class WSDLImportHelper {
 	public static String createBuildPathRelativeReference(URI sourceURI, URI targetURI) {
 		if (sourceURI == null || targetURI == null)
 			throw new IllegalArgumentException();
-				
-		//BaseURI source = new BaseURI(sourceURI);
-		//return source.getRelativeURI(targetURI);
+
+		// BaseURI source = new BaseURI(sourceURI);
+		// return source.getRelativeURI(targetURI);
 		// TODO: this is probably bogus.
 		String result = targetURI.deresolve(sourceURI, true, true, true).toFileString();
-		// When absolute URLs 
+		// When absolute URLs
 		return (result == null ? targetURI.toString() : result);
 	}
 
 	public static Definition getDefinition(org.eclipse.bpel.model.Import bpelImport) {
-        Resource baseResource = bpelImport.eResource();
-        String location = bpelImport.getLocation();
-        if (!baseResource.getURI().isRelative()) {
+		Resource baseResource = bpelImport.eResource();
+		String location = bpelImport.getLocation();
+		if (!baseResource.getURI().isRelative()) {
             location = URI.createURI(location).resolve(baseResource.getURI()).toString();
-        }
-        URI locationURI = URI.createURI(location);
-        ResourceSet resourceSet = baseResource.getResourceSet();
-        Resource resource = resourceSet.getResource(locationURI, true);
+		}
+		URI locationURI = URI.createURI(location);
+		ResourceSet resourceSet = baseResource.getResourceSet();
+		Resource resource = resourceSet.getResource(locationURI, true);
 		return (resource instanceof WSDLResourceImpl) ? ((WSDLResourceImpl)resource).getDefinition() : null;
 	}
-	
+
 }

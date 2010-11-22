@@ -191,6 +191,9 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	    @Override
 		protected void handleSelectionChanged() {
 	        handleUpperSelectionChanged();
+	        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	        // https://jira.jboss.org/browse/JBIDE-7107
+	        updateOkState();
 	    }
 
 	    private void handleUpperSelectionChanged() {
@@ -208,6 +211,9 @@ public class ListAndViewDialog extends AbstractElementListSelectionDialog {
 	        }
 	        
 	        validateCurrentSelection();
+	        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	        // https://jira.jboss.org/browse/JBIDE-7107
+	        updateOkState();
 	    }
 
 

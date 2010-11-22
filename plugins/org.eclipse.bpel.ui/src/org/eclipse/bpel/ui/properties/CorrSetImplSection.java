@@ -152,8 +152,8 @@ public class CorrSetImplSection extends BPELPropertySection  {
 	@Override
 	protected void addAllAdapters() {
 		super.addAllAdapters();
-		List corrList = ((CorrelationSet)getInput()).getProperties();
-		for (Iterator it = corrList.iterator(); it.hasNext(); ) {
+		List<Property> corrList = ((CorrelationSet)getInput()).getProperties();
+		for (Iterator<Property> it = corrList.iterator(); it.hasNext(); ) {
 			Property property = (Property)it.next();
 			fAdapters[1].addToObject(property);
 		}
@@ -216,8 +216,19 @@ public class CorrSetImplSection extends BPELPropertySection  {
 					BPELEditor bpelEditor = getBPELEditor();
 					Shell shell = bpelEditor.getEditorSite().getShell();
 					EditMessagePropertyDialog dialog = new EditMessagePropertyDialog(shell, property, null, bpelEditor, fWidgetFactory);
-					if (dialog.open() == Window.OK) {
-						if (property != null) {
+					int rtn = dialog.open(); 
+					if (rtn == Window.OK) {
+				        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+						// https://jira.jboss.org/browse/JBIDE-7107
+						// this fixes a nasty bug caused by manual editing of the ProcessArtifacts.wsdl
+						if (property != null && dialog.getProperty()!=null) {
+							if (property.eIsProxy()) {
+								// the Propery is not resolved (it was probably removed from the WSDL)
+								// remove the old Property before adding the newly created one.
+								Command cmd = new RemovePropertyCommand((CorrelationSet)getInput(), property);
+								getCommandFramework().execute(wrapInShowContextCommand(cmd));
+								property = dialog.getProperty();
+							}
 							Command cmd = new AddPropertyCommand((CorrelationSet)getInput(), property);
 							getCommandFramework().execute(wrapInShowContextCommand(cmd));
 							propertyViewer.setSelection(new StructuredSelection(property));
@@ -293,16 +304,22 @@ public class CorrSetImplSection extends BPELPropertySection  {
 		editButton.setEnabled(hasSelection);
 	}
 	
-	protected void updatePropertyWidgets(Property property) {
+	protected void updatePropertyWidgets(final Property property) {
 		Object input = getInput();
 		if (input == null)  throw new IllegalStateException();
 		
 		propertyViewer.setInput(getInput());
-		if (property != null) {
-			propertyViewer.refresh(property, true);
-		} else {
-			propertyViewer.refresh();
-		}
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+		// https://jira.jboss.org/browse/JBIDE-7351
+		propertyViewer.getControl().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				if (property != null) {
+					propertyViewer.refresh(property, true);
+				} else {
+					propertyViewer.refresh();
+				}
+			}
+		});
 	}
 	
 	@Override
