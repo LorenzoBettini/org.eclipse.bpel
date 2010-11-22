@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.7 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: PropertyImpl.java,v 1.8 2010/11/22 19:48:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
+import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 import org.w3c.dom.Element;
@@ -353,10 +354,11 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 
 	@Override
 	public void reconcileReferences(boolean deep) {
+		Definition definition = getEnclosingDefinition();
+		Element element = getElement();
 		if (element != null
 				&& element
 						.hasAttribute(MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE)) {
-			Definition definition = getEnclosingDefinition();
 			QName qname = createQName(
 					definition,
 					element
@@ -367,6 +369,25 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 								.getLocalPart());
 				if (xsdType != null && getType() != xsdType) {
 					setType(xsdType);
+				}
+			}
+		}
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+		// https://jira.jboss.org/browse/JBIDE-7107
+		// added element handling
+		if (element != null
+				&& element
+						.hasAttribute(MessagepropertiesConstants.PROPERTY_XSD_ELEMENT_ATTRIBUTE)) {
+			QName qname = createQName(
+					definition,
+					element
+							.getAttribute(MessagepropertiesConstants.PROPERTY_XSD_ELEMENT_ATTRIBUTE));
+			if (qname != null) {
+				XSDElementDeclaration xsdElement = ((DefinitionImpl) definition)
+						.resolveElementDeclaration(qname.getNamespaceURI(), qname
+								.getLocalPart());
+				if (xsdElement != null && getType() != xsdElement) {
+					setType(xsdElement);
 				}
 			}
 		}
@@ -392,20 +413,40 @@ public class PropertyImpl extends ExtensibilityElementImpl implements Property {
 		if (theElement != null) {
 			if (eAttribute == null
 					|| eAttribute == MessagepropertiesPackage.eINSTANCE
-							.getProperty_Name())
+							.getProperty_Name()) {
 				niceSetAttribute(theElement,
 						MessagepropertiesConstants.PROPERTY_NAME_ATTRIBUTE,
 						getName());
+			}
+			
 			if (eAttribute == null
 					|| eAttribute == MessagepropertiesPackage.eINSTANCE
 							.getProperty_Type()) {
+				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+				// https://jira.jboss.org/browse/JBIDE-7107
+				// this is unfortunate, but the Property model object only has a "type" which serves both
+				// for "type" and "element" addressing - we just have to figure out which is which from the
+				// stored object type before serializing to WSDL.
 				Object type = getType();
 				if (type instanceof XSDTypeDefinition) {
 					XSDTypeDefinition xsdType = (XSDTypeDefinition) type;
 					String uri = xsdType.getURI();
 					niceSetAttributeURIValue(theElement,
+							MessagepropertiesConstants.PROPERTY_XSD_ELEMENT_ATTRIBUTE,
+							null);
+					niceSetAttributeURIValue(theElement,
 							MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE,
 							uri);
+				}
+				else if (type instanceof XSDElementDeclaration) {
+					XSDElementDeclaration xsdElement = (XSDElementDeclaration) type;
+					String uri = xsdElement.getURI();
+					niceSetAttributeURIValue(theElement,
+							MessagepropertiesConstants.PROPERTY_XSD_ELEMENT_ATTRIBUTE,
+							uri);
+					niceSetAttributeURIValue(theElement,
+							MessagepropertiesConstants.PROPERTY_TYPE_ATTRIBUTE,
+							null);
 				}
 			}
 		}

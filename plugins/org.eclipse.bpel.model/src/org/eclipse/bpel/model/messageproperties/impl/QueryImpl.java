@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.4 2008/05/04 11:05:47 odanilov Exp $
+ * $Id: QueryImpl.java,v 1.5 2010/11/22 19:48:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Query;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
@@ -39,6 +40,13 @@ import org.w3c.dom.Text;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Query</b></em>'.
+ * CAUTION: We want to reuse the XPath editor for query expression, but unfortunately it requires that
+ * the model object implements the Expression interface (only used in the BPEL model currently).
+ * I have added the Expression methods by hand. These have essentially the same functionality as the Query
+ * interface, only the names are changed.
+ * 
+ * @see https://jira.jboss.org/browse/JBIDE-7107
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -50,7 +58,7 @@ import org.w3c.dom.Text;
  *
  * @generated
  */
-public class QueryImpl extends ExtensibilityElementImpl implements Query {
+public class QueryImpl extends ExtensibilityElementImpl implements Query, Expression {
 	/**
 	 * The default value of the '{@link #getQueryLanguage() <em>Query Language</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -376,6 +384,47 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query {
 			elementType = new QName(MessagepropertiesConstants.NAMESPACE,
 					MessagepropertiesConstants.QUERY_ELEMENT_TAG);
 		return elementType;
+	}
+
+	// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	// https://jira.jboss.org/browse/JBIDE-7107
+	// the Expression interface methods
+	public Object getBody() {
+		return getValue();
+	}
+
+	public void setBody(Object value) {
+		setValue(value.toString());
+	}
+
+	public String getExpressionLanguage() {
+		return getQueryLanguage();
+	}
+
+	public void setExpressionLanguage(String value) {
+		setQueryLanguage(value);
+	}
+
+	public void unsetExpressionLanguage() {
+		setQueryLanguage(null);
+	}
+
+	public boolean isSetExpressionLanguage() {
+		return getQueryLanguage()!=null;
+	}
+
+	public Boolean getOpaque() {
+		return null;
+	}
+
+	public void setOpaque(Boolean value) {
+	}
+
+	public void unsetOpaque() {
+	}
+
+	public boolean isSetOpaque() {
+		return false;
 	}
 
 } //QueryImpl
