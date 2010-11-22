@@ -28,7 +28,9 @@ import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.WSDLElement;
+import org.eclipse.wst.wsdl.util.WSDLParser;
 import org.eclipse.xsd.XSDConcreteComponent;
+import org.eclipse.xsd.util.XSDParser;
 import org.w3c.dom.Element;
 
 
@@ -44,6 +46,10 @@ import org.w3c.dom.Element;
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Sep 21, 2006
  *
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+ * @see https://jira.jboss.org/browse/JBIDE-7351
+ * EMFModelQuery is no longer static because of XSDComparer object
+ * for fetching diagnostics of comparison
  */
 
 @SuppressWarnings("nls")
@@ -62,7 +68,7 @@ public class ModelQuery extends ModelQueryImpl {
 	
 	@Override
 	public boolean hasSupport (int item, String value) {
-		//fix Bug 323945
+		
 		switch (item) {
 		case SUPPORT_QUERY_LANGUAGE :		
 			return 
@@ -134,20 +140,20 @@ public class ModelQuery extends ModelQueryImpl {
 		case TEST_COMPATIBLE_PARTNER_ACTIVITY_MESSAGE:
 			// n1 is source 
 			// n2 is destination
-			return EmfModelQuery.compatiblePartnerActivityMessages ( 
+			return emfModelQuery.compatiblePartnerActivityMessages ( 
 					adapt(n1,EObject.class,ADAPT_HINT_NONE), 
 					adapt(n2,EObject.class,ADAPT_HINT_NONE) );
 			
 		case TEST_COMPATIBLE_TYPE :
 			// n1 is the source
 			// n2 is the destination
-			return EmfModelQuery.compatibleType ( adapt(n1,EObject.class,ADAPT_HINT_NONE), adapt(n2,EObject.class,ADAPT_HINT_NONE)); 
+			return emfModelQuery.compatibleType ( adapt(n1,EObject.class,ADAPT_HINT_NONE), adapt(n2,EObject.class,ADAPT_HINT_NONE)); 
 			
 		case TEST_IS_SIMPLE_TYPE : 
 			if (n1 == null || n1.isResolved() == false) {
 				return false;
 			}
-			return EmfModelQuery.isSimpleType ( adapt(n1,EObject.class,ADAPT_HINT_NONE) ) ;
+			return emfModelQuery.isSimpleType ( adapt(n1,EObject.class,ADAPT_HINT_NONE) ) ;
 			
 		case TEST_RESOVLED :
 			if (n1 == null) {
@@ -199,6 +205,8 @@ public class ModelQuery extends ModelQueryImpl {
 		 }
 		 		 
 		 // set it.
+//			System.out.println(elm.getOwnerDocument().getDocumentURI() + " " + elm.getLocalName() + "----" + obj);
+
 		 elm.setUserData("emf.model", eObj, null);
 
 		 
@@ -216,6 +224,8 @@ public class ModelQuery extends ModelQueryImpl {
 				 domElement = ((XSDConcreteComponent)next).getElement();
 			 } 
 			 if ( domElement != null ) {
+//					System.out.println(elm.getOwnerDocument().getDocumentURI() + " " + elm.getLocalName() + "----" + next);
+
 				 domElement.setUserData("emf.model",next,null);
 			 }			 
 		 }
@@ -269,7 +279,7 @@ public class ModelQuery extends ModelQueryImpl {
 		case LOOKUP_NODE_IMPORT :
 			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupImport(adapt(context,EObject.class,ADAPT_HINT_NONE), name );				
+				eObj = emfModelQuery.lookupImport(adapt(context,EObject.class,ADAPT_HINT_NONE), name );				
 			}
 			
 			if (eObj == null) {
@@ -305,7 +315,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_PARTNER_LINK_TYPE :	
 			if ( context.isResolved() ) {
-				eObj = EmfModelQuery.lookupPartnerLinkType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname ); 				
+				eObj = emfModelQuery.lookupPartnerLinkType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname ); 				
 			}			
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
@@ -314,7 +324,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_ROLE :
 			if ( context.isResolved() ) {
-				eObj =  EmfModelQuery.lookupRole ( adapt(context,EObject.class,ADAPT_HINT_NONE), name ) ;
+				eObj =  emfModelQuery.lookupRole ( adapt(context,EObject.class,ADAPT_HINT_NONE), name ) ;
 			}			
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.PLNK_ND_PARTNER_LINK_TYPE, IConstants.AT_NAME, name );				
@@ -323,7 +333,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_OPERATION :
 			if ( context.isResolved()) {				
-				eObj = EmfModelQuery.lookupOperation ( adapt(context,EObject.class,ADAPT_HINT_NONE), name );
+				eObj = emfModelQuery.lookupOperation ( adapt(context,EObject.class,ADAPT_HINT_NONE), name );
 			}			
 			if (eObj == null) {
 				result = new UndefinedNode ( IConstants.WSDL_ND_OPERATION, IConstants.AT_NAME, name );
@@ -332,7 +342,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_PORT_TYPE :	
 			if ( context.isResolved() ) {
-				eObj = EmfModelQuery.lookupPortType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname) ;					
+				eObj = emfModelQuery.lookupPortType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname) ;					
 			}				
 			if (eObj == null) {
 				result = new UndefinedNode ( IConstants.WSDL_ND_PORT_TYPE, IConstants.AT_NAME, qname.getLocalPart() );
@@ -341,7 +351,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_MESSAGE_TYPE :	
 			if ( context.isResolved() ) {
-				eObj = EmfModelQuery.lookupMessage ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname) ;				
+				eObj = emfModelQuery.lookupMessage ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname) ;				
 			}					
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.WSDL_ND_MESSAGE, IConstants.AT_NAME, qname.getLocalPart() );
@@ -349,11 +359,11 @@ public class ModelQuery extends ModelQueryImpl {
 			break;			
 
 		case LOOKUP_NODE_MESSAGE_PART :
-			return adapt(EmfModelQuery.lookupMessagePart ( adapt(context,EObject.class,ADAPT_HINT_NONE), name),INode.class,ADAPT_HINT_NONE );
+			return adapt(emfModelQuery.lookupMessagePart ( adapt(context,EObject.class,ADAPT_HINT_NONE), name),INode.class,ADAPT_HINT_NONE );
 			
 		case LOOKUP_NODE_XSD_ELEMENT :
 			if ( context.isResolved() )  {
-				eObj = EmfModelQuery.lookupXSDElement ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname);
+				eObj = emfModelQuery.lookupXSDElement ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname);
 			}
 			if (eObj == null) {				
 				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME, qname.getLocalPart());
@@ -362,7 +372,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_XSD_TYPE :			
 			if (context.isResolved()) {				
-				eObj = EmfModelQuery.lookupXSDType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname);				
+				eObj = emfModelQuery.lookupXSDType ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname);				
 			}
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.AT_TYPE,IConstants.AT_NAME, qname.getLocalPart());	
@@ -371,7 +381,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_PROPERTY :
 			if (context.isResolved()) {				
-				eObj = EmfModelQuery.lookupProperty ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname  );				
+				eObj = emfModelQuery.lookupProperty ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname  );				
 			}
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.VPROP_ND_PROPERTY, IConstants.AT_NAME, qname.getLocalPart());	
@@ -380,7 +390,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_NAME_STEP :			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class,ADAPT_HINT_NONE), qname, 0 );
+				eObj = emfModelQuery.lookupNameStep( adapt(context,EObject.class,ADAPT_HINT_NONE), qname, 0 );
 			}
 			if (eObj == null) {
 				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
@@ -389,7 +399,7 @@ public class ModelQuery extends ModelQueryImpl {
 		
 		case LOOKUP_NODE_NAME_STEP_ATTRIBUTE :			
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupNameStep( adapt(context,EObject.class,ADAPT_HINT_NONE), qname, 1 );
+				eObj = emfModelQuery.lookupNameStep( adapt(context,EObject.class,ADAPT_HINT_NONE), qname, 1 );
 			}
 			if (eObj == null) {
 				result =  new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,qname.getLocalPart() );	
@@ -398,7 +408,7 @@ public class ModelQuery extends ModelQueryImpl {
 			
 		case LOOKUP_NODE_TYPE_OF_PART : 
 			if (context.isResolved()) {
-				eObj = EmfModelQuery.lookupTypeOfPart ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname );
+				eObj = emfModelQuery.lookupTypeOfPart ( adapt(context,EObject.class,ADAPT_HINT_NONE), qname );
 			}
 			if (eObj == null) {
 				result = new UndefinedNode(IConstants.AT_ELEMENT,IConstants.AT_NAME,"Unknown");
@@ -531,7 +541,43 @@ public class ModelQuery extends ModelQueryImpl {
 		try {
 			return ((Number)elm.getUserData(key)).intValue();
 		} catch (Throwable t) {
-			// 
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+			// https://jira.jboss.org/browse/JBIDE-7107
+			// this was added as a result of https://jira.jboss.org/browse/JBIDE-7116 since we need to
+			// be able to report line information for various types of WSDL objects...
+			// if the requested item is line/column information, maybe it's in an imported WSDL or XSD.
+			// We'll have to get this info from the WSDLParser or XSDParser. Luckily we remembered to set
+			// the TRACK_LOCATION loader option for the WSDL Resource loader, right?
+			EObject eObj = (EObject) elm.getUserData("emf.model");
+			if (eObj instanceof XSDConcreteComponent) {
+				switch (what) {
+				case LOOKUP_NUMBER_LINE_NO :
+					def = XSDParser.getStartLine( ((XSDConcreteComponent)eObj).getElement() );
+					break;		
+				case LOOKUP_NUMBER_COLUMN_NO :
+					def = XSDParser.getStartColumn( ((XSDConcreteComponent)eObj).getElement() );
+					break;		
+				default:
+					return def;
+				}				
+			}
+			else if (eObj instanceof WSDLElement) {
+				switch (what) {
+				case LOOKUP_NUMBER_LINE_NO :
+					def = WSDLParser.getStartLine( ((WSDLElement)eObj).getElement() );
+					break;		
+				case LOOKUP_NUMBER_COLUMN_NO :
+					def = WSDLParser.getStartColumn( ((WSDLElement)eObj).getElement() );
+					break;		
+				default:
+					return def;
+				}				
+			}
+			else
+				return def;
+			
+			// found it! Set this info in the adaptable Element for next time
+			elm.setUserData(key, new Integer(def), null);
 		}			
 		return def;
 	}

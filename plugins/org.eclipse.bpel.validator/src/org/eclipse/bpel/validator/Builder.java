@@ -56,10 +56,11 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("nls")
 public class Builder extends IncrementalProjectBuilder {
-	// Bugzilla 320545:
+
+	// https://jira.jboss.org/jira/browse/JBIDE-6006
 	// Content Type ID for org.eclipse.bpel editor files
 	public static final String BPEL_CONTENT_TYPE = "org.eclipse.bpel.contenttype"; //$NON-NLS-1$
-
+	
 	Date created = new Date();
 	
 	boolean bDebug = false;
@@ -106,12 +107,17 @@ public class Builder extends IncrementalProjectBuilder {
 			bDebug = toBoolean(args.get("debug"),false);
 		}
 		
+
 		AdapterFactory.DEBUG = bDebug;
 		if (bDebug) {
 			p("Clear error messages from the cache ... (will re-load)");
 			Messages.clear();			
-		} 
-
+		}
+		
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+		// https://jira.jboss.org/browse/JBIDE-7116
+		clearCach();
+		
 		IProject myProject = this.getProject();
 		IResourceDelta resourceDelta = this.getDelta(myProject);
 		
@@ -157,6 +163,7 @@ public class Builder extends IncrementalProjectBuilder {
 				continue;
 			}
 			
+			fResourceSet.resourceChanged((IFile)resource);
 			validate ( resource, monitor );					
 		}		
 	}
@@ -167,9 +174,18 @@ public class Builder extends IncrementalProjectBuilder {
 	 */
 	@Override
 	protected void clean (IProgressMonitor monitor) throws CoreException {
-		
+		removeProblemsAndTasksFor(getProject());
 	}
 
+	public static void removeProblemsAndTasksFor(IResource resource) {
+		try {
+			if (resource != null && resource.exists()) {
+				resource.deleteMarkers(IBPELMarker.ID, false, IResource.DEPTH_INFINITE);
+			}
+		} catch (CoreException e) {
+			// assume there were no problems
+		}
+	}
 	/**
 	 * Validate the resource using the monitor passed.
 	 * 
@@ -181,6 +197,15 @@ public class Builder extends IncrementalProjectBuilder {
 	@SuppressWarnings("unchecked")
 	public void validate (IResource resource, IProgressMonitor monitor) throws CoreException {
 		
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+		// https://jira.jboss.org/browse/JBIDE-7116
+		// enable element location tracking for error reporting
+		// TODO: move this to somewhere more appropriate when fixing JBIDE-6839
+		Map<Object, Object> loadOptions = fResourceSet.getLoadOptions();
+		loadOptions.put("TRACK_LOCATION", Boolean.TRUE);
+		fResourceSet.setLoadOptions(loadOptions);
+		
+
 		switch (resource.getType()) {
 		
 		case IResource.FOLDER :
@@ -194,7 +219,7 @@ public class Builder extends IncrementalProjectBuilder {
 			IFile file = (IFile) resource;
 									
 			p("File Resource : " + file.getName() );
-			// Bugzilla 320545:
+			// https://jira.jboss.org/jira/browse/JBIDE-6006
 			// use content type to check for BPEL files
 			if ( isBPELFile(file) ||  "wsdl".equalsIgnoreCase(file.getFileExtension()) ) {
 				IProject project = file.getProject();
@@ -202,22 +227,76 @@ public class Builder extends IncrementalProjectBuilder {
 //				file.deleteMarkers(IBPELMarker.ID, true,  IResource.DEPTH_INFINITE);
 //				deleteMarkersInReferencialResources(file);
 //				makeMarkers ( validate (  file, monitor  ) );	
-			}
+			} 
 			break;
-
+			
 		case IResource.PROJECT:
-			for (IFile bpelFile : getBPELFilesByProject((IProject) resource)) {
-				p("File Resource : " + bpelFile.getName());
+			for(IFile bpelFile : getBPELFilesByProject((IProject)resource)){
+				p("File Resource : " + bpelFile.getName() );
 
-				bpelFile.deleteMarkers(IBPELMarker.ID, true,
-						IResource.DEPTH_INFINITE);
+				bpelFile.deleteMarkers(IBPELMarker.ID, true,  IResource.DEPTH_INFINITE);
 				deleteMarkersInReferencialResources(bpelFile);
-				makeMarkers(validate(bpelFile, monitor));
+				makeMarkers ( validate (  bpelFile, monitor  ) );
 			}
 		}
+		
+			
+	}
+	
+	private List<IFile> getBPELFilesByProject(IProject project){
+		
+		final List<IFile> bpelFolders = new ArrayList<IFile>();
+		IResourceVisitor bpelFolderFinder = new IResourceVisitor() {
+			
+			public boolean visit(IResource resource) throws CoreException {
+				if( resource.getType() == IResource.FILE){
+					// https://jira.jboss.org/jira/browse/JBIDE-6006
+					if(isBPELFile(resource)){
+						bpelFolders.add((IFile)resource);
+						return false;
+					}
+				}
+				return true;
+			}
+		};
+		try {
+			project.accept(bpelFolderFinder);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		
+		return bpelFolders;
+	}
+	
+	private void deleteMarkersInReferencialResources(IFile bpelFile) throws CoreException{
+		
+		fResourceSet.resourceChanged(bpelFile);
+		fReader.read( bpelFile, fResourceSet );
+		Process process = fReader.getProcess();
+		
+		p("Delete markers");
+		// https://jira.jboss.org/browse/JBIDE-6825
+		// in case of XML parse errors, the Process will be null!
+		if (process == null) {
+			p ("Cannot read BPEL Process !!!");
+			return;
+		}
+		
+		IContainer container = bpelFile.getParent();
+		for(Import impt : process.getImports()){
+			String fileLocation = impt.getLocation();
+			IFile importedFile = container.getFile(new Path(fileLocation));
+			if(importedFile != null && importedFile.exists()){
+				importedFile.deleteMarkers(IBPELMarker.ID, false,  IResource.DEPTH_ZERO);
+			}
+		}
+		
 	}
 	
 	
+	public void clearCach(){
+		fResourceSet.getResources().clear();
+	}
 	/**
 	 * @param file
 	 * @param monitor
@@ -231,13 +310,13 @@ public class Builder extends IncrementalProjectBuilder {
 		p("Validating BPEL Resource : " + file.getName() );
 				
 		// Step 1. Read the BPEL process using the Model API.
-				
+		
 		fResourceSet.resourceChanged(file);
 		fReader.read( file, fResourceSet );
 		Process process = fReader.getProcess();
 		
 		if (process == null) {
-			// Bugzilla 324165
+			// https://jira.jboss.org/browse/JBIDE-6825
 			// if the resource failed to parse because of malformed XML, the Process
 			// will be null. Fetch the SAXParseDiagnostics from the resource and build
 			// problem markers for this resource.
@@ -264,6 +343,7 @@ public class Builder extends IncrementalProjectBuilder {
 				}
 				return problems.toArray( new Problem[problems.size()] );
 			}
+
 			p ("Cannot read BPEL Process !!!");
 			return EMPTY_PROBLEMS ;
 		}
@@ -328,6 +408,7 @@ public class Builder extends IncrementalProjectBuilder {
 				WSDLElement wsdle = (WSDLElement) obj;
 				Element el = wsdle.getElement();
 				if (el != null) {
+//					System.out.println(el.getOwnerDocument().getDocumentURI() + " " + el.getLocalName() + "----" + obj);
 					el.setUserData("emf.model", obj, null); //$NON-NLS-1$
 				}
 			}
@@ -352,57 +433,7 @@ public class Builder extends IncrementalProjectBuilder {
 		}
 	}
 
-	private List<IFile> getBPELFilesByProject(IProject project) {
-
-		final List<IFile> bpelFolders = new ArrayList<IFile>();
-		IResourceVisitor bpelFolderFinder = new IResourceVisitor() {
-
-			public boolean visit(IResource resource) throws CoreException {
-				if (resource.getType() == IResource.FILE) {
-					if ("bpel".equals(resource.getFileExtension())) {
-						bpelFolders.add((IFile) resource);
-						return false;
-					}
-				}
-				return true;
-			}
-		};
-		try {
-			project.accept(bpelFolderFinder);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-
-		return bpelFolders;
-	}
-
-	private void deleteMarkersInReferencialResources(IFile bpelFile)
-			throws CoreException {
-
-		fResourceSet.resourceChanged(bpelFile);
-		fReader.read(bpelFile, fResourceSet);
-		Process process = fReader.getProcess();
-		
-		p("Delete markers");
-
-		if (process != null) {
-			IContainer container = bpelFile.getParent();
-			for (Import impt : process.getImports()) {
-				String fileLocation = impt.getLocation();
-				IFile importedFile = container.getFile(new Path(fileLocation));
-				if (importedFile != null && importedFile.exists()) {
-					importedFile.deleteMarkers(IBPELMarker.ID, false,
-							IResource.DEPTH_ZERO);
-				}
-			}
-		}
-	}
-
-	public void clearCach() {
-		fResourceSet.getResources().clear();
-	}
-
-	// Bugzilla 320545
+	// https://jira.jboss.org/jira/browse/JBIDE-6006
 	public static boolean isBPELFile(IResource res)
 	{
 		try
@@ -421,4 +452,5 @@ public class Builder extends IncrementalProjectBuilder {
 		}
 		return false;	
 	}
+
 }

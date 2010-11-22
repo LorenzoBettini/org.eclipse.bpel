@@ -137,13 +137,16 @@ public class AdapterFactory implements IAdapterFactory {
 	IResource adapt_Element2IResource ( Element elm ) {
 		
 		Element top = elm.getOwnerDocument().getDocumentElement();
-		// Bugzilla 324165
 		IResource result = null;
 		if (top != null) {
 			// Find the EObject reference to the emf model in the hierarchy of
 			// the
 			EObject eObj = (EObject) top.getUserData("emf.model");
-		
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+			// https://jira.jboss.org/browse/JBIDE-7116
+			if (eObj==null)
+				eObj = (EObject) elm.getUserData("emf.model");
+
 			result = adapt_EObject2IResource(eObj);
 		}
 		return result;
@@ -161,11 +164,11 @@ public class AdapterFactory implements IAdapterFactory {
 				
 		IResource resource = null;
 		INode node = (INode) problem.getAttribute( IProblem.NODE );
-		// Bugzilla 324165
 		if (node!=null)
 			resource = (IResource) getAdapter(node.nodeValue(), IResource.class );
 		else
 		{
+			// https://jira.jboss.org/browse/JBIDE-6825
 			// added a new ERESOURCE attribute
 			Resource modelResource = (Resource) problem.getAttribute( IProblem.ERESOURCE );
 			resource = getFileFromURI(modelResource.getURI());
@@ -176,32 +179,44 @@ public class AdapterFactory implements IAdapterFactory {
 		//message && fix  		
 		String msg  = problem.getAttribute(IProblem.MESSAGE);
 		String rule = problem.getAttribute(IProblem.RULE);
-				
-		props.put("bpel.validation.rule", rule);
+
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+		// https://jira.jboss.org/browse/JBIDE-7116
+		// fix ugliness in DEBUG mode (see "org.eclipse.bpel.validator.builder" buildCommand in .project)
+		if (rule!=null)
+			props.put("bpel.validation.rule", rule);
 		
 		if (DEBUG) {
-			Throwable t = problem.getAttribute(IProblem.EXCEPTION);
 			String emsg = msg;
-			emsg += " (rule=";
-			emsg += rule;			
-			
-			if (t != null) {
-				emsg += "; stack=";
-				
-				int count = 0;
-				for(StackTraceElement e : t.getStackTrace()) {
-					emsg += "[" + count + "]";
-					emsg += e.getClassName() + ".";
-					emsg += e.getMethodName() + "@" + e.getLineNumber();
-					count += 1;
-					if (count > 2) {
-						break;
-					}
-					emsg += "/";
+			Throwable t = problem.getAttribute(IProblem.EXCEPTION);
+			if (rule!=null || t!=null) {
+
+				emsg += "(DEBUG: ";
+				if (rule!=null) {
+					emsg += "rule=";
+					emsg += rule;
 				}
-			}
 			
-			emsg += ")";			
+				if (t != null) {
+					if (rule!=null)
+						emsg += "; ";
+					emsg += "stack=";
+					
+					int count = 0;
+					for(StackTraceElement e : t.getStackTrace()) {
+						emsg += "[" + count + "]";
+						emsg += e.getClassName() + ".";
+						emsg += e.getMethodName() + "@" + e.getLineNumber();
+						count += 1;
+						if (count > 2) {
+							break;
+						}
+						emsg += "/";
+					}
+				}
+			
+				emsg += ")";
+			}
 			props.put(IMarker.MESSAGE, emsg);
 			
 		} else {
@@ -541,7 +556,6 @@ public class AdapterFactory implements IAdapterFactory {
 	
 	
 	IFile getFileFromURI (URI uri) {
-		// Bugzilla 324165
 		if (uri != null) {
 			if (uri.isFile()) {
 				return getFileFromDeviceURI(uri);

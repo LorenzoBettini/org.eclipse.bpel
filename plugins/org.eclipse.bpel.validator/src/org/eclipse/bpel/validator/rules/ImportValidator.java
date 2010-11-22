@@ -82,6 +82,8 @@ public class ImportValidator extends CValidator {
 	 * need not be specified, so this is a noop if it is not
 	 * specified as we don't generally know how to resolve imports
 	 * otherwise.
+	 * Since ODE BPEL runtime only support the artifacts that be contained
+	 * within the folder hierarchy of the deployment descriptor at the root
 	 */
 	
 	public void rule_CheckLocation_3 () {
@@ -90,6 +92,16 @@ public class ImportValidator extends CValidator {
 			return ;
 		}
 		// TODO: Check import locations to see if accessible  ?
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+		IProblem problem;
+		if(fLocation.indexOf("../") >=0 ){
+			problem = createError();
+			problem.fill( "BPELC_IMPORT_LOCATION", //$NON-NLS-1$
+				fLocation,
+				AT_LOCATION,
+				toString(mNode.nodeName()),
+				KIND_NODE );
+		}
 	}
 	
 	
@@ -194,7 +206,9 @@ public class ImportValidator extends CValidator {
 		IProblem problem ;
 		if (isUndefined(fImportedNode) && isNonEmpty(fLocation)) {
 			
-			problem = createWarning();
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+			// https://jira.jboss.org/browse/JBIDE-7478
+			problem = createError();
 			problem.fill("BPELC_IMPORT__UNRESOVED",
 					toString(mNode.nodeName()),
 					fImportType,

@@ -91,12 +91,12 @@ public class JoinCondition extends XPathValidator {
 		final String name = expr.getVariableName();
 		IProblem problem;
 
-		if (duplicateThing( "duplicate.joinCondition.link.check.", name)) {
-			return ;
-		}
-
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 		if ( isEmpty ( prefix ) == false  ) {
-			
+			if (duplicateThing( "duplicate.joinCondition.link.check.", name)) {
+				return ;
+			}
+
 			problem = createError();
 			problem.fill("XPATH_PREFIX_NOT_ALLOWED",  
 					toString(mNode.nodeName()),
@@ -116,13 +116,14 @@ public class JoinCondition extends XPathValidator {
 		);
 								
 		if (isUndefined(target)) {			
+			if (duplicateThing( "duplicate.joinCondition.link.check.", name)) {
+				return ;
+			}
 			problem = createError();
 			problem.fill("XPATH_LINK_UNDEF", name , expr.getText() );	
 			repointOffsets(problem, expr);
 		}
 		
 	}
-	
-	
 	
 }

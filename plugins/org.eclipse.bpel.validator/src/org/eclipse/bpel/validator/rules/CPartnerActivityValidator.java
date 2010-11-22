@@ -257,7 +257,10 @@ public class CPartnerActivityValidator extends CActivityValidator {
 		
 		if (portType != null) {
 			
-			if (mModelQuery.check ( IModelQueryLookups.TEST_EQUAL, portTypeFromRole , portType ) == false) {
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+			// https://jira.jboss.org/browse/JBIDE-7116
+			// port types just have to be compatible, not necessarily the same java object
+			if (mModelQuery.check ( IModelQueryLookups.TEST_COMPATIBLE_TYPE, portTypeFromRole , portType ) == false) {
 				
 				problem = createError();
 				problem.fill( "BPELC_MISMATCH_ROLE_PORT_TYPE",  //$NON-NLS-1$
