@@ -99,7 +99,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#getImageRegistry()
 	 */
 	@Override
-	public ImageRegistry getImageRegistry() {
+	public synchronized ImageRegistry getImageRegistry() {
 		ImageRegistry result = super.getImageRegistry();
 		initialize();
 		return result;
@@ -109,7 +109,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	 * Return color registry.
 	 * @return the color registry.
 	 */
-	public ColorRegistry getColorRegistry() {
+	public synchronized ColorRegistry getColorRegistry() {
 		if (colorRegistry == null) {
 			colorRegistry = new ColorRegistry();
 			initialize();
