@@ -506,7 +506,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 			public void widgetSelected(SelectionEvent arg0) {
 				// https://jira.jboss.org/browse/JBIDE-7107
 				// update "OK" button enablement
-				refresh();
+				updateOkState();
 			}
 			
 		});
