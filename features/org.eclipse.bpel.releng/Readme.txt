@@ -1,6 +1,6 @@
 Sept. 15, 2010:
 The build is now run under Hudson.
-See /opt/users/hudsonbuild/.hudson/jobs/tycho-bpel
+See /shared/jobs/bpel-0.5
 
 July 10, 2007:
 You can run the build from your checked out location of the org.eclipse.bpel.releng
