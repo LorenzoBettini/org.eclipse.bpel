@@ -48,14 +48,14 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	private static CommonUIPlugin plugin;
 	
 	private ColorRegistry colorRegistry;
-	protected boolean imagesAndColorsInitialized;
+	// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+	private ImageRegistry imageRegistry;
 	
 	/**
 	 * The constructor.
 	 */
 	public CommonUIPlugin() {
 		plugin = this;
-		imagesAndColorsInitialized = false;
 	}
 
 	/**
@@ -100,11 +100,13 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	 */
 	@Override
 	public synchronized ImageRegistry getImageRegistry() {
-		ImageRegistry result = super.getImageRegistry();
-		initialize();
-		return result;
+		if (imageRegistry == null) {
+			imageRegistry = super.getImageRegistry();
+			initializeImages(Display.getCurrent());
+		}
+		return imageRegistry;
 	}
-	
+
 	/**
 	 * Return color registry.
 	 * @return the color registry.
@@ -112,7 +114,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	public synchronized ColorRegistry getColorRegistry() {
 		if (colorRegistry == null) {
 			colorRegistry = new ColorRegistry();
-			initialize();
+			registerColors(Display.getCurrent());
 		}
 		return colorRegistry;
 	}
@@ -195,15 +197,6 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 		// selection handler
 		Color selectionColor = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION);
 		colorRegistry.put(ICommonUIConstants.COLOR_SELECTION_HANDLE_CORNER, ColorUtils.getLightShade(selectionColor.getRGB(), 2, 3));
-	}
-
-	protected void initialize() {
-		if (!imagesAndColorsInitialized) {
-			imagesAndColorsInitialized = true;
-			Display display = Display.getCurrent();
-			initializeImages(display);
-			registerColors(display);
-		}
 	}
 
 	/**
