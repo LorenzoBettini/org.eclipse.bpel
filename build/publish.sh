@@ -4,11 +4,11 @@
 
 DESTINATION=/home/data/httpd/download.eclipse.org/technology/bpel
 JOB_NAME=bpel-0.5
-JOBDIR=/opt/users/hudsonbuild/.hudson/jobs/${JOB_NAME}
+JOBDIR=/shared/jobs/${JOB_NAME}
 WORKSPACE=${JOBDIR}/workspace/
 BUILD_ID=$(find ${JOBDIR}/builds -maxdepth 1 -type d | sort | tail -1); BUILD_ID=${BUILD_ID/${JOBDIR}\/builds\/}
 BUILD_NUMBER=$(cat ${JOBDIR}/nextBuildNumber); BUILD_NUMBER=$(( ${BUILD_NUMBER}-1 ))
-JOB_URL=https://build.eclipse.org/hudson/job/${JOB_NAME}
+JOB_URL=https://hudson.eclipse.org/hudson/job/${JOB_NAME}
 
 ################# END CONFIGURATION #################
 
