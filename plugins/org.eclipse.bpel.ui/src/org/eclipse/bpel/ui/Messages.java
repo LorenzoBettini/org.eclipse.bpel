@@ -14,7 +14,7 @@ import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
 
-	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages";//$NON-NLS-1		
+	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.messages"; //$NON-NLS-1$
 	
 
 	private Messages() {
@@ -47,7 +47,7 @@ public final class Messages extends NLS {
 	public static String ImportsSection_1;
 	public static String ImportsSection_2;
 	public static String ImportsSection_3;
-	// Bugzilla 324162
+	// https://jira.jboss.org/browse/JBIDE-6765
 	public static String NamespacePrefixesSection;
 	public static String NamespacePrefixesSection_0;
 	public static String NamespacePrefixesSection_1;
@@ -315,12 +315,14 @@ public final class Messages extends NLS {
 	public static String EditMessagePropertyDialog_3;
 	public static String EditMessagePropertyDialog_4;
 	public static String EditMessagePropertyDialog_9;
-	// Bugzilla 330513
+
+	// https://jira.jboss.org/browse/JBIDE-7107
 	public static String EditMessagePropertyDialog_11;
 	public static String EditMessagePropertyDialog_12;
 	public static String EditMessagePropertyDialog_13;
 	public static String EditMessagePropertyDialog_15;
 	public static String EditMessagePropertyDialog_16;
+	
 	public static String EditMessagePropertyDialog_Type_1;
 	public static String EditMessagePropertyDialog_Element_1;
 	public static String EditMessagePropertyDialog_Message_1;
@@ -347,6 +349,7 @@ public final class Messages extends NLS {
 	public static String FaultCatchNameDetails_Namespace__21;
 	public static String FaultCatchNameDetails_User_defined_15;
 	public static String FaultCatchNameSection_Variable_Name_3;
+	public static String FaultCatchNameSection_Error_Invalid_Type;
 	public static String FaultHandlerAdapter_Fault_Handlers_1;
 	public static String FaultThrowNameDetails_Built_in_14;
 	public static String FaultThrowNameDetails_Fault_Name__16;
@@ -676,7 +679,7 @@ public final class Messages extends NLS {
 	public static String DeletePartnerLinkTypeWarningMessage;
 	public static String DeletePartnerLinkTypeWarningDialogTitle;
 
-	// Bugzilla 330513
+	// https://jira.jboss.org/browse/JBIDE-7520
 	public static String EditModelClient_load_error_title;
 	public static String EditModelClient_bpel_load_error;
 	public static String EditModelClient_bpelex_load_error;
@@ -686,6 +689,7 @@ public final class Messages extends NLS {
 	public static String Editor_load_error_title;
 	public static String Editor_load_error;
 	public static String Editor_design_page_error;
+	
 	static {
 		
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

@@ -610,7 +610,6 @@ public class VariableTypeSelector extends Composite {
 		label.setText(Messages.VariableTypeSelector_Data_Type_2);
 		wf.adapt(label);
 		dataTypeLabel = new StatusLabel2( label );
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 		// https://jira.jboss.org/browse/JBIDE-7107
 		dataTypeLabel.getLabel().setBackground(this.getBackground());
 		dataTypeNameText = createHyperlink(composite, "", SWT.NONE); //$NON-NLS-1$
@@ -618,7 +617,10 @@ public class VariableTypeSelector extends Composite {
 		dataTypeNameText.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				BPELUtil.openEditor(getVariableType(), bpelEditor);
+				// https://issues.jboss.org/browse/JBIDE-8048
+				// don't bother trying to open editor if variable is not defined
+				if (getVariableType() != null)
+					BPELUtil.openEditor(getVariableType(), bpelEditor);
 			}
 		});
 		
@@ -645,7 +647,6 @@ public class VariableTypeSelector extends Composite {
 		data = new FlatFormData();
 		data.left = new FlatFormAttachment(0,IDetailsAreaConstants.HSPACE);
 		data.right = new FlatFormAttachment(dataTypeNameText, -IDetailsAreaConstants.HSPACE);
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 		// https://jira.jboss.org/browse/JBIDE-7107
 		data.top = new FlatFormAttachment(dataTypeNameText, -IDetailsAreaConstants.VSPACE, SWT.TOP);
 		data.bottom = new FlatFormAttachment(dataTypeNameText,0,SWT.BOTTOM);
@@ -682,15 +683,16 @@ public class VariableTypeSelector extends Composite {
 		dataTypeTreeLabel.setLayoutData(data);
 
 		data = new FlatFormData();
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 		// https://jira.jboss.org/browse/JBIDE-7107
 //		data.left = new FlatFormAttachment(0, BPELUtil.calculateLabelWidth(dataTypeLabel.getLabel(), STANDARD_LABEL_WIDTH_SM));
 //		data.top = new FlatFormAttachment(dataTypeTreeLabel,0, SWT.TOP);
 		data.left = new FlatFormAttachment(dataTypeTreeLabel,0, SWT.LEFT);
 		data.top = new FlatFormAttachment(dataTypeTreeLabel,0, SWT.BOTTOM);
 		data.right = new FlatFormAttachment(100,  -IDetailsAreaConstants.HSPACE) ;		
-		data.bottom = new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);	
-		dataTypeTree.setLayoutData(data);						
+		// https://issues.jboss.org/browse/JBIDE-8048
+		// make the message structure viewer a wee bit larger than just a single line
+		data.bottom = new FlatFormAttachment(dataTypeTreeLabel,150, SWT.BOTTOM); //new FlatFormAttachment(100, -IDetailsAreaConstants.HSPACE);	
+		dataTypeTree.setLayoutData(data);
 		
 	}
 	
