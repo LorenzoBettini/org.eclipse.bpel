@@ -213,8 +213,11 @@ public class ReconciliationHelper {
 			reader.xml2Targets((Targets)element, changedElement);
 		} else if (element instanceof CompensationHandler){
 			// https://issues.jboss.org/browse/JBIDE-8048
-			// this was left out inadevertently
+			// this was left out inadvertently
 			reader.xml2CompensationHandler((CompensationHandler)element, changedElement);
+		} else if (element instanceof ExtensibleElement){
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=334424
+			reader.xml2ExtensibleElement((ExtensibleElement)element, changedElement);
 		} else {
 			System.err.println("Cannot reconcile: " + element.getClass());
 //			throw new NotImplementedException(element.getClass().toString());
@@ -309,6 +312,7 @@ public class ReconciliationHelper {
 		if (nodeList.size() == 1) {
 			return nodeList.get(0);
 		}
+		
 		return null;
 	}
 	
