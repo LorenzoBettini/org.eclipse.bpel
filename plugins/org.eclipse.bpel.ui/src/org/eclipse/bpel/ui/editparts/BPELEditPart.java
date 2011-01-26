@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.AccessibleAnchorProvider;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -321,6 +322,17 @@ public abstract class BPELEditPart extends AbstractGraphicalEditPart implements 
 		refreshConnections();
 	}
 	
+	// https://bugs.eclipse.org/bugs/show_bug.cgi?id=335458
+	// When re-ordering extensionActivities that are contained in structured
+	// extensionActivities, the index will be outside the bounds of the children
+	// array because the <extensionActivity> element itself is not treated
+	// as an EditPart.
+	@Override
+	protected void reorderChild(EditPart child, int index) {
+		if (index>=0 && index<children.size())
+			super.reorderChild(child, index);
+	}
+
 	protected void refreshConnections(){
 		EditPolicy policy = getEditPolicy(EditPolicy.LAYOUT_ROLE);
 		if (policy instanceof BPELOrderedLayoutEditPolicy){
