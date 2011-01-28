@@ -214,23 +214,32 @@ public class ElementPlacer {
 
 			// DO:
 			// Format children of the newChild.
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=335458
+			// traverse the child's descendants also, inserting the
+			// proper indentation for each
+			StringBuffer childIndent = new StringBuffer(indent);
+			Node nextNewChild = newChild;
 			Node innerChild = newChild.getFirstChild();
-			if (innerChild != null) {
+			while (innerChild != null) {
 				// add "\n" + indent before every child
-				while (innerChild != null) {
-					if (innerChild.getNodeType() == Node.TEXT_NODE) {
+				Node nextInnerChild = innerChild;
+				while (nextInnerChild != null) {
+					if (nextInnerChild.getNodeType() == Node.TEXT_NODE) {
 						// remove an old indentation
-						newChild.removeChild(innerChild);
+						nextNewChild.removeChild(nextInnerChild);
 					} else {
-						newChild.insertBefore(newChild.getOwnerDocument()
-								.createTextNode("\n" + indent + "        "),
-								innerChild);
+						nextNewChild.insertBefore(nextNewChild.getOwnerDocument()
+								.createTextNode("\n" + childIndent + "        "),
+								nextInnerChild);
 					}
-					innerChild = innerChild.getNextSibling();
+					nextInnerChild = nextInnerChild.getNextSibling();
 				}
 				// add "\n" after the last child
-				newChild.appendChild(newChild.getOwnerDocument()
-						.createTextNode("\n" + indent + "    "));
+				nextNewChild.appendChild(nextNewChild.getOwnerDocument()
+						.createTextNode("\n" + childIndent + "    "));
+				childIndent.append("    ");
+				nextNewChild = innerChild;
+				innerChild = innerChild.getFirstChild();
 			}
 
 			if (referenceChild != null) {
