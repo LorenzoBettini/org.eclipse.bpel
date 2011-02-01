@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.37 2009/04/23 10:52:48 smoser Exp $
+ * $Id: BPELPackageImpl.java,v 1.38 2011/02/01 20:40:12 rbrodt Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -3448,6 +3448,9 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		createEReference(onEventEClass, ON_EVENT__OPERATION);
 		createEReference(onEventEClass, ON_EVENT__PORT_TYPE);
 		createEReference(onEventEClass, ON_EVENT__MESSAGE_TYPE);
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=336003
+		// "element" attribute was missing from original model
+		createEReference(onEventEClass, ON_EVENT__XSD_ELEMENT);
 		createEReference(onEventEClass, ON_EVENT__CORRELATION_SETS);
 		createEReference(onEventEClass, ON_EVENT__FROM_PARTS);
 		createEReference(onEventEClass, ON_EVENT__MESSAGE_EXCHANGE);

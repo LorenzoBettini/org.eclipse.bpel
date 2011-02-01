@@ -812,6 +812,19 @@ public class ReconciliationBPELReader extends BPELReader implements
 			onEvent.setMessageType(null);
 		}
 
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=336003
+		// "element" attribute was missing from original model
+		// Set xsd element
+		if (activityElement.hasAttribute("element")) {
+			QName qName = BPELUtils.createAttributeValue(activityElement,
+					"element");
+			XSDElementDeclaration element = new XSDElementDeclarationProxy(
+					getResource().getURI(), qName);
+			onEvent.setXSDElement(element);
+		} else {
+			onEvent.setXSDElement(null);
+		}
+
 		// Set correlations
 		Element correlationsElement = ReconciliationHelper
 				.getBPELChildElementByLocalName(activityElement, "correlations");
