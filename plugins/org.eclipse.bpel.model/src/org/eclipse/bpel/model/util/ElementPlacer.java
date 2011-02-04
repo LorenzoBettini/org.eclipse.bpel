@@ -224,7 +224,12 @@ public class ElementPlacer {
 				// add "\n" + indent before every child
 				Node nextInnerChild = innerChild;
 				while (nextInnerChild != null) {
+					boolean textNodeIsWhitespaceOnly = false;
 					if (nextInnerChild.getNodeType() == Node.TEXT_NODE) {
+						String content = nextInnerChild.getTextContent();
+						textNodeIsWhitespaceOnly = (content==null || content.trim().isEmpty());
+					}
+					if (textNodeIsWhitespaceOnly) {
 						// remove an old indentation
 						nextNewChild.removeChild(nextInnerChild);
 					} else {
