@@ -18,7 +18,7 @@ public class Activator extends Plugin {
 	 * The constructor
 	 */
 	public Activator() {
-		plugin = this;
+		// nothing
 	}
 
 	/*
@@ -28,6 +28,7 @@ public class Activator extends Plugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		plugin = this;
 	}
 
 	/*
