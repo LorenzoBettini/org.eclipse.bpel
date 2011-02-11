@@ -12,7 +12,6 @@
 package org.eclipse.bpel.apache.ode.deploy.model.dd.util;
 
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
@@ -24,9 +23,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * @generated
  */
 public class ddResourceImpl extends XMLResourceImpl {
-	
-	XMLHelper helper = null;
-	
+		
 	/**
 	 * Creates an instance of the resource.
 	 * <!-- begin-user-doc -->
