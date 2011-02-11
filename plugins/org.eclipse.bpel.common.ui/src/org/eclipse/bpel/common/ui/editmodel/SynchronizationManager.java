@@ -63,8 +63,6 @@ private static class ActivationListener implements IPartListener, IWindowListene
 	/** */
 	private IWorkbenchPart activePart = null;
 	/** */
-	private IWorkbenchWindow activeWindow = null;
-	/** */
 	private SynchronizationManager manager;
 	/** */
 	private IEditorPart editor;
@@ -123,10 +121,8 @@ public void partOpened(IWorkbenchPart part) {
  * @see org.eclipse.ui.IWindowListener#windowActivated(org.eclipse.ui.IWorkbenchWindow)
  */
 public void windowActivated(IWorkbenchWindow window) {		
-	if (!handlingActivation) {
-		activeWindow = window;
+	if (!handlingActivation)
 		handleActivated();
-	}
 }
 
 /* (non-Javadoc)

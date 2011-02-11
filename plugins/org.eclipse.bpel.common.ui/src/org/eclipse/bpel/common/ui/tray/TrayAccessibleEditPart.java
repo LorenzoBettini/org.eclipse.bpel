@@ -46,7 +46,7 @@ public class TrayAccessibleEditPart extends AccessibleEditPart {
 			AccessibleEditPart access = (AccessibleEditPart)child.getAdapter(AccessibleEditPart.class);
 			if (access == null)
 				continue;
-			childList.add(new Integer(access.getAccessibleID()));
+			childList.add( Integer.valueOf( access.getAccessibleID()));
 		}
 		e.children = childList.toArray();
 	}

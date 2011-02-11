@@ -55,7 +55,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	 * The constructor.
 	 */
 	public CommonUIPlugin() {
-		plugin = this;
+		// nothing
 	}
 
 	/**
@@ -64,6 +64,7 @@ public class CommonUIPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		plugin = this;
 	}
 
 	/**

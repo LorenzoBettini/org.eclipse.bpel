@@ -132,7 +132,7 @@ public class DatePicker extends Composite {
 		showCalendarButton.setImage(image);
 		
 		if (image != null) {
-			showCalendarButton.setText(new String());
+			showCalendarButton.setText( "" );
 		} else {
 			showCalendarButton.setText(Messages.DatePicker_button_text); 
 		}
