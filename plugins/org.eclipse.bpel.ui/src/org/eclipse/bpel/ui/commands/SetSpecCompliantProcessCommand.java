@@ -22,12 +22,12 @@ public class SetSpecCompliantProcessCommand extends SetCommand {
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_SELECT_SPECCOMPLIANT; }
 
 	public SetSpecCompliantProcessCommand(ProcessExtension target, boolean specCompliant)  {
-		super(target, new Boolean(specCompliant));
+		super(target, Boolean.valueOf( specCompliant ));
 	}
 
 	@Override
 	public Object get() {
-		return new Boolean(((ProcessExtension)fTarget).isSpecCompliant());
+		return Boolean.valueOf(((ProcessExtension)fTarget).isSpecCompliant());
 	}
 	@Override
 	public void set(Object o) {

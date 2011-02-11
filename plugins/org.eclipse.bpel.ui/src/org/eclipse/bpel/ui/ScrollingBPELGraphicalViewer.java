@@ -55,19 +55,17 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 		setRootEditPart(new GraphicalBPELRootEditPart());
 	}
 	
-	public class numeratorVisitor implements IModelVisitor {
+	public class NumeratorVisitor implements IModelVisitor {
 		public boolean visit(Object modelObject) {
 			indexVisit++;
-			orderMap.put(modelObject, new Integer(indexVisit));
+			orderMap.put(modelObject, Integer.valueOf( indexVisit ));
 			return true;
 		}
 	}
 	
-	private class OrderedSelectionComparator implements Comparator {
-		public int compare(Object o1, Object o2) {
+	private class OrderedSelectionComparator implements Comparator<EditPart> {
+		public int compare(EditPart ep1, EditPart ep2) {
 			int val1 = 0, val2 = 0;
-			EditPart ep1 = (EditPart) o1;
-			EditPart ep2 = (EditPart) o2;
 			Object m1 = ep1.getModel();
 			Object m2 = ep2.getModel();
 			if (orderMap.get(m1) != null)
@@ -95,7 +93,7 @@ public class ScrollingBPELGraphicalViewer extends GraphicalViewerImpl {
 		if (selectionList.size() > 1){
 			indexVisit = 0;
 			orderMap = new HashMap<Object, Integer>();
-			BPELUtil.visitModelDepthFirst(BPELUtils.getProcess(editpart.getModel()), new numeratorVisitor());
+			BPELUtil.visitModelDepthFirst(BPELUtils.getProcess(editpart.getModel()), new NumeratorVisitor());
 			Comparator cmp = new OrderedSelectionComparator();
 			Collections.sort(selectionList, cmp);	
 			StructuredSelection newSel = new StructuredSelection(selectionList);

@@ -196,13 +196,6 @@ public class AddWSDLImportCommand extends AutoUndoCommand {
 	}
 	
 	boolean isEqual ( String s1, String s2 ) {
-		
-		if (s1 != null) {
-			return s1.equals ( s2 );
-		} else if (s2 != null) {
-			return s2.equals ( s1 );
-		} else {
-			return true;
-		}
+		return s1 != null ? s1.equals( s2 ) : s2 == null;
 	}
 }

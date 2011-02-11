@@ -592,7 +592,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 	 */
 	@Override
 	public Object getUserContext() {
-		return new Integer(lastChangeContext);
+		return Integer.valueOf( lastChangeContext );
 	}
 	
 	
@@ -642,7 +642,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		
 		Button button = fWidgetFactory.createButton(parent, label, type );
 		
-		button.setData(new Integer(id));		
+		button.setData( Integer.valueOf( id ));		
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {

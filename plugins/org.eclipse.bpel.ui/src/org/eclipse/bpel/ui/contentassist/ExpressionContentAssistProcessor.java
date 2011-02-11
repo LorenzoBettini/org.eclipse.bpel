@@ -1311,7 +1311,7 @@ public class ExpressionContentAssistProcessor
 		return RESERVED_OPERATOR_CHARS.indexOf(c) > -1;			
 	}
 	
-	final String RESERVED_CLOSING_EXPR_CHARS = ")]"; //$NON-NLS-1$
+	final static String RESERVED_CLOSING_EXPR_CHARS = ")]"; //$NON-NLS-1$
 	
 	private boolean isClosingExpressionCharacter(char c) {		
 		return (RESERVED_CLOSING_EXPR_CHARS.indexOf(c) > -1);

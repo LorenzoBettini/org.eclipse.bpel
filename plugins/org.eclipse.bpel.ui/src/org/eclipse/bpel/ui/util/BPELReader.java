@@ -148,10 +148,7 @@ public class BPELReader {
 		// Make sure each model object has the necessary extensions!
 		TreeIterator<EObject> it = process.eAllContents();
 		while (it.hasNext()) {
-			EObject modelObject = it.next();
-			if (modelObject instanceof EObject) {
-				ModelHelper.createExtensionIfNecessary(extensionMap, modelObject);
-			}
+			ModelHelper.createExtensionIfNecessary(extensionMap, it.next());
 		}
 		
 		if (extensionMap.get(process) == null) {
@@ -251,10 +248,7 @@ public class BPELReader {
 		// Make sure each model object has the necessary extensions!
 		TreeIterator<EObject> it = process.eAllContents();
 		while (it.hasNext()) {
-			EObject modelObject = it.next();
-			if (modelObject instanceof EObject) {
-				ModelHelper.createExtensionIfNecessary(extensionMap, modelObject);
-			}
+			ModelHelper.createExtensionIfNecessary(extensionMap, it.next());
 		}
 		
 		if (extensionMap.get(process) == null) {

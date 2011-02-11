@@ -302,7 +302,7 @@ public class SchemaImportDialog extends SelectionStatusDialog {
 		Button button = new Button(parent, SWT.RADIO);
 		button.setText(label);
 		button.setFont(JFaceResources.getDialogFont());
-		button.setData(new Integer(id));
+		button.setData( Integer.valueOf( id ));
 		button.setSelection(checked);
 
 		button.addSelectionListener(new SelectionAdapter() {

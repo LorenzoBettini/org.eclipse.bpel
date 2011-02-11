@@ -275,7 +275,7 @@ public class PartnerRoleAssignCategory extends AssignCategoryBase {
 	 */
 	@Override
 	public Object getUserContext() {
-		return new Integer(lastChangeContext);
+		return Integer.valueOf( lastChangeContext );
 	}
 
 	/**

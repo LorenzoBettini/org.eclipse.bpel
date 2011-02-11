@@ -64,8 +64,6 @@ public class FlowEditPart extends CollapsableEditPart {
 
 	private FlowBorder flowBorder;
 
-	boolean useFlowLayout = false;
-
 	private EContentAdapter flowContentAdapter;
 
 	private BatchedMultiObjectAdapter flowBatchedAdapter;

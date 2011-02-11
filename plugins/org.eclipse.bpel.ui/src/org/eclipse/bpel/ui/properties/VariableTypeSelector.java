@@ -707,7 +707,7 @@ public class VariableTypeSelector extends Composite {
 	}
 	
 	public Object getUserContext() {
-		return new Integer(lastChangeContext);
+		return Integer.valueOf( lastChangeContext );
 	}
 	public void restoreUserContext(Object userContext) {
 		switch (((Integer)userContext).intValue()) {

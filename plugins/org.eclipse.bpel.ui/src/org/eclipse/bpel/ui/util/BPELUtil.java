@@ -1207,7 +1207,7 @@ public class BPELUtil {
 						AccessibleEditPart access = (AccessibleEditPart)part.getAdapter(AccessibleEditPart.class);
 						if (access == null)
 							continue;
-						childList.add(new Integer(access.getAccessibleID()));
+						childList.add( Integer.valueOf( access.getAccessibleID()));
 					}
 					e.children = childList.toArray();
 				}

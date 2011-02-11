@@ -106,7 +106,7 @@ public class NamespaceUtils
             hexByte = getHexByte(uri, i);
             contiguousBytes = new ArrayList();
             contiguousIndex = i;
-            hexChunk = new String();
+            hexChunk = "";
             
             prevIndex = contiguousIndex+1; // +1 for %
             
@@ -196,7 +196,7 @@ public class NamespaceUtils
             return null;
         }
         
-        return new Byte(hexByte);
+        return Byte.valueOf( hexByte );
     }
 
     /**

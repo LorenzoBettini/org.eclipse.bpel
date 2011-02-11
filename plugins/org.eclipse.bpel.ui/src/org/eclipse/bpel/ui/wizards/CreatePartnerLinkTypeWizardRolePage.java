@@ -93,7 +93,6 @@ public class CreatePartnerLinkTypeWizardRolePage extends WizardPage {
 	}
 	
 	Composite createRoleName ( Composite parent ) {
-		IDialogSettings settings = getWizard().getDialogSettings();
 
 		Composite fields = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();

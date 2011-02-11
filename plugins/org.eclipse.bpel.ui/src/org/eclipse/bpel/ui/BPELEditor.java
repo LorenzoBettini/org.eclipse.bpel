@@ -25,7 +25,6 @@ import org.eclipse.bpel.common.ui.CommonUIPlugin;
 import org.eclipse.bpel.common.ui.ICommonUIConstants;
 import org.eclipse.bpel.common.ui.command.EditModelCommandFramework;
 import org.eclipse.bpel.common.ui.command.ICommandFramework;
-import org.eclipse.bpel.common.ui.palette.PaletteCategory;
 import org.eclipse.bpel.common.ui.tray.AdaptingSelectionProvider;
 import org.eclipse.bpel.common.ui.tray.GraphicalEditorWithPaletteAndTray;
 import org.eclipse.bpel.common.ui.tray.MultiViewerSelectionProvider;
@@ -87,7 +86,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -119,7 +117,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -165,10 +162,6 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	private WeakMultiViewerSelectionProvider weakMultiViewerSelectionProvider;
 	// This is necessary for some EditPart-based actions to work correctly.
 //	private ISelectionProvider filteredEditPartSelectionProvider;
-
-	// Palette entries that will appear and disappear depending on editor mode
-	BPELCreationToolEntry switchEntry, flowEntry, sequenceEntry;
-	PaletteCategory controlCategory;
 	
 	// Lists of actions available for context menus, etc.
 	protected Set<IAction> appendNewActions;
@@ -1244,20 +1237,10 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
 		
 		IFile input = (IFile) editorInput.getAdapter(IFile.class);
-		
-		if (input == null) {
-			IURIEditorInput uriInput = (IURIEditorInput) editorInput.getAdapter(IURIEditorInput.class);
-			if (uriInput == null) {
-				throw new PartInitException(Messages.BPELEditor_Cant_read_input_file_1);
-			}
-			URI uri = (URI) editorInput.getAdapter(URI.class);
-			System.out.println("Editor URI: " + uriInput.getURI());
-			
+		if (input == null)			
 			throw new PartInitException(Messages.BPELEditor_Cant_read_input_file_1); 
-		}
 		
-		super.init(site, editorInput);
-
+		super.init( site, editorInput );
 		transferBuffer = new TransferBuffer(getSite().getShell().getDisplay());
 				
 		// remove the listener on the command stack created by the graphical editor

@@ -167,10 +167,10 @@ public class BPELEditPartMarkerDecorator extends EditPartMarkerDecorator {
 	@Override
 	protected Object convertAnchorKeyToConstraint(String key) {
 		if (key.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_TOP)) {
-			return new Integer(64);
+			return Integer.valueOf( 64 );
 		}
 		if (key.equals(IBPELUIConstants.MARKER_ANCHORPOINT_DRAWER_BOTTOM)) {
-			return new Integer(128);
+			return Integer.valueOf( 128 );
 		}
 		return super.convertAnchorKeyToConstraint(key);
 	}

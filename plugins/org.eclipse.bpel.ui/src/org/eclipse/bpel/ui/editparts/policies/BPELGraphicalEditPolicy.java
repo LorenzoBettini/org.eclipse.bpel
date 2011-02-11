@@ -63,7 +63,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
 
 public class BPELGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 	
-	final private int FLOWLINK = 3, COMPENSATELINK = 4;
+	final static private int FLOWLINK = 3, COMPENSATELINK = 4;
 	
 	private int getLinkMode(CreateConnectionRequest req) {
 		if (req.getStartCommand().getClass().equals(SetCompensateCommand.class))
@@ -323,11 +323,11 @@ public class BPELGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 				return ((NodeEditPart) target).getTargetConnectionAnchor(request);
 			}
 		}
-		else 
-		if (target instanceof PartnerLinkEditPart)
+		
+		// (VZ) FIXME: we cannot cast target to BPELEditPart instance. Debug it...
+		else if (target instanceof PartnerLinkEditPart)
 			return ((BPELEditPart)target).getConnectionAnchor(CenteredConnectionAnchor.LEFT);
-		else 
-		if (target instanceof VariableEditPart)
+		else if (target instanceof VariableEditPart)
 			return ((BPELEditPart)target).getConnectionAnchor(CenteredConnectionAnchor.RIGHT);
 		return null;
 	}

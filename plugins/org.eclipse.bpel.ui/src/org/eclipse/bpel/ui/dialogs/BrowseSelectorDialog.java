@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,9 +18,7 @@ import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddImportCommand;
 import org.eclipse.bpel.ui.details.providers.ModelTreeLabelProvider;
-import org.eclipse.bpel.ui.details.tree.PartTreeNode;
 import org.eclipse.bpel.ui.details.tree.TreeNode;
-import org.eclipse.bpel.ui.details.tree.XSDElementDeclarationTreeNode;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.ModelHelper;
 import org.eclipse.core.resources.IFile;
@@ -39,7 +36,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -52,13 +48,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.dialogs.SelectionStatusDialog;
-import org.eclipse.wst.wsdl.Message;
-import org.eclipse.wst.wsdl.Part;
-import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
 
 /**
@@ -181,7 +172,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		computeResult();
 		Object obj[] = getResult();
 		
-		if (obj != null || obj.length > 0) {
+		if (obj != null && obj.length > 0) {
 			if (ensureXSDTypeNamespaceMappings ( obj[0] ) == false) {
 				return ;
 			}
@@ -364,7 +355,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		Button button = new Button(parent,SWT.RADIO);
 		button.setText(label);
 		button.setFont(JFaceResources.getDialogFont());
-		button.setData(new Integer(id));		
+		button.setData( Integer.valueOf( id ));		
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {
@@ -386,7 +377,7 @@ public class BrowseSelectorDialog extends ListAndViewDialog {
 		Button button = new Button(parent,SWT.CHECK);
 		button.setText(label);
 		button.setFont(JFaceResources.getDialogFont());
-		button.setData(new Integer(id));
+		button.setData( Integer.valueOf( id ));
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {

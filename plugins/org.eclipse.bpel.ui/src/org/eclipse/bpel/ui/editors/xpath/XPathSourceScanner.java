@@ -37,16 +37,9 @@ import org.eclipse.swt.SWT;
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Oct 25, 2006
- *
  */
-
-
-@SuppressWarnings("nls")
-
 public class XPathSourceScanner extends BufferedRuleBasedScanner {
-	
-	XPathWhitespaceDetector fWhiteSpaceDetector = new XPathWhitespaceDetector ();
-	
+		
 	IWordDetector fNCNameDetector = new XPathWordDetector.NCNameWordDetector ();
 	
 	IWordDetector fWordDetector = new XPathWordDetector();

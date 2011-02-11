@@ -11,7 +11,6 @@
 package org.eclipse.bpel.ui.editparts;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import org.eclipse.bpel.ui.adapters.IFaultHandlerHolder;
 import org.eclipse.bpel.ui.adapters.delegates.ActivityContainer;
 import org.eclipse.bpel.ui.editparts.policies.BPELContainerEditPolicy;
 import org.eclipse.bpel.ui.editparts.policies.BPELOrderedLayoutEditPolicy;
-import org.eclipse.bpel.ui.editparts.util.GraphAnimation;
 import org.eclipse.bpel.ui.figures.CenteredConnectionAnchor;
 import org.eclipse.bpel.ui.figures.ILayoutAware;
 import org.eclipse.bpel.ui.figures.ProcessHandlerLinker;
@@ -54,7 +52,6 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -132,16 +129,6 @@ public class ProcessEditPart extends BPELEditPart implements ILayoutAware{
 			return super.getCreateCommand(request);
 		}
 	}
-	
-	CommandStackListener stackListener = new CommandStackListener() {
-		public void commandStackChanged(EventObject event) {
-			if (!GraphAnimation.captureLayout(getFigure()))
-				return;
-			while (GraphAnimation.step())
-				getFigure().getUpdateManager().performUpdate();
-			GraphAnimation.end();
-		}
-	};
 		
 	@Override
 	protected void createEditPolicies() {

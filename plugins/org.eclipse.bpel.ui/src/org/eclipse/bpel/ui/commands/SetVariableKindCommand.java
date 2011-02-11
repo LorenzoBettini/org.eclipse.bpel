@@ -22,12 +22,12 @@ public class SetVariableKindCommand extends SetCommand {
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_EDIT_VARIABLE_TYPE; }
 
 	public SetVariableKindCommand(VariableExtension target, int newKind) {
-		super(target, new Integer(newKind));
+		super(target, Integer.valueOf(newKind));
 	}
 
 	@Override
 	public Object get() {
-		return new Integer(((VariableExtension)fTarget).getVariableKind());
+		return Integer.valueOf(((VariableExtension)fTarget).getVariableKind());
 	}
 	@Override
 	public void set(Object o) {

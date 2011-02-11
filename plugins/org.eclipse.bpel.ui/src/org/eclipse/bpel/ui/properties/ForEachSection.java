@@ -100,13 +100,11 @@ public class ForEachSection extends BPELPropertySection {
 			}
 
 			@Override
-			public void set (Object object) {
-				if (object == null) {
-					fDelegate.set(object);
-					return;
-				}
-				Variable variable = (Variable) object;
-				fDelegate.set ( variable.getName() );
+			public void set( Object object ) {
+				if( object == null )
+					fDelegate.set( null );
+				else
+					fDelegate.set(((Variable) object).getName());
 			}
 			
 		});

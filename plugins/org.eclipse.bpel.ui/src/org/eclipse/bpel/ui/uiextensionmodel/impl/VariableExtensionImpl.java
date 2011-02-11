@@ -10,15 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: VariableExtensionImpl.java,v 1.3 2008/05/04 11:05:28 odanilov Exp $
+ * $Id: VariableExtensionImpl.java,v 1.4 2011/02/11 16:43:04 vzurczak Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
 import org.eclipse.bpel.ui.uiextensionmodel.VariableExtension;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -148,9 +146,9 @@ public class VariableExtensionImpl extends EObjectImpl implements VariableExtens
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case UiextensionmodelPackage.VARIABLE_EXTENSION__ADVANCED_KIND:
-				return new Integer(getAdvancedKind());
+				return Integer.valueOf( getAdvancedKind());
 			case UiextensionmodelPackage.VARIABLE_EXTENSION__VARIABLE_KIND:
-				return new Integer(getVariableKind());
+				return Integer.valueOf( getVariableKind());
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

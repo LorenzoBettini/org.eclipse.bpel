@@ -10,15 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ActivityExtensionImpl.java,v 1.3 2008/05/04 11:05:28 odanilov Exp $
+ * $Id: ActivityExtensionImpl.java,v 1.4 2011/02/11 16:43:04 vzurczak Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
 import org.eclipse.bpel.ui.uiextensionmodel.ActivityExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -274,13 +272,13 @@ public class ActivityExtensionImpl extends EObjectImpl implements ActivityExtens
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__X:
-				return new Integer(getX());
+				return Integer.valueOf( getX());
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__Y:
-				return new Integer(getY());
+				return Integer.valueOf( getY());
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__WIDTH:
-				return new Integer(getWidth());
+				return Integer.valueOf( getWidth());
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__HEIGHT:
-				return new Integer(getHeight());
+				return Integer.valueOf( getHeight());
 			case UiextensionmodelPackage.ACTIVITY_EXTENSION__IMPLICIT:
 				return isImplicit() ? Boolean.TRUE : Boolean.FALSE;
 		}

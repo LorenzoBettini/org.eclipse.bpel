@@ -77,9 +77,9 @@ public class EndpointReferenceAssignCategory extends AssignCategoryBase {
 	@SuppressWarnings("nls")
 	@Override
 	protected void load (IVirtualCopyRuleSide aModel) {
-		From from = BPELUtil.adapt(aModel.getCopyRuleSide(), From.class); 		
 		
 		// TODO: Delegate to the endpoint handler to populate the widgets
+		// From from = BPELUtil.adapt(aModel.getCopyRuleSide(), From.class);
 	}
 
 	@SuppressWarnings("nls")

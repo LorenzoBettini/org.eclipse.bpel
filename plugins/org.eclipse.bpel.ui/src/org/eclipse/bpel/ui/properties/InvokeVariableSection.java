@@ -967,7 +967,7 @@ public class InvokeVariableSection extends BPELPropertySection {
 		this.nonPartMappingComposite = createFlatFormComposite(composite);
 		Composite ref = createInputVariableWidgets(null,
 				nonPartMappingComposite);
-		ref = createOutputVariableWidgets(ref, nonPartMappingComposite);
+		createOutputVariableWidgets(ref, nonPartMappingComposite);
 
 		// part mapping composite
 		this.partMappingComposite = createFlatFormComposite(composite);

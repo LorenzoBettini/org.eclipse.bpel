@@ -136,7 +136,7 @@ public class CorrelationSection extends BPELPropertySection {
 			return allowOutgoing && allowIncoming;
 		}
 		public Object getValue(Object element, String property) {
-			return new Integer(patternIndex(((Correlation)element).getPattern()));
+			return Integer.valueOf( patternIndex(((Correlation)element).getPattern()));
 		}
 		public void modify(Object element, String property, Object value) {
 			int index = ((Integer)value).intValue();
@@ -182,7 +182,7 @@ public class CorrelationSection extends BPELPropertySection {
 			return true;
 		}
 		public Object getValue(Object element, String property) {
-			return new Integer(initiationIndex(((Correlation)element).getInitiate()));
+			return Integer.valueOf( initiationIndex(((Correlation)element).getInitiate()));
 		}
 		public void modify(Object element, String property, Object value) {
 			int index = ((Integer)value).intValue();

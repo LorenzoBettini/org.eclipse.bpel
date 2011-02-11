@@ -286,7 +286,7 @@ public class Templates {
 		for (int i = 0; hole >= 0; i++) {
 
 			String key = MessageFormat.format(pattern,
-					new Object[] { new Integer(i) });
+					new Object[] { Integer.valueOf( i )});
 			String val = props.getProperty(key, null);
 			if (val != null) {
 				list.add(val);

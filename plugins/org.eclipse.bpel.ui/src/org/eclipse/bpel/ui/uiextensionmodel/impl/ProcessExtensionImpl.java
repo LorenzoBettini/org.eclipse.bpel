@@ -10,15 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: ProcessExtensionImpl.java,v 1.3 2008/05/04 11:05:28 odanilov Exp $
+ * $Id: ProcessExtensionImpl.java,v 1.4 2011/02/11 16:43:04 vzurczak Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
 import org.eclipse.bpel.ui.uiextensionmodel.ProcessExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -150,7 +148,7 @@ public class ProcessExtensionImpl extends EObjectImpl implements ProcessExtensio
 			case UiextensionmodelPackage.PROCESS_EXTENSION__SPEC_COMPLIANT:
 				return isSpecCompliant() ? Boolean.TRUE : Boolean.FALSE;
 			case UiextensionmodelPackage.PROCESS_EXTENSION__MODIFICATION_STAMP:
-				return new Long(getModificationStamp());
+				return Long.valueOf( getModificationStamp());
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

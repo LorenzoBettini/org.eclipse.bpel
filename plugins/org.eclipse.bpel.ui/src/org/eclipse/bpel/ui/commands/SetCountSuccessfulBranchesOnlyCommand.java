@@ -26,7 +26,7 @@ public class SetCountSuccessfulBranchesOnlyCommand extends SetCommand {
 
 	public SetCountSuccessfulBranchesOnlyCommand(EObject branches,
 			boolean successfulBranchesOnly) {
-		super(branches, new Boolean(successfulBranchesOnly));
+		super(branches, Boolean.valueOf( successfulBranchesOnly ));
 	}
 
 	@Override

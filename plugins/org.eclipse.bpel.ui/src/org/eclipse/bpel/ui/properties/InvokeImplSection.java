@@ -22,12 +22,9 @@ import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerLink;
-import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.Receive;
 import org.eclipse.bpel.model.Reply;
-import org.eclipse.bpel.model.Scope;
 import org.eclipse.bpel.model.Variable;
-import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.partnerlinktype.PartnerLinkType;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.util.BPELUtils;
@@ -52,8 +49,6 @@ import org.eclipse.bpel.ui.details.providers.PartnerLinkTreeContentProvider;
 import org.eclipse.bpel.ui.details.providers.PartnerRoleFilter;
 import org.eclipse.bpel.ui.details.providers.WSDLFaultContentProvider;
 import org.eclipse.bpel.ui.details.tree.ITreeNode;
-import org.eclipse.bpel.ui.details.tree.OperationTreeNode;
-import org.eclipse.bpel.ui.details.tree.PartnerLinkTreeNode;
 import org.eclipse.bpel.ui.details.tree.TreeNode;
 import org.eclipse.bpel.ui.dialogs.PartnerLinkRoleSelectorDialog;
 import org.eclipse.bpel.ui.dialogs.PartnerLinkTypeSelectorDialog;
@@ -1386,7 +1381,7 @@ public class InvokeImplSection extends BPELPropertySection {
 	 */
 	@Override
 	public Object getUserContext() {
-		return new Integer(lastChangeContext);
+		return Integer.valueOf( lastChangeContext );
 	}
 	
 	/**
@@ -1586,49 +1581,48 @@ public class InvokeImplSection extends BPELPropertySection {
 		PartnerLinkType plt = null;
 		if (result != null && result instanceof PartnerLinkType) {
 			plt = (PartnerLinkType) result;
+		
+			// Ask user about role
+			EList<Role> list = plt.getRole();
+			if (list.size() > 1) {
+				PartnerLinkRoleSelectorDialog roleDialog = new PartnerLinkRoleSelectorDialog(parentComposite.getShell(), list, plt);
+				if (isInvoke){
+					roleDialog.setTitle(Messages.PartnerRoleSelectorDialog_Title_PartnerRole);
+				} else {
+					roleDialog.setTitle(Messages.PartnerRoleSelectorDialog_Title_MyRole);
+				}
+				if (roleDialog.open() == Window.CANCEL){
+					return  null;
+				}
+				if (isInvoke){
+					pl.setPartnerRole(list.get(roleDialog.getSelectedRole()));
+				} else {
+					pl.setMyRole(list.get(roleDialog.getSelectedRole()));
+				}
+			} else {
+				if (isInvoke){
+					pl.setPartnerRole(list.get(0));
+				} else {
+					pl.setMyRole(list.get(0));
+				}
+			}
+			
+			// set name and type
+			pl.setName ( nameDialog.getValue() );
+			pl.setPartnerLinkType( plt );
+			
+			// ask for partner link type
+			
+			List<Command> cmds = basicCommandList(getInput(), pl, null);
+			cmds.add(0, new AddPartnerLinkCommand( ref, pl ));
+			//
+			CompoundCommand cmd = new CompoundCommand();
+			cmd.getCommands().addAll(cmds);
+			getCommandFramework().execute(cmd);
+			// TODO: Is there any way to refresh quick pick without this hack?
+			quickPickTreeViewer.setInput ( null );
+			updateQuickPickWidgets();
 		}
-		
-		// Ask user about role
-		
-		EList<Role> list = plt.getRole();
-		if (list.size() > 1){
-			PartnerLinkRoleSelectorDialog roleDialog = new PartnerLinkRoleSelectorDialog(parentComposite.getShell(), list, plt);
-			if (isInvoke){
-				roleDialog.setTitle(Messages.PartnerRoleSelectorDialog_Title_PartnerRole);
-			} else {
-				roleDialog.setTitle(Messages.PartnerRoleSelectorDialog_Title_MyRole);
-			}
-			if (roleDialog.open() == Window.CANCEL){
-				return  null;
-			}
-			if (isInvoke){
-				pl.setPartnerRole(list.get(roleDialog.getSelectedRole()));
-			} else {
-				pl.setMyRole(list.get(roleDialog.getSelectedRole()));
-			}
-		} else {
-			if (isInvoke){
-				pl.setPartnerRole(list.get(0));
-			} else {
-				pl.setMyRole(list.get(0));
-			}
-		}
-		
-		// set name and type
-		pl.setName ( nameDialog.getValue() );
-		pl.setPartnerLinkType( plt );
-		
-		// ask for partner link type
-		
-		List<Command> cmds = basicCommandList(getInput(), pl, null);
-		cmds.add(0, new AddPartnerLinkCommand( ref, pl ));
-		//
-		CompoundCommand cmd = new CompoundCommand();
-		cmd.getCommands().addAll(cmds);
-		getCommandFramework().execute(cmd);
-		// TODO: Is there any way to refresh quick pick without this hack?
-		quickPickTreeViewer.setInput ( null );
-		updateQuickPickWidgets();
 		
 		return pl;
 	}

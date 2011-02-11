@@ -126,7 +126,7 @@ public class DateTimeSelector extends Composite {
 		
 		for(int i=0; i < combo.length; i++) {
 			combo[i] = new Combo(composite,SWT.READ_ONLY);
-			combo[i].setData(ID, new Integer(i));			
+			combo[i].setData(ID, Integer.valueOf( i ));			
 		}
 		
 		dateSep  = wf.createLabel(composite, dateSepText, SWT.CENTER);

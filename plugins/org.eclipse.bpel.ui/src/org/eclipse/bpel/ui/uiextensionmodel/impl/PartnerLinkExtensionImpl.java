@@ -10,15 +10,13 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkExtensionImpl.java,v 1.3 2008/05/04 11:05:28 odanilov Exp $
+ * $Id: PartnerLinkExtensionImpl.java,v 1.4 2011/02/11 16:43:04 vzurczak Exp $
  */
 package org.eclipse.bpel.ui.uiextensionmodel.impl;
 
 import org.eclipse.bpel.ui.uiextensionmodel.PartnerLinkExtension;
 import org.eclipse.bpel.ui.uiextensionmodel.UiextensionmodelPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -106,7 +104,7 @@ public class PartnerLinkExtensionImpl extends EObjectImpl implements PartnerLink
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case UiextensionmodelPackage.PARTNER_LINK_EXTENSION__PARTNER_KIND:
-				return new Integer(getPartnerKind());
+				return Integer.valueOf( getPartnerKind());
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

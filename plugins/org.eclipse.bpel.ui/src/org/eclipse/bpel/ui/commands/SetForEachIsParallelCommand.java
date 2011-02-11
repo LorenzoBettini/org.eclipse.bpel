@@ -23,7 +23,7 @@ public class SetForEachIsParallelCommand extends SetCommand {
 	public String getDefaultLabel() { return IBPELUIConstants.CMD_SET_PARALLEL_EXECUTION; }
 
 	public SetForEachIsParallelCommand(EObject forEach, boolean isParallel)  {
-		super(forEach, new Boolean(isParallel));
+		super(forEach, Boolean.valueOf( isParallel ));
 	}
 
 	@Override

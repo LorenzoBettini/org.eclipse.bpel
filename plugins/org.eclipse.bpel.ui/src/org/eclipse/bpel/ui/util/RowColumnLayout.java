@@ -29,8 +29,8 @@ import org.eclipse.gef.GraphicalEditPart;
 public class RowColumnLayout extends AbstractLayout {
 
 	protected Map<IFigure, Object> constraints = new HashMap<IFigure, Object>();
-
-	private final int minWidthHeight = 30;
+	private static final int MIN_WIDTH_HEIGHT = 30;
+	
 	private int totalHeight, totalWidth;
 	private Rectangle region;
 	private int[] rowHeights;
@@ -142,10 +142,10 @@ public class RowColumnLayout extends AbstractLayout {
 		colWidths = new int[cols];
 
 		for (int i = 0; i < cols; i++) {
-			colWidths[i] = minWidthHeight;
+			colWidths[i] = MIN_WIDTH_HEIGHT;
 		}
 		for (int i = 0; i < rows; i++) {
-			rowHeights[i] = minWidthHeight;
+			rowHeights[i] = MIN_WIDTH_HEIGHT;
 		}
 
 		if (!isSpanned()) {
@@ -257,11 +257,6 @@ public class RowColumnLayout extends AbstractLayout {
 	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		// Subtract out the insets from the hints
-		if (wHint > -1)
-			wHint = Math.max(0, wHint - container.getInsets().getWidth());
-		if (hHint > -1)
-			hHint = Math.max(0, hHint - container.getInsets().getHeight());
-
 		characterizeGrid(container);
 
 		Dimension prefSize = new Dimension();

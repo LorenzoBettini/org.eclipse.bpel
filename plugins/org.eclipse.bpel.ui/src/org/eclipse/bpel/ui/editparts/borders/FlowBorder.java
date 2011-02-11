@@ -109,17 +109,20 @@ public class FlowBorder extends GradientBorder {
 	
 	@Override
 	protected Rectangle getGradientRect() {
+		
 		BPELEditPart ep = getEditPart();
 		Rectangle rect = null;
 		if (ep != null) {
 			IFigure fig = ep.getContentPane();
 			if (fig != null)
 				rect = fig.getBounds();
+			
+			if (!((FlowEditPart)ep).isCollapsed()) {
+				rect = rect.getCopy();
+				rect.crop(new Insets(0, DRAWER_WIDTH, 0, DRAWER_WIDTH));
+			}
 		}
-		if (!((FlowEditPart)ep).isCollapsed()) {
-			rect = rect.getCopy();
-			rect.crop(new Insets(0, DRAWER_WIDTH, 0, DRAWER_WIDTH));
-		}
+		
 		return rect;
 	}
 	@Override

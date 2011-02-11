@@ -418,7 +418,7 @@ public class EditMessagePropertyDialog extends Dialog {
 		Button button = new Button(parent,SWT.RADIO);
 		button.setText(label);
 		button.setFont(JFaceResources.getDialogFont());
-		button.setData(new Integer(id));		
+		button.setData( Integer.valueOf( id ));		
 		button.setSelection( checked );
 		
 		button.addSelectionListener (new SelectionAdapter() {
@@ -706,6 +706,7 @@ public class EditMessagePropertyDialog extends Dialog {
 								}
 							}		
 						}
+						
 						if (imported instanceof Definition) {
 							WSDLImportHelper.addImportAndNamespace(definition, (Definition)imported);
 						}

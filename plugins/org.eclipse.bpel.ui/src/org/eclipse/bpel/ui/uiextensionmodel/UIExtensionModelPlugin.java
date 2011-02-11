@@ -25,7 +25,7 @@ public class UIExtensionModelPlugin extends Plugin {
 	 * The constructor.
 	 */
 	public UIExtensionModelPlugin() {
-		plugin = this;
+		// nothing
 	}
 
 	/**
@@ -34,6 +34,7 @@ public class UIExtensionModelPlugin extends Plugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		plugin = this;
 	}
 
 	/**

@@ -13,7 +13,6 @@ package org.eclipse.bpel.ui;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
 
 import org.eclipse.bpel.common.ui.ColorUtils;
 import org.eclipse.bpel.model.util.BPELConstants;
@@ -35,7 +34,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -62,7 +60,6 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	
 	public BPELUIPlugin() {
 		super();
-		INSTANCE = this;
 	}
 	
 
@@ -221,6 +218,8 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		INSTANCE = this;
+		
 		initializePreferences();
 		initializeResourceChangeListener();
 		initFunctions ();

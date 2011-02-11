@@ -14,7 +14,6 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.editparts.BPELEditPart;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Polyline;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -28,7 +27,6 @@ public class ContainerHighlightEditPolicy extends BPELSelectionEditPolicy {
 	private Color revertColor = null;
 	private boolean revertOpaque;
 	private Color highlightColor = null;
-	private Polyline insertionLine = null;
 	
 	public ContainerHighlightEditPolicy(boolean resizable, boolean movable) {
 		super(resizable, movable);
@@ -40,11 +38,6 @@ public class ContainerHighlightEditPolicy extends BPELSelectionEditPolicy {
 			setContainerBackground(revertColor);
 			getContainerFigure().setOpaque(revertOpaque);
 			revertColor = null;
-		}
-		
-		if (insertionLine != null) {
-			removeFeedback(insertionLine);
-			insertionLine = null;
 		}
 	}
 

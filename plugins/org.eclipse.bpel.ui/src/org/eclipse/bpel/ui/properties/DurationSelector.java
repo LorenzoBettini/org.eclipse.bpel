@@ -96,7 +96,7 @@ public class DurationSelector extends Composite {
 			// Accessibility: create each Label right before the corresponding Text.
 			label[i] = wf.createLabel(composite[i], labelStrings[i], SWT.CENTER);
 			text[i] = wf.createText(composite[i], "0"); //$NON-NLS-1$
-			text[i].setData(ID, new Integer(i));
+			text[i].setData(ID, Integer.valueOf( i ));
 			
 			data = new FlatFormData();
 			data.left = new FlatFormAttachment(0,0);

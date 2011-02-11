@@ -44,5 +44,4 @@ public class EditPartContextAction extends SelectionAction {
 	public void run() {
 		action.onButtonPressed();
 	}
-
 }

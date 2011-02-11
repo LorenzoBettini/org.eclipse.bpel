@@ -730,6 +730,7 @@ public class WSILPreferencePage extends PreferencePage implements IWorkbenchPref
 					}
 					
 					// so far, so good !
+					// VZ: so why not use linkURI? To be reviewed later!
 					link.setLocation( (String) value);
 					
 					// all goes well
