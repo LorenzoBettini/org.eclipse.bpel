@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IProblem;
@@ -213,7 +213,7 @@ public abstract class TestRunner {
 	@Test
 	public void CountOfInfoProblemsToExpectedInfoProblems() throws Exception {
 		checkProblemArrays();
-		final String info = new Integer(IProblem.SEVERITY_INFO).toString();
+		final String info = Integer.valueOf( IProblem.SEVERITY_INFO).toString();
 
 		IFilter<String> filter = new IFilter<String>() {
 			public boolean select(String node) {
@@ -233,7 +233,7 @@ public abstract class TestRunner {
 	public void CountOfWarningProblemsToExpectedWarningProblems()
 			throws Exception {
 		checkProblemArrays();
-		final String info = new Integer(IProblem.SEVERITY_WARNING).toString();
+		final String info = Integer.valueOf( IProblem.SEVERITY_WARNING).toString();
 
 		IFilter<String> filter = new IFilter<String>() {
 			public boolean select(String node) {
@@ -253,7 +253,7 @@ public abstract class TestRunner {
 	@Test
 	public void CountOfErrorProblemsToExpectedErrorProblems() throws Exception {
 		checkProblemArrays();
-		final String info = new Integer(IProblem.SEVERITY_ERROR).toString();
+		final String info = Integer.valueOf( IProblem.SEVERITY_ERROR).toString();
 
 		IFilter<String> filter = new IFilter<String>() {
 			public boolean select(String node) {
