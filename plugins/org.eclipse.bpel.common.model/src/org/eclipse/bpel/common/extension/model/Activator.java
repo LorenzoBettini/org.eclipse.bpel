@@ -10,14 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.common.extension.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.bpel.common.BPELResourceSet;
 import org.eclipse.bpel.fnmeta.FunctionLibrary;
 import org.eclipse.bpel.fnmeta.FunctionRegistry;
 import org.eclipse.bpel.fnmeta.IFunctionRegistryLoader;
-import org.eclipse.bpel.fnmeta.model.Function;
 import org.eclipse.bpel.fnmeta.model.Registry;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -33,9 +29,6 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-
-@SuppressWarnings({"boxing","nls"})
-
 public class Activator extends Plugin implements IFunctionRegistryLoader {
 
 	/**
@@ -55,7 +48,7 @@ public class Activator extends Plugin implements IFunctionRegistryLoader {
 	 * The constructor.
 	 */
 	public Activator() {
-		INSTANCE = this;
+		// nothing
 	}
 
 	/**
@@ -64,6 +57,7 @@ public class Activator extends Plugin implements IFunctionRegistryLoader {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		INSTANCE = this;
 		FunctionLibrary.INSTANCE.registerLoader( this );
 	}
 
@@ -84,9 +78,6 @@ public class Activator extends Plugin implements IFunctionRegistryLoader {
 	 * @param e 
 	 * @param severity 
 	 */
-	
-
-	
 	public static void log (String message, Throwable e, int severity) {
 		
 		IStatus status = null;
