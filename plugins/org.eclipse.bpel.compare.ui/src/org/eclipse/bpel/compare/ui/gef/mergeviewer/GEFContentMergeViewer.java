@@ -9,7 +9,6 @@ import org.eclipse.bpel.common.extension.model.ExtensionmodelFactory;
 import org.eclipse.bpel.compare.ui.annotation.AnnotationsStore;
 import org.eclipse.bpel.compare.ui.gef.bpel.BPELCompareEditPartFactory;
 import org.eclipse.bpel.model.Activity;
-import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.compare.CompareConfiguration;
@@ -17,8 +16,6 @@ import org.eclipse.compare.IStreamContentAccessor;
 import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.ResourceNode;
 import org.eclipse.compare.contentmergeviewer.ContentMergeViewer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
@@ -59,13 +56,7 @@ public abstract class GEFContentMergeViewer extends ContentMergeViewer {
 	protected EditPartViewer viewerAncestor;
 	protected Text txtMessage;
 	private final CompareConfiguration configuration;
-
-	private AbstractCompareAction copyDiffLeftToRight;
-
-	private AbstractCompareAction copyDiffRightToLeft;
 	
-	/** Indicates that this is a three-way comparison. */
-	private boolean isThreeWay;
 	
 	protected GEFContentMergeViewer(Composite parent, CompareConfiguration cc) {
 		super(SWT.NONE, null, cc);

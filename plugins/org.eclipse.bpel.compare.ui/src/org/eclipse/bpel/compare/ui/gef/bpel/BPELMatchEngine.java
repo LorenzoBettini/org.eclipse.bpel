@@ -884,18 +884,20 @@ public class BPELMatchEngine implements IMatchEngine {
 	 */
 	private void createThreeWayUnmatchElements(MatchModel root, Map<EObject, Boolean> unMatchedElements)
 			throws FactoryException {
-		for (EObject element : unMatchedElements.keySet()) {
+		
+		for( Map.Entry<EObject, Boolean> entry : unMatchedElements.entrySet()) {
+			
 			// We will only consider the highest level of an unmatched element
 			// hierarchy
-			if (!unMatchedElements.containsKey(element.eContainer())) {
+			if (!unMatchedElements.containsKey(entry.getKey().eContainer())) {
 				final UnmatchElement unMap;
-				if (unMatchedElements.get(element)) {
+				if( entry.getValue()) {
 					unMap = MatchFactory.eINSTANCE.createUnmatchElement();
 					unMap.setRemote(true);
 				}
 				else
 					unMap = MatchFactory.eINSTANCE.createUnmatchElement();
-				unMap.setElement(element);
+				unMap.setElement( entry.getKey());
 				redirectedAdd(root, UNMATCH_ELEMENT_NAME, unMap);
 			}
 		}

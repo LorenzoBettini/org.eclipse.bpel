@@ -46,9 +46,7 @@ public class BPELCompareEditPartFactory extends
 						mergeViewer.selectionChanged(viewer);
 					}
 				}
-				EObject model = (EObject) editpart.getModel();
 			}
-			
 		});
 		
 		for (Object child : editPart.getChildren()) {
