@@ -20,8 +20,8 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.Process;
-import org.eclipse.bpel.model.resource.BPELReader;
 import org.eclipse.bpel.model.UnknownExtensibilityAttribute;
+import org.eclipse.bpel.model.resource.BPELReader;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLFactory;
@@ -42,7 +42,7 @@ public class BPELUnknownExtensionDeserializer extends UnknownExtensionDeserializ
 				unknownExt.setElementType(elementType);
 				
 				if (requiredStr != null) {
-					unknownExt.setRequired(new Boolean(requiredStr));
+					unknownExt.setRequired( Boolean.valueOf( requiredStr ));
 				}
 	
 // (DO): Disabled to avoid <extensibilityAttributes> in sourceTab
@@ -56,7 +56,7 @@ public class BPELUnknownExtensionDeserializer extends UnknownExtensionDeserializ
 				unknownExt.setElementType(elementType);
 				
 				if (requiredStr != null) {
-					unknownExt.setRequired(new Boolean(requiredStr));
+					unknownExt.setRequired( Boolean.valueOf( requiredStr ));
 				}
 	
 				unknownExt.setElement((Element)node);

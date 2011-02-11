@@ -2416,10 +2416,10 @@ public class BPELWriter {
 		INamespaceMap<String, String> nsMap = BPELUtils
 				.getNamespaceMap(eObject);
 		if (!nsMap.isEmpty()) {
-			for (Iterator<String> i = nsMap.keySet().iterator(); i.hasNext();) {
-				String prefix = i.next();
-				String namespace = nsMap.get(prefix);
-				if (prefix == "")
+			for( Map.Entry<String,String> entry : nsMap.entrySet()) {
+				String prefix = entry.getKey();
+				String namespace = entry.getValue();
+				if (prefix.length() == 0)
 					context.setAttributeNS(XSDConstants.XMLNS_URI_2000,
 							"xmlns", namespace);
 				else
@@ -2488,8 +2488,11 @@ public class BPELWriter {
 		while (child != null && !(child instanceof Element)) {
 			child = child.getNextSibling();
 		}
-		if (child instanceof Element)
+		
+		// We are out of the loop: either child is null, or it is an element
+		if( child != null )
 			return (Element) child;
+		
 		throw new IllegalArgumentException("Document Fragment does not contain any Elements");
 	}
 }

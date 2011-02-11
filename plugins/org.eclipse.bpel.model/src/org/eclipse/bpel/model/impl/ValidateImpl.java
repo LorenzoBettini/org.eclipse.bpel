@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.9 2009/12/07 09:52:18 smoser Exp $
+ * $Id: ValidateImpl.java,v 1.10 2011/02/11 16:42:14 vzurczak Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -140,8 +140,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 		if (reference != null
 				&& reference.getFeatureID() == BPELPackage.VALIDATE__VARIABLES
 				&& !isReconciling) {
-			String varAttribute = element
-					.getAttribute(BPELConstants.AT_VARIABLES);
+
 			String valString = createVariablesString(variables);
 			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLES, valString);
 		}

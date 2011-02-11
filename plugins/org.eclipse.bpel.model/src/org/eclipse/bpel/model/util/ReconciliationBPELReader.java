@@ -538,11 +538,10 @@ public class ReconciliationBPELReader extends BPELReader implements
 		CompensationHandler oldCompensationHandler = compensationHandler;
 
 		if (compensationHandlerElement != null && compensationHandler == null) {
-			compensationHandler = xml2CompensationHandler(compensationHandler,
-					compensationHandlerElement);
-			xml2ExtensibleElement(compensationHandler,
-					compensationHandlerElement);
-		} else if (compensationHandlerElement == null) {
+			compensationHandler = xml2CompensationHandler( null, compensationHandlerElement );
+			xml2ExtensibleElement( compensationHandler, compensationHandlerElement );
+		} 
+		else if (compensationHandlerElement == null) {
 			compensationHandler = null;
 		}
 
@@ -571,7 +570,7 @@ public class ReconciliationBPELReader extends BPELReader implements
 		FaultHandler oldFaultHandler = faultHandler;
 
 		if (faultHandlerElement != null && faultHandler == null) {
-			faultHandler = xml2FaultHandler(faultHandler, faultHandlerElement);
+			faultHandler = xml2FaultHandler( null, faultHandlerElement );
 		} else if (faultHandlerElement == null) {
 			faultHandler = null;
 		}
@@ -601,7 +600,7 @@ public class ReconciliationBPELReader extends BPELReader implements
 		EventHandler oldEventHandler = eventHandler;
 
 		if (eventHandlerElement != null && eventHandler == null) {
-			eventHandler = xml2EventHandler(eventHandler, eventHandlerElement);
+			eventHandler = xml2EventHandler( null, eventHandlerElement );
 		} else if (eventHandlerElement == null) {
 			eventHandler = null;
 		}
@@ -1373,19 +1372,20 @@ public class ReconciliationBPELReader extends BPELReader implements
 	 */
 	protected MessageExchange xml2MessageExchange(
 			MessageExchange messageExchange, Element messageExchangeElement) {
-		if (!messageExchangeElement.getLocalName().equals("messageExchange"))
-			return null;
-
+		
 		if (messageExchange == null) {
 			messageExchange = BPELFactory.eINSTANCE.createMessageExchange();
 			messageExchange.setElement(messageExchangeElement);
 		}
+		
+		if (messageExchangeElement == null)
+			return messageExchange;
+		
+		if (!messageExchangeElement.getLocalName().equals("messageExchange"))
+			return null;
 
 		// Save all the references to external namespaces
 		saveNamespacePrefix(messageExchange, messageExchangeElement);
-
-		if (messageExchangeElement == null)
-			return messageExchange;
 
 		// Set name
 		if (messageExchangeElement.hasAttribute("name")) {

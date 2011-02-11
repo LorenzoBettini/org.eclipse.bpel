@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: OnEventImpl.java,v 1.14 2011/02/01 20:40:12 rbrodt Exp $
+ * $Id: OnEventImpl.java,v 1.15 2011/02/11 16:42:14 vzurczak Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -559,9 +559,10 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public Message getMessageType() {
 		Variable variable = getVariable();
-		if (variable != null && variable instanceof Variable) {
+		if( variable != null ) {
 			return (variable).getMessageType();
 		}
+		
 		if (messageType != null && messageType.eIsProxy()) {
 			Message oldMessageType = messageType;
 			messageType = (Message) eResolveProxy((InternalEObject) messageType);
@@ -591,9 +592,10 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public void setMessageType(Message newMessageType) {
 		Variable variable = getVariable();
-		if (variable != null && variable instanceof Variable) {
+		if( variable != null ) {
 			(variable).setMessageType(newMessageType);
 		}
+		
 		Message oldMessageType = messageType;
 		messageType = newMessageType;
 		if (eNotificationRequired())
@@ -611,9 +613,10 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public XSDElementDeclaration getXSDElement() {
 		Variable variable = getVariable();
-		if (variable != null && variable instanceof Variable) {
+		if( variable != null ) {
 			return (variable).getXSDElement();
 		}
+		
 		if (xsdElement != null && xsdElement.eIsProxy()) {
 			XSDElementDeclaration oldXSDElement = xsdElement;
 			xsdElement = (XSDElementDeclaration) eResolveProxy((InternalEObject) xsdElement);
@@ -643,9 +646,10 @@ public class OnEventImpl extends ExtensibleElementImpl implements OnEvent {
 	 */
 	public void setXSDElement(XSDElementDeclaration newXSDElement) {
 		Variable variable = getVariable();
-		if (variable != null && variable instanceof Variable) {
+		if( variable != null ) {
 			(variable).setXSDElement(newXSDElement);
 		}
+		
 		XSDElementDeclaration oldXSDElement = xsdElement;
 		xsdElement = newXSDElement;
 		if (eNotificationRequired())

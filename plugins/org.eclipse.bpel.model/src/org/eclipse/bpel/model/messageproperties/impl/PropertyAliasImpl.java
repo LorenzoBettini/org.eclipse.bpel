@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.8 2010/11/22 19:48:24 rbrodt Exp $
+ * $Id: PropertyAliasImpl.java,v 1.9 2011/02/11 16:42:14 vzurczak Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -38,8 +38,6 @@ import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
 import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.w3c.dom.Element;
 
@@ -726,8 +724,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 						.hasAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE)) {
 			if (definition != null) {
 				String part = element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE);
-				if (part != null && part != getPart())
-					setPart(part);
+				if( part != null && ! part.equals( getPart()))
+					setPart( part );
 			}
 		} else {
 			setType(null);

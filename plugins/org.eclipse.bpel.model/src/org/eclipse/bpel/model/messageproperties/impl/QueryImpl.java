@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.5 2010/11/22 19:48:25 rbrodt Exp $
+ * $Id: QueryImpl.java,v 1.6 2011/02/11 16:42:14 vzurczak Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -22,15 +22,11 @@ import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Query;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
-
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -338,17 +334,17 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 	 * Helper method to get a string from the given text node or CDATA text node.
 	 */
 	private String getText(Node node) {
-		String data = "";
+		StringBuilder data = new StringBuilder();
 		boolean containsValidData = false;
 		while (node != null) {
 			if (node.getNodeType() == Node.TEXT_NODE) {
 				Text text = (Text) node;
-				data += text.getData();
+				data.append( text.getData());
 			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
-				data = "";
+				data = new StringBuilder();
 				do {
 					CDATASection cdata = (CDATASection) node;
-					data += cdata.getData();
+					data.append( cdata.getData());
 					node = node.getNextSibling();
 					containsValidData = true;
 				} while (node != null
@@ -357,6 +353,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 			}
 			node = node.getNextSibling();
 		}
+		
 		if (!containsValidData) {
 			for (int i = 0; i < data.length(); i++) {
 				char charData = data.charAt(i);
@@ -368,11 +365,8 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 				}
 			}
 		}
-		if (containsValidData) {
-			return data;
-		} else {
-			return null;
-		}
+		
+		return containsValidData ? data.toString() : null;
 	}
 
 	/**

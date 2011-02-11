@@ -641,6 +641,8 @@ public class ReconciliationHelper {
 			// OnMessage
 			} else if (object instanceof OnMessage) {
 				OnMessage onMessage = (OnMessage) object;
+				
+				// FIXME: (VZ) how could this equals work?
 				if (variable.equals(onMessage)) {
 					onMessage.getElement().setAttribute(BPELConstants.AT_VARIABLE, name);
 				}

@@ -12,10 +12,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.xml.namespace.QName;
-
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.xsd.*;
+import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDAttributeGroupContent;
+import org.eclipse.xsd.XSDAttributeGroupDefinition;
+import org.eclipse.xsd.XSDAttributeUse;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDConcreteComponent;
+import org.eclipse.xsd.XSDDiagnostic;
+import org.eclipse.xsd.XSDDiagnosticSeverity;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDModelGroupDefinition;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDParticleContent;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTerm;
+import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.XSDWildcard;
 import org.eclipse.xsd.util.XSDConstants;
 
 /**
@@ -753,9 +769,10 @@ public class XSDComparer {
 		
 		if (debug) {
 			if (term != null && type != null) {
-				String indent = "";
+				StringBuilder indent = new StringBuilder();
 				for (int i = 0; i < level; ++i)
-					indent += "    ";
+					indent.append( "    " );
+				
 				if (term instanceof XSDElementDeclaration) {
 					XSDElementDeclaration decl = (XSDElementDeclaration) term;
 					if (type instanceof XSDSimpleTypeDefinition)

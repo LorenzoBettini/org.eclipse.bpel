@@ -703,7 +703,7 @@ public class BPELReader implements ErrorHandler {
 		Attr suppressJoinFailure = activityElement.getAttributeNode("suppressJoinFailure");
 		
 		if (suppressJoinFailure != null && suppressJoinFailure.getSpecified())		
-			activity.setSuppressJoinFailure(new Boolean(suppressJoinFailure.getValue().equals("yes")));
+			activity.setSuppressJoinFailure( Boolean.valueOf( suppressJoinFailure.getValue().equals("yes")));
 	}
 
 
@@ -971,13 +971,13 @@ public class BPELReader implements ErrorHandler {
 			process.setTargetNamespace(processElement.getAttribute("targetNamespace"));
 		
 		if (processElement.hasAttribute("suppressJoinFailure"))
-			process.setSuppressJoinFailure(new Boolean(processElement.getAttribute("suppressJoinFailure").equals("yes")));
+			process.setSuppressJoinFailure( Boolean.valueOf( processElement.getAttribute("suppressJoinFailure").equals("yes")));
 		
 		if (processElement.hasAttribute("exitOnStandardFault"))
-			process.setExitOnStandardFault(new Boolean(processElement.getAttribute("exitOnStandardFault").equals("yes")));
+			process.setExitOnStandardFault( Boolean.valueOf( processElement.getAttribute("exitOnStandardFault").equals("yes")));
 		
 		if (processElement.hasAttribute("variableAccessSerializable"))
-			process.setVariableAccessSerializable(new Boolean(processElement.getAttribute("variableAccessSerializable").equals("yes")));
+			process.setVariableAccessSerializable( Boolean.valueOf( processElement.getAttribute("variableAccessSerializable").equals("yes")));
 
 		if (processElement.hasAttribute("queryLanguage"))
 			process.setQueryLanguage(processElement.getAttribute("queryLanguage"));
@@ -1266,7 +1266,7 @@ public class BPELReader implements ErrorHandler {
 		
 		// Set mustUnderstand
 		if (extensionElement.hasAttribute("mustUnderstand"))
-			extension.setMustUnderstand(new Boolean(extensionElement.getAttribute("mustUnderstand").equals("yes")));
+			extension.setMustUnderstand( Boolean.valueOf( extensionElement.getAttribute("mustUnderstand").equals("yes")));
 		
 		xml2ExtensibleElement(extension, extensionElement);
 
@@ -1291,7 +1291,7 @@ public class BPELReader implements ErrorHandler {
 			partnerLink.setName(partnerLinkElement.getAttribute("name"));
 			
 		if (partnerLinkElement.hasAttribute("initializePartnerRole"))
-			partnerLink.setInitializePartnerRole(new Boolean(partnerLinkElement.getAttribute("initializePartnerRole").equals("yes")));		
+			partnerLink.setInitializePartnerRole( Boolean.valueOf( partnerLinkElement.getAttribute("initializePartnerRole").equals("yes")));		
 		
 		Attr partnerLinkTypeName = partnerLinkElement.getAttributeNode("partnerLinkType");
 		if (partnerLinkTypeName != null && partnerLinkTypeName.getSpecified()) {
@@ -1695,12 +1695,12 @@ public class BPELReader implements ErrorHandler {
 		Attr isolated = scopeElement.getAttributeNode("isolated");
 		
 		if (isolated != null && isolated.getSpecified())
-			scope.setIsolated(new Boolean(isolated.getValue().equals("yes")));
+			scope.setIsolated( Boolean.valueOf( isolated.getValue().equals("yes")));
 		
 		// Handle attribute exitOnStandardFault
 		Attr exitOnStandardFault = scopeElement.getAttributeNode("exitOnStandardFault");
 		if (exitOnStandardFault != null && exitOnStandardFault.getSpecified())
-			scope.setExitOnStandardFault(new Boolean(exitOnStandardFault.getValue().equals("yes")));
+			scope.setExitOnStandardFault( Boolean.valueOf( exitOnStandardFault.getValue().equals("yes")));
 				
 		// Handle Variables element
 		Element variablesElement = getBPELChildElementByLocalName(scopeElement, "variables");
@@ -2224,7 +2224,7 @@ public class BPELReader implements ErrorHandler {
 
 		// Set opaque
 		if (expressionElement.hasAttribute("opaque")) {
-			expression.setOpaque(new Boolean(expressionElement.getAttribute("opaque").equals("yes")));
+			expression.setOpaque( Boolean.valueOf( expressionElement.getAttribute("opaque").equals("yes")));
 		}
 				
 		String data = getText(expressionElement);
@@ -2490,7 +2490,7 @@ public class BPELReader implements ErrorHandler {
 		assign.setElement(assignElement);			
         
 		if (assignElement.hasAttribute("validate")) {
-			assign.setValidate(new Boolean(assignElement.getAttribute("validate").equals("yes")));
+			assign.setValidate( Boolean.valueOf( assignElement.getAttribute("validate").equals("yes")));
 		}
 		
 		for (Element copyElement : getBPELChildElementsByLocalName(assignElement, "copy") ) {                    
@@ -2532,10 +2532,10 @@ public class BPELReader implements ErrorHandler {
         }
  
 		if (copyElement.hasAttribute("keepSrcElementName"))
-			copy.setKeepSrcElementName(new Boolean(copyElement.getAttribute("keepSrcElementName").equals("yes")));
+			copy.setKeepSrcElementName( Boolean.valueOf( copyElement.getAttribute("keepSrcElementName").equals("yes")));
 		
 		if (copyElement.hasAttribute("ignoreMissingFromData")) 
-			copy.setIgnoreMissingFromData(new Boolean(copyElement.getAttribute("ignoreMissingFromData").equals("yes")));
+			copy.setIgnoreMissingFromData( Boolean.valueOf( copyElement.getAttribute("ignoreMissingFromData").equals("yes")));
 
 		xml2ExtensibleElement(copy, copyElement);
  		
@@ -2802,7 +2802,10 @@ public class BPELReader implements ErrorHandler {
 					BPELExtensionDeserializer deserializer=null;
 					try {
 						deserializer = (BPELExtensionDeserializer)extensionRegistry.queryDeserializer(ExtensibleElement.class,qname);
-					} catch (WSDLException e) {}
+					} catch (WSDLException e) {
+						// nothing
+					}
+					
 					if (deserializer != null && !(deserializer instanceof BPELUnknownExtensionDeserializer)) {
 						// Deserialize the DOM element and add the new Extensibility element to the parent
 						// ExtensibleElement
@@ -2882,7 +2885,7 @@ public class BPELReader implements ErrorHandler {
 		Attr opaque = fromElement.getAttributeNode("opaque");
 			
 		if (opaque != null && opaque.getSpecified()) {
-			from.setOpaque(new Boolean(opaque.getValue().equals("yes")));
+			from.setOpaque( Boolean.valueOf( opaque.getValue().equals("yes")));
 		}
 
 		
@@ -3004,7 +3007,7 @@ public class BPELReader implements ErrorHandler {
 		// Set createInstance
 		if (receiveElement.hasAttribute("createInstance")) {		           
 			String createInstance = receiveElement.getAttribute("createInstance");
-			receive.setCreateInstance(new Boolean(createInstance.equals("yes")));
+			receive.setCreateInstance( Boolean.valueOf( createInstance.equals("yes")));
 		}
 
 		Element fromPartsElement = getBPELChildElementByLocalName(receiveElement, "fromParts");
@@ -3129,7 +3132,7 @@ public class BPELReader implements ErrorHandler {
 		xml2Expression(branchesElement, branches);
 
 		if (branchesElement.hasAttribute("successfulBranchesOnly"))
-			branches.setCountCompletedBranchesOnly(new Boolean(branchesElement.getAttribute("successfulBranchesOnly").equals("yes")));
+			branches.setCountCompletedBranchesOnly( Boolean.valueOf( branchesElement.getAttribute("successfulBranchesOnly").equals("yes")));
 
 		return branches;
 	}

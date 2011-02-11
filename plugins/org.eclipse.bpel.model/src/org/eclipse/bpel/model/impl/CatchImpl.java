@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: CatchImpl.java,v 1.11 2009/04/14 10:50:37 smoser Exp $
+ * $Id: CatchImpl.java,v 1.12 2011/02/11 16:42:14 vzurczak Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -274,9 +274,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @customized
 	 */
 	public Message getFaultMessageType() {
-		if (faultVariable != null && faultVariable instanceof Variable) {
+		if( faultVariable != null ) {
 			return (faultVariable).getMessageType();
 		}
+		
 		if (faultMessageType != null && faultMessageType.eIsProxy()) {
 			Message oldFaultMessageType = faultMessageType;
 			faultMessageType = (Message) eResolveProxy((InternalEObject) faultMessageType);
@@ -306,9 +307,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public void setFaultMessageType(Message newFaultMessageType) {
 		Variable variable = getFaultVariable();
-		if (variable != null && variable instanceof Variable) {
+		if( variable != null ) {
 			(variable).setMessageType(newFaultMessageType);
 		}
+		
 		Message oldFaultMessageType = faultMessageType;
 		if (!isReconciling) {
 			ReconciliationHelper.replaceAttribute(this,
@@ -329,9 +331,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 * @customized
 	 */
 	public XSDElementDeclaration getFaultElement() {
-		if (faultVariable != null && faultVariable instanceof Variable) {
+		if( faultVariable != null ) {
 			return (faultVariable).getXSDElement();
 		}
+		
 		if (faultElement != null && faultElement.eIsProxy()) {
 			XSDElementDeclaration oldFaultElement = faultElement;
 			faultElement = (XSDElementDeclaration) eResolveProxy((InternalEObject) faultElement);
@@ -361,9 +364,10 @@ public class CatchImpl extends ExtensibleElementImpl implements Catch {
 	 */
 	public void setFaultElement(XSDElementDeclaration newFaultElement) {
 		Variable variable = getFaultVariable();
-		if (variable != null && variable instanceof Variable) {
+		if( variable != null ) {
 			(variable).setXSDElement(newFaultElement);
 		}
+		
 		XSDElementDeclaration oldFaultElement = faultElement;
 		if (!isReconciling) {
 			ReconciliationHelper.replaceAttribute(this,
