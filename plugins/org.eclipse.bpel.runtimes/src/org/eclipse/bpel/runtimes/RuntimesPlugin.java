@@ -39,7 +39,6 @@ public class RuntimesPlugin extends AbstractUIPlugin {
 	 */
 	public RuntimesPlugin() {
 		super();
-		plugin = this;
 	}
 
 	/**
@@ -48,6 +47,7 @@ public class RuntimesPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		plugin = this;
 	}
 
 	/**

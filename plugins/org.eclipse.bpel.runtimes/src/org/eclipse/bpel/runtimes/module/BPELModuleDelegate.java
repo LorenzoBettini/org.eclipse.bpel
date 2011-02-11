@@ -171,4 +171,14 @@ public class BPELModuleDelegate extends ProjectModule {
 		
 		return true;
 	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return file == null ? 0 : file.getFullPath().toOSString().length();
+	}
 }
