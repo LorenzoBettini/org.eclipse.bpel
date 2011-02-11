@@ -20,7 +20,7 @@ package org.eclipse.bpel.xpath10;
  */
 public class NumberExpr extends Expr {
 	
-	Number fNumber = new Integer(0);
+	Number fNumber = Integer.valueOf( 0 );
 	
 	/**
 	 * Brand new shiny number expression.
@@ -63,15 +63,15 @@ public class NumberExpr extends Expr {
 	public void negate () {
 		
 		if (fNumber instanceof Float) {
-			fNumber = new Float(-1 * fNumber.floatValue());
+			fNumber = Float.valueOf( -1 * fNumber.floatValue());
 		} else if (fNumber instanceof Short) {
-			fNumber = new Short((short) (-1 * fNumber.shortValue()));
+			fNumber = Short.valueOf((short) (-1 * fNumber.shortValue()));
 		} else if (fNumber instanceof Integer) {
-			fNumber = new Integer(-1*fNumber.intValue());
+			fNumber = Integer.valueOf( -1*fNumber.intValue());
 		} else if (fNumber instanceof Long) {
-			fNumber = new Long( -1*fNumber.longValue());
+			fNumber = Long.valueOf( -1*fNumber.longValue());
 		} else {
-			fNumber = new Double(-1.0 * fNumber.doubleValue());
+			fNumber = Double.valueOf( -1.0 * fNumber.doubleValue());
 		}		
 	}
 	

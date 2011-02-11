@@ -12,11 +12,8 @@
 package org.eclipse.bpel.xpath10.parser;
 
 /**
- * 
- * 
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Jun 23, 2008
- *
  */
 public class XPath10Exception extends Error {	
 	/**

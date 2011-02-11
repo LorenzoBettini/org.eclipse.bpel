@@ -1,18 +1,48 @@
 // $ANTLR 3.0.1 /org.eclipse.bpel.xpath10/src/org/eclipse/bpel/xpath10/parser/XPath10.g 2008-06-23 18:23:26
    
    package org.eclipse.bpel.xpath10.parser;      
-   import org.eclipse.bpel.xpath10.*;
-   
-
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+   import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.CommonToken;
+import org.antlr.runtime.FailedPredicateException;
+import org.antlr.runtime.MismatchedSetException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.RewriteEarlyExitException;
+import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
+import org.antlr.runtime.tree.RewriteRuleTokenStream;
+import org.antlr.runtime.tree.TreeAdaptor;
+import org.eclipse.bpel.xpath10.AdditiveExpr;
+import org.eclipse.bpel.xpath10.AllNodeStep;
+import org.eclipse.bpel.xpath10.Axis;
+import org.eclipse.bpel.xpath10.CommentNodeStep;
+import org.eclipse.bpel.xpath10.EqualityExpr;
+import org.eclipse.bpel.xpath10.Expr;
+import org.eclipse.bpel.xpath10.FilterExpr;
+import org.eclipse.bpel.xpath10.FunctionCallExpr;
+import org.eclipse.bpel.xpath10.LiteralExpr;
+import org.eclipse.bpel.xpath10.LocationPath;
+import org.eclipse.bpel.xpath10.LogicalExpr;
+import org.eclipse.bpel.xpath10.MultiplicativeExpr;
+import org.eclipse.bpel.xpath10.NameStep;
+import org.eclipse.bpel.xpath10.NumberExpr;
+import org.eclipse.bpel.xpath10.PathExpr;
+import org.eclipse.bpel.xpath10.Predicate;
+import org.eclipse.bpel.xpath10.ProcessingInstructionNodeStep;
+import org.eclipse.bpel.xpath10.RelationalExpr;
+import org.eclipse.bpel.xpath10.Step;
+import org.eclipse.bpel.xpath10.TextNodeStep;
+import org.eclipse.bpel.xpath10.UnaryExpr;
+import org.eclipse.bpel.xpath10.UnionExpr;
+import org.eclipse.bpel.xpath10.VariableReferenceExpr;
 
 public class XPath10Parser extends Parser {
     public static final String[] tokenNames = new String[] {
@@ -5558,10 +5588,8 @@ public class XPath10Parser extends Parser {
         Object n_tree=null;
         Object COLON20_tree=null;
 
-        
-        	retval.prefix = "";
-        	retval.startOffset = -1;
-        	retval.startOffset = -1;
+       	retval.prefix = "";
+       	retval.startOffset = -1;
 
         try {
             // /org.eclipse.bpel.xpath10/src/org/eclipse/bpel/xpath10/parser/XPath10.g:481:3: ( (p= IDENTIFIER COLON )? n= IDENTIFIER )
@@ -5593,8 +5621,8 @@ public class XPath10Parser extends Parser {
                     COLON20=(Token)input.LT(1);
                     match(input,COLON,FOLLOW_COLON_in_qName2974); if (failed) return retval;
                     if ( backtracking==0 ) {
-                    COLON20_tree = (Object)adaptor.create(COLON20);
-                    root_0 = (Object)adaptor.becomeRoot(COLON20_tree, root_0);
+	                    COLON20_tree = (Object)adaptor.create(COLON20);
+	                    root_0 = (Object)adaptor.becomeRoot(COLON20_tree, root_0);
                     }
                     if ( backtracking==0 ) {
                        retval.prefix =p.getText() ; retval.startOffset = positionOf(p,true); 
