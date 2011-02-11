@@ -70,11 +70,7 @@ public class XPathValidator extends Validator {
 
 	/** The string format of the XPath expression */
 	String exprString;
-
 	String exprStringTrimmed;
-
-	/** the parsed XPath expression */
-	XPathExpression xpathExpr;
 
 	/** The node name in which this expression is placed */
 	protected String fNodeName;
@@ -258,7 +254,7 @@ public class XPathValidator extends Validator {
 
 		// mVisitor = new XPathVisitor(this);
 
-		INode typeNode = getValue("expression.type", null);
+		// INode typeNode = getValue("expression.type", null);
 
 //		if (typeNode != null) {
 //			mVisitor.contextPush(typeNode);

@@ -13,7 +13,6 @@ package org.eclipse.bpel.validator.vprop;
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.validator.model.ARule;
-
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
@@ -45,26 +44,12 @@ public class PropertyAlias extends CValidator {
 	
 	/** Parent nodes */
 	static public IFilter<INode> PARENTS = new NodeNameFilter( WSDL_ND_DEFINITIONS );
-	
-	
-	String ncName ;
-
 
 	protected String fTypeName;
-
-
 	protected String fElementName;
-
-
 	protected String fPropertyName;
-
-
 	protected String fMessageTypeName;
-
-
 	protected String fMessagePartName;
-
-
 	protected String fDuplicateKey = null;	
 	
 	

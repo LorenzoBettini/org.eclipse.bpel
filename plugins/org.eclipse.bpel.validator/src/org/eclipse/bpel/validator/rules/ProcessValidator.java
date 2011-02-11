@@ -20,12 +20,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
 
 
@@ -217,7 +217,7 @@ public class ProcessValidator extends CValidator {
 		order = 1000
 	)
 	
-	public void CheckIfProcessHasStartActivity () {
+	public void checkIfProcessHasStartActivity () {
 		
 		if (fStartActivities.size() > 0)  {
 			return ;
@@ -242,7 +242,7 @@ public class ProcessValidator extends CValidator {
 		tag = "pass2",
 		order = 2000
 	)
-	public void CheckCorrelationSetsOnStartActivities () {
+	public void checkCorrelationSetsOnStartActivities () {
 		// if 0 or 1, then it does not matter ...
 		if (fStartActivities.size() < 2)  {
 			return ;
@@ -349,13 +349,13 @@ public class ProcessValidator extends CValidator {
 		order = 300
 	)
 	
-	public void CheckReferencedTypes () {
+	public void checkReferencedTypes () {
 		// TODO: Add support for that in the model query mechanism.
-		for(INode node : fTypeToCheckList) {
+		// for(INode node : fTypeToCheckList) {
 			//if (mModelQuery.check(IModelQueryLookups.TEST_CONFLICTING_XSD, node, null)) {
 			//	
 			//}
-		}		
+		// }		
 	}
 	
 	

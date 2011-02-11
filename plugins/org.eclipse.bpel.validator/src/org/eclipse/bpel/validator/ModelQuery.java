@@ -16,7 +16,6 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.fnmeta.FunctionLibrary;
 import org.eclipse.bpel.fnmeta.FunctionRegistry;
-
 import org.eclipse.bpel.model.adapters.AdapterRegistry;
 import org.eclipse.bpel.validator.helpers.ModelQueryImpl;
 import org.eclipse.bpel.validator.model.IConstants;
@@ -577,7 +576,7 @@ public class ModelQuery extends ModelQueryImpl {
 				return def;
 			
 			// found it! Set this info in the adaptable Element for next time
-			elm.setUserData(key, new Integer(def), null);
+			elm.setUserData(key, Integer.valueOf( def ), null);
 		}			
 		return def;
 	}

@@ -37,7 +37,6 @@ import org.eclipse.bpel.model.util.XSDComparer;
 import org.eclipse.bpel.model.util.XSDUtil;
 import org.eclipse.bpel.validator.factory.AdapterFactory;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Fault;
@@ -315,6 +314,7 @@ public class EmfModelQuery {
 		String localName = qname.getLocalPart();
 		String nsURI = qname.getNamespaceURI();
 		
+		// (VZ) FIXME: this condition will always be true. To be reviewed!
 		if (eObj instanceof XSDComplexTypeDefinition) {
 			
 			XSDComplexTypeDefinition type = (XSDComplexTypeDefinition) eObj;
@@ -462,13 +462,13 @@ public class EmfModelQuery {
 	@SuppressWarnings("nls")
 	static EObject getRoot ( EObject eObj ) {
 	
-		assertTrue(eObj != null, CONTEXT_MSG );
+		assertTrue( eObj != null, CONTEXT_MSG );
 		EObject top = eObj;
-		while (top.eContainer() != null) {
+		while( top != null && top.eContainer() != null ) {
 			top = top.eContainer();
 		}		
 		
-		assertTrue( top != null, "The top object cannot be null");
+		assertTrue( top != null, "The top object cannot be null" );
 		return top ;
 	}
 	
@@ -778,8 +778,7 @@ public class EmfModelQuery {
 		
 		if (!src.getQName().equals(dst.getQName()))
 			return false;
-		URI uri1 = src.eResource().getURI();
-		URI uri2 = dst.eResource().getURI();
+
 		if (src.eResource().getURI().equals(dst.eResource().getURI()))
 			return true;
 		

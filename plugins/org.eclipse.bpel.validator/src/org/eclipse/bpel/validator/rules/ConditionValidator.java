@@ -105,7 +105,7 @@ public class ConditionValidator extends CValidator {
 		sa = 0,
 		order = 100
 	)		
-	public void CheckExpression () {
+	public void checkExpression () {
 		
 		if (fExprValidator == null) {
 			

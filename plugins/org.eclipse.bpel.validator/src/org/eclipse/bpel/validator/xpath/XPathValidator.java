@@ -21,17 +21,26 @@ import java.util.List;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IFunctionMeta;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Validator;
 import org.eclipse.bpel.validator.tools.ParserTool;
-
-import org.eclipse.bpel.xpath10.*;
+import org.eclipse.bpel.xpath10.AdditiveExpr;
+import org.eclipse.bpel.xpath10.EqualityExpr;
+import org.eclipse.bpel.xpath10.Expr;
+import org.eclipse.bpel.xpath10.FunctionCallExpr;
+import org.eclipse.bpel.xpath10.LiteralExpr;
+import org.eclipse.bpel.xpath10.LogicalExpr;
+import org.eclipse.bpel.xpath10.MultiplicativeExpr;
+import org.eclipse.bpel.xpath10.NumberExpr;
+import org.eclipse.bpel.xpath10.RelationalExpr;
+import org.eclipse.bpel.xpath10.UnaryExpr;
+import org.eclipse.bpel.xpath10.VariableReferenceExpr;
 import org.eclipse.bpel.xpath10.parser.XPath10Exception;
 import org.eclipse.bpel.xpath10.parser.XPath10Factory;
 
@@ -495,7 +504,7 @@ public class XPathValidator extends Validator {
 	 * @param expr
 	 */
 	@ARule(sa = 1015, desc = "Check functions in XPath expressions", author = "michal.chmielewski@oracle.com", date = "03/02/2007", tag = "functions", order = 1)
-	public void CheckFunctions(FunctionCallExpr expr) {
+	public void checkFunctions(FunctionCallExpr expr) {
 
 		String functionPrefix = expr.getPrefix();
 		String nsURI = lookupNamespace(functionPrefix);
@@ -518,7 +527,7 @@ public class XPathValidator extends Validator {
 	 */
 
 	@ARule(sa = 30, desc = "Arguments to getVariableProperty must be quoted strings", author = "michal.chmielewski@oracle.com", date = "01/29/2007", tag = "bpel.functions")
-	public void CheckGetVariableProperty(FunctionCallExpr expr) {
+	public void checkGetVariableProperty(FunctionCallExpr expr) {
 
 		String fn = expr.getFunctionName();
 		if ("getVariableProperty".equals(fn) == false) {
@@ -580,7 +589,7 @@ public class XPathValidator extends Validator {
 	 * @param expr
 	 */
 	@ARule(sa = 31, desc = "The second argument MUST be a string literal conforming to the definition of QName in section 3", author = "michal.chmielewski@oracle.com", date = "01/29/2007", tag = "bpel.functions")
-	public void CheckGetVariableProperty2ndArgument(FunctionCallExpr expr) {
+	public void checkGetVariableProperty2ndArgument(FunctionCallExpr expr) {
 
 		String fn = expr.getFunctionName();
 
@@ -658,12 +667,11 @@ public class XPathValidator extends Validator {
 		}
 
 		LiteralExpr lexpr = (LiteralExpr) p;
+		
 		// quick check if this is valid URI ...
-
-		@SuppressWarnings("unused")
-		java.net.URI uri = null;
 		try {
-			uri = new java.net.URI(lexpr.getLiteral());
+			new java.net.URI( lexpr.getLiteral());
+			
 		} catch (URISyntaxException e) {
 			problem = createWarning();
 			problem.fill("XPATH_URI_SYNTAX", toString(mNode.nodeName()),

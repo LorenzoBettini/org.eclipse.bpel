@@ -419,7 +419,7 @@ public class Builder extends IncrementalProjectBuilder {
 	@SuppressWarnings("boxing")	
 	boolean toBoolean ( Object obj , boolean def) {
 		if (obj instanceof String) {
-			return new Boolean((String)obj);			
+			return Boolean.valueOf((String)obj);			
 		}
 		return def;
 	}

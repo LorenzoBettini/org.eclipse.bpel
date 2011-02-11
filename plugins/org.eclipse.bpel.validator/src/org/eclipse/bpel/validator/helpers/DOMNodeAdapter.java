@@ -280,14 +280,6 @@ public class DOMNodeAdapter implements INode {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<");
 		
-		String nsURI = targetElement.getNamespaceURI();
-		
-		if (false && nsURI != null && nsURI.length() > 0) {
-			sb.append ( "{");
-			sb.append( nsURI );
-			sb.append ( "}");
-			sb.append ( ":" );
-		}
 		String pfx = targetElement.getPrefix();
 		if (pfx != null && pfx.length() > 0) {
 			sb.append( pfx );

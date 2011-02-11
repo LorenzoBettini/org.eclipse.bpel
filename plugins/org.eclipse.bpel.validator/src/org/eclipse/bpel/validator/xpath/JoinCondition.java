@@ -58,7 +58,7 @@ public class JoinCondition extends XPathValidator {
 		date = "01/20/2007",
 		tag = "bpel.functions"
 	)
-	public void CheckBPELFunctionsInJoinConditions ( FunctionCallExpr expr ) {
+	public void checkBPELFunctionsInJoinConditions ( FunctionCallExpr expr ) {
 				
 		IProblem problem = createError();
 		problem.fill("XPATH_BPEL_FUNCTION", 
@@ -85,7 +85,7 @@ public class JoinCondition extends XPathValidator {
 		order = 17
 	)
 	
-	public void CheckLinkReference ( VariableReferenceExpr expr ) {
+	public void checkLinkReference ( VariableReferenceExpr expr ) {
 			
 		String prefix = expr.getPrefix();
 		final String name = expr.getVariableName();

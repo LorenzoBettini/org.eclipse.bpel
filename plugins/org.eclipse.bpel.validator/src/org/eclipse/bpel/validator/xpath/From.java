@@ -35,7 +35,7 @@ public class From extends XPathValidator {
 		date = "01/10/2007",
 		order = 15
 	)
-	public void CheckGeneralExpression () {	
+	public void checkGeneralExpression () {	
 		mVisitor.visit( xpathExpr );				
 	}
 	
@@ -54,7 +54,7 @@ public class From extends XPathValidator {
 		order = 15
 	)
 		
-	public void CheckIdempotentFunctions ( FunctionCallExpr expr ) {
+	public void checkIdempotentFunctions ( FunctionCallExpr expr ) {
 		boolean bCheckIdempotent = getValue("idempotent.functions",false);
 		
 		if (bCheckIdempotent == false) {

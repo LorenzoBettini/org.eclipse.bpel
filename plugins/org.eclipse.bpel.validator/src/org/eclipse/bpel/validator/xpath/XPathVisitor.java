@@ -19,22 +19,31 @@ import java.util.Stack;
 
 import javax.xml.namespace.QName;
 
-/**
- * Dependency on the validation model 
- */
 import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
-
-
-
-/**
- * Dependency on XPath 1.0 semantics tree model 
- */
-
-import org.eclipse.bpel.xpath10.*;
+import org.eclipse.bpel.xpath10.AllNodeStep;
+import org.eclipse.bpel.xpath10.Axis;
+import org.eclipse.bpel.xpath10.BinaryExpr;
+import org.eclipse.bpel.xpath10.CommentNodeStep;
+import org.eclipse.bpel.xpath10.EqualityExpr;
+import org.eclipse.bpel.xpath10.FilterExpr;
+import org.eclipse.bpel.xpath10.FunctionCallExpr;
+import org.eclipse.bpel.xpath10.LiteralExpr;
+import org.eclipse.bpel.xpath10.LocationPath;
+import org.eclipse.bpel.xpath10.LogicalExpr;
+import org.eclipse.bpel.xpath10.NameStep;
+import org.eclipse.bpel.xpath10.NumberExpr;
+import org.eclipse.bpel.xpath10.PathExpr;
+import org.eclipse.bpel.xpath10.Predicate;
+import org.eclipse.bpel.xpath10.ProcessingInstructionNodeStep;
+import org.eclipse.bpel.xpath10.RelationalExpr;
+import org.eclipse.bpel.xpath10.TextNodeStep;
+import org.eclipse.bpel.xpath10.UnaryExpr;
+import org.eclipse.bpel.xpath10.UnionExpr;
+import org.eclipse.bpel.xpath10.VariableReferenceExpr;
 
 /**
  * Dependency on the ParserTool
@@ -141,11 +150,11 @@ public class XPathVisitor  {
 
 	protected void visit (BinaryExpr expr) {
 		
-		visit(expr.getLHS());			
-		Object lhsType = contextPop();
+		visit( expr.getLHS());			
+		contextPop();
 		
-		visit(expr.getRHS());		
-		Object rhsType = contextPop();
+		visit( expr.getRHS());		
+		contextPop();
 		
 		if (expr instanceof LogicalExpr || expr instanceof RelationalExpr || expr instanceof EqualityExpr) {
 			mContext.push( true );			
@@ -359,13 +368,13 @@ public class XPathVisitor  {
 	protected void visit (TextNodeStep step) {
 		visitList(step.getPredicates());
 		contextPop();
-		mContext.push ( new String("text()") );		
+		mContext.push( "text()" );		
 	}
 
 	protected void visit (CommentNodeStep step) {
 		visitList(step.getPredicates());
 		contextPop();
-		mContext.push (new String("comment()")) ;
+		mContext.push( "comment()" ) ;
 		
 	}
 
