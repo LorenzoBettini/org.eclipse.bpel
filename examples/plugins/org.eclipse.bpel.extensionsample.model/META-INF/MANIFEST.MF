@@ -15,5 +15,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.bpel.model;visibility:=reexport,
  org.eclipse.wst.wsdl;visibility:=reexport,
  org.eclipse.xsd;visibility:=reexport,
- javax.wsdl;bundle-version="1.5.1"
+ javax.wsdl;bundle-version="[1.5.0,1.6.0)"
 Bundle-ActivationPolicy: lazy
