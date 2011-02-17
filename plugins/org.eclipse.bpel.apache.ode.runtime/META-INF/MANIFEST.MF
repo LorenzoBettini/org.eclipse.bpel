@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Apache ODE Runtime Plug-in
-Bundle-SymbolicName: org.eclipse.bpel.apache.ode.runtime;singleton:=true
-Bundle-Version: 0.5.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Name: %pluginName
+Bundle-SymbolicName: new.org.eclipse.bpel.apache.ode.runtime;singleton:=true
+Bundle-Version: 0.6.0.qualifier
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.4.0,4.0.0)",
@@ -27,5 +27,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.bpel.apache.ode.deploy.model;bundle-version="0.5.0"
 Bundle-Activator: org.eclipse.bpel.apache.ode.runtime.OdePlugin
 Export-Package: org.eclipse.bpel.apache.ode.runtime
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.eclipse.bpel.runtimes
