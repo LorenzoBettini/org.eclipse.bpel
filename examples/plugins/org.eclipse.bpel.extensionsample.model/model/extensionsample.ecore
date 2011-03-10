@@ -6,10 +6,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="SampleSimpleActivity" eSuperTypes="../../org.eclipse.bpel.model/src/model/bpel.ecore#//ExtensionActivity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="SampleExtensionAttribute"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="ecore:EClass ../../org.eclipse.bpel.model/src/model/bpel.ecore#//Variable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SampleStructuredActivity" eSuperTypes="../../org.eclipse.bpel.model/src/model/bpel.ecore#//ExtensionActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.bpel.model/src/model/bpel.ecore#//Activity"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.bpel.model/src/model/bpel.ecore#//Variable"
         containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

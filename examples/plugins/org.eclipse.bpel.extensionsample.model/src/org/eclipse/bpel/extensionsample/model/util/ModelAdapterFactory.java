@@ -2,10 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.1 2008/09/15 15:44:28 smoser Exp $
+ * $Id: ModelAdapterFactory.java,v 1.2 2011/03/10 18:18:17 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model.util;
 
+import javax.wsdl.extensions.AttributeExtensible;
+import javax.wsdl.extensions.ElementExtensible;
 import org.eclipse.bpel.extensionsample.model.*;
 
 import org.eclipse.bpel.model.Activity;
@@ -25,6 +27,11 @@ import org.eclipse.wst.wsdl.WSDLElement;
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
+ * 
+ * Bug 120110 - this class has been updated to include a Variable
+ * reference for the SampleSimpleActivity and a Variable definition
+ * for the SampleStructuredActivity.
+ * 
  * <!-- end-user-doc -->
  * @see org.eclipse.bpel.extensionsample.model.ModelPackage
  * @generated
@@ -90,12 +97,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createWSDLElementAdapter();
 			}
 			@Override
+			public Adapter caseIElementExtensible(ElementExtensible object) {
+				return createIElementExtensibleAdapter();
+			}
+			@Override
+			public Adapter caseIAttributeExtensible(AttributeExtensible object) {
+				return createIAttributeExtensibleAdapter();
+			}
+			@Override
 			public Adapter caseExtensibleElement(ExtensibleElement object) {
 				return createExtensibleElementAdapter();
 			}
 			@Override
-			public Adapter caseExtensibleElement_1(org.eclipse.bpel.model.ExtensibleElement object) {
-				return createExtensibleElement_1Adapter();
+			public Adapter caseBPEL_ExtensibleElement(org.eclipse.bpel.model.ExtensibleElement object) {
+				return createBPEL_ExtensibleElementAdapter();
 			}
 			@Override
 			public Adapter caseActivity(Activity object) {
@@ -168,6 +183,34 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link javax.wsdl.extensions.ElementExtensible <em>IElement Extensible</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see javax.wsdl.extensions.ElementExtensible
+	 * @generated
+	 */
+	public Adapter createIElementExtensibleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link javax.wsdl.extensions.AttributeExtensible <em>IAttribute Extensible</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see javax.wsdl.extensions.AttributeExtensible
+	 * @generated
+	 */
+	public Adapter createIAttributeExtensibleAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.wst.wsdl.ExtensibleElement <em>Extensible Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -191,7 +234,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @see org.eclipse.bpel.model.ExtensibleElement
 	 * @generated
 	 */
-	public Adapter createExtensibleElement_1Adapter() {
+	public Adapter createBPEL_ExtensibleElementAdapter() {
 		return null;
 	}
 

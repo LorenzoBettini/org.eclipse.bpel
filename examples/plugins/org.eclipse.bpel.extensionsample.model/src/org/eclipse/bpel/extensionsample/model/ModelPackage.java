@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.1 2008/09/15 15:44:28 smoser Exp $
+ * $Id: ModelPackage.java,v 1.2 2011/03/10 18:18:18 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model;
 
@@ -23,6 +23,11 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
+ * 
+ * Bug 120110 - the model has been updated to include a Variable
+ * reference for the SampleSimpleActivity and a Variable definition
+ * for the SampleStructuredActivity.
+ * 
  * <!-- end-user-doc -->
  * @see org.eclipse.bpel.extensionsample.model.ModelFactory
  * @model kind="package"
@@ -153,13 +158,22 @@ public interface ModelPackage extends EPackage {
 	int SAMPLE_SIMPLE_ACTIVITY__SAMPLE_EXTENSION_ATTRIBUTE = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Variable</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAMPLE_SIMPLE_ACTIVITY__VARIABLE = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Sample Simple Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SAMPLE_SIMPLE_ACTIVITY_FEATURE_COUNT = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 1;
+	int SAMPLE_SIMPLE_ACTIVITY_FEATURE_COUNT = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpel.extensionsample.model.impl.SampleStructuredActivityImpl <em>Sample Structured Activity</em>}' class.
@@ -253,13 +267,22 @@ public interface ModelPackage extends EPackage {
 	int SAMPLE_STRUCTURED_ACTIVITY__ACTIVITY = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Variable</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAMPLE_STRUCTURED_ACTIVITY__VARIABLE = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Sample Structured Activity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SAMPLE_STRUCTURED_ACTIVITY_FEATURE_COUNT = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 1;
+	int SAMPLE_STRUCTURED_ACTIVITY_FEATURE_COUNT = BPELPackage.EXTENSION_ACTIVITY_FEATURE_COUNT + 2;
 
 
 	/**
@@ -284,6 +307,17 @@ public interface ModelPackage extends EPackage {
 	EAttribute getSampleSimpleActivity_SampleExtensionAttribute();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.bpel.extensionsample.model.SampleSimpleActivity#getVariable <em>Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Variable</em>'.
+	 * @see org.eclipse.bpel.extensionsample.model.SampleSimpleActivity#getVariable()
+	 * @see #getSampleSimpleActivity()
+	 * @generated
+	 */
+	EReference getSampleSimpleActivity_Variable();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.bpel.extensionsample.model.SampleStructuredActivity <em>Sample Structured Activity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -303,6 +337,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSampleStructuredActivity_Activity();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.bpel.extensionsample.model.SampleStructuredActivity#getVariable <em>Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Variable</em>'.
+	 * @see org.eclipse.bpel.extensionsample.model.SampleStructuredActivity#getVariable()
+	 * @see #getSampleStructuredActivity()
+	 * @generated
+	 */
+	EReference getSampleStructuredActivity_Variable();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -345,6 +390,14 @@ public interface ModelPackage extends EPackage {
 		EAttribute SAMPLE_SIMPLE_ACTIVITY__SAMPLE_EXTENSION_ATTRIBUTE = eINSTANCE.getSampleSimpleActivity_SampleExtensionAttribute();
 
 		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAMPLE_SIMPLE_ACTIVITY__VARIABLE = eINSTANCE.getSampleSimpleActivity_Variable();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.bpel.extensionsample.model.impl.SampleStructuredActivityImpl <em>Sample Structured Activity</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -361,6 +414,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SAMPLE_STRUCTURED_ACTIVITY__ACTIVITY = eINSTANCE.getSampleStructuredActivity_Activity();
+
+		/**
+		 * The meta object literal for the '<em><b>Variable</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAMPLE_STRUCTURED_ACTIVITY__VARIABLE = eINSTANCE.getSampleStructuredActivity_Variable();
 
 	}
 

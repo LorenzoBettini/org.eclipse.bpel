@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.1 2008/09/15 15:44:28 smoser Exp $
+ * $Id: ModelPackageImpl.java,v 1.2 2011/03/10 18:18:18 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model.impl;
 
@@ -32,7 +32,14 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Package</b>.
+ * 
+ * Bug 120110 - the model has been updated to include a Variable
+ * reference for the SampleSimpleActivity and a Variable definition
+ * for the SampleStructuredActivity.
+ * 
+ * <!-- end-user-doc -->
  * @generated
  */
 public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
@@ -161,6 +168,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSampleSimpleActivity_Variable() {
+		return (EReference)sampleSimpleActivityEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -174,6 +190,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	public EReference getSampleStructuredActivity_Activity() {
 		return (EReference)sampleStructuredActivityEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSampleStructuredActivity_Variable() {
+		return (EReference)sampleStructuredActivityEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -203,9 +228,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		// Create classes and their features
 		sampleSimpleActivityEClass = createEClass(SAMPLE_SIMPLE_ACTIVITY);
 		createEAttribute(sampleSimpleActivityEClass, SAMPLE_SIMPLE_ACTIVITY__SAMPLE_EXTENSION_ATTRIBUTE);
+		createEReference(sampleSimpleActivityEClass, SAMPLE_SIMPLE_ACTIVITY__VARIABLE);
 
 		sampleStructuredActivityEClass = createEClass(SAMPLE_STRUCTURED_ACTIVITY);
 		createEReference(sampleStructuredActivityEClass, SAMPLE_STRUCTURED_ACTIVITY__ACTIVITY);
+		createEReference(sampleStructuredActivityEClass, SAMPLE_STRUCTURED_ACTIVITY__VARIABLE);
 	}
 
 	/**
@@ -244,9 +271,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(sampleSimpleActivityEClass, SampleSimpleActivity.class, "SampleSimpleActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSampleSimpleActivity_SampleExtensionAttribute(), theEcorePackage.getEString(), "SampleExtensionAttribute", null, 0, 1, SampleSimpleActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSampleSimpleActivity_Variable(), theBPELPackage.getVariable(), null, "variable", null, 0, 1, SampleSimpleActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sampleStructuredActivityEClass, SampleStructuredActivity.class, "SampleStructuredActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSampleStructuredActivity_Activity(), theBPELPackage.getActivity(), null, "activity", null, 1, 1, SampleStructuredActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSampleStructuredActivity_Variable(), theBPELPackage.getVariable(), null, "variable", null, 1, 1, SampleStructuredActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

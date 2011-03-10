@@ -2,12 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.1 2008/09/15 15:44:28 smoser Exp $
+ * $Id: ModelSwitch.java,v 1.2 2011/03/10 18:18:17 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model.util;
 
 import java.util.List;
 
+import javax.wsdl.extensions.AttributeExtensible;
+import javax.wsdl.extensions.ElementExtensible;
 import org.eclipse.bpel.extensionsample.model.*;
 
 import org.eclipse.bpel.model.Activity;
@@ -28,6 +30,11 @@ import org.eclipse.wst.wsdl.WSDLElement;
  * and proceeding up the inheritance hierarchy
  * until a non-null result is returned,
  * which is the result of the switch.
+ * 
+ * Bug 120110 - this class has been updated to include a Variable
+ * reference for the SampleSimpleActivity and a Variable definition
+ * for the SampleStructuredActivity.
+ * 
  * <!-- end-user-doc -->
  * @see org.eclipse.bpel.extensionsample.model.ModelPackage
  * @generated
@@ -98,9 +105,11 @@ public class ModelSwitch<T> {
 				T result = caseSampleSimpleActivity(sampleSimpleActivity);
 				if (result == null) result = caseExtensionActivity(sampleSimpleActivity);
 				if (result == null) result = caseActivity(sampleSimpleActivity);
-				if (result == null) result = caseExtensibleElement_1(sampleSimpleActivity);
+				if (result == null) result = caseBPEL_ExtensibleElement(sampleSimpleActivity);
 				if (result == null) result = caseExtensibleElement(sampleSimpleActivity);
 				if (result == null) result = caseWSDLElement(sampleSimpleActivity);
+				if (result == null) result = caseIElementExtensible(sampleSimpleActivity);
+				if (result == null) result = caseIAttributeExtensible(sampleSimpleActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -109,9 +118,11 @@ public class ModelSwitch<T> {
 				T result = caseSampleStructuredActivity(sampleStructuredActivity);
 				if (result == null) result = caseExtensionActivity(sampleStructuredActivity);
 				if (result == null) result = caseActivity(sampleStructuredActivity);
-				if (result == null) result = caseExtensibleElement_1(sampleStructuredActivity);
+				if (result == null) result = caseBPEL_ExtensibleElement(sampleStructuredActivity);
 				if (result == null) result = caseExtensibleElement(sampleStructuredActivity);
 				if (result == null) result = caseWSDLElement(sampleStructuredActivity);
+				if (result == null) result = caseIElementExtensible(sampleStructuredActivity);
+				if (result == null) result = caseIAttributeExtensible(sampleStructuredActivity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -165,6 +176,36 @@ public class ModelSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IElement Extensible</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IElement Extensible</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIElementExtensible(ElementExtensible object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IAttribute Extensible</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IAttribute Extensible</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIAttributeExtensible(AttributeExtensible object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Extensible Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -190,7 +231,7 @@ public class ModelSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExtensibleElement_1(org.eclipse.bpel.model.ExtensibleElement object) {
+	public T caseBPEL_ExtensibleElement(org.eclipse.bpel.model.ExtensibleElement object) {
 		return null;
 	}
 
