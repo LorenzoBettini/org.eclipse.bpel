@@ -2375,16 +2375,16 @@ public class BPELReader implements ErrorHandler {
 		List<Element> nodeList = getChildElements(extensionActivityElement);
 		
 		if (nodeList.size() == 1) {
-			Element child = nodeList.get(0);
+			final Element child = nodeList.get(0);
 			// We found a child element. Look up a deserializer for this
 			// activity and call it.
 			String localName = child.getLocalName();
 			String namespace = child.getNamespaceURI();
-			QName qname = new QName(namespace, localName);
-			BPELActivityDeserializer deserializer = extensionRegistry.getActivityDeserializer(qname);
+			final QName qname = new QName(namespace, localName);
+			final BPELActivityDeserializer deserializer = extensionRegistry.getActivityDeserializer(qname);
 			if (deserializer != null) {
 				// Deserialize the DOM element and return the new Activity
-				Map<String,String> nsMap = getAllNamespacesForElement(child);
+				final Map<String,String> nsMap = getAllNamespacesForElement(child);
 				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=334424
 				extensionActivity = deserializer.unmarshall(qname,child,extensionActivity,process,nsMap,extensionRegistry, getResource().getURI(), this);
 				// Now let's do the standard attributes and elements
@@ -2398,6 +2398,15 @@ public class BPELReader implements ErrorHandler {
 				// The created Activity that extends from ExtensioActivity should get the
 				// whole <extensionActivity>-DOM-Fragment, this is done here.
 				extensionActivity.setElement(extensionActivityElement);
+				final Activity ea = extensionActivity;
+				
+		    	// Bug 120110 - run the deserializer again so it can resolve references to
+				// objects that were not fully realized in pass 1.
+				fPass2Runnables.add(new Runnable() {
+					public void run() {
+						deserializer.unmarshall(qname,child,ea,process,nsMap,extensionRegistry, getResource().getURI(), BPELReader.this);
+					}
+				});
  				return extensionActivity;
 			}
 		}

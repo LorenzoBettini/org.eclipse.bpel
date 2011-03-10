@@ -766,6 +766,22 @@ public class ReconciliationHelper {
 				}
 			}
 			
+	    	// Bug 120110 - if this is not an extension activity, notify all
+			// extensionActivities that this thing has changed - references
+			// to this thing should be updated in the activity's XML fragment
+			if ( !(element instanceof ExtensionActivity)) {
+				Process process = BPELUtils.getProcess(element);
+				if (process!=null) {
+					TreeIterator<EObject> iter = process.eAllContents();
+					while (iter.hasNext()) {
+						Object object = iter.next();
+						if (object instanceof ExtensionActivity) {
+							((ExtensionActivity)object).updateElementReferences(element, attributeName, attributeValue);
+						}
+					}
+				}
+			}
+			
 		} finally {
 			setUpdatingDom(element, oldUpdatingDom);
 		}

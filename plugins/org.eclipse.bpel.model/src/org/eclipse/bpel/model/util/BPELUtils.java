@@ -255,8 +255,17 @@ public class BPELUtils {
 					"eObject cannot be null in getNamespaceMap()");
 		}
 
-		INamespaceMap<String, String> nsMap = AdapterRegistry.INSTANCE.adapt(
+		INamespaceMap<String, String> nsMap = null;
+    	// Bug 120110 - this eObject may not have a namespace map, but its
+		// ancestors might, so keep searching until we find one or until
+		// we run out of ancestors.
+		while (nsMap==null && eObject!=null) {
+			nsMap = AdapterRegistry.INSTANCE.adapt(
 				eObject, INamespaceMap.class);
+			if (nsMap==null)
+				eObject = eObject.eContainer();
+		}
+		
 		if (nsMap == null) {
 			throw new IllegalStateException(
 					"INamespaceMap cannot be attached to an eObject");
