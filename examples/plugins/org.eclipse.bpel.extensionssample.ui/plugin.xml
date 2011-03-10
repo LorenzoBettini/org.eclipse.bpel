@@ -9,11 +9,30 @@
 	
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.eclipse.bpel.ui.bpeleditor">
+	        <propertySection
+	               tab="org.eclipse.bpel.ui.tabs.description"
+	               class="org.eclipse.bpel.ui.properties.NameSection"
+	               id="org.eclipse.bpel.extensionssample.ui.sections.Name">
+				<input type="org.eclipse.bpel.extensionsample.model.SampleSimpleActivity" />
+	        </propertySection>
 			<propertySection
 				class="org.eclipse.bpel.extensionssample.ui.properties.SampleSimpleActivityPropertySection"
 				tab="org.eclipse.bpel.ui.tabs.details"
 				id="org.eclipse.bpel.extensionsample.ui.properties.SampleSimpleActivityPropertySection">
 				<input type="org.eclipse.bpel.extensionsample.model.SampleSimpleActivity" />
+			</propertySection>
+
+	        <propertySection
+	               tab="org.eclipse.bpel.ui.tabs.description"
+	               class="org.eclipse.bpel.ui.properties.NameSection"
+	               id="org.eclipse.bpel.extensionssample.ui.sections.Name">
+				<input type="org.eclipse.bpel.extensionsample.model.SampleStructuredActivity" />
+	        </propertySection>
+			<propertySection
+				class="org.eclipse.bpel.extensionssample.ui.properties.SampleStructuredActivityPropertySection"
+				tab="org.eclipse.bpel.ui.tabs.details"
+				id="org.eclipse.bpel.extensionsample.ui.properties.SampleStructuredActivityPropertySection">
+				<input type="org.eclipse.bpel.extensionsample.model.SampleStructuredActivity" />
 			</propertySection>
 		</propertySections>
 	</extension>
