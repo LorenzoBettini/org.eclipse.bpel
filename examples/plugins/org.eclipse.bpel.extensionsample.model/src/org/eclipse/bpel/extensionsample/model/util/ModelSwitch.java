@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.2 2011/03/10 18:18:17 rbrodt Exp $
+ * $Id: ModelSwitch.java,v 1.3 2011/03/30 18:54:09 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model.util;
 
@@ -13,11 +13,14 @@ import javax.wsdl.extensions.ElementExtensible;
 import org.eclipse.bpel.extensionsample.model.*;
 
 import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.ExtensionActivity;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.WSDLElement;
 
@@ -39,7 +42,7 @@ import org.eclipse.wst.wsdl.WSDLElement;
  * @see org.eclipse.bpel.extensionsample.model.ModelPackage
  * @generated
  */
-public class ModelSwitch<T> {
+public class ModelSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -61,14 +64,16 @@ public class ModelSwitch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @parameter ePackage the package in question.
+	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+		return ePackage == modelPackage;
 	}
 
 	/**
@@ -78,26 +83,7 @@ public class ModelSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch(eSuperTypes.get(0), theEObject);
-		}
-	}
-
-	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case ModelPackage.SAMPLE_SIMPLE_ACTIVITY: {
@@ -105,7 +91,7 @@ public class ModelSwitch<T> {
 				T result = caseSampleSimpleActivity(sampleSimpleActivity);
 				if (result == null) result = caseExtensionActivity(sampleSimpleActivity);
 				if (result == null) result = caseActivity(sampleSimpleActivity);
-				if (result == null) result = caseBPEL_ExtensibleElement(sampleSimpleActivity);
+				if (result == null) result = caseBPELExtensibleElement(sampleSimpleActivity);
 				if (result == null) result = caseExtensibleElement(sampleSimpleActivity);
 				if (result == null) result = caseWSDLElement(sampleSimpleActivity);
 				if (result == null) result = caseIElementExtensible(sampleSimpleActivity);
@@ -118,7 +104,7 @@ public class ModelSwitch<T> {
 				T result = caseSampleStructuredActivity(sampleStructuredActivity);
 				if (result == null) result = caseExtensionActivity(sampleStructuredActivity);
 				if (result == null) result = caseActivity(sampleStructuredActivity);
-				if (result == null) result = caseBPEL_ExtensibleElement(sampleStructuredActivity);
+				if (result == null) result = caseBPELExtensibleElement(sampleStructuredActivity);
 				if (result == null) result = caseExtensibleElement(sampleStructuredActivity);
 				if (result == null) result = caseWSDLElement(sampleStructuredActivity);
 				if (result == null) result = caseIElementExtensible(sampleStructuredActivity);
@@ -231,7 +217,7 @@ public class ModelSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseBPEL_ExtensibleElement(org.eclipse.bpel.model.ExtensibleElement object) {
+	public T caseBPELExtensibleElement(BPELExtensibleElement object) {
 		return null;
 	}
 
@@ -276,6 +262,7 @@ public class ModelSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}

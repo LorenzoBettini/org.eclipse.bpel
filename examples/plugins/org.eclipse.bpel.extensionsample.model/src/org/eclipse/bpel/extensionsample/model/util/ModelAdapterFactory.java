@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.2 2011/03/10 18:18:17 rbrodt Exp $
+ * $Id: ModelAdapterFactory.java,v 1.3 2011/03/30 18:54:09 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model.util;
 
@@ -11,6 +11,7 @@ import javax.wsdl.extensions.ElementExtensible;
 import org.eclipse.bpel.extensionsample.model.*;
 
 import org.eclipse.bpel.model.Activity;
+import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.ExtensionActivity;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -109,8 +110,8 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createExtensibleElementAdapter();
 			}
 			@Override
-			public Adapter caseBPEL_ExtensibleElement(org.eclipse.bpel.model.ExtensibleElement object) {
-				return createBPEL_ExtensibleElementAdapter();
+			public Adapter caseBPELExtensibleElement(BPELExtensibleElement object) {
+				return createBPELExtensibleElementAdapter();
 			}
 			@Override
 			public Adapter caseActivity(Activity object) {
@@ -225,16 +226,16 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.ExtensibleElement <em>Extensible Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.BPELExtensibleElement <em>Extensible Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.bpel.model.ExtensibleElement
+	 * @see org.eclipse.bpel.model.BPELExtensibleElement
 	 * @generated
 	 */
-	public Adapter createBPEL_ExtensibleElementAdapter() {
+	public Adapter createBPELExtensibleElementAdapter() {
 		return null;
 	}
 
