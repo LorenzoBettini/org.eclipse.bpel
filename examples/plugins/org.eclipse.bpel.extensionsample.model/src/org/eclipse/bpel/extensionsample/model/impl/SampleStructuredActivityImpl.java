@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SampleStructuredActivityImpl.java,v 1.3 2011/03/10 18:18:18 rbrodt Exp $
+ * $Id: SampleStructuredActivityImpl.java,v 1.4 2011/03/30 14:59:12 rbrodt Exp $
  */
 package org.eclipse.bpel.extensionsample.model.impl;
 
@@ -135,7 +135,7 @@ public class SampleStructuredActivityImpl extends ExtensionActivityImpl implemen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @customized
 	 */
 	public NotificationChain basicSetVariable(Variable newVariable, NotificationChain msgs) {
 		Variable oldVariable = variable;
