@@ -15,7 +15,8 @@ package org.eclipse.bpel.ui;
 
 import org.eclipse.bpel.model.Process;
 import org.eclipse.bpel.model.adapters.INamespaceMap;
-import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
+// Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
+import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
 import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
 import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.model.util.BPELUtils;
@@ -135,8 +136,8 @@ class BPELModelReconcileAdapter extends ModelReconcileAdapter {
 								.elementChanged(element);
 						// Bugzilla 330519
 						this.fEditor.getMultipageEditor().updateMarkers((ExtensibleElementImpl)modelObject);
-					} else if (modelObject instanceof ExtensibilityElementImpl) {
-						((ExtensibilityElementImpl) modelObject)
+					} else if (modelObject instanceof BPELExtensibilityElementImpl) {
+						((BPELExtensibilityElementImpl) modelObject)
 								.elementChanged(element);
 					} else if (modelObject instanceof XSDSchemaExtensibilityElementImpl) {
 						XSDSchemaExtensibilityElementImpl ee = (XSDSchemaExtensibilityElementImpl) modelObject;
