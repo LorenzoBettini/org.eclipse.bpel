@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PartnerLinkTypeImpl.java,v 1.7 2011/03/30 14:59:18 rbrodt Exp $
+ * $Id: PartnerLinkTypeImpl.java,v 1.8 2011/03/30 18:54:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -60,7 +61,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PartnerLinkTypeImpl extends BPELExtensibilityElementImpl implements
+public class PartnerLinkTypeImpl extends ExtensibilityElementImpl implements
 		PartnerLinkType {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -178,8 +179,7 @@ public class PartnerLinkTypeImpl extends BPELExtensibilityElementImpl implements
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case PartnerlinktypePackage.PARTNER_LINK_TYPE__ROLE:
-				return ((InternalEList<?>) getRole()).basicRemove(otherEnd,
-						msgs);
+			return ((InternalEList<?>) getRole()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

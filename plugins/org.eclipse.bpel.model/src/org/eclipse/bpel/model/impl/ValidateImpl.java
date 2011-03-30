@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ValidateImpl.java,v 1.10 2011/02/11 16:42:14 vzurczak Exp $
+ * $Id: ValidateImpl.java,v 1.11 2011/03/30 18:54:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -142,18 +142,19 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 				&& !isReconciling) {
 
 			String valString = createVariablesString(variables);
-			ReconciliationHelper.replaceAttribute(this, BPELConstants.AT_VARIABLES, valString);
+			ReconciliationHelper.replaceAttribute(this,
+					BPELConstants.AT_VARIABLES, valString);
 		}
 		super.changeReference(reference);
 	}
-	
+
 	/**
 	 * Creates the String representation of the given variables list. 
 	 * @param variables
 	 */
 	private static String createVariablesString(EList<Variable> variables) {
 		if (variables == null || variables.size() == 0) {
-			return null; 
+			return null;
 		} else {
 			StringBuilder val = new StringBuilder();
 			Iterator<Variable> i = variables.iterator();
@@ -164,7 +165,7 @@ public class ValidateImpl extends ActivityImpl implements Validate {
 					val.append(" ");
 				}
 			}
-			return val.toString(); 
+			return val.toString();
 		}
 	}
 

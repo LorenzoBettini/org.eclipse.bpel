@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: RoleImpl.java,v 1.9 2011/03/30 14:59:18 rbrodt Exp $
+ * $Id: RoleImpl.java,v 1.10 2011/03/30 18:54:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.partnerlinktype.impl;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
 import org.w3c.dom.Element;
@@ -48,7 +49,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class RoleImpl extends BPELExtensibilityElementImpl implements Role {
+public class RoleImpl extends ExtensibilityElementImpl implements Role {
 	/**
 	 * The default value of the '{@link #getID() <em>ID</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -320,8 +321,7 @@ public class RoleImpl extends BPELExtensibilityElementImpl implements Role {
 			if (definition != null) {
 				QName portTypeQName = createQName(
 						definition,
-						element
-								.getAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE));
+						element.getAttribute(PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE));
 
 				PortType newPortType = null;
 
@@ -363,10 +363,11 @@ public class RoleImpl extends BPELExtensibilityElementImpl implements Role {
 				PortType pt = (PortType) getPortType();
 				QName qname = (pt == null) ? null : pt.getQName();
 				if (qname != null)
-					niceSetAttributeURIValue(theElement,
-							PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE, qname
-									.getNamespaceURI()
-									+ "#" + qname.getLocalPart());
+					niceSetAttributeURIValue(
+							theElement,
+							PartnerlinktypeConstants.PORT_TYPE_ATTRIBUTE,
+							qname.getNamespaceURI() + "#"
+									+ qname.getLocalPart());
 			}
 
 		}

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionActivityImpl.java,v 1.8 2011/03/10 18:18:24 rbrodt Exp $
+ * $Id: ExtensionActivityImpl.java,v 1.9 2011/03/30 18:54:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -48,7 +48,8 @@ public class ExtensionActivityImpl extends ActivityImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void updateElementReferences(EObject object, String attrName, String attrValue) {
+	public void updateElementReferences(EObject object, String attrName,
+			String attrValue) {
 	}
-	
+
 } //ExtensionActivityImpl

@@ -51,7 +51,7 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -1624,17 +1624,17 @@ public class BPELWriter {
 			QName qname = extensibilityElement.getElementType();
 			try {
 				serializer = (BPELExtensionSerializer) extensionRegistry
-						.querySerializer(ExtensibleElement.class, qname);
+						.querySerializer(BPELExtensibleElement.class, qname);
 			} catch (WSDLException e) {
 			}
 
 			if (serializer != null) {
 				// Deserialize the DOM element and add the new Extensibility
 				// element to the parent
-				// ExtensibleElement
+				// BPELExtensibleElement
 				DocumentFragment fragment = document.createDocumentFragment();
 				try {
-					serializer.marshall(ExtensibleElement.class, qname,
+					serializer.marshall(BPELExtensibleElement.class, qname,
 							extensibilityElement, fragment, getProcess(),
 							extensionRegistry, this);
 					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=335458
@@ -2229,7 +2229,7 @@ public class BPELWriter {
 	/**
 	 * Convert a BPEL ExtensibileElement to XML
 	 */
-	protected void extensibleElement2XML(ExtensibleElement extensibleElement,
+	protected void extensibleElement2XML(BPELExtensibleElement extensibleElement,
 			Element element) {
 
 		if (extensibleElement.getDocumentation() != null) {
@@ -2274,7 +2274,7 @@ public class BPELWriter {
 			QName qname = extensibilityElement.getElementType();
 			try {
 				serializer = (BPELExtensionSerializer) extensionRegistry
-						.querySerializer(ExtensibleElement.class, qname);
+						.querySerializer(BPELExtensibleElement.class, qname);
 			} catch (WSDLException e) {
 				// TODO: Exception handling
 			}
@@ -2286,7 +2286,7 @@ public class BPELWriter {
 				// Serialize the extensibility element into the parent DOM
 				// element
 				try {
-					serializer.marshall(ExtensibleElement.class, qname,
+					serializer.marshall(BPELExtensibleElement.class, qname,
 							extensibilityElement, fragment, getProcess(),
 							extensionRegistry, this);
 				} catch (WSDLException e) {
@@ -2360,18 +2360,18 @@ public class BPELWriter {
 		QName qname = extensibilityElement.getElementType();
 		try {
 			serializer = (BPELExtensionSerializer) extensionRegistry
-					.querySerializer(ExtensibleElement.class, qname);
+					.querySerializer(BPELExtensibleElement.class, qname);
 		} catch (WSDLException e) {
 			return null;
 		}
 
 		// Deserialize the DOM element and add the new Extensibility element to
 		// the parent
-		// ExtensibleElement
+		// BPELExtensibleElement
 		DocumentFragment fragment = document.createDocumentFragment();
 		try {
 			serializer
-					.marshall(ExtensibleElement.class, qname,
+					.marshall(BPELExtensibleElement.class, qname,
 							extensibilityElement, fragment, getProcess(),
 							extensionRegistry, this);
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=335458

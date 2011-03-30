@@ -38,7 +38,7 @@ import org.eclipse.bpel.model.Else;
 import org.eclipse.bpel.model.ElseIf;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.ExtensibleElement;
+import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -86,7 +86,7 @@ import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.impl.CorrelationSetsImpl;
 //Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
 import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
-import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
+import org.eclipse.bpel.model.impl.BPELExtensibleElementImpl;
 import org.eclipse.bpel.model.impl.MessageExchangesImpl;
 import org.eclipse.bpel.model.impl.PartnerLinksImpl;
 import org.eclipse.bpel.model.impl.VariablesImpl;
@@ -216,9 +216,9 @@ public class ReconciliationHelper {
 			// https://issues.jboss.org/browse/JBIDE-8048
 			// this was left out inadvertently
 			reader.xml2CompensationHandler((CompensationHandler)element, changedElement);
-		} else if (element instanceof ExtensibleElement){
+		} else if (element instanceof BPELExtensibleElement){
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=334424
-			reader.xml2ExtensibleElement((ExtensibleElement)element, changedElement);
+			reader.xml2ExtensibleElement((BPELExtensibleElement)element, changedElement);
 		} else {
 			System.err.println("Cannot reconcile: " + element.getClass());
 //			throw new NotImplementedException(element.getClass().toString());
@@ -705,7 +705,7 @@ public class ReconciliationHelper {
 					// ignore attempts to set attributes on the parent that aren't in the model
 					for ( EStructuralFeature feature : parent.eClass().getEAllStructuralFeatures()) {
 						if ( feature.getName().equals(attributeName)) {
-							parseElement = ((ExtensibleElement)parent).getElement();
+							parseElement = ((BPELExtensibleElement)parent).getElement();
 							break;
 						}
 					}
@@ -960,8 +960,8 @@ public class ReconciliationHelper {
 	}
 	
 	static boolean isUpdatingDom(WSDLElement element) {
-		if (element instanceof ExtensibleElementImpl) {
-			return ((ExtensibleElementImpl) element).isUpdatingDOM();			
+		if (element instanceof BPELExtensibleElementImpl) {
+			return ((BPELExtensibleElementImpl) element).isUpdatingDOM();			
 		} else if (element instanceof BPELExtensibilityElementImpl) {
 			return ((BPELExtensibilityElementImpl) element).isUpdatingDOM();			
 		} 
@@ -969,8 +969,8 @@ public class ReconciliationHelper {
 	}
 	
 	static void setUpdatingDom(WSDLElement element, boolean updatingDOM) {
-		if (element instanceof ExtensibleElementImpl) {
-			((ExtensibleElementImpl) element).setUpdatingDOM(updatingDOM);			
+		if (element instanceof BPELExtensibleElementImpl) {
+			((BPELExtensibleElementImpl) element).setUpdatingDOM(updatingDOM);			
 		} else if (element instanceof BPELExtensibilityElementImpl) {
 			((BPELExtensibilityElementImpl) element).setUpdatingDOM(updatingDOM);			
 		} 
@@ -1012,8 +1012,8 @@ public class ReconciliationHelper {
 	    if (!BPELUtils.isTransparent(parent, child)) {
 	    	Element childElement = ((WSDLElement)child).getElement();
 			if (childElement == null) {
-	    		childElement = ElementFactory.getInstance().createElement(((ExtensibleElement)child), parent);
-	    		((ExtensibleElement)child).setElement(childElement);
+	    		childElement = ElementFactory.getInstance().createElement(((BPELExtensibleElement)child), parent);
+	    		((BPELExtensibleElement)child).setElement(childElement);
 	    	}
 			if (childElement.getParentNode() != parentElement) {
 				System.err.println("Non-reconciling element:" + parent.getClass());

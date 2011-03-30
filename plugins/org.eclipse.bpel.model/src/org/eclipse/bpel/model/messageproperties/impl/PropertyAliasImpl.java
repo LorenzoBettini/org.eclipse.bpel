@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.10 2011/03/30 14:59:18 rbrodt Exp $
+ * $Id: PropertyAliasImpl.java,v 1.11 2011/03/30 18:54:26 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -37,6 +37,7 @@ import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.ExtensibilityElement;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.wst.wsdl.Part;
+import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.eclipse.wst.wsdl.internal.impl.DefinitionImpl;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
@@ -62,7 +63,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
+public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 		PropertyAlias {
 
 	/**
@@ -678,8 +679,7 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 			if (definition != null) {
 				QName qname = createQName(
 						definition,
-						element
-								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PROPERTY_NAME_ATTRIBUTE));
+						element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PROPERTY_NAME_ATTRIBUTE));
 				// resolve the qname to a property
 				// TODO could this reference an imported property?
 				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
@@ -708,10 +708,10 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 			if (definition != null) {
 				QName messageQName = createQName(
 						definition,
-						element
-								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_MESSAGE_TYPE_ATTRIBUTE));
+						element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_MESSAGE_TYPE_ATTRIBUTE));
 				if (messageQName != null) {
-					Message newMessage = (Message) definition.getMessage(messageQName);
+					Message newMessage = (Message) definition
+							.getMessage(messageQName);
 					if (newMessage != null && newMessage != getMessageType())
 						setMessageType(newMessage);
 				}
@@ -724,7 +724,8 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 				&& element
 						.hasAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE)) {
 			if (definition != null) {
-				String part = element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE);
+				String part = element
+						.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE);
 				if (part != null && !part.equals(getPart()))
 					setPart(part);
 			}
@@ -738,8 +739,7 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 			if (definition != null) {
 				QName typeQName = createQName(
 						definition,
-						element
-								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE));
+						element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE));
 				if (typeQName != null) {
 					XSDTypeDefinition newType = ((DefinitionImpl) definition)
 							.resolveTypeDefinition(typeQName.getNamespaceURI(),
@@ -758,12 +758,12 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 			if (definition != null) {
 				QName elementQName = createQName(
 						definition,
-						element
-								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE));
+						element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE));
 				if (elementQName != null) {
 					XSDElementDeclaration newElement = ((DefinitionImpl) definition)
-							.resolveElementDeclaration(elementQName
-									.getNamespaceURI(), elementQName.getLocalPart());
+							.resolveElementDeclaration(
+									elementQName.getNamespaceURI(),
+									elementQName.getLocalPart());
 					if (newElement != null && newElement != getXSDElement()) {
 						setXSDElement(newElement);
 					}
@@ -829,10 +829,12 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 					// https://jira.jboss.org/browse/JBIDE-7107
 					// make sure the "element" and "type" attributes get removed
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
 							null);
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
 							null);
 				}
@@ -849,10 +851,12 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 							getPart());
 
 					// make sure the "element" and "type" attributes get removed
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
 							null);
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
 							null);
 				}
@@ -870,18 +874,22 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 					XSDTypeDefinition xsdType = (XSDTypeDefinition) type;
 					String uri = xsdType.getURI();
 
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
 							uri);
 
 					// make sure the "element", "messageType" and "part" attributes get removed
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
 							null);
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_MESSAGE_TYPE_ATTRIBUTE,
 							null);
-					niceSetAttribute(theElement,
+					niceSetAttribute(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE,
 							null);
 				}
@@ -895,18 +903,22 @@ public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 				if (elem instanceof XSDElementDeclaration) {
 					XSDElementDeclaration xsdElement = (XSDElementDeclaration) elem;
 					String uri = xsdElement.getURI();
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
 							uri);
 
 					// make sure the "type", "messageType" and "part" attributes get removed
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
 							null);
-					niceSetAttributeURIValue(theElement,
+					niceSetAttributeURIValue(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_MESSAGE_TYPE_ATTRIBUTE,
 							null);
-					niceSetAttribute(theElement,
+					niceSetAttribute(
+							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE,
 							null);
 				}

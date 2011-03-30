@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtensionActivity.java,v 1.3 2011/03/10 18:18:25 rbrodt Exp $
+ * $Id: ExtensionActivity.java,v 1.4 2011/03/30 18:54:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model;
 
@@ -27,6 +27,7 @@ public interface ExtensionActivity extends Activity {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void updateElementReferences(EObject object, String attrName, String attrValue);
-	
+	public void updateElementReferences(EObject object, String attrName,
+			String attrValue);
+
 } // ExtensionActivity
