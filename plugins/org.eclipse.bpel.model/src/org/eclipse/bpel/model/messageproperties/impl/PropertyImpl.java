@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyImpl.java,v 1.8 2010/11/22 19:48:25 rbrodt Exp $
+ * $Id: PropertyImpl.java,v 1.9 2011/03/30 14:59:18 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -18,7 +18,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
+//Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
+import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
@@ -53,7 +54,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PropertyImpl extends ExtensibilityElementImpl implements Property {
+public class PropertyImpl extends BPELExtensibilityElementImpl implements Property {
 	/**
 	 * The default value of the '{@link #getQName() <em>QName</em>}' attribute.
 	 * <!-- begin-user-doc -->

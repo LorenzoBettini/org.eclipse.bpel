@@ -8,6 +8,7 @@
  * Contributors:
  *    Dennis Ushakov, Intel - Initial API and Implementation
  *
+ * Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
  *******************************************************************************/
 package org.eclipse.bpel.model.impl;
 
@@ -17,7 +18,7 @@ import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("restriction")
-public class ExtensibilityElementImpl extends org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl implements ExtensibilityElement {
+public class BPELExtensibilityElementImpl extends org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl implements ExtensibilityElement {
 
 	@Override
 	protected void reconcile(Element changedElement) {

@@ -976,7 +976,8 @@ public class BPELWriter {
 
 		if (correlation.isSetPattern())
 			correlationElement.setAttribute("pattern", correlation.getPattern()
-					.toString());
+					// Bugzilla 340654
+					.getLiteral());
 
 		// serialize local namespace prefixes to XML
 		serializePrefixes(correlation, correlationElement);

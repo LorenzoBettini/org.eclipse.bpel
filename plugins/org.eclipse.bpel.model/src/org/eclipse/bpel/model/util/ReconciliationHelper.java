@@ -84,7 +84,8 @@ import org.eclipse.bpel.model.Variable;
 import org.eclipse.bpel.model.Variables;
 import org.eclipse.bpel.model.While;
 import org.eclipse.bpel.model.impl.CorrelationSetsImpl;
-import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
+//Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
+import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
 import org.eclipse.bpel.model.impl.ExtensibleElementImpl;
 import org.eclipse.bpel.model.impl.MessageExchangesImpl;
 import org.eclipse.bpel.model.impl.PartnerLinksImpl;
@@ -961,8 +962,8 @@ public class ReconciliationHelper {
 	static boolean isUpdatingDom(WSDLElement element) {
 		if (element instanceof ExtensibleElementImpl) {
 			return ((ExtensibleElementImpl) element).isUpdatingDOM();			
-		} else if (element instanceof ExtensibilityElementImpl) {
-			return ((ExtensibilityElementImpl) element).isUpdatingDOM();			
+		} else if (element instanceof BPELExtensibilityElementImpl) {
+			return ((BPELExtensibilityElementImpl) element).isUpdatingDOM();			
 		} 
 		return false;
 	}
@@ -970,8 +971,8 @@ public class ReconciliationHelper {
 	static void setUpdatingDom(WSDLElement element, boolean updatingDOM) {
 		if (element instanceof ExtensibleElementImpl) {
 			((ExtensibleElementImpl) element).setUpdatingDOM(updatingDOM);			
-		} else if (element instanceof ExtensibilityElementImpl) {
-			((ExtensibilityElementImpl) element).setUpdatingDOM(updatingDOM);			
+		} else if (element instanceof BPELExtensibilityElementImpl) {
+			((BPELExtensibilityElementImpl) element).setUpdatingDOM(updatingDOM);			
 		} 
 	}
 	

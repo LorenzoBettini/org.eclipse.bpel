@@ -10,15 +10,16 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.6 2011/02/11 16:42:14 vzurczak Exp $
+ * $Id: QueryImpl.java,v 1.7 2011/03/30 14:59:18 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
+//Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
+import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
 import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Query;
 import org.eclipse.bpel.model.messageproperties.util.MessagepropertiesConstants;
@@ -26,7 +27,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.wst.wsdl.internal.impl.ExtensibilityElementImpl;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -52,9 +52,9 @@ import org.w3c.dom.Text;
  * </ul>
  * </p>
  *
- * @generated
+ * @customized
  */
-public class QueryImpl extends ExtensibilityElementImpl implements Query, Expression {
+public class QueryImpl extends BPELExtensibilityElementImpl implements Query {
 	/**
 	 * The default value of the '{@link #getQueryLanguage() <em>Query Language</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -167,10 +167,10 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-				return getQueryLanguage();
-			case MessagepropertiesPackage.QUERY__VALUE:
-				return getValue();
+		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+			return getQueryLanguage();
+		case MessagepropertiesPackage.QUERY__VALUE:
+			return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -183,12 +183,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-				setQueryLanguage((String) newValue);
-				return;
-			case MessagepropertiesPackage.QUERY__VALUE:
-				setValue((String) newValue);
-				return;
+		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+			setQueryLanguage((String) newValue);
+			return;
+		case MessagepropertiesPackage.QUERY__VALUE:
+			setValue((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -201,12 +201,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-				setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.QUERY__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
+		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+			setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
+			return;
+		case MessagepropertiesPackage.QUERY__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -219,12 +219,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
-						: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
-			case MessagepropertiesPackage.QUERY__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
-						.equals(value);
+		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+			return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
+					: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
+		case MessagepropertiesPackage.QUERY__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+					.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -339,12 +339,12 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 		while (node != null) {
 			if (node.getNodeType() == Node.TEXT_NODE) {
 				Text text = (Text) node;
-				data.append( text.getData());
+				data.append(text.getData());
 			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
 				data = new StringBuilder();
 				do {
 					CDATASection cdata = (CDATASection) node;
-					data.append( cdata.getData());
+					data.append(cdata.getData());
 					node = node.getNextSibling();
 					containsValidData = true;
 				} while (node != null
@@ -353,7 +353,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 			}
 			node = node.getNextSibling();
 		}
-		
+
 		if (!containsValidData) {
 			for (int i = 0; i < data.length(); i++) {
 				char charData = data.charAt(i);
@@ -365,7 +365,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 				}
 			}
 		}
-		
+
 		return containsValidData ? data.toString() : null;
 	}
 
@@ -404,7 +404,7 @@ public class QueryImpl extends ExtensibilityElementImpl implements Query, Expres
 	}
 
 	public boolean isSetExpressionLanguage() {
-		return getQueryLanguage()!=null;
+		return getQueryLanguage() != null;
 	}
 
 	public Boolean getOpaque() {

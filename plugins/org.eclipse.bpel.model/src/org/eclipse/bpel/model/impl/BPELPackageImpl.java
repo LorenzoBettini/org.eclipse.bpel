@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELPackageImpl.java,v 1.38 2011/02/01 20:40:12 rbrodt Exp $
+ * $Id: BPELPackageImpl.java,v 1.39 2011/03/30 14:59:18 rbrodt Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -723,7 +723,8 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
 		BPELPackage thePackage = initGen();
 
 		//TODO: handle the following test differently
-		if (!CorrelationPattern.REQUESTRESPONSE_LITERAL.getName().equals("request-response")) { //$NON-NLS-1$
+		// Bugzilla 340654
+		if (!CorrelationPattern.REQUESTRESPONSE_LITERAL.getName().equals("requestresponse")) { //$NON-NLS-1$
 			System.err.println("BPELPackageImpl: CorrelationPattern has invalid value. Fix CorrelationPattern.REQUESTRESPONSE_LITERAL."); //$NON-NLS-1$
 		}
 		return thePackage;

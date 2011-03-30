@@ -381,7 +381,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="CorrelationPattern">
     <eLiterals name="request"/>
     <eLiterals name="response" value="1"/>
-    <eLiterals name="requestresponse" value="2"/>
+    <eLiterals name="requestresponse" value="2" literal="request-response"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="EndpointReferenceRole">
     <eLiterals name="myRole"/>
@@ -461,7 +461,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="portType" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//PortType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="messageType" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Message"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="xsdElement" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="XSDElement" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDElementDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="correlationSets" eType="#//CorrelationSets"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromParts" eType="#//FromParts"
@@ -573,7 +573,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="documentation" eType="#//Documentation"
         unsettable="true" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Documentation">
+  <eClassifiers xsi:type="ecore:EClass" name="Documentation" eSuperTypes="#//ExtensibleElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lang" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>

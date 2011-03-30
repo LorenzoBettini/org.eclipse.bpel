@@ -10,7 +10,7 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: PropertyAliasImpl.java,v 1.9 2011/02/11 16:42:14 vzurczak Exp $
+ * $Id: PropertyAliasImpl.java,v 1.10 2011/03/30 14:59:18 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
@@ -19,7 +19,8 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.bpel.model.impl.ExtensibilityElementImpl;
+// Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
+import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesFactory;
 import org.eclipse.bpel.model.messageproperties.MessagepropertiesPackage;
 import org.eclipse.bpel.model.messageproperties.Property;
@@ -61,7 +62,7 @@ import org.w3c.dom.Element;
  *
  * @generated
  */
-public class PropertyAliasImpl extends ExtensibilityElementImpl implements
+public class PropertyAliasImpl extends BPELExtensibilityElementImpl implements
 		PropertyAlias {
 
 	/**
@@ -481,8 +482,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
-				return basicSetQuery(null, msgs);
+		case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
+			return basicSetQuery(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -495,24 +496,24 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
-				return getMessageType();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
-				return getPart();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
-				return getPropertyName();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ID:
-				return getID();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
-				if (resolve)
-					return getWsdlPart();
-				return basicGetWsdlPart();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
-				return getQuery();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
-				return getType();
-			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
-				return getXSDElement();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
+			return getMessageType();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
+			return getPart();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
+			return getPropertyName();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__ID:
+			return getID();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
+			if (resolve)
+				return getWsdlPart();
+			return basicGetWsdlPart();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
+			return getQuery();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+			return getType();
+		case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+			return getXSDElement();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -525,27 +526,27 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
-				setMessageType(newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
-				setPart((String) newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
-				setPropertyName(newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
-				setWsdlPart((Part) newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
-				setQuery((Query) newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
-				setType(newValue);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
-				setXSDElement(newValue);
-				return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
+			setMessageType(newValue);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
+			setPart((String) newValue);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
+			setPropertyName(newValue);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
+			setWsdlPart((Part) newValue);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
+			setQuery((Query) newValue);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+			setType(newValue);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+			setXSDElement(newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -558,27 +559,27 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
-				setMessageType(MESSAGE_TYPE_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
-				setPart(PART_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
-				setPropertyName(PROPERTY_NAME_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
-				setWsdlPart((Part) null);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
-				setQuery((Query) null);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
-				setType(TYPE_EDEFAULT);
-				return;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
-				setXSDElement(XSD_ELEMENT_EDEFAULT);
-				return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
+			setMessageType(MESSAGE_TYPE_EDEFAULT);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
+			setPart(PART_EDEFAULT);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
+			setPropertyName(PROPERTY_NAME_EDEFAULT);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
+			setWsdlPart((Part) null);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
+			setQuery((Query) null);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+			setType(TYPE_EDEFAULT);
+			return;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+			setXSDElement(XSD_ELEMENT_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -591,28 +592,28 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
-				return MESSAGE_TYPE_EDEFAULT == null ? messageType != null
-						: !MESSAGE_TYPE_EDEFAULT.equals(messageType);
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
-				return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT
-						.equals(part);
-			case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
-				return PROPERTY_NAME_EDEFAULT == null ? propertyName != null
-						: !PROPERTY_NAME_EDEFAULT.equals(propertyName);
-			case MessagepropertiesPackage.PROPERTY_ALIAS__ID:
-				return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT
-						.equals(getID());
-			case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
-				return wsdlPart != null;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
-				return query != null;
-			case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT
-						.equals(type);
-			case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
-				return XSD_ELEMENT_EDEFAULT == null ? xsdElement != null
-						: !XSD_ELEMENT_EDEFAULT.equals(xsdElement);
+		case MessagepropertiesPackage.PROPERTY_ALIAS__MESSAGE_TYPE:
+			return MESSAGE_TYPE_EDEFAULT == null ? messageType != null
+					: !MESSAGE_TYPE_EDEFAULT.equals(messageType);
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PART:
+			return PART_EDEFAULT == null ? part != null : !PART_EDEFAULT
+					.equals(part);
+		case MessagepropertiesPackage.PROPERTY_ALIAS__PROPERTY_NAME:
+			return PROPERTY_NAME_EDEFAULT == null ? propertyName != null
+					: !PROPERTY_NAME_EDEFAULT.equals(propertyName);
+		case MessagepropertiesPackage.PROPERTY_ALIAS__ID:
+			return ID_EDEFAULT == null ? getID() != null : !ID_EDEFAULT
+					.equals(getID());
+		case MessagepropertiesPackage.PROPERTY_ALIAS__WSDL_PART:
+			return wsdlPart != null;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__QUERY:
+			return query != null;
+		case MessagepropertiesPackage.PROPERTY_ALIAS__TYPE:
+			return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT
+					.equals(type);
+		case MessagepropertiesPackage.PROPERTY_ALIAS__XSD_ELEMENT:
+			return XSD_ELEMENT_EDEFAULT == null ? xsdElement != null
+					: !XSD_ELEMENT_EDEFAULT.equals(xsdElement);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -684,7 +685,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 				// https://jira.jboss.org/browse/JBIDE-7107
 				// check for null QName
-				if (qname!=null) {
+				if (qname != null) {
 					for (Iterator i = definition.getExtensibilityElements()
 							.iterator(); i.hasNext();) {
 						ExtensibilityElement extensibilityElement = (ExtensibilityElement) i
@@ -709,7 +710,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 						definition,
 						element
 								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_MESSAGE_TYPE_ATTRIBUTE));
-				if (messageQName!=null) {
+				if (messageQName != null) {
 					Message newMessage = (Message) definition.getMessage(messageQName);
 					if (newMessage != null && newMessage != getMessageType())
 						setMessageType(newMessage);
@@ -724,8 +725,8 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 						.hasAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE)) {
 			if (definition != null) {
 				String part = element.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE);
-				if( part != null && ! part.equals( getPart()))
-					setPart( part );
+				if (part != null && !part.equals(getPart()))
+					setPart(part);
 			}
 		} else {
 			setType(null);
@@ -739,7 +740,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 						definition,
 						element
 								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE));
-				if (typeQName!=null) {
+				if (typeQName != null) {
 					XSDTypeDefinition newType = ((DefinitionImpl) definition)
 							.resolveTypeDefinition(typeQName.getNamespaceURI(),
 									typeQName.getLocalPart());
@@ -759,7 +760,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 						definition,
 						element
 								.getAttribute(MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE));
-				if (elementQName!=null) {
+				if (elementQName != null) {
 					XSDElementDeclaration newElement = ((DefinitionImpl) definition)
 							.resolveElementDeclaration(elementQName
 									.getNamespaceURI(), elementQName.getLocalPart());
@@ -840,13 +841,13 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 			if (eAttribute == null
 					|| eAttribute == MessagepropertiesPackage.eINSTANCE
 							.getPropertyAlias_Part()) {
-				
-				if (getPart()!=null) {
+
+				if (getPart() != null) {
 					niceSetAttribute(
 							theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_PART_ATTRIBUTE,
 							getPart());
-	
+
 					// make sure the "element" and "type" attributes get removed
 					niceSetAttributeURIValue(theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
@@ -856,7 +857,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 							null);
 				}
 			}
-			
+
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
 			// https://jira.jboss.org/browse/JBIDE-7107
 			// added type and element handling
@@ -870,9 +871,9 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 					String uri = xsdType.getURI();
 
 					niceSetAttributeURIValue(theElement,
-						MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
-						uri);
-					
+							MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
+							uri);
+
 					// make sure the "element", "messageType" and "part" attributes get removed
 					niceSetAttributeURIValue(theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
@@ -885,7 +886,7 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 							null);
 				}
 			}
-			
+
 			// handle "element" addressing
 			if (eAttribute == null
 					|| eAttribute == MessagepropertiesPackage.eINSTANCE
@@ -895,9 +896,9 @@ public class PropertyAliasImpl extends ExtensibilityElementImpl implements
 					XSDElementDeclaration xsdElement = (XSDElementDeclaration) elem;
 					String uri = xsdElement.getURI();
 					niceSetAttributeURIValue(theElement,
-						MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
-						uri);
-					
+							MessagepropertiesConstants.PROPERTY_ALIAS_XSD_ELEMENT_ATTRIBUTE,
+							uri);
+
 					// make sure the "type", "messageType" and "part" attributes get removed
 					niceSetAttributeURIValue(theElement,
 							MessagepropertiesConstants.PROPERTY_ALIAS_TYPE_ATTRIBUTE,
