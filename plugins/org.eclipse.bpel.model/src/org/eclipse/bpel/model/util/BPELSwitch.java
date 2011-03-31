@@ -10,14 +10,14 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: BPELSwitch.java,v 1.26 2011/03/30 18:54:25 rbrodt Exp $
+ * $Id: BPELSwitch.java,v 1.27 2011/03/31 14:04:42 rbrodt Exp $
  */
 package org.eclipse.bpel.model.util;
 
-import javax.wsdl.extensions.AttributeExtensible;
-import javax.wsdl.extensions.ElementExtensible;
 import java.util.List;
 
+import javax.wsdl.extensions.AttributeExtensible;
+import javax.wsdl.extensions.ElementExtensible;
 import javax.wsdl.extensions.ExtensibilityElement;
 
 import org.eclipse.bpel.model.Activity;
@@ -45,7 +45,6 @@ import org.eclipse.bpel.model.Empty;
 import org.eclipse.bpel.model.EventHandler;
 import org.eclipse.bpel.model.Exit;
 import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.Extension;
 import org.eclipse.bpel.model.ExtensionActivity;
 import org.eclipse.bpel.model.Extensions;
@@ -95,8 +94,6 @@ import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -114,7 +111,7 @@ import org.eclipse.wst.wsdl.WSDLElement;
  * @see org.eclipse.bpel.model.BPELPackage
  * @generated
  */
-public class BPELSwitch<T> extends Switch<T> {
+public class BPELSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -136,16 +133,14 @@ public class BPELSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Checks whether this is a switch for the given package.
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
-	 * @return whether this is a switch for the given package.
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	@Override
-	protected boolean isSwitchFor(EPackage ePackage) {
-		return ePackage == modelPackage;
+	public T doSwitch(EObject theEObject) {
+		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
 	/**
@@ -155,7 +150,23 @@ public class BPELSwitch<T> extends Switch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	@Override
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
+		if (theEClass.eContainer() == modelPackage) {
+			return doSwitch(theEClass.getClassifierID(), theEObject);
+		} else {
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
+			return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch(
+					eSuperTypes.get(0), theEObject);
+		}
+	}
+
+	/**
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 		case BPELPackage.PROCESS: {
@@ -2613,7 +2624,6 @@ public class BPELSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}
