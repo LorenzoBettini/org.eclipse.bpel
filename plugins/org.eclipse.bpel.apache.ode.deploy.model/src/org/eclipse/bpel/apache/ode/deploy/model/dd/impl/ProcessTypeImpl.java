@@ -722,11 +722,11 @@ public class ProcessTypeImpl extends EObjectImpl implements ProcessType {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ddPackage.PROCESS_TYPE__ACTIVE:
-				return isActive() ? Boolean.TRUE : Boolean.FALSE;
+				return isActive();
 			case ddPackage.PROCESS_TYPE__RETIRED:
-				return isRetired() ? Boolean.TRUE : Boolean.FALSE;
+				return isRetired();
 			case ddPackage.PROCESS_TYPE__IN_MEMORY:
-				return isInMemory() ? Boolean.TRUE : Boolean.FALSE;
+				return isInMemory();
 			case ddPackage.PROCESS_TYPE__PROPERTY:
 				return getProperty();
 			case ddPackage.PROCESS_TYPE__PROCESS_EVENTS:
@@ -762,13 +762,13 @@ public class ProcessTypeImpl extends EObjectImpl implements ProcessType {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ddPackage.PROCESS_TYPE__ACTIVE:
-				setActive(((Boolean)newValue).booleanValue());
+				setActive((Boolean)newValue);
 				return;
 			case ddPackage.PROCESS_TYPE__RETIRED:
-				setRetired(((Boolean)newValue).booleanValue());
+				setRetired((Boolean)newValue);
 				return;
 			case ddPackage.PROCESS_TYPE__IN_MEMORY:
-				setInMemory(((Boolean)newValue).booleanValue());
+				setInMemory((Boolean)newValue);
 				return;
 			case ddPackage.PROCESS_TYPE__PROPERTY:
 				getProperty().clear();
