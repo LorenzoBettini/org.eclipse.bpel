@@ -2,13 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BPELExtensibleElementImpl.java,v 1.1 2011/03/30 18:54:25 rbrodt Exp $
+ * $Id: BPELExtensibleElementImpl.java,v 1.2 2011/04/05 17:24:30 rbrodt Exp $
  */
 package org.eclipse.bpel.model.impl;
 
 import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
+import org.eclipse.bpel.model.util.ReconciliationHelper;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -18,7 +19,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.internal.impl.ExtensibleElementImpl;
+import org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl;
+import org.w3c.dom.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -272,6 +276,37 @@ public class BPELExtensibleElementImpl extends ExtensibleElementImpl implements
 			return isSetDocumentation();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	// Reconciliation stuff. Has copy in ExtensibilityElement
+	// TODO: (DU) remove duplication					
+	@Override
+	protected void reconcile(Element changedElement) {
+		//	    reconcileAttributes(changedElement);
+		//	    reconcileContents(changedElement);
+		ReconciliationHelper.getInstance().reconcile(this, changedElement);
+	}
+
+	@Override
+	public void elementChanged(Element changedElement) {
+		if (!isUpdatingDOM()) {
+			if (!isReconciling) {
+				isReconciling = true;
+				try {
+					reconcile(changedElement);
+
+					WSDLElement theContainer = getContainer();
+					if (theContainer != null
+							&& theContainer.getElement() == changedElement) {
+						((WSDLElementImpl) theContainer)
+								.elementChanged(changedElement);
+					}
+				} finally {
+					isReconciling = false;
+				}
+				traverseToRootForPatching();
+			}
+		}
 	}
 
 	public boolean isReconciling() {
