@@ -182,7 +182,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 
 		runnable.setContainer(container);
 		runnable.setTemplate(fMainPage.getSelectedTemplate());
-		
+
 		Map<String, Object> map = fMainPage.getArgs();
 		map.putAll(wsdlPage.getMap());
 		runnable.setArgs(map);
@@ -212,7 +212,6 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 */
 
 	IContainer getBPELContainer(Object obj) {
-
 		if (obj == null) {
 			return null;
 		}
@@ -226,9 +225,13 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			project = container.getProject();
 		}
 		if (project != null) {
-			IContainer bpelContent = project.getFolder(getWebContentRootPath(project));
-			if (bpelContent != null) {
-				return bpelContent;
+			// Bug 327523
+			IPath webContentRootPath = getWebContentRootPath(project);
+			if (webContentRootPath != null) {
+				IContainer bpelContent = project.getFolder(webContentRootPath);
+				if (bpelContent != null) {
+					return bpelContent;
+				}
 			}
 		}
 		return null;
@@ -244,7 +247,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 		return (fMainPage.isPageComplete() && wsdlPage.isPageComplete() && mContainer != null)
 				|| super.canFinish();
 	}
-	
+
 	/**
 	 * @return the currently selected Template
 	 * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
@@ -254,7 +257,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	{
 		return fMainPage.getSelectedTemplate();
 	}
-	
+
 	static IPath getWebContentRootPath(IProject project) {
 		if (project == null)
 			return null;
@@ -268,6 +271,6 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			path = component.getRootFolder().getProjectRelativePath();
 		}
 		return path;
-	}	
+	}
 
 }
