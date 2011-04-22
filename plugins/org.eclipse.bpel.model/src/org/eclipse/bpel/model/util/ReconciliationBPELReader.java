@@ -1372,12 +1372,17 @@ public class ReconciliationBPELReader extends BPELReader implements
 	 */
 	protected MessageExchange xml2MessageExchange(
 			MessageExchange messageExchange, Element messageExchangeElement) {
+		if (!messageExchangeElement.getLocalName().equals("messageExchange"))
+			return null;
 		
 		if (messageExchange == null) {
 			messageExchange = BPELFactory.eINSTANCE.createMessageExchange();
 			messageExchange.setElement(messageExchangeElement);
 		}
 		
+		// Save all the references to external namespaces
+		saveNamespacePrefix(messageExchange, messageExchangeElement);
+
 		if (messageExchangeElement == null)
 			return messageExchange;
 		
@@ -3859,10 +3864,8 @@ public class ReconciliationBPELReader extends BPELReader implements
 			if (nodeList.item(i) instanceof Element) {
 				final String namespaceURI = ((Element) nodeList.item(i))
 						.getNamespaceURI();
-				if (!(BPELConstants.isBPELNamespace(namespaceURI))) {
-					Node child = nodeList.item(i);
-					nodes.add(child);
-				}
+				if (!(BPELConstants.isBPELNamespace(namespaceURI)))
+					nodes.add(nodeList.item(i));
 			}
 		}
 

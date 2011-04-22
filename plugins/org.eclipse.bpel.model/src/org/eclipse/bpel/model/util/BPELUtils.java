@@ -248,6 +248,7 @@ public class BPELUtils {
 	 * @return the namespace map for the given object.
 	 */
 
+	@SuppressWarnings("unchecked")
 	static public INamespaceMap<String, String> getNamespaceMap(EObject eObject) {
 
 		if (eObject == null) {
@@ -352,7 +353,7 @@ public class BPELUtils {
 	 * @param parent
 	 * @return the reordered list.
 	 */
-
+	@SuppressWarnings("unchecked")
 	public static List<ExtensibleElement> reorderExtensibilityList(
 			List<IExtensibilityElementListHandler> extensibilityElementListHandlers,
 			ExtensibleElement parent) {
@@ -771,7 +772,7 @@ public class BPELUtils {
 			return (BPELResourceSetImpl) resourceSet;
 		}
 
-		Map map = resourceSet.getLoadOptions();
+		Map<Object, Object> map = resourceSet.getLoadOptions();
 		BPELResourceSetImpl result = (BPELResourceSetImpl) map
 				.get(BPELResourceSetImpl.SLIGHTLY_HACKED_KEY);
 		if (result == null) {
@@ -1019,4 +1020,11 @@ public class BPELUtils {
 
 	} // copyInto(Node,Node)
 
+	// https://issues.jboss.org/browse/JBIDE-8068
+	public static boolean isAbstractProcess(Process process)
+	{
+		Map<String,String>m = BPELUtils.getAllNamespacesForContext(process);
+		boolean result = m.containsValue(BPELConstants.NAMESPACE_ABSTRACT_2007);
+		return result;
+	}
 }
