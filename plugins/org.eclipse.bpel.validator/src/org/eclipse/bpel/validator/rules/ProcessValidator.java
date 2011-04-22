@@ -20,13 +20,22 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.bpel.validator.model.ARule;
+import javax.xml.namespace.QName;
+
+import org.eclipse.bpel.model.Import;
+import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.validator.helpers.DOMNodeAdapter;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IConstants;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.NodeAttributeValueFilter;
+import org.eclipse.emf.ecore.EObject;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 
 
@@ -217,7 +226,7 @@ public class ProcessValidator extends CValidator {
 		order = 1000
 	)
 	
-	public void checkIfProcessHasStartActivity () {
+	public void CheckIfProcessHasStartActivity () {
 		
 		if (fStartActivities.size() > 0)  {
 			return ;
@@ -242,7 +251,7 @@ public class ProcessValidator extends CValidator {
 		tag = "pass2",
 		order = 2000
 	)
-	public void checkCorrelationSetsOnStartActivities () {
+	public void CheckCorrelationSetsOnStartActivities () {
 		// if 0 or 1, then it does not matter ...
 		if (fStartActivities.size() < 2)  {
 			return ;
@@ -348,14 +357,34 @@ public class ProcessValidator extends CValidator {
 		tag = "pass2",
 		order = 300
 	)
-	
-	public void checkReferencedTypes () {
-		// TODO: Add support for that in the model query mechanism.
-		// for(INode node : fTypeToCheckList) {
-			//if (mModelQuery.check(IModelQueryLookups.TEST_CONFLICTING_XSD, node, null)) {
-			//	
-			//}
-		// }		
+	// https://issues.jboss.org/browse/JBIDE-8088
+	// implemented missing code
+	public void CheckReferencedTypes () {
+		IProblem problem;
+		Process process = (Process) mModelQuery.lookupProcess(mNode);
+		
+		for(INode node : fTypeToCheckList) {
+			
+			List<Import> conflicts = mModelQuery.findConflictingXSD(process, node);
+			if (conflicts!=null) {
+				
+				String conflicting = null;
+				for (int i=1; i<conflicts.size(); ++i) {
+					if (conflicting == null)
+						conflicting = conflicts.get(i).getLocation();
+					else
+						conflicting += ", " + conflicts.get(i).getLocation();
+				}
+				problem = createError(node);
+				problem.fill("BPELC_XSD__CONFLICTING_DEFINITION",
+						node.getAttribute(AT_NAME),
+						conflicts.get(0).getLocation(),
+						conflicting 
+						
+				);
+				
+			}
+		}		
 	}
 	
 	
