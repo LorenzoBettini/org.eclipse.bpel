@@ -131,8 +131,9 @@ public class FaultThrowNameSection extends BPELPropertySection {
 				data1 = (FlatFormData)faultVariableNameComposite.getLayoutData();
 				data1.top = new FlatFormAttachment(faultNameComposite, IDetailsAreaConstants.VSPACE);
 			}
-		} 
-		
+		} else {
+			data.top = new FlatFormAttachment(0, 0);
+		}
 		faultTypeComposite.setVisible(isFaultTypeEnabled);
 		namespaceComposite.setVisible(isNamespaceUserDef());
 		faultNameComposite.setVisible(!isNamespaceUserDef());

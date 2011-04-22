@@ -17,11 +17,13 @@ import java.util.Map;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Templates.Template;
+import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -31,6 +33,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.ModuleCoreNature;
@@ -146,7 +149,6 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	public void addPages() {
 
 		fMainPage = new NewFileWizardPage1(Messages.NewFileWizardPage1_Name);
-		fMainPage.setContainer(mContainer);
 		fContainerPage = new NewFileWizardPage2(
 				Messages.NewFileWizardPage2_Name);
 		wsdlPage = new WSDLCustomPage(
@@ -182,7 +184,7 @@ public class NewFileWizard extends Wizard implements INewWizard {
 
 		runnable.setContainer(container);
 		runnable.setTemplate(fMainPage.getSelectedTemplate());
-
+		
 		Map<String, Object> map = fMainPage.getArgs();
 		map.putAll(wsdlPage.getMap());
 		runnable.setArgs(map);
@@ -212,6 +214,9 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 */
 
 	IContainer getBPELContainer(Object obj) {
+
+		IContainer bpelContent = null;
+		
 		if (obj == null) {
 			return null;
 		}
@@ -225,18 +230,58 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			project = container.getProject();
 		}
 		if (project != null) {
-			// Bug 327523
-			IPath webContentRootPath = getWebContentRootPath(project);
-			if (webContentRootPath != null) {
-				IContainer bpelContent = project.getFolder(webContentRootPath);
-				if (bpelContent != null) {
-					return bpelContent;
-				}
+			// https://issues.jboss.org/browse/JBIDE-8591
+			// if not a faceted project, still allow resources to be created
+			IPath rootPath = getWebContentRootPath(project);
+			if (rootPath!=null && !rootPath.isEmpty()) {
+				bpelContent = project.getFolder(rootPath);
 			}
 		}
-		return null;
+		if (bpelContent == null) {
+			// https://issues.jboss.org/browse/JBIDE-8591
+			// use folder or project
+			if (obj instanceof IContainer)
+				bpelContent = (IContainer)obj;
+			else
+				bpelContent = project;
+		}
+		return bpelContent;
 	}
 
+		static IPath getWebContentRootPath(IProject project) {
+				if (project == null)
+					return null;
+		
+				if (!ModuleCoreNature.isFlexibleProject(project))
+					return null;
+		
+				IPath path = null;
+				IVirtualComponent component = ComponentCore.createComponent(project);
+				if (component != null && component.exists()) {
+					path = component.getRootFolder().getProjectRelativePath();
+				}
+				return path;
+			}
+	
+	// https://issues.jboss.org/browse/JBIDE-8591
+	// added to allow first and last page access to resource container
+	public IContainer getBPELContainer() {
+		return mContainer;
+	}
+	
+	public void setBPELContainer(IContainer container) {
+		mContainer = container;
+	}
+	
+	/**
+	 * @return the currently selected Template
+	 * @see https://jira.jboss.org/browse/JBIDE-7165
+	 */
+	public Template getSelectedTemplate()
+	{
+		return fMainPage.getSelectedTemplate();
+	}
+	
 	/**
 	 * 
 	 * Final condition for the wizard to finish
@@ -244,33 +289,8 @@ public class NewFileWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean canFinish() {
-		return (fMainPage.isPageComplete() && wsdlPage.isPageComplete() && mContainer != null)
+		return (fMainPage.isPageComplete() && wsdlPage.isPageComplete() && fContainerPage.isPageComplete() && mContainer != null)
 				|| super.canFinish();
-	}
-
-	/**
-	 * @return the currently selected Template
-	 * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
-	 * @see https://jira.jboss.org/browse/JBIDE-7165
-	 */
-	public Template getSelectedTemplate()
-	{
-		return fMainPage.getSelectedTemplate();
-	}
-
-	static IPath getWebContentRootPath(IProject project) {
-		if (project == null)
-			return null;
-
-		if (!ModuleCoreNature.isFlexibleProject(project))
-			return null;
-
-		IPath path = null;
-		IVirtualComponent component = ComponentCore.createComponent(project);
-		if (component != null && component.exists()) {
-			path = component.getRootFolder().getProjectRelativePath();
-		}
-		return path;
 	}
 
 }

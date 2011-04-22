@@ -44,7 +44,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.AccessibleAnchorProvider;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;

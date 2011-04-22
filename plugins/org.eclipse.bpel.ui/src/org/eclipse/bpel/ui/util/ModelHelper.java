@@ -883,6 +883,13 @@ public class ModelHelper {
 		if (context instanceof PropertyAlias) {
 			return (Message)((PropertyAlias)context).getMessageType();
 		}
+		// https://issues.jboss.org/browse/JBIDE-8305
+		if (context instanceof OnEvent) {
+			return (Message)((OnEvent)context).getMessageType();
+		}
+		if (context instanceof org.eclipse.wst.wsdl.Input) {
+			return (Message)((org.eclipse.wst.wsdl.Input)context).getMessage();
+		}
 		throw new IllegalArgumentException();
 	}
 
@@ -1133,9 +1140,9 @@ public class ModelHelper {
 			// this is a bug in the ExtensionMapImpl.
 			// Just assume there is no extension (fall through)
 		}
-		
-		// Bugzilla 330513
+		// https://jira.jboss.org/browse/JBIDE-7520
 		extensionMap.remove(input);
+		
 		// If it supports IExtensionFactory, create an extension and add it to the map.
 		IExtensionFactory extensionFactory = BPELUtil.adapt( input, IExtensionFactory.class);
 		if (extensionFactory != null) {

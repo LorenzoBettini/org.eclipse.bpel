@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
+import org.eclipse.wst.common.componentcore.ModuleCoreNature;
 
 /**
  * 
@@ -58,8 +59,6 @@ public class NewFileWizardPage1 extends WizardPage {
 
 	/** last namespace used in creating a project, saved in dialog settings */
 	static final String LAST_NAMESPACE_KEY = "last.namespace.used"; //$NON-NLS-1$
-	
-	private IContainer mContainer;
 
 	/** Process name field */
 	private Text processNameField;
@@ -225,7 +224,7 @@ public class NewFileWizardPage1 extends WizardPage {
 		});
 
 		templateDescription = new Text(projectGroup, SWT.READ_ONLY | SWT.WRAP
-				| SWT.SCROLL_LINE);
+				| SWT.SCROLL_LINE | SWT.V_SCROLL);
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		data.heightHint = 60;
@@ -366,14 +365,22 @@ public class NewFileWizardPage1 extends WizardPage {
 		setErrorMessage(null);
 		setMessage(null);
 
+		// https://issues.jboss.org/browse/JBIDE-8591
+		NewFileWizard wiz = (NewFileWizard)getWizard();
+		// https://issues.jboss.org/browse/JBIDE-8738
+		IContainer container = wiz.getBPELContainer(); 
+		if (container!=null) {
+			if (!ModuleCoreNature.isFlexibleProject(container.getProject()))
+				setMessage(Messages.NewFileWizard_Not_A_Faceted_Project, WizardPage.WARNING);
+			
+			if (container.findMember(processNameField.getText()+".bpel")!=null ) //$NON-NLS-1$
+				setMessage(Messages.NewFileWizardPage1_12,WARNING);
+		}
+
 		String namespace = processNamespaceField.getText().trim();
 		if (namespace.length() < 1) {
 			setErrorMessage(Messages.NewFileWizardPage1_11);
 			return false;
-		}
-		
-		if (mContainer!=null && mContainer.findMember(processNameField.getText()+".bpel")!=null ) { //$NON-NLS-1$
-			setMessage(Messages.NewFileWizardPage1_12,WARNING);
 		}
 
 		String bpelNamespace = (isAbstractOptionButtonChecked()) ? BPELConstants.NAMESPACE_ABSTRACT_2007
@@ -388,13 +395,13 @@ public class NewFileWizardPage1 extends WizardPage {
 		mArgs.put("bpelNamespace", bpelNamespace); //$NON-NLS-1$
 		mArgs.put("date", new Date()); //$NON-NLS-1$
 
-		// set the default value of the wsdlpage and container page
-		setValuesForWSDLAndContainerPage(processName);
+		// set the default value of the wsdlpage
+		setValuesForWSDLPage(processName);
 
 		return true;
 	}
 
-	private void setValuesForWSDLAndContainerPage(String processName) {
+	private void setValuesForWSDLPage(String processName) {
 		WSDLCustomPage page = (WSDLCustomPage) this.getWizard().getPage(
 				Messages.NewFileWizard_WSDLCustomPage_Name);
 		if (page != null) {
@@ -408,8 +415,6 @@ public class NewFileWizardPage1 extends WizardPage {
 		if (page2 != null) {
 			page2.setProcessName(processName);
 		}
-		
-		
 	}
 
 	public IWizardPage getNextPage() {
@@ -472,6 +477,8 @@ public class NewFileWizardPage1 extends WizardPage {
 		super.setVisible(visible);
 		if (visible) {
 			processNameField.setFocus();
+			// https://issues.jboss.org/browse/JBIDE-8591
+			validatePage();
 		}
 	}
 
@@ -492,9 +499,4 @@ public class NewFileWizardPage1 extends WizardPage {
 
 		return mArgs;
 	}
-
-	public void setContainer(IContainer mContainer) {
-		this.mContainer = mContainer;
-	}
-
 }

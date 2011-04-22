@@ -42,7 +42,10 @@ public class PortTypeTreeContentProvider extends ModelTreeContentProvider {
 				PortType element = (PortType) it.next();
 				list.add ( new PortTypeTreeNode(element,isCondensed));
 			}			
-		} else if (inputElement instanceof List){
+		}
+		// https://jira.jboss.org/browse/JBIDE-6697
+		// from eclipse.org/bpel rev 1.5 on 5/5/2010 5:13AM by smoser: fix for bidirectional PLT - > Tammo/JAX Session Feedback
+		else if (inputElement instanceof List){
 			List inputList = (List) inputElement;
 			for (Iterator iterator = inputList.iterator(); iterator.hasNext();) {
 				Definition def = (Definition) iterator.next();
