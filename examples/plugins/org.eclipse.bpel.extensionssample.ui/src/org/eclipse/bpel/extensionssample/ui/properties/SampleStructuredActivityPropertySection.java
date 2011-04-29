@@ -23,9 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wst.wsdl.Message;
 import org.eclipse.xsd.XSDElementDeclaration;
@@ -138,7 +136,7 @@ public class SampleStructuredActivityPropertySection extends BPELPropertySection
 		nameLabel.setLayoutData(data);
 		
 		variableTypeSelector = new VariableTypeSelector(composite, SWT.NONE, getBPELEditor(),
-			fWidgetFactory, new VariableTypeCallback(), true);
+			fWidgetFactory, new VariableTypeCallback());
 		data = new FlatFormData();
 		data.top = new FlatFormAttachment(nameLabel,0, SWT.LEFT);
 		data.left = new FlatFormAttachment(0,0);
