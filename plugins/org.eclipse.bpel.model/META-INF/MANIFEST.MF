@@ -33,7 +33,6 @@ Export-Package: org.eclipse.bpel.model,
  org.eclipse.bpel.model.terms,
  org.eclipse.bpel.model.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: bin
 Import-Package: org.eclipse.wst.xsd.contentmodel.internal,
  org.eclipse.wst.xml.ui.internal.wizards
 

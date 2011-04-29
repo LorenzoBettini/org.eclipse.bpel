@@ -73,10 +73,12 @@
             class="org.eclipse.bpel.model.resource.BPELResourceFactoryImpl">
       </parser>
    </extension>
-   <extension
+   
+   <!-- VZ - FIXME: The provider class was commented. Delete the class and this commented extension? -->
+   <!-- extension
          point="org.eclipse.bpel.common.ui.resourceSetProvider">
       <provider class="org.eclipse.bpel.model.resource.ResourceSetProvider"/>
-   </extension>
+   </extension -->
 
 
 	<!-- Bugzilla 320545: -->
