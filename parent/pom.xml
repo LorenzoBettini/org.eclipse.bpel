@@ -10,7 +10,7 @@
 	</modules>
 
 	<properties>
-		<!--tychoVersion>0.10.0-SNAPSHOT</tychoVersion-->
+		<!-- <tychoVersion>0.11.0</tychoVersion> -->
 		<tychoVersion>0.10.0</tychoVersion>
 		<scmBranch>trunk</scmBranch>
 		<BUILD_ALIAS>CI</BUILD_ALIAS>
@@ -21,6 +21,7 @@
 	</properties>
 
 	<build>
+		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -128,6 +129,41 @@
 					<parallel>true</parallel>
 				</configuration>
 			</plugin>
+
+			<!-- these three plugins copied in from Chris Aniszczyk's Minerva parent 
+				pom -->
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-compiler-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- TODO remove workaround when https://issues.sonatype.org/browse/TYCHO-473 
+					is fixed -->
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-source-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<executions>
+					<execution>
+						<id>attach-source</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<encoding>ISO-8859-1</encoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -194,18 +230,17 @@
 						<enabled>true</enabled>
 					</releases>
 				</repository>
-                                <repository>
-                                        <id>eclipse36</id>
-                                        <url>http://download.eclipse.org/eclipse/updates/3.6.x/
-                                        </url>
-                                        <layout>p2</layout>
-                                        <snapshots>
-                                                <enabled>true</enabled>
-                                        </snapshots>
-                                        <releases>
-                                                <enabled>true</enabled>
-                                        </releases>
-                                </repository>
+				<repository>
+					<id>eclipse36</id>
+					<url>http://download.eclipse.org/eclipse/updates/3.6/</url>
+					<layout>p2</layout>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+				</repository>
 				<repository>
 					<id>webtools32</id>
 					<url>http://download.eclipse.org/webtools/repository/helios</url>
