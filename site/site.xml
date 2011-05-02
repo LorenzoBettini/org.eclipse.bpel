@@ -6,6 +6,9 @@
    <feature url="features/org.eclipse.bpel.feature_0.0.0.jar" id="org.eclipse.bpel.feature" version="0.0.0">
       <category name="Eclipse BPEL Designer Nightly Build Update Site"/>
    </feature>
+   <feature url="features/org.eclipse.bpel.source.feature_0.0.0.jar" id="org.eclipse.bpel.source.feature" version="0.0.0">
+      <category name="Eclipse BPEL Designer Nightly Build Update Site"/>
+   </feature>
    <category-def name="Eclipse BPEL Designer Nightly Build Update Site" label="Eclipse BPEL Designer Nightly Build Update Site">
       <description>
          Eclipse BPEL Designer Nightly Build Update Site: contains all features in this build.
