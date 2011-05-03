@@ -160,7 +160,7 @@
 		<url>https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BPEL</url>
 	</issueManagement>
 	<profiles>
-		<profile>
+		<!-- NO bpel target platform defined; this is useless for now <profile>
 			<id>helios</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
@@ -186,7 +186,7 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
+		</profile> -->
 
 		<!-- Time saver: to build everything from scratch (without target platform); 
 			To enable it use -P helios-no-target in command line. Do not remove repos 
