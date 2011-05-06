@@ -16,6 +16,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.model.extensions.BPELActivityDeserializer;
 import org.eclipse.bpel.model.extensions.BPELExtensionRegistry;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.w3c.dom.Element;
@@ -52,6 +53,14 @@ public class ExtensionActivityValidator extends CActivityValidator {
 
 	// Bugzilla 324115
 	@Override
+	@ARule(
+			sa = -1,
+			desc = "Check the extensionActivity",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/15/2007",
+			warnings="BPELC_UNKNOWN_EXTENSION__ACTIVITY",
+			errors="BPELC_MISSING_EXTENSION__ACTIVITY"
+		)
 	protected void start() {
 		super.start();
 		BPELExtensionRegistry extensionRegistry = BPELExtensionRegistry.getInstance();

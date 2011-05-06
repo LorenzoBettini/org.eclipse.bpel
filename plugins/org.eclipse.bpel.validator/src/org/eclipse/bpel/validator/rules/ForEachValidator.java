@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 
 
@@ -46,6 +47,12 @@ public class ForEachValidator extends CActivityValidator {
 	 *
 	 */
 	
+	@ARule(
+			desc = "Check parallel attribute in forEach activity.",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckParallel_1 () {
 		fParallel = getAttribute(mNode, 
 				AT_PARALLEL, 
@@ -62,6 +69,13 @@ public class ForEachValidator extends CActivityValidator {
 	 * Check the name of the counter variable, to make sure it's a valid NCName
 	 */
 	
+	@ARule(
+			sa = 0,
+			desc = "Check the NCName of the forEach activity counter.",
+			author = "michal.chmielewski@oracle.com",
+			date = "01/20/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
+		)
 	public void rule_CheckCounterName_2 () {
 		
 		fCounterName = mNode.getAttribute(AT_COUNTER_NAME);

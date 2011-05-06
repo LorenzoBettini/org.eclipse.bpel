@@ -69,7 +69,8 @@ public class QueryValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the query language for support in the BPEL model",		
 		date = "10/2/2006",
-		sa = 4
+		sa = 4 ,
+		errors="BPELC__UNSUPPORTED_XML_LANG"
 	)
 	public void rule_CheckQueryLanguageSupport_20 () {
 		
@@ -105,7 +106,8 @@ public class QueryValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the actual query using the query language validator.",		
 		date = "10/2/2006",
-		sa = 1000
+		sa = 1000 ,
+		warnings="BPELC__NO_EXPRESSION_VALIDATOR"
 	)
 	
 	public void rule_CheckQuery_30 () {

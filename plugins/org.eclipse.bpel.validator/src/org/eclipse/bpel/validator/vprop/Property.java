@@ -63,7 +63,8 @@ public class Property extends CValidator {
 		sa = 0,
 		desc = "Check the NCName of the property",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/15/2007"
+		date = "02/15/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)
 	
 	public void rule_CheckName_1 () {		
@@ -78,6 +79,13 @@ public class Property extends CValidator {
 	 *
 	 */
 	
+	@ARule(
+			sa = 0,
+			desc = "Check if property name is duplicated",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/15/2007",
+			errors="BPELC__DUPLICATE"
+		)
 	public void rule_CheckDuplicateName_5 () {
 		
 		if (isEmpty(ncName)) {
@@ -108,7 +116,8 @@ public class Property extends CValidator {
 		desc = "Either the type or element attributes MUST be present but not both.",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/17/2007",
-		tag = "pass1" 	
+		tag = "pass1",
+		errors="BPELC_PROPERTY__UNSET"
 	)
 	
 	public void rule_CheckPropertyType_10 () {
@@ -141,6 +150,15 @@ public class Property extends CValidator {
 	
 
 
+	
+	@ARule(
+		desc = "Attribute cannot be resolved for XSD type or element.",
+		author = "michal.chmielewski@oracle.com",
+		date = "02/17/2007",
+		tag = "pass1",
+		errors="BPELC__UNRESOLVED_ATTRIBUTE"
+	)
+	
 	public void rule_CheckTypeOrElement_15 () {
 		
 		INode typeNode = null;

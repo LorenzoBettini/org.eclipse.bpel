@@ -54,7 +54,8 @@ public class WaitValidator extends CActivityValidator {
 	@ARule(
 		date = "9/22/2006",		
 		desc = "Do a basic sanity check on the wait activity.",
-		author = "michal.chmielewski@oracle.com"
+		author = "michal.chmielewski@oracle.com",
+		errors="BPELC_EMPTY_EXPIRATION_SETTING,BPELC_MULTIPLE_EXPIRATION_SETTING"
 	)
 	
 	public void rule_BasicSanityCheck_5 () {

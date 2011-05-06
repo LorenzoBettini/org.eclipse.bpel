@@ -72,6 +72,12 @@ public class TargetValidator extends CValidator {
 	 * Rule to check the name of the variable. 
 	 */
 	
+	@ARule(
+			date = "9/14/2006",		
+			desc = "Check the target variable NCName",
+			author = "michal.chmielewski@oracle.com",
+			errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
+		)	
 	public void rule_CheckName_1 () {					
 		// Must be a valid NCName ...
 		checkNCName(mNode, ncName, AT_LINK_NAME );			
@@ -110,7 +116,8 @@ public class TargetValidator extends CValidator {
 		sa = 65,
 		desc = "The value of the linkName attribute of <target> MUST be the name of a <link> declared in an enclosing <flow> activity.",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/16/2007"
+		date = "02/16/2007",
+		errors="BPELC_LINK__UNDEFINED"
 	)		
 	
 	public void rule_CheckAgainstDeclaredLink_12 () {
@@ -138,7 +145,8 @@ public class TargetValidator extends CValidator {
 		sa = 66,
 		desc = "Every link must have exactly one activity as source and one as target",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/17/2007"
+		date = "02/17/2007",
+		errors="BPELC_LINK__NAME_USED"
 	)
 	public void rule_CheckIfSourceAlreadyUsed_12 () {
 		

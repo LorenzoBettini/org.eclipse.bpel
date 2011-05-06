@@ -68,7 +68,8 @@ public class ConditionValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the expression language for support in the BPEL model",		
 		date = "10/2/2006",
-		sa = 4
+		sa = 4 ,
+		errors="BPELC__UNSUPPORTED_XML_LANG"
 	)
 	public void rule_CheckExpressionLanguageSupport_20 () {
 		
@@ -103,7 +104,8 @@ public class ConditionValidator extends CValidator {
 		desc = "Checks the actual expression using the expression language validator.",		
 		date = "10/2/2006",
 		sa = 0,
-		order = 100
+		order = 100 ,
+		warnings="BPELC__NO_EXPRESSION_VALIDATOR"
 	)		
 	public void checkExpression () {
 		

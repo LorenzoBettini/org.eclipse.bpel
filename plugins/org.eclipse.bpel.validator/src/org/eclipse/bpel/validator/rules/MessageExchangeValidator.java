@@ -54,7 +54,8 @@ public class MessageExchangeValidator extends CValidator {
 		sa = 0,
 		desc = "Check the NCName of the messageExchange",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/15/2007"
+		date = "02/15/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	
 	public void rule_CheckName_1 () {

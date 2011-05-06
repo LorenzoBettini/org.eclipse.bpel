@@ -59,6 +59,12 @@ public class ImportValidator extends CValidator {
 	 * Check if the importType attribute is set on the
 	 * import. If it is not, then this is an error, per SA00013. 
 	 */
+	@ARule(
+			desc = "Check if importType is set on import",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE"
+		)
 	
 	@SuppressWarnings("boxing")
 	public void rule_CheckIfImportTypesSet_1 () {
@@ -86,6 +92,12 @@ public class ImportValidator extends CValidator {
 	 * within the folder hierarchy of the deployment descriptor at the root
 	 */
 	
+	@ARule(
+			desc = "Check if location is set on import",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC_IMPORT_LOCATION"
+		)
 	public void rule_CheckLocation_3 () {
 		
 		if (fLocation == null) {
@@ -118,7 +130,8 @@ public class ImportValidator extends CValidator {
 		date = "10/3/2006",
 		author = "michal.chmielewski@oracle.com",
 		desc = "Check the import type. BPEL 2.0 currently supports WSDL and XSD import types.",
-		sa = 13
+		sa = 13 ,
+		infos="BPELC_IMPORT__IMPORT_TYPE"
 	)
 	@SuppressWarnings("boxing")
 	
@@ -158,7 +171,8 @@ public class ImportValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "01/15/2007",
 		desc = "Imported namespace, if set, must match",
-		sa = 11	
+		sa = 11	,
+		errors="BPELC_IMPORT__NS1"
 	)
 	public void rule_CheckNamespaceOfImport_8 () {
 		
@@ -198,7 +212,8 @@ public class ImportValidator extends CValidator {
 		sa = 1234,
 		desc = "Imported node location problem",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/29/2007"
+		date = "03/29/2007",
+		errors="BPELC_IMPORT__UNRESOVED"
 	)
 	
 	public void rule_CheckImportLocation_14 () {
@@ -226,7 +241,8 @@ public class ImportValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "01/15/2007",
 		desc = "When import has no namespace, the targetNamespace must be empty.",
-		sa = 12	
+		sa = 12	,
+		errors="BPELC_IMPORT__NS2"
 	)
 	
 	public void rule_CheckNamespaceOfImport_15 () {

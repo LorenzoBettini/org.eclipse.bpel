@@ -97,7 +97,8 @@ public class ScopeValidator extends CActivityValidator {
 		sa = 0,
 		desc = "Check isolated attribute setting on scope",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	
 	public void rule_CheckIsolatedAttribute_10 () {
@@ -123,7 +124,8 @@ public class ScopeValidator extends CActivityValidator {
 		sa = 0,
 		desc = "Check exitOnStandardFault attribute setting",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	
 	public void rule_CheckExitOnStandardFault_10 () {
@@ -156,7 +158,8 @@ public class ScopeValidator extends CActivityValidator {
 		sa = 91,
 		desc = "Isolated scopes may not contain other isolated scopes",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/24/2007"
+		date = "01/24/2007",
+		errors="BPELC_SCOPE__ISOLATED"
 	)
 	
 	public void rule_CheckNoIsolatedScopeDescendants_20 () {
@@ -194,7 +197,8 @@ public class ScopeValidator extends CActivityValidator {
 		sa = 92,
 		desc = "Within a scope all immediately enclosed scopes must have unique name",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/24/2007"
+		date = "01/24/2007",
+		errors="BPELC_SCOPE__UNIQUE_NAME"
 	)
 	
 	public void rule_CheckUniqueScopeNames_20 () {
@@ -236,7 +240,8 @@ public class ScopeValidator extends CActivityValidator {
 		sa = 79,
 		desc = "Root scope inside an FCT-handler MUST not have a compensation handler",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/28/2007"
+		date = "02/28/2007",
+		errors="BPELC_SCOPE__COMPENSATION_HANDLER"
 	)
 	
 	public void rule_CheckRootFCTScope_25 () {

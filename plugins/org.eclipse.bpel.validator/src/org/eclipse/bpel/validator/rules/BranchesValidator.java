@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
@@ -42,6 +43,12 @@ public class BranchesValidator extends ConditionValidator {
 	 * Check to see if successful branches is set to yes or no.
 	 */
 	
+	@ARule(
+			desc = "Check successfulBranchesOnly attribute.",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckSuccessfulBranchesOnly () {
 		
 		fSuccessfulBranchesOnly = getAttribute(mNode, 

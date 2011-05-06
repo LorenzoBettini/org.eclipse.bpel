@@ -38,7 +38,8 @@ public class LinksValidator extends CContainerValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "12/7/2006",
 		desc = "Check for unique link name",
-		sa = 64
+		sa = 64 ,
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	
 	public void rule_CheckDuplicateLinkName_40 () {

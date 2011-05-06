@@ -12,6 +12,7 @@ package org.eclipse.bpel.validator.rules;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
@@ -69,6 +70,14 @@ public class ThrowValidator extends CActivityValidator {
 	 *
 	 */
 	@SuppressWarnings("boxing")
+	@ARule(
+		sa = 0,
+		desc = "Check if the fault is valid",
+		author = "michal.chmielewski@oracle.com",
+		date = "02/15/2007",
+		errors="BPELC_THROW__NO_SUCH_VARIABLE,BPELC_REF_NODE_PROBLEMS",
+		warnings="BPELC_REF_NODE_PROBLEMS"
+	)
 	public void rule_CheckFaultVariable_12 () {
 		
 		if (fFaultVariable == null) {

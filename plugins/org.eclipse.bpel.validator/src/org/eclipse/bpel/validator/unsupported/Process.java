@@ -47,7 +47,8 @@ public class Process extends CValidator {
 		sa = 0,
 		desc = "Check the NCName of the property",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/15/2007"
+		date = "02/15/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)
 	
 	public void rule_CheckName_1 () {		
@@ -62,6 +63,13 @@ public class Process extends CValidator {
 	 * 
 	 */
 	
+	@ARule(
+			sa = 0,
+			desc = "Internal error: unsupported validation rule",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/15/2007",
+			errors="BPELC__UNSUPPORTED_VALIDATION"
+		)
 	public void rule_ReportUnsupportedProcessVariant_5 () {
 		
 		IProblem problem = createError();

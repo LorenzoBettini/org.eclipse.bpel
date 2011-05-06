@@ -80,7 +80,8 @@ public class LinkValidator extends CValidator {
 		sa = 0,
 		desc = "Check the NCName of the link",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/15/2007"
+		date = "02/15/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)
 	
 	public void rule_CheckName_1 () {
@@ -111,7 +112,8 @@ public class LinkValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "02/17/2007",
 		tag = "pass2",
-		order = 10
+		order = 10 ,
+		errors="BPELC_LINK__NO_SOURCE,BPELC_LINK__NO_TARGET"
 	)
 	
 	public void rule_CheckLinkConnections_10 () {
@@ -159,7 +161,8 @@ public class LinkValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "02/17/2007",
 		tag = "pass2",
-		order = 12
+		order = 12 ,
+		errors="BPELC_LINK__NOT_UNIQUE"
 	)
 	
 	public void rule_CheckDistinctLinks_12 () {
@@ -205,7 +208,8 @@ public class LinkValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "02/17/2007",
 		tag = "pass2",
-		order = 14
+		order = 14 ,
+		errors="BPELC_LINK__CYCLE"
 	)
 		
 	public void rule_ControlCycle_14 () {

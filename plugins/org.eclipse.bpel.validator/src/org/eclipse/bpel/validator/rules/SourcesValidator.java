@@ -54,7 +54,8 @@ public class SourcesValidator extends CContainerValidator {
 		sa = 68,
 		desc = "<source> elements must have distinct linkNames",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/16/2007"
+		date = "02/16/2007",
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	
 	public void rule_CheckUniqueSourceName_10 () {

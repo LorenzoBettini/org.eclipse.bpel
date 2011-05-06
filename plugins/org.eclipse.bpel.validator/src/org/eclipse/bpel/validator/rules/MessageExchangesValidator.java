@@ -45,7 +45,8 @@ public class MessageExchangesValidator extends CContainerValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "12/7/2006",
 		desc = "Check for unique message exchange name",
-		sa = 1001
+		sa = 1001 ,
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	
 	public void rule_CheckDuplicateName_40 () {

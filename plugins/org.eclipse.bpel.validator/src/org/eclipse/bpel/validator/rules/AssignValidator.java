@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 
 
@@ -56,6 +57,12 @@ public class AssignValidator extends CActivityValidator {
 	 * 
 	 */
 	
+	@ARule(
+			desc = "Check validate attribute in assign activity.",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckValidate_10 () {
 		fValidate = getAttribute(mNode, 
 				AT_VALIDATE,  

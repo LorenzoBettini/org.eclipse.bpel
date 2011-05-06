@@ -102,7 +102,9 @@ public class ToValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the allowed formats of the <to> element",
 		date = "01/15/2007",			
-		sa = 32
+		sa = 32 ,
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC_TO__VARIANT",
+		warnings="BPELC_REF_NODE_PROBLEMS"
 	)
 	
 	public void rule_CheckToVariant_10 () {
@@ -167,7 +169,8 @@ public class ToValidator extends CValidator {
 			+ " (part must not be set) ",
 		author = "michal.chmielewski@oracle.com",
 		date = "01/15/2007",
-		sa = 34
+		sa = 34 ,
+		errors="BPELC_TO__VARIABLE_PART,BPELC__PA_NO_PART"
 	)
 	
 	public void rule_CheckVariableAndPartVariant_18 () {
@@ -243,7 +246,8 @@ public class ToValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "<to> spec with partnerLink must have partnerRole set.",
 		date = "01/10/2007",
-		sa = 37
+		sa = 37 ,
+		errors="BPELC_TO__PARTNER_LINK"
 	)
 
 	public void rule_CheckPartnerLinkVariant_20 () {
@@ -286,7 +290,8 @@ public class ToValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Check variable reference expression as used in a <to> element.",
 		date = "01/10/2007",
-		sa = 33
+		sa = 33 ,
+		warnings="BPELC__NO_EXPRESSION_VALIDATOR"
 	)
 	
 	public void rule_CheckExpressionVariant_50 () {

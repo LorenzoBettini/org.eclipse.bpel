@@ -92,6 +92,13 @@ public class PartnerLinkValidator extends CValidator {
 	 * 
 	 */
 	
+	@ARule(
+			sa = 0,
+			desc = "Check the NCName of the partner link.",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
+		)
 	public void rule_CheckName_1 () {
 				
 		checkNCName(mNode, ncName, AT_NAME );		
@@ -102,6 +109,13 @@ public class PartnerLinkValidator extends CValidator {
 	 * Check if partner link type is defined.
 	 */
 	
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			desc = "Checks partner link type",
+			date = "01/15/2007",			
+			sa = 32 ,
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE"
+		)
 	public void rule_CheckPartnerLinkType_2 () {
 		
 		if (checkAttributeNode(mNode, fPartnerLinkType, AT_PARTNER_LINK_TYPE, KIND_NODE) == false) {
@@ -120,7 +134,8 @@ public class PartnerLinkValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc="myRole or partnerRole (or both) must be set",
 		date = "09/19/2006",
-		sa=16		
+		sa=16 ,
+		errors="BPELC_PARTNER_LINK__NO_ROLES_SET"		
 	)	
 	public void rule_CheckForUndefinedPartnerLinkRoles_4 () {
 		
@@ -152,7 +167,8 @@ public class PartnerLinkValidator extends CValidator {
 		desc = "Check if initializePartnerRole is set on the partnerLink" +
 	           " if partnerRole is set (or not).",
 		date = "09/19/2006",
-		sa = 17		
+		sa = 17,
+		errors="BPELC_PARTNER_LINK__INIT_PARTNER_ROLE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"		
 	)
 	
 	public void rule_CheckInitializePartnerRole_8 () {
@@ -195,7 +211,13 @@ public class PartnerLinkValidator extends CValidator {
 	 * deemed defined, then the roles are checked to see if they are 
 	 * defined.
 	 */
-	
+	@ARule(
+			desc = "Check if partner link role exists",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC_PARTNER_LINK_TYPE__NO_SUCH_ROLE"
+		)
+
 	
 	public void rule_CheckPartnerLinkRoles_10 () {
 				
@@ -249,6 +271,13 @@ public class PartnerLinkValidator extends CValidator {
 	 * 
 	 */
 		
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			desc = "Check if port type is set on the partnerLink",
+			date = "09/19/2006",
+			sa = 17,
+			errors="BPELC_PLT__NO_PORT_TYPE"		
+		)
 	public void rule_CheckPortTypes_18 () {
 		
 		if (fPartnerLinkType == null) {
@@ -294,7 +323,8 @@ public class PartnerLinkValidator extends CValidator {
 		desc = "Check solicit-response or notification port types",
 		date = "02/16/2007",
 		author = "michal.chmielewski@oracle.com",
-		tag = "direct"
+		tag = "direct",
+		errors="BPELC_PL__NOTIFICATION,BPELC_PL__SOLICIT_RESPONSE"
 	)
 		
 	public void checkSolicitResponseAndNotification ( INode portType ) {
@@ -352,7 +382,8 @@ public class PartnerLinkValidator extends CValidator {
 		desc = "Check for overloaded operation names in port types",
 		date = "02/16/2007",
 		author = "michal.chmielewski@oracle.com",
-		tag = "direct"
+		tag = "direct",
+		errors="BPELC_PL__OVERLOADED"
 	)
 		
 	public void checkOverloadedOperationNames ( INode portType ) {

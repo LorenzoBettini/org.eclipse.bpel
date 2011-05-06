@@ -80,7 +80,8 @@ public class CActivityValidator extends CValidator {
 	@ARule(
 		date = "10/05/2006",		
 		desc = "Check the name of the activity which must be valid NCName",
-		author = "michal.chmielewski@oracle.com"
+		author = "michal.chmielewski@oracle.com",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)	
 	
 	public void rule_CheckName_1 () {					
@@ -97,7 +98,8 @@ public class CActivityValidator extends CValidator {
 		date = "10/05/2006",		
 		desc = "Check the supressJoinFailure attribute. " + 
 			   " It checks if it is set and has a value of yes or no.",			       
-		author = "michal.chmielewski@oracle.com"
+		author = "michal.chmielewski@oracle.com",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)	
 
 	

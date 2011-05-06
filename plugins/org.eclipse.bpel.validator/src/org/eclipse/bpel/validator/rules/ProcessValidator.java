@@ -86,7 +86,8 @@ public class ProcessValidator extends CValidator {
 	@ARule(
 		date = "9/14/2006",		
 		desc = "Rule to check the name of the process",
-		author = "michal.chmielewski@oracle.com"
+		author = "michal.chmielewski@oracle.com",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)	
 		
 	public void rule_CheckName_1 () {					
@@ -104,7 +105,8 @@ public class ProcessValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the expression language for support in the BPEL model",		
 		date = "9/14/2006",
-		sa = 4
+		sa = 4 ,
+		errors="BPELC__UNSUPPORTED_XML_LANG"
 	)
 	
 	public void rule_CheckExpressionLanguage_3 () {
@@ -137,7 +139,8 @@ public class ProcessValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the query language for support in the BPEL model",		
 		date = "9/14/2006",
-		sa = 4
+		sa = 4 ,
+		errors="BPELC__UNSUPPORTED_XML_LANG"
 	)
 		
 	public void rule_CheckQueryLanguage_4 () {
@@ -169,7 +172,8 @@ public class ProcessValidator extends CValidator {
 		sa = 0,
 		desc = "Check exitOnStandardFault attribute setting",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	
 	public void rule_CheckExitOnStandardFault_10 () {
@@ -194,7 +198,8 @@ public class ProcessValidator extends CValidator {
 		sa = 0,
 		desc = "Check supressJoinFailure attribute setting",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)			
 	public void rule_CheckSuppressJoinFailre_11 () {
 		fSupressJoinFailure = getAttribute(mNode, 
@@ -223,7 +228,8 @@ public class ProcessValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "02/01/2007",
 		tag = "pass2",
-		order = 1000
+		order = 1000 ,
+		errors="BPELC_PROCESS__NO_START"
 	)
 	
 	public void CheckIfProcessHasStartActivity () {
@@ -249,7 +255,8 @@ public class ProcessValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "03/10/2007",
 		tag = "pass2",
-		order = 2000
+		order = 2000 ,
+		errors="BPELC_CORRELATION__COMMON,BPELC_CORRELATION__JOIN"
 	)
 	public void CheckCorrelationSetsOnStartActivities () {
 		// if 0 or 1, then it does not matter ...
@@ -355,11 +362,12 @@ public class ProcessValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "02/10/2007",
 		tag = "pass2",
-		order = 300
+		order = 300 ,
+		errors="BPELC_XSD__CONFLICTING_DEFINITION"
 	)
 	// https://issues.jboss.org/browse/JBIDE-8088
 	// implemented missing code
-	public void CheckReferencedTypes () {
+	public void rule_CheckReferencedTypes () {
 		IProblem problem;
 		Process process = (Process) mModelQuery.lookupProcess(mNode);
 		

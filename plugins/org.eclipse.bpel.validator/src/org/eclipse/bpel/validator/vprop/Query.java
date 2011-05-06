@@ -61,7 +61,8 @@ public class Query extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the query language for support in the BPEL model",		
 		date = "10/2/2006",
-		sa = 4
+		sa = 4 ,
+		errors="BPELC__UNSUPPORTED_XML_LANG"
 	)
 	public void rule_CheckQueryLanguageSupport_20 () {
 		
@@ -100,7 +101,8 @@ public class Query extends CValidator {
 		desc = "WS-BPEL variables and WS-BPEL functions MUST NOT be used in " 
 			+ " query expressions of propertyAlias definitions.",		
 		date = "3/6/2007",
-		sa = 29
+		sa = 29,
+		warnings="BPELC__NO_EXPRESSION_VALIDATOR"
 	)
 	
 	public void rule_CheckQuery_30 () {

@@ -65,7 +65,8 @@ public class CValidator extends Validator {
 		sa = 2001,
 		desc = "Check to make sure that my parent node is within a set of allowed nodes",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/15/2007"
+		date = "02/15/2007",
+		errors="BPELC__WRONG_PARENT"
 	)
 	public void rule_CheckParentNode_1 () {
 		
@@ -110,7 +111,8 @@ public class CValidator extends Validator {
 		sa = 2002,
 		desc = "Check my children nodes (types and occurances)",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/15/2007"
+		date = "02/15/2007",
+		errors="BPELC__MIN_IN_PARENT,BPELC__MAX_IN_PARENT"
 	)
 	public void rule_CheckChildrenNodes_0 () {
 		checkChildren();

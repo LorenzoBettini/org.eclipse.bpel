@@ -46,4 +46,10 @@ public @interface ARule {
 	
 	/** the order in which the rule will be executed */ 
 	int order () default 0;
+
+	String errors() default "";
+
+	String warnings() default "";
+
+	String infos() default "";
 }

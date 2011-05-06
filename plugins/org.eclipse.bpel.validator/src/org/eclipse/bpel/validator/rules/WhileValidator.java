@@ -70,7 +70,8 @@ public class WhileValidator extends CActivityValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Check if a condition is present on the while activity",		
 		date = "10/2/2006",
-		sa = 1000
+		sa = 1000 ,
+		errors="BPELC_NO_EXPRESSION"
 	)
 	
 	public void rule_BasicSanityCheck_11 () {

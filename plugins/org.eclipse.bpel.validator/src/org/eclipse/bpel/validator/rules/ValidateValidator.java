@@ -12,6 +12,7 @@ package org.eclipse.bpel.validator.rules;
 
 import java.util.StringTokenizer;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
@@ -49,6 +50,13 @@ public class ValidateValidator extends CActivityValidator {
 	 * the validate activity exist in the process.
 	 */
 	
+	@ARule(
+			sa = 0,
+			desc = "Make sure that the variables defined in the validate activity are defined.",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/15/2007",
+			errors="BPELC_VALIDATE__NO_VARIABLES_SPECIFIED,BPELC_VALIDATE__NO_SUCH_VARIABLE"
+		)
 	public void rule_CheckValidateVariables_15 () {
 		
 		IProblem problem;

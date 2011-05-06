@@ -59,7 +59,8 @@ public class TargetsValidator extends CContainerValidator {
 		sa = 69,
 		desc = "<target> elements must have distinct linkNames",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/16/2007"
+		date = "02/16/2007",
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	
 	public void rule_CheckUniqueTargetName_10 () {

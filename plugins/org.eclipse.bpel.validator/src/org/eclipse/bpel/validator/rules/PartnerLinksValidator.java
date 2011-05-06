@@ -47,7 +47,8 @@ public class PartnerLinksValidator extends CContainerValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "12/7/2006",
 		desc = "Checks for duplicate partner link name",
-		sa = 18
+		sa = 18 ,
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	
 	public void rule_CheckDuplicateName_40 () {

@@ -63,7 +63,8 @@ public class PickValidator extends CActivityValidator {
 		sa = 0,
 		desc = "Checks to see if the createInstance attribute is set.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	
 	public void rule_CheckCreateInstanceSet_1 () {
@@ -90,7 +91,8 @@ public class PickValidator extends CActivityValidator {
 		sa = 0,
 		desc = "Check if at least 1 onAlarm/onMessage is present in a <pick>",
 		author="michal.chmielewski@oracle.com",
-		date="01/15/2007"
+		date="01/15/2007",
+		errors="BPELC__AT_LEAST_ONE"
 	)
 	
 	public void rule_CheckOnMessagesOnAlarms_1 () {
@@ -116,7 +118,8 @@ public class PickValidator extends CActivityValidator {
 		sa = 62,
 		desc = "When createInstance is set to yes, onAlarm must not be there.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC_PICK__ON_ALARM"
 	)
 			
 	public void rule_CheckNoAlaram_2 () {			
@@ -142,7 +145,8 @@ public class PickValidator extends CActivityValidator {
 		sa = 56,
 		desc = "Check if this pick activity is positioned correctly",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/10/2007"
+		date = "01/10/2007",
+		errors="BPELC__START_ACTIVITY"
 	)
 	
 	public void rule_CheckIfStartActivity_3 () {

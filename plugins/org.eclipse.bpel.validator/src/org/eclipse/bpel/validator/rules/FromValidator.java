@@ -137,7 +137,9 @@ public class FromValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the allowed formats of the <from> element",
 		date = "01/15/2007",			
-		sa = 32
+		sa = 32 ,
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE,BPELC_FROM__VARIANT",
+		warnings="BPELC_REF_NODE_PROBLEMS"
 	)
 	public void rule_CheckFromVariant_10 () {
 		
@@ -222,7 +224,8 @@ public class FromValidator extends CValidator {
 			+ " (part must not be set) ",
 		author = "michal.chmielewski@oracle.com",
 		date = "01/15/2007",
-		sa = 34
+		sa = 34 ,
+		errors="BPELC_FROM__VARIABLE_PART,BPELC__PA_NO_PART"
 	)
 	public void rule_CheckVariableVariant_18 () {
 		
@@ -293,7 +296,8 @@ public class FromValidator extends CValidator {
 		desc = "A partner link referenced in a <from> spec with endpoint " + 
 		       " reference of 'myRole' must have myRole set.",
 		date = "01/10/2007",
-		sa = 35
+		sa = 35 ,
+		errors="BPELC_FROM__PARTNER_LINK"
 	)
 	
 	public void rule_CheckPartnerLinkVariantMyRole_21 () {
@@ -339,7 +343,8 @@ public class FromValidator extends CValidator {
 		desc = "A partner link referenced in a <from> spec with endpoint " + 
 		       " reference of 'partnerRole' must have partnerRole set.",
 		date = "01/10/2007",
-		sa = 36
+		sa = 36 ,
+		errors="BPELC_FROM__PARTNER_LINK"
 	)
 	
 	public void rule_CheckPartnerLinkVariantPartnerRole_22 () {
@@ -383,7 +388,8 @@ public class FromValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "The literal <from> spec must return a EII or a TII only",
 		date = "01/10/2007",
-		sa = 38
+		sa = 38 ,
+		errors="BPELC_FROM__LITERAL"
 	)
 	
 	public void rule_CheckLiteralVariant_30 () {
@@ -425,7 +431,8 @@ public class FromValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		desc = "Checks the actual expression using the expression language validator.",		
 		date = "10/2/2006",
-		sa = 1000
+		sa = 1000 ,
+		warnings="BPELC__NO_EXPRESSION_VALIDATOR"
 	)	
 	public void rule_CheckExpressionVariant_50 () {
 		// not this variant.

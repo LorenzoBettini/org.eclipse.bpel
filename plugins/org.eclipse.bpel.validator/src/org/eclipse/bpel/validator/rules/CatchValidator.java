@@ -68,7 +68,8 @@ public class CatchValidator extends CatchAllValidator {
 		date = "01/10/2007",
 		author = "michal.chmielewski@oracle.com",
 		desc = "When exitOnStandardFault=yes, standard fault handlers cannot be present.",
-		sa = 3
+		sa = 3 ,
+		errors="BPELC_CATCH__STANDARD_FAULT"
 	)
 	public void rule_CheckExitStandardFaults_1 () {
 		
@@ -113,7 +114,8 @@ public class CatchValidator extends CatchAllValidator {
 		sa = 81,
 		desc = "Fault variable must have message type or element set",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/25/2007"
+		date = "01/25/2007",
+		errors="BPELC__AT_LEAST_ONE,BPELC__AT_MOST_ONE,BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE"
 	)
 		
 	public void rule_CheckFaultVariable_4 () {
@@ -205,7 +207,8 @@ public class CatchValidator extends CatchAllValidator {
 		sa = 93,
 		desc = "Check to see if a duplicate catch has been specified",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC_CATCH__EXIST"
 	)
 	public void rule_CheckDuplicateCatch_10 () {
 						

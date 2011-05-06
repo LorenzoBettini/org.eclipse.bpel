@@ -39,7 +39,8 @@ public class RethrowValidator extends CActivityValidator {
 		date = "10/5/2006",
 		author = "michal.chmielewski@oracle.com",
 		desc = "Check rethrow placement (catch or catchAll)",
-		sa = 6
+		sa = 6 ,
+		errors="BPELC_RETHROW__NOT_IN_FAULT_HANDLER"
 	)
 	
 	public void rule_CheckRethrowPlacement_10 () {

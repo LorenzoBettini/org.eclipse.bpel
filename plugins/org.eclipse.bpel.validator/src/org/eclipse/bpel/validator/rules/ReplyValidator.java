@@ -79,6 +79,14 @@ public class ReplyValidator extends CPartnerActivityValidator {
 	 * 
 	 *
 	 */
+	@ARule(
+			sa = 2003,
+			desc = "Check if outputVariable is set and exists and is defined correctly.",
+			author="michal.chmielewski@oracle.com",
+			date = "01/20/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE",
+			warnings="BPELC_REF_NODE_PROBLEMS"
+		)
 	public void rule_CheckVariable_3 () {
 		
 		fVariable = verifyVariable(fVariable, AT_VARIABLE) ;
@@ -92,6 +100,12 @@ public class ReplyValidator extends CPartnerActivityValidator {
 	 * Check if the partner role is defined on this partner link.
 	 */
 		
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			date = "9/25/2006",
+			desc = "Checks if partner role is defined in reply activity.",
+			errors = "BPELC_MISSING_ROLE"
+		)
 	public void rule_CheckIfPartnerRoleIsDefined_5 () {		
 		fPartnerRoleNode = lookupRoleNode ( fPartnerLinkNode, AT_PARTNER_ROLE );
 	}
@@ -107,7 +121,8 @@ public class ReplyValidator extends CPartnerActivityValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "9/25/2006",
 		desc = "Checks portType and derived portType values on reply activity.",
-		sa = 5
+		sa = 5 ,
+		errors="BPELC_MISMATCH_ROLE_PORT_TYPE"
 	)
 	public void rule_CheckRolePortTypeWithReceivePortType_10 ()
 	{
@@ -131,6 +146,12 @@ public class ReplyValidator extends CPartnerActivityValidator {
 	 */
 	
 	
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			date = "9/25/2006",
+			desc = "Checks if output message is defined for reply activity.",
+			errors="BPELC_PA__NO_MESSAGE,BPELC_PA__MSG_TYPE"
+		)
 	public void rule_CheckOutputMessage_12 () {		
 		fOutMessage = findMessageType (fPortTypeFromRole,fOperation,WSDL_ND_OUTPUT, true );
 		setValue("input.message.type", fOutMessage);
@@ -148,7 +169,8 @@ public class ReplyValidator extends CPartnerActivityValidator {
 		sa = 58,
 		desc = "Check message type compatability on reply",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/22/2007"
+		date = "02/22/2007",
+		errors="BPELC__PA_PARTS"
 	)
 	
 	public void rule_CheckVariableAndMessageStructureCompatibility_20 ()
@@ -193,7 +215,8 @@ public class ReplyValidator extends CPartnerActivityValidator {
 		desc = "Check to see if toPart is specified; if so then " +
 		       " variable must not be used on the reply.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__PA_PARTS"
 	)	
 	public void rule_checkToPartsPresence_50 () {
 	

@@ -54,6 +54,12 @@ public class ExtensionValidator extends CValidator {
 	 * Check must understand
 	 */
 	
+	@ARule(
+			desc = "Check mustUnderstand attribute.",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckMustUnderstand_1 () {
 		fMustUnderstand = getAttribute(mNode, AT_MUST_UNDERSTAND, KIND_NODE, Filters.BOOLEAN_FILTER	,true);
 		
@@ -66,6 +72,12 @@ public class ExtensionValidator extends CValidator {
 	 * Check to make sure namespace URI is set.
 	 */
 	
+	@ARule(
+			desc = "Check namespaceURI attribute.",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckNamespaceURI_2 () {
 		
 		fNamespaceURI = getAttribute(mNode, AT_NAMESPACE, KIND_NODE, null, true);
@@ -83,7 +95,8 @@ public class ExtensionValidator extends CValidator {
 	@ARule(
 		sa = 9,
 		desc = "Mandatory extensions must be understood",
-		date = "03/15/2007"
+		date = "03/15/2007",
+		errors="BPELC_EXTENSION__NOT_SUPPORTED"
 	)
 	public void rule_CheckMustUnderstand_20 () {
 		String key = "extension." + fNamespaceURI + "." + fMustUnderstand;

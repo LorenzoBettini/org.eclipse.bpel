@@ -72,7 +72,8 @@ public class CorrelationValidator extends CValidator {
 		sa = 0,
 		desc = "Check the NCName of the correlation",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	public void rule_CheckName_1 () {
 		fSetName = getAttribute(mNode, AT_SET, KIND_NODE, Filters.NC_NAME, true);				
@@ -85,7 +86,8 @@ public class CorrelationValidator extends CValidator {
 		sa = 1010,
 		desc = "Check the initiate attribute values",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	
 	
@@ -110,7 +112,8 @@ public class CorrelationValidator extends CValidator {
 		sa = 46,
 		desc = "Check the pattern attribute values of correlation",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/20/2007"
+		date = "02/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__SET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)	
 	
 	public void rule_CheckPatternValues_5 () {
@@ -171,7 +174,8 @@ public class CorrelationValidator extends CValidator {
 		sa = 0,
 		desc = "Check to see if the correlation is already specified",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC_CORRELATION__EXIST"
 	)
 	public void rule_CheckDuplicateCorrelation_10 () {
 		if (fSetName == null) {
@@ -195,6 +199,13 @@ public class CorrelationValidator extends CValidator {
 	 * Check the existence of the correlation set
 	 */
 	
+	@ARule(
+			sa = 0,
+			desc = "Check to see if the correlation set exists",
+			author = "michal.chmielewski@oracle.com",
+			date = "01/20/2007",
+			errors="BPELC_CORRELATION__EXIST,BPELC__UNRESOLVED_ATTRIBUTE"
+		)
 	public void rule_ExistCorrelationSet_12 () {
 		if (isEmpty(fSetName) || ND_ON_EVENT.equals(fActivityNode.nodeName() )) {
 			return ;
@@ -223,7 +234,8 @@ public class CorrelationValidator extends CValidator {
 		sa = 88,
 		desc = "Correlation set lookup, first associated scope, then ancestor scopes",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/15/2007"
+		date = "03/15/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE"
 	)
 	
 	public void rule_ExistCorrelationSet_13 () {

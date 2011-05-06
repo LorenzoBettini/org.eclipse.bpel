@@ -405,6 +405,13 @@ public class Validator implements IConstants {
 	}
 	
 	
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			desc = "Internal error: no validator.",		
+			date = "10/2/2006",
+			sa = -1,
+			warnings="BPELC__INTERNAL"
+		)	
 	protected void internalProblem ( Rule rule, Throwable t ) {
 		
 		IProblem problem = createWarning();		

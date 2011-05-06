@@ -7,6 +7,7 @@
  */
 package org.eclipse.bpel.validator.rules;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IProblem;
 
 /*
@@ -19,6 +20,13 @@ import org.eclipse.bpel.validator.model.IProblem;
 public class UnknownElementValidator extends CValidator {
 	
 	@Override
+	@ARule(
+			sa = -1,
+			desc = "Check for unknown elements",
+			author = "bbrodt@redhat.com",
+			date = "08/13/2010",
+			errors="BPELC_UNKNOWN__ELEMENT"
+		)
 	protected void start () {
 		super.start();
 		

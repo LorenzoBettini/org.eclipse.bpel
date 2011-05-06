@@ -78,7 +78,8 @@ public class OnMessageValidator extends ReceiveValidator {
 		desc = "Check to see if fromPart is specified; if so then " +
 		       " variable must not be used on onMessage.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__PA_PARTS"
 	)	
 	public void rule_checkFromPartsPresence_50 () {
 		

@@ -86,7 +86,8 @@ public class CopyValidator extends CValidator {
 		sa = 1001,
 		desc = "Check to see if keep source element is one of the allowed values",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/12/2007"
+		date = "02/12/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
 	)
 	public void rule_VerifyKeepSrcElement_5 () {
 		
@@ -115,7 +116,10 @@ public class CopyValidator extends CValidator {
 		desc = "From and to spec must have compatible types",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/16/2007",
-		tag = "pass2"
+		tag = "pass2",
+		errors="BPELC_COPY__INCOMPATIBLE",
+		warnings="BPELC_COPY__INCOMPATIBLE_SIMPLE",
+		infos = "BPELC_COPY__NOT_CHECKED"
 	)	
 	public void rule_CheckCompatibleCopy_40 () {
 		
@@ -135,7 +139,8 @@ public class CopyValidator extends CValidator {
 		desc = "Check if both from and to specs are EII; only then can keepSrcElement be set",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/16/2007",
-		tag = "pass2"
+		tag = "pass2",
+		errors="BPELC_COPY__KEEP_ELEMENT_NAME"
 	)	
 	public void rule_CheckKeepSrcElement_50 () {
 		

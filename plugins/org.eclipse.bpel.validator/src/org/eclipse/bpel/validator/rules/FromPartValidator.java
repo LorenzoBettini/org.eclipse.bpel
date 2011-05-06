@@ -80,6 +80,12 @@ public class FromPartValidator extends CValidator {
 	 * Check the toVariable on the toPart 
 	 */
 	
+	@ARule(
+			desc = "Check toVariable on the toPart.",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckVariable_1 () {
 		fPartName = getAttribute(mNode, AT_PART, KIND_NODE, Filters.NC_NAME, true);
 		fVariableName = getAttribute(mNode, AT_TO_VARIABLE, KIND_ACTIVITY, Filters.NC_NAME, true);				
@@ -94,7 +100,8 @@ public class FromPartValidator extends CValidator {
 		sa = 0,
 		desc = "Check to see if part='' toVariable='' is a duplicate entry.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC_PART__DUPLICATE"
 	)
 	
 	public void rule_CheckDuplicatePartToVariable_1 () {
@@ -126,7 +133,9 @@ public class FromPartValidator extends CValidator {
 		sa = 0,
 		desc = "Checks to see if the toVariable is defined.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE",
+		warnings="BPELC_REF_NODE_PROBLEMS"
 	)
 	
 	public void rule_CheckVariableDefined_4 () {
@@ -161,7 +170,8 @@ public class FromPartValidator extends CValidator {
 		sa = 53,
 		desc = "Check to see if the toVariable matches the type of the partName",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC_PART__DUPLICATE"
 	)
 		
 	public void rule_CheckMessagePart_5 () {

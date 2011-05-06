@@ -129,7 +129,8 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		sa = 84,
 		desc = "Partner Link resolution: associated scope first, then ancestor scopes",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/15/2007"
+		date = "03/15/2007",
+		errors = "BPELC_MISSING_ROLE"
 	)
 	@Override
 	public void rule_LookupPartnerLink_0 () {
@@ -164,7 +165,8 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		sa = 90,
 		desc = "Either messageType or element must be specified if variable variant is used",
 		date = "3/15/2007",
-		author = "michal.chmielewski@oracle.com"
+		author = "michal.chmielewski@oracle.com",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE,BPELC__AT_LEAST_ONE,BPELC__AT_MOST_ONE,BPELC__SPECIFY_NONE"
 	)
 	
 	public void rule_LookupVariable_5 () {
@@ -248,6 +250,13 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	 * Check if the partner role is defined on this partner link.
 	 */
 		
+	@ARule(
+			sa = 84,
+			author = "michal.chmielewski@oracle.com",
+			date = "9/25/2006",
+			desc = "Checks if my role is defined in onMessage activity.",
+			errors = "BPELC_MISSING_ROLE"
+		)
 	public void rule_CheckIfMyRoleIsDefined_5 () {		
 		fMyRoleNode = lookupRoleNode ( fPartnerLinkNode , AT_MY_ROLE );
 	}
@@ -260,7 +269,8 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "03/13/2007",
 		desc = "Checks portType and derived portType values on onEvent.",
-		sa = 5
+		sa = 5 ,
+		errors="BPELC_MISMATCH_ROLE_PORT_TYPE"
 	)
 	
 	public void rule_CheckRolePortTypeWithReceivePortType_10 ()	{
@@ -283,6 +293,12 @@ public class OnEventValidator extends CPartnerActivityValidator {
 	 */
 	
 
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			date = "9/25/2006",
+			desc = "Checks if input message is defined for onEvent activity.",
+			errors="BPELC_PA__NO_MESSAGE,BPELC_PA__MSG_TYPE"
+		)
 	public void rule_CheckInputMessage_12 () {		
 		fInputMessage = findMessageType (fPortTypeFromRole, fOperation,WSDL_ND_INPUT, true );
 		setValue("input.message.type", fInputMessage);
@@ -296,7 +312,8 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		sa = 87,
 		desc = "Check message type compatability on onEvent",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/15/2007"
+		date = "03/15/2007",
+		errors="BPELC_PA__MESSAGE_TYPE_MISMATCH"
 	)
 	public void rule_CheckVariableAndMessageStructureCompatibility_20 ()
 	{
@@ -334,7 +351,8 @@ public class OnEventValidator extends CPartnerActivityValidator {
 		desc = "Check to see if fromPart is specified; if so then " +
 		       " variable must not be used onEvent.",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/20/2007"
+		date = "03/20/2007",
+		errors="BPELC__PA_PARTS"
 	)
 	public void rule_checkFromPartsPresence_50 () {
 		

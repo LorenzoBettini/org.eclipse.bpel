@@ -77,7 +77,8 @@ public class VariableValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "9/14/2006",
 		desc = "Checks that variable NCName further does not contain a period (.) in the name.",
-		sa = 24
+		sa = 24,
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad,BPELC_VARIABLE__NO_DOT"
 	)	
 	public void rule_CheckName_1 () {			
 		
@@ -113,7 +114,8 @@ public class VariableValidator extends CValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "9/14/2006",
 		desc = "Variable type specification (either element, messaageType, or type).",
-		sa = 25
+		sa = 25 ,
+		errors="BPELC_VARIABLE__NO_TYPE"
 	)
 	
 	public void rule_CheckType_2 () {
@@ -173,7 +175,8 @@ public class VariableValidator extends CValidator {
 		sa = 10,
 		desc = "Make sure that Message Type is visible from the import(s)",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/25/2007"
+		date = "01/25/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE"
 	)
 	
 	public void rule_CheckMessageTypeNode_4 () {
@@ -192,7 +195,8 @@ public class VariableValidator extends CValidator {
 		sa = 10,
 		desc = "Make sure that Element is visible from the import(s)",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/25/2007"
+		date = "01/25/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE"
 	)	
 	public void rule_CheckElementNode_4 () {
 		if (fElementNode == null) {
@@ -209,7 +213,8 @@ public class VariableValidator extends CValidator {
 		sa = 10,
 		desc = "Make sure that Type is visible from the import(s)",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/25/2007"
+		date = "01/25/2007",
+		errors="BPELC__UNSET_ATTRIBUTE"
 	)	
 	public void rule_CheckTypeNode_4 () {
 		if (fTypeNode == null) {
@@ -229,7 +234,8 @@ public class VariableValidator extends CValidator {
 		sa = 0,
 		desc = "Check to see if variable hides super variables",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/25/2007"
+		date = "01/25/2007",
+		infos = "BPELC__LEXICAL_HIDE"
 	)
 	public void rule_CheckIfVariableHidesSuperVariables_15 () {
 		
@@ -279,7 +285,8 @@ public class VariableValidator extends CValidator {
 		sa = 14,
 		desc = "Mark the types/elements/messages used to be checked for duplicates",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/25/2007"
+		date = "02/25/2007",
+		errors="BPELC_XSD__CONFLICTING_DEFINITION"
 	)	
 	public void rule_RegisterTypesToCheck_50 () {
 		
@@ -301,7 +308,8 @@ public class VariableValidator extends CValidator {
 			+ " declare a variable with the same name as specified in the counterName " 
 			+ " attribute of <forEach>.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC_VARIABLE__COUNTER"
 	)
 		
 	public void rule_CheckForEachCounter_30 () {
@@ -350,7 +358,10 @@ public class VariableValidator extends CValidator {
 		desc = "From and to spec must have compatible types",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/16/2007",
-		tag = "pass2"
+		tag = "pass2",
+		errors="BPELC_COPY__INCOMPATIBLE",
+		warnings="BPELC_COPY__INCOMPATIBLE_SIMPLE",
+		infos = "BPELC_COPY__NOT_CHECKED"
 	)	
 	public void rule_CheckCompatibleCopy_40 () {
 			

@@ -68,7 +68,8 @@ public class FaultHandlersValidator extends CValidator {
 		date = "01/10/2007",
 		author = "michal.chmielewski@oracle.com",
 		desc = "At least one catch or catchAll must be present in fault handlers.",
-		sa = 80
+		sa = 80 ,
+		errors="BPELC__AT_LEAST_ONE"
 	)
 	
 	public void rule_CheckHandlerCount_1 () {

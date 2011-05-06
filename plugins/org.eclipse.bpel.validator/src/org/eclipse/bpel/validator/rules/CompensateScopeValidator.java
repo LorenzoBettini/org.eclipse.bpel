@@ -48,7 +48,8 @@ public class CompensateScopeValidator extends CActivityValidator {
 		date = "10/5/2006",
 		author = "michal.chmielewski@oracle.com",
 		desc = "Check compensateScope placement.",
-		sa = 7
+		sa = 7 ,
+		errors="BPELC_COMPENSATE__NOT_IN_HANDLER"
 	)
 	public void rule_CheckPlacement_10 () {
 		
@@ -86,7 +87,8 @@ public class CompensateScopeValidator extends CActivityValidator {
 		sa = 1004,
 		desc = "Check target scope NCName",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/27/2007"
+		date = "02/27/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)
 		
 	public void rule_CheckTargetScopeNCName_15 () {
@@ -109,7 +111,8 @@ public class CompensateScopeValidator extends CActivityValidator {
 		desc = "Make sure that the target scope exists",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/27/2007",
-		tag = "pass2"
+		tag = "pass2",
+		errors="BPELC_COMPENSATE_SCOPE__NO_TARGET"
 	)
 		
 	public void rule_CheckTargetScope_25 () {
@@ -161,7 +164,8 @@ public class CompensateScopeValidator extends CActivityValidator {
 		desc = "Target of compenateScope must have a fault or compensation handler",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/27/2007",
-		tag = "pass2"
+		tag = "pass2",
+		errors="BPELC_COMPENSATE_SCOPE__TARGET_NO_HANDLERS"
 	)
 			
 	public void rule_CheckTargetScopeHandlers_27 () {

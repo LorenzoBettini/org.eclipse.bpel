@@ -40,7 +40,8 @@ public class CompensateValidator extends CActivityValidator {
 		date = "10/5/2006",
 		author = "michal.chmielewski@oracle.com",
 		desc = "Check compensate placement",
-		sa = 8
+		sa = 8 ,
+		errors="BPELC_COMPENSATE__NOT_IN_HANDLER"
 	)
 	
 	public void rule_CheckPlacement_10 () {

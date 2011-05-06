@@ -95,7 +95,8 @@ public class PropertyAlias extends CValidator {
 		desc = "Either the type or element attributes MUST be present or messageType AND part.",
 		author = "michal.chmielewski@oracle.com",
 		date = "02/17/2007",
-		tag = "pass1" 	
+		tag = "pass1",
+		errors="BPELC_PROPERTY__UNSET"
 	)
 	
 	public void rule_CheckPropertyAliasDefinition_10 () {
@@ -159,7 +160,8 @@ public class PropertyAlias extends CValidator {
 		sa = 21,
 		desc = "Check types of property aliases",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/18/2007"
+		date = "03/18/2007",
+		errors="BPELC__UNRESOLVED_ATTRIBUTE,BPELC_MSG__PART"
 	)
 	
 	public void rule_ChceckPropertyAliasTypes_13 () {
@@ -257,7 +259,8 @@ public class PropertyAlias extends CValidator {
 		sa = 22,
 		desc = "Detect duplicate propertyAlias definitions",
 		author = "michal.chmielewski@oracle.com",
-		date = "03/20/2007"
+		date = "03/20/2007",
+		errors="BPELC__DUPLICATE"
 	)
 	
 	public void rule_CheckDuplicatePropertyAlias_25 () {

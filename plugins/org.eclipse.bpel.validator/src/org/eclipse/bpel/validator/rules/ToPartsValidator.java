@@ -54,7 +54,8 @@ public class ToPartsValidator extends CContainerValidator {
 		desc = "Check to make sure that every to part is used",
 		author = "michal.chmielewski@oracle.com",
 		date = "03/10/2007",
-		tag = "pass2"
+		tag = "pass2",
+		errors="BPELC_PART__MISSING_PART"
 	)
 	public void rule_CheckEveryPartUsed_10 () {
 		INode inputMessageType = getValue(fParentNode,"input.message.type",null);

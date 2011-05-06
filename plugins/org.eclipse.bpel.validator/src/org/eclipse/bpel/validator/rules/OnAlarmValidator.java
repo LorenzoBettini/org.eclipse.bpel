@@ -14,6 +14,7 @@ package org.eclipse.bpel.validator.rules;
 /**
  * Dependency on the BPEL Validation Model API
  */
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IFilter;
 import org.eclipse.bpel.validator.model.INode;
@@ -77,6 +78,12 @@ public class OnAlarmValidator extends CValidator {
 	 * Do a basic sanity check on the wait activity.
 	 */
 	
+	@ARule(
+			desc = "Basic sanity check of wait activity",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC_EMPTY_EXPIRATION_SETTING,BPELC_MULTIPLE_EXPIRATION_SETTING"
+		)
 	public void rule_BasicSanityCheck_5 () {
 		
 		IProblem problem;

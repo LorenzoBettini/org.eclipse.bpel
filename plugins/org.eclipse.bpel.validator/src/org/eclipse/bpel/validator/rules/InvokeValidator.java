@@ -108,7 +108,9 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		sa = 2003,
 		desc = "Check if inputVariable is set and exists and is defined correctly.",
 		author="michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE",
+		warnings="BPELC_REF_NODE_PROBLEMS"
 	)
 	public void rule_CheckInputVariable_3 () {
 		fInputVariableNode = verifyVariable(fInputVariableNode, AT_INPUT_VARIABLE);
@@ -122,7 +124,9 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		sa = 2004,
 		desc = "Check if outputVariable is set and exists and is defined correctly.",
 		author="michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE",
+		warnings="BPELC_REF_NODE_PROBLEMS"
 	)
 
 	public void rule_CheckOutputVariable_3 () {
@@ -140,7 +144,8 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		desc = "Check to see if toPart is specified; if so then " +
 		       " inputVariable must not be used on the reply.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__PA_PARTS"
 	)	
 	public void rule_checkToPartsPresence_10 () {
 			
@@ -171,7 +176,8 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		desc = "Check to see if fromPart is specified; if so then " +
 		       " outputVariable must not be used on invoke.",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__PA_PARTS"
 	)
 	
 	public void rule_checkFromPartsPresence_11 () {			
@@ -199,6 +205,13 @@ public class InvokeValidator extends CPartnerActivityValidator {
 	 * Check if the partner role is defined on this partner link.
 	 */
 		
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			date = "9/25/2006",
+			desc = "Checks if partner role is defined in invoke activity.",
+			errors = "BPELC_MISSING_ROLE"
+		)
+		
 	public void rule_CheckIfPartnerRoleIsDefined_5 () {		
 		fPartnerRoleNode = lookupRoleNode ( fPartnerLinkNode, AT_PARTNER_ROLE );
 	}
@@ -214,7 +227,8 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "9/25/2006",
 		desc = "Checks portType and derived portType values on invoke activity.",
-		sa = 5
+		sa = 5 ,
+		errors="BPELC_MISMATCH_ROLE_PORT_TYPE"
 	)
 	public void rule_CheckRolePortTypeWithInvokePortType_10 ()
 	{
@@ -239,7 +253,12 @@ public class InvokeValidator extends CPartnerActivityValidator {
 	 * sure that input message is defined in the WSDL.
 	 * 
 	 */
-
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			date = "9/25/2006",
+			desc = "Checks if input and output messages are defined for invoke activity.",
+			errors="BPELC_PA__NO_MESSAGE,BPELC_PA__MSG_TYPE"
+		)
 	public void rule_CheckInputOutputMessages_12 () {
 		
 		fInputMessageType = findMessageType (fPortTypeFromRoleNode,fOperation,WSDL_ND_INPUT,true );
@@ -271,7 +290,8 @@ public class InvokeValidator extends CPartnerActivityValidator {
 			  + " 2-way invocation requires outputVariable (or fromPart)",
 			  
 		author = "michal.chmielewski@oracle.com",
-		date = "02/22/2007"
+		date = "02/22/2007",
+		errors="BPELC_PA__OMIT,BPELC__UNSET_ATTRIBUTE,"
 	)	
 	
 	public void rule_CheckTwoWayInvocation_25 () {
@@ -360,7 +380,8 @@ public class InvokeValidator extends CPartnerActivityValidator {
 		sa = 48,
 		desc = "Check message type compatability on invoke",
 		author = "michal.chmielewski@oracle.com",
-		date = "02/22/2007"
+		date = "02/22/2007",
+		errors="BPELC_PA__MESSAGE_TYPE_MISMATCH"
 	)
 	public void rule_CheckVariableAndMessageStructureCompatibility_40 ()
 	{

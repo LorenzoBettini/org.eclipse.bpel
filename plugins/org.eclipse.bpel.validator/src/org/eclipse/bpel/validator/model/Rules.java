@@ -26,12 +26,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.namespace.QName;
+
+import org.eclipse.bpel.validator.rules.CValidator;
 
 
 /**
@@ -134,7 +137,8 @@ public class Rules  {
 	 */
 	
 	static public boolean isRule ( Method m ) {
-		return (m.getName().startsWith(RULE_NAME_PREFIX) ||	m.getAnnotation(ARule.class) != null);
+		ARule a = m.getAnnotation(ARule.class);
+		return (m.getName().startsWith(RULE_NAME_PREFIX) || (a != null && a.sa() >= 0));
 	}	
 	
 	
@@ -374,7 +378,8 @@ public class Rules  {
 		
 		// 
 		Field fields[] = IConstants.class.getFields();
-		
+		java.text.DecimalFormat saNumberFormat = new java.text.DecimalFormat("00000");
+
 		File outputFile = null;
 		File cssFile = null;
 		
@@ -517,7 +522,7 @@ public class Rules  {
 			int cnt = 0;
 			List<Rule> rlist = new ArrayList<Rule>( rules.mRules );
 			Collections.sort(rlist,SORTER);
-			
+
 			for(Rule r : rlist) {
 				cnt += 1;
 				
@@ -535,7 +540,10 @@ public class Rules  {
 					p(" <td>{0}</td>",a.tag());
 					p(" <td>{0}<br/><span class='author'>Author: {1}</span></td>", a.desc(), a.author() );					
 					p(" <td>{0}</td>", a.date());
-					p(" <td>{0}</td>", a.sa());					
+					if (((Integer)a.sa()).equals(Integer.valueOf(0)))
+						p(" <td>N/A</td>");
+					else
+						p(" <td><a href=\"http://docs.oasis-open.org/wsbpel/2.0/OS/wsbpel-v2.0-OS.html#SA{0}_table\">{0}</a></td>", saNumberFormat.format(a.sa()));
 					annotationHash.put(a,r);
 				} else {
 					p(" <td>{0}</td>",Validator.PASS1);
@@ -629,9 +637,114 @@ public class Rules  {
 				 100.0 * (totalSA - missingSA) /  totalSA );		
 		p(" <tr><th>% TODO:</th><td>{0,number,0.00}</td></tr>", 100.0 * (missingSA) / totalSA);
 		p("</table>");		
+	
 		
+		
+		
+		///////////////////////////////////////////////////////
+		// print error, warning and info messages and which SA checks they report against.
+		
+		
+		ArrayList<Integer> saList;
+		Hashtable<String,ArrayList<Integer>> errorList = new Hashtable<String,ArrayList<Integer>>();
+		Hashtable<String,ArrayList<Integer>> warningList = new Hashtable<String,ArrayList<Integer>>();
+		Hashtable<String,ArrayList<Integer>> infoList = new Hashtable<String,ArrayList<Integer>>();
+		
+		for(ARule a : annotationHash.keySet()) {
+
+			buildMsgList(a,a.errors(),errorList);
+			buildMsgList(a,a.warnings(),warningList);
+			buildMsgList(a,a.infos(),infoList);
+		}
+		
+		printMsgList("Error",errorList);
+		printMsgList("Warning",warningList);
+		printMsgList("Information",infoList);
 	}
 	
+	static Hashtable<String,ArrayList<Integer>> buildMsgList(ARule a, String msgs, Hashtable<String,ArrayList<Integer>> msgList) {
+
+		ArrayList<Integer> saList;
+		String[] msgArray = msgs.split(",");
+		
+		for (String msg : msgArray) {
+			if (msg.equals(""))
+				continue;
+			saList = null;
+			try {
+				saList = msgList.get(msg);
+			} catch (Exception e){}
+			if (saList==null) {
+				saList = new ArrayList<Integer>();
+				saList.add(a.sa());
+				msgList.put(msg, saList);
+			}
+			else {
+				saList.add(a.sa());
+			}
+		}
+		return msgList;
+	}
+	
+	static void printMsgList(String type, Hashtable<String,ArrayList<Integer>> msgList) {
+		
+		Problem pRules = new Problem(new org.eclipse.bpel.validator.rules.CValidator());
+		Problem pModel = new Problem(new org.eclipse.bpel.validator.model.Validator());
+		Problem pUnsupported = new Problem(new org.eclipse.bpel.validator.unsupported.Process());
+		Problem pVprop = new Problem(new org.eclipse.bpel.validator.vprop.Property());
+		Problem pWsdl = new Problem(new org.eclipse.bpel.validator.wsdl.Definitions());
+		Problem pXPath0 = new Problem(new org.eclipse.bpel.validator.xpath0.XPathValidator());
+		
+		p("<h2>{0} messages being reported against SA checks</h2>", type);		
+		
+		p("<table class='av2'>");
+		p("<tr>");
+		p("<th class='w5'>Message Text</th>");
+		p("<th class='w1'>SA</th>");
+		p("</tr>");
+
+		for (Map.Entry<String,ArrayList<Integer>> e : msgList.entrySet()) { 
+			p("<tr>");
+			String key = e.getKey();
+			String msg = pRules.getMessage(key, null);
+			// if not a BPEL rules validation message, try other packages
+			if (msg==null)
+				msg = pModel.getMessage(key, null);
+			if (msg==null)
+				msg = pUnsupported.getMessage(key, null);
+			if (msg==null)
+				msg = pVprop.getMessage(key, null);
+			if (msg==null)
+				msg = pWsdl.getMessage(key, null);
+			if (msg==null)
+				msg = pXPath0.getMessage(key, null);
+			// fallback is to print the key
+			if (msg==null)
+				msg = key;
+			
+			p(" <td>{0}</td>", msg);
+			p(" <td>");
+			
+			ArrayList<Integer> values = e.getValue();
+			for (int i=0; i<values.size(); ++i) {
+				printSAlink(values.get(i));
+				if (i!=values.size()-1) {
+					p("<br/>");
+				}
+			}
+			p(" </td>");
+			p("</tr>");
+		}
+		
+		p("</table>");
+
+	}
+	
+	static void printSAlink(Integer sa) {
+		java.text.DecimalFormat saNumberFormat = new java.text.DecimalFormat("00000");
+		p("<a href=\"http://docs.oasis-open.org/wsbpel/2.0/OS/wsbpel-v2.0-OS.html#SA{0}_table\">{0}</a>", saNumberFormat.format(sa));
+	
+	}
 	
 	static void p (String msg, Object ... args ) {
 		

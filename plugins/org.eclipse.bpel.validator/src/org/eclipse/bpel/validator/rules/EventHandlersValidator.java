@@ -59,7 +59,8 @@ public class EventHandlersValidator extends CValidator {
 		date = "01/10/2007",
 		author = "michal.chmielewski@oracle.com",
 		desc = "At least one onAlarm or onEvent must be present in event handlers.",
-		sa = 83
+		sa = 83 ,
+		errors="BPELC__AT_LEAST_ONE"
 	)
 	
 	public void rule_CheckHandlerCount_1 () {

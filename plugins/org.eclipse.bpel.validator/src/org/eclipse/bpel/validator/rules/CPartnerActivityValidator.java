@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.Filters;
 import org.eclipse.bpel.validator.model.IModelQueryLookups;
 import org.eclipse.bpel.validator.model.INode;
@@ -92,6 +93,13 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 *
 	 */
 	
+	@ARule(
+			sa = 88,
+			desc = "Correlation set lookup, first associated scope, then ancestor scopes",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE"
+		)
 	public void rule_CheckOperationSet_0 () {		
 		fOperation = getAttribute(mNode, AT_OPERATION, KIND_ACTIVITY, 
 				Filters.NC_NAME, true);
@@ -103,6 +111,13 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 *
 	 */
 	
+	@ARule(
+			desc = "Check if partner link exists",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE",
+			warnings="BPELC_REF_NODE_PROBLEMS"
+		)
 	public void rule_CheckPartnerLink_2 () {
 		
 		if (checkAttributeNode(mNode, fPartnerLinkNode, AT_PARTNER_LINK, KIND_ACTIVITY ) == false) {
@@ -127,6 +142,13 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 * specified by the activity.
 	 *
 	 */
+	@ARule(
+			desc = "Check if port type exists",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE",
+			warnings="BPELC_REF_NODE_PROBLEMS"
+		)
 	public void rule_CheckPortType_3 () {
 	
 		// Port Type
@@ -153,6 +175,12 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 *
 	 */
 	
+	@ARule(
+			desc = "Check partner link type",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/27/2007",
+			warnings="BPELC_REF_NODE_PROBLEMS"
+		)
 	public void rule_CheckPartnerLinkType_4 () {
 				
 		if (isUndefined(fPartnerLinkNode)) {
@@ -188,6 +216,13 @@ public class CPartnerActivityValidator extends CActivityValidator {
 	 */
 	
 	
+	@ARule(
+			desc = "Check variable exists",
+			author = "michal.chmielewski@oracle.com",
+			date = "03/15/2007",
+			errors="BPELC__UNSET_ATTRIBUTE,BPELC__UNRESOLVED_ATTRIBUTE,BPELC__INVALID_ATTRIBUTE_VALUE",
+			warnings="BPELC_REF_NODE_PROBLEMS"
+		)
 	protected INode verifyVariable ( INode varNode, QName atName) {
 
 		// variable is optional, if not specified the there better be fromParts		

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.validator.rules;
 
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IProblem;
 import org.eclipse.bpel.validator.model.Validator;
 
@@ -28,6 +29,12 @@ public class ValidatorNotFound extends Validator {
 	 *
 	 */
 	
+	@ARule(
+			author = "michal.chmielewski@oracle.com",
+			desc = "Internal error: no validator defined for this element.",
+			date = "01/10/2007",
+			warnings="BPELC__VALIDATOR_NOT_FOUND"
+		)
 	public void rule_NoValidatorDefined_1 () {
 		IProblem problem = createInfo();
 		problem.fill( "BPELC__VALIDATOR_NOT_FOUND",  toString(mNode.nodeName()));

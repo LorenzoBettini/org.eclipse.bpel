@@ -108,6 +108,12 @@ public class XPathValidator extends Validator {
 	 * Do a quick sanity check.
 	 */
 
+	@ARule(
+			desc = "XPath sanity check",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/16/2007",
+			errors="XPATH_EMPTY_EXPRESSION"
+		)
 	public void rule_SanityCheck_1() {
 		IProblem problem;
 
@@ -125,6 +131,12 @@ public class XPathValidator extends Validator {
 	 * 
 	 */
 
+	@ARule(
+			desc = "XPath syntax check",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/16/2007",
+			errors="XPATH_EXPRESSION_SYNTAX"
+		)
 	public void rule_CheckExpressionSyntax_2() {
 
 		if (exprString == null) {
@@ -249,7 +261,18 @@ public class XPathValidator extends Validator {
 	 * Perform static analysis of this XPath expression.
 	 * 
 	 */
-	@ARule(sa = 0, desc = "Create the static analysis visitor for expression analysis", author = "michal.chmielewski@oracle.com", date = "01/30/2007")
+	@ARule(
+			sa = 0,
+			desc = "Create the static analysis visitor for expression analysis",
+			author = "michal.chmielewski@oracle.com",
+			date = "01/30/2007",
+			errors="XPATH_EXPRESSION_SYNTAX,XPATH_EXPRESSION_TYPE,XPATH_FN_ARGS,"+
+				"XPATH_FN_LITERAL_ARGS,XPATH_UNDEF_VARIABLE,XPATH_UNRESOLVED_NAMESPACE_PREFIX"+
+				"XPATH_INVALID_VARREF_PREFIX,XPATH_VARIABLE_PART,XPATH_UNDEF_VARIABLE_PART"+
+				"XPATH_FUNCTION_MIN_ARGS,XPATH_FUNCTION_MAX_ARGS,XPATH_EMPTY_EXPRESSION",
+			warnings="XPATH_URI_SYNTAX,XPATH_FUNCTION_UNKNOWN,XPATH_FUNCTION_DEPRECATED,XPATH_EXPRESSION_TYPE"
+			
+		)
 	public void rule_StaticXPathExpressionAnalysis_10() {
 
 		// mVisitor = new XPathVisitor(this);

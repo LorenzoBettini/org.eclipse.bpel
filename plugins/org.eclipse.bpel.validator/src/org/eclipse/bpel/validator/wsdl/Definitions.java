@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.bpel.validator.IBPELMarker;
 import org.eclipse.bpel.validator.ModelQuery;
+import org.eclipse.bpel.validator.model.ARule;
 import org.eclipse.bpel.validator.model.IModelQuery;
 import org.eclipse.bpel.validator.model.INode;
 import org.eclipse.bpel.validator.model.IProblem;
@@ -54,6 +55,13 @@ public class Definitions extends Validator {
 	// https://jira.jboss.org/browse/JBIDE-7116
 	// Added <import> location checking: missing XSD imports are not reported by WSDL validator!
 	@Override
+	@ARule(
+			sa = -1,
+			desc = "Check WSDL definition",
+			author = "michal.chmielewski@oracle.com",
+			date = "02/15/2007",
+			errors="BPELC_IMPORT__UNRESOVED"
+		)
 	protected void start() {
 		super.start();
 		

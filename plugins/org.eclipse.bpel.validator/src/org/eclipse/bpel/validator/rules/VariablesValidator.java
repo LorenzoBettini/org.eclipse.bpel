@@ -51,7 +51,8 @@ public class VariablesValidator extends CContainerValidator {
 		author = "michal.chmielewski@oracle.com",
 		date = "12/7/2006",
 		desc = "Checks for duplicate variable name",
-		sa = 23
+		sa = 23 ,
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	
 	public void rule_CheckDuplicateVariableName_40 () {

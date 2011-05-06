@@ -63,7 +63,8 @@ public class CorrelationSetValidator extends CValidator {
 		sa = 0,
 		desc = "Check the NCName of the correlationSet",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC__UNSET_ATTRIBUTE,General.NCName_Bad"
 	)
 	public void rule_CheckName_1 () {					
 		// Must be a valid NCName ...
@@ -80,7 +81,8 @@ public class CorrelationSetValidator extends CValidator {
 		sa = 44,
 		desc = "Check to see if the correlationSet is already specified",
 		author = "michal.chmielewski@oracle.com",
-		date = "01/20/2007"
+		date = "01/20/2007",
+		errors="BPELC_DUPLICATE_NAME"
 	)
 	public void rule_CheckDuplicateCorrelationSet_2 () {
 		if (ncName == null) {
@@ -107,6 +109,12 @@ public class CorrelationSetValidator extends CValidator {
 	/**
 	 * Check to make sure that properties are set.
 	 */
+	@ARule(
+			desc = "Check if property attribute is set",
+			author = "michal.chmielewski@oracle.com",
+			date = "01/20/2007",
+			errors="BPELC__UNSET_ATTRIBUTE"
+		)
 	public void rule_CheckPropertiesAttribute_10 () {
 		
 		IProblem problem;
@@ -133,7 +141,8 @@ public class CorrelationSetValidator extends CValidator {
 			  + " XML Schema simple types.",
 			  
 		author = "michal.chmielewski@oracle.com",
-		date = "03/01/2007"
+		date = "03/01/2007",
+		errors="BPELC__UNRESOLVED_ATTRIBUTE,BPELC_XSD__NOT_SIMPLE_TYPE"
 	)
 	
 	public void rule_CheckProperties_15 () {
