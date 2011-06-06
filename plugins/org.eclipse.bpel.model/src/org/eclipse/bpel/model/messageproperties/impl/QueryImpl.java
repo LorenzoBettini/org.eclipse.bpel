@@ -10,11 +10,12 @@
  *     IBM Corporation - initial API and implementation
  * </copyright>
  *
- * $Id: QueryImpl.java,v 1.8 2011/03/30 18:56:31 rbrodt Exp $
+ * $Id: QueryImpl.java,v 1.9 2011/06/06 16:53:25 rbrodt Exp $
  */
 package org.eclipse.bpel.model.messageproperties.impl;
 
 //Bugzilla 340654 - renamed to avoid confusion with WSDL's ExtensibilityElement
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.model.impl.BPELExtensibilityElementImpl;
 import java.util.Collection;
 
@@ -44,6 +45,7 @@ import org.w3c.dom.Text;
  * 
  * @see https://jira.jboss.org/browse/JBIDE-7107
  * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330813
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=348434
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -55,7 +57,7 @@ import org.w3c.dom.Text;
  *
  * @customized
  */
-public class QueryImpl extends BPELExtensibilityElementImpl implements Query {
+public class QueryImpl extends BPELExtensibilityElementImpl implements Query, Expression {
 	/**
 	 * The default value of the '{@link #getQueryLanguage() <em>Query Language</em>}' attribute.
 	 * <!-- begin-user-doc -->
