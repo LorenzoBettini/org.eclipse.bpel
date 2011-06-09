@@ -220,7 +220,7 @@ public class SampleStructuredActivityPropertySection extends BPELPropertySection
 	public void updateVariableName() {
 		if (getActivity() != null ) {
 			Variable variable = getActivity().getVariable();
-			variableName.setText(variable==null ? "" : variable.getName());
+			variableName.setText(variable==null || variable.getName()==null ? "" : variable.getName());
 		}
 	}
 	
