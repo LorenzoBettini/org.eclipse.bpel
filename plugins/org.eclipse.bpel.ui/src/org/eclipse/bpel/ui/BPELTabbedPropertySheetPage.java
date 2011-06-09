@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.eclipse.bpel.model.BPELExtensibleElement;
+import org.eclipse.bpel.model.Expression;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.ITextSelection;
@@ -115,10 +118,55 @@ public class BPELTabbedPropertySheetPage extends TabbedPropertySheetPage {
 				if (o instanceof EditPart) {
 					o = ((EditPart)o).getModel();
 				}
+				if (editor.getMultipageEditor().getActiveEditor() == editor.getMultipageEditor().getTextEditor()) {
+					// the selection came from the Source view of this multipage editor so we have to
+					// be careful here: if a selection does not have a corresponding property sheet page
+					// (e.g. a <copy>, <from>. <to>, etc.) then traverse the selection's ancestors to find
+					// an element which DOES have a property sheet page associated with it. 
+					while (o!=null && o instanceof EObject && !hasPropertySheetPage(o)) {
+						o = ((EObject)o).eContainer();
+					}
+				}
 				newSet.add(o);
 			}
 		}
 		return new StructuredSelection(newSet.toArray(new Object[newSet.size()]));
+	}
+	
+	private boolean hasPropertySheetPage(Object o) {
+		return
+			o instanceof org.eclipse.bpel.model.Activity ||
+			o instanceof org.eclipse.bpel.model.Assign ||
+			o instanceof org.eclipse.bpel.model.Catch ||
+			o instanceof org.eclipse.bpel.model.CatchAll ||
+			o instanceof org.eclipse.bpel.model.CompensateScope ||
+			o instanceof org.eclipse.bpel.model.CorrelationSet ||
+			o instanceof org.eclipse.bpel.model.Else ||
+			o instanceof org.eclipse.bpel.model.ElseIf ||
+			o instanceof org.eclipse.bpel.model.Empty ||
+			o instanceof org.eclipse.bpel.model.ForEach ||
+			o instanceof org.eclipse.bpel.model.If ||
+			o instanceof org.eclipse.bpel.model.Invoke ||
+			o instanceof org.eclipse.bpel.model.Link ||
+			o instanceof org.eclipse.bpel.model.MessageExchange ||
+			o instanceof org.eclipse.bpel.model.MessageExchanges ||
+			o instanceof org.eclipse.bpel.model.OnAlarm ||
+			o instanceof org.eclipse.bpel.model.OnEvent ||
+			o instanceof org.eclipse.bpel.model.OnMessage ||
+			o instanceof org.eclipse.bpel.model.PartnerLink ||
+			o instanceof org.eclipse.bpel.model.PartnerLinks ||
+			o instanceof org.eclipse.bpel.model.Pick ||
+			o instanceof org.eclipse.bpel.model.Process ||
+			o instanceof org.eclipse.bpel.model.Receive ||
+			o instanceof org.eclipse.bpel.model.RepeatUntil ||
+			o instanceof org.eclipse.bpel.model.Reply ||
+			o instanceof org.eclipse.bpel.model.Scope ||
+			o instanceof org.eclipse.bpel.model.Throw ||
+			o instanceof org.eclipse.bpel.model.Validate ||
+			o instanceof org.eclipse.bpel.model.Variable ||
+			o instanceof org.eclipse.bpel.model.Variables ||
+			o instanceof org.eclipse.bpel.model.Wait ||
+			o instanceof org.eclipse.bpel.model.While;
 	}
 	
 	protected TabbedPropertyRegistry getRegistry() {
