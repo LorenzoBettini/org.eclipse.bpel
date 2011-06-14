@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BPELExtensibleElementImpl.java,v 1.3 2011/04/21 15:51:45 rbrodt Exp $
+ * $Id: BPELExtensibleElementImpl.java,v 1.4 2011/06/14 16:41:24 rbrodt Exp $
  */
 package org.eclipse.bpel.model.impl;
 
@@ -92,7 +92,7 @@ public class BPELExtensibleElementImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public NotificationChain basicSetDocumentation(
 			Documentation newDocumentation, NotificationChain msgs) {
@@ -156,7 +156,7 @@ public class BPELExtensibleElementImpl extends ExtensibleElementImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public NotificationChain basicUnsetDocumentation(NotificationChain msgs) {
 		Documentation oldDocumentation = documentation;
@@ -293,6 +293,7 @@ public class BPELExtensibleElementImpl extends ExtensibleElementImpl implements
 	 * object.
 	 * 
 	 * @see org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl#setElement(org.w3c.dom.Element)
+	 * @generated NOT
 	 */
 
 	@Override
@@ -308,6 +309,7 @@ public class BPELExtensibleElementImpl extends ExtensibleElementImpl implements
 
 	/**
 	 * @see org.eclipse.wst.wsdl.internal.impl.WSDLElementImpl#getElement()
+	 * @generated NOT
 	 */
 
 	@Override
