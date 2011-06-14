@@ -272,6 +272,11 @@ litigation.
       <import plugin="org.eclipse.emf.compare.match"/>
       <import plugin="org.eclipse.emf.compare.diff" version="0.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.ui"/>
+      <import feature="org.eclipse.jst.common.fproj.enablement.jdt" version="3.2.2" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.common.fproj" version="3.2.3" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.jsdt.feature" version="1.2.3" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.web_ui.feature" version="3.2.3" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.xml_ui.feature" version="3.2.3" match="greaterOrEqual"/>
    </requires>
 
    <!-- plugins in the plugins/pom.xml should match those listed here -->
