@@ -17,13 +17,11 @@ import java.util.Map;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Templates.Template;
-import org.eclipse.core.internal.resources.Folder;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -33,11 +31,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
-import org.eclipse.wst.common.componentcore.ComponentCore;
-import org.eclipse.wst.common.componentcore.ModuleCoreNature;
-import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 
 /**
  * Wizard for the new process template.
@@ -214,12 +208,10 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	 */
 
 	IContainer getBPELContainer(Object obj) {
-
-		IContainer bpelContent = null;
-		
 		if (obj == null) {
 			return null;
 		}
+		IContainer bpelContainer = null;
 		IProject project = null;
 		if (obj instanceof IFile) {
 			IFile file = (IFile) obj;
@@ -229,39 +221,17 @@ public class NewFileWizard extends Wizard implements INewWizard {
 			IContainer container = (IContainer) obj;
 			project = container.getProject();
 		}
-		if (project != null) {
-			// https://issues.jboss.org/browse/JBIDE-8591
-			// if not a faceted project, still allow resources to be created
-			IPath rootPath = getWebContentRootPath(project);
-			if (rootPath!=null && !rootPath.isEmpty()) {
-				bpelContent = project.getFolder(rootPath);
-			}
-		}
-		if (bpelContent == null) {
+		bpelContainer = BPELUtil.getBPELContentFolder(project);
+		if (bpelContainer == null) {
 			// https://issues.jboss.org/browse/JBIDE-8591
 			// use folder or project
 			if (obj instanceof IContainer)
-				bpelContent = (IContainer)obj;
+				bpelContainer = (IContainer)obj;
 			else
-				bpelContent = project;
+				bpelContainer = project;
 		}
-		return bpelContent;
+		return bpelContainer;
 	}
-
-		static IPath getWebContentRootPath(IProject project) {
-				if (project == null)
-					return null;
-		
-				if (!ModuleCoreNature.isFlexibleProject(project))
-					return null;
-		
-				IPath path = null;
-				IVirtualComponent component = ComponentCore.createComponent(project);
-				if (component != null && component.exists()) {
-					path = component.getRootFolder().getProjectRelativePath();
-				}
-				return path;
-			}
 	
 	// https://issues.jboss.org/browse/JBIDE-8591
 	// added to allow first and last page access to resource container

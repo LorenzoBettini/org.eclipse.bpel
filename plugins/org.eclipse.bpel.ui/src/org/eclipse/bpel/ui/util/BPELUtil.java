@@ -87,9 +87,9 @@ import org.eclipse.bpel.validator.EmfModelQuery;
 import org.eclipse.bpel.wsil.model.inspection.InspectionPackage;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -151,6 +151,13 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.ModuleCoreNature;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Fault;
 import org.eclipse.wst.wsdl.Input;
@@ -1806,5 +1813,52 @@ public class BPELUtil {
 			}
 		}
 		return allElems;
+	}
+	
+	
+	public static boolean isBPELProject(IProject project){
+		if (project == null) {
+			return false;
+		}
+		if (ModuleCoreNature.isFlexibleProject(project)) {
+			IFacetedProject fproj = null;
+			try {
+			    fproj = ProjectFacetsManager.create(project);
+			} catch (CoreException e) {
+				return false;
+			}
+			if (fproj.hasProjectFacet(getBPELFacetVersion())) { 
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	public static IProjectFacetVersion getBPELFacetVersion() {
+		IProjectFacet bpelFacet = ProjectFacetsManager.getProjectFacet("bpel.facet.core");
+		IProjectFacetVersion bpelFacetVersion = bpelFacet.getVersion("2.0");
+		return bpelFacetVersion;
+	}
+	
+	
+	public static org.eclipse.core.resources.IContainer getBPELContentFolder(IProject project) {		
+		org.eclipse.core.resources.IContainer bpelContent = null;
+		if (BPELUtil.isBPELProject(project)) {
+			IPath rootPath = getWebContentRootPath(project);
+			if (rootPath != null && !rootPath.isEmpty()) {
+				bpelContent = project.getFolder(rootPath);
+			}
+		}
+		return bpelContent;
 	}	
+
+	public static IPath getWebContentRootPath(IProject project) {
+		IPath path = null;
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		if (component != null && component.exists()) {
+			path = component.getRootFolder().getProjectRelativePath();
+		}
+		return path;
+	}
 }

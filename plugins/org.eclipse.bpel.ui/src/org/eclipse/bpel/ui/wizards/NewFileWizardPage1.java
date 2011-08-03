@@ -23,6 +23,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Templates;
 import org.eclipse.bpel.ui.Templates.Template;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -44,7 +45,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
-import org.eclipse.wst.common.componentcore.ModuleCoreNature;
 
 /**
  * 
@@ -370,8 +370,8 @@ public class NewFileWizardPage1 extends WizardPage {
 		// https://issues.jboss.org/browse/JBIDE-8738
 		IContainer container = wiz.getBPELContainer(); 
 		if (container!=null) {
-			if (!ModuleCoreNature.isFlexibleProject(container.getProject()))
-				setMessage(Messages.NewFileWizard_Not_A_Faceted_Project, WizardPage.WARNING);
+			if (!BPELUtil.isBPELProject(container.getProject()))
+				setMessage(Messages.NewFileWizard_Not_A_BPELFaceted_Project, WizardPage.WARNING);
 			
 			if (container.findMember(processNameField.getText()+".bpel")!=null ) //$NON-NLS-1$
 				setMessage(Messages.NewFileWizardPage1_12,WARNING);
