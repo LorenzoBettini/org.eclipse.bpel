@@ -272,12 +272,12 @@ litigation.
       <import plugin="org.eclipse.emf.compare.match"/>
       <import plugin="org.eclipse.emf.compare.diff" version="0.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.ui"/>
-      
+      <!-- figure out what to do with this stuff...
       <import plugin="org.jboss.ide.eclipse.as.wtp.core"/>
       <import plugin="org.jboss.ide.eclipse.as.core"/>
       <import plugin="org.jboss.ide.eclipse.archives.webtools"/>
       <import plugin="org.jboss.tools.jmx.core"/>
-      
+      meantime, I'll just pull the o.e.b.jboss.riftsaw.runtime plugin :( -->
       <import feature="org.eclipse.jst.common.fproj.enablement.jdt"/>
       <import feature="org.eclipse.wst.common.fproj"/>
       <import feature="org.eclipse.wst.jsdt.feature"/>
@@ -298,6 +298,8 @@ litigation.
    <plugin id="org.eclipse.bpel.validator" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
    <plugin id="org.eclipse.bpel.wsil.model" download-size="0" install-size="0" version="0.0.0" unpack="false"/> 
    <plugin id="org.eclipse.bpel.xpath10" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+<!--
    <plugin id="org.eclipse.bpel.jboss.riftsaw.runtime" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+-->
    <!-- <plugin id="org.eclipse.bpel.compare.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/> -->
 </feature>
