@@ -213,7 +213,7 @@ litigation.
    </license>
 
 	<url>
-		<update label="Eclipse BPEL Designer" url="http://download.eclipse.org/technology/bpel/update-site/" />
+		<update label="Eclipse BPEL Designer" url="http://download.eclipse.org/bpel/update-site/" />
 	</url>
 	<!-- plugins in the plugins/pom.xml should match those listed here -->
 	<plugin download-size="0" install-size="0" version="0.0.0" unpack="false" id="org.eclipse.bpel.apache.ode.deploy.model.source" />

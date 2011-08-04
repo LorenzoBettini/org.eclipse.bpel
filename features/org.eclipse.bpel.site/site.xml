@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site
-      mirrorsURL="http://www.eclipse.org/downloads/download.php?file=/technology/bpel/update-site/&amp;format=xml">
-   <description url="http://download.eclipse.org/technology/bpel/update-site/">
+      mirrorsURL="http://www.eclipse.org/downloads/download.php?file=/bpel/update-site/&amp;format=xml">
+   <description url="http://download.eclipse.org/bpel/update-site/">
       BPEL Designer for Eclipse
    </description>
    <feature url="features/org.eclipse.bpel.feature_0.5.0.jar" id="org.eclipse.bpel.feature" version="0.5.0">

@@ -78,7 +78,7 @@ public class BPELCoreFacetInstallDelegate implements IDelegate {
 
         // Add the resource mapping to bpelContent
         newComponent.getRootFolder().createLink(new Path("/" + contentRoot), 0, null);
-
+		progMon.worked(100);
 		// Add builder
 		addBuilder(proj, new SubProgressMonitor(progMon, 100));
 		progMon.done();

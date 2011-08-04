@@ -2,7 +2,7 @@
 
 ################# BEGIN CONFIGURATION #################
 
-DESTINATION=/home/data/httpd/download.eclipse.org/technology/bpel
+DESTINATION=/home/data/httpd/download.eclipse.org/bpel
 JOB_NAME=bpel-0.5
 JOBDIR=/shared/jobs/${JOB_NAME}
 WORKSPACE=${JOBDIR}/workspace/

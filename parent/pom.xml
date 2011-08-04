@@ -422,6 +422,17 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
+		<repository>
+			<id>jbosstools-requirements-composite-mirror</id>
+			<url>http://download.jboss.org/jbosstools/updates/stable/helios/</url>
+			<layout>p2</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
