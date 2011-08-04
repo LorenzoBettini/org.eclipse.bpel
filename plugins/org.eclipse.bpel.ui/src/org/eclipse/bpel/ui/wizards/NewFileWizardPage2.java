@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.wizards;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.filedialog.FileSelectionGroup;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -22,7 +23,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.wst.common.componentcore.ModuleCoreNature;
 
 /**
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
@@ -86,15 +86,22 @@ public class NewFileWizardPage2 extends WizardPage {
 		if (resource instanceof IContainer) {
 			IContainer container = (IContainer)resource;
 			// https://issues.jboss.org/browse/JBIDE-8591
-			if (!ModuleCoreNature.isFlexibleProject(resource.getProject())) {
-				setMessage(Messages.NewFileWizard_Not_A_Faceted_Project, WizardPage.WARNING);
-				return false;
-			}
 			
 			if ( container.findMember(processName +".bpel") != null ) { //$NON-NLS-1$
 				setMessage(Messages.NewFileWizardPage1_12, WizardPage.ERROR);
 				return false;
 			}
+			
+			if (!BPELUtil.isBPELProject(resource.getProject())) {
+				setMessage(Messages.NewFileWizard_Not_A_BPELFaceted_Project, WizardPage.WARNING);
+     			return true;
+			}
+			
+			if (!container.equals(BPELUtil.getBPELContentFolder(container.getProject()))) {
+				setMessage(Messages.NewFileWizard_Not_A_BPELContent_Folder, WizardPage.WARNING);
+				return true;
+			}
+			
 			setMessage(null);
 			return true;
 		}
@@ -123,9 +130,6 @@ public class NewFileWizardPage2 extends WizardPage {
 		
 		IContainer container = getResourceContainer();
 		if (container==null)
-			return false;
-		
-		if (!ModuleCoreNature.isFlexibleProject(container.getProject()))
 			return false;
 		
 		if ( container.findMember(processName +".bpel") != null ) //$NON-NLS-1$
