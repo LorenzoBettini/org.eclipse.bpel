@@ -274,9 +274,9 @@ litigation.
       <import plugin="org.eclipse.emf.compare.ui"/>
       
       <import plugin="org.jboss.ide.eclipse.as.wtp.core"/>
-      <import plugin=" org.jboss.ide.eclipse.as.core"/>
+      <import plugin="org.jboss.ide.eclipse.as.core"/>
       <import plugin="org.jboss.ide.eclipse.archives.webtools"/>
-      <import plugin=" org.jboss.tools.jmx.core"/>
+      <import plugin="org.jboss.tools.jmx.core"/>
       
       <import feature="org.eclipse.jst.common.fproj.enablement.jdt"/>
       <import feature="org.eclipse.wst.common.fproj"/>
