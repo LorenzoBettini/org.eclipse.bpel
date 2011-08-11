@@ -75,31 +75,4 @@ public class BPELDeployableArtifactUtil {
 		}
 		return null;
 	}
-	
-	/*
-	 * TODO in case fixed BPEL facet is not set anymore, may be able to set
-	 * the facet programmatically as a fix for the time being
-	 * 
-	 * TODO figure out new plugin.xml syntax for fixed facet from dynamic web
-	 * project
-	 * 
-	 * TODO this is a duplicate method (BPELModuleFactory.getVersion()). 
-	 * Replace this with a utility method somewhere. 
-	 */
-	private static String getVersion(IProject project) {
-		IFacetedProject facetedProject = null;
-		try {
-			facetedProject = ProjectFacetsManager.create(project);
-			if (facetedProject != null 
-					&& ProjectFacetsManager.isProjectFacetDefined(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET)) 
-			{
-				IProjectFacet projectFacet = ProjectFacetsManager.getProjectFacet(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
-				
-				return facetedProject.getInstalledVersion(projectFacet).getVersionString();
-			}
-		} catch (Exception e) {
-			Logger.getLogger().write(e);
-		}
-		return "2.0"; //$NON-NLS-1$
-	}
 }

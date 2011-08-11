@@ -54,6 +54,7 @@ import org.eclipse.bpel.model.messageproperties.PropertyAlias;
 import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.util.BPELUtils;
 import org.eclipse.bpel.names.NCNameWordDetector;
+import org.eclipse.bpel.runtimes.IBPELModuleFacetConstants;
 import org.eclipse.bpel.ui.BPELEditor;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
@@ -1836,8 +1837,8 @@ public class BPELUtil {
 	}
 	
 	public static IProjectFacetVersion getBPELFacetVersion() {
-		IProjectFacet bpelFacet = ProjectFacetsManager.getProjectFacet("bpel.facet.core");
-		IProjectFacetVersion bpelFacetVersion = bpelFacet.getVersion("2.0");
+		IProjectFacet bpelFacet = ProjectFacetsManager.getProjectFacet(IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
+		IProjectFacetVersion bpelFacetVersion = bpelFacet.getVersion(IBPELModuleFacetConstants.BPEL20_MODULE_VERSION);
 		return bpelFacetVersion;
 	}
 	

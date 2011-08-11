@@ -1,18 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
-
-<!--=========================================================================-->
-<!-- BPEL Designer Runtime Extension Point 									 -->
-<!--																		 -->
-<!-- Copyright (c) 2006 University College London.							 -->
-<!-- All rights reserved. This program and the accompanying materials 		 -->
-<!-- are made available under the terms of the Eclipse Public License v1.0	 -->
-<!-- which accompanies this distribution, and is available at				 -->
-<!-- http://www.eclipse.org/legal/epl-v10.html								 -->
-<!--																		 -->
-<!--=========================================================================-->
-
 <plugin>
+
+<!--
+=========================================================================
+Runtime types
+=========================================================================
+-->
+	<extension point="org.eclipse.wst.server.core.runtimeTypes">
+		<runtimeType id="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			name="JBoss Riftsaw 2.x Runtime" description="JBoss Riftsaw BPEL 2.0 execution engine - Runtime"
+			vendor="JBoss" version="1.0"
+			class="org.eclipse.bpel.jboss.riftsaw.runtime.RiftsawServerRuntime">
+			<moduleType types="jbt.bpel.module" versions="1.1, 2.0" />
+		</runtimeType>
+	</extension>
+	
+<!--
+=========================================================================
+Server types
+=========================================================================
+-->
+	<extension point="org.eclipse.wst.server.core.serverTypes">
+		<serverType runtime="true"
+			class="org.eclipse.jst.server.generic.core.internal.GenericServer"
+			id="org.eclipse.bpel.jboss.riftsaw.runtime.st"
+			initialState="stopped"
+			supportsRemoteHosts="true"
+			runtimeTypeId="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			description="JBoss Riftsaw BPEL 2.0 execution engine - Server"
+			launchConfigId="org.eclipse.jst.server.generic.core.launchConfigurationType"
+			behaviourClass="org.eclipse.jst.server.generic.core.internal.GenericServerBehaviour"
+			name="JBoss Riftsaw 2.x Server"
+			hasConfiguration="false"
+			startTimeout="480000"
+			stopTimeout="60000"
+			launchModes="run, debug"
+			startBeforePublish="true">
+		</serverType>
+	</extension>
+	
+<!--
+=========================================================================
+Server icons
+=========================================================================
+-->
+	<extension point="org.eclipse.wst.server.ui.serverImages">
+		<image id="org.eclipse.jst.server.generic.image.rt"
+			icon="icons/obj16/riftsaw.gif"
+			typeIds="org.eclipse.bpel.jboss.riftsaw.runtime.rt" />
+		<image id="org.eclipse.jst.server.generic.image.st"
+			icon="icons/obj16/riftsaw.gif"
+			typeIds="org.eclipse.bpel.jboss.riftsaw.runtime.st" />
+		<image
+			id="org.eclipse.jst.server.generic.image.module"
+			icon="icons/obj16/riftsaw.gif"
+			typeIds="jbt.bpel.module" />
+		<image
+			id="org.eclipse.jst.server.generic.image.module"
+			icon="icons/obj16/riftsaw.gif"
+			typeIds="jbt.bpel.module" />
+	</extension>
+
+<!--
+=========================================================================
+Generic publisher
+=========================================================================
+-->
+	<extension point="org.eclipse.jst.server.generic.core.genericpublisher">
+		<genericpublisher
+			class="org.eclipse.bpel.jboss.riftsaw.runtime.RiftsawPublisher"
+			id="org.eclipse.bpel.jboss.riftsaw.runtime.publisher" />
+	</extension>
+	
+<!--
+=========================================================================
+Project facet Runtime types
+=========================================================================
+-->
+	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
+		<runtime-component-type id="org.eclipse.bpel.jboss.riftsaw.runtime.rt" />
+
+		<runtime-component-version type="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			version="2.0" />
+
+		<adapter>
+			<runtime-component id="org.eclipse.bpel.jboss.riftsaw.runtime.rt" />
+			<factory
+				class="org.eclipse.jst.server.core.internal.RuntimeClasspathProvider$Factory" />
+			<type class="org.eclipse.jst.common.project.facet.core.IClasspathProvider" />
+		</adapter>
+<!--
+		<supported>
+			<runtime-component id="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+				version="2.0" />
+			<facet id="bpel.facet.core" version="2.0" />
+		</supported>
+-->
+		<supported>
+			<runtime-component id="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+				version="2.0" />
+			<facet id="jbt.bpel.facet.core" version="2.0" />
+		</supported>
+	</extension>
+	
+<!--
+=========================================================================
+Project facet icons
+=========================================================================
+-->
+	<extension point="org.eclipse.wst.common.project.facet.ui.images">
+		<image runtime-component-type="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			path="icons/obj16/riftsaw.gif" />
+	</extension>
+
+	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
+		<adapter>
+			<runtime-component id="org.eclipse.bpel.jboss.riftsaw.runtime.rt" />
+			<factory
+				class="org.eclipse.jst.server.ui.internal.RuntimeLabelProvider$Factory" />
+			<type
+				class="org.eclipse.wst.common.project.facet.ui.IRuntimeComponentLabelProvider" />
+		</adapter>
+	</extension>
+
+<!--
+=========================================================================
+Runtime/project facet mappings
+=========================================================================
+-->
+	<extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+		<runtimeFacetMapping runtimeTypeId="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			runtime-component="org.eclipse.bpel.jboss.riftsaw.runtime.rt" version="2.0" />
+	</extension>
+	
+<!--
+=========================================================================
+Server runtime wizard definition
+=========================================================================
+-->
+	<extension point="org.eclipse.jst.server.generic.core.serverdefinition">
+		<serverdefinition id="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			definitionfile="definition/riftsaw2x.xml">
+		</serverdefinition>
+	</extension>
+	
+<!--
+=========================================================================
+Server runtime wizard contributions
+=========================================================================
+-->
+	<extension point="org.eclipse.wst.server.ui.wizardFragments">
+		<fragment id="org.eclipse.jst.server.generic.runtime"
+			typeIds="org.eclipse.bpel.jboss.riftsaw.runtime.rt"
+			class="org.eclipse.jst.server.generic.ui.internal.GenericServerRuntimeWizardFragment" />
+		<fragment id="org.eclipse.jst.server.generic.server"
+			typeIds="org.eclipse.bpel.jboss.riftsaw.runtime.st"
+			class="org.eclipse.jst.server.generic.ui.internal.GenericServerWizardFragment" />
+	</extension>
+
+
 
 <!--=========================================================================-->
 <!-- New BPEL Project Wizard			 									 -->
@@ -21,90 +168,55 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            name="%NEW_JBT_BPEL_PROJECT"
+            name="%NEW_BPEL_PROJECT"
             icon="icons/ctool16/new_bpelprj.gif"
             category="org.eclipse.bpel.wizards"
             project="true"
-            class="org.eclipse.bpel.jboss.riftsaw.runtime.ui.wizards.NewBPELProjectWizard"
+            class="org.eclipse.bpel.jboss.riftsaw.runtime.ui.wizards.NewJBTBPELProjectWizard"
             finalPerspective="org.eclipse.bpel.ui.perspective"
             preferredPerspectives="org.eclipse.bpel.ui.perspective"
             id="org.eclipse.bpel.jboss.riftsaw.runtime.wizards.newBPELProject">
-            <description>%NEW_JBT_BPEL_PROJECT_DESCRIPTION</description>
+            <description>%NEW_BPEL_PROJECT_DESCRIPTION</description>
       </wizard>
    </extension>
-   
-  <extension point="org.eclipse.wst.common.project.facet.ui.wizardPages">
-    <wizard-pages action="jbt.bpel.facet.core.install">
-      <page class="org.eclipse.bpel.jboss.riftsaw.runtime.ui.wizards.BPELFacetInstallPage"/>
-    </wizard-pages>
-  </extension>
-   
-<!--=========================================================================-->
-<!-- BPEL ModuleType							 							 -->
-<!--=========================================================================-->   
-   
-   <extension point="org.eclipse.wst.server.core.moduleTypes">
-      <moduleType
-            id="jbt.bpel.module"
-            name="%JBT_MODULE_TYPE_NAME"
-            description="%JBT_MODULE_TYPE_DESCRIPTION">
-      </moduleType>
-   </extension>
-   
-<!-- The following is needed to make icons for deployable modules occur in   -->
-<!-- the Add and Remove Projects wizard										 -->
-   
-	<extension point="org.eclipse.wst.server.ui.serverImages">
-		<image
-			id="org.eclipse.bpel.jboss.riftsaw.runtime.jbt.bpel.module"
-			typeIds="jbt.bpel.module,bpel.module"
-			icon="icons/obj16/bpelfacet.gif"/>
-	</extension>
    
 <!--=========================================================================-->
 <!-- BPEL Facet							 									 -->
 <!--=========================================================================-->
 
-	<!--
-	This facet is has been deprecated, but retained for backward compatibility
-	with JBoss 5.1.0 and SOA-P 5.1 and earlier
-	-->
 	<extension point="org.eclipse.wst.common.project.facet.core.facets">
 		
 		<project-facet id="jbt.bpel.facet.core">
-		  <label>%JBT_BPEL_CORE_FACET_LABEL</label>
-		  <description>%JBT_BPEL_CORE_FACET_DESCRIPTION</description>
+		  <label>%BPEL_CORE_FACET_LABEL</label>
+		  <description>%BPEL_CORE_FACET_DESCRIPTION</description>
 		</project-facet>
 		
-		<project-facet-version facet="jbt.bpel.facet.core" version="2.0">
-          <group-member
-               id="modules">
-          </group-member>
+        <project-facet-version facet="jbt.bpel.facet.core" version="2.0">
+          <group-member id="modules"></group-member>
           <constraint>
-            <and>
-               <conflicts group="modules"/>
-            </and>
+             <conflicts group="modules">
+             </conflicts>
           </constraint>
         </project-facet-version>
-        
-		<category id="jbt.bpel.category">
-		  <label>%JBT_BPEL_CORE_FACET_CATEGORY_LABEL</label>
-		  <description>%JBT_BPEL_CORE_FACET_CATEGORY_DESCRIPTION</description>
-		</category>
 		
 		<action facet="jbt.bpel.facet.core" version="2.0" type="INSTALL" id="jbt.bpel.facet.core.install">
-		    <delegate class="org.eclipse.bpel.jboss.riftsaw.runtime.facets.BPELCoreFacetInstallDelegate"/>
-	        <config-factory class="org.eclipse.bpel.jboss.riftsaw.runtime.facets.BPELFacetInstallDataModelProvider"/>	    
+		    <delegate class="org.eclipse.bpel.runtimes.facets.BPELCoreFacetInstallDelegate"/>
+	        <config-factory class="org.eclipse.bpel.jboss.riftsaw.runtime.facets.RiftsawFacetInstallDataModelProvider"/>	    
 		</action>
 
         <action facet="jbt.bpel.facet.core" version="2.0" type="UNINSTALL" id="jbt.bpel.facet.core.uninstall">
-               <delegate class="org.eclipse.bpel.jboss.riftsaw.runtime.facets.BPELCoreFacetUninstallDelegate"/>
+            <delegate class="org.eclipse.bpel.runtimes.facets.BPELCoreFacetUninstallDelegate"/>
         </action>
+
+		<category id="bpel.category">
+		  <label>%BPEL_FACET_CATEGORY_LABEL</label>
+		  <description>%bpelCoreFacetDescription</description>
+		</category>
 		
 		<template id="jbt.template.bpel.core">
-    		<label>%JBT_BPEL_FACET_TEMPLATE_LABEL</label>
-       		<fixed facet="jbt.bpel.facet.core"/>
-	   </template>
+    		<label>%BPEL_FACET_TEMPLATE_LABEL</label>
+   		    <fixed facet="jbt.bpel.facet.core"/>
+    	</template>
     	
 	</extension>
 
@@ -119,15 +231,15 @@
 <!--=========================================================================-->
 <!-- BPEL Virtual Component				 									 -->
 <!--=========================================================================-->		
-
+    
     <extension
          point="org.eclipse.wst.common.modulecore.componentimpl">
       <componentimpl
             typeID="jbt.bpel.facet.core"
-            class="org.eclipse.bpel.jboss.riftsaw.runtime.facets.BPELVirtualComponent">
+            class="org.eclipse.bpel.runtimes.facets.BPELVirtualComponent">
       </componentimpl>
    </extension>
-
+    
 
 <!--=========================================================================-->
 <!-- BPEL Module Factory													 -->
@@ -137,7 +249,7 @@
          point="org.eclipse.wst.server.core.moduleFactories">
 		<moduleFactory
             projects="true"
-            class="org.eclipse.bpel.jboss.riftsaw.runtime.module.BPELModuleFactoryDelegate"
+            class="org.eclipse.bpel.jboss.riftsaw.runtime.module.RiftsawModuleFactoryDelegate"
             id="org.eclipse.bpel.jboss.riftsaw.runtime.module.moduleFactory">
      		<moduleType
                versions="1.1, 2.0"
@@ -145,204 +257,31 @@
 			</moduleType>
  		</moduleFactory>
      </extension>
-     
-<!--=========================================================================-->
-<!-- BPEL Module ArtifactAdapters											 -->
-<!--=========================================================================-->
-     
-	<extension point="org.eclipse.wst.server.core.moduleArtifactAdapters">
-		<moduleArtifactAdapter
-			id="org.eclipse.bpel.jboss.riftsaw.runtime.module.artifactAdapter1"
-            class="org.eclipse.bpel.jboss.riftsaw.runtime.module.BPELDeployableArtifactAdapterFactory">
-			<enablement>
-				<with variable="selection">
-					<adapt type="org.eclipse.core.resources.IProject"/>
-				</with>
-			</enablement>
-		</moduleArtifactAdapter>
-		<moduleArtifactAdapter
-			id="org.eclipse.bpel.jboss.riftsaw.runtime.module.artifactAdapter2"
-            class="org.eclipse.bpel.jboss.riftsaw.runtime.module.BPELDeployableArtifactAdapterFactory">
-			<enablement>
-				<with variable="selection">
-             		<adapt type="org.eclipse.core.resources.IFile"/>
-           		</with>
-         	</enablement>
-      	</moduleArtifactAdapter>   
-   </extension>
 
 <!--=========================================================================-->
-<!-- BPEL Runtime Adapters													 -->
+<!-- BPEL Validator for JBT Facet											 -->
 <!--=========================================================================-->
-
-	<extension point="org.eclipse.core.runtime.adapters">
-		<factory
-			class="org.eclipse.bpel.jboss.riftsaw.runtime.module.BPELDeployableArtifactAdapterFactory"
-			adaptableType="org.eclipse.core.resources.IProject">
-			<adapter type="org.eclipse.debug.ui.actions.ILaunchable"/>
-        </factory>
-        <factory
-             class="org.eclipse.bpel.jboss.riftsaw.runtime.module.BPELDeployableArtifactAdapterFactory"
-             adaptableType="org.eclipse.core.resources.IFile">
-            <adapter type="org.eclipse.debug.ui.actions.ILaunchable"/>
-       </factory>
-   </extension>
-
-<!--=========================================================================-->
-<!-- Runtime Publishers                                                      -->
-<!--=========================================================================-->
-   
- <extension
-       point="org.jboss.ide.eclipse.as.core.publishers">
-    <publisher
-          class="org.eclipse.bpel.jboss.riftsaw.runtime.module.JBossBPELPublisher"
-          priority="10"
-          zipDelegate="false">
-    </publisher>
- </extension> 
-
-<!--=========================================================================-->
-<!-- TO MAKE PROCESSES ACTUALLY LAUNCHABLE VIA RUN ON SERVER				 -->
-<!-- 																		 -->
-<!-- Implement org.eclipse.wst.server.core.clients in order to specify the	 -->
-<!-- the client app to be used for launching.								 -->
-<!-- 																		 -->
-<!-- Implement org.eclipse.wst.server.core.launchableAdapters. Might have to -->
-<!-- do this in server-specific way or maybe can resuse some generic server	 -->
-<!-- framework stuff or maybe can come up with some interface that would	 -->
-<!-- allow us to implement in runtimes plug-in.								 -->
-<!-- 																		 -->
-<!-- N.B. Launching here means launching a Web service. Hence, can do this	 -->
-<!-- via the corresponding WTP feature with no code at all from our end.  	 -->
-<!-- 																		 -->
-<!-- 																		 -->
-<!-- 																		 -->
-<!--=========================================================================-->
-
-	<extension
-      point="org.eclipse.ui.navigator.navigatorContent">
-	   <navigatorContent
-	         id="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.content"
-	         activeByDefault="true"
-	         contentProvider="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.BPELModuleContentProvider"
-	         icon="icons/obj16/bpelfacet.gif"
-	         labelProvider="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.BPELModuleLabelProvider"
-	         name="BPEL Modules"
-	         priority="highest">
-	      <triggerPoints>
-	         <instanceof
-	               value="java.lang.Object">
-	         </instanceof>
-	      </triggerPoints>
-	      <possibleChildren>
-             <instanceof
-                value="java.lang.Object">
-             </instanceof>
-          </possibleChildren>
-	      <actionProvider
-	            class="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.BPELModuleActionProvider"
-	            id="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.BPELModuleActionProvider"
-	            priority="highest">
-			<enablement>
-             <or>
-                <instanceof
-                      value="org.eclipse.wst.server.core.IServer">
-                </instanceof>
-                <instanceof
-                      value="org.eclipse.wst.server.ui.internal.view.servers.ModuleServer">
-                </instanceof>
-                <instanceof
-                      value="org.eclipse.core.resources.IWorkspaceRoot">
-                </instanceof>
-               <adapt type="java.util.Collection">
-                  <count value="0"/>
-               </adapt>
-               <instanceof
-                     value="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.BPELModuleContentProvider$BPELVersionDeployment">
-               </instanceof>
-             </or>
-            </enablement>
-	      </actionProvider>
-	   </navigatorContent>
-	</extension>
-	<extension
-	      point="org.eclipse.ui.navigator.viewer">
-	   <viewerContentBinding
-	         viewerId="org.eclipse.wst.server.ui.ServersView">
-	      <includes>
-	         <contentExtension
-	               isRoot="true"
-	               pattern="org.eclipse.bpel.jboss.riftsaw.runtime.ui.view.server.content">
-	         </contentExtension>
-	      </includes>
-	   </viewerContentBinding>
-	</extension>
- 
- 
- 
-<!--=========================================================================-->
-<!-- JBoss Runtimes              											 -->
-<!--=========================================================================-->
- 
- <extension
-         point="org.eclipse.wst.common.project.facet.core.runtimes">
-      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.stripped.component"/>
-      <runtime-component-version
-            type="org.jboss.ide.eclipse.as.runtime.stripped.component"
-            version="1.0"/>
-      <supported>
-        <runtime-component
-         	id="org.jboss.ide.eclipse.as.runtime.stripped.component"
-         	version="1.0"/>
-       <facet id="jbt.bpel.facet.core" version="1.2,2.0"/>
-     </supported>
- </extension>
 
    <extension
-         point="org.eclipse.wst.common.project.facet.core.runtimes">
-      		<runtime-component-type id="org.jboss.ide.eclipse.eap.runtime.component"/>
-      		<runtime-component-version
-            	type="org.jboss.ide.eclipse.eap.runtime.component"
-            	version="5.0"/>
-   			<supported>
-        		<runtime-component
-         			id="org.jboss.ide.eclipse.eap.runtime.component"
-         			version="5.0"/>
-                <facet id="jbt.bpel.facet.core" version="1.2,2.0"/>
-     		</supported>
+         id="org.eclipse.validator.builder.jbt"
+         name="JBoss BPEL Validator"
+         point="org.eclipse.wst.validation.validator">
+      <validator>
+         <facet
+               facetId="jbt.bpel.facet.core">
+         </facet>
+         <filter
+               caseSensitive="false"
+               nameFilter="*.bpel"
+               objectClass="org.eclipse.core.resources.IFile"/>
+         <run
+               async="true"
+               class="org.eclipse.bpel.validator.Validator"
+               enabled="true"
+               fullBuild="true"
+               incremental="true"/>
+         <helper class="org.eclipse.bpel.validator.ValidatorHelper"/>
+         <markerId markerIdValue="org.eclispe.bpel.validator.marker"/>
+      </validator>
    </extension>
-		
-   <extension
-         point="org.eclipse.wst.common.project.facet.core.runtimes">
-      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.component"/>
-      <runtime-component-version
-            type="org.jboss.ide.eclipse.as.runtime.component"
-            version="5.1"/>
-      <runtime-component-version
-            type="org.jboss.ide.eclipse.as.runtime.component"
-            version="6.0"/>
-      <runtime-component-version
-            type="org.jboss.ide.eclipse.as.runtime.component"
-            version="7.0"/>
-
-      <supported>
-        <runtime-component version="5.1"
-         	id="org.jboss.ide.eclipse.as.runtime.component"/>
-        <facet id="jbt.bpel.facet.core" version="1.2,2.0"/>
-     </supported>
-
-      <supported>
-        <runtime-component version="6.0"
-         	id="org.jboss.ide.eclipse.as.runtime.component"/>
-        <facet id="bpel.facet.core" version="1.2,2.0"/>
-     </supported>
-
-      <supported>
-        <runtime-component version="7.0"
-         	id="org.jboss.ide.eclipse.as.runtime.component"/>
-        <facet id="bpel.facet.core" version="1.2,2.0"/>
-     </supported>
-
-   </extension>
-
 </plugin>

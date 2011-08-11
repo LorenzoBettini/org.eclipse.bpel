@@ -1,0 +1,22 @@
+<project name="deployextension"  default="deploy.bpel"  basedir=".">
+	<property name="pause.deploy" value="2"/>
+	<property name="pause.undeploy" value="2"/>
+	<property name="version" value="1" />
+
+	<target name="deploy.bpel">
+		<jar compress="false" destfile="${project.working.dir}/${module.name}.jar"> 
+			<zipfileset dir="${module.dir}">
+	        	<include name="**/*.*"/>
+	       		<exclude name="**/*.java"/>
+			</zipfileset>
+		</jar>
+  		<move file="${project.working.dir}/${module.name}-${version}.jar" todir="${server.publish.dir}"/>
+		<sleep seconds="${pause.deploy}"/>
+	</target>
+
+	<target name="undeploy.bpel">
+		<delete file="${server.publish.dir}/${module.name}-${version}.jar" failonerror="false"> </delete>
+		<sleep seconds="${pause.undeploy}"/>
+	</target>
+	
+</project>

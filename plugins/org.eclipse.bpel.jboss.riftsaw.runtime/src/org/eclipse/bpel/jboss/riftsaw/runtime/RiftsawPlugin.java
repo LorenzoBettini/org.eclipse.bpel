@@ -13,6 +13,7 @@ package org.eclipse.bpel.jboss.riftsaw.runtime;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.bpel.runtimes.IRuntimesUIConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -25,19 +26,19 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class RuntimesPlugin extends AbstractUIPlugin {
+public class RiftsawPlugin extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "org.eclipse.bpel.jboss.riftsaw.runtime"; //$NON-NLS-1$
 	
 	//The shared instance.
-	private static RuntimesPlugin plugin;
+	private static RiftsawPlugin plugin;
 	
 	private boolean imagesInitialized = false;
 	
 	/**
 	 * The constructor.
 	 */
-	public RuntimesPlugin() {
+	public RiftsawPlugin() {
 		super();
 		plugin = this;
 	}
@@ -64,7 +65,7 @@ public class RuntimesPlugin extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance.
 	 */
-	public static RuntimesPlugin getPlugin() {
+	public static RiftsawPlugin getPlugin() {
 		return plugin;
 	}
 	
@@ -95,7 +96,7 @@ public class RuntimesPlugin extends AbstractUIPlugin {
 		try {
 			url = new URL(baseURL, IRuntimesUIConstants.ICON_PATH + id);
 		} catch (MalformedURLException e) {
-			RuntimesPlugin.log(e);
+			RiftsawPlugin.log(e);
 		}
 		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 		getImageRegistry().put(id, desc);
@@ -132,7 +133,7 @@ public class RuntimesPlugin extends AbstractUIPlugin {
 			status = new Status(severity, PLUGIN_ID, 0, m==null? "<no message>" : m, e); //$NON-NLS-1$
 		}
 		System.out.println(e.getClass().getName()+": "+status); //$NON-NLS-1$
-		RuntimesPlugin.getPlugin().getLog().log(status);
+		RiftsawPlugin.getPlugin().getLog().log(status);
 	}
 	
 	public static void log(Exception e) { 

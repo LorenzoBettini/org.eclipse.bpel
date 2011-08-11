@@ -101,7 +101,8 @@ public class BPELModuleFactoryDelegate extends ProjectModuleFactoryDelegate impl
 	}
 
 	protected boolean canHandleProject(IProject p) {
-		return FacetedProjectUtilities.isProjectOfType(p, IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
+		boolean result = FacetedProjectUtilities.isProjectOfType(p, IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
+		return result;
 	}
 	
 	protected IModule[] createModuleDelegates(IVirtualComponent component) {
@@ -112,6 +113,7 @@ public class BPELModuleFactoryDelegate extends ProjectModuleFactoryDelegate impl
 		List<IModule> projectModules = new ArrayList<IModule>();
 		try {
 			if (canHandleProject(component.getProject())) {
+				canHandleProject(component.getProject());
 				String type = IBPELModuleFacetConstants.BPEL20_MODULE_TYPE;
 				String version = IBPELModuleFacetConstants.BPEL20_MODULE_VERSION;
 				IModule module = createModule(component.getName(), component.getName(), type, version, component.getProject());

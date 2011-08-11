@@ -20,7 +20,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public final class Messages extends NLS {
 	
-	private static final String BUNDLE_NAME = "org.eclipse.bpel.jboss.riftsaw.runtime.ui.wizards.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.bpel.runtimes.ui.wizards.messages"; //$NON-NLS-1$
 
 	private Messages() {
 	}

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:ServerRuntime
+	xmlns:tns="http://eclipse.org/jst/server/generic/ServerTypeDefinition"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://eclipse.org/jst/server/generic/ServerTypeDefinition ServerTypeDefinitionSchema.xsd "
+	name="JBoss Riftsaw" version="v2.x">
+
+	<property id="serverRootDirectory"
+		label="%jbossHome"
+		type="directory"
+		context="runtime"
+		default="/your_server_root" />
+
+	<property id="serverAddress"
+		label="%serverAddress"
+		type="string"
+		context="runtime"
+		default="127.0.0.1" />
+
+	<property id="port"
+		label="%port"
+		type="string"
+		context="runtime"
+		default="8080" />
+
+	<property id="serverConfig"
+		label="%jbossServerConfig"
+		type="combo"
+		context="runtime"
+		default="default,all,minimal,other - type your own here" />
+		
+	<port>
+		<no>${port}</no>
+		<name>Http</name>
+		<protocol>http</protocol>
+	</port>
+
+	<module>
+		<type>jbt.bpel.module</type>
+		<publishDir>${jboss.home}/server/${serverConfig}/deploy</publishDir>
+		<publisherReference>org.eclipse.jboss.tools.bpel.runtimes.module</publisherReference>
+	</module>
+	
+	<project>
+		<classpathReference>riftsaw.project</classpathReference>
+	</project>
+
+	<start>
+		<mainClass>org.jboss.Main</mainClass>
+		<workingDirectory>${serverRootDirectory}/bin</workingDirectory>
+		<programArguments>-c ${serverConfig}</programArguments>
+		<vmParameters>-Dprogram.name=run.bat -Xms128m -Xmx512m  -XX:MaxPermSize=256m</vmParameters>
+		<classpathReference>jboss</classpathReference>
+	</start>
+
+	<stop>
+		<mainClass>org.jboss.Shutdown</mainClass>
+		<workingDirectory>${serverRootDirectory}/bin</workingDirectory>
+		<programArguments>-S</programArguments>
+		<vmParameters>-Djboss.boot.loader.name=shutdown.bat</vmParameters>
+		<classpathReference>jboss.shutdown</classpathReference>
+	</stop>
+
+	<publisher id="org.eclipse.jst.server.generic.antpublisher">
+		<publisherdata>
+			<dataname>build.file</dataname>
+			<datavalue>/buildfiles/riftsaw2x.xml</datavalue>
+		</publisherdata>
+		<publisherdata>
+			<dataname>target.publish.bpel</dataname>
+			<datavalue>deploy.bpel</datavalue>
+		</publisherdata>
+		<publisherdata>
+			<dataname>target.unpublish.bpel</dataname>
+			<datavalue>undeploy.bpel</datavalue>
+		</publisherdata>
+	</publisher>
+
+	<classpath id="jboss" >
+		<archive path="${serverRootDirectory}/bin/run.jar" />
+	</classpath>
+	<classpath id="jboss.shutdown" >
+		<archive path="${serverRootDirectory}/bin/shutdown.jar" />
+	</classpath>
+
+	<classpath id="jboss.project" >
+		
+			
+	    <fileset dir="${serverRootDirectory}">
+	       <include name="client/*.jar" />
+	       <include name="server/default/lib/*.jar" />
+	       	       
+		   <include name="server/default/deploy/jbossweb.sar/jsf-libs/*.jar" />
+
+	       <!-- This will be ignored if EJB3 is not there 5.0 -->
+	       <include name="lib/*.jar" />
+	       <include name="server/default/deployers/jbossweb.deployer/*.jar" />
+	       <include name="server/default/deployers/jboss-aop-jboss5.deployer/*.jar" />
+	       <include name="common/lib/*.jar" />
+	       <include name="server/default/deploy/jbossweb.sar/*.jar" />
+	       
+	       <!-- for validation to work this library is defined as an archive -->
+		   <exclude name="lib/jboss-kernel.jar" />
+	    </fileset>
+	    
+	    <!-- leave one generic jar as an archive so that validation works -->
+		<archive path="${serverRootDirectory}/lib/jboss-kernel.jar" />
+   
+	</classpath>
+	
+</tns:ServerRuntime>
