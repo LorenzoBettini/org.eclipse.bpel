@@ -7,12 +7,9 @@
       <category name="Eclipse BPEL Designer"/>
    </feature>
    <feature url="features/org.eclipse.bpel.apache.ode.runtime.feature_0.0.0.jar" id="org.eclipse.bpel.apache.ode.runtime.feature" version="0.0.0">
-      <category name="Eclipse BPEL Designer - Runtime Deployment Adapters"/>
+      <category name="Eclipse BPEL Designer"/>
    </feature>
    <feature url="features/org.eclipse.bpel.jboss.riftsaw.runtime.feature_0.0.0.jar" id="org.eclipse.bpel.jboss.riftsaw.runtime.feature" version="0.0.0">
-      <category name="Eclipse BPEL Designer - Runtime Deployment Adapters"/>
-   </feature>
-   <feature url="features/org.eclipse.bpel.source.feature_0.0.0.jar" id="org.eclipse.bpel.source.feature" version="0.0.0">
       <category name="Eclipse BPEL Designer"/>
    </feature>
    <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer">
@@ -20,5 +17,4 @@
          Eclipse BPEL Designer Nightly Build Update Site: contains all features in this build.
       </description>
    </category-def>
-   <category-def name="Eclipse BPEL Designer - Runtime Deployment Adapters" label="Eclipse BPEL Designer - Runtime Deployment Adapters"/>
 </site>
