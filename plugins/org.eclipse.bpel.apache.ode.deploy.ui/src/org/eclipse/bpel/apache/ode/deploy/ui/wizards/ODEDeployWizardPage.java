@@ -4,6 +4,7 @@ import org.eclipse.bpel.apache.ode.deploy.ui.messages.ODEDeployUIMessages;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.wizards.Messages;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -105,6 +106,12 @@ public class ODEDeployWizardPage extends WizardPage {
 
 			if (obj instanceof IResource) {
 				IResource res = (IResource) obj;
+				if (res instanceof IProject) {
+					IContainer bpelContent = BPELUtil.getBPELContentFolder(res.getProject());
+					if (bpelContent != null) {
+						res = bpelContent;
+					}
+				}
 				hasBPELContent(res);
 				if (res instanceof IContainer) {
 					containerText.setText(res.getFullPath().toString());
