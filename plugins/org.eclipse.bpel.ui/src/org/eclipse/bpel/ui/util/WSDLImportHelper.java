@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -288,6 +289,14 @@ public class WSDLImportHelper {
 		}
 	}
 
+	
+	/**
+	 * Builds the relative location of one URL with respect to another one.
+	 * @param sourceURI
+	 * @param targetURI
+	 * @return
+	 * FIXME: completely review the implementation and move it in *.common
+	 */
 	public static String createBuildPathRelativeReference(URI sourceURI, URI targetURI) {
 		if (sourceURI == null || targetURI == null)
 			throw new IllegalArgumentException();
@@ -297,6 +306,21 @@ public class WSDLImportHelper {
 		// TODO: this is probably bogus.
 		String result = targetURI.deresolve(sourceURI, true, true, true).toFileString();
 		// When absolute URLs
+		
+		// VZ
+		// Bug #350540: files that are picked up anywhere on the disk are imported as absolute file locations (and not as relative or absolute URL)
+		// FIXME: this is a temporary fix, a user should not be able to pick up a WSDL anywhere
+		// FIXME: only allow WSDL that are in the same project and absolute URL
+		try {
+			File f;
+			if( result != null && (f = new File( result )).exists())
+				result = f.toURI().toString();
+		
+		} catch( Exception e ) {
+			// nothing
+		}
+		// VZ
+		
 		return (result == null ? targetURI.toString() : result);
 	}
 
