@@ -12,6 +12,7 @@ import org.eclipse.bpel.apache.ode.deploy.model.dd.ddFactory;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.util.ddResourceFactoryImpl;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.util.ddResourceImpl;
 import org.eclipse.bpel.apache.ode.deploy.ui.Activator;
+import org.eclipse.bpel.apache.ode.deploy.ui.messages.ODEDeployUIMessages;
 import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployUtils;
 import org.eclipse.bpel.model.Process;
 import org.eclipse.core.resources.IContainer;
@@ -130,7 +131,7 @@ public class NewODEDeployWizard extends Wizard implements INewWizard {
 		}
 		
 		monitor.worked(1);
-		monitor.setTaskName("Opening file for editing...");
+		monitor.setTaskName(ODEDeployUIMessages.NewODEDeployWizard_Task_Running);
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				IWorkbenchPage page =
@@ -170,7 +171,7 @@ public class NewODEDeployWizard extends Wizard implements INewWizard {
 	    //    <retired>false</retired>
 		IProject project  = file.getProject();
 		List<Process> processes = DeployUtils.loadAllBPELFromProject(project, new ResourceSetImpl());
-		for (Iterator iterator = processes.iterator(); iterator.hasNext();) {
+		for (Iterator<Process> iterator = processes.iterator(); iterator.hasNext();) {
 			Process process = (Process) iterator.next();
 			ProcessType pt = DeployUtils.createProcessStub(process);	
 			pt.setActive(true);

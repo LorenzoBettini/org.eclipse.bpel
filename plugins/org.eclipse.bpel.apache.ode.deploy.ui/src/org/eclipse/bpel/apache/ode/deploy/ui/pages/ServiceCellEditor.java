@@ -82,7 +82,7 @@ public class ServiceCellEditor extends ComboBoxCellEditor {
 	@Override
 	protected void doSetValue(Object value) {
 		
-		List<Service> serviceList = new ArrayList();
+		List<Service> serviceList = new ArrayList<Service>();
 		portList = new ArrayList<Port>();
 		
 		//load WSDL's 
@@ -90,8 +90,10 @@ public class ServiceCellEditor extends ComboBoxCellEditor {
 		//Assemble All Services from WSDL's 
 		for (Iterator<Definition> iterator = wsdlDefs.iterator(); iterator.hasNext();) {
 			Definition current = (Definition) iterator.next();
+			@SuppressWarnings("rawtypes")
 			Map services = current.getServices();
 			if (!services.isEmpty()){
+				@SuppressWarnings("rawtypes")
 				Collection values = services.values();	
 				for (Iterator<Service> iterator2 = values.iterator(); iterator2.hasNext();) {
 					Service name = iterator2.next();
@@ -103,6 +105,7 @@ public class ServiceCellEditor extends ComboBoxCellEditor {
 		//now we have all services in a List .. get All Ports from these services
 		for (Iterator<Service> iterator = serviceList.iterator(); iterator.hasNext();) {
 			Service currentService = iterator.next();
+			@SuppressWarnings("rawtypes")
 			Map portMap = currentService.getPorts();
 			Collection<Port> ports = portMap.values();
 			portList.addAll(ports);

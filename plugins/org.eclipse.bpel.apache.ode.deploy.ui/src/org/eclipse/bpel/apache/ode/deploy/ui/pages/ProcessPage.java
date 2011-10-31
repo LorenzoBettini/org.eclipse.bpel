@@ -33,9 +33,9 @@ import org.eclipse.bpel.apache.ode.deploy.model.dd.ddFactory;
 import org.eclipse.bpel.apache.ode.deploy.model.dd.ddPackage;
 import org.eclipse.bpel.apache.ode.deploy.ui.Activator;
 import org.eclipse.bpel.apache.ode.deploy.ui.editors.ODEDeployMultiPageEditor;
+import org.eclipse.bpel.apache.ode.deploy.ui.messages.ODEDeployUIMessages;
 import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployResourceSetImpl;
 import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployUtils;
-import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
@@ -57,9 +57,6 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -204,7 +201,7 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 
 		final Composite statusArea = new Composite(client, SWT.NONE);
 		statusArea.setLayout(new GridLayout(2, false));
-		toolkit.createLabel(statusArea, "This process is ");
+		toolkit.createLabel(statusArea, ODEDeployUIMessages.ProcessPage_GeneralStatus_Label);
 		final Combo comboStatus = new Combo(statusArea, SWT.READ_ONLY);
 		toolkit.adapt(comboStatus);
 		comboStatus.setItems(PROCESS_STATUS);
@@ -230,8 +227,8 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 			}
 		});
 		
-		final Button btnRunInMemory = toolkit.createButton(client, "Run this process in memory", SWT.CHECK); 
-		btnRunInMemory.setToolTipText("Define a process as being executed only in-memory. This gives better performance, but the processes cannot be queried by using the ODE Management API.");
+		final Button btnRunInMemory = toolkit.createButton(client, ODEDeployUIMessages.ProcessPage_GeneralMemoryButton, SWT.CHECK); 
+		btnRunInMemory.setToolTipText(ODEDeployUIMessages.ProcessPage_GeneralMemoryButton_Tooltip);
 		btnRunInMemory.setSelection(processType.isInMemory());
 		btnRunInMemory.addSelectionListener(new SelectionAdapter() {
 		
@@ -243,10 +240,8 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 		
 		});
 
-		String serviceDescription = "The table contains interfaces the process provides.  Specify the service, port and binding you want to use for each PartnerLink listed";
-		createInterfaceWidget(form.getBody(), processType, managedForm, "Inbound Interfaces (Services)", serviceDescription, true);
-		String invokeDescription = "The table contains interfaces the process invokes.  Specify the service, port and binding you want to use for each PartnerLink listed";	
-		createInterfaceWidget(form.getBody(), processType, managedForm, "Outbound Interfaces (Invokes)", invokeDescription, false);		
+		createInterfaceWidget(form.getBody(), processType, managedForm, "Inbound Interfaces (Services)", ODEDeployUIMessages.ProcessPage_Service_Description, true);
+		createInterfaceWidget(form.getBody(), processType, managedForm, "Outbound Interfaces (Invokes)", ODEDeployUIMessages.ProcessPage_Invoke_Description, false);		
 
 		createProcessMonitoringSection(form.getBody());
 		createScopeMonitoringSection(form.getBody());
@@ -570,6 +565,7 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 		ctv.addSelectionChangedListener(scl);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void createScopeMonitoringSection(Composite parent) {
 		Composite client = createSection(parent, "Scope-level Monitoring Events", null, 1);
 		
@@ -843,7 +839,7 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 				if (DeployUtils.isBPELFile(res)) {
 					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
-							mainform.setMessage("Associated BPEL and/or WSDL has been changed, click to update!", IMessageProvider.WARNING);
+							mainform.setMessage(ODEDeployUIMessages.ProcessPage_UpdateWarning_Message, IMessageProvider.WARNING);
 						}
 					});
 				}
