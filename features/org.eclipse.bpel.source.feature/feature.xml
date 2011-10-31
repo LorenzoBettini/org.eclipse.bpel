@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.eclipse.bpel.source.feature" label="BPEL Visual Designer Source" version="0.5.0.qualifier" provider-name="eclipse.org">
+<feature id="org.eclipse.bpel.source.feature" label="BPEL Visual Designer Source" version="0.8.0.qualifier" provider-name="eclipse.org">
 
 	<description url="http://www.eclipse.org/bpel/">
       The Eclipse BPEL visual designer source.

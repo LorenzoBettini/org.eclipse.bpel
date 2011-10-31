@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.bpel.jboss.riftsaw.runtime.feature"
       label="Runtime Adapter for JBoss Riftsaw 2.3"
-      version="0.5.0.qualifier"
+      version="0.8.0.qualifier"
       provider-name="eclipse.org">
 
    <description url="http://www.eclipse.org/bpel/">
@@ -235,13 +235,13 @@ litigation.
       <import plugin="org.eclipse.jst.server.core" version="1.1.0" match="compatible"/>
       <import plugin="org.eclipse.jem.util" version="2.0.100" match="compatible"/>
       <import plugin="org.eclipse.debug.ui" version="3.4.0" match="compatible"/>
-      <import plugin="org.eclipse.bpel.model" version="0.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.bpel.model" version="0.8.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore" version="2.4.0" match="compatible"/>
       <import plugin="javax.wsdl" version="1.5.0" match="equivalent"/>
       <import plugin="org.eclipse.wst.wsdl" version="1.1.200" match="compatible"/>
       <import plugin="org.eclipse.jst.common.frameworks"/>
       <import plugin="org.eclipse.jem.workbench"/>
-      <import plugin="org.eclipse.bpel.runtimes" version="0.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.bpel.runtimes" version="0.8.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.bpel.validator"/>
       <import feature="org.eclipse.jst.common.fproj.enablement.jdt"/>
       <import feature="org.eclipse.wst.common.fproj"/>
