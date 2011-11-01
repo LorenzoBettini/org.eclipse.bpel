@@ -164,8 +164,27 @@ public class BPELResourceImpl extends XMLResourceImpl implements BPELResource {
 		} else {
         	setNamespaceURI(BPELConstants.NAMESPACE);
         }
+    	
+    	boolean usePrefix =
+    		checkUseNSPrefix(BPELConstants.NAMESPACE_2004) ||
+    		checkUseNSPrefix(BPELConstants.NAMESPACE_2007) ||
+    		checkUseNSPrefix(BPELConstants.NAMESPACE_ABSTRACT_2007);
+    	this.setOptionUseNSPrefix(usePrefix);
 	}
 
+	private boolean checkUseNSPrefix(String bpelNamespace) {
+        INamespaceMap<String, String> nsMap = BPELUtils.getNamespaceMap(getProcess());
+        List<String> prefixes;
+        prefixes = nsMap.getReverse(bpelNamespace);
+        for (int i=0; i<prefixes.size(); ++i) {
+        	String ns = prefixes.get(i);
+        	if (ns!=null && !ns.equals("")) {
+        		return true;
+        	}
+        }
+        return false;
+	}
+        
     /*
      * TODO Implement getURIFragment to return our encoding.
      */
