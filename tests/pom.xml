@@ -2,19 +2,12 @@
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse</groupId>
-	<artifactId>tests</artifactId>
-	<name>bpel.tests</name>
+	<artifactId>bpel</artifactId>
+	<name>bpel.test</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<!-- must build parent BEFORE building the rest of this project 
-	     	<module>parent</module> -->
-
-		<module>plugins</module>
-		<module>tests</module>
-		<!-- <module>examples></module> -->
-		<module>features</module>
-		<module>site</module>
+		<module>org.eclipse.bpel.common.wsdl.tests</module>
+		<module>org.eclipse.bpel.ui.tests</module>
 	</modules>
 </project>
-	
