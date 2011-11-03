@@ -1,0 +1,1 @@
+Simple WSDL 1.1 with a XML schema import (1 sub-level).

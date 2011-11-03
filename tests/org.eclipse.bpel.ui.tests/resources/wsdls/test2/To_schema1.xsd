@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://ser" xmlns:tns="http://ser" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="helloWorld" type="tns:helloWorld"/>
+
+  <xs:element name="helloWorldResponse" type="tns:helloWorldResponse"/>
+
+  <xs:element name="listenToTheWorld" type="tns:listenToTheWorld"/>
+
+  <xs:complexType name="helloWorld">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="helloWorldResponse">
+    <xs:sequence>
+      <xs:element name="returnMessage" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listenToTheWorld">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
