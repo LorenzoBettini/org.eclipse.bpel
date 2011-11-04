@@ -15,6 +15,7 @@
             class="org.eclipse.bpel.ui.BPELMultipageEditorPart"
             contributorClass="org.eclipse.bpel.ui.BPELMultiPageEditorActionBarContributor"
             default="true"
+            icon="icons/obj16/file.gif"
             id="org.eclipse.bpel.ui.bpeleditor"
             name="%BPEL_EDITOR_NAME">
          <!-- use content type to identify BPEL files // Bugzilla 320545: -->
@@ -681,6 +682,7 @@
           </describer>
 	   </content-type>
 	</extension>
+   <!-- Turn of decorator, as the file type is not a real "decoration"
    <extension
          point="org.eclipse.ui.decorators">
       <decorator
@@ -703,7 +705,7 @@
             </and>
          </enablement>
       </decorator>
-   </extension>
+   </extension>-->
    <!-- Bugzilla 324163 -->
    <extension
          point="org.eclipse.ui.perspectives">
