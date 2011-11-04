@@ -72,7 +72,7 @@ public class Process extends CValidator {
 		)
 	public void rule_ReportUnsupportedProcessVariant_5 () {
 		
-		IProblem problem = createError();
+		IProblem problem = createWarning();
 		problem.fill("BPELC__UNSUPPORTED_VALIDATION", 
 				toString(mNode.nodeName()), ncName, mNode.nodeName().getNamespaceURI() );
 		
