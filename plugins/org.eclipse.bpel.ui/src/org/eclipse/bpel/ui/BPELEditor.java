@@ -97,6 +97,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.PrintAction;
@@ -106,6 +107,8 @@ import org.eclipse.gef.ui.actions.SelectAllAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.PaletteViewer;
+import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -590,8 +593,25 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 		return false;
 	}
 
-	
-//	protected PaletteRoot createPaletteRoot() {
+	/**
+	 * Overridden to install our own help context for the palette.
+	 */
+  @Override
+  protected PaletteViewerProvider createPaletteViewerProvider() {
+    return new PaletteViewerProvider(getEditDomain()) {     
+      @Override
+      protected void configurePaletteViewer(PaletteViewer viewer) {
+        super.configurePaletteViewer(viewer);
+        // viewer.setCustomizer(new LogicPaletteCustomizer());
+        viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+        
+        // As the palette has no own help context, install our help context
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), IHelpContextIds.EDITOR_PALETTE);
+      }
+    };
+  }
+
+  //	protected PaletteRoot createPaletteRoot() {
 //		PaletteRoot paletteRoot = new PaletteRoot();
 //		createTopControlPaletteEntries(paletteRoot);
 //		createBPELPaletteEntries(paletteRoot);
@@ -1095,12 +1115,6 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 	    super.setGraphicalViewer(viewer);
 	}
 	
-//	protected void createPaletteViewer(final Composite parent) {
-//		super.createPaletteViewer(parent);
-//		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-//			parent, IHelpContextIds.EDITOR_PALETTE);	
-//	}
-	
 	public void refreshGraphicalViewer() {
 		BPELUtil.regenerateVisuals(getProcess(), getGraphicalViewer());
 	}
@@ -1272,9 +1286,9 @@ public class BPELEditor extends GraphicalEditorWithPaletteAndTray /*, IGotoMarke
 //					getCommandFramework().execute(new DummyCommand());
 //				}
 //		   		
-				
-				// these can only be created after we load the model
-				// since it affects the available items in the palette
+		
+		// these can only be created after we load the model
+		// since it affects the available items in the palette
 		createPaletteDependentActions();
 	}
 
