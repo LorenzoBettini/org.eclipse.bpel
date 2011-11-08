@@ -1,1 +1,0 @@
-Simple WSDL 1.1 with a XML schema import.

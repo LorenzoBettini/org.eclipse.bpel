@@ -29,7 +29,7 @@ import org.junit.Test;
  * Tests the WSDL importer helper (import and update).
  * @author Vincent Zurczak - EBM WebSourcing
  */
-public class TestWsdlImportHelper {
+public class WsdlImportHelperTest {
 
 	/**
 	 * Tests the import of a simple WSDL 1.1.

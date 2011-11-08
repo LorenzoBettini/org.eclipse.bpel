@@ -24,7 +24,7 @@ import org.junit.Test;
  * Tests the WSDL parser.
  * @author Vincent Zurczak - EBM WebSourcing
  */
-public class TestWsdlParser {
+public class WsdlParserTest {
 
 	/**
 	 * Tests the parsing of a simple WSDL 1.1.

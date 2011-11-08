@@ -42,6 +42,7 @@ import org.eclipse.bpel.model.partnerlinktype.PartnerlinktypePackage;
 import org.eclipse.bpel.model.partnerlinktype.Role;
 import org.eclipse.bpel.model.resource.BPELResourceFactoryImpl;
 import org.eclipse.bpel.model.resource.BPELWriter;
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.Templates.TemplateResource;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -92,7 +93,7 @@ public class NewBpelFileWizard extends Wizard implements INewWizard {
 
 	private NewBpelFileFirstPage firstPage;
 	private NewBpelFileLocationPage locationPage;
-	private NewBpelFileWsdlPage wsdlPage;
+	private NewBpelFileTemplatePage wsdlPage;
 	private NewBpelFilePortTypePage portTypePage;
 
 
@@ -130,7 +131,7 @@ public class NewBpelFileWizard extends Wizard implements INewWizard {
 
 		this.firstPage = new NewBpelFileFirstPage();
 		this.locationPage = new NewBpelFileLocationPage( this.selection );
-		this.wsdlPage = new NewBpelFileWsdlPage();
+		this.wsdlPage = new NewBpelFileTemplatePage();
 		this.portTypePage = new NewBpelFilePortTypePage();
 
 		// Add all the pages
@@ -397,6 +398,9 @@ public class NewBpelFileWizard extends Wizard implements INewWizard {
 
 		Process bpelProcess = BPELFactory.eINSTANCE.createProcess();
 		bpelProcess.setName( bpelName );
+		if( this.firstPage.isAbstractProcess())
+			bpelProcess.setAbstractProcessProfile( BPELConstants.NAMESPACE_ABSTRACT_PROFILE );
+
 		bpelProcess.setTargetNamespace( businessDefinition.getTargetNamespace());
 		bpelProcess.setPartnerLinks( BPELFactory.eINSTANCE.createPartnerLinks());
 		bpelProcess.setVariables( BPELFactory.eINSTANCE.createVariables());

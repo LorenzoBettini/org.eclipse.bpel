@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -37,6 +38,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -45,6 +47,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * The first page of the wizard to create a new BPEL process.
@@ -82,6 +85,11 @@ public class NewBpelFileFirstPage extends WizardPage {
 	 */
 	private final Map<String,Object> processTemplateProperties;
 
+	/**
+	 * Images used in the wizard.
+	 */
+	private Image wsdlImg, arrowImg, bpelImg, tplImg;
+
 
 	/**
 	 * Constructor.
@@ -94,6 +102,61 @@ public class NewBpelFileFirstPage extends WizardPage {
 		setImageDescriptor( BPELUIPlugin.INSTANCE.getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
 
 		this.processTemplateProperties = new HashMap<String,Object> ();
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/misc/wsdl.png" );
+			this.wsdlImg = desc.createImage();
+
+		} catch( Exception e ) {
+			BPELUIPlugin.log( e, IStatus.WARNING );
+		}
+
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/misc/bpel-skeleton-2.png" );
+			this.bpelImg = desc.createImage();
+
+		} catch( Exception e ) {
+			BPELUIPlugin.log( e, IStatus.WARNING );
+		}
+
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/misc/arrow.png" );
+			this.arrowImg = desc.createImage();
+
+		} catch( Exception e ) {
+			BPELUIPlugin.log( e, IStatus.WARNING );
+		}
+
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/misc/templates.png" );
+			this.tplImg = desc.createImage();
+
+		} catch( Exception e ) {
+			BPELUIPlugin.log( e, IStatus.WARNING );
+		}
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.DialogPage
+	 * #dispose()
+	 */
+	@Override
+	public void dispose() {
+
+		if( this.wsdlImg != null && ! this.wsdlImg.isDisposed())
+			this.wsdlImg.dispose();
+
+		if( this.arrowImg != null && ! this.arrowImg.isDisposed())
+			this.arrowImg.dispose();
+
+		if( this.bpelImg != null && ! this.bpelImg.isDisposed())
+			this.bpelImg.dispose();
+
+		if( this.tplImg != null && ! this.tplImg.isDisposed())
+			this.tplImg.dispose();
+
+		super.dispose();
 	}
 
 
@@ -107,12 +170,20 @@ public class NewBpelFileFirstPage extends WizardPage {
 
 		IWizardPage nextPage;
 		if( this.creationMode == BpelCreationMode.CREATE_NEW_BPEL )
-			nextPage = getWizard().getPage( NewBpelFileWsdlPage.PAGE_NAME );
+			nextPage = getWizard().getPage( NewBpelFileTemplatePage.PAGE_NAME );
 		else
 			nextPage = getWizard().getPage( NewBpelFilePortTypePage.PAGE_NAME );
 
 		nextPage.setPreviousPage( this );
 		return nextPage;
+	}
+
+
+	/**
+	 * @return the abstractProcess
+	 */
+	public boolean isAbstractProcess() {
+		return this.abstractProcess;
 	}
 
 
@@ -216,17 +287,55 @@ public class NewBpelFileFirstPage extends WizardPage {
 		});
 
 
+		// Add an image to illustrate the creation mode
+		Composite imageContainer = new Composite( container, SWT.BORDER );
+		imageContainer.setBackground( getShell().getDisplay().getSystemColor( SWT.COLOR_WHITE ));
+		GridLayout layout = new GridLayout( 3, false );
+		layout.horizontalSpacing = 0;
+		layout.marginTop = 12;
+		imageContainer.setLayout( layout );
+
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.horizontalSpan = 2;
+		layoutData.verticalIndent = 21;
+		imageContainer.setLayoutData( layoutData );
+
+		final Label imgLeftLabel = new Label( imageContainer, SWT.NONE );
+		imgLeftLabel.setBackground( getShell().getDisplay().getSystemColor( SWT.COLOR_WHITE ));
+
+		Label imgCenterLabel = new Label( imageContainer, SWT.NONE );
+		imgCenterLabel.setBackground( getShell().getDisplay().getSystemColor( SWT.COLOR_WHITE ));
+		imgCenterLabel.setLayoutData( new GridData( SWT.CENTER, SWT.CENTER, true, true ));
+		imgCenterLabel.setImage( this.arrowImg );
+
+		Label imgRightLabel = new Label( imageContainer, SWT.NONE );
+		imgRightLabel.setBackground( getShell().getDisplay().getSystemColor( SWT.COLOR_WHITE ));
+		imgRightLabel.setImage( this.bpelImg );
+
+		final Text explainationText = new Text( imageContainer, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP );
+		explainationText.setBackground( getShell().getDisplay().getSystemColor( SWT.COLOR_WHITE ));
+		layoutData = new GridData( GridData.FILL_HORIZONTAL  );
+		layoutData.horizontalSpan = 3;
+		layoutData.verticalIndent = 21;
+		explainationText.setLayoutData( layoutData );
+
+
 		// Detect when the creation mode changes
 		creationViewer.addSelectionChangedListener( new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged( SelectionChangedEvent event ) {
 				NewBpelFileFirstPage.this.creationMode = (BpelCreationMode) ((IStructuredSelection) creationViewer.getSelection()).getFirstElement();
+				explainationText.setText( NewBpelFileFirstPage.this.creationMode.getDescription());
+				if( NewBpelFileFirstPage.this.creationMode == BpelCreationMode.GENERATE_BPEL_FROM_WSDL )
+					imgLeftLabel.setImage( NewBpelFileFirstPage.this.wsdlImg );
+				else
+					imgLeftLabel.setImage( NewBpelFileFirstPage.this.tplImg );
+
+				imgLeftLabel.getParent().layout();
+				imgLeftLabel.getParent().getParent().layout();
 				updateStatus();
 			}
 		});
-
-
-		// Add an image to illustrate the creation mode
 
 
 		// Initialize all the stuff
@@ -319,5 +428,29 @@ public class NewBpelFileFirstPage extends WizardPage {
 
 			return result;
 		};
+
+
+		/**
+		 * @return a more detailed description
+		 */
+		public String getDescription() {
+
+			String result;
+			switch( this ) {
+			case CREATE_NEW_BPEL:
+				result = "This will generate a skeleton of BPEL process.\nThis skeleton is based on pre-defined templates.";
+				break;
+
+			case GENERATE_BPEL_FROM_WSDL:
+				result = "This will generate a skeleton of BPEL process to implement a given WSDL contract.\n"
+				+ "\t \u2666 \tThe resulting process starts with a pick activity.\n"
+				+ "\t \u2666 \tMessage dispatching depends on the invoked operation.";
+				break;
+			default:
+				result = "";
+			}
+
+			return result;
+		}
 	}
 }

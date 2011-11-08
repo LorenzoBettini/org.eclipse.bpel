@@ -30,6 +30,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -130,15 +132,21 @@ public class WsdlImportHelper {
 		for( WsdlImportBean bean : resourceUriToWIBean.values()) {
 			File targetFile = new File( targetDirectory, bean.getRelativePathToTargetDirectory());
 			URI uri = UriAndUrlHelper.urlToUri( bean.getOriginUri());
-			String resourceContent = readResourceContent( uri );
+			StringBuilder fileContent = new StringBuilder( readResourceContent( uri ));
 
-			for( Map.Entry<String,String> entry : bean.entrySet()) {
+			for( Map.Entry<String,String> entry : bean.getImportDeclarationToImportFullUri().entrySet()) {
 				WsdlImportBean importBean = resourceUriToWIBean.get( entry.getValue());
 				File importFile = new File( targetDirectory, importBean.getRelativePathToTargetDirectory());
 				String relLoc = getRelativeLocationToFile( targetFile, importFile );
 
-				// Coherence is guaranteed because the keys are sorted by length, from the longer to the shorter
-				resourceContent = resourceContent.replace( entry.getKey(), relLoc );
+				// Make the replacement - XSD imports are more complicated
+				String pattern = "(\\s|\")" + Pattern.quote( entry.getKey()) + "(\\s|\")";
+				Matcher matcher = Pattern.compile( pattern, Pattern.MULTILINE | Pattern.DOTALL ).matcher( fileContent.toString());
+				while( matcher.find()) {
+					int start = matcher.start() + 1;	// Skip the white space or double quote
+					int end = matcher.end() - 1;		// Skip the white space or double quote
+					fileContent.replace( start, end, relLoc );
+				}
 			}
 
 			if( ! targetFile.getParentFile().exists()
@@ -148,9 +156,9 @@ public class WsdlImportHelper {
 			OutputStream os = new FileOutputStream( targetFile );
 			ByteArrayInputStream is;
 			try {
-				is = new ByteArrayInputStream( resourceContent.getBytes( "UTF-8" ));
+				is = new ByteArrayInputStream( fileContent.toString().getBytes( "UTF-8" ));
 			} catch( UnsupportedEncodingException e ) {
-				is = new ByteArrayInputStream( resourceContent.getBytes());
+				is = new ByteArrayInputStream( fileContent.toString().getBytes());
 			}
 
 			copyStream( is, os );

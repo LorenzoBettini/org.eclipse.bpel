@@ -13,8 +13,6 @@ package org.eclipse.bpel.common.wsdl.importhelpers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * A bean to store information about an import in a WSDL or XML schema.
@@ -37,7 +35,7 @@ class WsdlImportBean {
 	 * Constructor.
 	 */
 	public WsdlImportBean() {
-		this.importDeclarationToImportFullUri = new HashMap<String,String> ();
+		this.importDeclarationToImportFullUri = new HashMap<String,String>();
 	}
 
 
@@ -49,7 +47,7 @@ class WsdlImportBean {
 	}
 
 
-	/**
+	/**}
 	 * @param originUri the originUri to set
 	 */
 	public void setOriginUri( String originUri ) {
@@ -107,10 +105,9 @@ class WsdlImportBean {
 
 
 	/**
-	 * @return the map's content that associates import declarations (keys) and full URIs( values).
-	 * @see java.util.Map#entrySet()
+	 * @return the map that associates import declarations (keys) and full URIs( values)
 	 */
-	public Set<Entry<String, String>> entrySet() {
-		return this.importDeclarationToImportFullUri.entrySet();
+	public Map<String, String> getImportDeclarationToImportFullUri() {
+		return this.importDeclarationToImportFullUri;
 	}
 }

@@ -7,8 +7,29 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	  <version>0.0.1-SNAPSHOT</version>
 	  <relativePath>../../parent/pom.xml</relativePath>
 	</parent>
+	
 	<groupId>org.eclipse.bpel.tests</groupId>
 	<artifactId>org.eclipse.bpel.common.wsdl.tests</artifactId> 
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>eclipse-plugin</packaging>
+	<packaging>eclipse-test-plugin</packaging>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.class</include>
+					</includes>
+					
+					<argLine>-Xms64m -Xmx1024m -XX:MaxPermSize=128M -Dorg.eclipse.swtbot.search.timeout=5000</argLine>
+					<useUIHarness>true</useUIHarness>
+					
+					<!-- Dependencies are set through the manifest -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

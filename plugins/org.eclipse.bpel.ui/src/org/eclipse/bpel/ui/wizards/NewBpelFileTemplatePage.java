@@ -19,6 +19,7 @@ import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Templates;
 import org.eclipse.bpel.ui.Templates.Template;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -32,6 +33,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -41,7 +43,7 @@ import org.eclipse.swt.widgets.Text;
  * @author Bob Brodt - Red Hat
  * @author Vincent Zurczak - EBM WebSourcing
  */
-public class NewBpelFileWsdlPage extends WizardPage {
+public class NewBpelFileTemplatePage extends WizardPage {
 
 	/**
 	 * The page's name, so that it can be referenced from other pages.
@@ -61,7 +63,7 @@ public class NewBpelFileWsdlPage extends WizardPage {
 	/**
 	 * Constructor.
 	 */
-	protected NewBpelFileWsdlPage() {
+	protected NewBpelFileTemplatePage() {
 		super( PAGE_NAME );
 		this.processTemplateProperties = new HashMap<String,String> ();
 
@@ -115,6 +117,30 @@ public class NewBpelFileWsdlPage extends WizardPage {
 		final Combo processTemplateCombo = new Combo( container, SWT.DROP_DOWN | SWT.SIMPLE | SWT.READ_ONLY );
 		processTemplateCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ));
 		processTemplateCombo.setItems( BPELUIPlugin.INSTANCE.getTemplates().getTemplateNames());
+
+
+		// Show the description of the selected template
+		final Text descriptionText = new Text( container, SWT.BORDER | SWT.READ_ONLY | SWT.MULTI | SWT.WRAP );
+		descriptionText.setBackground( getShell().getDisplay().getSystemColor( SWT.COLOR_WHITE ));
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.heightHint = 100;
+		layoutData.widthHint = 500;
+		layoutData.horizontalSpan = 2;
+		descriptionText.setLayoutData( layoutData );
+
+
+		// Add a group for the properties of the template
+		final Group propertiesGroup = new Group( container, SWT.SHADOW_ETCHED_OUT );
+		propertiesGroup.setText( "Template Properties" );
+
+		propertiesGroup.setLayout( new GridLayout( 2, false ));
+		layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.horizontalSpan = 2;
+		layoutData.verticalIndent = 16;
+		propertiesGroup.setLayoutData( layoutData );
+
+
+		// Update the UI when the selected template changes
 		processTemplateCombo.addSelectionListener( new SelectionListener() {
 			@Override
 			public void widgetSelected( SelectionEvent e ) {
@@ -123,8 +149,13 @@ public class NewBpelFileWsdlPage extends WizardPage {
 
 			@Override
 			public void widgetDefaultSelected( SelectionEvent e ) {
-				NewBpelFileWsdlPage.this.processTemplateName = processTemplateCombo.getText();
-				refreshTemplateWidgets( processTemplateCombo );
+				NewBpelFileTemplatePage.this.processTemplateName = processTemplateCombo.getText();
+
+				Template tpl = getSelectedTemplate();
+				String desc = tpl == null ? "No description was found." : tpl.getDescription();
+				descriptionText.setText( desc );
+
+				refreshTemplateWidgets( propertiesGroup );
 				updateStatus();
 			}
 		});
@@ -143,20 +174,13 @@ public class NewBpelFileWsdlPage extends WizardPage {
 
 	/**
 	 * Refreshes the widgets with options for the templates.
-	 * @param limit the widget which acts as a limit from which sibling widgets can be removed
+	 * @param container the parent container
 	 */
-	private void refreshTemplateWidgets( Control limit ) {
+	private void refreshTemplateWidgets( Composite container ) {
 
 		// Remove the widgets
-		boolean found = false;
-		Composite container = limit.getParent();
-		for( Control c : container.getChildren()) {
-			if( found )
-				c.dispose();
-
-			else if( c.equals( limit ))
-				found = true;
-		}
+		for( Control c : container.getChildren())
+			c.dispose();
 
 
 		// Add the widgets: first, the service name
@@ -171,7 +195,7 @@ public class NewBpelFileWsdlPage extends WizardPage {
 		this.serviceNameText.addModifyListener( new ModifyListener() {
 			@Override
 			public void modifyText( ModifyEvent e ) {
-				NewBpelFileWsdlPage.this.serviceName = ((Text) e.widget).getText();
+				NewBpelFileTemplatePage.this.serviceName = ((Text) e.widget).getText();
 				updateStatus();
 			}
 		});
@@ -195,7 +219,7 @@ public class NewBpelFileWsdlPage extends WizardPage {
 			this.portNameText.addModifyListener( new ModifyListener() {
 				@Override
 				public void modifyText( ModifyEvent e ) {
-					NewBpelFileWsdlPage.this.portName = ((Text) e.widget).getText();
+					NewBpelFileTemplatePage.this.portName = ((Text) e.widget).getText();
 					updateStatus();
 				}
 			});
@@ -213,7 +237,7 @@ public class NewBpelFileWsdlPage extends WizardPage {
 			this.addressText.addModifyListener( new ModifyListener() {
 				@Override
 				public void modifyText( ModifyEvent e ) {
-					NewBpelFileWsdlPage.this.address = ((Text) e.widget).getText();
+					NewBpelFileTemplatePage.this.address = ((Text) e.widget).getText();
 					updateStatus();
 				}
 			});
@@ -224,7 +248,9 @@ public class NewBpelFileWsdlPage extends WizardPage {
 			l.setText( Messages.NewFileWizard_WSDLCustomPage_BindingLabel );
 
 			Combo bindingCombo = new Combo( container, SWT.BORDER | SWT.DROP_DOWN | SWT.SIMPLE | SWT.READ_ONLY );
-			bindingCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ));
+			GridData layoutData = new GridData();
+			layoutData.widthHint = 200;
+			bindingCombo.setLayoutData( layoutData );
 			bindingCombo.setItems( new String[] { SOAP_BINDING, HTTP_BINDING });
 
 			int index = HTTP_BINDING.equals( this.binding ) ? 1 : 0;
@@ -233,7 +259,7 @@ public class NewBpelFileWsdlPage extends WizardPage {
 			bindingCombo.addModifyListener( new ModifyListener() {
 				@Override
 				public void modifyText( ModifyEvent e ) {
-					NewBpelFileWsdlPage.this.binding = ((Combo) e.widget).getText();
+					NewBpelFileTemplatePage.this.binding = ((Combo) e.widget).getText();
 					updateStatus();
 				}
 			});
@@ -242,6 +268,7 @@ public class NewBpelFileWsdlPage extends WizardPage {
 
 		// Lay out the parent
 		container.layout();
+		container.getParent().layout();
 	}
 
 
@@ -292,9 +319,20 @@ public class NewBpelFileWsdlPage extends WizardPage {
 	 * Validates the page data and updates the page state in consequence.
 	 */
 	private void updateStatus() {
+
 		String errorMsg = validatePage();
 		setPageComplete( errorMsg == null );
 		setErrorMessage( errorMsg );
+
+		// Specific behavior for the empty template
+		// The created file will be marked as invalid
+		String msg = null;
+		Template tpl = getSelectedTemplate();
+		String tplKey = tpl == null ? null : tpl.getKey();
+		if( Templates.TEMPLATE_KEY_EMPTY.equals( tplKey ))
+			msg = "Beware, empty processes are marked as invalid by the BPEL validator.";
+
+		setMessage( msg, IMessageProvider.WARNING );
 	}
 
 
