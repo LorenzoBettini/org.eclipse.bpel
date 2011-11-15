@@ -14,18 +14,32 @@ package org.eclipse.bpel.ui.wizards;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.eclipse.bpel.common.ui.details.viewers.ComboViewer;
+import org.eclipse.bpel.common.wsdl.helpers.UriAndUrlHelper;
 import org.eclipse.bpel.common.wsdl.parsers.WsdlParser;
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IBPELUIConstants;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,15 +49,18 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -52,7 +69,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.model.WorkbenchContentProvider;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Fault;
 import org.eclipse.wst.wsdl.Input;
@@ -96,6 +120,11 @@ public class NewBpelFilePortTypePage extends WizardPage {
 	 */
 	private boolean importWsdl = true;
 
+	/**
+	 * The images used by this page.
+	 */
+	private Image workspaceImg, fileSystemImg;
+
 
 	/**
 	 * Constructor.
@@ -106,6 +135,40 @@ public class NewBpelFilePortTypePage extends WizardPage {
 		setTitle( "Service Contract" );
 		setDescription( "Select the service contract the BPEL process must implement." );
 		setImageDescriptor( BPELUIPlugin.INSTANCE.getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
+
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/obj16/workspace.gif" );
+			this.workspaceImg = desc.createImage();
+
+		} catch( Exception e ) {
+			BPELUIPlugin.log( e, IStatus.WARNING );
+		}
+
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/obj16/file_system.gif" );
+			this.fileSystemImg = desc.createImage();
+
+		} catch( Exception e ) {
+			BPELUIPlugin.log( e, IStatus.WARNING );
+		}
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.DialogPage
+	 * #dispose()
+	 */
+	@Override
+	public void dispose() {
+
+		if( this.fileSystemImg != null && ! this.fileSystemImg.isDisposed())
+			this.fileSystemImg.dispose();
+
+		if( this.workspaceImg != null && ! this.workspaceImg.isDisposed())
+			this.workspaceImg.dispose();
+
+		super.dispose();
 	}
 
 
@@ -169,16 +232,11 @@ public class NewBpelFilePortTypePage extends WizardPage {
 		Label l = new Label( container, SWT.NONE );
 		l.setText( "WSDL URL:" );
 		l.setToolTipText( "The URL of the service description (WSDL)" );
+		l.setLayoutData( new GridData( SWT.TOP, SWT.DEFAULT, false, false ));
 
-		Composite subContainer = new Composite( container, SWT.NONE );
-		GridLayout layout = new GridLayout( 2, false );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		subContainer.setLayout( layout );
-		subContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ));
-
-		final Text wsdlUrlText = new Text( subContainer, SWT.SINGLE | SWT.BORDER );
+		final Text wsdlUrlText = new Text( container, SWT.SINGLE | SWT.BORDER );
 		wsdlUrlText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ));
+		wsdlUrlText.setToolTipText( "Press the 'Tab' key to parse this WSDL" );
 		if( this.wsdlUrl != null )
 			wsdlUrlText.setText( this.wsdlUrl );
 
@@ -190,8 +248,29 @@ public class NewBpelFilePortTypePage extends WizardPage {
 			}
 		});
 
-		Button browseButton = new Button( subContainer, SWT.PUSH );
-		browseButton.setText( "Browse..." );
+		final ControlDecoration wsdlTextDecoration = new ControlDecoration( wsdlUrlText, SWT.LEFT | SWT.BOTTOM );
+		wsdlTextDecoration.setImage( PlatformUI.getWorkbench().getSharedImages().getImage( ISharedImages.IMG_OBJS_INFO_TSK ));
+		wsdlTextDecoration.setDescriptionText( wsdlUrlText.getToolTipText());
+		wsdlTextDecoration.hide();
+
+
+		// Helpers to browse for WSDL files
+		new Label( container, SWT.NONE );	// Bad but so convenient!
+		Composite subContainer = new Composite( container, SWT.NONE );
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.marginBottom = 13;
+		subContainer.setLayout( layout );
+		subContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ));
+
+		new Label( subContainer, SWT.NONE ).setImage( this.fileSystemImg );
+		Link browseFileSystemLink = new Link( subContainer, SWT.NONE );
+		browseFileSystemLink.setText( "<A>Browse the file system...</A>" );
+
+		new Label( subContainer, SWT.NONE ).setImage( this.workspaceImg );
+		Link browseWorkspaceLink = new Link( subContainer, SWT.NONE );
+		browseWorkspaceLink.setText( "<A>Browse the workspace...</A>" );
 
 
 		// Port type to use for the generation
@@ -366,7 +445,7 @@ public class NewBpelFilePortTypePage extends WizardPage {
 					portTypes.clear();
 					monitor.worked( 1 );
 
-					URI emfUri = URI.createURI( NewBpelFilePortTypePage.this.wsdlUrl.toString());
+					URI emfUri = URI.createURI( NewBpelFilePortTypePage.this.wsdlUrl );
 					Collection<Definition> definitions = WsdlParser.loadAllWsdlDefinitions( emfUri, WsdlParser.createBasicResourceSetForWsdl());
 					for( Definition def : definitions ) {
 						for( Object o : def.getPortTypes().values())
@@ -381,9 +460,9 @@ public class NewBpelFilePortTypePage extends WizardPage {
 			}
 		};
 
-		wsdlUrlText.addFocusListener( new FocusAdapter() {
+		wsdlUrlText.addTraverseListener( new TraverseListener() {
 			@Override
-			public void focusLost( FocusEvent e ) {
+			public void keyTraversed( TraverseEvent e ) {
 
 				if( NewBpelFilePortTypePage.this.wsdlUrl == null )
 					return;
@@ -408,9 +487,21 @@ public class NewBpelFilePortTypePage extends WizardPage {
 			}
 		});
 
+		wsdlUrlText.addFocusListener( new FocusListener() {
+			@Override
+			public void focusLost( FocusEvent e ) {
+				wsdlTextDecoration.hide();
+			}
 
-		// "Browse" callback
-		browseButton.addSelectionListener( new SelectionListener() {
+			@Override
+			public void focusGained( FocusEvent e ) {
+				wsdlTextDecoration.show();
+			}
+		});
+
+
+		// "Browse" call-backs
+		browseFileSystemLink.addSelectionListener( new SelectionListener() {
 			@Override
 			public void widgetSelected( SelectionEvent e ) {
 				widgetDefaultSelected( e );
@@ -427,7 +518,80 @@ public class NewBpelFilePortTypePage extends WizardPage {
 				if( path != null ) {
 					File f = new File( path );
 					wsdlUrlText.setText( f.toURI().toString());
-					wsdlUrlText.notifyListeners( SWT.FocusOut, new Event());
+					wsdlUrlText.notifyListeners( SWT.Traverse, new Event());
+				}
+			}
+		});
+
+		browseWorkspaceLink.addSelectionListener( new SelectionListener() {
+			@Override
+			public void widgetSelected( SelectionEvent e ) {
+				widgetDefaultSelected( e );
+			}
+
+			@Override
+			public void widgetDefaultSelected( SelectionEvent e ) {
+
+				// Prepare the initial selection
+				IFile currentWsdl = null;
+				if( NewBpelFilePortTypePage.this.wsdlUrl != null ) {
+					try {
+						java.net.URI uri = UriAndUrlHelper.urlToUri( NewBpelFilePortTypePage.this.wsdlUrl );
+						File f = new File( uri );
+						IPath path = new Path( f.getAbsolutePath());
+						currentWsdl = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation( path );
+
+					} catch( Exception e1 ) {
+						// nothing
+					}
+				}
+
+				// Open a dialog that only shows the WSDL files in the workspace - and their ancestors/containers
+				final List<IFile> workspaceWsdlFiles = getFiles( "wsdl", Arrays.asList( ResourcesPlugin.getWorkspace().getRoot()));
+				ElementTreeSelectionDialog dlg = new ElementTreeSelectionDialog(
+						getShell(),
+						new WorkbenchLabelProvider(),
+						new WorkbenchContentProvider() {
+
+							@Override
+							public Object[] getChildren( Object element ) {
+
+								Object[] result = super.getChildren( element );
+								if( result == null )
+									result = new Object[ 0 ];
+
+								List<Object> filteredResult = new ArrayList<Object>();
+								for( Object o : result ) {
+									if( o instanceof IFile
+											&& workspaceWsdlFiles.contains( o ))
+										filteredResult.add( o );
+
+									else if( o instanceof IContainer ) {
+										IPath containerPath = ((IContainer) o).getFullPath();
+										for( IFile wsdlFile : workspaceWsdlFiles ) {
+											if( containerPath.isPrefixOf( wsdlFile.getFullPath())) {
+												filteredResult.add( o );
+												break;
+											}
+										}
+									}
+								}
+
+								return filteredResult.toArray();
+							}
+				});
+
+				dlg.setInput( ResourcesPlugin.getWorkspace().getRoot());
+				dlg.setTitle( "WSDL Selection" );
+				dlg.setMessage( "Select a WSDL file located in the workspace." );
+				if( currentWsdl != null )
+					dlg.setInitialElementSelections( Arrays.asList( currentWsdl ));
+
+				// Open it and update the text widget if necessary
+				if( dlg.open() == Window.OK ) {
+					IFile selectedFile = (IFile) dlg.getResult()[ 0 ];
+					wsdlUrlText.setText( selectedFile.getLocation().toFile().toURI().toString());
+					wsdlUrlText.notifyListeners( SWT.Traverse, new Event());
 				}
 			}
 		});
@@ -477,5 +641,54 @@ public class NewBpelFilePortTypePage extends WizardPage {
 			errorMsg = "You must select a port type (contract) to implement in the BPEL process.";
 
 		return errorMsg;
+	}
+
+
+	/**
+	 * Gets all the files whose extension is <b>extension</b> and present in <b>containers</b>.
+	 * @param extension the file extension. Use "*" for any extension. Not null.
+	 * @param containers the containers to explore
+	 * @return all the IFile contained into this container (with no limit in the level).
+	 */
+	private static List<IFile> getFiles( String extension, Collection<? extends IContainer> containers ) {
+
+		List<IFile> result = new ArrayList<IFile> ();
+		if( containers == null )
+			return result;
+
+		for( IContainer container : containers ) {
+			try {
+				IResource[] resources = container.members();
+				for( IResource resource : resources ) {
+					switch( resource.getType()) {
+
+					case IResource.FILE:
+						if( "*".equals( extension )
+									|| extension.equalsIgnoreCase( resource.getFileExtension()))
+							result.add((IFile) resource);
+						break;
+
+					case IResource.FOLDER:
+						IFolder subFolder = (IFolder) resource;
+						result.addAll( getFiles( extension, Arrays.asList( subFolder )));
+						break;
+
+					case IResource.PROJECT:
+						IProject project = (IProject) resource;
+						if( project.isAccessible())
+							result.addAll( getFiles( extension, Arrays.asList( project )));
+						break;
+
+					default:
+						break;
+					}
+				}
+
+			} catch( CoreException e ) {
+				BPELUIPlugin.log( e, IStatus.ERROR );
+			}
+		}
+
+		return result;
 	}
 }
