@@ -353,7 +353,7 @@ public class WsdlImportHelper {
 	 * @return the resource's content
 	 * @throws IOException if the resource's content could not be read
 	 */
-	private static String readResourceContent( URI uri ) throws IOException {
+	public static String readResourceContent( URI uri ) throws IOException {
 
 		String result = null;
 		ByteArrayOutputStream os = new ByteArrayOutputStream();

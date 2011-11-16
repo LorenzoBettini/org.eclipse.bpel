@@ -15,6 +15,7 @@ package org.eclipse.bpel.ui.wizards;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -275,8 +276,9 @@ public class NewBpelFileWizard extends Wizard implements INewWizard {
 	 * @param monitor a progress monitor
 	 * @throws CoreException if a resource fails to be created
 	 * @throws IOException
+	 * @throws CoreException
 	 */
-	private void createResourcesFromWsdl( IProgressMonitor monitor ) throws IOException {
+	private void createResourcesFromWsdl( IProgressMonitor monitor ) throws IOException, CoreException {
 
 		// Import the original WSDL?
 		monitor.subTask( "Processing the original WSDL definition..." );
@@ -341,6 +343,19 @@ public class NewBpelFileWizard extends Wizard implements INewWizard {
 		resource.getContents().add( bpelProcess );
 		resource.save( saveOptions );
 		monitor.worked( 2 );
+
+
+		// Hack: if the process is abstract, replace the name space,
+		// since it is not supported by the meta-model
+		if( this.firstPage.isAbstractProcess()) {
+			java.net.URI fileUri =  this.locationPage.getProcessFile().getLocation().toFile().toURI();
+			String newContent = WsdlImportHelper.readResourceContent( fileUri );
+			newContent = newContent.replace( BPELConstants.NAMESPACE, BPELConstants.NAMESPACE_ABSTRACT_2007 );
+
+			InputStream is = new ByteArrayInputStream( newContent.getBytes());
+			this.locationPage.getProcessFile().setContents( is, true, false, monitor );
+			monitor.worked( 2 );
+		}
 	}
 
 
@@ -398,9 +413,6 @@ public class NewBpelFileWizard extends Wizard implements INewWizard {
 
 		Process bpelProcess = BPELFactory.eINSTANCE.createProcess();
 		bpelProcess.setName( bpelName );
-		if( this.firstPage.isAbstractProcess())
-			bpelProcess.setAbstractProcessProfile( BPELConstants.NAMESPACE_ABSTRACT_PROFILE );
-
 		bpelProcess.setTargetNamespace( businessDefinition.getTargetNamespace());
 		bpelProcess.setPartnerLinks( BPELFactory.eINSTANCE.createPartnerLinks());
 		bpelProcess.setVariables( BPELFactory.eINSTANCE.createVariables());

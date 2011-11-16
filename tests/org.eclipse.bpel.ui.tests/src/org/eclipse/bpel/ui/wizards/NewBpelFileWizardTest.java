@@ -346,38 +346,37 @@ public class NewBpelFileWizardTest {
 		testWsdlFirst( "test2/To.wsdl", false, true, true, true, 0 );
 	}
 
-	// FIXME: post bug about abstract processes created with the EMF meta-model
 
-//	/**
-//	 * Tests the creation of a BPEL from a WSDL definition.
-//	 * <p>
-//	 * The WSDL is imported in the project.
-//	 * The process is created in the "bpelContent" directory of a BPEL project.
-//	 * The created process is abstract.
-//	 * </p>
-//	 *
-//	 * @throws Exception
-//	 */
-//	@Test
-//	public void testWsdlAsAbstractWithImportTux() throws Exception {
-//		testWsdlFirst( "test1/tuxDroid.wsdl", true, true, true, true, 1 );
-//	}
-//
-//
-//	/**
-//	 * Tests the creation of a BPEL from a WSDL definition.
-//	 * <p>
-//	 * The WSDL is imported in the project.
-//	 * The process is created in the "bpelContent" directory of a BPEL project.
-//	 * The created process is abstract.
-//	 * </p>
-//	 *
-//	 * @throws Exception
-//	 */
-//	@Test
-//	public void testWsdlAsAbstractWithImportTo() throws Exception {
-//		testWsdlFirst( "test2/To.wsdl", true, true, true, true, 1 );
-//	}
+	/**
+	 * Tests the creation of a BPEL from a WSDL definition.
+	 * <p>
+	 * The WSDL is imported in the project.
+	 * The process is created in the "bpelContent" directory of a BPEL project.
+	 * The created process is abstract.
+	 * </p>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testWsdlAsAbstractWithImportTux() throws Exception {
+		testWsdlFirst( "test1/tuxDroid.wsdl", true, true, true, true, 1 );
+	}
+
+
+	/**
+	 * Tests the creation of a BPEL from a WSDL definition.
+	 * <p>
+	 * The WSDL is imported in the project.
+	 * The process is created in the "bpelContent" directory of a BPEL project.
+	 * The created process is abstract.
+	 * </p>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testWsdlAsAbstractWithImportTo() throws Exception {
+		testWsdlFirst( "test2/To.wsdl", true, true, true, true, 1 );
+	}
 
 
 	/**
