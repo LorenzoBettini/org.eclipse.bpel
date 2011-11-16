@@ -40,6 +40,7 @@ import org.eclipse.bpel.ui.util.XSDUtils;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -105,7 +106,7 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 	protected void updateQueryFieldFromTreeSelection() {
 
 		if (displayQuery() == false || fChangeHelper.isNonUserChange()
-				|| this.fModelObject == null) {
+				|| this.fModelObject == null || fModelObject.eContainer()==null) {
 			return;
 		}
 
@@ -629,17 +630,20 @@ public class VariablePartAssignCategory extends AssignCategoryBase {
 			Copy copy = BPELFactory.eINSTANCE.createCopy();
 			Assign a = (Assign) ((To) side.getCopyRuleSide()).getContainer()
 					.getContainer();
-			To to = BPELFactory.eINSTANCE.createTo();
-			From from = BPELFactory.eINSTANCE.createFrom();
-			copy.setFrom(from);
-			copy.setTo(to);
-			from.setLiteral(literal);
-			to.setVariable(side.getVariable());
-			to.setPart(side.getPart());
 			getCommandFramework()
 			.execute(
 					wrapInShowContextCommand(new InsertCopyCommand(a,
 							copy, 0)));
+			To to = BPELFactory.eINSTANCE.createTo();
+			From from = BPELFactory.eINSTANCE.createFrom();
+			from.setLiteral(literal);
+			copy.setFrom(from);
+			to.setVariable(side.getVariable());
+			to.setPart(side.getPart());
+			copy.setTo(to);
+			fChangeHelper.startNonUserChange();
+			fOwnerSection.basicSetInput(a);
+			fChangeHelper.finishNonUserChange();
 		} catch (Exception e) {
 			throw new IllegalStateException(
 					"Can't generate initializer, check WSDL file");
