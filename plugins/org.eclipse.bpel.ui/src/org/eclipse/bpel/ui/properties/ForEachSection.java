@@ -21,6 +21,7 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Variable;
+import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.factories.BPELUIObjectFactory;
 import org.eclipse.bpel.ui.util.BPELUtil;
@@ -31,6 +32,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Details section for the ForEach activity
@@ -177,5 +179,8 @@ public class ForEachSection extends BPELPropertySection {
 		fContext = new FocusContext ( fIsParallelCheckbox, fCounterNameText );
 		
 		createChangeTrackers();
+		
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(
+      parentComposite, IHelpContextIds.PROPERTY_PAGE_FOR_EACH);
 	}
 }

@@ -30,6 +30,7 @@ import org.eclipse.bpel.model.Invoke;
 import org.eclipse.bpel.model.OnEvent;
 import org.eclipse.bpel.model.OnMessage;
 import org.eclipse.bpel.model.PartnerActivity;
+import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCorrelationCommand;
 import org.eclipse.bpel.ui.commands.RemoveCorrelationCommand;
@@ -68,6 +69,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -458,6 +460,9 @@ public class CorrelationSection extends BPELPropertySection {
 	protected void createClient(Composite parent)  {
 		Composite composite = createFlatFormComposite(parent);
 		createCorrelationSetWidgets(composite);
+		
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(
+      composite, IHelpContextIds.PROPERTY_PAGE_CORRELATION);
 	}
 
 	protected void updateCorrelationWidgets(Correlation corr) {

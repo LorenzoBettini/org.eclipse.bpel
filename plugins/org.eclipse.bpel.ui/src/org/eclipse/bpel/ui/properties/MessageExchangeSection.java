@@ -241,9 +241,7 @@ public class MessageExchangeSection extends BPELPropertySection {
 	protected void createClient(Composite parent) {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 		createMessExWidgets(composite);
-		//TODO Write Help!!
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			composite, IHelpContextIds.PROPERTY_PAGE_NAME);
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IHelpContextIds.PROPERTY_PAGE_MESSAGE_EXCHANGE);
 	}
     
 	/**

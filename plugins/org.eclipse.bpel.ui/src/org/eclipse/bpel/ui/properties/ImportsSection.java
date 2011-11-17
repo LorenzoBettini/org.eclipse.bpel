@@ -306,8 +306,7 @@ public class ImportsSection extends BPELPropertySection {
 		Composite composite = parentComposite = createFlatFormComposite(parent);
 
 		createImportWidgets(composite);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parentComposite,
-				IHelpContextIds.PROPERTY_PAGE_BPEL_IMPORTS);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parentComposite, IHelpContextIds.PROPERTY_PAGE_IMPORTS);
 	}
 
 	@Override

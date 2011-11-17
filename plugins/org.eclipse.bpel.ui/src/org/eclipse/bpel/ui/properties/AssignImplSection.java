@@ -20,6 +20,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Copy;
 import org.eclipse.bpel.model.From;
 import org.eclipse.bpel.model.To;
+import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
@@ -37,6 +38,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * AssignImplDetails allows viewing and editing of the copy elements in an
@@ -411,7 +413,7 @@ public class AssignImplSection extends BPELPropertySection {
 
 		createCategorySectionWidgets(mainComposite, fFromSection, true);
 		createCategorySectionWidgets(mainComposite, fToSection, false);
-
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IHelpContextIds.PROPERTY_PAGE_ASSIGN);
 	}
 
 	// Total Hack until we have Copy objects in graphical editor

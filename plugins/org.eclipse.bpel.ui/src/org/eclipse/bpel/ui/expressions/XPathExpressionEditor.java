@@ -295,7 +295,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
 				dateTimeEditorComposite,
-				IHelpContextIds.PROPERTY_PAGE_WAIT_DATE);
+				IHelpContextIds.XPATH_DATE);
 
 		return dateTimeEditorComposite;
 	}
@@ -354,7 +354,7 @@ public class XPathExpressionEditor extends AbstractExpressionEditor {
 	    });
 	    
 	    PlatformUI.getWorkbench().getHelpSystem().setHelp(
-	    		durationEditorComposite, IHelpContextIds.PROPERTY_PAGE_WAIT_DURATION);
+	    		durationEditorComposite, IHelpContextIds.XPATH_DURATION);
 	    
 	    return durationEditorComposite;
 	}

@@ -16,6 +16,7 @@ import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Branches;
 import org.eclipse.bpel.model.CompletionCondition;
 import org.eclipse.bpel.model.ForEach;
+import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
@@ -25,6 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Completion section for the ForEach activity
@@ -161,5 +163,6 @@ public class ForEachSuccessfulBranchesOnlySection extends BPELPropertySection {
 	protected void createClient(Composite parent) {
 		Composite parentComposite = createFlatFormComposite(parent);
 		createSuccessfulBranchesOnlyWidgets(parentComposite);
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(parentComposite, IHelpContextIds.PROPERTY_PAGE_FOR_EACH_SUCCESSFUL);
 	}
 }

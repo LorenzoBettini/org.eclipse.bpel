@@ -93,8 +93,7 @@ public class NamespaceSection extends BPELPropertySection {
 		Composite composite = createFlatFormComposite(parent);
 		createNamespaceWidgets(composite);
 		createChangeTrackers();
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			composite, IHelpContextIds.PROPERTY_PAGE_NAME);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IHelpContextIds.PROPERTY_PAGE_NAMESPACE);
 	}
 
 	@Override

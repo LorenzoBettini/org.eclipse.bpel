@@ -170,7 +170,7 @@ public class AttributesSection extends BPELPropertySection {
 		createChangeTrackers();
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			composite, IHelpContextIds.PROPERTY_PAGE_PROCESS_DETAILS);
+			composite, IHelpContextIds.PROPERTY_PAGE_ATTRIBUTES);
 	}
 
 	/**
