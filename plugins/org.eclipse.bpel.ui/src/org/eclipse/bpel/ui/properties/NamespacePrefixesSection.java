@@ -330,7 +330,7 @@ public class NamespacePrefixesSection extends BPELPropertySection {
 
 		createWidgets(composite);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parentComposite,
-				IHelpContextIds.PROPERTY_PAGE_BPEL_NAMESPACE_PREFIXES);
+				IHelpContextIds.PROPERTY_PAGE_NAMESPACE_PREFIXES);
 	}
 
 	@Override

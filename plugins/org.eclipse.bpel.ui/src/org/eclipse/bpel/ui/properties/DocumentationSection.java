@@ -339,8 +339,7 @@ public class DocumentationSection extends BPELPropertySection {
 		fContext = new FocusContext( fDescription, fSourceText, fLangCombo );
 		
 		createChangeTrackers();
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			composite, IHelpContextIds.PROPERTY_PAGE_NAME);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(		composite, IHelpContextIds.PROPERTY_PAGE_DOCUMENTATION);
 	}
 
 		

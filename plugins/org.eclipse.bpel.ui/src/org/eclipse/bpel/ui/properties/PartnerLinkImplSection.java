@@ -454,7 +454,7 @@ public class PartnerLinkImplSection extends BPELPropertySection {
 		// createReferenceWidgets(composite);
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
-			parentComposite, IHelpContextIds.PROPERTY_PAGE_PARTNER_IMPLEMENTATION);
+			parentComposite, IHelpContextIds.PROPERTY_PAGE_PARTNER_LINK);
 	}
 	
 	

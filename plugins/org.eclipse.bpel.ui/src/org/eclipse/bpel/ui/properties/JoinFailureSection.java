@@ -19,6 +19,7 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Process;
+import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
@@ -28,6 +29,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * JoinFailureDetails provides viewing and editing of the suppressJoinFailure
@@ -173,6 +175,7 @@ public class JoinFailureSection extends BPELPropertySection {
 		fComposite = createFlatFormComposite(parent);
 		createSuppressJoinFailureWidgets(fComposite);
 		createControllers();
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(fComposite, IHelpContextIds.PROPERTY_PAGE_JOIN_FAILURE);
 	}
 	
 	@Override

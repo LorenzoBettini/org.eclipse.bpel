@@ -20,8 +20,7 @@ import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.CorrelationSet;
 import org.eclipse.bpel.model.messageproperties.Property;
-import org.eclipse.bpel.ui.BPELEditor;
-import org.eclipse.bpel.ui.Messages;
+import org.eclipse.bpel.ui.*;
 import org.eclipse.bpel.ui.commands.AddPropertyCommand;
 import org.eclipse.bpel.ui.commands.RemovePropertyCommand;
 import org.eclipse.bpel.ui.commands.ReplacePropertyCommand;
@@ -54,6 +53,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -296,6 +296,8 @@ public class CorrSetImplSection extends BPELPropertySection  {
 		Composite composite = createFlatFormComposite(parent);
 
 		createPropertyWidgets(composite);
+		
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IHelpContextIds.PROPERTY_PAGE_CORRELATION_SET);
 	}
 
 	protected void updateButtonEnablement(){

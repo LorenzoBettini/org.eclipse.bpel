@@ -15,6 +15,7 @@ import org.eclipse.bpel.common.ui.details.RadioButtonIValue;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
 import org.eclipse.bpel.common.ui.flatui.FlatFormData;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.ui.IHelpContextIds;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.ecore.EObject;
@@ -22,6 +23,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -76,6 +78,9 @@ public class ExitOnStandardFaultSection extends BPELPropertySection {
 		Composite composite = createFlatFormComposite(parent);
 		createWidgets(composite);
 		createControllers();
+		
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(
+      composite, IHelpContextIds.PROPERTY_PAGE_EXIT_ON_FAULT);
 	}
 
 	
