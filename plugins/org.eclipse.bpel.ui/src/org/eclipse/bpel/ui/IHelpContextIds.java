@@ -78,23 +78,23 @@ public interface IHelpContextIds {
   /** Context ID for the {@link MessageExchangeSection}. */
   public static final String PROPERTY_PAGE_MESSAGE_EXCHANGE = PREFIX + "property_message_exchange"; //$NON-NLS-1$
   /** Context ID for the {@link NameSection}. */
-	public static final String PROPERTY_PAGE_NAME = "property_name";
+	public static final String PROPERTY_PAGE_NAME = PREFIX + "property_name";
 	/** Context ID for the {@link WaitConditionSection}. */
-	public static final String PROPERTY_PAGE_WAIT = "property_wait";
+	public static final String PROPERTY_PAGE_WAIT = PREFIX + "property_wait";
   /** Context ID for the {@link CorrelationSection}. */
-	public static final String PROPERTY_PAGE_CORRELATION = "property_correlation";
+	public static final String PROPERTY_PAGE_CORRELATION = PREFIX + "property_correlation";
 	/** Context ID for the {@link CorrSetImplSection}. */
-	public static final String PROPERTY_PAGE_CORRELATION_SET = "property_correlation_set";
+	public static final String PROPERTY_PAGE_CORRELATION_SET = PREFIX + "property_correlation_set";
   /** Context ID for the {@link ExitOnStandardFaultSection}. */
-  public static final String PROPERTY_PAGE_EXIT_ON_FAULT = "property_exit_on_fault";
+  public static final String PROPERTY_PAGE_EXIT_ON_FAULT = PREFIX + "property_exit_on_fault";
   /** Context ID for the {@link ForEachSection}. */
-  public static final String PROPERTY_PAGE_FOR_EACH = "property_for_each";
+  public static final String PROPERTY_PAGE_FOR_EACH = PREFIX + "property_for_each";
   /** Context ID for the {@link JoinFailureSection}. */
-  public static final String PROPERTY_PAGE_JOIN_FAILURE = "property_join_failure";
+  public static final String PROPERTY_PAGE_JOIN_FAILURE = PREFIX + "property_join_failure";
   /** Context ID for the {@link AssignImplSection}. */
-  public static final String PROPERTY_PAGE_ASSIGN = "property_assign";
+  public static final String PROPERTY_PAGE_ASSIGN = PREFIX + "property_assign";
   /** Context ID for the {@link ForEachSuccessfulBranchesOnlySection}. */
-  public static final String PROPERTY_PAGE_FOR_EACH_SUCCESSFUL = "property_for_each_successful";
+  public static final String PROPERTY_PAGE_FOR_EACH_SUCCESSFUL = PREFIX + "property_for_each_successful";
   
 	// XPATH Expression editor
 	
