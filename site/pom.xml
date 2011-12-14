@@ -12,4 +12,73 @@
 	<name>bpel.site</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>eclipse-update-site</packaging>
+	<profiles>
+		<profile>
+			<id>eclipse-build</id>
+			<activation>
+				<property>
+					<name>build.at.eclipse.org</name>
+					<value>true</value>
+				</property>
+			</activation>
+			
+			<build>
+				<plugins>
+				
+					<!-- Pack and sign the update site -->
+					<plugin>
+						<groupId>org.eclipse.dash.maven</groupId>
+						<artifactId>eclipse-signing-maven-plugin</artifactId>
+						<version>1.0.5</version>
+								
+						<executions>
+							<execution>
+								<id>pack</id>
+								<configuration>
+									<inputFile>${project.build.directory}/site_assembly.zip</inputFile>
+								</configuration>
+								<phase>package</phase>
+								<goals>
+									<goal>pack</goal>
+								</goals>
+							</execution>
+							 
+							<execution>
+								<id>sign</id>
+								<configuration>
+									<inputFile>${project.build.directory}/site.zip</inputFile>
+									<signerInputDirectory>/home/data/httpd/download-staging.priv/soa/bpel</signerInputDirectory>
+								</configuration>
+								<phase>package</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+							 
+							<execution>
+								<id>repack</id>
+								<configuration>
+									<inputFile>${project.build.directory}/signed/site_assembly.zip</inputFile>
+								</configuration>
+								<phase>package</phase>
+								<goals>
+									<goal>pack</goal>
+								</goals>
+							</execution>
+							 
+							<execution>
+								<id>fixCheckSums</id>
+								<phase>package</phase>
+								<goals>
+									<goal>fixCheckSums</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					
+					<!-- End of plug-ins -->
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
