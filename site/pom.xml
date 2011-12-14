@@ -46,7 +46,7 @@
 							<execution>
 								<id>sign</id>
 								<configuration>
-									<inputFile>${project.build.directory}/site.zip</inputFile>
+									<inputFile>${project.build.directory}/site_assembly.zip</inputFile>
 									<signerInputDirectory>/home/data/httpd/download-staging.priv/soa/bpel</signerInputDirectory>
 								</configuration>
 								<phase>package</phase>

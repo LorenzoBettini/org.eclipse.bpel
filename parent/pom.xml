@@ -395,7 +395,7 @@
 				<activeByDefault>true</activeByDefault>
 				<property>
 					<name>platform.name</name>
-					<value>juno</value>
+					<value>helios</value>
 				</property>
 			</activation>
 		
