@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TypedListener;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 
 
@@ -62,11 +62,11 @@ public class DurationSelector extends Composite {
 //	protected String dateSepText = "/";
 //	protected String timeSepText = ":";
 	
-	private TabbedPropertySheetWidgetFactory wf;
+	private FormToolkit wf;
 
-	public DurationSelector(TabbedPropertySheetWidgetFactory factory, Composite parent, int style) {
+	public DurationSelector(FormToolkit toolkit, Composite parent, int style) {
 		super(parent, style);
-		this.wf = factory;
+		this.wf = toolkit;
 		setLayout(new FillLayout());
 		createControls(this);
 	}

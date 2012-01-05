@@ -262,8 +262,4 @@ public abstract class TextSection extends BPELPropertySection implements IGetExp
 		}
 		editor.gotoTextMarker(marker, useType, fModelObject);
 	}
-	
-	public boolean isExecutingStoreCommand() {
-		return false; // isExecutingStoreCommand;
-	}
 }
