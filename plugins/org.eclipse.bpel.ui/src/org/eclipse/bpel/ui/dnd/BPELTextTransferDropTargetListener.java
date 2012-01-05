@@ -119,13 +119,14 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 			List<EObject> list = fReader.fromXML(TransferBuffer.adjustXMLSource(data), "Drag-Session", fEditor.getResource() );			 //$NON-NLS-1$
 			if (list.size() > 0) {
 				request.setFactory(new FromSourceFactory(list.get(0)) );
-			} else {
-				request.setFactory(new FromSourceFactory(null));
+				return request;
 			}
 		} catch (Throwable t) {			
 			t.printStackTrace();
-			request.setFactory( new FromSourceFactory(null));
-		}			
+		}
+		// In case nothing to DND or error occured
+		setEnablementDeterminedByCommand(true);
+		// command cannot be executed because not CreationFactory was provided. Then dropListener.isEnabled will return false
 		return request;
 	}
 
