@@ -57,7 +57,8 @@ import org.w3c.dom.Text;
  *
  * @customized
  */
-public class QueryImpl extends BPELExtensibilityElementImpl implements Query, Expression {
+public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
+		Expression {
 	/**
 	 * The default value of the '{@link #getQueryLanguage() <em>Query Language</em>}' attribute.
 	 * <!-- begin-user-doc -->

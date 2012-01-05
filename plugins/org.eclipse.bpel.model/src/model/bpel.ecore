@@ -306,10 +306,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="To" eSuperTypes="#//BPELExtensibleElement">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Represents an l-value in an assignment activity. Can be used to query a node of a part of a container, a property of a container, or a service reference of a partner."/>
-    </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractAssignBound" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Part"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" eType="#//PartnerLink"/>
@@ -319,7 +316,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="From" eSuperTypes="#//BPELExtensibleElement">
+  <eClassifiers xsi:type="ecore:EClass" name="To" eSuperTypes="#//BPELExtensibleElement #//AbstractAssignBound">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Represents an l-value in an assignment activity. Can be used to query a node of a part of a container, a property of a container, or a service reference of a partner."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="From" eSuperTypes="#//BPELExtensibleElement #//AbstractAssignBound">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="opaque" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -331,17 +333,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unsafeLiteral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRef" eType="#//ServiceRef"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.xsd/model/XSD.ecore#//XSDTypeDefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="part" eType="ecore:EClass platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.ecore#//Part"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="partnerLink" eType="#//PartnerLink"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="ecore:EClass messageproperties.ecore#//Property"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OnMessage" eSuperTypes="#//BPELExtensibleElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

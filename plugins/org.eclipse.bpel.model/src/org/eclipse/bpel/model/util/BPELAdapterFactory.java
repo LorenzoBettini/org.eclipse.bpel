@@ -18,6 +18,7 @@ import javax.wsdl.extensions.AttributeExtensible;
 import javax.wsdl.extensions.ElementExtensible;
 import javax.wsdl.extensions.ExtensibilityElement;
 
+import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELExtensibleElement;
@@ -282,6 +283,11 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter caseCompensationHandler(CompensationHandler object) {
 			return createCompensationHandlerAdapter();
+		}
+
+		@Override
+		public Adapter caseAbstractAssignBound(AbstractAssignBound object) {
+			return createAbstractAssignBoundAdapter();
 		}
 
 		@Override
@@ -946,6 +952,20 @@ public class BPELAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCompensationHandlerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.bpel.model.AbstractAssignBound <em>Abstract Assign Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.bpel.model.AbstractAssignBound
+	 * @generated
+	 */
+	public Adapter createAbstractAssignBoundAdapter() {
 		return null;
 	}
 

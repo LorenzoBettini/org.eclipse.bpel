@@ -20,6 +20,7 @@ import javax.wsdl.extensions.AttributeExtensible;
 import javax.wsdl.extensions.ElementExtensible;
 import javax.wsdl.extensions.ExtensibilityElement;
 
+import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.Activity;
 import org.eclipse.bpel.model.Assign;
 import org.eclipse.bpel.model.BPELExtensibleElement;
@@ -94,6 +95,8 @@ import org.eclipse.bpel.model.Wait;
 import org.eclipse.bpel.model.While;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.wst.wsdl.ExtensibleElement;
 import org.eclipse.wst.wsdl.UnknownExtensibilityElement;
 import org.eclipse.wst.wsdl.WSDLElement;
@@ -111,7 +114,7 @@ import org.eclipse.wst.wsdl.WSDLElement;
  * @see org.eclipse.bpel.model.BPELPackage
  * @generated
  */
-public class BPELSwitch<T> {
+public class BPELSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -133,14 +136,16 @@ public class BPELSwitch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @parameter ePackage the package in question.
+	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+		return ePackage == modelPackage;
 	}
 
 	/**
@@ -150,23 +155,7 @@ public class BPELSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		} else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
-			return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch(
-					eSuperTypes.get(0), theEObject);
-		}
-	}
-
-	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 		case BPELPackage.PROCESS: {
@@ -647,11 +636,20 @@ public class BPELSwitch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
+		case BPELPackage.ABSTRACT_ASSIGN_BOUND: {
+			AbstractAssignBound abstractAssignBound = (AbstractAssignBound) theEObject;
+			T result = caseAbstractAssignBound(abstractAssignBound);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
 		case BPELPackage.TO: {
 			To to = (To) theEObject;
 			T result = caseTo(to);
 			if (result == null)
 				result = caseBPELExtensibleElement(to);
+			if (result == null)
+				result = caseAbstractAssignBound(to);
 			if (result == null)
 				result = caseExtensibleElement(to);
 			if (result == null)
@@ -669,6 +667,8 @@ public class BPELSwitch<T> {
 			T result = caseFrom(from);
 			if (result == null)
 				result = caseBPELExtensibleElement(from);
+			if (result == null)
+				result = caseAbstractAssignBound(from);
 			if (result == null)
 				result = caseExtensibleElement(from);
 			if (result == null)
@@ -1832,6 +1832,21 @@ public class BPELSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Assign Bound</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Assign Bound</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractAssignBound(AbstractAssignBound object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>To</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -2624,6 +2639,7 @@ public class BPELSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}

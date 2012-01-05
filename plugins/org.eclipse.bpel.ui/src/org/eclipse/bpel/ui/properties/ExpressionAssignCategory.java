@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Expression;
-import org.eclipse.bpel.model.From;
-import org.eclipse.bpel.model.To;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
@@ -183,11 +182,8 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 	
 	@Override
 	protected EStructuralFeature getStructuralFeature(EObject object) {
-		if (object instanceof To) {
-			return BPELPackage.eINSTANCE.getTo_Expression();
-		}
-		if (object instanceof From) {
-			return BPELPackage.eINSTANCE.getFrom_Expression();
+		if (object instanceof AbstractAssignBound) {
+			return BPELPackage.eINSTANCE.getAbstractAssignBound_Expression();
 		}
 		return super.getStructuralFeature(object);
 	}

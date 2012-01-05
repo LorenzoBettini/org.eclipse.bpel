@@ -2627,7 +2627,7 @@ public class BPELReader implements ErrorHandler {
 		Attr variable = toElement.getAttributeNode("variable"); 
     
 		if (variable != null && variable.getSpecified()) {				
-			setVariable(toElement, to, "variable", BPELPackage.eINSTANCE.getTo_Variable());
+			setVariable(toElement, to, "variable", BPELPackage.eINSTANCE.getAbstractAssignBound_Variable());
 		}
 
 		// Set part
@@ -2642,7 +2642,7 @@ public class BPELReader implements ErrorHandler {
 		Attr partnerLink = toElement.getAttributeNode("partnerLink");			
 		
 		if (partnerLink != null && partnerLink.getSpecified()) {
-			setPartnerLink(toElement, to, BPELPackage.eINSTANCE.getTo_PartnerLink());
+			setPartnerLink(toElement, to, BPELPackage.eINSTANCE.getAbstractAssignBound_PartnerLink());
 		}
 
 		// Set property		
@@ -2711,7 +2711,7 @@ public class BPELReader implements ErrorHandler {
 		Attr variable = fromElement.getAttributeNode("variable"); 
     
 		if (variable != null && variable.getSpecified()) {				
-			setVariable(fromElement, from, "variable", BPELPackage.eINSTANCE.getFrom_Variable() );
+			setVariable(fromElement, from, "variable", BPELPackage.eINSTANCE.getAbstractAssignBound_Variable() );
 		}
 
 		// Set part
@@ -2726,7 +2726,7 @@ public class BPELReader implements ErrorHandler {
 		Attr partnerLink = fromElement.getAttributeNode("partnerLink");			
 		
 		if (partnerLink != null && partnerLink.getSpecified()) {
-			setPartnerLink(fromElement, from, BPELPackage.eINSTANCE.getFrom_PartnerLink());
+			setPartnerLink(fromElement, from, BPELPackage.eINSTANCE.getAbstractAssignBound_PartnerLink());
 		}
 
 		// Set property		

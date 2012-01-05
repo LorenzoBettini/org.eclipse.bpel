@@ -2999,7 +2999,7 @@ public class ReconciliationBPELReader extends BPELReader implements
 
 		if (variable != null && variable.getSpecified()) {
 			setVariable(toElement, to, "variable", BPELPackage.eINSTANCE
-					.getTo_Variable());
+					.getAbstractAssignBound_Variable());
 		} else {
 			to.setVariable(null);
 		}
@@ -3019,7 +3019,7 @@ public class ReconciliationBPELReader extends BPELReader implements
 
 		if (partnerLink != null && partnerLink.getSpecified()) {
 			setPartnerLink(toElement, to, BPELPackage.eINSTANCE
-					.getTo_PartnerLink());
+					.getAbstractAssignBound_PartnerLink());
 		} else {
 			to.setPartnerLink(null);
 		}
@@ -3070,7 +3070,7 @@ public class ReconciliationBPELReader extends BPELReader implements
 
 		if (variable != null && variable.getSpecified()) {
 			setVariable(fromElement, from, "variable", BPELPackage.eINSTANCE
-					.getFrom_Variable());
+					.getAbstractAssignBound_Variable());
 		} else {
 			from.setVariable(null);
 		}
@@ -3089,7 +3089,7 @@ public class ReconciliationBPELReader extends BPELReader implements
 		Attr partnerLink = fromElement.getAttributeNode("partnerLink");
 		if (partnerLink != null && partnerLink.getSpecified()) {
 			setPartnerLink(fromElement, from, BPELPackage.eINSTANCE
-					.getFrom_PartnerLink());
+					.getAbstractAssignBound_PartnerLink());
 		} else {
 			from.setPartnerLink(null);
 		}
