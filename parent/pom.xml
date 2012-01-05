@@ -414,6 +414,25 @@
 			</repositories>
 		</profile>
 		
+		<!-- Indigo -->
+		<profile>
+			<id>platform-indigo</id>
+			<activation>
+				<property>
+					<name>platform.name</name>
+					<value>indigo</value>
+				</property>
+			</activation>
+			
+			<repositories>
+				<repository>
+					<id>indigo-repository</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/indigo/</url>
+				</repository>
+			</repositories>
+		</profile>
+		
 		<!-- Juno -->
 		<profile>
 			<id>platform-juno</id>
