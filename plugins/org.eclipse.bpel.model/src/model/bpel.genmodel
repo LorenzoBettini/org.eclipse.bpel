@@ -5,14 +5,14 @@
     editDirectory="/org.eclipse.bpel.model.edit/src" editorDirectory="/org.eclipse.bpel.model.editor/src"
     modelPluginID="org.eclipse.bpel.model" modelName="Bpel" modelPluginClass="" nonNLSMarkers="true"
     codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
-    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.genmodel#//wsdl platform:/plugin/org.eclipse.xsd/model/XSD.genmodel#//xsd">
+    runtimeVersion="2.6" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.wst.wsdl/model/WSDL.genmodel#//wsdl platform:/plugin/org.eclipse.xsd/model/XSD.genmodel#//xsd">
   <foreignModel>bpel.ecore</foreignModel>
   <genPackages prefix="BPEL" basePackage="org.eclipse.bpel" disposableProviderFactory="true"
       ecorePackage="bpel.ecore#/">
     <genEnums ecoreEnum="bpel.ecore#//CorrelationPattern">
-      <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//CorrelationPattern/in"/>
-      <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//CorrelationPattern/out"/>
-      <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//CorrelationPattern/outin"/>
+      <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//CorrelationPattern/request"/>
+      <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//CorrelationPattern/response"/>
+      <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//CorrelationPattern/requestresponse"/>
     </genEnums>
     <genEnums ecoreEnum="bpel.ecore#//EndpointReferenceRole">
       <genEnumLiterals ecoreEnumLiteral="bpel.ecore#//EndpointReferenceRole/myRole"/>
@@ -35,6 +35,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//Process/extensions"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//Process/exitOnStandardFault"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//Process/messageExchanges"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//Process/abstractProcessProfile"/>
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//PartnerLink">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//PartnerLink/name"/>
@@ -161,27 +162,22 @@
     <genClasses ecoreClass="bpel.ecore#//CompensationHandler">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//CompensationHandler/activity"/>
     </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//To">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//To/variable"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//To/part"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//To/partnerLink"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//To/property"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//To/query"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//To/expression"/>
+    <genClasses image="false" ecoreClass="bpel.ecore#//AbstractAssignBound">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//AbstractAssignBound/variable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//AbstractAssignBound/part"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//AbstractAssignBound/partnerLink"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//AbstractAssignBound/property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//AbstractAssignBound/query"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//AbstractAssignBound/expression"/>
     </genClasses>
+    <genClasses ecoreClass="bpel.ecore#//To"/>
     <genClasses ecoreClass="bpel.ecore#//From">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//From/opaque"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//From/endpointReference"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//From/literal"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//From/unsafeLiteral"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//From/expression"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//From/serviceRef"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//From/type"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//From/variable"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//From/part"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//From/partnerLink"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//From/property"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//From/query"/>
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//OnMessage">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//OnMessage/variable"/>
@@ -257,6 +253,7 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/operation"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/portType"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/messageType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/XSDElement"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/correlationSets"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/fromParts"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//OnEvent/messageExchange"/>
@@ -333,8 +330,8 @@
     <genClasses ecoreClass="bpel.ecore#//Branches">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//Branches/countCompletedBranchesOnly"/>
     </genClasses>
-    <genClasses ecoreClass="bpel.ecore#//ExtensibleElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//ExtensibleElement/documentation"/>
+    <genClasses ecoreClass="bpel.ecore#//BPELExtensibleElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference bpel.ecore#//BPELExtensibleElement/documentation"/>
     </genClasses>
     <genClasses ecoreClass="bpel.ecore#//Documentation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute bpel.ecore#//Documentation/lang"/>

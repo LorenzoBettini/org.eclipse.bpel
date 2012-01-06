@@ -136,9 +136,7 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 		String oldQueryLanguage = queryLanguage;
 		queryLanguage = newQueryLanguage;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					MessagepropertiesPackage.QUERY__QUERY_LANGUAGE,
-					oldQueryLanguage, queryLanguage));
+			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.QUERY__QUERY_LANGUAGE, oldQueryLanguage, queryLanguage));
 	}
 
 	/**
@@ -159,8 +157,7 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					MessagepropertiesPackage.QUERY__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, MessagepropertiesPackage.QUERY__VALUE, oldValue, value));
 	}
 
 	/**
@@ -171,10 +168,10 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-			return getQueryLanguage();
-		case MessagepropertiesPackage.QUERY__VALUE:
-			return getValue();
+			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+				return getQueryLanguage();
+			case MessagepropertiesPackage.QUERY__VALUE:
+				return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -187,12 +184,12 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-			setQueryLanguage((String) newValue);
-			return;
-		case MessagepropertiesPackage.QUERY__VALUE:
-			setValue((String) newValue);
-			return;
+			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+				setQueryLanguage((String)newValue);
+				return;
+			case MessagepropertiesPackage.QUERY__VALUE:
+				setValue((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -205,12 +202,12 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-			setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
-			return;
-		case MessagepropertiesPackage.QUERY__VALUE:
-			setValue(VALUE_EDEFAULT);
-			return;
+			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+				setQueryLanguage(QUERY_LANGUAGE_EDEFAULT);
+				return;
+			case MessagepropertiesPackage.QUERY__VALUE:
+				setValue(VALUE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -223,12 +220,10 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
-			return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null
-					: !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
-		case MessagepropertiesPackage.QUERY__VALUE:
-			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
-					.equals(value);
+			case MessagepropertiesPackage.QUERY__QUERY_LANGUAGE:
+				return QUERY_LANGUAGE_EDEFAULT == null ? queryLanguage != null : !QUERY_LANGUAGE_EDEFAULT.equals(queryLanguage);
+			case MessagepropertiesPackage.QUERY__VALUE:
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -240,13 +235,12 @@ public class QueryImpl extends BPELExtensibilityElementImpl implements Query,
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (queryLanguage: "); //$NON-NLS-1$
+		result.append(" (queryLanguage: ");
 		result.append(queryLanguage);
-		result.append(", value: "); //$NON-NLS-1$
+		result.append(", value: ");
 		result.append(value);
 		result.append(')');
 		return result.toString();
