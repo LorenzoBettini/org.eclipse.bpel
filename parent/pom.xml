@@ -514,6 +514,30 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
+		
+		<!-- Tests -->
+		<repository>
+			<id>swt-bot</id>
+			<url>http://download.eclipse.org/technology/swtbot/helios/dev-build/update-site</url>
+			<layout>p2</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>orbit-for-junit</id>
+			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/</url>
+			<layout>p2</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>

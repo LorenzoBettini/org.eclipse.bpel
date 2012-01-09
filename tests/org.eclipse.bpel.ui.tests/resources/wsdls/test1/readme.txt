@@ -1,0 +1,1 @@
+Simple WSDL 1.1.

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests - SOA Commons for WSDL and XML Schemas
+Bundle-SymbolicName: org.eclipse.bpel.common.wsdl.tests;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.bpel.common.wsdl,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.wst.wsdl,
+ javax.wsdl;bundle-version="1.5.1",
+ org.eclipse.xsd,
+ org.junit;bundle-version="4.8.2"

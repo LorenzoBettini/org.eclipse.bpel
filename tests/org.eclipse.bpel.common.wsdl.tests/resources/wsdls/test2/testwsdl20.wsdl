@@ -1,0 +1,80 @@
+<wsdl2:description xmlns:wsdl2="http://www.w3.org/ns/wsdl"
+	xmlns:tns="http://services.mashup.wso2.org/testService" xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
+	xmlns:axis2="http://services.mashup.wso2.org/testService" xmlns:ws="http://services.mashup.wso2.org/testService?xsd"
+	xmlns:wsdlx="http://www.w3.org/ns/wsdl-extensions" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:whttp="http://www.w3.org/ns/wsdl/http" xmlns="http://www.w3.org/ns/wsdl"
+	targetNamespace="http://services.mashup.wso2.org/testService">
+	<wsdl2:types>
+		<xs:schema attributeFormDefault="unqualified"
+			elementFormDefault="unqualified" targetNamespace="http://services.mashup.wso2.org/testService?xsd">
+			<xs:complexType name="echoJSstringType">
+				<xs:sequence>
+					<xs:element name="param" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="echoJSstring" type="ws:echoJSstringType" />
+			<xs:complexType name="echoJSstringResponseType">
+				<xs:sequence>
+					<xs:element name="return" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="echoJSstringResponse" type="ws:echoJSstringResponseType" />
+		</xs:schema>
+	</wsdl2:types>
+	<wsdl2:interface name="ServiceInterface">
+		<wsdl2:operation name="echoJSstring"
+			style="http://www.w3.org/ns/wsdl/style/rpc" pattern="http://www.w3.org/ns/wsdl/in-out"
+			wsdlx:safe="true">
+			<wsdl2:documentation>Echo JavaScript string</wsdl2:documentation>
+			<wsdl2:input xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+				element="ws:echoJSstring" wsaw:Action="urn:echoJSstring" />
+			<wsdl2:output xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+				element="ws:echoJSstringResponse" wsaw:Action="urn:echoJSstringResponse" />
+		</wsdl2:operation>
+	</wsdl2:interface>
+	<wsdl2:binding name="testServiceSOAP11Binding" interface="tns:ServiceInterface"
+		type="http://www.w3.org/ns/wsdl/soap" wsoap:version="1.1">
+		<wsdl2:operation ref="tns:echoJSstring" wsoap:action="urn:echoJSstring" />
+	</wsdl2:binding>
+	<wsdl2:binding name="testServiceSOAP12Binding" interface="tns:ServiceInterface"
+		type="http://www.w3.org/ns/wsdl/soap" wsoap:version="1.2">
+		<wsdl2:operation ref="tns:echoJSstring" wsoap:action="urn:echoJSstring" />
+	</wsdl2:binding>
+	<wsdl2:binding name="testServiceHttpBinding" interface="tns:ServiceInterface"
+		type="http://www.w3.org/ns/wsdl/http">
+		<wsdl2:operation ref="tns:echoJSstring"
+			whttp:location="testService/echoJSstring" />
+	</wsdl2:binding>
+	<wsdl2:service name="testService" interface="tns:ServiceInterface">
+		<wsdl2:endpoint name="SecureSOAP11Endpoint" binding="tns:testServiceSOAP11Binding"
+			address="https://192.168.1.50:7443/services/testService">
+			<wsdl2:documentation>This endpoint exposes a SOAP 11 binding over
+				a HTTPS</wsdl2:documentation>
+		</wsdl2:endpoint>
+		<wsdl2:endpoint name="SecureSOAP12Endpoint" binding="tns:testServiceSOAP12Binding"
+			address="https://192.168.1.50:7443/services/testService">
+			<wsdl2:documentation>This endpoint exposes a SOAP 12 binding over
+				a HTTPS</wsdl2:documentation>
+		</wsdl2:endpoint>
+		<wsdl2:endpoint name="SecureHTTPEndpoint" binding="tns:testServiceHttpBinding"
+			address="https://192.168.1.50:7443/services/testService">
+			<wsdl2:documentation>Thi
+				s endpoint exposes a HTTP binding over a HTTPS</wsdl2:documentation>
+		</wsdl2:endpoint>
+		<wsdl2:endpoint name="SOAP11Endpoint" binding="tns:testServiceSOAP11Binding"
+			address="http://192.168.1.50:7762/services/testService">
+			<wsdl2:documentation>This endpoint exposes a SOAP 11 binding over
+				a HTTP</wsdl2:documentation>
+		</wsdl2:endpoint>
+		<wsdl2:endpoint name="SOAP12Endpoint" binding="tns:testServiceSOAP12Binding"
+			address="http://192.168.1.50:7762/services/testService">
+			<wsdl2:documentation>This endpoint exposes a SOAP 12 binding over
+				a HTTP</wsdl2:documentation>
+		</wsdl2:endpoint>
+		<wsdl2:endpoint name="HTTPEndpoint" binding="tns:testServiceHttpBinding"
+			address="http://192.168.1.50:7762/services/testService">
+			<wsdl2:documentation>This endpoint exposes a HTTP binding over a
+				HTTP</wsdl2:documentation>
+		</wsdl2:endpoint>
+	</wsdl2:service>
+</wsdl2:description>

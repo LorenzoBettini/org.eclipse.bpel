@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://ser/types" xmlns:tns="http://ser" xmlns:types="http://ser/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Useless import, we just want to test dependency loops. -->
+  <xs:import namespace="http://ser" schemaLocation="level2/To_schema1.xsd" />
+
+  <xs:complexType name="helloWorld">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="helloWorldResponse">
+    <xs:sequence>
+      <xs:element name="returnMessage" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listenToTheWorld">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

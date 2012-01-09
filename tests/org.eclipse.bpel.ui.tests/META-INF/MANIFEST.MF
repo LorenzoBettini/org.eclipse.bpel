@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests - BPEL Editor
+Bundle-SymbolicName: org.eclipse.bpel.ui.tests;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.swtbot.eclipse.core,
+ org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.swtbot.eclipse.ui,
+ org.eclipse.swtbot.swt.finder,
+ org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.core.runtime,
+ org.hamcrest,
+ org.junit;bundle-version="4.8.2",
+ org.eclipse.bpel.common.model,
+ org.eclipse.bpel.common.ui,
+ org.eclipse.bpel.common.wsdl,
+ org.eclipse.bpel.model,
+ org.eclipse.bpel.ui,
+ org.eclipse.bpel.validator,
+ org.eclipse.bpel.wsil.model,
+ org.eclipse.bpel.xpath10

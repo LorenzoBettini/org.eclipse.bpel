@@ -15,7 +15,7 @@
             class="org.eclipse.bpel.ui.BPELMultipageEditorPart"
             contributorClass="org.eclipse.bpel.ui.BPELMultiPageEditorActionBarContributor"
             default="true"
-            icon="icons/obj16/file.gif"
+            icon="icons/obj16/bpel.gif"
             id="org.eclipse.bpel.ui.bpeleditor"
             name="%BPEL_EDITOR_NAME">
          <!-- use content type to identify BPEL files // Bugzilla 320545: -->
@@ -574,7 +574,7 @@
       <wizard
             canFinishEarly="false"
             category="org.eclipse.bpel.wizards"
-            class="org.eclipse.bpel.ui.wizards.NewFileWizard"
+            class="org.eclipse.bpel.ui.wizards.NewBpelFileWizard"
             hasPages="true"
             icon="icons/obj16/bpel.gif"
             id="org.eclipse.bpel.ui.newFile"
