@@ -97,8 +97,21 @@ public class NewBpelFileWizardTest {
 
 		// Disable auto-build
 		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=260010
-		SWTBotMenu menu = bot.menu( "Build Automatically" );
-		if( menu.isChecked())
+		SWTBotMenu menu = null;
+		String ba = "Build Automatically";
+		try {
+			menu = bot.menu( "Project" ).menu( ba );
+
+		} catch( Exception e1 ) {
+			try {
+				menu = bot.menu( "Project" ).menu( ba );
+
+			} catch( Exception e2 ) {
+				menu = bot.menu( ba );
+			}
+		}
+
+		if( menu != null && menu.isChecked())
 			menu.click();
 	}
 
