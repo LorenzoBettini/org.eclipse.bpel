@@ -101,13 +101,23 @@ public class NewBpelFileWizardTest {
 		String ba = "Build Automatically";
 		try {
 			menu = bot.menu( "Project" ).menu( ba );
+		} catch( Exception e ) {
+			// nothing
+		}
 
-		} catch( Exception e1 ) {
+		if( menu == null ) {
 			try {
-				menu = bot.menu( "Project" ).menu( ba );
-
+				menu = bot.menu( "Project", 1 ).menu( ba );
 			} catch( Exception e2 ) {
+				// nothing
+			}
+		}
+
+		if( menu == null ) {
+			try {
 				menu = bot.menu( ba );
+			} catch( Exception e ) {
+				// nothing
 			}
 		}
 
