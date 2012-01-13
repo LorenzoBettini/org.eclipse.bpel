@@ -58,6 +58,9 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	private Templates mTemplates;
 
 
+	/**
+	 * Constructor.
+	 */
 	public BPELUIPlugin() {
 		super();
 	}
@@ -67,11 +70,34 @@ public class BPELUIPlugin extends AbstractUIPlugin {
 	 * @param path
 	 * @return return the plugin URI
 	 */
-
 	public URI getURI ( String path ) {
 		return URI.createPlatformPluginURI(getID() + path, false);
 	}
 
+
+	/**
+	 * Creates an image without storing it in the image registry.
+	 * @param relativeLocation the relative location of the icon in this plug-in, e.g. "icons/test.gif"
+	 * @return the created image, or null if it could not be created (a log entry is created then)
+	 */
+	public static Image createImage( String relativeLocation ) {
+
+		Image result = null;
+		try {
+			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, relativeLocation );
+			result = desc.createImage();
+
+		} catch( Exception e ) {
+			log( e, IStatus.WARNING );
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * @return
+	 */
 	public String getDefaultPage() {
 		return getPreferenceStore().getString(IBPELUIConstants.DEFAULT_EDITOR_PAGE);
 	}

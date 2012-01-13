@@ -22,6 +22,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
@@ -569,16 +570,5 @@ public class NewBpelFileWizardTest {
 
 		bot.text( 0 ).setText( PROJECT_NAME );
 		bot.button( "Finish" ).click();
-
-		// The following code is useless - there is no default perspective for simple projects -
-		// but it makes one test work (otherwise, this test fails and there is no reason for it).
-		try {
-			shell = bot.shell( "Open Associated Perspective?" );
-			shell.activate();
-			bot.button( "Yes" ).click();
-
-		} catch( Exception e ) {
-			// nothing - the shell does not appear all the time
-		}
 	}
 }

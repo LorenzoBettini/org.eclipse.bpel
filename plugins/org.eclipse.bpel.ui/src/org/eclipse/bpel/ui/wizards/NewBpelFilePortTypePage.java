@@ -39,7 +39,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -76,7 +75,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Fault;
 import org.eclipse.wst.wsdl.Input;
@@ -123,7 +121,7 @@ public class NewBpelFilePortTypePage extends WizardPage {
 	/**
 	 * The images used by this page.
 	 */
-	private Image workspaceImg, fileSystemImg;
+	private final Image workspaceImg, fileSystemImg, parseImg;
 
 
 	/**
@@ -136,21 +134,9 @@ public class NewBpelFilePortTypePage extends WizardPage {
 		setDescription( "Select the service contract the BPEL process must implement." );
 		setImageDescriptor( BPELUIPlugin.INSTANCE.getImageDescriptor( IBPELUIConstants.ICON_WIZARD_BANNER ));
 
-		try {
-			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/obj16/workspace.gif" );
-			this.workspaceImg = desc.createImage();
-
-		} catch( Exception e ) {
-			BPELUIPlugin.log( e, IStatus.WARNING );
-		}
-
-		try {
-			ImageDescriptor desc = AbstractUIPlugin.imageDescriptorFromPlugin( BPELUIPlugin.PLUGIN_ID, "icons/obj16/file_system.gif" );
-			this.fileSystemImg = desc.createImage();
-
-		} catch( Exception e ) {
-			BPELUIPlugin.log( e, IStatus.WARNING );
-		}
+		this.workspaceImg = BPELUIPlugin.createImage( "icons/obj16/workspace.gif" );
+		this.fileSystemImg = BPELUIPlugin.createImage( "icons/obj16/file_system.gif" );
+		this.parseImg = BPELUIPlugin.createImage( "icons/obj16/parse.gif" );
 	}
 
 
@@ -167,6 +153,9 @@ public class NewBpelFilePortTypePage extends WizardPage {
 
 		if( this.workspaceImg != null && ! this.workspaceImg.isDisposed())
 			this.workspaceImg.dispose();
+
+		if( this.parseImg != null && ! this.parseImg.isDisposed())
+			this.parseImg.dispose();
 
 		super.dispose();
 	}
@@ -271,6 +260,10 @@ public class NewBpelFilePortTypePage extends WizardPage {
 		new Label( subContainer, SWT.NONE ).setImage( this.workspaceImg );
 		Link browseWorkspaceLink = new Link( subContainer, SWT.NONE );
 		browseWorkspaceLink.setText( "<A>Browse the workspace...</A>" );
+
+		new Label( subContainer, SWT.NONE ).setImage( this.parseImg );
+		Link parseWsdlLink = new Link( subContainer, SWT.NONE );
+		parseWsdlLink.setText( "<A>Parse the given WSDL</A>" );
 
 
 		// Port type to use for the generation
@@ -520,6 +513,18 @@ public class NewBpelFilePortTypePage extends WizardPage {
 					wsdlUrlText.setText( f.toURI().toString());
 					wsdlUrlText.notifyListeners( SWT.Traverse, new Event());
 				}
+			}
+		});
+
+		parseWsdlLink.addSelectionListener( new SelectionListener() {
+			@Override
+			public void widgetSelected( SelectionEvent e ) {
+				wsdlUrlText.notifyListeners( SWT.Traverse, new Event());
+			}
+
+			@Override
+			public void widgetDefaultSelected( SelectionEvent e ) {
+				wsdlUrlText.notifyListeners( SWT.Traverse, new Event());
 			}
 		});
 

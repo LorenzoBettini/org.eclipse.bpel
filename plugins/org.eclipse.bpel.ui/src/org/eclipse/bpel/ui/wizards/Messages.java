@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.eclipse.bpel.ui.wizards;
 
@@ -11,7 +11,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.eclipse.bpel.ui.wizards.messages"; //$NON-NLS-1$
-	
+
 
 	private Messages() {
 	}
@@ -42,35 +42,19 @@ public class Messages extends NLS {
 	public static String BPELCreateOperation_0;
 	public static String NewFileWizardPage1_2;
 	public static String NewFileWizardPage1_3;
-	public static String NewFileWizardPage1_4;
 	public static String NewFileWizardPage1_5;
 	public static String NewFileWizardPage1_6;
 	public static String NewFileWizardPage1_7;
-	public static String NewFileWizardPage1_8;
-	public static String NewFileWizardPage1_9;
-	public static String NewFileWizardPage1_10;
-	public static String NewFileWizardPage1_11;
-	public static String NewFileWizardPage1_12;
 	public static String NewFileWizardPage2_0;
-	public static String NewFileWizardPage2_1;
-	public static String NewFileWizardPage2_2;
 	public static String NewFileWizardPage2_3;
-	public static String NewFileWizardPage1_Name;
-	public static String NewFileWizardPage2_Name;
 	// https://issues.jboss.org/browse/JBIDE-8591
 	public static String NewFileWizard_Not_A_BPELFaceted_Project;
-	
+
 	public static String NewFileWizard_Not_A_BPELContent_Folder;
-	public static String NewFileWizard_WSDLCustomPage_Name;
 	public static String NewFileWizard_WSDLCustomPage_Title;
 	public static String NewFileWizard_WSDLCustomPage_Description;
 	public static String NewFileWizard_WSDLCustomPage_ServiceLable;
 	public static String NewFileWizard_WSDLCustomPage_PortLabel;
 	public static String NewFileWizard_WSDLCustomPage_AddressLabel;
-	public static String NewFileWizard_WSDLCustomPage_WSDLGroup;
 	public static String NewFileWizard_WSDLCustomPage_BindingLabel;
-	
-	public static String Error_NewFileWizard_WSDLCustomPage_Name_Empty;
-	public static String Error_NewFileWizard_WSDLCustomPage_Name_Space;
-	public static String Error_NewFileWizard_WSDLCustomPage_Protocol;
 }
