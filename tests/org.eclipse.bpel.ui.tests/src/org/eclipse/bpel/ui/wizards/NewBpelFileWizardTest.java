@@ -554,7 +554,7 @@ public class NewBpelFileWizardTest {
 	 */
 	private void createBpelProject() {
 
-		bot.menu("File").menu("New").menu( "Other..." ).click();
+		bot.menu( "File" ).menu( "New" ).menu( "Other..." ).click();
 		SWTBotShell shell = bot.shell( "New" );
 		shell.activate();
 
@@ -582,7 +582,7 @@ public class NewBpelFileWizardTest {
 	 */
 	private void createSimpleProject() {
 
-		bot.menu("File").menu("New").menu( "Other..." ).click();
+		bot.menu( "File" ).menu( "New" ).menu( "Other..." ).click();
 		SWTBotShell shell = bot.shell( "New" );
 		shell.activate();
 

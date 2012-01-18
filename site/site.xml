@@ -12,6 +12,9 @@
    <feature url="features/org.eclipse.bpel.jboss.riftsaw.runtime.feature_0.0.0.jar" id="org.eclipse.bpel.jboss.riftsaw.runtime.feature" version="0.0.0">
       <category name="Eclipse BPEL Designer"/>
    </feature>
+   <feature url="features/org.eclipse.bpel.common.feature_0.0.0.jar" id="org.eclipse.bpel.common.feature" version="0.0.0">
+      <category name="Eclipse BPEL Designer"/>
+   </feature>
    <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer">
       <description>
          Eclipse BPEL Designer Nightly Build Update Site: contains all features in this build.
