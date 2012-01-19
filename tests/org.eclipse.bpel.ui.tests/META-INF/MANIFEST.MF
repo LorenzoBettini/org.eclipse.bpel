@@ -23,4 +23,5 @@ Require-Bundle: org.eclipse.swtbot.eclipse.core,
  org.eclipse.bpel.ui,
  org.eclipse.bpel.validator,
  org.eclipse.bpel.wsil.model,
- org.eclipse.bpel.xpath10
+ org.eclipse.bpel.xpath10,
+ org.eclipse.swtbot.junit4_x
