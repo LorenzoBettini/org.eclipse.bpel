@@ -547,7 +547,7 @@ public class NewBpelFilePortTypePage extends WizardPage {
 						currentWsdl = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation( path );
 
 					} catch( Exception e1 ) {
-						// nothing
+						BPELUIPlugin.log( e1, IStatus.WARNING );
 					}
 				}
 
