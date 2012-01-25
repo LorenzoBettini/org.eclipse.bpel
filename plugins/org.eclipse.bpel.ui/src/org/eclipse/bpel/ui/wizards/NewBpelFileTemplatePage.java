@@ -63,7 +63,7 @@ public class NewBpelFileTemplatePage extends WizardPage {
 	/**
 	 * Constructor.
 	 */
-	protected NewBpelFileTemplatePage() {
+	public NewBpelFileTemplatePage() {
 		super( PAGE_NAME );
 		this.processTemplateProperties = new HashMap<String,String> ();
 
