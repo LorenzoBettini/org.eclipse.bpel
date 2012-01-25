@@ -17,4 +17,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.bpel.common.wsdl.helpers,
  org.eclipse.bpel.common.wsdl.importhelpers,
- org.eclipse.bpel.common.wsdl.parsers
+ org.eclipse.bpel.common.wsdl.parsers,
+ org.eclipse.bpel.common.wsdl.wizards
