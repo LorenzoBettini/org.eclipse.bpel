@@ -17,7 +17,7 @@
    </feature>
    <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer">
       <description>
-         Eclipse BPEL Designer Nightly Build Update Site: contains all features in this build.
+        Update site for the Eclipse BPEL Designer.
       </description>
    </category-def>
 </site>

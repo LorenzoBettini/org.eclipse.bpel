@@ -395,7 +395,8 @@ public class NewBpelFileFirstPage extends WizardPage {
 
 		// Save some fields for further use
 		IDialogSettings settings = getWizard().getDialogSettings();
-		settings.put( NewBpelFileWizard.DIALOG_SETTINGS_PROCESS_NAME, this.processName );
+		if( settings != null )
+			settings.put( NewBpelFileWizard.DIALOG_SETTINGS_PROCESS_NAME, this.processName );
 
 		return errorMsg;
 	}
