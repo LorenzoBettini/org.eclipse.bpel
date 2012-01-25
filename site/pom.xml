@@ -1,17 +1,22 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project 
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" 
+		xmlns="http://maven.apache.org/POM/4.0.0" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		
 	<modelVersion>4.0.0</modelVersion> 
 	<parent>
-		
 		<groupId>org.eclipse.bpel</groupId>
 		<artifactId>org.eclipse.bpel.parent.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
+	
 	<groupId>org.eclipse.bpel</groupId>
 	<artifactId>site</artifactId> 
 	<name>bpel.site</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>eclipse-update-site</packaging>
+	
 	<profiles>
 		<profile>
 			<id>eclipse-build</id>
@@ -21,6 +26,12 @@
 					<value>true</value>
 				</property>
 			</activation>
+			
+			<properties>
+				<staging.directory>/home/data/httpd/download-staging.priv/soa/bpel</staging.directory>
+				<platform.directory>/shared/soa/bpel/${platform.name}</platform.directory>
+				<update.site.directory>${platform.directory}/update-site</update.site.directory>
+			</properties>
 			
 			<build>
 				<plugins>
@@ -47,7 +58,7 @@
 								<id>sign</id>
 								<configuration>
 									<inputFile>${project.build.directory}/site_assembly.zip</inputFile>
-									<signerInputDirectory>/home/data/httpd/download-staging.priv/soa/bpel</signerInputDirectory>
+									<signerInputDirectory>${staging.directory}</signerInputDirectory>
 								</configuration>
 								<phase>package</phase>
 								<goals>
@@ -71,6 +82,82 @@
 								<phase>package</phase>
 								<goals>
 									<goal>fixCheckSums</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					
+					<!-- Publish the update site -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>publish-update-site</id>
+								<phase>install</phase>
+								
+								<configuration>
+									<target>
+									
+										<!-- Create directories -->
+										<mkdir dir="${platform.directory}" />
+										<mkdir dir="${update.site.directory}" />
+										
+										<!-- Prepare the publication -->
+										<mkdir dir="${update.site.directory}" />								
+										<delete includeemptydirs="true">
+											<fileset dir="${update.site.directory}">
+												<include name="**/*" />
+											</fileset>
+										</delete>
+																				
+										<!-- Copy the update site for aggregation -->
+										<copy includeemptydirs="false" todir="${update.site.directory}">
+					                     	<fileset dir="${project.build.directory}/checksumFix">
+					                        	<exclude name="META-INF" />
+					                        	<exclude name="META-INF/**" />
+					                       	</fileset>
+					                    </copy>
+										
+										<!-- Now, make a ZIP archive of the update site -->
+										<!-- 
+											 Prepare the name of the archive
+										     Thanks ANT and Maven for making things simple!
+										     
+										     There is no solution in ANT and Maven to manipulate text.
+											 You have to look for extensions to have this feature.
+											 
+											 FIXME: there must be some native solution, without 
+											 any new dependency (ANT-contrib or Codehaus plug-ins).
+											 Scripting may be a solution.
+										-->
+										<tstamp>
+											<format property="TODAY" pattern="yyyyMMddHHmmss" />
+										</tstamp>
+										
+										<!-- Go through a temporary file to replace a property part. -->
+										<tempfile property="temp.file" />
+										<echo message="${project.version}" file="${temp.file}" />
+										<loadfile srcfile="${temp.file}" property="buildId">
+		    								<filterchain>
+		        								<replaceregex pattern="-SNAPSHOT" replace=".${TODAY}" />
+		    								</filterchain>
+										</loadfile>
+										<delete file="${temp.file}" />
+		              					
+		              					<!-- ZIP the signed update site -->
+		              					<zip basedir="${update.site.directory}" destfile="${platform.directory}/BPEL-Designer--${buildId}.zip" />
+										
+										<!-- Clean up the signing directory -->
+										<delete includeemptydirs="true">
+											<fileset dir="${staging.directory}" includes="**/*" />
+										</delete>
+										
+									</target>
+								</configuration>
+								
+								<goals>
+									<goal>run</goal>
 								</goals>
 							</execution>
 						</executions>
