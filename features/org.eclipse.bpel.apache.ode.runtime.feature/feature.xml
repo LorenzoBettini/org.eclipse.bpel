@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.bpel.apache.ode.runtime.feature"
-      label="Runtime Adapter for Apache ODE 1.3"
+      label="%name"
       version="0.8.0.qualifier"
-      provider-name="eclipse.org">
+      provider-name="%providerName">
 
    <description url="http://www.eclipse.org/bpel/">
-      The Eclipse BPEL visual designer - Apache ODE 1.3 runtime deployment adapter.
+      %description
    </description>
 
    <copyright url="http://www.eclipse.org/legal/">
-      Copyright (c) Eclipse.org
-All rights reserved. This program and the accompanying materials
-are made available under the terms of the Eclipse Public License
-v1.0 which accompanies this distribution, and is available at
-http://www.eclipse.org/legal/epl-v10.html
+      %copyright
    </copyright>
 
-   <license url="http://www.eclipse.org/legal/epl-v10.html">
+   <license url="%licenseURL">
       Eclipse Public License - v 1.0
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS
 ECLIPSE PUBLIC LICENSE (&quot;AGREEMENT&quot;). ANY USE, REPRODUCTION OR
@@ -217,7 +213,7 @@ litigation.
    </license>
 
    <url>
-      <update label="Eclipse BPEL Designer" url="http://download.eclipse.org/bpel/update-site/"/>
+      <update label="%updateSiteName"/>
    </url>
 
    <requires>
