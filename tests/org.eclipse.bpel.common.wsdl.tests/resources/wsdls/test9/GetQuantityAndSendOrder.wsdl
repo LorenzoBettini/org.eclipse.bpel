@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tnsMail="http://petals.ow2.org/talend/sendMail" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="GetQuantityAndSendOrderService"
+	targetNamespace="http://petals.ow2.org/talend/sendMail">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:ns1="http://jaxb.dev.java.net/array" attributeFormDefault="unqualified"
+			elementFormDefault="qualified" targetNamespace="http://petals.ow2.org/talend/sendMail">
+			<xs:import namespace="http://jaxb.dev.java.net/array" />
+			<xs:complexType name="attachment">
+				<xs:sequence>
+					<xs:element xmlns:ns2="http://www.w3.org/2005/05/xmlmime"
+						minOccurs="0" name="fileContent" ns2:expectedContentTypes="application/octet-stream"
+						type="xs:base64Binary" />
+				</xs:sequence>
+			</xs:complexType>
+			<!-- The input message -->
+			<xs:element name="executeJob" type="tnsMail:executeJob" />
+			<xs:complexType name="executeJob">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="contexts" type="tnsMail:talendContexts" />
+					<xs:element minOccurs="0" name="in-attachments" type="tnsMail:inAttachments" />
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="in-data-bean" type="tnsMail:inRow" />
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="talend-option" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="talendContexts">
+				<xs:sequence>
+					<xs:element name="new1" type="xs:string" minOccurs="0"
+						default="null" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="inAttachments">
+				<xs:sequence />
+			</xs:complexType>
+			<xs:complexType name="inRow">
+				<xs:sequence />
+			</xs:complexType>
+			<!-- The output message -->
+			<xs:element name="executeJobResponse" type="tnsMail:executeJobResponse" />
+			<xs:complexType name="executeJobResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="talend-job-output" type="tnsMail:talendJobOutput" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="talendJobOutput">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="executionResult" nillable="true" type="ns1:stringArray" />
+					<xs:element minOccurs="0" name="outAttachment" type="tnsMail:outAttachments" />
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="outDataBean" nillable="true" type="tnsMail:outRow" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="outAttachments">
+				<xs:sequence />
+			</xs:complexType>
+			<xs:complexType name="outRow">
+				<xs:sequence />
+			</xs:complexType>
+			<!-- The possible faults -->
+			<xs:element name="TalendBusinessException" type="tnsMail:TalendBusinessException" />
+			<xs:complexType name="TalendBusinessException">
+				<xs:sequence />
+			</xs:complexType>
+			<xs:element name="TalendTechnicalException" type="tnsMail:TalendTechnicalException" />
+			<xs:complexType name="TalendTechnicalException">
+				<xs:sequence />
+			</xs:complexType>
+			<!-- Types for the operation with an empty result -->
+			<xs:element name="executeJobOnly" type="tnsMail:executeJobOnly" />
+			<xs:complexType name="executeJobOnly">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="contexts" type="tnsMail:talendContexts" />
+					<xs:element minOccurs="0" name="in-attachments" type="tnsMail:inAttachments" />
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="in-data-bean" type="tnsMail:inRow" />
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="talend-option" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="executeJobOnlyResponse" type="tnsMail:executeJobOnlyResponse" />
+			<xs:complexType name="executeJobOnlyResponse">
+				<xs:sequence />
+			</xs:complexType>
+		</xs:schema>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://jaxb.dev.java.net/array"
+			attributeFormDefault="unqualified" elementFormDefault="qualified"
+			version="1.0">
+			<xs:complexType final="#all" name="stringArray">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="item"
+						nillable="true" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="executeJob">
+		<wsdl:part name="parameters" element="tnsMail:executeJob" />
+	</wsdl:message>
+	<wsdl:message name="TalendBusinessException">
+		<wsdl:part name="TalendBusinessException" element="tnsMail:TalendBusinessException" />
+	</wsdl:message>
+	<wsdl:message name="TalendTechnicalException">
+		<wsdl:part name="TalendTechnicalException" element="tnsMail:TalendTechnicalException" />
+	</wsdl:message>
+	<wsdl:message name="executeJobResponse">
+		<wsdl:part name="parameters" element="tnsMail:executeJobResponse" />
+	</wsdl:message>
+	<wsdl:message name="executeJobOnlyResponse">
+		<wsdl:part name="parameters" element="tnsMail:executeJobOnlyResponse" />
+	</wsdl:message>
+	<wsdl:message name="executeJobOnly">
+		<wsdl:part name="parameters" element="tnsMail:executeJobOnly" />
+	</wsdl:message>
+	<wsdl:portType name="GetQuantityAndSendOrderServicePortType">
+		<wsdl:operation name="executeJob">
+			<wsdl:input name="executeJob" message="tnsMail:executeJob" />
+			<wsdl:output name="executeJobResponse" message="tnsMail:executeJobResponse" />
+			<wsdl:fault name="TalendBusinessException" message="tnsMail:TalendBusinessException" />
+			<wsdl:fault name="TalendTechnicalException" message="tnsMail:TalendTechnicalException" />
+		</wsdl:operation>
+		<wsdl:operation name="executeJobOnly">
+			<wsdl:input name="executeJobOnly" message="tnsMail:executeJobOnly" />
+			<wsdl:output name="executeJobOnlyResponse" message="tnsMail:executeJobOnlyResponse" />
+			<wsdl:fault name="TalendTechnicalException" message="tnsMail:TalendTechnicalException" />
+			<wsdl:fault name="TalendBusinessException" message="tnsMail:TalendBusinessException" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="GetQuantityAndSendOrderServiceSoapBinding"
+		type="tnsMail:GetQuantityAndSendOrderServicePortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<!-- ExecuteJob (with result) -->
+		<wsdl:operation name="executeJob">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="executeJob">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="executeJobResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="TalendBusinessException">
+				<soap:fault name="TalendBusinessException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="TalendTechnicalException">
+				<soap:fault name="TalendTechnicalException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<!-- ExecuteJob (without any result) -->
+		<wsdl:operation name="executeJobOnly">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="executeJobOnly">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="executeJobOnlyResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="TalendTechnicalException">
+				<soap:fault name="TalendTechnicalException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="TalendBusinessException">
+				<soap:fault name="TalendBusinessException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="GetQuantityAndSendOrderService">
+		<wsdl:port name="GetQuantityAndSendOrderEndpoint"
+			binding="tnsMail:GetQuantityAndSendOrderServiceSoapBinding">
+			<soap:address location="http://localhost:9090/petals.does.not.use.it" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
+

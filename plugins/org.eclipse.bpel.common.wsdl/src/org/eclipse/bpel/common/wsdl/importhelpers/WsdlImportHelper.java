@@ -298,16 +298,15 @@ public class WsdlImportHelper {
 				Element importElement = (Element) nodeList.item( i );
 				String location = importElement.hasAttribute( "location" ) ? importElement.getAttribute( "location" ) : null;
 				if( location == null ) {
-					location = importElement.getAttribute( "schemaLocation" );
-					int index = location.lastIndexOf( ' ' );
-					if( index != -1 )
+					location = importElement.hasAttribute( "schemaLocation" ) ? importElement.getAttribute( "schemaLocation" ) : null;
+					int index;
+					if( location != null
+							&& (index = location.lastIndexOf( ' ' )) != -1 )
 						location = location.substring( ++ index );
 				}
 
 				if( location != null )
 					importLocations.add( location );
-				else
-					SoaWsdlCommonPlugin.log( "An import location could not be found.", IStatus.WARNING );
 			}
 		}
 

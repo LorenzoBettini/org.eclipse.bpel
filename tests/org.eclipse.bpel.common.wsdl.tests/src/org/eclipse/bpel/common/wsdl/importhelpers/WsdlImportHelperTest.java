@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2011, EBM WebSourcing
+ * Copyright (c) 2011-2012, EBM WebSourcing
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -340,6 +340,37 @@ public class WsdlImportHelperTest {
 			File f = map.get( url.toString());
 			Assert.assertNotNull( f );
 			testWsdlParsing( f, 2 );
+
+		} finally {
+			deleteFilesRecursively( tmpDir );
+			Assert.assertFalse( tmpDir.exists());
+		}
+	}
+
+
+	/**
+	 * Tests a WSDL 1.1 which imports a XML schema defined in the same file.
+	 * <p>
+	 * It means the WSDL has two <i>types</i> elements but with a different target name space.
+	 * </p>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testWsdlImport12() throws Exception {
+
+		File tmpDir = new File( System.getProperty( "java.io.tmpdir" ), UUID.randomUUID().toString());
+		Assert.assertTrue( tmpDir.mkdir());
+		try {
+			URL url = getClass().getResource( "/wsdls/test9/GetQuantityAndSendOrder.wsdl" );
+			Map<String,File> map = new WsdlImportHelper().importWsdlOrXsdAndDependencies( tmpDir, url.toString());
+
+			Assert.assertEquals( map.size(), 1 );
+			Assert.assertEquals( tmpDir.listFiles().length, 1 );
+
+			File f = map.get( url.toString());
+			Assert.assertNotNull( f );
+			testWsdlParsing( f, 1 );
 
 		} finally {
 			deleteFilesRecursively( tmpDir );
