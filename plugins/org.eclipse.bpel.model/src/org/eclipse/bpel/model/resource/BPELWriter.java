@@ -1074,7 +1074,9 @@ if (XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(namespace)) {
 
 		Element activityElement = null;
 
-		if (activity instanceof Empty)
+		if (activity instanceof ExtensionActivity)
+			activityElement = extensionActivity2XML((ExtensionActivity) activity);
+		else if (activity instanceof Empty)
 			activityElement = empty2XML((Empty) activity);
 		else if (activity instanceof Invoke)
 			activityElement = invoke2XML((Invoke) activity);
@@ -1116,8 +1118,6 @@ if (XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(namespace)) {
 			activityElement = repeatUntil2XML((RepeatUntil) activity);
 		else if (activity instanceof Validate)
 			activityElement = validate2XML((Validate) activity);
-		else if (activity instanceof ExtensionActivity)
-			activityElement = extensionActivity2XML((ExtensionActivity) activity);
 
 		return activityElement;
 	}
