@@ -280,7 +280,6 @@ public class BPELOrderedLayoutEditPolicy extends FlowLayoutEditPolicy {
 	// isHorizontal() has been deprecated in GEF 3.7
 	// See also https://bugs.eclipse.org/bugs/show_bug.cgi?id=88884
 	// @Override - eventually
-	@Override
 	protected boolean isLayoutHorizontal() {
 		return this.isHorizontal();
 	}
