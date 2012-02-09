@@ -23,24 +23,25 @@ import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 
 /**
- * 
+ *
  * A drop handler that is used to transfer text representations of BPEL into the graphical
- * editor. 
- * 
+ * editor.
+ *
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @date Aug 20, 2007
  *
  */
 public class BPELTextTransferDropTargetListener extends AbstractTransferDropTargetListener  {
-	
+
 	@SuppressWarnings("nls")
-	
+
 	/** The reader which we use as a conversion */
 	org.eclipse.bpel.model.resource.BPELReader fReader = null;
-	
+
 	/** The create request that we generate from the content of the clipboard. */
 	Request fTargetRequest = null;
 
@@ -48,105 +49,131 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	protected Resource fTargetResource;
 
 	protected BPELEditor fEditor;
-	
-	
+
+
 	/** The from source factory */
-	class FromSourceFactory implements CreationFactory {				
-		
-		EObject fNewObject = null;		
-		
+	class FromSourceFactory implements CreationFactory {
+
+		EObject fNewObject = null;
+
 		FromSourceFactory ( EObject newObject) {
-			fNewObject = newObject;
+			this.fNewObject = newObject;
 		}
-		
-		
+
+
 		/**
 		 * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
 		 */
+		@Override
 		public Object getNewObject() {
-			return fNewObject;
+			return this.fNewObject;
 		}
 
 		/**
 		 * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
 		 */
-		
+
+		@Override
 		public Object getObjectType() {
 			EObject eObj = (EObject) getNewObject();
 			if (eObj != null) {
 				return eObj.eClass();
 			}
 			return null;
-		}				
+		}
 	}
 
-	
+
 	@Override
-	protected void unload() {		
+	protected void unload() {
 		super.unload();
-		fTargetRequest = null;
+		this.fTargetRequest = null;
 	}
 
-	
+
 	/**
 	 * Constructs a listener on the specified viewer.
 	 * @param viewer the EditPartViewer
-	 * @param editor 
+	 * @param editor
 	 */
-	
+
 	public BPELTextTransferDropTargetListener (EditPartViewer viewer, BPELEditor editor ) {
 		super(viewer, TextTransfer.getInstance() );
-		
-		fReader = new org.eclipse.bpel.model.resource.BPELReader();				
-		fEditor = editor;		
+
+		this.fReader = new org.eclipse.bpel.model.resource.BPELReader();
+		this.fEditor = editor;
 	}
 
 	/**
-	 * We create the target request once from the content of the clipboard. 
+	 * We create the target request once from the content of the clipboard.
 	 * We attempt to parse the clipboard and then push the result in the creation
 	 * factory so that the usual editor mechanics apply.
-	 * 
+	 *
 	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#createTargetRequest()
 	 */
 	@SuppressWarnings("nls")
 	@Override
 	protected Request createTargetRequest() {
 
-		CreateRequest request = new CreateRequest();	
+		CreateRequest request = new CreateRequest();
 		String data = (String) TextTransfer.getInstance().nativeToJava(getCurrentEvent().currentDataType);
-		
+
 		try {
-			List<EObject> list = fReader.fromXML(TransferBuffer.adjustXMLSource(data), "Drag-Session", fEditor.getResource() );			 //$NON-NLS-1$
+			List<EObject> list = this.fReader.fromXML(TransferBuffer.adjustXMLSource(data), "Drag-Session", this.fEditor.getResource() );			 //$NON-NLS-1$
 			if (list.size() > 0) {
 				request.setFactory(new FromSourceFactory(list.get(0)) );
 				return request;
 			}
-		} catch (Throwable t) {			
+		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		// In case nothing to DND or error occured
-		setEnablementDeterminedByCommand(true);
-		// command cannot be executed because not CreationFactory was provided. Then dropListener.isEnabled will return false
+
+		// Mickael Istria:
+		// In case nothing to DND or error occurred
+		// Command cannot be executed because not CreationFactory was provided. Then dropListener.isEnabled will return false.
+		// Vincent Zurczak:
+		// Yes, but, in fact, the command may not be created (illegal argument exception because the factory is null)
+		// Fixed below by surrounding the isEnabled by a try/catch
+		setEnablementDeterminedByCommand( true );
 		return request;
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener
+	 * #isEnabled(org.eclipse.swt.dnd.DropTargetEvent)
+	 */
+	@Override
+	public boolean isEnabled( DropTargetEvent event ) {
+		boolean result = false;
+		try {
+			result = super.isEnabled( event );
+		} catch( Exception e ) {
+			// nothing
+		}
+
+		return result;
+	}
+
 
 	/**
 	 * A helper method that casts the target Request to a CreateRequest.
 	 * @return CreateRequest
 	 */
 	protected final CreateRequest getCreateRequest() {
-		return (CreateRequest) getTargetRequest();		
+		return (CreateRequest) getTargetRequest();
 	}
 
 
 	/**
-	 * 
+	 *
 	 * @see AbstractTransferDropTargetListener#handleDragOperationChanged()
 	 */
 	@Override
-	protected void handleDragOperationChanged() {		
+	protected void handleDragOperationChanged() {
 		if (getCreateRequest().getNewObject() == null ) {
-			getCurrentEvent().detail = DND.DROP_NONE;			
+			getCurrentEvent().detail = DND.DROP_NONE;
 		} else {
 			getCurrentEvent().detail = DND.DROP_COPY;
 		}
@@ -178,7 +205,7 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 	protected void handleDrop() {
 		CreateRequest cr = getCreateRequest();
 		super.handleDrop();
-		
+
 		selectAddedObject( cr );
 	}
 
@@ -187,7 +214,7 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 		if (model == null) {
 			return ;
 		}
-		
+
 		EditPartViewer viewer = getViewer();
 		viewer.getControl().forceFocus();
 		Object editpart = viewer.getEditPartRegistry().get(model);
@@ -198,22 +225,22 @@ public class BPELTextTransferDropTargetListener extends AbstractTransferDropTarg
 		}
 	}
 
-	
+
 
 	/**
-	 * 
+	 *
 	 */
 	@Override
 	protected Request getTargetRequest() {
-		if (fTargetRequest == null) {
-			fTargetRequest = createTargetRequest();
+		if (this.fTargetRequest == null) {
+			this.fTargetRequest = createTargetRequest();
 		}
-		return fTargetRequest;
+		return this.fTargetRequest;
 	}
-	
-	
+
+
 	/**
-	 * Assumes that the target request is a {@link CreateRequest}. 
+	 * Assumes that the target request is a {@link CreateRequest}.
 	 */
 	@Override
 	protected void updateTargetRequest() {
