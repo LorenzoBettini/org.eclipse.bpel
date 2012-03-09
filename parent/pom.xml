@@ -517,7 +517,13 @@
 
 	<pluginRepositories>
 	
-		<!--
+		<!-- VZ -->
+		<pluginRepository>
+			<!-- Added to by-pass an invalid JAR on Eclipse repositories -->
+			<id>maven-central</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</pluginRepository>
+		
 		<pluginRepository>
 			<id>eclipse-nexus-central</id>
 			<url>http://maven.eclipse.org/nexus/content/groups/central/</url>
@@ -527,7 +533,7 @@
 			<id>eclipse-nexus-public</id>
 			<url>http://maven.eclipse.org/nexus/content/groups/public/</url>
 		</pluginRepository>
-		-->
+		<!-- VZ -->
 	
 		<pluginRepository>
 			<id>apache-snapshots</id>
