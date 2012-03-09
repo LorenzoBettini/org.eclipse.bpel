@@ -517,7 +517,7 @@
 
 	<pluginRepositories>
 	
-		<!-- VZ -->
+		<!--
 		<pluginRepository>
 			<id>eclipse-nexus-central</id>
 			<url>http://maven.eclipse.org/nexus/content/groups/central/</url>
@@ -527,7 +527,7 @@
 			<id>eclipse-nexus-public</id>
 			<url>http://maven.eclipse.org/nexus/content/groups/public/</url>
 		</pluginRepository>
-		<!-- VZ -->
+		-->
 	
 		<pluginRepository>
 			<id>apache-snapshots</id>
