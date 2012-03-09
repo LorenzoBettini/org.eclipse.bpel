@@ -15,7 +15,7 @@
 	<artifactId>site</artifactId> 
 	<name>bpel.site</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>eclipse-update-site</packaging>
+	<packaging>eclipse-repository</packaging>
 	
 	<profiles>
 		<profile>
