@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.bpel.apache.ode.runtime.feature_0.8.0.qualifier.jar" id="org.eclipse.bpel.apache.ode.runtime.feature" version="0.8.0.qualifier">
+      <category name="Eclipse BPEL Designer"/>
+   </feature>
+   <feature url="features/org.eclipse.bpel.feature_0.8.0.qualifier.jar" id="org.eclipse.bpel.feature" version="0.8.0.qualifier">
+      <category name="Eclipse BPEL Designer"/>
+   </feature>
+   <feature url="features/org.eclipse.bpel.jboss.riftsaw.runtime.feature_0.8.0.qualifier.jar" id="org.eclipse.bpel.jboss.riftsaw.runtime.feature" version="0.8.0.qualifier">
+      <category name="Eclipse BPEL Designer"/>
+   </feature>
+   <feature url="features/org.eclipse.bpel.common.feature_0.8.0.qualifier.jar" id="org.eclipse.bpel.common.feature" version="0.8.0.qualifier">
+      <category name="Eclipse BPEL Designer"/>
+   </feature>
+   <category-def name="Eclipse BPEL Designer" label="Eclipse BPEL Designer">
+      <description>
+         Update site for the Eclipse BPEL Designer.
+      </description>
+   </category-def>
+</site>
