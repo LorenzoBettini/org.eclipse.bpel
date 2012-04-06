@@ -29,8 +29,8 @@
 			
 			<properties>
 				<staging.directory>/home/data/httpd/download-staging.priv/soa/bpel</staging.directory>
-				<platform.directory>/shared/soa/bpel/${platform.name}</platform.directory>
-				<update.site.directory>${platform.directory}/update-site</update.site.directory>
+				<publish.directory>/shared/soa/bpel/${update.site.version}</publish.directory>
+				<update.site.directory>${publish.directory}/update-site</update.site.directory>
 			</properties>
 			
 			<build>
@@ -100,7 +100,7 @@
 									<target>
 									
 										<!-- Create directories -->
-										<mkdir dir="${platform.directory}" />
+										<mkdir dir="${publish.directory}" />
 										<mkdir dir="${update.site.directory}" />
 										
 										<!-- Prepare the publication -->
@@ -146,7 +146,7 @@
 										<delete file="${temp.file}" />
 		              					
 		              					<!-- ZIP the signed update site -->
-		              					<zip basedir="${update.site.directory}" destfile="${platform.directory}/BPEL-Designer--${buildId}.zip" />
+		              					<zip basedir="${update.site.directory}" destfile="${publish.directory}/BPEL-Designer--${buildId}.zip" />
 										
 										<!-- Clean up the signing directory -->
 										<delete includeemptydirs="true">
