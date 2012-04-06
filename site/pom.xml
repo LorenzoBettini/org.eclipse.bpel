@@ -11,10 +11,14 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	
+	<!-- 
+		The Maven version is also used as a directory name.
+		Please, update it every time the BPEL Designer version changes.
+	 -->
 	<groupId>org.eclipse.bpel</groupId>
 	<artifactId>site</artifactId> 
 	<name>bpel.site</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.8.0</version>
 	<packaging>eclipse-repository</packaging>
 	
 	<profiles>
@@ -29,7 +33,7 @@
 			
 			<properties>
 				<staging.directory>/home/data/httpd/download-staging.priv/soa/bpel</staging.directory>
-				<publish.directory>/shared/soa/bpel/${update.site.version}</publish.directory>
+				<publish.directory>/shared/soa/bpel/${project.version}</publish.directory>
 				<update.site.directory>${publish.directory}/update-site</update.site.directory>
 			</properties>
 			
@@ -120,33 +124,12 @@
 					                    </copy>
 										
 										<!-- Now, make a ZIP archive of the update site -->
-										<!-- 
-											 Prepare the name of the archive
-										     Thanks ANT and Maven for making things simple!
-										     
-										     There is no solution in ANT and Maven to manipulate text.
-											 You have to look for extensions to have this feature.
-											 
-											 FIXME: there must be some native solution, without 
-											 any new dependency (ANT-contrib or Codehaus plug-ins).
-											 Scripting may be a solution.
-										-->
 										<tstamp>
 											<format property="TODAY" pattern="yyyyMMddHHmmss" />
 										</tstamp>
-										
-										<!-- Go through a temporary file to replace a property part. -->
-										<tempfile property="temp.file" />
-										<echo message="${project.version}" file="${temp.file}" />
-										<loadfile srcfile="${temp.file}" property="buildId">
-		    								<filterchain>
-		        								<replaceregex pattern="-SNAPSHOT" replace=".${TODAY}" />
-		    								</filterchain>
-										</loadfile>
-										<delete file="${temp.file}" />
 		              					
 		              					<!-- ZIP the signed update site -->
-		              					<zip basedir="${update.site.directory}" destfile="${publish.directory}/BPEL-Designer--${buildId}.zip" />
+		              					<zip basedir="${update.site.directory}" destfile="${publish.directory}/BPEL-Designer--${project.version}.${TODAY}.zip" />
 										
 										<!-- Clean up the signing directory -->
 										<delete includeemptydirs="true">

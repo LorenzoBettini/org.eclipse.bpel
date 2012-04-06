@@ -16,7 +16,6 @@
 		<memoryOptions2>-XX:MaxPermSize=256m</memoryOptions2>
 		<systemProperties></systemProperties>
 		<platform.name>helios</platform.name>
-		<update.site.version>0.8.0</update.site.version>
 	</properties>
 
 	<build>
