@@ -9,6 +9,6 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.bpel.common.wsdl,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.wst.wsdl,
- javax.wsdl;bundle-version="1.5.1",
+ javax.wsdl;bundle-version="1.6.2",
  org.eclipse.xsd,
- org.junit;bundle-version="4.8.2"
+ org.junit;bundle-version="4.8.1"

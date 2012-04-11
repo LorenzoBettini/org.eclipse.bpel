@@ -14,6 +14,8 @@
  */
 package org.eclipse.bpel.model.impl;
 
+import javax.wsdl.extensions.ExtensibilityElement;
+
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.ServiceRef;
 import org.eclipse.bpel.model.util.BPELConstants;
@@ -242,6 +244,13 @@ public class ServiceRefImpl extends ExtensibleElementImpl implements ServiceRef 
 		result.append(value);
 		result.append(')');
 		return result.toString();
+	}
+
+	@Override
+	public ExtensibilityElement removeExtensibilityElement(
+			ExtensibilityElement arg0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 } //ServiceRefImpl

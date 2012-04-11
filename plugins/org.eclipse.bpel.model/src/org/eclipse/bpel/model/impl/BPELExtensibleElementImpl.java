@@ -9,6 +9,8 @@ package org.eclipse.bpel.model.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.wsdl.extensions.ExtensibilityElement;
+
 import org.eclipse.bpel.model.BPELExtensibleElement;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Documentation;
@@ -397,6 +399,13 @@ public class BPELExtensibleElementImpl extends ExtensibleElementImpl implements
 
 	public void setUpdatingDOM(boolean updatingDOM) {
 		this.updatingDOM = updatingDOM;
+	}
+
+	@Override
+	public ExtensibilityElement removeExtensibilityElement(
+			ExtensibilityElement arg0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 } //BPELExtensibleElementImpl
