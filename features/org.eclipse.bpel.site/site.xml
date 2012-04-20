@@ -4,7 +4,7 @@
    <description url="http://download.eclipse.org/bpel/update-site/">
       BPEL Designer for Eclipse
    </description>
-   <feature url="features/org.eclipse.bpel.feature_0.8.0.jar" id="org.eclipse.bpel.feature" version="0.8.0">
+   <feature url="features/org.eclipse.bpel.feature_1.0.0.jar" id="org.eclipse.bpel.feature" version="1.0.0">
       <category name="Eclipse BPEL Designer (Incubation)"/>
    </feature>
    <category-def name="Eclipse BPEL Designer (Incubation)" label="Eclipse BPEL Designer (Incubation)">
