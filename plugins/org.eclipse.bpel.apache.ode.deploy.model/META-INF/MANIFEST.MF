@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ODE Deploy Descriptor EMF Model
 Bundle-SymbolicName: org.eclipse.bpel.apache.ode.deploy.model; singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
@@ -12,7 +12,7 @@ Export-Package: org.eclipse.bpel.apache.ode.deploy.model.dd,
  org.eclipse.bpel.apache.ode.deploy.model.dd.util
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
  javax.wsdl;bundle-version="1.6.2",
- org.eclipse.bpel.model;bundle-version="1.0.0",
+ org.eclipse.bpel.model;bundle-version="0.8.0",
  org.eclipse.wst.wsdl;bundle-version="[1.1.200,2.0.0)",
  org.eclipse.xsd;bundle-version="[2.4.0,3.0.0)"
 Bundle-ActivationPolicy: lazy

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.bpel.apache.ode.runtime.feature"
       label="%name"
-      version="1.0.0.qualifier"
+      version="0.8.0.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/bpel/">
@@ -223,13 +223,13 @@ litigation.
       <import plugin="org.eclipse.emf.ecore" version="2.4.0" match="compatible"/>
       <import plugin="org.eclipse.jst.server.generic.core" version="1.0.305" match="compatible"/>
       <import plugin="org.eclipse.wst.wsdl" version="1.1.200" match="compatible"/>
-      <import plugin="org.eclipse.bpel.model" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.bpel.model" version="0.8.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jem.util" version="2.0.100" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.4.0" match="compatible"/>
-      <import plugin="org.eclipse.bpel.runtimes" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.bpel.runtimes" version="0.8.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jst.server.generic.ui" version="1.0.305" match="compatible"/>
       <import plugin="org.eclipse.emf.ecore.xmi" version="2.4.0" match="compatible"/>
-      <import plugin="org.eclipse.bpel.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.bpel.ui" version="0.8.0" match="greaterOrEqual"/>
       <import plugin="org.apache.xerces" version="2.9.0" match="compatible"/>
       <import plugin="org.eclipse.xsd" version="2.4.0" match="compatible"/>
       <import plugin="org.eclipse.jst.server.ui" version="1.0.303" match="compatible"/>
