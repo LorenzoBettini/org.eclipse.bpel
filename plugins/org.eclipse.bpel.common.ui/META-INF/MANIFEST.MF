@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Common UI (Incubation)
+Bundle-Name: Common UI
 Bundle-SymbolicName: org.eclipse.bpel.common.ui; singleton:=true 
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.bpel.common.ui.CommonUIPlugin
