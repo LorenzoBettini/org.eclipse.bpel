@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process xmlns:ns="http://SampleProject/SampleProcessArtifacts" xmlns:ns0="http://SampleProject/SampleProcessInterface" expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116" name="SampleProcess" suppressJoinFailure="yes" targetNamespace="http://SampleProject" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+  <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="SampleProcessArtifacts.wsdl" namespace="http://SampleProject/SampleProcessArtifacts"/>
+  <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="SampleProcess.wsdl" namespace="http://SampleProject/SampleProcessInterface"/>
+  <bpel:partnerLinks>
+    <bpel:partnerLink myRole="ProcessRole" name="Client" partnerLinkType="ns:SampleProcessPartnerLinkType"/>
+  </bpel:partnerLinks>
+  <bpel:variables>
+    <bpel:variable messageType="ns0:operation1Request" name="Input"/>
+    <bpel:variable messageType="ns0:operation1Response" name="Output"/>
+  </bpel:variables>
+  <bpel:sequence name="Sequence">
+    <bpel:receive createInstance="yes" name="Receive" operation="operation1" partnerLink="Client" portType="ns0:SampleProcess" variable="Input"/>
+    <bpel:assign name="Assign">
+      <bpel:copy>
+        <bpel:from part="operation1Parameters" variable="Input">
+          <bpel:query><![CDATA[/input1]]></bpel:query>
+        </bpel:from>
+        <bpel:to part="operation1Result" variable="Output">
+          <bpel:query><![CDATA[/output1]]></bpel:query>
+        </bpel:to>
+      </bpel:copy>
+    </bpel:assign>
+    <bpel:reply name="Reply" operation="operation1" partnerLink="Client" portType="ns0:SampleProcess" variable="Output"/>
+  </bpel:sequence>
+</bpel:process>
