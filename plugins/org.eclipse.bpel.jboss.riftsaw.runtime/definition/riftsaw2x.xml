@@ -36,7 +36,7 @@
 	</port>
 
 	<module>
-		<type>jbt.bpel.module</type>
+		<type>jbt.bpel.facet.core</type>
 		<publishDir>${jboss.home}/server/${serverConfig}/deploy</publishDir>
 		<publisherReference>org.eclipse.jboss.tools.bpel.runtimes.module</publisherReference>
 	</module>
