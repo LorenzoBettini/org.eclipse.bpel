@@ -45,7 +45,7 @@
 <!--=========================================================================-->   
    
    <extension
-         id="bpel.module"
+         id="bpel.facet.core"
          name="%MODULE_TYPE_NAME"
          point="org.eclipse.wst.server.core.moduleTypes">
    </extension>
@@ -55,8 +55,8 @@
    
 	<extension point="org.eclipse.wst.server.ui.serverImages">
 		<image
-			id="org.eclipse.bpel.runtimes.bpel.module"
-			typeIds="bpel.module"
+			id="org.eclipse.bpel.runtimes.bpel.facet.core"
+			typeIds="bpel.facet.core"
 			icon="icons/obj16/bpelfacet.gif"/>
 	</extension>
    
@@ -133,7 +133,7 @@
             id="org.eclipse.bpel.runtimes.module.moduleFactory">
      		<moduleType
                versions="1.1, 2.0"
-               types="bpel.module">
+               types="bpel.facet.core">
 			</moduleType>
  		</moduleFactory>
      </extension>
