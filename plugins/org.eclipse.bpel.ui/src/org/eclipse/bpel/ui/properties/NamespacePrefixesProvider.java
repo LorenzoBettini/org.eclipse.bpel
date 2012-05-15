@@ -174,13 +174,8 @@ public class NamespacePrefixesProvider extends AbstractContentProvider  {
 				{
 					if (o instanceof org.eclipse.wst.wsdl.Import)
 					{
-						Definition wsdl = ((org.eclipse.wst.wsdl.Import)o).getEDefinition();
-						
 						if ( ((org.eclipse.wst.wsdl.Import)o).getLocationURI().equals(wsdlImp.getLocationURI()) )
 							foundNew = false;
-						
-						Object ns = wsdl.getNamespaces().entrySet();
-						System.out.println("ns="+ns);
 					}
 					else if (o instanceof org.eclipse.bpel.model.Import)
 					{
@@ -191,6 +186,7 @@ public class NamespacePrefixesProvider extends AbstractContentProvider  {
 				if (foundNew)
 					imports.add(wsdlImp);
 				
+				// FIXME: we need to be able to support WSDL locations outside of the containing project!
 				if (!wsdlImp.getLocationURI().startsWith("http://"))
 				{
 					if (wsdlImp.getDefinition()!=null)
