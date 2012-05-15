@@ -52,6 +52,14 @@ public class OdeBPELPublisher extends GenericBPELPublisher {
 			ModuleDelegate delegate = (ModuleDelegate)last.loadAdapter(ModuleDelegate.class, new NullProgressMonitor());
 			IModuleResource[] resources = delegate.members();
 			PublishUtil.publishFull(resources, root, monitor);
+
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=379613
+			// remove the "*.deployed" file, so Ode knows to reload the changes
+			File f = root.addFileExtension("deployed").toFile();
+			if (f.exists()) {
+				f.delete();
+			}
+			
 		} catch(  CoreException ce ) {
 			// TODO return bad status
 		}
