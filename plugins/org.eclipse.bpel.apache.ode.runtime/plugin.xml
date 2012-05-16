@@ -12,7 +12,7 @@ Runtime types
 			name="Apache Ode 1.x Runtime" description="Apache's BPEL 2.0 execution engine - Runtime"
 			vendor="Apache" version="1.0"
 			class="org.eclipse.bpel.apache.ode.runtime.OdeServerRuntime">
-			<moduleType types="bpel.facet.core" versions="1.1, 2.0" />
+			<moduleType types="bpel.module" versions="1.1, 2.0" />
 		</runtimeType>
 	</extension>
 	

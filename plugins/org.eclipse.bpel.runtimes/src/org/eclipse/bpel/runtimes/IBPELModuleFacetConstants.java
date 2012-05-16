@@ -20,7 +20,7 @@ public interface IBPELModuleFacetConstants {
 	public final static String BPEL_CONTENT_DEFAULT_FOLDER =  "bpelContent";
 
 	// module types
-	public final static String BPEL20_MODULE_TYPE = "bpel.facet.core"; //$NON-NLS-1$
+	public final static String BPEL20_MODULE_TYPE = "bpel.module"; //$NON-NLS-1$
 	
 	// module type versions
 	public final static String BPEL11_MODULE_VERSION = "1.1"; // $NON-NLS-1$

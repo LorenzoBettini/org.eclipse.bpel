@@ -22,7 +22,7 @@
     </bpel:catch>
   </bpel:faultHandlers>
   <bpel:sequence>
-    <bpel:receive operation="sendPurchaseOrder" partnerLink="purchasing" portType="lns:purchaseOrderPT" variable="PO"/>
+    <bpel:receive operation="sendPurchaseOrder" partnerLink="purchasing" portType="lns:purchaseOrderPT" variable="PO" createInstance="yes"/>
     <bpel:flow>
       <bpel:documentation>
 
