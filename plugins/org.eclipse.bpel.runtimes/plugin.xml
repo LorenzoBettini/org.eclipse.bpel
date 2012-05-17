@@ -130,7 +130,8 @@
 		<moduleFactory
             projects="true"
             class="org.eclipse.bpel.runtimes.module.BPELModuleFactoryDelegate"
-            id="org.eclipse.bpel.runtimes.module.moduleFactory">
+            id="org.eclipse.bpel.runtimes.module.moduleFactory"
+            order="10">
      		<moduleType
                versions="1.1, 2.0"
                types="bpel.module">
@@ -145,7 +146,8 @@
 	<extension point="org.eclipse.wst.server.core.moduleArtifactAdapters">
 		<moduleArtifactAdapter
 			id="org.eclipse.bpel.runtimes.module.artifactAdapter1"
-            class="org.eclipse.bpel.runtimes.module.BPELDeployableArtifactAdapterFactory">
+            class="org.eclipse.bpel.runtimes.module.BPELDeployableArtifactAdapterFactory"
+            priority="0">
 			<enablement>
 				<with variable="selection">
 					<adapt type="org.eclipse.core.resources.IProject"/>
@@ -154,7 +156,8 @@
 		</moduleArtifactAdapter>
 		<moduleArtifactAdapter
 			id="org.eclipse.bpel.runtimes.module.artifactAdapter2"
-            class="org.eclipse.bpel.runtimes.module.BPELDeployableArtifactAdapterFactory">
+            class="org.eclipse.bpel.runtimes.module.BPELDeployableArtifactAdapterFactory"
+            priority="0">
 			<enablement>
 				<with variable="selection">
              		<adapt type="org.eclipse.core.resources.IFile"/>
