@@ -36,6 +36,7 @@ import org.eclipse.wst.server.core.internal.Module;
 import org.eclipse.wst.server.core.internal.ModuleFactory;
 import org.eclipse.wst.server.core.internal.ServerPlugin;
 import org.eclipse.wst.server.core.model.ModuleDelegate;
+import org.eclipse.wst.server.core.model.ModuleFactoryDelegate;
 import org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate;
 
 /**
@@ -100,6 +101,7 @@ public class BPELModuleFactoryDelegate extends ProjectModuleFactoryDelegate impl
 		return md;
 	}
 
+	@SuppressWarnings("restriction")
 	protected boolean canHandleProject(IProject p) {
 		boolean result = FacetedProjectUtilities.isProjectOfType(p, IBPELModuleFacetConstants.BPEL20_PROJECT_FACET);
 		return result;
@@ -111,13 +113,29 @@ public class BPELModuleFactoryDelegate extends ProjectModuleFactoryDelegate impl
 		}
 		
 		List<IModule> projectModules = new ArrayList<IModule>();
+		IProject project = component.getProject();
+		
 		try {
-			if (canHandleProject(component.getProject())) {
-				canHandleProject(component.getProject());
+			if (canHandleProject(project)) {
+				// defer to other ProjectModuleFactoryDelegates who think they can handle BPEL modules
+				ModuleFactory[] factories = ServerPlugin.getModuleFactories();
+				for (int i = 0; i < factories.length; i++) {
+					if(!factories[i].getId().equals(BPEL_FACTORY)) { // it's not me!
+						ModuleFactoryDelegate d = factories[i].getDelegate(new NullProgressMonitor());
+						if (d instanceof ProjectModuleFactoryDelegate) {
+							ProjectModuleFactoryDelegate pd = (ProjectModuleFactoryDelegate)d;
+							IModule[] modules = pd.getModules(project);
+							if (modules!=null && modules.length>0)
+								// return empty array - let the other guy handle this one
+								return new IModule[0];
+						}
+					}
+				}
+				
 				String type = IBPELModuleFacetConstants.BPEL20_MODULE_TYPE;
 				String version = IBPELModuleFacetConstants.BPEL20_MODULE_VERSION;
-				IModule module = createModule(component.getName(), component.getName(), type, version, component.getProject());
-				FlatComponentDeployable moduleDelegate = createModuleDelegate(component.getProject(), component);
+				IModule module = createModule(component.getName(), component.getName(), type, version, project);
+				FlatComponentDeployable moduleDelegate = createModuleDelegate(project, component);
 				moduleDelegates.put(module, moduleDelegate);
 				projectModules.add(module);
 
