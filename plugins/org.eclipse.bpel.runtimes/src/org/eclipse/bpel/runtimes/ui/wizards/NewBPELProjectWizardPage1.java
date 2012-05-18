@@ -19,6 +19,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.web.ui.internal.wizards.DataModelFacetCreationWizardPage;
 
 /**
@@ -59,7 +61,14 @@ public class NewBPELProjectWizardPage1 extends DataModelFacetCreationWizardPage 
 		// lookup table for which we need to create an entry, but I haven't been able to figure out where
 		// or how to do that. So...this will have to do for now.
 //		createPrimaryFacetComposite(top);
+		primaryProjectFacet = ProjectFacetsManager.getProjectFacet( getModuleFacetID() );
 		createPresetPanel(top);
         return top;
 	}
+
+	public IProjectFacetVersion getPrimaryFacetVersion()
+	{
+        return primaryProjectFacet.getDefaultVersion();
+	}
+	
 }
