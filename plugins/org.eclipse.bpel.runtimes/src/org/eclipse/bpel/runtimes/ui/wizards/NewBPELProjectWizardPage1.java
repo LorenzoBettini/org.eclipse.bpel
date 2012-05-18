@@ -19,6 +19,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.web.ui.internal.wizards.DataModelFacetCreationWizardPage;
 
@@ -64,4 +65,10 @@ public class NewBPELProjectWizardPage1 extends DataModelFacetCreationWizardPage 
 		createPresetPanel(top);
         return top;
 	}
+
+	public IProjectFacetVersion getPrimaryFacetVersion()
+	{
+        return primaryProjectFacet.getDefaultVersion();
+	}
+	
 }
