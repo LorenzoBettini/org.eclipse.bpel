@@ -33,7 +33,7 @@
 			
 			<properties>
 				<staging.directory>/home/data/httpd/download-staging.priv/soa/bpel</staging.directory>
-				<publish.directory>/shared/soa/bpel/${project.version}</publish.directory>
+				<publish.directory>/shared/soa/bpel/${project.version}/${platform.name}</publish.directory>
 				<update.site.directory>${publish.directory}/update-site</update.site.directory>
 			</properties>
 			
