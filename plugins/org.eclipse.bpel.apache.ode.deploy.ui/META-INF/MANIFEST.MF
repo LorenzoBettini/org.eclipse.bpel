@@ -22,5 +22,5 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.wst.common.emfworkbench.integration,
  org.eclipse.jem.util
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse SOA
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

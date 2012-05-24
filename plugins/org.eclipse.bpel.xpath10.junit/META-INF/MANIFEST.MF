@@ -7,3 +7,4 @@ Fragment-Host: org.eclipse.bpel.xpath10;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.8.1"
 Export-Package: org.eclipse.bpel.xpath10.parser
+Bundle-Vendor: Eclipse SOA

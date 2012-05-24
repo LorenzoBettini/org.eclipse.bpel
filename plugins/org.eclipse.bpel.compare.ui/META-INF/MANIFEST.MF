@@ -29,3 +29,4 @@ Export-Package: org.eclipse.bpel.compare.ui,
  org.eclipse.bpel.compare.ui.annotation,
  org.eclipse.bpel.compare.ui.gef.bpel,
  org.eclipse.bpel.compare.ui.gef.mergeviewer
+Bundle-Vendor: Eclipse SOA

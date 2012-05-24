@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ExtensionPoints Plug-in
 Bundle-SymbolicName: org.eclipse.bpel.help;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: eclipse.org
+Bundle-Vendor: Eclipse SOA
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.help

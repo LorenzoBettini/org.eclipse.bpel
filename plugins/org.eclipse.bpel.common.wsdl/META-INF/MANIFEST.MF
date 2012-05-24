@@ -4,7 +4,7 @@ Bundle-Name: SOA Commons for WSDL and XML Schemas
 Bundle-SymbolicName: org.eclipse.bpel.common.wsdl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.bpel.common.wsdl.SoaWsdlCommonPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse SOA
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,

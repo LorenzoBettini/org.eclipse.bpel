@@ -4,7 +4,7 @@ Bundle-Name: ExtensionPoints Plug-in
 Bundle-SymbolicName: org.eclipse.bpel.examples.extensionPoints;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.bpel.examples.extensionpoints.Activator
-Bundle-Vendor: eclipse.org
+Bundle-Vendor: Eclipse SOA
 Require-Bundle: org.eclipse.ui;bundle-version="3.3.0",
  org.eclipse.core.runtime;bundle-version="3.3.0",
  org.eclipse.bpel.common.ui;bundle-version="0.3.0",
