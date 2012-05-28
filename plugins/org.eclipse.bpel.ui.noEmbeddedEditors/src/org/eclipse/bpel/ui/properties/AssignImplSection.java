@@ -99,6 +99,7 @@ public class AssignImplSection extends BPELPropertySection {
 		fFromSection.fAllowed = new IAssignCategory[] {
 				new VariablePartAssignCategory(this),
 				new ExpressionAssignCategory(this),
+				new XtextExpressionAssignCategory(this),
 				new LiteralAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
 				new PartnerRoleAssignCategory(this, true),
