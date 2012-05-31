@@ -27,6 +27,7 @@ import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
 import org.eclipse.bpel.ui.commands.SwapCopyCommand;
 import org.eclipse.bpel.ui.properties.xtext.ArithmeticsXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.properties.xtext.DomainmodelXtextExpressionAssignCategory;
+import org.eclipse.bpel.ui.properties.xtext.FowlerDslXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.properties.xtext.GreetingsXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
@@ -99,6 +100,7 @@ public class AssignImplSection extends BPELPropertySection {
 				new GreetingsXtextExpressionAssignCategory(this),
 				new DomainmodelXtextExpressionAssignCategory(this),
 				new ArithmeticsXtextExpressionAssignCategory(this),
+				new FowlerDslXtextExpressionAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
 				new PartnerRoleAssignCategory(this, false) };
 
@@ -108,6 +110,7 @@ public class AssignImplSection extends BPELPropertySection {
 				new GreetingsXtextExpressionAssignCategory(this),
 				new DomainmodelXtextExpressionAssignCategory(this),
 				new ArithmeticsXtextExpressionAssignCategory(this),
+				new FowlerDslXtextExpressionAssignCategory(this),
 				new LiteralAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
 				new PartnerRoleAssignCategory(this, true),

@@ -40,7 +40,9 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.xtext.example.domainmodel;bundle-version="2.3.0",
  org.eclipse.xtext.example.domainmodel.ui;bundle-version="2.3.0",
  org.eclipse.xtext.example.arithmetics;bundle-version="2.3.0",
- org.eclipse.xtext.example.arithmetics.ui;bundle-version="2.3.0"
+ org.eclipse.xtext.example.arithmetics.ui;bundle-version="2.3.0",
+ org.eclipse.xtext.example.fowlerdsl;bundle-version="1.0.0",
+ org.eclipse.xtext.example.fowlerdsl.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.bpel.ui,
  org.eclipse.bpel.ui.actions,
