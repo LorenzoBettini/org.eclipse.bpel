@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.jboss.riftsaw.runtime;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.1.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="[3.4.0,4.0.0)",
@@ -19,14 +19,14 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.jst.server.core,
  org.eclipse.jem.util;bundle-version="[2.0.100,3.0.0)",
  org.eclipse.debug.ui;bundle-version="[3.4.0,4.0.0)",
- org.eclipse.bpel.model;bundle-version="0.1.0",
+ org.eclipse.bpel.model;bundle-version="1.0.1",
  org.eclipse.emf.ecore;bundle-version="[2.4.0,3.0.0)",
  javax.wsdl;bundle-version="[1.5.0,1.6.0)",
  org.eclipse.wst.wsdl;bundle-version="[1.1.200,2.0.0)",
  org.eclipse.jst.common.frameworks,
  org.eclipse.jem.workbench,
- org.eclipse.bpel.runtimes,
- org.eclipse.bpel.validator
+ org.eclipse.bpel.runtimes;bundle-version="1.0.1",
+ org.eclipse.bpel.validator;bundle-version="1.0.1"
 Bundle-Activator: org.eclipse.bpel.jboss.riftsaw.runtime.RiftsawPlugin
 Export-Package: org.eclipse.bpel.jboss.riftsaw.runtime,
  org.eclipse.bpel.jboss.riftsaw.runtime.facets,
