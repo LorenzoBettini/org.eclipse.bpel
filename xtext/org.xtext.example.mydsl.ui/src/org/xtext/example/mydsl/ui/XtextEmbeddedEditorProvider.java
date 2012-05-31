@@ -4,6 +4,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
@@ -14,6 +15,7 @@ import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
 public class XtextEmbeddedEditorProvider {
 
@@ -25,6 +27,10 @@ public class XtextEmbeddedEditorProvider {
 
 	@Inject
 	private XtextResourceFactory resourceFactory;
+	
+	@Inject
+	@Named(Constants.FILE_EXTENSIONS)
+	public String fileExtension;
 
 	/**
 	 * The constructor.
@@ -47,7 +53,7 @@ public class XtextEmbeddedEditorProvider {
 			protected URI computeUnusedUri(ResourceSet resourceSet) {
 				String name = "__synthetic";
 				for (int i = 0; i < Integer.MAX_VALUE; i++) {
-					URI syntheticUri = URI.createURI(name + i + ".mydsl");
+					URI syntheticUri = URI.createURI(name + i + "." + fileExtension);
 					if (resourceSet.getResource(syntheticUri, false) == null)
 						return syntheticUri;
 				}
