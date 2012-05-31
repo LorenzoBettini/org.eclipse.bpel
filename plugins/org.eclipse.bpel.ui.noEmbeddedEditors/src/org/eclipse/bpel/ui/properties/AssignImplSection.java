@@ -25,6 +25,8 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
 import org.eclipse.bpel.ui.commands.SwapCopyCommand;
+import org.eclipse.bpel.ui.properties.xtext.ArithmeticsXtextExpressionAssignCategory;
+import org.eclipse.bpel.ui.properties.xtext.DomainmodelXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.properties.xtext.GreetingsXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
@@ -94,6 +96,9 @@ public class AssignImplSection extends BPELPropertySection {
 		fToSection.fAllowed = new IAssignCategory[] {
 				new VariablePartAssignCategory(this),
 				new ExpressionAssignCategory(this),
+				new GreetingsXtextExpressionAssignCategory(this),
+				new DomainmodelXtextExpressionAssignCategory(this),
+				new ArithmeticsXtextExpressionAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
 				new PartnerRoleAssignCategory(this, false) };
 
@@ -101,6 +106,8 @@ public class AssignImplSection extends BPELPropertySection {
 				new VariablePartAssignCategory(this),
 				new ExpressionAssignCategory(this),
 				new GreetingsXtextExpressionAssignCategory(this),
+				new DomainmodelXtextExpressionAssignCategory(this),
+				new ArithmeticsXtextExpressionAssignCategory(this),
 				new LiteralAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
 				new PartnerRoleAssignCategory(this, true),
