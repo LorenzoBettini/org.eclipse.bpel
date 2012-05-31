@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.ui; singleton:=true 
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.1.qualifier
 Bundle-Activator: org.eclipse.bpel.ui.BPELUIPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -15,12 +15,12 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.jface.text;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.gef;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.xsd;bundle-version="[2.4.0,3.0.0)",
- org.eclipse.bpel.common.ui;bundle-version="1.0.0",
+ org.eclipse.bpel.common.ui;bundle-version="1.0.1",
  org.eclipse.wst.wsdl;bundle-version="[1.1.200,2.0.0)",
- org.eclipse.bpel.common.model;bundle-version="1.0.0",
- org.eclipse.bpel.model;bundle-version="1.0.0",
+ org.eclipse.bpel.common.model;bundle-version="1.0.1",
+ org.eclipse.bpel.model;bundle-version="1.0.1",
  org.eclipse.wst.xml.core;bundle-version="[1.1.300,2.0.0)",
- org.eclipse.bpel.wsil.model;bundle-version="1.0.0",
+ org.eclipse.bpel.wsil.model;bundle-version="1.0.1",
  org.eclipse.wst.sse.ui;bundle-version="[1.1.0,2.0.0)",
  org.eclipse.wst.sse.core;bundle-version="[1.1.300,2.0.0)",
  javax.wsdl;bundle-version="[1.5.0,1.6.2]";visibility:=reexport,
@@ -32,8 +32,8 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.wst.common.emfworkbench.integration,
  org.eclipse.jem.util,
  org.eclipse.wst.common.project.facet.core,
- org.eclipse.bpel.runtimes,
- org.eclipse.bpel.common.wsdl,
+ org.eclipse.bpel.runtimes;bundle-version="1.0.1",
+ org.eclipse.bpel.common.wsdl;bundle-version="1.0.1",
  org.xtext.example.mydsl;bundle-version="1.0.0",
  org.xtext.example.mydsl.ui;bundle-version="1.0.0",
  org.eclipse.xtext.ui;bundle-version="2.3.0"
