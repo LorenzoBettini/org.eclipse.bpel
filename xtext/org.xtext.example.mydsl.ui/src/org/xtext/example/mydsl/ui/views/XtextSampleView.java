@@ -15,7 +15,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.xtext.example.mydsl.ui.XtextEmbeddedEditorProvider;
+import org.xtext.example.mydsl.ui.MyXtextEmbeddedEditorProvider;
 
 import com.google.inject.Inject;
 
@@ -31,7 +31,7 @@ public class XtextSampleView extends ViewPart {
 	private Action action2;
 
 	@Inject
-	protected XtextEmbeddedEditorProvider xtextEmbeddedEditorProvider;
+	protected MyXtextEmbeddedEditorProvider xtextEmbeddedEditorProvider;
 	/**
 	 * The constructor.
 	 */

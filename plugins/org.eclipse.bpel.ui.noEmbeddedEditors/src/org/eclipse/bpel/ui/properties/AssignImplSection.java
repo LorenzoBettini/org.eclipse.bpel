@@ -25,6 +25,7 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
 import org.eclipse.bpel.ui.commands.SwapCopyCommand;
+import org.eclipse.bpel.ui.properties.xtext.GreetingsXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
@@ -99,7 +100,7 @@ public class AssignImplSection extends BPELPropertySection {
 		fFromSection.fAllowed = new IAssignCategory[] {
 				new VariablePartAssignCategory(this),
 				new ExpressionAssignCategory(this),
-				new XtextExpressionAssignCategory(this),
+				new GreetingsXtextExpressionAssignCategory(this),
 				new LiteralAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
 				new PartnerRoleAssignCategory(this, true),

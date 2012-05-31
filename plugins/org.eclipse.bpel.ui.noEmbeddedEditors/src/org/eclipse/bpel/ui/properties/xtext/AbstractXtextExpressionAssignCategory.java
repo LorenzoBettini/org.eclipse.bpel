@@ -1,9 +1,12 @@
-package org.eclipse.bpel.ui.properties;
+package org.eclipse.bpel.ui.properties.xtext;
 
 import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.bpel.ui.properties.BPELPropertySection;
+import org.eclipse.bpel.ui.properties.ExpressionSection;
+import org.eclipse.bpel.ui.properties.IAssignCategory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -20,12 +23,20 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor;
-import org.xtext.example.mydsl.ui.XtextEmbeddedEditorProvider;
 
 import com.google.inject.Injector;
 
-public class XtextExpressionAssignCategory extends ExpressionSection implements
+/**
+ * An {@link IAssignCategory} specialized to provide a StyledText configured
+ * for an Xtext DSL, relying on {@link EmbeddedEditor} which is NOT an
+ * editor, but provides a {@link XtextSourceViewer}.
+ * 
+ * @author Lorenzo Bettini
+ *
+ */
+public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSection implements
 		IAssignCategory {
 
 	/**
@@ -41,7 +52,7 @@ public class XtextExpressionAssignCategory extends ExpressionSection implements
 
 	protected Composite fParent;
 
-	protected XtextExpressionAssignCategory( BPELPropertySection ownerSection ) {
+	public AbstractXtextExpressionAssignCategory( BPELPropertySection ownerSection ) {
 		this.fOwnerSection = ownerSection;
 	}
 
@@ -182,7 +193,10 @@ public class XtextExpressionAssignCategory extends ExpressionSection implements
 		});
 	}
 
-	public Injector getInjector() {
-		return org.xtext.example.mydsl.ui.internal.MyDslActivator.getInstance().getInjector("org.xtext.example.mydsl.MyDsl");
-	}
+	/**
+	 * This must redefined so to return the Injector for your own
+	 * Xtext DSL.
+	 * @return
+	 */
+	public abstract Injector getInjector();
 }

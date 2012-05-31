@@ -1,4 +1,4 @@
-package org.xtext.example.mydsl.ui;
+package org.eclipse.bpel.ui.properties.xtext;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -10,13 +10,21 @@ import org.eclipse.xtext.resource.XtextResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
-import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorModelAccess;
 import org.eclipse.xtext.ui.editor.embedded.IEditedResourceProvider;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
+/**
+ * The provider for creating the Xtext {@link EmbeddedEditor}, this class must
+ * be instantiated through an {@link Injector}.
+ * 
+ * @author Lorenzo Bettini
+ *
+ */
+@SuppressWarnings("restriction")
 public class XtextEmbeddedEditorProvider {
 
 	@Inject
@@ -27,7 +35,7 @@ public class XtextEmbeddedEditorProvider {
 
 	@Inject
 	private XtextResourceFactory resourceFactory;
-	
+
 	@Inject
 	@Named(Constants.FILE_EXTENSIONS)
 	public String fileExtension;
@@ -53,7 +61,8 @@ public class XtextEmbeddedEditorProvider {
 			protected URI computeUnusedUri(ResourceSet resourceSet) {
 				String name = "__synthetic";
 				for (int i = 0; i < Integer.MAX_VALUE; i++) {
-					URI syntheticUri = URI.createURI(name + i + "." + fileExtension);
+					URI syntheticUri = URI.createURI(name + i + "."
+							+ fileExtension);
 					if (resourceSet.getResource(syntheticUri, false) == null)
 						return syntheticUri;
 				}
@@ -64,8 +73,7 @@ public class XtextEmbeddedEditorProvider {
 		EmbeddedEditor editor = editorFactory.newEditor(resourceProvider)
 				.showErrorAndWarningAnnotations().withParent(parent);
 
-		EmbeddedEditorModelAccess partialEditor = editor
-				.createPartialEditor(true);
+		editor.createPartialEditor(true);
 
 		return editor;
 	}
