@@ -63,6 +63,7 @@
 								<configuration>
 									<inputFile>${project.build.directory}/site.zip</inputFile>
 									<signerInputDirectory>${staging.directory}</signerInputDirectory>
+									<maxZipChecks>50</maxZipChecks>
 								</configuration>
 								<phase>package</phase>
 								<goals>

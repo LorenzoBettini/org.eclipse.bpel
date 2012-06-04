@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ExtensionPoints Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.examples.extensionPoints;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-Activator: org.eclipse.bpel.examples.extensionpoints.Activator
-Bundle-Vendor: eclipse.org
+Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.ui;bundle-version="3.3.0",
  org.eclipse.core.runtime;bundle-version="3.3.0",
  org.eclipse.bpel.common.ui;bundle-version="1.0.1",
@@ -25,3 +25,4 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.3.0",
  org.eclipse.wst.jsdt.ui;bundle-version="1.1.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Localization: plugin
