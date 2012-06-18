@@ -6,9 +6,12 @@
    <feature url="features/org.eclipse.bpel.feature_1.0.1.qualifier.jar" id="org.eclipse.bpel.feature" version="1.0.1.qualifier">
       <category name="Eclipse BPEL Designer"/>
    </feature>
+   <!-- Removed for now because it conflicts with jboss tools' own deployment plugin for Riftsaw.
+     -- This was only intended as an additional example deployer anyway, which was more-or-less similar to the Ode deployer.
    <feature url="features/org.eclipse.bpel.jboss.riftsaw.runtime.feature_1.0.1.qualifier.jar" id="org.eclipse.bpel.jboss.riftsaw.runtime.feature" version="1.0.1.qualifier">
       <category name="Eclipse BPEL Designer"/>
    </feature>
+   -->
    <feature url="features/org.eclipse.bpel.common.feature_1.0.1.qualifier.jar" id="org.eclipse.bpel.common.feature" version="1.0.1.qualifier">
       <category name="Eclipse BPEL Designer"/>
    </feature>
