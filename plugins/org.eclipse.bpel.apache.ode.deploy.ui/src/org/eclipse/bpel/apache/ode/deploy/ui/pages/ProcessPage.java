@@ -11,6 +11,7 @@
 
 package org.eclipse.bpel.apache.ode.deploy.ui.pages;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,7 @@ import org.eclipse.bpel.apache.ode.deploy.ui.editors.ODEDeployMultiPageEditor;
 import org.eclipse.bpel.apache.ode.deploy.ui.messages.ODEDeployUIMessages;
 import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployResourceSetImpl;
 import org.eclipse.bpel.apache.ode.deploy.ui.util.DeployUtils;
+import org.eclipse.bpel.model.Import;
 import org.eclipse.bpel.model.PartnerLink;
 import org.eclipse.bpel.model.PartnerLinks;
 import org.eclipse.bpel.model.Process;
@@ -57,6 +59,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -64,6 +67,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -151,7 +155,7 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 	private Form mainform;
 	// Bugzilla 324164
 	// we will manage this for ServiceCellEditor and PortTypeLabelProvider
-	private ResourceSetImpl resourceSet = null;
+	private DeployResourceSetImpl resourceSet = null;
 	
 	public ProcessPage(FormEditor editor, ProcessType pt) {
 		super(editor, "ODED" + pt.getName().toString(), pt.getName().getLocalPart()); //$NON-NLS-1$
@@ -163,6 +167,22 @@ public class ProcessPage extends FormPage implements IResourceChangeListener {
 		this.domain = this.editor.getEditingDomain();
 		// Bugzilla 324164
 		resourceSet = new DeployResourceSetImpl();
+		Process process = processType.getModel();
+		for (Import imp : process.getImports()) {
+			try {
+				// NOTE: File URIs will be resolved by DeployUtils#loadAllWSDLFromProject(). This avoids the
+				// hassle of having to deal with relative file paths here.
+				URI uri = URI.createURI(imp.getLocation());
+				if (!uri.isFile())
+					resourceSet.getResource(uri, true);
+			} catch (Exception e) {
+				MessageDialog.openError(editor.getSite().getShell(), "Load Error", "Unable to load the import file:\n\n\t"+
+						imp.getLocation()+"\n\n"+
+						"Reason: "+e.getMessage()+"\n"+
+						"Process definitions may not be available!"
+				);
+			}
+		}
 	}
 
 	@Override
