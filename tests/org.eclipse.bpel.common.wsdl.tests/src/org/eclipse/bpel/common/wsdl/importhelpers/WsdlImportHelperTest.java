@@ -11,6 +11,8 @@
 
 package org.eclipse.bpel.common.wsdl.importhelpers;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -360,8 +362,14 @@ public class WsdlImportHelperTest {
 			File f = map.get( url.toString());
 			Assert.assertNotNull( f );
 			Assert.assertEquals( f.getName(), "ToConcrete.wsdl" );
-
 			testWsdlParsing( f, 2 );
+
+			for( File ff : map.values()) {
+				int index = ff.getName().lastIndexOf( '.' );
+				Assert.assertTrue( index != -1 );
+				String ext = ff.getName().substring( index ).toLowerCase();
+				assertTrue( ".wsdl".equals( ext ) || ".xsd".equals( ext ));
+			}
 
 		} finally {
 			deleteFilesRecursively( tmpDir );
