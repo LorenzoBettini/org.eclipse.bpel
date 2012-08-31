@@ -46,7 +46,12 @@ public class WsdlImportHelperTest {
 
 			Assert.assertEquals( map.size(), 1 );
 			Assert.assertEquals( tmpDir.listFiles().length, 1 );
-			testWsdlParsing( map.values().iterator().next(), 1 );
+
+			File f = map.values().iterator().next();
+			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "tuxDroid.wsdl" );
+
+			testWsdlParsing( f, 1 );
 
 		} finally {
 			deleteFilesRecursively( tmpDir );
@@ -70,14 +75,23 @@ public class WsdlImportHelperTest {
 			Map<String,File> map = new WsdlImportHelper().importWsdlOrXsdAndDependencies( tmpDir, url.toString());
 
 			Assert.assertEquals( map.size(), 1 );
-			testWsdlParsing( map.values().iterator().next(), 1 );
+			File f = map.values().iterator().next();
+			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "tuxDroid.wsdl" );
+
+			testWsdlParsing( f, 1 );
 
 			// Second import: should be renamed
 			map = new WsdlImportHelper().importWsdlOrXsdAndDependencies( tmpDir, url.toString());
 
 			Assert.assertEquals( map.size(), 1 );
 			Assert.assertEquals( tmpDir.listFiles().length, 2 );
-			testWsdlParsing( map.values().iterator().next(), 1 );
+
+			f = map.values().iterator().next();
+			Assert.assertNotNull( f );
+			Assert.assertNotSame( f.getName(), "tuxDroid.wsdl" );
+
+			testWsdlParsing( f, 1 );
 
 		} finally {
 			deleteFilesRecursively( tmpDir );
@@ -101,6 +115,10 @@ public class WsdlImportHelperTest {
 
 			Assert.assertEquals( map.size(), 1 );
 			Assert.assertEquals( tmpDir.listFiles().length, 1 );
+
+			File f = map.values().iterator().next();
+			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "testwsdl20.wsdl" );
 
 		} finally {
 			deleteFilesRecursively( tmpDir );
@@ -308,6 +326,8 @@ public class WsdlImportHelperTest {
 
 			File f = map.get( url.toString());
 			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "ToConcrete.wsdl" );
+
 			testWsdlParsing( f, 2 );
 
 		} finally {
@@ -339,6 +359,8 @@ public class WsdlImportHelperTest {
 
 			File f = map.get( url.toString());
 			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "ToConcrete.wsdl" );
+
 			testWsdlParsing( f, 2 );
 
 		} finally {
@@ -370,6 +392,37 @@ public class WsdlImportHelperTest {
 
 			File f = map.get( url.toString());
 			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "GetQuantityAndSendOrder.wsdl" );
+
+			testWsdlParsing( f, 1 );
+
+		} finally {
+			deleteFilesRecursively( tmpDir );
+			Assert.assertFalse( tmpDir.exists());
+		}
+	}
+
+
+	/**
+	 * Tests a WSDL 1.1 on a remote server (renaming test).
+	 * @throws Exception
+	 */
+	@Test
+	public void testWsdlImport13() throws Exception {
+
+		File tmpDir = new File( System.getProperty( "java.io.tmpdir" ), UUID.randomUUID().toString());
+		Assert.assertTrue( tmpDir.mkdir());
+		try {
+			URL url = new URL( "http://footballpool.dataaccess.eu/data/info.wso?WSDL" );
+			Map<String,File> map = new WsdlImportHelper().importWsdlOrXsdAndDependencies( tmpDir, url.toString());
+
+			Assert.assertEquals( map.size(), 1 );
+			Assert.assertEquals( tmpDir.listFiles().length, 1 );
+
+			File f = map.get( url.toString());
+			Assert.assertNotNull( f );
+			Assert.assertEquals( f.getName(), "info-wso.wsdl" );
+
 			testWsdlParsing( f, 1 );
 
 		} finally {

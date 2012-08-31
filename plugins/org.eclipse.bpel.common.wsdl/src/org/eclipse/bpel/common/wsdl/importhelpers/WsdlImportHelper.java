@@ -102,12 +102,12 @@ public class WsdlImportHelper {
 			// Get the real relative file path
 			String relativeFilePath = entry.getValue().getRelativePathToTargetDirectory();
 			if( relativeFilePath.length() == 0 )
-				relativeFilePath = UriAndUrlHelper.extractFileName( entry.getKey());
+				relativeFilePath = UriAndUrlHelper.extractOrGenerateFileName( entry.getKey());
 
 			// Imported files which are above the target directory will be put inside a specific directory
 			IPath path = rootPath.append( relativeFilePath );
 			if( ! rootPath.isPrefixOf( path ))
-				relativeFilePath = RELOCATED_DIRECTORY + "/" + UriAndUrlHelper.extractFileName( entry.getKey());
+				relativeFilePath = RELOCATED_DIRECTORY + "/" + UriAndUrlHelper.extractOrGenerateFileName( entry.getKey());
 
 			// Prevent conflicts with existing files and files to be written
 			File targetFile;
