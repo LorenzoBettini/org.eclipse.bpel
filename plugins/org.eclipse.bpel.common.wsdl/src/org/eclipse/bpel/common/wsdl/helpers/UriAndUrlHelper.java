@@ -97,10 +97,20 @@ public class UriAndUrlHelper {
 			fileName = fileName.substring( ++ index );
 
 		// Handle cases like "jsp?value="
-		if( fileName.toLowerCase().endsWith( "?wsdl" )) {
+		String lowered = fileName.toLowerCase();
+		if( lowered.endsWith( "?wsdl" ))
 			fileName = fileName.substring( 0, fileName.length() - 5 ) + ".wsdl";
 
-		} else {
+		else if( lowered.contains( "?wsdl=" ))
+			fileName = fileName.replace( "?wsdl=", "" ) + ".wsdl";
+
+		else if( lowered.endsWith( "?xsd" ))
+			fileName = fileName.substring( 0, fileName.length() - 5 ) + ".xsd";
+
+		else if( lowered.contains( "?xsd=" ))
+			fileName = fileName.replace( "?xsd=", "" ) + ".xsd";
+
+		else {
 			index = fileName.lastIndexOf( '?' );
 			if( index != -1 )
 				fileName = fileName.substring( ++ index );

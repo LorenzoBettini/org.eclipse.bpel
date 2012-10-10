@@ -104,6 +104,10 @@ public class WsdlImportHelper {
 			if( relativeFilePath.length() == 0 )
 				relativeFilePath = UriAndUrlHelper.extractOrGenerateFileName( entry.getKey());
 
+			else if( ! relativeFilePath.contains( "/" )
+					&& ! relativeFilePath.contains( "\\" ))
+				relativeFilePath = UriAndUrlHelper.extractOrGenerateFileName( relativeFilePath );
+
 			// Imported files which are above the target directory will be put inside a specific directory
 			IPath path = rootPath.append( relativeFilePath );
 			if( ! rootPath.isPrefixOf( path ))
@@ -205,9 +209,10 @@ public class WsdlImportHelper {
 				// Absolute URI: we will put them at the same level than the original URI
 				URI importFullUri = null;
 				String importFullUriAsString = null;
-				if( UriAndUrlHelper.isAbsoluteUri( brutImport ))
+				if( UriAndUrlHelper.isAbsoluteUri( brutImport )) {
+					importFullUri = UriAndUrlHelper.urlToUri( brutImport );
 					importFullUriAsString = brutImport;
-				else {
+				} else {
 					importFullUri = UriAndUrlHelper.buildNewURI( uri, brutImport );
 					importFullUriAsString = importFullUri.toString();
 				}
