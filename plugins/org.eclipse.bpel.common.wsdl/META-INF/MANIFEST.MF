@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SOA Commons for WSDL and XML Schemas
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.common.wsdl;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-Activator: org.eclipse.bpel.common.wsdl.SoaWsdlCommonPlugin
-Bundle-Vendor: Eclipse SOA
+Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.ui,
  javax.wsdl;bundle-version="[1.5.0,1.6.2]"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Bundle-Localization: plugin
 Export-Package: org.eclipse.bpel.common.wsdl.helpers,
  org.eclipse.bpel.common.wsdl.importhelpers,
  org.eclipse.bpel.common.wsdl.parsers,

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BPEL Common UI
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.common.ui; singleton:=true 
 Bundle-Version: 1.0.1.qualifier
 Bundle-Activator: org.eclipse.bpel.common.ui.CommonUIPlugin
@@ -30,5 +30,5 @@ Export-Package: org.eclipse.bpel.common.ui,
  org.eclipse.bpel.common.ui.palette,
  org.eclipse.bpel.common.ui.tray
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-Vendor: Eclipse SOA
+Bundle-Vendor: %providerName
 Bundle-ClassPath: .

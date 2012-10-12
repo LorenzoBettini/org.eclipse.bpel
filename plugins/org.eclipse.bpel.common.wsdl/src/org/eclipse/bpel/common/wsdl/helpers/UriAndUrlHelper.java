@@ -79,10 +79,14 @@ public class UriAndUrlHelper {
 
 	/**
 	 * Extracts the file name from a URI or URL given as a string.
+	 * <p>
+	 * If the file name contains invalid characters, such as a question mark,
+	 * this methods modifies the file name so that is is a valid file name.
+	 * </p>
 	 * @param uriAsString the URI or URL given as a string
 	 * @return the file name (never null)
 	 */
-	public static String extractFileName( String uriAsString ) {
+	public static String extractOrGenerateFileName( String uriAsString ) {
 
 		String fileName = uriAsString;
 		if( fileName.endsWith( "/" ))
@@ -93,13 +97,36 @@ public class UriAndUrlHelper {
 			fileName = fileName.substring( ++ index );
 
 		// Handle cases like "jsp?value="
-		index = fileName.lastIndexOf( '?' );
-		if( index != -1 )
-			fileName = fileName.substring( ++ index );
+		String lowered = fileName.toLowerCase();
+		if( lowered.endsWith( "?wsdl" ))
+			fileName = fileName.substring( 0, fileName.length() - 5 ) + ".wsdl";
+
+		else if( lowered.contains( "?wsdl=" ))
+			fileName = fileName.replace( "?wsdl=", "" ) + ".wsdl";
+
+		else if( lowered.endsWith( "?xsd" ))
+			fileName = fileName.substring( 0, fileName.length() - 5 ) + ".xsd";
+
+		else if( lowered.contains( "?xsd=" ))
+			fileName = fileName.replace( "?xsd=", "" ) + ".xsd";
+
+		else {
+			index = fileName.lastIndexOf( '?' );
+			if( index != -1 )
+				fileName = fileName.substring( ++ index );
+		}
 
 		// Handle empty values
 		if( fileName.trim().length() == 0 )
 			fileName = "importedFile__" + new Date().getTime();
+
+		// Replace invalid characters
+		index = fileName.lastIndexOf( '.' );
+		if( index != -1 ) {
+			String ext = fileName.substring( index );
+			String fwe = fileName.substring( 0, index );
+			fileName = fwe.replaceAll( "[^-0-9a-zA-Z_]", "-" ) + ext;
+		}
 
 		return fileName;
 	}

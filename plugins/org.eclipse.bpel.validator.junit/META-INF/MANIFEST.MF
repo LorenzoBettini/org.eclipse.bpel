@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Junit Fragment
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.bpel.validator.junit
 Bundle-Version: 1.0.1
 Fragment-Host: org.eclipse.bpel.validator;bundle-version="1.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
 Require-Bundle: org.junit;bundle-version="4.8.1"
-Bundle-Vendor: Eclipse SOA
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin

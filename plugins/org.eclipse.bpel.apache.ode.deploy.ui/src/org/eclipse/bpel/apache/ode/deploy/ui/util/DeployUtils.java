@@ -200,12 +200,15 @@ public class DeployUtils {
 		{
 			// fix a dumb mistake: XSDs don't have Definitions
 			// and will cause this to throw a class cast exception
-			Object obj = res.getContents().get(0);
-			if (obj instanceof Definition)
-			{
-				Definition def = (Definition)obj;
-				if (!wsdlFiles.contains(def))
-					wsdlFiles.add(def);
+			EList<EObject>contents = res.getContents();
+			if (contents!=null && !contents.isEmpty()) {
+				Object obj = contents.get(0);
+				if (obj instanceof Definition)
+				{
+					Definition def = (Definition)obj;
+					if (!wsdlFiles.contains(def))
+						wsdlFiles.add(def);
+				}
 			}
 		}
 		return wsdlFiles;
