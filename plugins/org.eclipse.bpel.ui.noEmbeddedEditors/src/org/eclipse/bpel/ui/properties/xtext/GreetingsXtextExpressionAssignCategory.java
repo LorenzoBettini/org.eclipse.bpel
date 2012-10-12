@@ -21,4 +21,10 @@ public class GreetingsXtextExpressionAssignCategory extends
 		return org.xtext.example.mydsl.ui.internal.MyDslActivator.getInstance()
 				.getInjector("org.xtext.example.mydsl.MyDsl");
 	}
+	
+	@Override
+	public String getExpressionLanguage() {
+		return "greetings";
+	}
+
 }

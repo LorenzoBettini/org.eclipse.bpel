@@ -24,4 +24,9 @@ public class ArithmeticsXtextExpressionAssignCategory extends
 				.getInjector(
 						ArithmeticsActivator.ORG_ECLIPSE_XTEXT_EXAMPLE_ARITHMETICS_ARITHMETICS);
 	}
+
+	@Override
+	public String getExpressionLanguage() {
+		return "arithmetics";
+	}
 }

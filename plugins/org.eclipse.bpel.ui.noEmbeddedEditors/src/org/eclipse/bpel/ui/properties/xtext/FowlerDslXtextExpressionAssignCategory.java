@@ -24,4 +24,10 @@ public class FowlerDslXtextExpressionAssignCategory extends
 				.getInjector(
 						StatemachineActivator.ORG_ECLIPSE_XTEXT_EXAMPLE_FOWLERDSL_STATEMACHINE);
 	}
+	
+	@Override
+	public String getExpressionLanguage() {
+		return "fowler";
+	}
+
 }

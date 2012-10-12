@@ -1,9 +1,13 @@
 package org.eclipse.bpel.ui.properties.xtext;
 
 import org.eclipse.bpel.model.AbstractAssignBound;
+import org.eclipse.bpel.model.BPELFactory;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
+import org.eclipse.bpel.ui.commands.CompoundCommand;
+import org.eclipse.bpel.ui.commands.SetCommand;
 import org.eclipse.bpel.ui.properties.BPELPropertySection;
 import org.eclipse.bpel.ui.properties.ExpressionSection;
 import org.eclipse.bpel.ui.properties.IAssignCategory;
@@ -115,7 +119,13 @@ public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSe
 	 */
 	public boolean isCategoryForModel ( EObject aModel ) {
 		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel, IVirtualCopyRuleSide.class);
-		return side != null ? side.getExpression() != null : false;
+		if (side == null)
+			return false;
+		Expression exp = side.getExpression();
+		if (exp == null)
+			return false;
+		return exp.getExpressionLanguage() != null &&
+				exp.getExpressionLanguage().equals(getExpressionLanguage());
 	}
 
 	/*
@@ -192,6 +202,23 @@ public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSe
 			}
 		});
 	}
+	
+	/**
+	 * Saves the expression to the model.
+	 */
+	protected void saveExpressionToModel() {
+
+		if( this.modelUpdate.get())
+			return;
+
+		CompoundCommand result = new CompoundCommand();
+		Expression exp = BPELFactory.eINSTANCE.createCondition();
+		exp.setBody( this.expressionText != null ? this.expressionText.getText().trim() : "" );
+		exp.setExpressionLanguage(getExpressionLanguage());
+		result.add( new SetCommand( getExpressionTarget(), getExpression4Target( exp ) , getStructuralFeature()));
+
+		getCommandFramework().execute( result );
+	}
 
 	/**
 	 * This must redefined so to return the Injector for your own
@@ -199,4 +226,5 @@ public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSe
 	 * @return
 	 */
 	public abstract Injector getInjector();
+	public abstract String getExpressionLanguage();
 }
