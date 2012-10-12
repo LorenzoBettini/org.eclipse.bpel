@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.bpel.ui.assignSectionAdditions">
+      <assignSection
+            class="org.eclipse.bpel.ui.xtext.examples.GreetingsXtextExpressionAssignCategory"
+            name="Xtext Greeting"></assignSection>
+   </extension>
+   <extension
+         point="org.eclipse.bpel.ui.assignSectionAdditions">
+      <assignSection
+            class="org.eclipse.bpel.ui.xtext.examples.FowlerDslXtextExpressionAssignCategory"
+            name="Xtext Fowler DSL">
+      </assignSection>
+   </extension>
+   <extension
+         point="org.eclipse.bpel.ui.assignSectionAdditions">
+      <assignSection
+            class="org.eclipse.bpel.ui.xtext.examples.ArithmeticsXtextExpressionAssignCategory"
+            name="Xtext Arithmetics DSL">
+      </assignSection>
+   </extension>
+
+</plugin>
