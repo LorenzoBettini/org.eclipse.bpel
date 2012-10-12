@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.bpel.common.ui.details.ButtonIValue;
@@ -28,9 +31,6 @@ import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
 import org.eclipse.bpel.ui.commands.SwapCopyCommand;
 import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
-import org.eclipse.bpel.ui.properties.xtext.ArithmeticsXtextExpressionAssignCategory;
-import org.eclipse.bpel.ui.properties.xtext.FowlerDslXtextExpressionAssignCategory;
-import org.eclipse.bpel.ui.properties.xtext.GreetingsXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.bpel.ui.util.MultiObjectAdapter;
 import org.eclipse.core.resources.IMarker;
@@ -45,8 +45,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
-
-import com.google.common.collect.Lists;
 
 /**
  * AssignImplDetails allows viewing and editing of the copy elements in an
@@ -100,20 +98,23 @@ public class AssignImplSection extends BPELPropertySection {
 
 		List<IAssignCategory> additions = BPELUIRegistry.getInstance().getAssignCategories();
 		
-		List<IAssignCategory> fToAllowed = Lists.<IAssignCategory>newArrayList(
-				new VariablePartAssignCategory(this),
-				new ExpressionAssignCategory(this),
-				new VariablePropertyAssignCategory(this),
-				new PartnerRoleAssignCategory(this, false),
-				new GreetingsXtextExpressionAssignCategory(this),
-				new ArithmeticsXtextExpressionAssignCategory(this),
-				new FowlerDslXtextExpressionAssignCategory(this));
+		List<IAssignCategory> fToAllowed = new ArrayList<IAssignCategory>(Arrays.asList(
+				new IAssignCategory[] {
+						new VariablePartAssignCategory(this),
+						new ExpressionAssignCategory(this),
+						new VariablePropertyAssignCategory(this),
+						new PartnerRoleAssignCategory(this, false)
+					}
+				));
 		fToAllowed.addAll(additions);
-		List<IAssignCategory> fFromAllowed = Lists.<IAssignCategory>newArrayList(
-				new VariablePartAssignCategory(this),
-				new ExpressionAssignCategory(this),
-				new VariablePropertyAssignCategory(this),
-				new PartnerRoleAssignCategory(this, false));
+		List<IAssignCategory> fFromAllowed = new ArrayList<IAssignCategory>(Arrays.asList(
+				new IAssignCategory[] {
+						new VariablePartAssignCategory(this),
+						new ExpressionAssignCategory(this),
+						new VariablePropertyAssignCategory(this),
+						new PartnerRoleAssignCategory(this, false)
+					}
+				));
 		fFromAllowed.addAll(additions);
 		
 		fToSection.fAllowed = fToAllowed.toArray(fToSection.fAllowed);
