@@ -119,7 +119,6 @@ public class AssignImplSection extends BPELPropertySection {
 		
 		fToSection.fAllowed = fToAllowed.toArray(fToSection.fAllowed);
 		fFromSection.fAllowed = fFromAllowed.toArray(fFromSection.fAllowed);
-
 	}
 
 	@Override

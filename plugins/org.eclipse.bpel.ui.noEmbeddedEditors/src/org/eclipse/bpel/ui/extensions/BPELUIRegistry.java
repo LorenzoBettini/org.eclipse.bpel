@@ -58,7 +58,6 @@ public class BPELUIRegistry {
 	private ListenerDescriptor[] fListenerDescriptors;
 	private UIObjectFactoryDescriptor[] uiObjectFactoryDescriptor;
 	private IHoverHelper hoverHelper;
-	private List<IAssignCategory> assignCategories;
 
 	private BPELUIRegistry() {
 		readHoverHelpers();
@@ -239,8 +238,8 @@ public class BPELUIRegistry {
         factories.toArray(this.uiObjectFactoryDescriptor);
     }
 
-	private void readAssignSectionAdditions() {
-		assignCategories = new LinkedList<IAssignCategory>();
+    public List<IAssignCategory> getAssignCategories() {
+		List<IAssignCategory> assignCategories = new LinkedList<IAssignCategory>();
     	IConfigurationElement[] extensions = getConfigurationElements(EXTPT_ASSIGN_SECTION_ADDITIONS);
         for( IConfigurationElement element : extensions ) {
         	//String name = element.getAttribute(ATT_NAME);
@@ -252,11 +251,6 @@ public class BPELUIRegistry {
 				e1.printStackTrace();
 			}
         }
-	}
-
-	public List<IAssignCategory> getAssignCategories() {
-		if (assignCategories == null)
-			readAssignSectionAdditions();
 		return assignCategories;
 	}
 
