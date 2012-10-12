@@ -115,7 +115,8 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 	 */
 	public boolean isCategoryForModel ( EObject aModel ) {
 		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel, IVirtualCopyRuleSide.class);
-		return side != null ? side.getExpression() != null : false;
+		return side != null ? 
+				(side.getExpression() != null && side.getExpression().getExpressionLanguage() == null) : false;
 	}
 
 	/*
