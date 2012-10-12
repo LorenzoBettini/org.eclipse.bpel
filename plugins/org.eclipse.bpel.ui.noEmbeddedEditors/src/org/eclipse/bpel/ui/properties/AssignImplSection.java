@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import java.util.List;
+
 import org.eclipse.bpel.common.ui.details.ButtonIValue;
 import org.eclipse.bpel.common.ui.details.IDetailsAreaConstants;
 import org.eclipse.bpel.common.ui.flatui.FlatFormAttachment;
@@ -25,6 +27,7 @@ import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.commands.AddCopyCommand;
 import org.eclipse.bpel.ui.commands.RemoveCopyCommand;
 import org.eclipse.bpel.ui.commands.SwapCopyCommand;
+import org.eclipse.bpel.ui.extensions.BPELUIRegistry;
 import org.eclipse.bpel.ui.properties.xtext.ArithmeticsXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.properties.xtext.FowlerDslXtextExpressionAssignCategory;
 import org.eclipse.bpel.ui.properties.xtext.GreetingsXtextExpressionAssignCategory;
@@ -42,6 +45,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+
+import com.google.common.collect.Lists;
 
 /**
  * AssignImplDetails allows viewing and editing of the copy elements in an
@@ -93,30 +98,26 @@ public class AssignImplSection extends BPELPropertySection {
 	public AssignImplSection() {
 		super();
 
-		fToSection.fAllowed = new IAssignCategory[] {
+		List<IAssignCategory> additions = BPELUIRegistry.getInstance().getAssignCategories();
+		
+		List<IAssignCategory> fToAllowed = Lists.<IAssignCategory>newArrayList(
 				new VariablePartAssignCategory(this),
 				new ExpressionAssignCategory(this),
-				// Xtext
+				new VariablePropertyAssignCategory(this),
+				new PartnerRoleAssignCategory(this, false),
 				new GreetingsXtextExpressionAssignCategory(this),
 				new ArithmeticsXtextExpressionAssignCategory(this),
-				new FowlerDslXtextExpressionAssignCategory(this),
-				// end Xtext
-				new VariablePropertyAssignCategory(this),
-				new PartnerRoleAssignCategory(this, false) };
-
-		fFromSection.fAllowed = new IAssignCategory[] {
+				new FowlerDslXtextExpressionAssignCategory(this));
+		fToAllowed.addAll(additions);
+		List<IAssignCategory> fFromAllowed = Lists.<IAssignCategory>newArrayList(
 				new VariablePartAssignCategory(this),
 				new ExpressionAssignCategory(this),
-				// Xtext
-				new GreetingsXtextExpressionAssignCategory(this),
-				new ArithmeticsXtextExpressionAssignCategory(this),
-				new FowlerDslXtextExpressionAssignCategory(this),
-				// end Xtext
-				new LiteralAssignCategory(this),
 				new VariablePropertyAssignCategory(this),
-				new PartnerRoleAssignCategory(this, true),
-				new EndpointReferenceAssignCategory(this),
-				new OpaqueAssignCategory(this) };
+				new PartnerRoleAssignCategory(this, false));
+		fFromAllowed.addAll(additions);
+		
+		fToSection.fAllowed = fToAllowed.toArray(fToSection.fAllowed);
+		fFromSection.fAllowed = fFromAllowed.toArray(fFromSection.fAllowed);
 
 	}
 

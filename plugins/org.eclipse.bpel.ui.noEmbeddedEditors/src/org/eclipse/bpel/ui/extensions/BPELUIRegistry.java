@@ -11,12 +11,14 @@
 package org.eclipse.bpel.ui.extensions;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.bpel.ui.BPELUIPlugin;
 import org.eclipse.bpel.ui.IHoverHelper;
 import org.eclipse.bpel.ui.bpelactions.AbstractBPELAction;
 import org.eclipse.bpel.ui.factories.AbstractUIObjectFactory;
+import org.eclipse.bpel.ui.properties.IAssignCategory;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -38,6 +40,7 @@ public class BPELUIRegistry {
 	static final String ATT_CLASS = "class"; //$NON-NLS-1$
 	static final String ATT_LABEL = "label"; //$NON-NLS-1$
 	static final String EXTPT_ACTIONS = "actions"; //$NON-NLS-1$
+	static final String EXTPT_ASSIGN_SECTION_ADDITIONS = "assignSectionAdditions"; //$NON-NLS-1$
 	static final String ELEMENT_CATEGORY = "category"; //$NON-NLS-1$
 	static final String ATT_NAME = "name"; //$NON-NLS-1$
 	static final String ATT_ID = "id"; //$NON-NLS-1$
@@ -55,6 +58,7 @@ public class BPELUIRegistry {
 	private ListenerDescriptor[] fListenerDescriptors;
 	private UIObjectFactoryDescriptor[] uiObjectFactoryDescriptor;
 	private IHoverHelper hoverHelper;
+	private List<IAssignCategory> assignCategories;
 
 	private BPELUIRegistry() {
 		readHoverHelpers();
@@ -234,6 +238,27 @@ public class BPELUIRegistry {
         this.uiObjectFactoryDescriptor = new UIObjectFactoryDescriptor[factories.size()];
         factories.toArray(this.uiObjectFactoryDescriptor);
     }
+
+	private void readAssignSectionAdditions() {
+		assignCategories = new LinkedList<IAssignCategory>();
+    	IConfigurationElement[] extensions = getConfigurationElements(EXTPT_ASSIGN_SECTION_ADDITIONS);
+        for( IConfigurationElement element : extensions ) {
+        	//String name = element.getAttribute(ATT_NAME);
+        	try {
+				IAssignCategory assignCategory = (IAssignCategory) element.createExecutableExtension(ATT_CLASS);
+				assignCategories.add(assignCategory);
+				System.out.println(assignCategory);
+			} catch (CoreException e1) {
+				e1.printStackTrace();
+			}
+        }
+	}
+
+	public List<IAssignCategory> getAssignCategories() {
+		if (assignCategories == null)
+			readAssignSectionAdditions();
+		return assignCategories;
+	}
 
 	/**
 	 * Read all the model listeners
