@@ -12,7 +12,6 @@ package org.eclipse.bpel.ui.properties;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.bpel.common.ui.details.ButtonIValue;
@@ -96,29 +95,25 @@ public class AssignImplSection extends BPELPropertySection {
 	public AssignImplSection() {
 		super();
 
-		List<IAssignCategory> additions = BPELUIRegistry.getInstance().getAssignCategories();
-		
-		List<IAssignCategory> fToAllowed = new ArrayList<IAssignCategory>(Arrays.asList(
-				new IAssignCategory[] {
-						new VariablePartAssignCategory(this),
-						new ExpressionAssignCategory(this),
-						new VariablePropertyAssignCategory(this),
-						new PartnerRoleAssignCategory(this, false)
-					}
-				));
+		List<IAssignCategory> additions = BPELUIRegistry.getInstance()
+				.getAssignCategories();
+
+		List<IAssignCategory> fToAllowed = defaultAssignCategories();
 		fToAllowed.addAll(additions);
-		List<IAssignCategory> fFromAllowed = new ArrayList<IAssignCategory>(Arrays.asList(
-				new IAssignCategory[] {
-						new VariablePartAssignCategory(this),
-						new ExpressionAssignCategory(this),
-						new VariablePropertyAssignCategory(this),
-						new PartnerRoleAssignCategory(this, false)
-					}
-				));
+		List<IAssignCategory> fFromAllowed = defaultAssignCategories();
 		fFromAllowed.addAll(additions);
-		
+
 		fToSection.fAllowed = fToAllowed.toArray(fToSection.fAllowed);
 		fFromSection.fAllowed = fFromAllowed.toArray(fFromSection.fAllowed);
+	}
+
+	protected ArrayList<IAssignCategory> defaultAssignCategories() {
+		return new ArrayList<IAssignCategory>(
+				Arrays.asList(new IAssignCategory[] {
+						new VariablePartAssignCategory(this),
+						new ExpressionAssignCategory(this),
+						new VariablePropertyAssignCategory(this),
+						new PartnerRoleAssignCategory(this, false) }));
 	}
 
 	@Override
