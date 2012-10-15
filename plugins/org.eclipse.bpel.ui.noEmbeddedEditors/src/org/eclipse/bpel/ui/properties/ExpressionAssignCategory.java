@@ -20,7 +20,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
@@ -141,21 +140,5 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		addAllAdapters();
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * @see org.eclipse.bpel.ui.properties.ExpressionSection
-//	 * #createClient(org.eclipse.swt.widgets.Composite)
-//	 */
-//	@Override
-//	protected final void createClient(Composite parent) {
-//		// ugly HACK to make subclasses work
-//		//FlatFormLayout layout = new FlatFormLayout();
-//		//layout.marginHeight = layout.marginWidth = 0;
-//		//parent.setLayout(layout);
-//		FillLayout fillLayout = new FillLayout();
-//		fillLayout.marginHeight = fillLayout.marginWidth = 0;
-//		parent.setLayout(fillLayout);
-//		super.createClient(parent);
-//	}
 }
 

@@ -28,8 +28,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -229,13 +227,8 @@ public abstract class AbstractStyledTextExpressionSection extends BPELPropertySe
 
 		// The expression editor
 		getWidgetFactory().createLabel( this.fEditorArea, getStyledTextLabelString() );
-		Composite editor = getWidgetFactory().createComposite( this.fEditorArea, SWT.BORDER );
-		editor.setLayout( new GridLayout ());
 
-		GridData layoutData = new GridData( GridData.FILL_BOTH );
-		editor.setLayoutData( layoutData );
-
-		this.expressionText = createStyledText(editor);
+		this.expressionText = createStyledText(this.fEditorArea);
 		this.expressionText.addModifyListener( new ModifyListener() {
 			@Override
 			public void modifyText( ModifyEvent e ) {
