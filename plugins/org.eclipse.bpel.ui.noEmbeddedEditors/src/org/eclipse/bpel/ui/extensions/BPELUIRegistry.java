@@ -40,7 +40,7 @@ public class BPELUIRegistry {
 	static final String ATT_CLASS = "class"; //$NON-NLS-1$
 	static final String ATT_LABEL = "label"; //$NON-NLS-1$
 	static final String EXTPT_ACTIONS = "actions"; //$NON-NLS-1$
-	static final String EXTPT_ASSIGN_SECTION_ADDITIONS = "assignSectionAdditions"; //$NON-NLS-1$
+	static final String EXTPT_ASSIGN_CATEGORY_ADDITIONS = "assignCategoryAdditions"; //$NON-NLS-1$
 	static final String ELEMENT_CATEGORY = "category"; //$NON-NLS-1$
 	static final String ATT_NAME = "name"; //$NON-NLS-1$
 	static final String ATT_ID = "id"; //$NON-NLS-1$
@@ -240,7 +240,7 @@ public class BPELUIRegistry {
 
     public List<IAssignCategory> getAdditionalAssignCategories() {
 		List<IAssignCategory> assignCategories = new LinkedList<IAssignCategory>();
-    	IConfigurationElement[] extensions = getConfigurationElements(EXTPT_ASSIGN_SECTION_ADDITIONS);
+    	IConfigurationElement[] extensions = getConfigurationElements(EXTPT_ASSIGN_CATEGORY_ADDITIONS);
         for( IConfigurationElement element : extensions ) {
         	//String name = element.getAttribute(ATT_NAME);
         	try {

@@ -6,7 +6,7 @@
    <extension-point id="actions" name="%ACTIONS_NAME" schema="schemas/actions.exsd"/>
    <extension-point id="modelListener" name="Model Listener" schema="schemas/modelListener.exsd"/>
    <extension-point id="uiObjectFactories" name="UIObjectFactories" schema="schemas/uiObjectFactories.exsd"/>
-   <extension-point id="assignSectionAdditions" name="Assign Section Additions" schema="schema/assignSectionAdditions.exsd"/>
+   <extension-point id="assignCategoryAdditions" name="Assign Section Additions" schema="schema/assignCategoryAdditions.exsd"/>
 
    <extension
          point="org.eclipse.ui.editors">
