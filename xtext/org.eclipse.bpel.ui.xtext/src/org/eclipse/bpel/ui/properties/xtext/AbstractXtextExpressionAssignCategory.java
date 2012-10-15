@@ -9,7 +9,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -37,15 +36,6 @@ public abstract class AbstractXtextExpressionAssignCategory extends AbstractExpr
 	 */
 	@Override
 	protected void createClient(Composite parent) {
-		// ugly HACK to make subclasses work
-		//FlatFormLayout layout = new FlatFormLayout();
-		//layout.marginHeight = layout.marginWidth = 0;
-		//parent.setLayout(layout);
-		FillLayout fillLayout = new FillLayout();
-		fillLayout.marginHeight = fillLayout.marginWidth = 0;
-		parent.setLayout(fillLayout);
-		
-
 		// The top
 		this.fEditorArea = getWidgetFactory().createComposite( parent );
 		this.fEditorArea.setLayout( new GridLayout());
@@ -69,13 +59,7 @@ public abstract class AbstractXtextExpressionAssignCategory extends AbstractExpr
 		GridData layoutData = new GridData( GridData.FILL_BOTH );
 		editor.setLayoutData( layoutData );
 
-		EmbeddedEditor embeddedEditor =
-		getInjector().getInstance(XtextEmbeddedEditorProvider.class).getXtextEmbeddedEditor(editor);
-		final ISourceViewer viewer = embeddedEditor.getViewer();
-
-		viewer.getTextWidget().setLayoutData( new GridData( GridData.FILL_BOTH ));
-
-		this.expressionText = viewer.getTextWidget();
+		this.expressionText = createStyledText(editor);
 		this.expressionText.addModifyListener( new ModifyListener() {
 			@Override
 			public void modifyText( ModifyEvent e ) {
