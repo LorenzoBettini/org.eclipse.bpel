@@ -95,13 +95,12 @@ public class AssignImplSection extends BPELPropertySection {
 	public AssignImplSection() {
 		super();
 
-		List<IAssignCategory> additions = BPELUIRegistry.getInstance()
-				.getAssignCategories();
-
 		List<IAssignCategory> fToAllowed = defaultAssignCategories();
-		fToAllowed.addAll(additions);
+		fToAllowed.addAll(BPELUIRegistry.getInstance()
+				.getAssignCategories());
 		List<IAssignCategory> fFromAllowed = defaultAssignCategories();
-		fFromAllowed.addAll(additions);
+		fFromAllowed.addAll(BPELUIRegistry.getInstance()
+				.getAssignCategories());
 
 		fToSection.fAllowed = fToAllowed.toArray(fToSection.fAllowed);
 		fFromSection.fAllowed = fFromAllowed.toArray(fFromSection.fAllowed);
