@@ -38,7 +38,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  *
  * Categories should become responsible for storing the value into the model themselves.
  */
-public abstract class AbstractExpressionAssignCategory extends ExpressionSection implements IAssignCategory {
+public abstract class AbstractExpressionAssignCategory extends AbstractStyledTextExpressionSection implements IAssignCategory {
 
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isHidden()
