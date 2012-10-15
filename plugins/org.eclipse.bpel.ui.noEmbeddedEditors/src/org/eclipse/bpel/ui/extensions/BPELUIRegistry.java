@@ -238,7 +238,7 @@ public class BPELUIRegistry {
         factories.toArray(this.uiObjectFactoryDescriptor);
     }
 
-    public List<IAssignCategory> getAssignCategories() {
+    public List<IAssignCategory> getAdditionalAssignCategories() {
 		List<IAssignCategory> assignCategories = new LinkedList<IAssignCategory>();
     	IConfigurationElement[] extensions = getConfigurationElements(EXTPT_ASSIGN_SECTION_ADDITIONS);
         for( IConfigurationElement element : extensions ) {
