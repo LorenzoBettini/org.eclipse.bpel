@@ -230,7 +230,7 @@ public abstract class AbstractStyledTextExpressionSection extends BPELPropertySe
 		// The expression editor
 		getWidgetFactory().createLabel( this.fEditorArea, getStyledTextLabelString() );
 		Composite editor = getWidgetFactory().createComposite( this.fEditorArea, SWT.BORDER );
-		editor.setLayout( new FillLayout ());
+		editor.setLayout( new GridLayout ());
 
 		GridData layoutData = new GridData( GridData.FILL_BOTH );
 		editor.setLayoutData( layoutData );
