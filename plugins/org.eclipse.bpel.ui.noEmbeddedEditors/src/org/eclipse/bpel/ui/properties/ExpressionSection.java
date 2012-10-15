@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.Label;
  * Base class with some shared behavior for details panes that edit a XPath expression.
  * @author Michal Chmielewski (michal.chmielewski@oracle.com)
  * @author Vincent Zurczak - EBM WebSourcing (Merge this class with TextSection, simplify it by only using the XPath viewer)
+ * @author Lorenzo Bettini relies on {@link AbstractStyledTextExpressionSection}
  * FIXME: There are probably cases that are not handled correctly. To be fixed on the fly.
  * FIXME: Undo is not supported correctly.
  */
@@ -276,6 +277,9 @@ public abstract class ExpressionSection extends BPELPropertySection {
 		getCommandFramework().execute( result );
 	}
 
+	protected String getStyledTextLabelString() {
+		return "Edit the associated XPath Expression.";
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -289,5 +293,19 @@ public abstract class ExpressionSection extends BPELPropertySection {
 			this.boldFont.dispose();
 
 		super.dispose();
+	}
+	
+	protected StyledText createStyledText(Composite styledTextComposite) {
+		int style = SWT.V_SCROLL | SWT.MULTI | SWT.BORDER;
+		final ISourceViewer viewer = new SourceViewer(styledTextComposite,
+				new VerticalRuler(0), style);
+		ColorManager cManager = new ColorManager();
+		viewer.configure(new XPathSourceViewerConfiguration(cManager));
+
+		StyledText styledText = viewer.getTextWidget();
+		styledText.setLayoutData(new GridData(GridData.FILL_BOTH));
+		IDocument document = new Document("");
+		viewer.setDocument(document);
+		return styledText;
 	}
 }

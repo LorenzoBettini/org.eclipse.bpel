@@ -38,6 +38,7 @@ import com.google.inject.Injector;
  * @author Lorenzo Bettini
  *
  */
+@SuppressWarnings("restriction")
 public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSection implements
 		IAssignCategory {
 
@@ -101,8 +102,7 @@ public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSe
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.bpel.ui.properties.IAssignCategory
-	 * #getName()
+	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#getName()
 	 */
 	public String getName() {
 		return "Xtext Editor";
@@ -187,8 +187,6 @@ public abstract class AbstractXtextExpressionAssignCategory extends ExpressionSe
 		final ISourceViewer viewer = embeddedEditor.getViewer();
 
 		viewer.getTextWidget().setLayoutData( new GridData( GridData.FILL_BOTH ));
-		//IDocument document = new Document( "" );
-		//viewer.setDocument( document );
 
 		this.expressionText = viewer.getTextWidget();
 		this.expressionText.addModifyListener( new ModifyListener() {

@@ -113,10 +113,13 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory
 	 * #isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
-	public boolean isCategoryForModel ( EObject aModel ) {
-		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel, IVirtualCopyRuleSide.class);
-		return side != null ? 
-				(side.getExpression() != null && side.getExpression().getExpressionLanguage() == null) : false;
+	public boolean isCategoryForModel(EObject aModel) {
+		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel,
+				IVirtualCopyRuleSide.class);
+		
+		// we assume XPath as the default language if none is specified?
+		return side != null ? (side.getExpression() != null && side
+				.getExpression().getExpressionLanguage() == null) : false;
 	}
 
 	/*
