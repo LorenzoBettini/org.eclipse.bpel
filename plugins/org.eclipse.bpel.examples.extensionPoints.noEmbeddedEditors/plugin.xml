@@ -27,5 +27,12 @@
             uri="platform:/plugin/org.eclipse.bpel.examples.extensionPoints/functions/functions.xml">
       </registry>
    </extension>
+   <extension
+         point="org.eclipse.bpel.ui.assignCategoryAdditions">
+      <assignSection
+            class="org.eclipse.bpel.examples.extensionpoints.assigncategory.SimpleTextAssignCategory"
+            name="simpleText">
+      </assignSection>
+   </extension>
 
 </plugin>

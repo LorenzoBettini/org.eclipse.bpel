@@ -14,7 +14,6 @@ import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.common.notify.Notification;
@@ -101,15 +100,6 @@ public abstract class AbstractExpressionAssignCategory extends AbstractStyledTex
 	@Override
 	protected Command wrapInShowContextCommand(Command inner) {
 		return super.wrapInShowContextCommand(inner, this.fOwnerSection);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.bpel.ui.properties.IAssignCategory
-	 * #getName()
-	 */
-	public String getName() {
-		return Messages.ExpressionAssignCategory_Expression_1;
 	}
 
 	/*
