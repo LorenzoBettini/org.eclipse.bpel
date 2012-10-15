@@ -53,6 +53,10 @@ public abstract class AbstractExpressionAssignCategory extends AbstractStyledTex
 
 	protected Composite fParent;
 
+	protected AbstractExpressionAssignCategory() {
+		
+	}
+	
 	protected AbstractExpressionAssignCategory( BPELPropertySection ownerSection ) {
 		this.fOwnerSection = ownerSection;
 	}
@@ -152,7 +156,7 @@ public abstract class AbstractExpressionAssignCategory extends AbstractStyledTex
 	 * #createClient(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	protected final void createClient(Composite parent) {
+	protected void createClient(Composite parent) {
 		// ugly HACK to make subclasses work
 		//FlatFormLayout layout = new FlatFormLayout();
 		//layout.marginHeight = layout.marginWidth = 0;

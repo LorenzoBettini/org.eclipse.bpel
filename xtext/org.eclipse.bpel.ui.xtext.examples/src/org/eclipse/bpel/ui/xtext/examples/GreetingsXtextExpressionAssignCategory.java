@@ -27,4 +27,9 @@ public class GreetingsXtextExpressionAssignCategory extends
 		return "greetings";
 	}
 
+	@Override
+	protected String getStyledTextLabelString() {
+		return "Edit the greeting expression";
+	}
+
 }

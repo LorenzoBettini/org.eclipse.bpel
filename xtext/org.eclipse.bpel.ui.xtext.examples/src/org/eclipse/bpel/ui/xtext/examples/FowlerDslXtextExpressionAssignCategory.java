@@ -30,4 +30,9 @@ public class FowlerDslXtextExpressionAssignCategory extends
 		return "fowler";
 	}
 
+	@Override
+	protected String getStyledTextLabelString() {
+		return "Edit the statemachine expression";
+	}
+
 }

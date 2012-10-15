@@ -29,4 +29,9 @@ public class ArithmeticsXtextExpressionAssignCategory extends
 	public String getExpressionLanguage() {
 		return "arithmetics";
 	}
+
+	@Override
+	protected String getStyledTextLabelString() {
+		return "Edit the arithmethics expression";
+	}
 }
