@@ -14,7 +14,6 @@ import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.BPELPackage;
 import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.ui.IBPELUIConstants;
-import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
 import org.eclipse.bpel.ui.util.BPELUtil;
 import org.eclipse.emf.common.notify.Notification;
@@ -37,7 +36,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  *
  * Categories should become responsible for storing the value into the model themselves.
  */
-public class ExpressionAssignCategory extends ExpressionSection implements IAssignCategory {
+public abstract class AbstractExpressionAssignCategory extends AbstractStyledTextExpressionSection implements IAssignCategory {
 
 	/**
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory#isHidden()
@@ -52,7 +51,11 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 
 	protected Composite fParent;
 
-	protected ExpressionAssignCategory( BPELPropertySection ownerSection ) {
+	protected AbstractExpressionAssignCategory() {
+		
+	}
+	
+	protected AbstractExpressionAssignCategory( BPELPropertySection ownerSection ) {
 		this.fOwnerSection = ownerSection;
 	}
 
@@ -102,15 +105,6 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.bpel.ui.properties.IAssignCategory
-	 * #getName()
-	 */
-	public String getName() {
-		return Messages.ExpressionAssignCategory_Expression_1;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.bpel.ui.properties.IAssignCategory
 	 * #isCategoryForModel(org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean isCategoryForModel(EObject aModel) {
@@ -122,12 +116,8 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		Expression exp = side.getExpression();
 		if (exp == null)
 			return false;
-		
-		// we assume XPath as the default language if none is specified?
-		if (exp.getExpressionLanguage() == null)
-			return true;
-
-		return exp.getExpressionLanguage().equals(getExpressionLanguage());
+		return exp.getExpressionLanguage() != null &&
+				exp.getExpressionLanguage().equals(getExpressionLanguage());
 	}
 
 	/*
@@ -148,6 +138,11 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		basicSetInput(model);
 		addAllAdapters();
 	}
+
+	/**
+	 * @return the expression language
+	 */
+	protected abstract String getExpressionLanguage();
 
 }
 

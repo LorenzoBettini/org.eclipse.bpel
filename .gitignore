@@ -18,3 +18,9 @@ local/
 bin/
 .settings/
 *.swp
+
+*~
+*.orig
+target/
+*.java._trace
+*.smap
