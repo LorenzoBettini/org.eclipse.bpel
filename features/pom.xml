@@ -18,7 +18,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.eclipse.bpel.source.feature</module>
 		<!-- <module>org.eclipse.bpel.tests.feature</module> -->
 		<module>org.eclipse.bpel.apache.ode.runtime.feature</module>
-		<module>org.eclipse.bpel.jboss.riftsaw.runtime.feature</module>
+		<!--  <module>org.eclipse.bpel.jboss.riftsaw.runtime.feature</module> -->
 	</modules>
 </project>
 	

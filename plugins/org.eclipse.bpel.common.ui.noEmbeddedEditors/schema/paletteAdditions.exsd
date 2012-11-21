@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.bpel.common.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.bpel.common.ui" id="paletteAdditions" name="Palette Additions"/>
+         <meta.schema plugin="org.eclipse.bpel.common.ui" id="org.eclipse.bpel.common.ui.paletteAdditions" name="Palette Additions"/>
       </appInfo>
       <documentation>
          This exension point allows for contributing BPEL pallette items. You can either create an individual addition for each palette element or you can create a bulk addition by specifying a palette provider.

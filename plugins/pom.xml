@@ -34,7 +34,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<module>org.eclipse.bpel.common.model</module>
 				<module>org.eclipse.bpel.common.ui</module>
 				<module>org.eclipse.bpel.common.wsdl</module>
-				<module>org.eclipse.bpel.jboss.riftsaw.runtime</module>
 				<module>org.eclipse.bpel.model</module>
 				<module>org.eclipse.bpel.runtimes</module>
 				<module>org.eclipse.bpel.ui</module>
@@ -63,7 +62,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<module>org.eclipse.bpel.common.model</module>
 				<module>org.eclipse.bpel.common.ui</module>
 				<module>org.eclipse.bpel.common.wsdl</module>
-				<module>org.eclipse.bpel.jboss.riftsaw.runtime</module>
 				<module>org.eclipse.bpel.model</module>
 				<module>org.eclipse.bpel.runtimes</module>
 				<module>org.eclipse.bpel.ui</module>
@@ -92,7 +90,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<module>org.eclipse.bpel.common.model</module>
 				<module>org.eclipse.bpel.common.ui.noEmbeddedEditors</module>
 				<module>org.eclipse.bpel.common.wsdl</module>
-				<module>org.eclipse.bpel.jboss.riftsaw.runtime</module>
 				<module>org.eclipse.bpel.model</module>
 				<module>org.eclipse.bpel.runtimes</module>
 				<module>org.eclipse.bpel.ui.noEmbeddedEditors</module>
