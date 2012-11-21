@@ -9,6 +9,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	</parent>
 	<groupId>org.eclipse.bpel.plugins</groupId>
 	<artifactId>org.eclipse.bpel.jboss.riftsaw.runtime</artifactId> 
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 </project>
