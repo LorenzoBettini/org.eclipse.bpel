@@ -12,6 +12,7 @@ package org.eclipse.bpel.ui.properties;
 
 import org.eclipse.bpel.model.AbstractAssignBound;
 import org.eclipse.bpel.model.BPELPackage;
+import org.eclipse.bpel.model.Expression;
 import org.eclipse.bpel.ui.IBPELUIConstants;
 import org.eclipse.bpel.ui.Messages;
 import org.eclipse.bpel.ui.adapters.IVirtualCopyRuleSide;
@@ -116,9 +117,17 @@ public class ExpressionAssignCategory extends ExpressionSection implements IAssi
 		IVirtualCopyRuleSide side = BPELUtil.adapt(aModel,
 				IVirtualCopyRuleSide.class);
 		
+		if (side == null)
+			return false;
+		Expression exp = side.getExpression();
+		if (exp == null)
+			return false;
+		
 		// we assume XPath as the default language if none is specified?
-		return side != null ? (side.getExpression() != null && side
-				.getExpression().getExpressionLanguage() == null) : false;
+		if (exp.getExpressionLanguage() == null)
+			return true;
+
+		return exp.getExpressionLanguage().equals(getExpressionLanguage());
 	}
 
 	/*

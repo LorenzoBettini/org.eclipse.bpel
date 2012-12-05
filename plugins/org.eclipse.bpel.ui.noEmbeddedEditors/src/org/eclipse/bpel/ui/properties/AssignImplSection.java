@@ -95,10 +95,10 @@ public class AssignImplSection extends BPELPropertySection {
 	public AssignImplSection() {
 		super();
 
-		List<IAssignCategory> fToAllowed = defaultAssignCategories();
+		List<IAssignCategory> fToAllowed = defaultToCategories();
 		fToAllowed.addAll(BPELUIRegistry.getInstance()
 				.getAdditionalAssignCategories());
-		List<IAssignCategory> fFromAllowed = defaultAssignCategories();
+		List<IAssignCategory> fFromAllowed = defaultFromCategories();
 		fFromAllowed.addAll(BPELUIRegistry.getInstance()
 				.getAdditionalAssignCategories());
 
@@ -106,13 +106,25 @@ public class AssignImplSection extends BPELPropertySection {
 		fFromSection.fAllowed = fFromAllowed.toArray(fFromSection.fAllowed);
 	}
 
-	protected ArrayList<IAssignCategory> defaultAssignCategories() {
+	protected ArrayList<IAssignCategory> defaultToCategories() {
 		return new ArrayList<IAssignCategory>(
 				Arrays.asList(new IAssignCategory[] {
 						new VariablePartAssignCategory(this),
 						new ExpressionAssignCategory(this),
 						new VariablePropertyAssignCategory(this),
 						new PartnerRoleAssignCategory(this, false) }));
+	}
+
+	protected ArrayList<IAssignCategory> defaultFromCategories() {
+		return new ArrayList<IAssignCategory>(
+				Arrays.asList(new IAssignCategory[] {
+						new VariablePartAssignCategory(this),
+						new ExpressionAssignCategory(this),
+						new LiteralAssignCategory(this),
+						new VariablePropertyAssignCategory(this),
+						new PartnerRoleAssignCategory(this, true),
+						new EndpointReferenceAssignCategory(this),
+						new OpaqueAssignCategory(this) }));
 	}
 
 	@Override

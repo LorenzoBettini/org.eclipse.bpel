@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.bpel.ui.properties;
 
+import org.eclipse.bpel.model.util.BPELConstants;
 import org.eclipse.bpel.ui.editors.xpath.ColorManager;
 import org.eclipse.bpel.ui.editors.xpath.XPathSourceViewerConfiguration;
 import org.eclipse.jface.text.Document;
@@ -59,6 +60,6 @@ public abstract class ExpressionSection extends AbstractStyledTextExpressionSect
 	}
 
 	protected String getExpressionLanguage() {
-		return "XPath";
+		return BPELConstants.XMLNS_XPATH_EXPRESSION_LANGUAGE_2007;
 	}
 }
