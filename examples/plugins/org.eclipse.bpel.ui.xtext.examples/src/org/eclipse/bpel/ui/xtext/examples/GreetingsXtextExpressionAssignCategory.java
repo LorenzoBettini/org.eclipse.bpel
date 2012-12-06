@@ -4,6 +4,10 @@ import org.eclipse.bpel.ui.properties.xtext.AbstractXtextExpressionAssignCategor
 
 import com.google.inject.Injector;
 
+/**
+ * @author Lorenzo Bettini
+ *
+ */
 public class GreetingsXtextExpressionAssignCategory extends
 		AbstractXtextExpressionAssignCategory {
 

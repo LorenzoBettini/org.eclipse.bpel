@@ -5,6 +5,10 @@ import org.eclipse.xtext.example.fowlerdsl.ui.internal.StatemachineActivator;
 
 import com.google.inject.Injector;
 
+/**
+ * @author Lorenzo Bettini
+ *
+ */
 public class FowlerDslXtextExpressionAssignCategory extends
 		AbstractXtextExpressionAssignCategory {
 

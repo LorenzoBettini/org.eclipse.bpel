@@ -5,6 +5,10 @@ import org.eclipse.xtext.example.arithmetics.ui.internal.ArithmeticsActivator;
 
 import com.google.inject.Injector;
 
+/**
+ * @author Lorenzo Bettini
+ *
+ */
 public class ArithmeticsXtextExpressionAssignCategory extends
 		AbstractXtextExpressionAssignCategory {
 
