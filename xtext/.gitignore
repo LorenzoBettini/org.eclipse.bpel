@@ -1,8 +1,0 @@
-*.class
-bin/
-*~
-logs.zip
-*.orig
-target/
-*.java._trace
-*.smap
