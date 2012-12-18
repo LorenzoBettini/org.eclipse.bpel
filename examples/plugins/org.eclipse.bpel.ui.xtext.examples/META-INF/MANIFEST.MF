@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Examples of Xtext Editor Embedded in Bpel Designer
+Bundle-SymbolicName: org.eclipse.bpel.ui.xtext.examples;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.bpel.ui.xtext.examples.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.xtext.example.mydsl;bundle-version="1.0.0",
+ org.xtext.example.mydsl.ui;bundle-version="1.0.0",
+ org.eclipse.xtext.example.arithmetics;bundle-version="2.3.0",
+ org.eclipse.xtext.example.arithmetics.ui;bundle-version="2.3.0",
+ org.eclipse.xtext.example.fowlerdsl;bundle-version="1.0.0",
+ org.eclipse.xtext.example.fowlerdsl.ui;bundle-version="1.0.0",
+ org.eclipse.bpel.ui.xtext;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Lorenzo Bettini
