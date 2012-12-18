@@ -16,11 +16,11 @@ local/
 # additional stuff
 .metadata/
 bin/
-.settings/
 *.swp
 
 *~
 *.orig
 target/
 *.java._trace
+*.java_trace
 *.smap
