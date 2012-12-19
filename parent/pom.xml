@@ -366,7 +366,26 @@
 				<repository>
 					<id>juno-repository</id>
 					<layout>p2</layout>
-					<url>http://download.eclipse.org/releases/staging/</url>
+					<url>http://download.eclipse.org/releases/juno/</url>
+				</repository>
+			</repositories>
+		</profile>
+		
+		<!-- Kepler -->
+		<profile>
+			<id>platform-kepler</id>
+			<activation>
+				<property>
+					<name>platform.name</name>
+					<value>kepler</value>
+				</property>
+			</activation>
+			
+			<repositories>
+				<repository>
+					<id>kepler-repository</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/kepler/</url>
 				</repository>
 			</repositories>
 		</profile>
