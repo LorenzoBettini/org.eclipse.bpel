@@ -16,7 +16,6 @@ local/
 # additional stuff
 .metadata/
 bin/
-.settings/
 *.swp
 
 *~
