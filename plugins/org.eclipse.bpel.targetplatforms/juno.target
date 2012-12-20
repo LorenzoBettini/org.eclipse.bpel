@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Juno" sequenceNumber="16">
+<?pde version="3.8"?>
+
+<target name="juno" sequenceNumber="19">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.xtend.sdk.feature.group" version="2.3.1.v201208210947"/>
@@ -34,9 +36,6 @@
 </location>
 </locations>
 <environment>
-<os>linux</os>
-<ws>gtk</ws>
-<arch>x86_64</arch>
 <nl>en_US</nl>
 </environment>
 <launcherArgs>
